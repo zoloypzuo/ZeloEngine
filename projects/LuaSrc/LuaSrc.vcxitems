@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Globals">
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <ItemsProjectGuid>{bdc03ace-8398-4e09-9eda-493424c9e2d4}</ItemsProjectGuid>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);$(MSBuildThisFileDirectory)</AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectCapability Include="SourceItemsFromImports" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lapi.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lauxlib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lbaselib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lbitlib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lcode.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lcorolib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lctype.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ldblib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ldebug.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ldo.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ldump.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lfunc.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lgc.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\linit.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\liolib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\llex.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lmathlib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lmem.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\loadlib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lobject.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lopcodes.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\loslib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lparser.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lstate.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lstring.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lstrlib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ltable.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ltablib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ltm.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lundump.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lutf8lib.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lvm.c" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lzio.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lapi.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lauxlib.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lcode.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lctype.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ldebug.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ldo.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lfunc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lgc.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\llex.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\llimits.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lmem.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lobject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lopcodes.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lparser.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lprefix.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lstate.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lstring.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ltable.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\ltm.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lua.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lua.hpp" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\luaconf.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lualib.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lundump.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lvm.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)..\..\src\Lua\lzio.h" />
+  </ItemGroup>
+</Project>
