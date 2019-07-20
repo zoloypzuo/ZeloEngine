@@ -7,9 +7,12 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaInterpreter", "projects\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaSrc", "projects\LuaSrc\LuaSrc.vcxitems", "{BDC03ACE-8398-4E09-9EDA-493424C9E2D4}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LuaMain", "projects\LuaMain\LuaMain.vcxproj", "{A7739BE1-8C02-4E9A-8218-8D000A5C100E}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		projects\LuaSrc\LuaSrc.vcxitems*{46774751-73cd-41ce-8d7f-19e17a614fe1}*SharedItemsImports = 4
+		projects\LuaSrc\LuaSrc.vcxitems*{a7739be1-8c02-4e9a-8218-8d000a5c100e}*SharedItemsImports = 4
 		projects\LuaSrc\LuaSrc.vcxitems*{bdc03ace-8398-4e09-9eda-493424c9e2d4}*SharedItemsImports = 9
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +30,14 @@ Global
 		{46774751-73CD-41CE-8D7F-19E17A614FE1}.Release|x64.Build.0 = Release|x64
 		{46774751-73CD-41CE-8D7F-19E17A614FE1}.Release|x86.ActiveCfg = Release|Win32
 		{46774751-73CD-41CE-8D7F-19E17A614FE1}.Release|x86.Build.0 = Release|Win32
+		{A7739BE1-8C02-4E9A-8218-8D000A5C100E}.Debug|x64.ActiveCfg = Debug|x64
+		{A7739BE1-8C02-4E9A-8218-8D000A5C100E}.Debug|x64.Build.0 = Debug|x64
+		{A7739BE1-8C02-4E9A-8218-8D000A5C100E}.Debug|x86.ActiveCfg = Debug|Win32
+		{A7739BE1-8C02-4E9A-8218-8D000A5C100E}.Debug|x86.Build.0 = Debug|Win32
+		{A7739BE1-8C02-4E9A-8218-8D000A5C100E}.Release|x64.ActiveCfg = Release|x64
+		{A7739BE1-8C02-4E9A-8218-8D000A5C100E}.Release|x64.Build.0 = Release|x64
+		{A7739BE1-8C02-4E9A-8218-8D000A5C100E}.Release|x86.ActiveCfg = Release|Win32
+		{A7739BE1-8C02-4E9A-8218-8D000A5C100E}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
