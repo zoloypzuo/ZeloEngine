@@ -8,15 +8,20 @@
 N = 8
 
 -- 检查(n, c)是否不会被攻击
+-- 如果在指定位置放置皇后，是否会遭到攻击
+-- 第n个皇后（n行），放在c列，是否会和a中n-1个皇后冲突
+-- 因为行不会冲突，因此检查列和对角线即可
 function is_place_ok(a, n, c)
     for i = 1, N do
-        if a[i] == c or a[i] - i == c - n or a[i] + i == c + n then
+        local item = assert(a[i])
+        if item == c or item - i == c - n or item + i == c + n then
             return false
         end
     end
     return true
 end
 
+-- 打印棋盘
 function print_solution(a)
     for i = 1, N do
         for j = 1, N do
@@ -24,9 +29,11 @@ function print_solution(a)
         end
         io.write("\n")
     end
-    io.write("\n")
+    io.write("\n===================================\n")
 end
 
+-- 核心，现在已经有n-1个皇后且无冲突，正确地放置了，需要尝试放置第n~N个皇后
+-- 回溯法搜索
 function add_queen(a, n)
     if n > N then
         print_solution(a)
@@ -40,4 +47,4 @@ function add_queen(a, n)
     end
 end
 
-add_queen({},1)
+add_queen({}, 1)
