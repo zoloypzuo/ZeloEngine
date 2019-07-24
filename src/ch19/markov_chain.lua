@@ -5,10 +5,11 @@
 -- 首先构造一个(prefix2, prefix1) => word的字典，并记录这个概率p(word)
 -- 比如"nice to meet you"，可以生成(nice, to) => meet和(to, meet) => you
 -- 然后生成随机文本，使得随机文本中p'(word)和p(word)相等
+-- 算法是这样的，记录p2_p1的后缀单词，重复地加入（multimap），然后轮盘赌
 
 -- 迭代器函数，每次迭代返回最后两个单词
-function allwords()
-    local fh = assert(io.open("alice_in_wonderland.txt", "r"))
+function allwords(fn)
+    local fh = assert(io.open(fn, "r"))
     local line = fh:read()
     local pos = 1
     return function()
@@ -31,6 +32,7 @@ function prefix(w1, w2)
     return w1 .. " " .. w2
 end
 
+-- 表
 local statetab = {}
 
 function insert(prefix, value)
@@ -42,21 +44,20 @@ function insert(prefix, value)
     end
 end
 
--- 表
-
 local MAX_GEN = 200
 -- no word用于占位，基础文本的开头加两个，结尾加一个
 local NO_WORD = "\n"
 
 local w1, w2 = NO_WORD, NO_WORD
-for nextword in allwords() do
+for nextword in allwords("alice_in_wonderland.txt") do
     insert(prefix(w1, w2), nextword)
     w1 = w2
     w2 = nextword
 end
-
+-- 插入最后一个元素
 insert(prefix(w1, w2), NO_WORD)
 
+fh=assert(io.open("out.txt","w"))
 w1 = NO_WORD
 w2 = NO_WORD
 for i = 1, MAX_GEN do
@@ -66,7 +67,7 @@ for i = 1, MAX_GEN do
     if nextword == NO_WORD then
         return
     end
-    print(nextword, " ")
+    fh:write(nextword, " ")
     w1 = w2
     w2 = nextword
 end
