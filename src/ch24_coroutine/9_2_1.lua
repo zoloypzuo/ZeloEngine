@@ -1,3 +1,5 @@
+-- TODO 协程的优先级不是很高
+
 print("9_2.lua run begin...")
 function receiver()
     print("receiver wait for receive")
