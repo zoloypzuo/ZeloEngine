@@ -1,4 +1,11 @@
 // tim@iZuf6iup3mphicesefdwajZ:~/src/GameEngineFromScratch/Platform/Linux$ clang -lxcb -o helloengine_xcb helloengine_xcb.c
+// ➜  Linux git:(article_8) clang -lxcb -o helloengine_xcb helloengine_xcb.c
+// helloengine_xcb.c:6:10: fatal error: 'xcb/xcb.h' file not found
+// #include <xcb/xcb.h>
+//          ^~~~~~~~~~~
+// 1 error generated.
+// @zoloypzuo give up, no time to install xcb
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
