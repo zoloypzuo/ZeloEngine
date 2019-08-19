@@ -350,3 +350,10 @@ MigrationBackup/
 
 # @zoloypzuo 2019-8-5-10-47
 .DS_Store
+
+# @zoloypzuo 2019-8-19-9-43
+.idea/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/ZeloEngine.iml
