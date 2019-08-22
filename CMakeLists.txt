@@ -14,7 +14,7 @@ link_directories("${PROJECT_SOURCE_DIR}/Lib/Win32Debug")
 
 add_executable(Tutorial08 DirectXSdkSamples/Tutorial08/Tutorial08.cpp)  # create an exe target
 add_executable(Lesson1_Create_a_Window "${PROJECT_SOURCE_DIR}/DirectX11Basic/Lesson1_Create_a_Window/Lesson1_Create_a_Window.cpp")
-
+add_executable(Lesson2_DirectX_Init "${PROJECT_SOURCE_DIR}/DirectX11Basic/Lesson2_DirectX_Init/Lesson2_DirectX_Init.cpp")
 
 # link lib
 # target_link_libraries(Tutorial08 user32.lib)
@@ -29,6 +29,9 @@ if(WIN32) # Check if we are on Windows
 		set_target_properties(Lesson1_Create_a_Window PROPERTIES
 			WIN32_EXECUTABLE YES  # use WinMain as entry point
 		)
+		set_target_properties(Lesson2_DirectX_Init PROPERTIES
+			WIN32_EXECUTABLE YES  # use WinMain as entry point
+	)
 	else()
 		message(SEND_ERROR "You are using an unsupported Windows compiler! (Not MSVC or GCC)")
 	endif(MSVC)
