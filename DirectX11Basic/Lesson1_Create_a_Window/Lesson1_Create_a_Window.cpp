@@ -1,3 +1,7 @@
+// Lesson1_Create_a_Window.cpp
+// created on 2019/8/21
+// author @zoloypzuo
+
 #include <windows.h>
 #include <windowsx.h>
 #include <tchar.h>

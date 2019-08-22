@@ -1,3 +1,7 @@
+// Lesson2_DirectX_Init.cpp
+// created on 2019/8/22
+// author @zoloypzuo
+
 #include <windows.h>
 #include <windowsx.h>
 #include <tchar.h>
