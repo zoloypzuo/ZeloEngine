@@ -1,9 +1,14 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <tchar.h>
+#include <assert.h>
 
-WNDPROC WindowProc = [](HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)->LRESULT {
-	switch (msg) {
+LRESULT CALLBACK WindowProc(HWND hWnd,
+	UINT message,
+	WPARAM wParam,
+	LPARAM lParam)
+{
+	switch (message) {
 	// when the window is closed
 	case WM_DESTROY:
 		// close the app
@@ -14,7 +19,7 @@ WNDPROC WindowProc = [](HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)->LRES
 	}
 
 	// default msg handle
-	return DefWindowProc(hWnd, msg, wParam, lParam);
+	return DefWindowProc(hWnd, message, wParam, lParam);
 };
 
 int WINAPI wWinMain(
@@ -31,28 +36,14 @@ int WINAPI wWinMain(
 	wc.hInstance = hInstance;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	wc.lpszClassName = _T("WIndowClass1");
+	wc.lpszClassName = _T("WIndowClass1");  // NOTE that spell mistake, this name is used for create the window
 
 	RegisterClassEx(&wc);
 
-	// create the window
 	HWND hWnd;
-	//CreateWindowExA(
-	//	_In_ DWORD dwExStyle,
-	//	_In_opt_ LPCSTR lpClassName,
-	//	_In_opt_ LPCSTR lpWindowName,
-	//	_In_ DWORD dwStyle,
-	//	_In_ int X,
-	//	_In_ int Y,
-	//	_In_ int nWidth,
-	//	_In_ int nHeight,
-	//	_In_opt_ HWND hWndParent,
-	//	_In_opt_ HMENU hMenu,
-	//	_In_opt_ HINSTANCE hInstance,
-	//	_In_opt_ LPVOID lpParam);
-	hWnd = CreateWindowEx(
+	if (!(hWnd = CreateWindowEx(
 		0,
-		_T("lpClassName"),
+		_T("WIndowClass1"),
 		_T("lpWindowName"),
 		WS_OVERLAPPEDWINDOW,
 		300, 300,
@@ -60,7 +51,8 @@ int WINAPI wWinMain(
 		nullptr,
 		nullptr,
 		hInstance,
-		nullptr);
+		nullptr)))
+		assert(false && "Creating window failed");
 
 	// display the window
 	ShowWindow(hWnd, nShowCmd);
