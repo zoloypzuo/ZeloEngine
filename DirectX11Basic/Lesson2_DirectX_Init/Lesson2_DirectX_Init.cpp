@@ -5,10 +5,73 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <tchar.h>
-#include <assert.h>
+#include <cassert>
+#include "DXUT.h"
 
-#include <d3d11.h>
-#pragma comment(lib,"d3d11.lib")
+HRESULT hr;  // used by V to check if a directx function succeeded
+
+IDXGISwapChain* swapchain;
+
+ID3D11Device* dev;
+
+ID3D11DeviceContext* devcon;
+
+ID3D11RenderTargetView* backbuffer;
+
+void Initialize(HWND hWnd)
+{
+	// create the swapchain
+	DXGI_SWAP_CHAIN_DESC scd{};
+	scd.BufferCount = 1;  // use one back buffer
+	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;  // use 32b color
+	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+	scd.OutputWindow = hWnd;
+	scd.SampleDesc.Count = 4;
+	scd.Windowed = true;
+	// ReSharper disable once CppJoinDeclarationAndAssignment
+	V(D3D11CreateDeviceAndSwapChain(
+		nullptr, D3D_DRIVER_TYPE_HARDWARE,
+		nullptr, 0, nullptr, 0,
+		D3D11_SDK_VERSION, &scd, &swapchain, &dev, nullptr, &devcon));
+
+	ID3D11Texture2D* pBackBuffer;
+	// get pointer to backbuffer
+	V(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer));
+	// create the render target view from the backbuffer
+	V(dev->CreateRenderTargetView(pBackBuffer, nullptr, &backbuffer));
+	SAFE_RELEASE(pBackBuffer);
+	// set the backbuffer as the render target view of
+	devcon->OMSetRenderTargets(1, &backbuffer, nullptr);
+
+	// create and set the viewport
+	D3D11_VIEWPORT viewport{};
+	viewport.TopLeftX = 0;
+	viewport.TopLeftY = 0;
+	viewport.Width = 500;
+	viewport.Height = 400;
+	devcon->RSSetViewports(1, &viewport);
+}
+
+void Finalize()
+{
+	SAFE_RELEASE(swapchain);
+	SAFE_RELEASE(dev);
+	SAFE_RELEASE(devcon);
+	SAFE_RELEASE(backbuffer);
+}
+
+
+void RenderFrame()
+{
+	// clear the backbuffer
+	const FLOAT color[4] = { 0,0.2,0.4,1.0 };
+	devcon->ClearRenderTargetView(backbuffer, color);
+
+	// do render here
+
+	// present the backbuffer
+	V(swapchain->Present(0, 0));
+}
 
 LRESULT CALLBACK WindowProc(HWND hWnd,
 	UINT message,
@@ -21,46 +84,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd,
 		// close the app
 		PostQuitMessage(0);
 		return 0;
+	case WM_PAINT:
+		RenderFrame();
 	default:
 		break;
 	}
 
 	// default msg handle
-	return DefWindowProc(hWnd, message, wParam, lParam);
+	V_RETURN(DefWindowProc(hWnd, message, wParam, lParam));
 };
-
-IDXGISwapChain* swapchain;
-
-ID3D11Device* dev;
-
-ID3D11DeviceContext* devcon;
-
-void Initialize(HWND hWnd)
-{
-	// create the swapchain
-	DXGI_SWAP_CHAIN_DESC scd{};
-	scd.BufferCount = 1;  // use one back buffer
-	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;  // use 32b color
-	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	scd.OutputWindow = hWnd;
-	scd.SampleDesc.Count = 4;
-	scd.Windowed = true;
-	HRESULT hr;
-	if (!(hr = D3D11CreateDeviceAndSwapChain(
-		nullptr, D3D_DRIVER_TYPE_HARDWARE,
-		nullptr, 0, nullptr, 0,
-		D3D11_SDK_VERSION, &scd, &swapchain, &dev, nullptr, &devcon)))
-	{
-		assert(false && hr && "D3D11CreateDeviceAndSwapChain failed");
-	}
-}
-
-void Finalize()
-{
-	swapchain->Release();
-	dev->Release();
-	devcon->Release();
-}
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE hInstance,
@@ -102,23 +134,11 @@ int WINAPI wWinMain(
 
 	// wait for the next msg in the queue
 	MSG msg{};
-	while (true) {
-		if (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
-		{
-			if(msg.message==WM_QUIT)
-			{
-				break;
-			}
-
-			// translate msg into the right form
-			TranslateMessage(&msg);
-			// call WindowProc callback
-			DispatchMessage(&msg);
-		}
-		else
-		{
-			// run game code here
-		}
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+		// translate msg into the right form
+		TranslateMessage(&msg);
+		// call WindowProc callback
+		DispatchMessage(&msg);
 	}
 
 	// do cleanup here
