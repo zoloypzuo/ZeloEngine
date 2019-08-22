@@ -6,21 +6,26 @@
 #include <windowsx.h>
 #include <tchar.h>
 #include <cassert>
+
+#define UNICODE
+#define DXUT_AUTOLIB
 #include "DXUT.h"
 
-HRESULT hr;  // used by V to check if a directx function succeeded
+HRESULT hr{};  // used by V to check if a directx function succeeded
 
-IDXGISwapChain* swapchain;
+IDXGISwapChain* g_pSwapchain{};
 
-ID3D11Device* dev;
+ID3D11Device* g_pDev{};
 
-ID3D11DeviceContext* devcon;
+ID3D11DeviceContext* g_pDevcon{};
 
-ID3D11RenderTargetView* backbuffer;
+ID3D11RenderTargetView* g_pRTV{};
 
 void Initialize(HWND hWnd)
 {
+	//
 	// create the swapchain
+	//
 	DXGI_SWAP_CHAIN_DESC scd{};
 	scd.BufferCount = 1;  // use one back buffer
 	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;  // use 32b color
@@ -32,45 +37,50 @@ void Initialize(HWND hWnd)
 	V(D3D11CreateDeviceAndSwapChain(
 		nullptr, D3D_DRIVER_TYPE_HARDWARE,
 		nullptr, 0, nullptr, 0,
-		D3D11_SDK_VERSION, &scd, &swapchain, &dev, nullptr, &devcon));
+		D3D11_SDK_VERSION, &scd, &g_pSwapchain, &g_pDev, nullptr, &g_pDevcon));
 
+	//
+	// create the rtv
+	//
 	ID3D11Texture2D* pBackBuffer;
-	// get pointer to backbuffer
-	V(swapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer));
-	// create the render target view from the backbuffer
-	V(dev->CreateRenderTargetView(pBackBuffer, nullptr, &backbuffer));
+	// get the pointer to the backbuffer
+	V(g_pSwapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer));
+	// create a render target view from the backbuffer
+	V(g_pDev->CreateRenderTargetView(pBackBuffer, nullptr, &g_pRTV));
 	SAFE_RELEASE(pBackBuffer);
-	// set the backbuffer as the render target view of
-	devcon->OMSetRenderTargets(1, &backbuffer, nullptr);
+	// bind the view
+	g_pDevcon->OMSetRenderTargets(1, &g_pRTV, nullptr);
 
-	// create and set the viewport
+	//
+	// set the viewport
+	//
 	D3D11_VIEWPORT viewport{};
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = 500;
+	viewport.Width = 500;  // TODO can be global const cfg
 	viewport.Height = 400;
-	devcon->RSSetViewports(1, &viewport);
+	g_pDevcon->RSSetViewports(1, &viewport);
 }
 
 void Finalize()
 {
-	SAFE_RELEASE(swapchain);
-	SAFE_RELEASE(dev);
-	SAFE_RELEASE(devcon);
-	SAFE_RELEASE(backbuffer);
+	SAFE_RELEASE(g_pSwapchain);
+	SAFE_RELEASE(g_pDev);
+	SAFE_RELEASE(g_pDevcon);
+	SAFE_RELEASE(g_pRTV);
 }
 
 
 void RenderFrame()
 {
 	// clear the backbuffer
-	const FLOAT color[4] = { 0,0.2,0.4,1.0 };
-	devcon->ClearRenderTargetView(backbuffer, color);
+	const FLOAT color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
+	g_pDevcon->ClearRenderTargetView(g_pRTV, color);
 
 	// do render here
 
 	// present the backbuffer
-	V(swapchain->Present(0, 0));
+	V(g_pSwapchain->Present(0, 0));
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd,
