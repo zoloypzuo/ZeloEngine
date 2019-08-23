@@ -7,9 +7,32 @@
 #include <tchar.h>
 #include <cassert>
 
+#include <d3d11.h>
+#include <d3d11_1.h>
+#include <d3dcompiler.h>
+#include <DirectXMath.h>
+#include <DirectXColors.h>
+#include <DirectXPackedVector.h>
+
+// dxut lib
+
+//Severity	Code	Description	Project	File	Line	Suppression State
+//Error	LNK2019	unresolved external symbol "long __stdcall DXUTTrace(char const *,unsigned long,long,wchar_t const *,bool)" (? DXUTTrace@@YGJPBDKJPB_W_N@Z) referenced in function "void __cdecl Initialize(struct HWND__ *)" (? Initialize@@YAXPAUHWND__@@@Z)	Lesson2_DirectX_Init	D : \ZeloEngine\build\Lesson2_DirectX_Init.obj	1
+#pragma comment(lib, "DXUT.lib")
+#pragma comment(lib, "DXUTOpt.lib")
+#pragma comment(lib, "comctl32.lib")
+#pragma comment(lib, "d3dcompiler.lib")
+#pragma comment(lib, "usp10.lib")
+#pragma comment(lib, "dxguid.lib")
+#pragma comment(lib, "winmm.lib")
+//Severity	Code	Description	Project	File	Line	Suppression State
+//Error	LNK2019	unresolved external symbol _D3D11CreateDeviceAndSwapChain@48 referenced in function "void __cdecl Initialize(struct HWND__ *)" (? Initialize@@YAXPAUHWND__@@@Z)	Lesson2_DirectX_Init	D : \ZeloEngine\build\Lesson2_DirectX_Init.obj	1
+#pragma comment(lib, "D3D11.lib")
+
 #define UNICODE
 #define DXUT_AUTOLIB
 #include "DXUT.h"
+//#include "DXUTmisc.h"
 
 HRESULT hr{};  // used by V to check if a directx function succeeded
 
@@ -27,24 +50,40 @@ void Initialize(HWND hWnd)
 	// create the swapchain
 	//
 	DXGI_SWAP_CHAIN_DESC scd{};
-	scd.BufferCount = 1;  // use one back buffer
-	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;  // use 32b color
-	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-	scd.OutputWindow = hWnd;
-	scd.SampleDesc.Count = 4;
-	scd.Windowed = true;
+	// fill the swap chain description struct
+	scd.BufferCount = 1;                                    // one back buffer
+	scd.BufferDesc.Width = 500;
+	scd.BufferDesc.Height = 400;
+	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;     // use 32-bit color
+	scd.BufferDesc.RefreshRate.Numerator = 60;
+	scd.BufferDesc.RefreshRate.Denominator = 1;
+	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;      // how swap chain is to be used
+	scd.OutputWindow = hWnd;                                // the window to be used
+	scd.SampleDesc.Count = 4;                               // how many multisamples
+	scd.Windowed = true;                                    // windowed/full-screen mode
+	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;     // allow full-screen switching
+
+	const D3D_FEATURE_LEVEL FeatureLevels[] = { D3D_FEATURE_LEVEL_11_1,
+											D3D_FEATURE_LEVEL_11_0,
+											D3D_FEATURE_LEVEL_10_1,
+											D3D_FEATURE_LEVEL_10_0,
+											D3D_FEATURE_LEVEL_9_3,
+											D3D_FEATURE_LEVEL_9_2,
+											D3D_FEATURE_LEVEL_9_1 };
+	D3D_FEATURE_LEVEL FeatureLevelSupported;
+
 	// ReSharper disable once CppJoinDeclarationAndAssignment
 	V(D3D11CreateDeviceAndSwapChain(
 		nullptr, D3D_DRIVER_TYPE_HARDWARE,
-		nullptr, 0, nullptr, 0,
-		D3D11_SDK_VERSION, &scd, &g_pSwapchain, &g_pDev, nullptr, &g_pDevcon));
+		nullptr, 0, FeatureLevels, _countof(FeatureLevels),
+		D3D11_SDK_VERSION, &scd, &g_pSwapchain, &g_pDev, &FeatureLevelSupported, &g_pDevcon));
 
 	//
 	// create the rtv
 	//
-	ID3D11Texture2D* pBackBuffer;
+	ID3D11Texture2D* pBackBuffer;  // or ComPtr<ID3D11Texture3D>
 	// get the pointer to the backbuffer
-	V(g_pSwapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer));
+	V(g_pSwapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)& pBackBuffer));
 	// create a render target view from the backbuffer
 	V(g_pDev->CreateRenderTargetView(pBackBuffer, nullptr, &g_pRTV));
 	SAFE_RELEASE(pBackBuffer);
@@ -144,7 +183,7 @@ int WINAPI wWinMain(
 
 	// wait for the next msg in the queue
 	MSG msg{};
-	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+	while (GetMessage(&msg, nullptr, 0, 0)) {
 		// translate msg into the right form
 		TranslateMessage(&msg);
 		// call WindowProc callback
