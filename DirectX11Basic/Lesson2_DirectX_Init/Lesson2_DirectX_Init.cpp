@@ -34,6 +34,11 @@
 #include "DXUT.h"
 //#include "DXUTmisc.h"
 
+// just for convenice, BAD practice
+using namespace DirectX;
+using namespace DirectX::PackedVector;
+
+
 HRESULT hr{};  // used by V to check if a directx function succeeded
 
 IDXGISwapChain* g_pSwapchain{};
@@ -78,6 +83,22 @@ void Initialize(HWND hWnd)
 		nullptr, 0, FeatureLevels, _countof(FeatureLevels),
 		D3D11_SDK_VERSION, &scd, &g_pSwapchain, &g_pDev, &FeatureLevelSupported, &g_pDevcon));
 
+	// fallback, not used currently, because V will throw error if failed
+	if (hr == E_INVALIDARG) {
+		hr = D3D11CreateDeviceAndSwapChain(NULL,
+			D3D_DRIVER_TYPE_HARDWARE,
+			NULL,
+			0,
+			&FeatureLevelSupported,
+			1,
+			D3D11_SDK_VERSION,
+			&scd,
+			&g_pSwapchain,
+			&g_pDev,
+			NULL,
+			&g_pDevcon);
+	}
+
 	//
 	// create the rtv
 	//
@@ -90,6 +111,7 @@ void Initialize(HWND hWnd)
 	// bind the view
 	g_pDevcon->OMSetRenderTargets(1, &g_pRTV, nullptr);
 
+
 	//
 	// set the viewport
 	//
@@ -99,6 +121,10 @@ void Initialize(HWND hWnd)
 	viewport.Width = 500;  // TODO can be global const cfg
 	viewport.Height = 400;
 	g_pDevcon->RSSetViewports(1, &viewport);
+
+	// TODO init pipeline
+
+	// TODO init graphics
 }
 
 void Finalize()
@@ -128,12 +154,17 @@ LRESULT CALLBACK WindowProc(HWND hWnd,
 	LPARAM lParam)
 {
 	switch (message) {
-		// when the window is closed
-	case WM_DESTROY:
-		// close the app
+	case WM_CREATE:
+		break;
+	case WM_DESTROY:  // when the window is closed
+		// close the app here
+		//DiscardGraphicResources();
 		PostQuitMessage(0);
 		return 0;
+	case WM_SIZE:
+		break;
 	case WM_PAINT:
+		//CreateGraphicsResources(hWnd);
 		RenderFrame();
 	default:
 		break;
