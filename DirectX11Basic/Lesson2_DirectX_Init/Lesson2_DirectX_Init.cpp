@@ -180,6 +180,10 @@ int WINAPI wWinMain(
 	_In_ LPWSTR lpCmdLine,
 	_In_ int nShowCmd
 ) {
+#if _DEBUG
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+#endif
+
 	// create the window class
 	WNDCLASSEX wc{};
 	wc.cbSize = sizeof(WNDCLASSEX);
