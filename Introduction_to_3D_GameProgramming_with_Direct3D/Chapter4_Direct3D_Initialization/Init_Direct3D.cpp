@@ -13,6 +13,7 @@ int WINAPI wWinMain(
 )
 {
 #if _DEBUG
+	#define _CRTDBG_MAP_ALLOC
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	// watch Visual Studio's output window for memory leak messages
 	//
@@ -26,6 +27,8 @@ int WINAPI wWinMain(
 	//
 	// then set break point using _CrtSetBreakAlloc, NOTE that the "249" comes from the output message
 	//_CrtSetBreakAlloc(249);
+	//_CrtSetBreakAlloc(250);
+	//_CrtSetBreakAlloc(251);
 #endif
 	g_pApp = new D3DApp(
 		hInstance,
@@ -39,5 +42,7 @@ int WINAPI wWinMain(
 		return -1;
 	}
 
-	return g_pApp->Run();
+	int ret = g_pApp->Run();
+	delete g_pApp;
+	return ret;
 }
