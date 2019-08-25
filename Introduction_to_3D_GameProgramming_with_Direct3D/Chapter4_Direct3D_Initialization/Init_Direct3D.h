@@ -6,8 +6,8 @@
 #define ZELOENGINE_INIT_DIRECT3D_H
 
 
-class Init_Direct3D {
-
+class Init_Direct3D
+{
 };
 
 

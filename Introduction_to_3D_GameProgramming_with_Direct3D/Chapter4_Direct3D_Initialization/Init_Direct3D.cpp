@@ -2,7 +2,7 @@
 // created on 2019/8/25
 // author @zoloypzuo
 
-#include <windows.h>
+#include "D3DApp.h"
 #include "Init_Direct3D.h"
 
 int WINAPI wWinMain(
@@ -12,5 +12,32 @@ int WINAPI wWinMain(
 	_In_ int nShowCmd
 )
 {
-	return 0;
+#if _DEBUG
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	// watch Visual Studio's output window for memory leak messages
+	//
+	// e.g.
+	//Detected memory leaks!
+	//	Dumping objects ->
+	//{249} normal block at 0x013FAE08, 4 bytes long.
+	//	Data: < > 00 00 00 00
+	//	Object dump complete.
+	//	The program '[18280] Lesson2_DirectX_Init.exe' has exited with code 0 (0x0).
+	//
+	// then set break point using _CrtSetBreakAlloc, NOTE that the "249" comes from the output message
+	//_CrtSetBreakAlloc(249);
+#endif
+	g_pApp = new D3DApp(
+		hInstance,
+		hPrevInstance,
+		lpCmdLine,
+		nShowCmd);
+
+	if (g_pApp->Initialize())
+	{
+		assert(false && "");
+		return -1;
+	}
+
+	return g_pApp->Run();
 }
