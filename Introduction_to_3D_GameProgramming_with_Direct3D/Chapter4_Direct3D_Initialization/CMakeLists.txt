@@ -8,5 +8,5 @@ add_executable(Chapter4_Direct3D_Initialization ${SRC_LIST})
 
 set_target_properties(Chapter4_Direct3D_Initialization PROPERTIES
 	WIN32_EXECUTABLE YES  # use WinMain as entry point
-	VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+	VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}  # set working directory as "./"
 )
