@@ -1,0 +1,3 @@
+-- D3DAppConfig.lua
+-- created on 2019/8/26
+-- author @zoloypzuo

@@ -1,2 +1,3 @@
 add_subdirectory(Chapter4_Direct3D_Initialization)
 add_subdirectory(Common)
+add_subdirectory(Config)

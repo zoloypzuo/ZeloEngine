@@ -5,3 +5,6 @@ set(SRC_LIST D3DApp.cpp D3DApp.h)
 
 # create Common lib
 add_library(Common ${SRC_LIST})
+
+# Config
+target_link_libraries(Common Config)
