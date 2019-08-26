@@ -30,6 +30,20 @@ int WINAPI wWinMain(
 	//_CrtSetBreakAlloc(250);
 	//_CrtSetBreakAlloc(251);
 #endif
+
+	//
+	// initialize here
+	//
+
+	//
+	// lua
+	//
+	L = luaL_newstate();  // where is lua_open() ?
+	luaL_openlibs(L);
+
+	//
+	// D3DApp
+	//
 	g_pApp = new D3DApp(
 		hInstance,
 		hPrevInstance,
@@ -42,9 +56,14 @@ int WINAPI wWinMain(
 		return -1;
 	}
 
+	// main loop
 	int ret = g_pApp->Run();
-	
+
+	//
+	// finalize here
+	//
 	g_pApp->Finalize();
-	
+	lua_close(L);
+
 	return ret;
 }

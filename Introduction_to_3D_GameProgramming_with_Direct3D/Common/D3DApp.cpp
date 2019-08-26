@@ -2,13 +2,18 @@
 // created on 2019/8/25
 // author @zoloypzuo
 
+#include "lua.hpp"
+
 #include "D3DApp.h"
 
 HRESULT hr{};
 
 D3DApp* g_pApp{};
 
+lua_State* L{};
+
 D3DApp::D3DApp(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
+	:m_config(L)
 {
 	m_winMainArgs.hInstance = hInstance;
 	m_winMainArgs.hPrevInstance = hPrevInstance;
@@ -150,7 +155,7 @@ void D3DApp::Finalize()
 void D3DApp::RenderFrame()
 {
 	// clear the backbuffer
-	const FLOAT color[4] = {0.0f, 0.2f, 0.4f, 1.0f};
+	const FLOAT color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
 	m_pDeviceContext->ClearRenderTargetView(m_pRtv, color);
 
 	// do render here

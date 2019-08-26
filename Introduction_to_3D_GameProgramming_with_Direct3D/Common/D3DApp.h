@@ -20,6 +20,10 @@
 #define DXUT_AUTOLIB
 #include "DXUT.h"
 //#include "DXUTmisc.h"
+#include "lua.hpp"
+
+#include "D3DAppConfig.h"
+
 
 // just for convenice, BAD practice
 using namespace DirectX;
@@ -30,6 +34,8 @@ extern HRESULT hr; // used by V to check if a directx function succeeded
 class D3DApp;
 
 extern D3DApp* g_pApp;
+
+extern lua_State* L;
 
 class D3DApp
 {
@@ -72,6 +78,8 @@ protected:
 	D3D_DRIVER_TYPE m_driverType{D3D_DRIVER_TYPE_HARDWARE};
 	bool m_enable4xMsaa{};
 	UINT m_4xMsaaQuality{};
+
+	D3DAppConfig m_config;
 
 public:
 	/**
