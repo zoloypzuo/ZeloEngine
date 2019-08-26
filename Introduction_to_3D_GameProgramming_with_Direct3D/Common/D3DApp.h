@@ -20,8 +20,8 @@
 
 //Severity	Code	Description	Project	File	Line	Suppression State
 //Error	LNK2019	unresolved external symbol "long __stdcall DXUTTrace(char const *,unsigned long,long,wchar_t const *,bool)" (? DXUTTrace@@YGJPBDKJPB_W_N@Z) referenced in function "void __cdecl Initialize(struct HWND__ *)" (? Initialize@@YAXPAUHWND__@@@Z)	Lesson2_DirectX_Init	D : \ZeloEngine\build\Lesson2_DirectX_Init.obj	1
-#pragma comment(lib, "DXUT.lib")
-#pragma comment(lib, "DXUTOpt.lib")
+//#pragma comment(lib, "DXUT.lib")
+//#pragma comment(lib, "DXUTOpt.lib")
 //#pragma comment(lib, "comctl32.lib")
 //#pragma comment(lib, "d3dcompiler.lib")
 //#pragma comment(lib, "usp10.lib")
@@ -29,7 +29,7 @@
 //#pragma comment(lib, "winmm.lib")
 //Severity	Code	Description	Project	File	Line	Suppression State
 //Error	LNK2019	unresolved external symbol _D3D11CreateDeviceAndSwapChain@48 referenced in function "void __cdecl Initialize(struct HWND__ *)" (? Initialize@@YAXPAUHWND__@@@Z)	Lesson2_DirectX_Init	D : \ZeloEngine\build\Lesson2_DirectX_Init.obj	1
-#pragma comment(lib, "D3D11.lib")
+//#pragma comment(lib, "D3D11.lib")
 
 #define UNICODE
 #define DXUT_AUTOLIB
