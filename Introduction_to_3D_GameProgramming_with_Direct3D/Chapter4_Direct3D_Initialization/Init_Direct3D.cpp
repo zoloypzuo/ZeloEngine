@@ -43,6 +43,8 @@ int WINAPI wWinMain(
 	}
 
 	int ret = g_pApp->Run();
-	delete g_pApp;
+	
+	g_pApp->Finalize();
+	
 	return ret;
 }
