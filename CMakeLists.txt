@@ -4,6 +4,14 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 11)
 project(ZeloEngine)
 
+#
+# define C++ macro
+#
+
+
+#
+# set variable
+#
 set(3rdPartyDir ${PROJECT_SOURCE_DIR}/3rdParty/)
 set(LibDir ${PROJECT_SOURCE_DIR}/Lib/Win32Debug/)
 
@@ -12,7 +20,14 @@ link_directories(${LibDir})
 #
 # basic lib
 #
-link_libraries(D3D11.lib)
+link_libraries(
+        D3D11.lib
+#        comctl32.lib
+#        d3dcompiler.lib
+#        usp10.lib
+#        dxguid.lib
+#        winmm.lib
+        )
 
 #
 # DXUT
