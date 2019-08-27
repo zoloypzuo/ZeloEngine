@@ -3,7 +3,6 @@
 // author @zoloypzuo
 
 
-
 #define UNICODE
 #include "DXUT.h"
 
@@ -27,7 +26,7 @@ int D3DAppConfig::LoadConfig(lua_State* L, D3DAppConfig** ppConfig)
 	else
 	{
 		stackDump(L);
-		if(!lua_isuserdata(L,LUA_TOP))
+		if (!lua_isuserdata(L, LUA_TOP))
 		{
 			luaL_error(L, "is not ud");
 			return -1;
@@ -41,7 +40,7 @@ int D3DAppConfig::LoadConfig(lua_State* L, D3DAppConfig** ppConfig)
 int D3DAppConfig::pLoadConfig(lua_State* L)
 {
 	stackDump(L);
-	HRESULT hr;  // used for V
+	HRESULT hr; // used for V
 
 	// read file to buffer
 	ID3DBlob* pContent{};
@@ -75,7 +74,7 @@ int D3DAppConfig::pLoadConfig(lua_State* L)
 	pConfig->enable4xMsaa = getFieldBool(L, "enable4xMsaa");
 	pConfig->_4xMsaaQuality = (UINT)getFieldInt(L, "_4xMsaaQuality");
 
-	lua_pop(L, 1);  // pop D3DAppConfig
+	lua_pop(L, 1); // pop D3DAppConfig
 
 	lua_pushnil(L);
 	lua_setglobal(L, "D3DAppConfig");

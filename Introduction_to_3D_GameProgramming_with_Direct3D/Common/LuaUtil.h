@@ -11,8 +11,8 @@
 #include "lua.hpp"
 
 
-class LuaUtil {
-
+class LuaUtil
+{
 };
 
 const int LUA_TOP = -1;
@@ -22,42 +22,49 @@ const int LUA_TOP = -1;
  */
 const int LUA_TABLE_INDEX = -1;
 
-inline int traceback(lua_State *L) {
-	const char *msg = lua_tostring(L, LUA_TOP);
-	if (msg) {
+inline int traceback(lua_State* L)
+{
+	const char* msg = lua_tostring(L, LUA_TOP);
+	if (msg)
+	{
 		luaL_traceback(L, L, msg, 1);
 		return -1;
 	}
-	else {
-		lua_pushliteral(L, "no message");
-		return 0;
-	}
+	lua_pushliteral(L, "no message");
+	return 0;
 }
 
-inline void stackDump(lua_State *L) {
+inline void stackDump(lua_State* L)
+{
 	printf("stackDump Begin ...\n");
 	int i;
 	int top = lua_gettop(L);
-	for (i = 1; i <= top; i++) {
+	for (i = 1; i <= top; i++)
+	{
 		int t = lua_type(L, i);
-		switch (t) {
-		case LUA_TSTRING: {
-			printf("'%s'", lua_tostring(L, i));
-			break;
-		}
-		case LUA_TBOOLEAN: {
-			printf(lua_toboolean(L, i) ? "true" : "false");
-			break;
-		}
-		case LUA_TNUMBER: {
-			printf("%g", lua_tonumber(L, i));
-			break;
-		}
-		default: {
-			printf("%s", lua_typename(L, t));
-			break;
-		}
-				 printf(" ");
+		switch (t)
+		{
+		case LUA_TSTRING:
+			{
+				printf("'%s'", lua_tostring(L, i));
+				break;
+			}
+		case LUA_TBOOLEAN:
+			{
+				printf(lua_toboolean(L, i) ? "true" : "false");
+				break;
+			}
+		case LUA_TNUMBER:
+			{
+				printf("%g", lua_tonumber(L, i));
+				break;
+			}
+		default:
+			{
+				printf("%s", lua_typename(L, t));
+				break;
+			}
+			printf(" ");
 		}
 		printf("\n");
 	}
@@ -65,14 +72,16 @@ inline void stackDump(lua_State *L) {
 	printf("\n");
 }
 
-inline lua_Integer getFieldInt(lua_State *L, const char *k) {
+inline lua_Integer getFieldInt(lua_State* L, const char* k)
+{
 	stackDump(L);
 	lua_Integer res{};
 	int isInt{};
 
 	lua_getfield(L, LUA_TABLE_INDEX, k);
 	res = lua_tointegerx(L, LUA_TOP, &isInt);
-	if (!isInt) {
+	if (!isInt)
+	{
 		luaL_error(L, "invalid value for %s", k);
 	}
 	lua_pop(L, 1);
@@ -80,11 +89,13 @@ inline lua_Integer getFieldInt(lua_State *L, const char *k) {
 	return res;
 }
 
-inline const char *getFieldString(lua_State *L, const char *k) {
+inline const char* getFieldString(lua_State* L, const char* k)
+{
 	stackDump(L);
-	const char *res{};
+	const char* res{};
 	lua_getfield(L, LUA_TABLE_INDEX, k);
-	if (!lua_isstring(L, LUA_TOP)) {
+	if (!lua_isstring(L, LUA_TOP))
+	{
 		luaL_error(L, "invalid value for %s", k);
 	}
 	res = lua_tostring(L, LUA_TOP);
@@ -93,11 +104,13 @@ inline const char *getFieldString(lua_State *L, const char *k) {
 	return res;
 }
 
-inline bool getFieldBool(lua_State *L, const char *k) {
+inline bool getFieldBool(lua_State* L, const char* k)
+{
 	stackDump(L);
 	bool res{};
 	lua_getfield(L, LUA_TABLE_INDEX, k);
-	if (!lua_isboolean(L, LUA_TOP)) {
+	if (!lua_isboolean(L, LUA_TOP))
+	{
 		luaL_error(L, "invalid value for %s", k);
 	}
 	res = lua_toboolean(L, LUA_TOP);

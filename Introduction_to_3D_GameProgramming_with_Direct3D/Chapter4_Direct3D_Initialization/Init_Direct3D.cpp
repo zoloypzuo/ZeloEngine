@@ -19,7 +19,7 @@ int WINAPI wWinMain(
 )
 {
 #if _DEBUG
-	#define _CRTDBG_MAP_ALLOC
+#define _CRTDBG_MAP_ALLOC
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	// watch Visual Studio's output window for memory leak messages
 	//
@@ -42,7 +42,8 @@ int WINAPI wWinMain(
 	//
 
 	// try to open a console 
-	if (AllocConsole()) {
+	if (AllocConsole())
+	{
 		freopen("CONOUT$", "w", stdout);
 		freopen("CONOUT$", "w", stderr);
 	}
@@ -50,7 +51,7 @@ int WINAPI wWinMain(
 	//
 	// lua
 	//
-	L = luaL_newstate();  // where is lua_open() ?
+	L = luaL_newstate(); // where is lua_open() ?
 	//luaL_openlibs(L);  // TODO this may raise error, put it in a pcall
 
 	//

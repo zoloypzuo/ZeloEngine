@@ -9,7 +9,8 @@
 
 #include "lua.hpp"
 
-struct D3DAppConfig final {
+struct D3DAppConfig final
+{
 	//
 	// some window configurations
 	//

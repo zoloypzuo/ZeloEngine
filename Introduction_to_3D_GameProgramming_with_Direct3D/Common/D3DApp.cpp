@@ -137,8 +137,8 @@ int D3DApp::InitDirect3D()
 	D3D11_VIEWPORT viewport{};
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = (FLOAT)m_pConfig->clientWidth;
-	viewport.Height = (FLOAT)m_pConfig->clientHeight;
+	viewport.Width = static_cast<FLOAT>(m_pConfig->clientWidth);
+	viewport.Height = static_cast<FLOAT>(m_pConfig->clientHeight);
 	m_pDeviceContext->RSSetViewports(1, &viewport);
 
 	// TODO init pipeline
@@ -162,7 +162,7 @@ void D3DApp::Finalize()
 void D3DApp::RenderFrame()
 {
 	// clear the backbuffer
-	const FLOAT color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
+	const FLOAT color[4] = {0.0f, 0.2f, 0.4f, 1.0f};
 	m_pDeviceContext->ClearRenderTargetView(m_pRtv, color);
 
 	// do render here
