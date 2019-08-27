@@ -155,7 +155,7 @@ void D3DApp::Finalize()
 	SAFE_RELEASE(m_pDeviceContext);
 	SAFE_RELEASE(m_pRtv);
 
-	delete m_pConfig;
+	//delete m_pConfig;
 }
 
 

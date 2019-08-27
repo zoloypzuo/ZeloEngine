@@ -22,7 +22,7 @@ const int LUA_TOP = -1;
  */
 const int LUA_TABLE_INDEX = -1;
 
-int traceback(lua_State *L) {
+inline int traceback(lua_State *L) {
 	const char *msg = lua_tostring(L, LUA_TOP);
 	if (msg) {
 		luaL_traceback(L, L, msg, 1);
@@ -34,16 +34,7 @@ int traceback(lua_State *L) {
 	}
 }
 
-void error(lua_State *L, const char *fmt, ...) {
-	va_list argp;
-	va_start(argp, fmt);
-	vfprintf(stderr, fmt, argp);
-	va_end(argp);
-	lua_close(L);
-	exit(EXIT_FAILURE);
-}
-
-void stackDump(lua_State *L) {
+inline void stackDump(lua_State *L) {
 	printf("stackDump Begin ...\n");
 	int i;
 	int top = lua_gettop(L);
@@ -74,7 +65,7 @@ void stackDump(lua_State *L) {
 	printf("\n");
 }
 
-lua_Integer getFieldInt(lua_State *L, const char *k) {
+inline lua_Integer getFieldInt(lua_State *L, const char *k) {
 	stackDump(L);
 	lua_Integer res{};
 	int isInt{};
@@ -82,19 +73,19 @@ lua_Integer getFieldInt(lua_State *L, const char *k) {
 	lua_getfield(L, LUA_TABLE_INDEX, k);
 	res = lua_tointegerx(L, LUA_TOP, &isInt);
 	if (!isInt) {
-		error(L, "invalid value for %s", k);
+		luaL_error(L, "invalid value for %s", k);
 	}
 	lua_pop(L, 1);
 	stackDump(L);
 	return res;
 }
 
-const char *getFieldString(lua_State *L, const char *k) {
+inline const char *getFieldString(lua_State *L, const char *k) {
 	stackDump(L);
 	const char *res{};
 	lua_getfield(L, LUA_TABLE_INDEX, k);
 	if (!lua_isstring(L, LUA_TOP)) {
-		error(L, "invalid value for %s", k);
+		luaL_error(L, "invalid value for %s", k);
 	}
 	res = lua_tostring(L, LUA_TOP);
 	lua_pop(L, 1);
@@ -102,12 +93,12 @@ const char *getFieldString(lua_State *L, const char *k) {
 	return res;
 }
 
-bool getFieldBool(lua_State *L, const char *k) {
+inline bool getFieldBool(lua_State *L, const char *k) {
 	stackDump(L);
 	bool res{};
 	lua_getfield(L, LUA_TABLE_INDEX, k);
 	if (!lua_isboolean(L, LUA_TOP)) {
-		error(L, "invalid value for %s", k);
+		luaL_error(L, "invalid value for %s", k);
 	}
 	res = lua_toboolean(L, LUA_TOP);
 	lua_pop(L, 1);

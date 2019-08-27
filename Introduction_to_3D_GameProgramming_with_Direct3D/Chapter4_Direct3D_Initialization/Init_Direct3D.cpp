@@ -9,6 +9,7 @@
 
 #include "D3DApp.h"
 #include "Init_Direct3D.h"
+#include "LuaUtil.h"
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE hInstance,
@@ -33,7 +34,7 @@ int WINAPI wWinMain(
 	// then set break point using _CrtSetBreakAlloc, NOTE that the "249" comes from the output message
 	//_CrtSetBreakAlloc(249);
 	//_CrtSetBreakAlloc(250);
-	//_CrtSetBreakAlloc(305);
+	//_CrtSetBreakAlloc(351);
 #endif
 
 	//
@@ -73,6 +74,7 @@ int WINAPI wWinMain(
 	//
 	// finalize here
 	//
+	stackDump(L);
 	g_pApp->Finalize();
 	delete g_pApp;
 	lua_close(L);
