@@ -137,8 +137,8 @@ int D3DApp::InitDirect3D()
 	D3D11_VIEWPORT viewport{};
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = m_pConfig->clientWidth;
-	viewport.Height = m_pConfig->clientHeight;
+	viewport.Width = (FLOAT)m_pConfig->clientWidth;
+	viewport.Height = (FLOAT)m_pConfig->clientHeight;
 	m_pDeviceContext->RSSetViewports(1, &viewport);
 
 	// TODO init pipeline
