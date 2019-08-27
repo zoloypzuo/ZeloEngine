@@ -13,7 +13,6 @@ D3DApp* g_pApp{};
 lua_State* L{};
 
 D3DApp::D3DApp(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
-	:m_config(L)
 {
 	m_winMainArgs.hInstance = hInstance;
 	m_winMainArgs.hPrevInstance = hPrevInstance;
@@ -27,6 +26,12 @@ D3DApp::~D3DApp()
 
 int D3DApp::Initialize()
 {
+	if (D3DAppConfig::LoadConfig(L, &m_pConfig))
+	{
+		assert(false);
+		return -1;
+	}
+
 	if (InitMainWindow())
 	{
 		assert(false && "");
@@ -132,8 +137,8 @@ int D3DApp::InitDirect3D()
 	D3D11_VIEWPORT viewport{};
 	viewport.TopLeftX = 0;
 	viewport.TopLeftY = 0;
-	viewport.Width = 500; // TODO can be global const cfg
-	viewport.Height = 400;
+	viewport.Width = m_pConfig->clientWidth;
+	viewport.Height = m_pConfig->clientHeight;
 	m_pDeviceContext->RSSetViewports(1, &viewport);
 
 	// TODO init pipeline
@@ -149,6 +154,8 @@ void D3DApp::Finalize()
 	SAFE_RELEASE(m_pDevice);
 	SAFE_RELEASE(m_pDeviceContext);
 	SAFE_RELEASE(m_pRtv);
+
+	delete m_pConfig;
 }
 
 
@@ -213,7 +220,7 @@ int D3DApp::InitMainWindow()
 	hWnd = CreateWindowEx(
 		0,
 		_T("WIndowClass1"),
-		_T("lpWindowName"),
+		m_pConfig->mainWndCaption.c_str(),
 		WS_OVERLAPPEDWINDOW,
 		300, 300,
 		500, 400,

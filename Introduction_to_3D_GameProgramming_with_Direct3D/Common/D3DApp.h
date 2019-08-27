@@ -49,13 +49,6 @@ protected:
 	ID3D11RenderTargetView* m_pRtv{};
 	D3D11_VIEWPORT m_viewport{};
 
-	//
-	// some window configurations
-	//
-	std::wstring m_mainWndCaption{L"D3D11 App"}; // TODO string or wstring?
-	int m_clientWidth{};
-	int m_clientHeight{};
-
 	/**
 	 * \brief the args in wWinMain
 	 */
@@ -72,14 +65,7 @@ protected:
 	 */
 	HWND m_hMainWnd{};
 
-	//
-	// some Direct3D configurations
-	//
-	D3D_DRIVER_TYPE m_driverType{D3D_DRIVER_TYPE_HARDWARE};
-	bool m_enable4xMsaa{};
-	UINT m_4xMsaaQuality{};
-
-	D3DAppConfig m_config;
+	D3DAppConfig* m_pConfig{};
 
 public:
 	/**

@@ -2,6 +2,11 @@
 // created on 2019/8/25
 // author @zoloypzuo
 
+#include <cstdio>
+#include <io.h>
+#include <fcntl.h>
+#include <windows.h>
+
 #include "D3DApp.h"
 #include "Init_Direct3D.h"
 
@@ -35,11 +40,17 @@ int WINAPI wWinMain(
 	// initialize here
 	//
 
+	// try to open a console 
+	if (AllocConsole()) {
+		freopen("CONOUT$", "w", stdout);
+		freopen("CONOUT$", "w", stderr);
+	}
+
 	//
 	// lua
 	//
 	L = luaL_newstate();  // where is lua_open() ?
-	luaL_openlibs(L);
+	luaL_openlibs(L);  // TODO this may raise error, put it in a pcall
 
 	//
 	// D3DApp

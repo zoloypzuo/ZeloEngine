@@ -1,7 +1,9 @@
 # created on 2019/8/26
 # author @zoloypzuo
 
-set(SRC_LIST D3DApp.cpp D3DApp.h)
+set(SRC_LIST
+        D3DApp.cpp D3DApp.h
+        LuaUtil.cpp LuaUtil.h)
 
 # create Common lib
 add_library(Common ${SRC_LIST})

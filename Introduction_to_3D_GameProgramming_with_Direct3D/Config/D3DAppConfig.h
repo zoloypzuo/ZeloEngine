@@ -24,7 +24,12 @@ struct D3DAppConfig final {
 	bool enable4xMsaa{};
 	UINT _4xMsaaQuality{};
 
-	D3DAppConfig(lua_State* L);
+	D3DAppConfig();
+
+	static int LoadConfig(lua_State* L, D3DAppConfig** ppConfig);
+
+private:
+	static int pLoadConfig(lua_State* L);
 };
 
 
