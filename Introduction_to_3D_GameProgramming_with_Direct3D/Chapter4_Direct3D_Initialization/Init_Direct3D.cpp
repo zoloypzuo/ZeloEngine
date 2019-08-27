@@ -33,7 +33,7 @@ int WINAPI wWinMain(
 	// then set break point using _CrtSetBreakAlloc, NOTE that the "249" comes from the output message
 	//_CrtSetBreakAlloc(249);
 	//_CrtSetBreakAlloc(250);
-	//_CrtSetBreakAlloc(251);
+	//_CrtSetBreakAlloc(305);
 #endif
 
 	//
@@ -74,6 +74,7 @@ int WINAPI wWinMain(
 	// finalize here
 	//
 	g_pApp->Finalize();
+	delete g_pApp;
 	lua_close(L);
 
 	return ret;
