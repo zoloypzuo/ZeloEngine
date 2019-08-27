@@ -48,6 +48,8 @@ protected:
 	ID3D11DeviceContext* m_pDeviceContext{};
 	ID3D11RenderTargetView* m_pRtv{};
 	D3D11_VIEWPORT m_viewport{};
+	ID3D11Texture2D* m_depthStencilBuffer{};
+	ID3D11DepthStencilView* m_depthStencilView{};
 
 	/**
 	 * \brief the args in wWinMain
