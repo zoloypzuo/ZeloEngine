@@ -51,7 +51,7 @@ int WINAPI wWinMain(
 	//
 	// lua
 	//
-	L = luaL_newstate(); // where is lua_open() ?
+	L = lua_open(); // where is lua_open() ?
 	//luaL_openlibs(L);  // TODO this may raise error, put it in a pcall
 
 	//

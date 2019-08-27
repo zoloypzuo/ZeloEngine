@@ -119,4 +119,9 @@ inline bool getFieldBool(lua_State* L, const char* k)
 	return res;
 }
 
+/**
+ * \brief lua 5.2 removes lua_open, but I think it is paired with lua_close()
+ */
+#define lua_open() luaL_newstate()
+
 #endif //ZELOENGINE_LUAUTIL_H
