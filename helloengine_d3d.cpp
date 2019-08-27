@@ -1,7 +1,7 @@
 // TODO delete it
 
 // include the basic windows header file
-#include <windows.h>
+#include <Windows.h>
 #include <windowsx.h>
 #include <tchar.h>
 #include <stdint.h>
