@@ -12,6 +12,6 @@ DXUT的三个教程
 * 渲染人物模型
 * UI设置渲染选项
 
-### DirectX11Basic
+### helloengine_d3d.cpp
 
-基础，创建窗口之类的
+纯d3d，无dxut的旋转立方体
