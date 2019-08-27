@@ -44,7 +44,7 @@ int D3DAppConfig::pLoadConfig(lua_State* L)
 
 	// read file to buffer
 	ID3DBlob* pContent{};
-	V(D3DReadFileToBlob(L"../Config/D3DAppConfig.lua", &pContent));
+	V(D3DReadFileToBlob(L"../../Config/D3DAppConfig.lua", &pContent));
 
 	// dostring
 	auto buffer = pContent->GetBufferPointer();

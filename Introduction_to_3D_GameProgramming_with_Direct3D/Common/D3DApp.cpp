@@ -204,10 +204,12 @@ LRESULT D3DApp::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//CreateGraphicsResources(hWnd);
 		g_pApp->RenderFrame();
 	case WM_GETMINMAXINFO:  // set min size of the window to prevent the window from being too small
-		auto minmaxInfo = (MINMAXINFO*)lParam;
-		minmaxInfo->ptMinTrackSize.x = 640;
-		minmaxInfo->ptMinTrackSize.y = 480;
+	{
+		//auto minmaxInfo = (MINMAXINFO*)lParam;
+		//minmaxInfo->ptMinTrackSize.x = 640;
+		//minmaxInfo->ptMinTrackSize.y = 480;
 		break;
+	}
 	case WM_LBUTTONDOWN:
 		break;
 	case WM_MBUTTONDOWN:
