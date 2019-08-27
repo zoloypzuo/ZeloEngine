@@ -171,7 +171,7 @@ void D3DApp::Finalize()
 void D3DApp::RenderFrame()
 {
 	// clear the backbuffer
-	const FLOAT color[4] = {0.0f, 0.2f, 0.4f, 1.0f};
+	const FLOAT color[4] = { 0.0f, 0.2f, 0.4f, 1.0f };
 	m_pDeviceContext->ClearRenderTargetView(m_pRtv, color);
 
 	// do render here
@@ -191,7 +191,14 @@ LRESULT D3DApp::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//DiscardGraphicResources();
 		PostQuitMessage(0);
 		return 0;
-	case WM_SIZE:
+	case WM_SIZE:  // when the user resizes the window
+		m_pConfig->clientWidth = LOWORD(lParam);
+		m_pConfig->clientHeight = HIWORD(lParam);
+		if (!m_pDevice)
+		{
+			break;
+		}
+		assert(false && "resize handle not implemented");
 		break;
 	case WM_PAINT:
 		//CreateGraphicsResources(hWnd);
