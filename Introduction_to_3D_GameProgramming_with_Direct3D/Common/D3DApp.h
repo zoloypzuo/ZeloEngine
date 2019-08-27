@@ -85,17 +85,16 @@ public:
 
 	int Run();
 
-protected:
-	int InitDirect3D();
-
-
-	void RenderFrame();
-
-	static LRESULT CALLBACK WindowProc(
+	LRESULT CALLBACK MsgProc(
 		HWND hWnd,
 		UINT message,
 		WPARAM wParam,
 		LPARAM lParam);
+
+protected:
+	int InitDirect3D();
+
+	void RenderFrame();
 
 	int InitMainWindow();
 };

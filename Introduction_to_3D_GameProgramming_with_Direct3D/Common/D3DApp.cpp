@@ -12,6 +12,15 @@ D3DApp* g_pApp{};
 
 lua_State* L{};
 
+static LRESULT CALLBACK MainWndProc(
+	HWND hWnd,
+	UINT message,
+	WPARAM wParam,
+	LPARAM lParam)
+{
+	return g_pApp->MsgProc(hWnd, message, wParam, lParam);
+}
+
 D3DApp::D3DApp(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
 {
 	m_winMainArgs.hInstance = hInstance;
@@ -171,7 +180,7 @@ void D3DApp::RenderFrame()
 	V(m_pSwapchain->Present(0, 0));
 }
 
-LRESULT D3DApp::WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT D3DApp::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -204,7 +213,7 @@ int D3DApp::InitMainWindow()
 	WNDCLASSEX wc{};
 	wc.cbSize = sizeof(WNDCLASSEX);
 	wc.style = CS_HREDRAW | CS_VREDRAW;
-	wc.lpfnWndProc = WindowProc;
+	wc.lpfnWndProc = MainWndProc;
 	wc.hInstance = hInstance;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
