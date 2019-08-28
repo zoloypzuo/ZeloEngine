@@ -17,7 +17,7 @@ D3DAppConfig::D3DAppConfig()
 int D3DAppConfig::LoadConfig(lua_State* L, D3DAppConfig** ppConfig)
 {
 	lua_pushcfunction(L, &pLoadConfig);
-	if (lua_pcall(L, 0, 0,0))
+	if (lua_pcall(L, 0, 1, 0))
 	{
 		fprintf(stderr, "%s", lua_tostring(L, LUA_TOP));
 		lua_pop(L, 1);
