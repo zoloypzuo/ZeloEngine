@@ -19,11 +19,10 @@
 #define UNICODE
 #define DXUT_AUTOLIB
 #include "DXUT.h"
-//#include "DXUTmisc.h"
 #include "lua.hpp"
 
 #include "D3DAppConfig.h"
-
+#include "GameTimer.h"
 
 // just for convenice, BAD practice
 using namespace DirectX;
@@ -87,7 +86,7 @@ public:
 
 	virtual int Run();
 
-    virtual	LRESULT CALLBACK MsgProc(
+	virtual	LRESULT CALLBACK MsgProc(
 		HWND hWnd,
 		UINT message,
 		WPARAM wParam,
@@ -103,6 +102,9 @@ protected:
 	void RenderFrame();
 
 	int InitMainWindow();
+
+protected:
+	GameTimer m_timer{};
 };
 
 

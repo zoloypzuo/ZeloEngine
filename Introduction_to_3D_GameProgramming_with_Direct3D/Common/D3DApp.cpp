@@ -71,7 +71,8 @@ int D3DApp::Run()
 		}
 		else
 		{
-			Update(0.03f);
+			m_timer.Tick();
+			Update(m_timer.DeltaTime());
 			Render();
 		}
 	}
