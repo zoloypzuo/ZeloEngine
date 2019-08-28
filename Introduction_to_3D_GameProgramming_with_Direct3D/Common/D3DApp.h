@@ -81,13 +81,13 @@ public:
 
 	virtual ~D3DApp();
 
-	int Initialize();
+	virtual int Initialize();
 
-	void Finalize();
+	virtual void Finalize();
 
-	int Run();
+	virtual int Run();
 
-	LRESULT CALLBACK MsgProc(
+    virtual	LRESULT CALLBACK MsgProc(
 		HWND hWnd,
 		UINT message,
 		WPARAM wParam,
