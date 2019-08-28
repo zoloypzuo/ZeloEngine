@@ -13,5 +13,9 @@ D3DAppConfig = {
     -- some Direct3D configurations
     driverType = D3D_DRIVER_TYPE_HARDWARE,
     enable4xMsaa = false,
-    _4xMsaaQuality = 0
+    _4xMsaaQuality = 0,
+
+    engineDir = [[E:/ZeloEngineRoot/ZeloEngine/Introduction_to_3D_GameProgramming_with_Direct3D/]],
+    configDir = [[E:/ZeloEngineRoot/ZeloEngine/Introduction_to_3D_GameProgramming_with_Direct3D/]] .. "Config/"
 }
+

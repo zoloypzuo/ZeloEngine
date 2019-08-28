@@ -25,6 +25,9 @@ struct D3DAppConfig final
 	bool enable4xMsaa{};
 	UINT _4xMsaaQuality{};
 
+	std::string engineDir{};
+	std::string configDir{};
+
 	D3DAppConfig();
 
 	static int LoadConfig(lua_State* L, D3DAppConfig** ppConfig);

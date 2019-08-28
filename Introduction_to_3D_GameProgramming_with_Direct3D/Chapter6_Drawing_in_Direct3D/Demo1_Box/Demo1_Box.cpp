@@ -11,6 +11,11 @@
 #include "LuaUtil.h"
 #include "Demo1_Box.h"
 
+int f(lua_State* L)
+{
+	luaL_error(L, "error z");
+	return 0;
+}
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE hInstance,
@@ -53,7 +58,7 @@ int WINAPI wWinMain(
 	// lua
 	//
 	L = lua_open(); // where is lua_open() ?
-	//luaL_openlibs(L);  // TODO this may raise error, put it in a pcall
+	luaL_openlibs(L);  // TODO this may raise error, put it in a pcall
 
 	//
 	// D3DApp

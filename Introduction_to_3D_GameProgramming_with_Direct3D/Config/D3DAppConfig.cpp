@@ -16,19 +16,20 @@ D3DAppConfig::D3DAppConfig()
 
 int D3DAppConfig::LoadConfig(lua_State* L, D3DAppConfig** ppConfig)
 {
-	lua_pushcfunction(L, traceback);
 	lua_pushcfunction(L, &pLoadConfig);
-	if (lua_pcall(L, 0, 1, 1))
+	if (lua_pcall(L, 0, 0,0))
 	{
 		fprintf(stderr, "%s", lua_tostring(L, LUA_TOP));
 		lua_pop(L, 1);
+		return -1;
 	}
 	else
 	{
 		stackDump(L);
 		if (!lua_isuserdata(L, LUA_TOP))
 		{
-			luaL_error(L, "is not ud");
+			fprintf(stderr, "is not ud");
+			lua_pop(L, 1);
 			return -1;
 		}
 		*ppConfig = (D3DAppConfig*)lua_touserdata(L, LUA_TOP);
@@ -49,7 +50,7 @@ int D3DAppConfig::pLoadConfig(lua_State* L)
 	// dostring
 	auto buffer = pContent->GetBufferPointer();
 	auto size = pContent->GetBufferSize();
-	if (luaL_loadbuffer(L, (char*)buffer, size, "") || lua_pcall(L, 0, 0, 0))
+	if (luaL_loadbuffer(L, (char*)buffer, size, "") || docall(L, 0, 0))
 	{
 		// get err msg from stack top
 		luaL_error(L, "cannot run config file: %s", lua_tostring(L, LUA_TOP));
@@ -73,6 +74,8 @@ int D3DAppConfig::pLoadConfig(lua_State* L)
 	pConfig->driverType = (D3D_DRIVER_TYPE)getFieldInt(L, "driverType");
 	pConfig->enable4xMsaa = getFieldBool(L, "enable4xMsaa");
 	pConfig->_4xMsaaQuality = (UINT)getFieldInt(L, "_4xMsaaQuality");
+	pConfig->engineDir = getFieldString(L, "engineDir");
+	pConfig->configDir = getFieldString(L, "configDir");
 
 	lua_pop(L, 1); // pop D3DAppConfig
 
