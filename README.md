@@ -14,4 +14,4 @@ DXUT的三个教程
 
 ### helloengine_d3d.cpp
 
-纯d3d，无dxut的旋转立方体
+纯d3d，无dxut的旋转立方体 
