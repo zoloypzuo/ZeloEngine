@@ -11,11 +11,7 @@
 #include "LuaUtil.h"
 #include "Demo1_Box.h"
 
-int f(lua_State* L)
-{
-	luaL_error(L, "error z");
-	return 0;
-}
+
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE hInstance,
@@ -87,4 +83,34 @@ int WINAPI wWinMain(
 	lua_close(L);
 
 	return ret;
+}
+
+Demo1_Box::Demo1_Box(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nShowCmd)
+	:D3DApp(hInstance, hPrevInstance, lpCmdLine, nShowCmd)
+{
+}
+
+Demo1_Box::~Demo1_Box()
+{
+	D3DApp::~D3DApp();
+}
+
+int Demo1_Box::Initialize()
+{
+	return D3DApp::Initialize();
+}
+
+void Demo1_Box::Finalize()
+{
+	D3DApp::Finalize();
+}
+
+int Demo1_Box::Run()
+{
+	return D3DApp::Run();
+}
+
+LRESULT Demo1_Box::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	return D3DApp::MsgProc(hWnd, message, wParam, lParam);
 }
