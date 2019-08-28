@@ -7,7 +7,6 @@
 #include <fcntl.h>
 #include <windows.h>
 
-#include "D3DApp.h"
 #include "LuaUtil.h"
 #include "Demo1_Box.h"
 

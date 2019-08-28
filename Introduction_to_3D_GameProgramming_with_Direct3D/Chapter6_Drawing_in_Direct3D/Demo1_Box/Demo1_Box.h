@@ -4,6 +4,10 @@
 
 #ifndef ZELOENGINE_DEMO1_BOX_H
 #define ZELOENGINE_DEMO1_BOX_H
+#include "d3dx11effect.h"
+
+#include "MathHelper.h"
+#include "D3DApp.h"
 
 class Demo1_Box :public D3DApp
 {
@@ -29,7 +33,7 @@ private:
 private:
 	ID3D11Buffer* m_boxVB;
 	ID3D11Buffer* m_boxIB;
-	
+
 	//ID3DX11Effect* mFx;
 	//ID3DX11EffectTechnique* m_tech;
 
