@@ -60,15 +60,22 @@ int D3DApp::Run()
 {
 	// wait for the next msg in the queue
 	MSG msg{};
-	while (GetMessage(&msg, nullptr, 0, 0))
+	while (msg.message != WM_QUIT)
 	{
-		// translate msg into the right form
-		TranslateMessage(&msg);
-		// call WindowProc callback
-		DispatchMessage(&msg);
+		if (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+		{
+			// translate msg into the right form
+			TranslateMessage(&msg);
+			// call WindowProc callback
+			DispatchMessage(&msg);
+		}
+		else
+		{
+			Update(0.03f);
+			Render();
+		}
 	}
 
-	// return WM_QUIT ???
 	return msg.wParam;
 }
 
