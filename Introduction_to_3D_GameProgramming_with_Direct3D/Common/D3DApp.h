@@ -93,6 +93,10 @@ public:
 		WPARAM wParam,
 		LPARAM lParam);
 
+	virtual void Update(float dt) = 0;
+
+	virtual void Render() = 0;
+
 protected:
 	int InitDirect3D();
 

@@ -11,7 +11,7 @@
 #include "LuaUtil.h"
 #include "Demo1_Box.h"
 
-
+// TODO ignore OnResize temporarily
 
 int WINAPI wWinMain(
 	_In_ HINSTANCE hInstance,
@@ -59,7 +59,7 @@ int WINAPI wWinMain(
 	//
 	// D3DApp
 	//
-	g_pApp = new D3DApp(
+	g_pApp = new Demo1_Box(
 		hInstance,
 		hPrevInstance,
 		lpCmdLine,
@@ -97,7 +97,16 @@ Demo1_Box::~Demo1_Box()
 
 int Demo1_Box::Initialize()
 {
-	return D3DApp::Initialize();
+	if (D3DApp::Initialize())
+	{
+		assert(false);
+		return -1;
+	}
+
+	BuildGeometryBuffers();
+	BuildFx();
+	BuildVertexLayout();
+	return 0;
 }
 
 void Demo1_Box::Finalize()
@@ -113,4 +122,26 @@ int Demo1_Box::Run()
 LRESULT Demo1_Box::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return D3DApp::MsgProc(hWnd, message, wParam, lParam);
+}
+
+void Demo1_Box::Update(float dt)
+{
+	//float x = m_radius * 
+	//XMVECTOR pos = XMVectorSet()
+}
+
+void Demo1_Box::Render()
+{
+}
+
+void Demo1_Box::BuildGeometryBuffers()
+{
+}
+
+void Demo1_Box::BuildFx()
+{
+}
+
+void Demo1_Box::BuildVertexLayout()
+{
 }
