@@ -9,6 +9,7 @@
 #include <cstdlib>
 
 #include "lua.hpp"
+#include <csignal>
 
 
 class LuaUtil
@@ -22,21 +23,58 @@ const int LUA_TOP = -1;
  */
 const int LUA_TABLE_INDEX = -1;
 
-inline int traceback(lua_State* L)
-{
-	const char* msg = lua_tostring(L, LUA_TOP);
-	if (msg)
-	{
-		luaL_traceback(L, L, msg, 1);
-		return -1;
+
+static lua_State *globalL = NULL;
+
+static void lstop(lua_State *L, lua_Debug *ar) {
+	(void)ar;  /* unused arg. */
+	lua_sethook(L, NULL, 0, 0);
+	luaL_error(L, "interrupted!");
+}
+
+
+inline void laction(int i) {
+	signal(i, SIG_DFL); /* if another SIGINT happens before lstop,
+								terminate process (default action) */
+	lua_sethook(globalL, lstop, LUA_MASKCALL | LUA_MASKRET | LUA_MASKCOUNT, 1);
+}
+
+inline int traceback(lua_State *L) {
+	if (!lua_isstring(L, 1))  /* 'message' not a string? */
+		return 1;  /* keep it intact */
+	lua_getglobal(L, "debug");
+	if (!lua_istable(L, -1)) {
+		lua_pop(L, 1);
+		return 1;
 	}
-	lua_pushliteral(L, "no message");
-	return 0;
+	lua_getfield(L, -1, "traceback");
+	if (!lua_isfunction(L, -1)) {
+		lua_pop(L, 2);
+		return 1;
+	}
+	lua_pushvalue(L, 1);  /* pass error message */
+	lua_pushinteger(L, 2);  /* skip this function and traceback */
+	lua_call(L, 2, 1);  /* call debug.traceback */
+	return 1;
+}
+
+inline int docall(lua_State *L, int narg, int clear) {
+	int status;
+	int base = lua_gettop(L) - narg;  /* function index */
+	lua_pushcfunction(L, traceback);  /* push traceback function */
+	lua_insert(L, base);  /* put it under chunk and args */
+	signal(SIGINT, laction);
+	status = lua_pcall(L, narg, (clear ? 0 : LUA_MULTRET), base);
+	signal(SIGINT, SIG_DFL);
+	lua_remove(L, base);  /* remove traceback function */
+	/* force a complete garbage collection in case of errors */
+	if (status != 0) lua_gc(L, LUA_GCCOLLECT, 0);
+	return status;
 }
 
 inline void stackDump(lua_State* L)
 {
-	printf("stackDump Begin ...\n");
+	printf("====stackDump Begin ...\n");
 	int i;
 	int top = lua_gettop(L);
 	for (i = 1; i <= top; i++)
@@ -45,30 +83,30 @@ inline void stackDump(lua_State* L)
 		switch (t)
 		{
 		case LUA_TSTRING:
-			{
-				printf("'%s'", lua_tostring(L, i));
-				break;
-			}
+		{
+			printf("'%s'", lua_tostring(L, i));
+			break;
+		}
 		case LUA_TBOOLEAN:
-			{
-				printf(lua_toboolean(L, i) ? "true" : "false");
-				break;
-			}
+		{
+			printf(lua_toboolean(L, i) ? "true" : "false");
+			break;
+		}
 		case LUA_TNUMBER:
-			{
-				printf("%g", lua_tonumber(L, i));
-				break;
-			}
+		{
+			printf("%g", lua_tonumber(L, i));
+			break;
+		}
 		default:
-			{
-				printf("%s", lua_typename(L, t));
-				break;
-			}
-			printf(" ");
+		{
+			printf("%s", lua_typename(L, t));
+			break;
+		}
+		printf(" ");
 		}
 		printf("\n");
 	}
-	printf("stackDump End ...\n");
+	printf("====stackDump End ...\n");
 	printf("\n");
 }
 
