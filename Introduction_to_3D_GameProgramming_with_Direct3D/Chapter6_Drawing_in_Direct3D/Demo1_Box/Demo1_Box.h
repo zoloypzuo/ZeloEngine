@@ -9,6 +9,12 @@
 #include "MathHelper.h"
 #include "D3DApp.h"
 
+struct Vertex
+{
+	XMFLOAT3 Pos;
+	XMFLOAT4 Color;
+};
+
 class Demo1_Box :public D3DApp
 {
 public:
