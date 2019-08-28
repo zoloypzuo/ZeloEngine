@@ -21,7 +21,6 @@ int WINAPI wWinMain(
 )
 {
 #if _DEBUG
-#define _CRTDBG_MAP_ALLOC
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	// watch Visual Studio's output window for memory leak messages
 	//
@@ -46,7 +45,9 @@ int WINAPI wWinMain(
 	// try to open a console 
 	if (AllocConsole())
 	{
+		// ReSharper disable once CppDeprecatedEntity
 		freopen("CONOUT$", "w", stdout);
+		// ReSharper disable once CppDeprecatedEntity
 		freopen("CONOUT$", "w", stderr);
 	}
 

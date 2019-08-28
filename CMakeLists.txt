@@ -7,7 +7,9 @@ project(ZeloEngine)
 #
 # define C++ macro
 #
-
+add_compile_definitions(
+        _CRT_SECURE_NO_WARNINGS
+        _CRTDBG_MAP_ALLOC)
 
 #
 # set variable
