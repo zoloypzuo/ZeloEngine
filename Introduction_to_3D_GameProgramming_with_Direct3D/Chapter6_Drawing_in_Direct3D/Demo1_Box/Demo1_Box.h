@@ -6,7 +6,6 @@
 #define ZELOENGINE_DEMO1_BOX_H
 #include "d3dx11effect.h"
 
-#include "MathHelper.h"
 #include "D3DApp.h"
 
 struct Vertex
@@ -40,8 +39,9 @@ private:
 	ID3D11Buffer* m_boxVB{};
 	ID3D11Buffer* m_boxIB{};
 
-	//ID3DX11Effect* mFx;
-	//ID3DX11EffectTechnique* m_tech;
+	ID3DX11Effect* m_fx{};
+	ID3DX11EffectTechnique* m_tech{};
+	ID3DX11EffectMatrixVariable* m_fxWorldViewProj{};
 
 	ID3D11InputLayout* m_inputLayout{};
 
