@@ -166,7 +166,7 @@ void Demo1_Box::Render()
 	XMMATRIX proj = XMLoadFloat4x4(&m_proj);
 	XMMATRIX worldViewProj = world * view * proj;
 
-	//mfxWorldViewProj->SetMatrix(reinterpret_cast<float*>(&worldViewProj));
+	m_fxWorldViewProj->SetMatrix(reinterpret_cast<float*>(&worldViewProj));
 
 	D3DX11_TECHNIQUE_DESC techDesc{};
 	m_tech->GetDesc(&techDesc);
@@ -184,12 +184,119 @@ void Demo1_Box::Render()
 
 void Demo1_Box::BuildGeometryBuffers()
 {
+	// Create vertex buffer
+	Vertex vertices[8] =
+	{
+		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT4((const float*)&Colors::White)  },
+		{ XMFLOAT3(-1.0f, +1.0f, -1.0f), XMFLOAT4((const float*)&Colors::Black) },
+		{ XMFLOAT3(+1.0f, +1.0f, -1.0f), XMFLOAT4((const float*)&Colors::Red)},
+		{ XMFLOAT3(+1.0f, -1.0f, -1.0f), XMFLOAT4((const float*)&Colors::Green)},
+		{ XMFLOAT3(-1.0f, -1.0f, +1.0f), XMFLOAT4((const float*)&Colors::Blue)  },
+		{ XMFLOAT3(-1.0f, +1.0f, +1.0f), XMFLOAT4((const float*)&Colors::Yellow) },
+		{ XMFLOAT3(+1.0f, +1.0f, +1.0f), XMFLOAT4((const float*)&Colors::Cyan)},
+		{ XMFLOAT3(+1.0f, -1.0f, +1.0f), XMFLOAT4((const float*)&Colors::Magenta)}
+	};
+
+	D3D11_BUFFER_DESC vbd;
+	vbd.Usage = D3D11_USAGE_IMMUTABLE;
+	vbd.ByteWidth = sizeof(Vertex) * 8;
+	vbd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vbd.CPUAccessFlags = 0;
+	vbd.MiscFlags = 0;
+	vbd.StructureByteStride = 0;
+	D3D11_SUBRESOURCE_DATA vinitData;
+	vinitData.pSysMem = vertices;
+	V(m_pDevice->CreateBuffer(&vbd, &vinitData, &m_boxVB));
+
+
+	// Create the index buffer
+
+	UINT indices[] = {
+		// front face
+		0, 1, 2,
+		0, 2, 3,
+
+		// back face
+		4, 6, 5,
+		4, 7, 6,
+
+		// left face
+		4, 5, 1,
+		4, 1, 0,
+
+		// right face
+		3, 2, 6,
+		3, 6, 7,
+
+		// top face
+		1, 5, 6,
+		1, 6, 2,
+
+		// bottom face
+		4, 0, 3,
+		4, 3, 7
+	};
+
+	D3D11_BUFFER_DESC ibd;
+	ibd.Usage = D3D11_USAGE_IMMUTABLE;
+	ibd.ByteWidth = sizeof(UINT) * 36;
+	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	ibd.CPUAccessFlags = 0;
+	ibd.MiscFlags = 0;
+	ibd.StructureByteStride = 0;
+	D3D11_SUBRESOURCE_DATA iinitData;
+	iinitData.pSysMem = indices;
+	V(m_pDevice->CreateBuffer(&ibd, &iinitData, &m_boxVB));
 }
 
 void Demo1_Box::BuildFx()
 {
+	DWORD shaderFlags = 0;
+#if defined( DEBUG ) || defined( _DEBUG )
+	shaderFlags |= D3D10_SHADER_DEBUG;
+	shaderFlags |= D3D10_SHADER_SKIP_OPTIMIZATION;
+#endif
+
+	ID3D10Blob* compiledShader = 0;
+	ID3D10Blob* compilationMsgs = 0;
+
+	HRESULT V = D3DCompileFromFile(L"color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, &compiledShader, &compilationMsgs);
+
+	// compilationMsgs can store errors or warnings.
+	if (compilationMsgs != 0)
+	{
+		MessageBoxA(0, (char*)compilationMsgs->GetBufferPointer(), 0, 0);
+		SAFE_RELEASE(compilationMsgs);
+	}
+
+	// Even if there are no compilationMsgs, check to make sure there were no other errors.
+	//if (FAILED(V))
+	{
+		//DXTrace(__FILE__, (DWORD)__LINE__, V, L"D3DX11CompileFromFile", true);
+	}
+
+	V(D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(),
+		0, m_pDevice, &m_fx));
+
+	// Done with compiled shader.
+	compiledShader->Release();
+
+	m_tech = m_fx->GetTechniqueByName("ColorTech");
+	m_fxWorldViewProj = m_fx->GetVariableByName("gWorldViewProj")->AsMatrix();
 }
 
 void Demo1_Box::BuildVertexLayout()
 {
+	// Create the vertex input layout.
+	D3D11_INPUT_ELEMENT_DESC vertexDesc[] =
+	{
+		{"POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0},
+		{"COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0}
+	};
+
+	// Create the input layout
+	D3DX11_PASS_DESC passDesc;
+	m_tech->GetPassByIndex(0)->GetDesc(&passDesc);
+	V(m_pDevice->CreateInputLayout(vertexDesc, 2, passDesc.pIAInputSignature,
+		passDesc.IAInputSignatureSize, &m_inputLayout));
 }
