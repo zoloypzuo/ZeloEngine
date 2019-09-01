@@ -6,7 +6,7 @@ set(SRC_LIST
         LuaUtil.cpp LuaUtil.h
         MathHelper.h MathHelper.cpp
         GameTimer.cpp GameTimer.h
-        d3dx11effect.h)
+        )
 
 # create Common lib
 add_library(Common ${SRC_LIST})
