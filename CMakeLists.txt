@@ -49,6 +49,13 @@ link_libraries(lua.lib)
 
 include_directories("${3rdPartyDir}lua-5.3.5/src")
 
+#
+#
+#
+link_libraries(Effects11d.lib)
+
+include_directories("${3rdPartyDir}FX11/inc")
+
 # include Config
 include_directories(${PROJECT_SOURCE_DIR}/Introduction_to_3D_GameProgramming_with_Direct3D/Config/)
 
