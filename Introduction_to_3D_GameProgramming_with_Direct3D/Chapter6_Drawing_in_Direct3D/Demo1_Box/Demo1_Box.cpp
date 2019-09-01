@@ -42,13 +42,13 @@ int WINAPI wWinMain(
 	//
 
 	// try to open a console 
-	if (AllocConsole())
-	{
-		// ReSharper disable once CppDeprecatedEntity
-		freopen("CONOUT$", "w", stdout);
-		// ReSharper disable once CppDeprecatedEntity
-		freopen("CONOUT$", "w", stderr);
-	}
+	//if (AllocConsole())
+	//{
+	//	// ReSharper disable once CppDeprecatedEntity
+	//	freopen("CONOUT$", "w", stdout);
+	//	// ReSharper disable once CppDeprecatedEntity
+	//	freopen("CONOUT$", "w", stderr);
+	//}
 
 	//
 	// lua
@@ -101,6 +101,8 @@ Demo1_Box::~Demo1_Box()
 {
 	m_boxVB->Release();
 	m_boxIB->Release();
+	m_fx->Release();
+	m_inputLayout->Release();
 	// NOTE do not call base destructor, because it is called automatically
 	//D3DApp::~D3DApp();
 }
@@ -246,7 +248,7 @@ void Demo1_Box::BuildGeometryBuffers()
 	ibd.StructureByteStride = 0;
 	D3D11_SUBRESOURCE_DATA iinitData;
 	iinitData.pSysMem = indices;
-	V(m_pDevice->CreateBuffer(&ibd, &iinitData, &m_boxVB));
+	V(m_pDevice->CreateBuffer(&ibd, &iinitData, &m_boxIB));
 }
 
 void Demo1_Box::BuildFx()
@@ -263,11 +265,13 @@ void Demo1_Box::BuildFx()
     V(D3DCompileFromFile(L"color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, &compiledShader, &compilationMsgs));
 
 	// compilationMsgs can store errors or warnings.
+#if 0
 	if (compilationMsgs != 0)
 	{
 		MessageBoxA(0, (char*)compilationMsgs->GetBufferPointer(), 0, 0);
 		SAFE_RELEASE(compilationMsgs);
 	}
+#endif
 
 	V(D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(),
 		0, m_pDevice, &m_fx));
