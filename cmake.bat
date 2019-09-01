@@ -2,26 +2,31 @@
 @rem created on 2019/8/31
 @rem author @zoloypzuo
 @rem
-@rem mkdir ../build and cmake build the project
+@rem mkdir build and build the project
 
+@rem uncomment this to log more and help debug
 @echo off
 
-set SCRIPT_DIRECTORY=%~dp0
-set CURRENT_DIRECTORY=%cd%
-set ARGUMENTS=%*
+set ScriptDir=%~dp0
+set Args=%*
 
 @rem cd root dir
-cd /d %SCRIPT_DIRECTORY%/..
+cd /d %ScriptDir%
 
-@rem rm build and lib
-rmdir /s/q build
-rmdir /s/q lib
+@rem rmdir is not necessary unless you make some mistake in build directory
+rem rmdir /s/q build
 
 mkdir build
 cd build
 
-cmake -G "Visual Studio 15" ../ZeloEngine
+cmake -G "Visual Studio 15" ..
 
-cd /d %CURRENT_DIRECTORY%
+cd /d "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools"
+
+call VsDevCmd.bat
+
+cd /d %ScriptDir%
+
+msbuild build/ZeloEngine.sln
 
 pause
