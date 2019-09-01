@@ -260,19 +260,13 @@ void Demo1_Box::BuildFx()
 	ID3D10Blob* compiledShader = 0;
 	ID3D10Blob* compilationMsgs = 0;
 
-	HRESULT V = D3DCompileFromFile(L"color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, &compiledShader, &compilationMsgs);
+    V(D3DCompileFromFile(L"color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, &compiledShader, &compilationMsgs));
 
 	// compilationMsgs can store errors or warnings.
 	if (compilationMsgs != 0)
 	{
 		MessageBoxA(0, (char*)compilationMsgs->GetBufferPointer(), 0, 0);
 		SAFE_RELEASE(compilationMsgs);
-	}
-
-	// Even if there are no compilationMsgs, check to make sure there were no other errors.
-	//if (FAILED(V))
-	{
-		//DXTrace(__FILE__, (DWORD)__LINE__, V, L"D3DX11CompileFromFile", true);
 	}
 
 	V(D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(),
