@@ -31,6 +31,7 @@ D3DApp::D3DApp(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, i
 
 D3DApp::~D3DApp()
 {
+	delete m_pConfig;
 }
 
 int D3DApp::Initialize()

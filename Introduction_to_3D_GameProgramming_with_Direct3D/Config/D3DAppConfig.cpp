@@ -25,7 +25,6 @@ int D3DAppConfig::LoadConfig(lua_State* L, D3DAppConfig** ppConfig)
 	}
 	else
 	{
-		stackDump(L);
 		if (!lua_isuserdata(L, LUA_TOP))
 		{
 			fprintf(stderr, "is not ud");
@@ -56,11 +55,8 @@ int D3DAppConfig::pLoadConfig(lua_State* L)
 		luaL_error(L, "cannot run config file: %s", lua_tostring(L, LUA_TOP));
 	}
 
-	//D3DAppConfig* pConfig = new D3DAppConfig();
-	//lua_pushlightuserdata(L, pConfig);
-
-	void* p = lua_newuserdata(L, sizeof(D3DAppConfig));
-	D3DAppConfig* pConfig = new(p) D3DAppConfig();
+	D3DAppConfig* pConfig = new D3DAppConfig();
+	lua_pushlightuserdata(L, pConfig);
 
 	lua_getglobal(L, "D3DAppConfig");
 
@@ -86,6 +82,5 @@ int D3DAppConfig::pLoadConfig(lua_State* L)
 		luaL_error(L, "D3DAppConfig is not set to nil");
 	}
 	lua_pop(L, 1);
-	stackDump(L);
 	return 1;
 }
