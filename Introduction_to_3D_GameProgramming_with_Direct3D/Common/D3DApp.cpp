@@ -209,8 +209,8 @@ LRESULT D3DApp::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 		assert(false && "resize handle not implemented");
 		break;
 	case WM_PAINT:
-		//CreateGraphicsResources(hWnd);
-		g_pApp->RenderFrame();
+		// do not use it
+		break;
 	case WM_GETMINMAXINFO:  // set min size of the window to prevent the window from being too small
 	{
 		//auto minmaxInfo = (MINMAXINFO*)lParam;
