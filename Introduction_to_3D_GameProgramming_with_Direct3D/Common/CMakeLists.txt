@@ -17,4 +17,5 @@ add_library(Common ${SRC_LIST})
 # Config
 target_link_libraries(Common
         Config
-        LogModule)
+#        LogModule
+        )
