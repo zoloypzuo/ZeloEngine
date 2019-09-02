@@ -23,6 +23,7 @@ public:
 		LPWSTR lpCmdLine,
 		int nShowCmd);
 	~Demo1_Box() override;
+	float AspectRatio();
 	int Initialize() override;
 	void Finalize() override;
 	int Run() override;

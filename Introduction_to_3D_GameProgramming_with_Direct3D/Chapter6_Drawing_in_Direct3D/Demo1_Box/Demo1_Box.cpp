@@ -107,6 +107,11 @@ Demo1_Box::~Demo1_Box()
 	//D3DApp::~D3DApp();
 }
 
+float Demo1_Box::AspectRatio()
+{
+	return static_cast<float>(m_pConfig->clientWidth / m_pConfig->clientHeight);
+}
+
 int Demo1_Box::Initialize()
 {
 	if (D3DApp::Initialize())
@@ -118,6 +123,11 @@ int Demo1_Box::Initialize()
 	BuildGeometryBuffers();
 	BuildFx();
 	BuildVertexLayout();
+
+	// The window resized, so update the aspect ratio and recompute the projection matrix.
+	XMMATRIX P = XMMatrixPerspectiveFovLH(0.25f*MathHelper::Pi, AspectRatio(), 1.0f, 1000.0f);
+	XMStoreFloat4x4(&m_proj, P);
+
 	return 0;
 }
 
@@ -144,11 +154,11 @@ void Demo1_Box::Update(float dt)
 	float y = m_radius * cosf(m_phi);
 
 	// Build the view matrix.
-	FXMVECTOR pos = XMVectorSet(x, y, z, 1.0f);
+	FXMVECTOR eyePos = XMVectorSet(x, y, z, 1.0f);
 	FXMVECTOR target = XMVectorZero();
 	FXMVECTOR up = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
 
-	XMMATRIX V = XMMatrixLookAtLH(pos, target, up);
+	XMMATRIX V = XMMatrixLookAtLH(eyePos, target, up);
 	XMStoreFloat4x4(&m_view, V);
 }
 
@@ -262,7 +272,7 @@ void Demo1_Box::BuildFx()
 	ID3D10Blob* compiledShader = 0;
 	ID3D10Blob* compilationMsgs = 0;
 
-    V(D3DCompileFromFile(L"color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, &compiledShader, &compilationMsgs));
+	V(D3DCompileFromFile(L"color.fx", 0, 0, 0, "fx_5_0", shaderFlags, 0, &compiledShader, &compilationMsgs));
 
 	// compilationMsgs can store errors or warnings.
 #if 0
@@ -270,7 +280,7 @@ void Demo1_Box::BuildFx()
 	{
 		MessageBoxA(0, (char*)compilationMsgs->GetBufferPointer(), 0, 0);
 		SAFE_RELEASE(compilationMsgs);
-	}
+}
 #endif
 
 	V(D3DX11CreateEffectFromMemory(compiledShader->GetBufferPointer(), compiledShader->GetBufferSize(),
