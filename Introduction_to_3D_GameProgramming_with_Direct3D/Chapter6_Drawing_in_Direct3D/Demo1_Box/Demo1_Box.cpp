@@ -35,20 +35,20 @@ int WINAPI wWinMain(
 	//_CrtSetBreakAlloc(249);
 	//_CrtSetBreakAlloc(250);
 	//_CrtSetBreakAlloc(351);
+
+	// try to open a console 
+	if (AllocConsole())
+	{
+		// ReSharper disable once CppDeprecatedEntity
+		freopen("CONOUT$", "w", stdout);
+		// ReSharper disable once CppDeprecatedEntity
+		freopen("CONOUT$", "w", stderr);
+	}
 #endif
 
 	//
 	// initialize here
 	//
-
-	// try to open a console 
-	//if (AllocConsole())
-	//{
-	//	// ReSharper disable once CppDeprecatedEntity
-	//	freopen("CONOUT$", "w", stdout);
-	//	// ReSharper disable once CppDeprecatedEntity
-	//	freopen("CONOUT$", "w", stderr);
-	//}
 
 	//
 	// lua
