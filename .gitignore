@@ -363,3 +363,6 @@ build/**
 
 # @zoloypzuo 2019-9-2-12-6
 !Lib/**
+
+# @zoloypzuo 2019-9-2-15-14
+cmake-build-debug/**
