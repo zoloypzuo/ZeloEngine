@@ -29,4 +29,13 @@ cd /d %ScriptDir%
 
 msbuild build/ZeloEngine.sln
 
+@rem
+@rem build dxd12book
+@rem
+cd d3d12book
+mkdir build
+cd build
+cmake -G "Visual Studio 15" ..
+msbuild dxd12book.sln
+
 pause
