@@ -7,9 +7,14 @@ project(ZeloEngine)
 #
 # define C++ macro
 #
-add_compile_definitions(
-        _CRT_SECURE_NO_WARNINGS
-        _CRTDBG_MAP_ALLOC)
+#if (CMAKE_BUILD_TYPE EQUAL "DEBUG")
+        message("debug mode")
+        add_compile_definitions(
+                _CRT_SECURE_NO_WARNINGS
+                _CRTDBG_MAP_ALLOC
+                LUA_USE_APICHECK
+        )
+#endif (CMAKE_BUILD_TYPE EQUAL "DEBUG")
 
 #
 # set variable
