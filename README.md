@@ -9,6 +9,7 @@ It is all about game engine.
 * Windows10 操作系统
 * Visual Studio 2017
 * DirectX11（安装VS2017时勾选C++桌面应用安装win api时附带了dx11）
+* DirectX12
 
 ### 安装步骤
 
