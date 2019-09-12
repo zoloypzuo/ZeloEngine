@@ -15,5 +15,7 @@ add_subdirectory(Common)
 add_subdirectory("Chapter 4 Direct3D Initialization")
 add_subdirectory("Chapter 6 Drawing in Direct3D")
 add_subdirectory("Chapter 7 Drawing in Direct3D Part II")
+add_subdirectory("Chapter 8 Lighting")
 
 include_directories(Common)
+
