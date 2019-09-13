@@ -2,7 +2,7 @@
 @rem created on 2019/9/2
 @rem author @zoloypzuo
 @rem
-@rem rmdir build
+@rem copy this to where you want to rmdir build
 
 @rem uncomment this to log more and help debug
 rem @echo off
