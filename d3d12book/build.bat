@@ -4,6 +4,8 @@
 @rem
 @rem build dxd12book
 
+set CurrentDir=%cd%
+
 set ScriptDir=%~dp0
 cd /d %ScriptDir%
 
@@ -11,3 +13,5 @@ mkdir build
 cd build
 cmake -G "Visual Studio 15" ..
 msbuild dxd12book.sln
+
+cd /d %CurrentDir%
