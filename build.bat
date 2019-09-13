@@ -1,4 +1,4 @@
-@rem cmake.bat
+@rem build.bat
 @rem created on 2019/8/31
 @rem author @zoloypzuo
 @rem
