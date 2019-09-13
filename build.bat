@@ -9,33 +9,18 @@
 
 set ScriptDir=%~dp0
 set Args=%*
-
-@rem cd root dir
 cd /d %ScriptDir%
 
-@rem rmdir is not necessary unless you make some mistake in build directory
-rem rmdir /s/q build
-
-mkdir build
-cd build
-
-cmake -G "Visual Studio 15" ..
-
+@rem
+@rem load vs2017 devcmd.bat
+@rem
 cd /d "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools"
-
 call VsDevCmd.bat
-
 cd /d %ScriptDir%
 
-msbuild build/ZeloEngine.sln
-
 @rem
-@rem build dxd12book
+@rem call submodule build here
 @rem
-cd d3d12book
-mkdir build
-cd build
-cmake -G "Visual Studio 15" ..
-msbuild dxd12book.sln
+call d3d12book/build.bat
 
 pause
