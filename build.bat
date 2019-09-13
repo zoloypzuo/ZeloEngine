@@ -22,5 +22,6 @@ cd /d %ScriptDir%
 @rem call submodule build here
 @rem
 call d3d12book/build.bat
+call GameEngineFromScratch/Article21_DX12App/build.bat
 
 pause
