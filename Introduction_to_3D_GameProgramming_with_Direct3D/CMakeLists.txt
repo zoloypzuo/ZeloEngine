@@ -1,4 +1,0 @@
-#add_subdirectory(Chapter4_Direct3D_Initialization)
-add_subdirectory(Common)
-add_subdirectory(Config)
-add_subdirectory(Chapter6_Drawing_in_Direct3D)
