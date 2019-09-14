@@ -4,8 +4,8 @@
 @rem
 @rem mkdir build and build the project
 
-@rem uncomment this to log more and help debug
-rem @echo off
+@rem comment this to log more and help debug
+@echo off
 
 set ScriptDir=%~dp0
 set Args=%*
@@ -22,12 +22,12 @@ if not defined IsVsDevCmdLoaded (
 @rem
 @rem lib build switch, uncomment this only when you want to rebuild lib
 @rem
-call External/build.bat
+rem call External/build.bat
 
 @rem
 @rem call submodule build here
 @rem
-rem call d3d12book/build.bat
-rem call GameEngineFromScratch/Article21_DX12App/build.bat
+call d3d12book/build.bat
+call GameEngineFromScratch/Article21_DX12App/build.bat
 
 pause
