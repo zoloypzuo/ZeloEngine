@@ -1,6 +1,4 @@
-# created on 2019/8/26
+# created on 2019/9/15
 # author @zoloypzuo
 
-set(SRC_LIST D3DAppConfig.h D3DAppConfig.cpp)
-
-add_library(Config ${SRC_LIST})
+add_subdirectory(Class)
