@@ -1,0 +1,22 @@
+-- PlainClass.lua
+-- created on 2019/9/15
+-- author @zoloypzuo
+
+-- 全局函数，因为太常用了，其实是标准库
+function PlainClass(_ctor)
+    local cls = {}
+
+    assert(_ctor)
+    cls._ctor = _ctor
+
+    local mt = {}
+    mt.__call = function(...)
+        local o = {}  -- the new instance
+        cls._ctor(o, ...)
+        return o
+    end
+
+    setmetatable(cls, mt)
+
+    return cls
+end
