@@ -2,8 +2,8 @@
 -- created on 2019/8/26
 -- author @zoloypzuo
 
-require("../../Script/PlainClass")
-local D3D_DRIVER_TYPE_HARDWARE = 1
+require("PlainClass")
+D3D_DRIVER_TYPE_HARDWARE = 1
 
 local D3DAppConfig = PlainClass(function(self)
     -- some window configurations
