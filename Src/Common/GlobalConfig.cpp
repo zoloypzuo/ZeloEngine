@@ -1,5 +1,5 @@
-// Global.cpp
+// GlobalConfig.cpp
 // created on 2019/9/23
 // author @zoloypzuo
 
-#include "Global.h"
+#include "GlobalConfig.h"
