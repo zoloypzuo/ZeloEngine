@@ -1,0 +1,17 @@
+This is a simple CMake practice project which contains four different scenarios
+
+1. hello_world
+    Demo a simplest CMake project
+
+2. hello_world_clear
+    Separate the output files and src files
+
+3. hello_world_lib
+    Demo how to make a static/shared library
+
+4. hello_world_share
+    Demp how to utilize external static/shared library
+
+More info refers to http://sewm.pku.edu.cn/src/paradise/reference/CMake%20Practice.pdf
+
+If any question or recommendation, feel free to contact me, thanks :)
