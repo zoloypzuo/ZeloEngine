@@ -3,4 +3,4 @@
 
 file(GLOB SRC_LIST *.cpp *.h)
 
-add_library(Config ${SRC_LIST})
+add_library(LuaConfig ${SRC_LIST})

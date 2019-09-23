@@ -14,8 +14,8 @@ set(SRC_LIST
 # create Common lib
 add_library(Common ${SRC_LIST})
 
-# Config
+# LuaConfig
 target_link_libraries(Common
-        Config
+        LuaConfig
 #        LogModule
         )
