@@ -17,7 +17,7 @@ local D3DAppConfig = PlainClass(function(self)
     self._4xMsaaQuality = 0
 
     self.engineDir = [[E:/ZeloEngineRoot/ZeloEngine/Introduction_to_3D_GameProgramming_with_Direct3D/]]
-    self.configDir = [[E:/ZeloEngineRoot/ZeloEngine/Introduction_to_3D_GameProgramming_with_Direct3D/]] .. "Config/"
+    self.configDir = [[E:/ZeloEngineRoot/ZeloEngine/Introduction_to_3D_GameProgramming_with_Direct3D/]] .. "LuaConfig/"
 end)
 
 return D3DAppConfig

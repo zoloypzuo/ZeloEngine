@@ -2,4 +2,4 @@
 # author @zoloypzuo
 
 add_subdirectory(Common)
-add_subdirectory(Config)
+add_subdirectory(LuaConfig)
