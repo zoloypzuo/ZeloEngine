@@ -7,6 +7,13 @@ set(CMAKE_CXX_STANDARD 11)
 
 project(ZeloEngine)
 
+#
+# set variable
+#
+set(ExternalDir ${PROJECT_SOURCE_DIR}/External/)
+set(LibDir ${PROJECT_SOURCE_DIR}/Lib/Win32Debug/)
+message(STATUS "zlog " ${PROJECT_SOURCE_DIR})
+
 add_compile_definitions(
         UNICODE
 )
@@ -25,5 +32,11 @@ include(cotire)
 
 add_executable(ZeloEngine Src/main.cpp Src/main.h)
 cotire(ZeloEngine)
+
+#
+# Lua
+#
+link_libraries(lua.lib)
+include_directories("${ExternalDir}lua-5.3.5/src")
 
 add_subdirectory(Src)

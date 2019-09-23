@@ -4,10 +4,9 @@
 
 
 #define UNICODE
-#include "DXUT.h"
 
 #include "D3DAppConfig.h"
-#include "../Common/LuaUtil.h"
+#include "../../Module/LuaModule/LuaUtil.h"
 
 D3DAppConfig::D3DAppConfig()
 {
