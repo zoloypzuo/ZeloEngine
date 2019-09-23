@@ -7,6 +7,7 @@
 @rem comment this to log more and help debug
 @echo off
 
+set CurrentDir=%cd%
 set ScriptDir=%~dp0
 set Args=%*
 cd /d %ScriptDir%
@@ -27,7 +28,14 @@ rem call External/build.bat
 @rem
 @rem call submodule build here
 @rem
-call d3d12book/build.bat
-call GameEngineFromScratch/Article21_DX12App/build.bat
+rem call d3d12book/build.bat
+rem call GameEngineFromScratch/Article21_DX12App/build.bat
+
+@rem build zelo
+mkdir build
+cd build
+cmake -G "Visual Studio 15" ..
+msbuild ZeloEngine.sln
+cd %CurrentDir%
 
 pause
