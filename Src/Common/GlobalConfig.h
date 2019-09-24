@@ -10,5 +10,5 @@ class GlobalConfig {
 
 };
 
-const char* k_engineRootDir = R"(D:\ZeloEngine\)";
+char* g_engineRootDir = R"(D:\ZeloEngine\)";
 #endif //ZELOENGINE_GLOBALCONFIG_H

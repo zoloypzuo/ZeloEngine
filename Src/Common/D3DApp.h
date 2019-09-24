@@ -17,8 +17,8 @@
 #include <DirectXPackedVector.h>
 
 #define UNICODE
-#define DXUT_AUTOLIB
-#include "DXUT.h"
+//#define DXUT_AUTOLIB
+//#include "DXUT.h"
 #include "lua.hpp"
 
 #include "D3DAppConfig.h"

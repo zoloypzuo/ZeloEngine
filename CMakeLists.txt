@@ -12,7 +12,7 @@ project(ZeloEngine)
 #
 set(ExternalDir ${PROJECT_SOURCE_DIR}/External/)
 set(LibDir ${PROJECT_SOURCE_DIR}/Lib/Win32Debug/)
-message(STATUS "zlog " ${PROJECT_SOURCE_DIR})
+link_directories(${LibDir})
 
 add_compile_definitions(
         UNICODE
@@ -34,13 +34,16 @@ add_library(ZeloEngine Src/dummy.h)
 SET_TARGET_PROPERTIES(ZeloEngine PROPERTIES LINKER_LANGUAGE CXX)
 target_link_libraries(ZeloEngine Main)
 cotire(ZeloEngine)
-link_libraries(ZeloEngine)
+#link_libraries(ZeloEngine)
 
 #
 # Lua
 #
 link_libraries(lua.lib)
 include_directories("${ExternalDir}lua-5.3.5/src")
+
+include_directories(Src/LuaConfig/Class)
+include_directories(Src/Common)
 
 add_subdirectory(Src)
 add_subdirectory(Example)

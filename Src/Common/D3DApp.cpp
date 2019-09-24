@@ -114,10 +114,10 @@ int D3DApp::InitDirect3D()
 	D3D_FEATURE_LEVEL FeatureLevelSupported;
 
 	// ReSharper disable once CppJoinDeclarationAndAssignment
-	V(D3D11CreateDeviceAndSwapChain(
-		nullptr, D3D_DRIVER_TYPE_HARDWARE,
-		nullptr, 0, FeatureLevels, _countof(FeatureLevels),
-		D3D11_SDK_VERSION, &scd, &m_pSwapchain, &m_pDevice, &FeatureLevelSupported, &m_pDeviceContext));
+	//V(D3D11CreateDeviceAndSwapChain(
+	//	nullptr, D3D_DRIVER_TYPE_HARDWARE,
+	//	nullptr, 0, FeatureLevels, _countof(FeatureLevels),
+	//	D3D11_SDK_VERSION, &scd, &m_pSwapchain, &m_pDevice, &FeatureLevelSupported, &m_pDeviceContext));
 
 	// fallback, not used currently, because V will throw error if failed
 	if (hr == E_INVALIDARG)
@@ -141,10 +141,10 @@ int D3DApp::InitDirect3D()
 	//
 	ID3D11Texture2D* pBackBuffer; // or ComPtr<ID3D11Texture3D>
 	// get the pointer to the backbuffer
-	V(m_pSwapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)& pBackBuffer));
+	//V(m_pSwapchain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)& pBackBuffer));
 	// create a render target view from the backbuffer
-	V(m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pRtv));
-	SAFE_RELEASE(pBackBuffer);
+	//V(m_pDevice->CreateRenderTargetView(pBackBuffer, nullptr, &m_pRtv));
+	//SAFE_RELEASE(pBackBuffer);
 	// bind the view
 	m_pDeviceContext->OMSetRenderTargets(1, &m_pRtv, nullptr);
 
@@ -168,10 +168,10 @@ int D3DApp::InitDirect3D()
 
 void D3DApp::Finalize()
 {
-	SAFE_RELEASE(m_pSwapchain);
-	SAFE_RELEASE(m_pDevice);
-	SAFE_RELEASE(m_pDeviceContext);
-	SAFE_RELEASE(m_pRtv);
+	//SAFE_RELEASE(m_pSwapchain);
+	//SAFE_RELEASE(m_pDevice);
+	//SAFE_RELEASE(m_pDeviceContext);
+	//SAFE_RELEASE(m_pRtv);
 
 	m_pConfig->~D3DAppConfig();
 }
@@ -186,7 +186,7 @@ void D3DApp::RenderFrame()
 	// do render here
 
 	// present the backbuffer
-	V(m_pSwapchain->Present(0, 0));
+	//V(m_pSwapchain->Present(0, 0));
 }
 
 LRESULT D3DApp::MsgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -250,7 +250,7 @@ int D3DApp::InitMainWindow()
 	wc.hInstance = hInstance;
 	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
-	wc.lpszClassName = _T("WIndowClass1"); // NOTE that spell mistake, this name is used for create the window
+	//wc.lpszClassName = _T("WIndowClass1"); // NOTE that spell mistake, this name is used for create the window
 
 	if (!RegisterClassEx(&wc))
 	{
@@ -259,17 +259,17 @@ int D3DApp::InitMainWindow()
 	}
 
 	HWND hWnd;
-	hWnd = CreateWindowEx(
-		0,
-		_T("WIndowClass1"),
-		m_pConfig->mainWndCaption.c_str(),
-		WS_OVERLAPPEDWINDOW,
-		300, 300,
-		500, 400,
-		nullptr,
-		nullptr,
-		hInstance,
-		nullptr);
+	//hWnd = CreateWindowEx(
+	//	0,
+	//	_T("WIndowClass1"),
+	//	m_pConfig->mainWndCaption.c_str(),
+	//	WS_OVERLAPPEDWINDOW,
+	//	300, 300,
+	//	500, 400,
+	//	nullptr,
+	//	nullptr,
+	//	hInstance,
+	//	nullptr);
 	if (!hWnd)
 	{
 		auto err = GetLastError();
