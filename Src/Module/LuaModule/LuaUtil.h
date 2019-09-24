@@ -58,7 +58,7 @@ inline int traceback(lua_State *L) {
 	return 1;
 }
 
-inline int docall(lua_State *L, int narg, int clear) {
+inline int docall(lua_State *L, int narg, int clear = 0) {
 	int status;
 	int base = lua_gettop(L) - narg;  /* function index */
 	lua_pushcfunction(L, traceback);  /* push traceback function */
@@ -161,5 +161,6 @@ inline bool getFieldBool(lua_State* L, const char* k)
  * \brief lua 5.2 removes lua_open, but I think it is paired with lua_close()
  */
 #define lua_open() luaL_newstate()
+
 
 #endif //ZELOENGINE_LUAUTIL_H
