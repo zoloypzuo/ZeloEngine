@@ -32,7 +32,7 @@ include(cotire)
 
 add_library(ZeloEngine Src/dummy.h)
 SET_TARGET_PROPERTIES(ZeloEngine PROPERTIES LINKER_LANGUAGE CXX)
-target_link_libraries(ZeloEngine Main)
+#target_link_libraries(ZeloEngine Main)
 cotire(ZeloEngine)
 #link_libraries(ZeloEngine)
 
@@ -42,8 +42,16 @@ cotire(ZeloEngine)
 link_libraries(lua.lib)
 include_directories("${ExternalDir}lua-5.3.5/src")
 
+#
+# include directory
+#
 include_directories(Src/LuaConfig/Class)
 include_directories(Src/Common)
+include_directories(Src/Main)
 
 add_subdirectory(Src)
+
+
+
+
 add_subdirectory(Example)
