@@ -11,6 +11,7 @@
 
 struct D3DAppConfig final
 {
+	friend class LuaConfigManager;
 	//
 	// some window configurations
 	//
@@ -30,10 +31,8 @@ struct D3DAppConfig final
 
 	D3DAppConfig();
 
-	static int LoadConfig(lua_State* L, D3DAppConfig** ppConfig);
-
 private:
-	static int pLoadConfig(lua_State* L);
+	static void LoadConfig(lua_State* L, D3DAppConfig* pConfig);
 };
 
 
