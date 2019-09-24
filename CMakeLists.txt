@@ -30,8 +30,11 @@ include(cotire)
 #​target_link_libraries(MyExecutable ${MyExecutableLibraries})
 #​cotire(MyExecutable)
 
-add_executable(ZeloEngine Src/main.cpp Src/main.h)
+add_library(ZeloEngine Src/dummy.h)
+SET_TARGET_PROPERTIES(ZeloEngine PROPERTIES LINKER_LANGUAGE CXX)
+target_link_libraries(ZeloEngine Main)
 cotire(ZeloEngine)
+link_libraries(ZeloEngine)
 
 #
 # Lua
@@ -40,3 +43,4 @@ link_libraries(lua.lib)
 include_directories("${ExternalDir}lua-5.3.5/src")
 
 add_subdirectory(Src)
+add_subdirectory(Example)
