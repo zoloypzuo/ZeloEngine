@@ -3,8 +3,6 @@
 // author @zoloypzuo
 
 
-#define UNICODE
-
 #include "D3DAppConfig.h"
 #include "../../Module/LuaModule/LuaUtil.h"
 
@@ -43,7 +41,7 @@ int D3DAppConfig::pLoadConfig(lua_State* L)
 
 	// read file to buffer
 	ID3DBlob* pContent{};
-	V(D3DReadFileToBlob(L"../../LuaConfig/D3DAppConfig.lua", &pContent));
+	//V(D3DReadFileToBlob(L"../../LuaConfig/D3DAppConfig.lua", &pContent));
 
 	// dostring
 	auto buffer = pContent->GetBufferPointer();
