@@ -45,7 +45,7 @@ include_directories("${ExternalDir}lua-5.3.5/src")
 #
 # include directory
 #
-include_directories(Src/LuaConfig/Class)
+include_directories(Src/LuaConfig/CppConfigClass_Generated)
 include_directories(Src/Common)
 include_directories(Src/Main)
 
