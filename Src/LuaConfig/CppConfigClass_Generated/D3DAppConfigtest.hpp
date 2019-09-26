@@ -3,14 +3,14 @@
 #include "lua.hpp"
 struct D3DAppConfig
 {
-	int clientHeight{};
-	bool enable4xMsaa{};
-	int driverType{};
-	int clientWidth{};
-	const char* engineDir{};
-	const char* mainWndCaption{};
 	const char* configDir{};
+	int clientWidth{};
 	int _4xMsaaQuality{};
+	const char* mainWndCaption{};
+	int driverType{};
+	bool enable4xMsaa{};
+	int clientHeight{};
+	const char* engineDir{};
 	D3DAppConfig();
 	friend class LuaConfigManager;
 	private:
