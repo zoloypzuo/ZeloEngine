@@ -32,6 +32,21 @@ function generate_member_var(symbol_table)
     return code
 end
 
+local tmp_map = {
+    ["string"] = "String",
+    ["integer"] = "Int",
+    ["boolean"] = "Bool"
+}
+function generate_lua_assign_stat_code(symbol_table)
+    local code = list()
+    for name, type in pairs(symbol_table) do
+        code = code .. assign_stat("pConfig->" .. name,
+                function_call_exp("getField" .. tmp_map[type],
+                        { "L", string_literal(name) }))
+    end
+    return code
+end
+
 function generate_cpp_code(classname, symbol_table)
     local header_code = header_guard(classname,
             include("lua.hpp") ..
@@ -43,9 +58,19 @@ function generate_cpp_code(classname, symbol_table)
                                     list("static void LoadConfig(lua_State* L, " .. classname .. "* pConfig);\n")
                     )
     )
-    print(join(header_code))
+    --print(join(header_code))
     writeall(k_cpp_config_class_dir .. classname .. "test.hpp", join(header_code))
-    local cpp_code = {}
+    local cpp_code = include(classname .. ".hpp") ..
+            include("../../Module/LuaModule/LuaUtil.h") ..
+            empty_ctor(classname) ..
+            impl_member_function("void", classname, "LoadConfig",
+                    { { "lua_State*", "L" }, { classname .. "*", "pConfig" } },
+                    list("luaL_checktype(L, LUA_TOP, LUA_TTABLE);\n") ..
+                            generate_lua_assign_stat_code(symbol_table) ..
+                            list("lua_pop(L, 1);\n")
+            )
+    --print(join(cpp_code))
+    writeall(k_cpp_config_class_dir .. classname .. "test.cpp", join(cpp_code))
 
 end
 
