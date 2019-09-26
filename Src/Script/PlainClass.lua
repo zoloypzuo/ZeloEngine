@@ -11,7 +11,6 @@ function PlainClass(_ctor)
 
     local mt = {}
     mt.__call = function(cls, ...)
-        print(...)
         local o = {}  -- the new instance
         cls._ctor(o, ...)
         setmetatable(o, cls)
