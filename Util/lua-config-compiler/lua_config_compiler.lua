@@ -17,28 +17,29 @@
 -- generate a Cpp struct
 -- generate load code, it is HARD
 
-local k_config_dir = [[D:\ZeloEngine\Src\LuaConfig]]
-local k_lua_config_class_dir = [[D:\ZeloEngine\Src\LuaConfig\LuaConfigClass\]]  -- 实验了一下，正反斜杠对lfs都是ok的
-local k_cpp_config_class_dir = [[D:\ZeloEngine\Src\LuaConfig\CppConfigClass_Generated]]
+require("cpp")
+require('lfs')
 
-local lfs = require 'lfs'
+k_config_dir = [[D:\ZeloEngine\Src\LuaConfig]]
+k_lua_config_class_dir = [[D:\ZeloEngine\Src\LuaConfig\LuaConfigClass\]]  -- 实验了一下，正反斜杠对lfs都是ok的
+k_cpp_config_class_dir = [[D:\ZeloEngine\Src\LuaConfig\CppConfigClass_Generated]]
 
--- 区分出int和float
-local function ex_type(o)
-    local t = type(o)
-    if t == "number" then
-        return math.type(o)
-    else
-        return type(o)
+function generate_member_var(symbol_table)
+    local code = list()
+    for name, type in pairs(symbol_table) do
+        code = code .. member_var_decl(type, name)
     end
+    return code
 end
 
-local function header_guard(classname)
-
-end
-
-local function generate_cpp_code(classname, symbol_table)
-    local header_code = {}
+function generate_cpp_code(classname, symbol_table)
+    local header_code = header_guard(classname,
+            include("lua.hpp") ..
+                    struct(classname,
+                            generate_member_var(symbol_table)
+                    )
+    )
+    print(join(header_code))
     local cpp_code = {}
 
 end
@@ -47,13 +48,16 @@ for filename in lfs.dir(k_lua_config_class_dir) do
     local path = k_lua_config_class_dir .. filename
     if lfs.attributes(path, "mode") == "file" then
         -- is file?
+        print(filename)
         local classname = assert(string.match(filename, "([%a_][%w_]*)%.lua"))
-        local cls = dofile(filename)
+        local cls = dofile(path)
         local o = cls()
         local symbol_table = {}
         for k, v in pairs(o) do
             symbol_table[k] = ex_type(v)
-            generate_cpp_code(classname, symbol_table)
         end
+        --print(table.tostring(symbol_table))
+        generate_cpp_code(classname, symbol_table)
     end
 end
+

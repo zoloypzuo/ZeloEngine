@@ -2,8 +2,15 @@
 -- created on 2019/9/26
 -- author @zoloypzuo
 --
--- 这些内容将以全局变量或函数的形式提供
--- 这么做是出于方便性的考虑
--- 比如有一些函数是标准库的扩展（标准库缺乏很多基本函数，与python形成很大的对比）
+-- 这些内容将以全局变量或函数的形式提供，补充标准lua
+-- 全局是出于方便性的考虑
+-- 标准库缺乏很多基本函数，与python形成很大的对比；我们需要长期选择，和扩充自己的lua
+--
+-- 所有的全局脚本都在这里进行require，不要比如在std_extension中require其他全局脚本list
+-- 这是出于便于管理的原因，你可以看到有一些初始化顺序依赖的问题，都放在global，便于决策
 
 require("std_extension")
+require("PlainClass")
+require("Class")
+require("list")
+
