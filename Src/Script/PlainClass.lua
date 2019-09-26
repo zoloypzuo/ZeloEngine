@@ -10,7 +10,8 @@ function PlainClass(_ctor)
     cls._ctor = _ctor
 
     local mt = {}
-    mt.__call = function(...)
+    mt.__call = function(cls, ...)
+        print(...)
         local o = {}  -- the new instance
         cls._ctor(o, ...)
         return o
