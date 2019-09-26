@@ -14,6 +14,7 @@ function PlainClass(_ctor)
         print(...)
         local o = {}  -- the new instance
         cls._ctor(o, ...)
+        setmetatable(o, cls)
         return o
     end
 
