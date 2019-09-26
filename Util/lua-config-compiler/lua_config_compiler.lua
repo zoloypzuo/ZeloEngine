@@ -22,7 +22,7 @@ require('lfs')
 
 k_config_dir = [[D:\ZeloEngine\Src\LuaConfig]]
 k_lua_config_class_dir = [[D:\ZeloEngine\Src\LuaConfig\LuaConfigClass\]]  -- 实验了一下，正反斜杠对lfs都是ok的
-k_cpp_config_class_dir = [[D:\ZeloEngine\Src\LuaConfig\CppConfigClass_Generated]]
+k_cpp_config_class_dir = [[D:\ZeloEngine\Src\LuaConfig\CppConfigClass_Generated\]]
 
 function generate_member_var(symbol_table)
     local code = list()
@@ -36,10 +36,15 @@ function generate_cpp_code(classname, symbol_table)
     local header_code = header_guard(classname,
             include("lua.hpp") ..
                     struct(classname,
-                            generate_member_var(symbol_table)
+                            generate_member_var(symbol_table) ..
+                                    list(classname .. "();\n") ..
+                                    list("friend class LuaConfigManager;\n") ..
+                                    list("private:\n") ..
+                                    list("static void LoadConfig(lua_State* L, " .. classname .. "* pConfig);\n")
                     )
     )
     print(join(header_code))
+    writeall(k_cpp_config_class_dir .. classname .. "test.hpp", join(header_code))
     local cpp_code = {}
 
 end
