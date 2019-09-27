@@ -6,12 +6,7 @@
 #define ZELOENGINE_GLOBALCONFIG_H
 #include <string>
 
-
-class GlobalConfig {
-
-};
-
-std::string g_engineRootDir = R"(D:\ZeloEngine\)";
-std::string g_configFileDir = R"(D:\ZeloEngine\Src\LuaConfig)";
+extern std::string g_engineRootDir;
+extern std::string g_configFileDir;
 
 #endif //ZELOENGINE_GLOBALCONFIG_H
