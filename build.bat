@@ -66,6 +66,9 @@ rem call GameEngineFromScratch/Article21_DX12App/build.bat
 mkdir build
 cd build
 cmake -G "Visual Studio 15" ..
+echo =====================
+echo ==== build start ====
+echo =====================
 msbuild ZeloEngine.sln
 cd %CurrentDir%
 
