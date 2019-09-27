@@ -25,8 +25,7 @@ private:
 
 };
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
-				   PSTR cmdLine, int showCmd)
+int main(int argc, char** argv)
 {
 	// Enable run-time memory check for debug builds.
 #if defined(DEBUG) | defined(_DEBUG)
@@ -35,6 +34,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 
     try
     {
+		// get the HINSTANCE of the Console Program
+		HINSTANCE hInstance = GetModuleHandle(NULL);
         InitDirect3DApp theApp(hInstance);
         if(!theApp.Initialize())
             return 0;
@@ -46,6 +47,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
         MessageBox(nullptr, e.ToString().c_str(), L"HR Failed", MB_OK);
         return 0;
     }
+	return 0;
 }
 
 InitDirect3DApp::InitDirect3DApp(HINSTANCE hInstance)
