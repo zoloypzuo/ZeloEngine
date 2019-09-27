@@ -1,111 +1,128 @@
-// D3DApp.h
-// created on 2019/8/25
-// author @zoloypzuo
+//***************************************************************************************
+// d3dApp.h by Frank Luna (C) 2015 All Rights Reserved.
+//***************************************************************************************
 
-#ifndef ZELOENGINE_D3DAPP_H
-#define ZELOENGINE_D3DAPP_H
-#include <windows.h>
-#include <windowsx.h>
-#include <tchar.h>
-#include <cassert>
+#pragma once
 
-#include <d3d11.h>
-#include <d3d11_1.h>
-#include <d3dcompiler.h>
-#include <DirectXMath.h>
-#include <DirectXColors.h>
-#include <DirectXPackedVector.h>
+#if defined(DEBUG) || defined(_DEBUG)
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
+#endif
 
-#define UNICODE
-//#define DXUT_AUTOLIB
-//#include "DXUT.h"
-#include "lua.hpp"
-
-#include "D3DAppConfig.h"
+#include "d3dUtil.h"
 #include "GameTimer.h"
 
-// just for convenice, BAD practice
-using namespace DirectX;
-using namespace PackedVector;
-
-extern HRESULT hr; // used by V to check if a directx function succeeded
-
-class D3DApp;
-
-extern D3DApp* g_pApp;
-
-extern lua_State* L;
+// Link necessary d3d12 libraries.
+#pragma comment(lib,"d3dcompiler.lib")
+#pragma comment(lib, "D3D12.lib")
+#pragma comment(lib, "dxgi.lib")
 
 class D3DApp
 {
 protected:
-	//
-	// some Direct3D objects
-	//
-	IDXGISwapChain* m_pSwapchain{};
-	ID3D11Device* m_pDevice{};
-	ID3D11DeviceContext* m_pDeviceContext{};
-	ID3D11RenderTargetView* m_pRtv{};
-	D3D11_VIEWPORT m_viewport{};
-	ID3D11Texture2D* m_depthStencilBuffer{};
-	ID3D11DepthStencilView* m_depthStencilView{};
 
-	/**
-	 * \brief the args in wWinMain
-	 */
-	struct
-	{
-		HINSTANCE hInstance;
-		HINSTANCE hPrevInstance;
-		LPWSTR lpCmdLine;
-		int nShowCmd;
-	} m_winMainArgs{};
-
-	/**
-	 * \brief the window handle of the main window
-	 */
-	HWND m_hMainWnd{};
-
-	D3DAppConfig* m_pConfig{};
+    D3DApp(HINSTANCE hInstance);
+    D3DApp(const D3DApp& rhs) = delete;
+    D3DApp& operator=(const D3DApp& rhs) = delete;
+    virtual ~D3DApp();
 
 public:
-	/**
-	 * \brief save wWinMain args
-	 */
-	D3DApp(
-		HINSTANCE hInstance,
-		HINSTANCE hPrevInstance,
-		LPWSTR lpCmdLine,
-		int nShowCmd);
 
-	virtual ~D3DApp();
+    static D3DApp* GetApp();
+    
+	HINSTANCE AppInst()const;
+	HWND      MainWnd()const;
+	float     AspectRatio()const;
 
-	virtual int Initialize();
+    bool Get4xMsaaState()const;
+    void Set4xMsaaState(bool value);
 
-	virtual void Finalize();
-
-	virtual int Run();
-
-	virtual	LRESULT CALLBACK MsgProc(
-		HWND hWnd,
-		UINT message,
-		WPARAM wParam,
-		LPARAM lParam);
-
-	virtual void Update(float dt) = 0;
-
-	virtual void Render() = 0;
+	int Run();
+ 
+    virtual bool Initialize();
+    virtual LRESULT MsgProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 protected:
-	int InitDirect3D();
+    virtual void CreateRtvAndDsvDescriptorHeaps();
+	virtual void OnResize(); 
+	virtual void Update(const GameTimer& gt)=0;
+    virtual void Draw(const GameTimer& gt)=0;
 
-	void RenderFrame();
-
-	int InitMainWindow();
+	// Convenience overrides for handling mouse input.
+	virtual void OnMouseDown(WPARAM btnState, int x, int y){ }
+	virtual void OnMouseUp(WPARAM btnState, int x, int y)  { }
+	virtual void OnMouseMove(WPARAM btnState, int x, int y){ }
 
 protected:
-	GameTimer m_timer{};
+
+	bool InitMainWindow();
+	bool InitDirect3D();
+	void CreateCommandObjects();
+    void CreateSwapChain();
+
+	void FlushCommandQueue();
+
+	ID3D12Resource* CurrentBackBuffer()const;
+	D3D12_CPU_DESCRIPTOR_HANDLE CurrentBackBufferView()const;
+	D3D12_CPU_DESCRIPTOR_HANDLE DepthStencilView()const;
+
+	void CalculateFrameStats();
+
+    void LogAdapters();
+    void LogAdapterOutputs(IDXGIAdapter* adapter);
+    void LogOutputDisplayModes(IDXGIOutput* output, DXGI_FORMAT format);
+
+protected:
+
+    static D3DApp* mApp;
+
+    HINSTANCE mhAppInst = nullptr; // application instance handle
+    HWND      mhMainWnd = nullptr; // main window handle
+	bool      mAppPaused = false;  // is the application paused?
+	bool      mMinimized = false;  // is the application minimized?
+	bool      mMaximized = false;  // is the application maximized?
+	bool      mResizing = false;   // are the resize bars being dragged?
+    bool      mFullscreenState = false;// fullscreen enabled
+
+	// Set true to use 4X MSAA (?.1.8).  The default is false.
+    bool      m4xMsaaState = false;    // 4X MSAA enabled
+    UINT      m4xMsaaQuality = 0;      // quality level of 4X MSAA
+
+	// Used to keep track of the “delta-time?and game time (?.4).
+	GameTimer mTimer;
+	
+    Microsoft::WRL::ComPtr<IDXGIFactory4> mdxgiFactory;
+    Microsoft::WRL::ComPtr<IDXGISwapChain> mSwapChain;
+    Microsoft::WRL::ComPtr<ID3D12Device> md3dDevice;
+
+    Microsoft::WRL::ComPtr<ID3D12Fence> mFence;
+    UINT64 mCurrentFence = 0;
+	
+    Microsoft::WRL::ComPtr<ID3D12CommandQueue> mCommandQueue;
+    Microsoft::WRL::ComPtr<ID3D12CommandAllocator> mDirectCmdListAlloc;
+    Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList> mCommandList;
+
+	static const int SwapChainBufferCount = 2;
+	int mCurrBackBuffer = 0;
+    Microsoft::WRL::ComPtr<ID3D12Resource> mSwapChainBuffer[SwapChainBufferCount];
+    Microsoft::WRL::ComPtr<ID3D12Resource> mDepthStencilBuffer;
+
+    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> mRtvHeap;
+    Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> mDsvHeap;
+
+    D3D12_VIEWPORT mScreenViewport; 
+    D3D12_RECT mScissorRect;
+
+	UINT mRtvDescriptorSize = 0;
+	UINT mDsvDescriptorSize = 0;
+	UINT mCbvSrvUavDescriptorSize = 0;
+
+	// Derived class should set these in derived constructor to customize starting values.
+	std::wstring mMainWndCaption = L"d3d App";
+	D3D_DRIVER_TYPE md3dDriverType = D3D_DRIVER_TYPE_HARDWARE;
+    DXGI_FORMAT mBackBufferFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+    DXGI_FORMAT mDepthStencilFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	int mClientWidth = 800;
+	int mClientHeight = 600;
 };
 
-
-#endif //ZELOENGINE_D3DAPP_H
