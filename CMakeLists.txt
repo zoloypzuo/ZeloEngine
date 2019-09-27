@@ -16,6 +16,7 @@ link_directories(${LibDir})
 
 add_compile_definitions(
         UNICODE
+        NOMINMAX  # see also github issue #116
 )
 
 #
@@ -29,6 +30,12 @@ include(cotire)
 #
 link_libraries(lua.lib)
 include_directories("${ExternalDir}lua-5.3.5/src")
+
+#
+# spdlog (https://github.com/gabime/spdlog)
+#
+link_libraries(spdlogd.lib)
+include_directories("${ExternalDir}spdlog/include")
 
 #
 # include directory
