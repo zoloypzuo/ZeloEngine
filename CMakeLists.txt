@@ -21,20 +21,8 @@ add_compile_definitions(
 #
 # cotire (https://github.com/sakra/cotire)
 #
-set (CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
 include(cotire)
-#
-# 想要用cotire预编译加速一个target，cotire下即可，如：
-#
-#​add_executable(MyExecutable ${MyExecutableSources})
-#​target_link_libraries(MyExecutable ${MyExecutableLibraries})
-#​cotire(MyExecutable)
-
-add_library(ZeloEngine Src/dummy.h)
-SET_TARGET_PROPERTIES(ZeloEngine PROPERTIES LINKER_LANGUAGE CXX)
-#target_link_libraries(ZeloEngine Main)
-cotire(ZeloEngine)
-#link_libraries(ZeloEngine)
 
 #
 # Lua
@@ -48,10 +36,8 @@ include_directories("${ExternalDir}lua-5.3.5/src")
 include_directories(Src/LuaConfig/CppConfigClass_Generated)
 include_directories(Src/Common)
 include_directories(Src/Main)
+include_directories(Src/Module/LogModule)
+include_directories(Src/Module/LuaModule)
 
 add_subdirectory(Src)
-
-
-
-
 add_subdirectory(Example)
