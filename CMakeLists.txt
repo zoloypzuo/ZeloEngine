@@ -38,6 +38,12 @@ link_libraries(spdlogd.lib)
 include_directories("${ExternalDir}spdlog/include")
 
 #
+# DirectX12TK (https://github.com/Microsoft/DirectXTK12)
+#
+link_libraries(directxtk12.lib)
+include_directories("${ExternalDir}DirectXTK12/Inc")
+
+#
 # include directory
 #
 include_directories(Src/LuaConfig/CppConfigClass_Generated)
