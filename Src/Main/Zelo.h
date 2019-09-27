@@ -6,6 +6,7 @@
 #define ZELOENGINE_ZELO_H
 
 // 在这里include所有用zelo写的游戏app需要引用的引擎的头文件
-
+#include "d3dApp.h"
+#include <DirectXColors.h>
 
 #endif //ZELOENGINE_ZELO_H
