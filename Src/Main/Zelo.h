@@ -5,10 +5,7 @@
 #ifndef ZELOENGINE_ZELO_H
 #define ZELOENGINE_ZELO_H
 
-
-class Zelo {
-
-};
+// 在这里include所有用zelo写的游戏app需要引用的引擎的头文件
 
 
 #endif //ZELOENGINE_ZELO_H
