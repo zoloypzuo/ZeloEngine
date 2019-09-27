@@ -12,3 +12,4 @@ target_link_libraries(Main
         LuaModule
         )
 link_libraries(Main)
+cotire(Main)
