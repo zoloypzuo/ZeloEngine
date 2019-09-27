@@ -16,7 +16,7 @@ cd /d %ScriptDir%
 @rem set environment variable
 @rem
 setx LUA_INIT_5_3 "@D:\ZeloEngine\Src\Script\global.lua"
-setx LUA_PATH_5_3 D:\LuaRocks\lua\?.lua;D:\LuaRocks\lua\?\init.lua;D:\ZeloEngine\lua\?.lua;D:\ZeloEngine\lua\?\init.lua;D:\ZeloEngine\?.lua;D:\ZeloEngine\?\init.lua;D:\ZeloEngine\..\share\lua\5.3\?.lua;D:\ZeloEngine\..\share\lua\5.3\?\init.lua;.\?.lua;.\?\init.lua;;C:\Program Files (x86)\Lua\5.1\lua\?.luac;C:\Users\91018\AppData\Roaming/luarocks/share/lua/5.3/?.lua;C:\Users\91018\AppData\Roaming/luarocks/share/lua/5.3/?/init.lua;D:\LuaRocks\systree/share/lua/5.3/?.lua;D:\LuaRocks\systree/share/lua/5.3/?/init.lua;D:\ZeloEngine\Src\Script\?.lua
+setx LUA_PATH_5_3 "D:\LuaRocks\lua\?.lua;D:\LuaRocks\lua\?\init.lua;D:\ZeloEngine\lua\?.lua;D:\ZeloEngine\lua\?\init.lua;D:\ZeloEngine\?.lua;D:\ZeloEngine\?\init.lua;D:\ZeloEngine\..\share\lua\5.3\?.lua;D:\ZeloEngine\..\share\lua\5.3\?\init.lua;.\?.lua;.\?\init.lua;;C:\Program Files (x86)\Lua\5.1\lua\?.luac;C:\Users\91018\AppData\Roaming/luarocks/share/lua/5.3/?.lua;C:\Users\91018\AppData\Roaming/luarocks/share/lua/5.3/?/init.lua;D:\LuaRocks\systree/share/lua/5.3/?.lua;D:\LuaRocks\systree/share/lua/5.3/?/init.lua;D:\ZeloEngine\Src\Script\?.lua"
 setx LUA_CPATH_5_3 D:\ZeloEngine\?.dll;D:\ZeloEngine\..\lib\lua\5.3\?.dll;D:\ZeloEngine\loadall.dll;.\?.dll;D:\ZeloEngine\?53.dll;.\?53.dll;C:\Users\91018\AppData\Roaming/luarocks/lib/lua/5.3/?.dll;D:\LuaRocks\systree/lib/lua/5.3/?.dll
 
 
