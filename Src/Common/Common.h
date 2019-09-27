@@ -9,7 +9,6 @@
 using namespace spdlog;
 
 #include "GlobalConfig.h"
-#include "d3dApp.h"
 #include "MathHelper.h"
 
 #endif //ZELOENGINE_COMMON_H

@@ -1,12 +1,33 @@
 // Zelo.h
-// created on 2019/9/24
+// created on 2019/9/27
 // author @zoloypzuo
+//
+// åœ¨è¿™é‡Œincludeæ‰€æœ‰ç”¨zeloå†™çš„æ¸¸æˆappéœ€è¦å¼•ç”¨çš„å¼•æ“çš„å¤´æ–‡ä»¶
 
 #ifndef ZELOENGINE_ZELO_H
 #define ZELOENGINE_ZELO_H
 
-// ÔÚÕâÀïincludeËùÓĞÓÃzeloĞ´µÄÓÎÏ·appĞèÒªÒıÓÃµÄÒıÇæµÄÍ·ÎÄ¼ş
+
 #include "d3dApp.h"
-#include <DirectXColors.h>
+#include "LuaConfigManager.h"
+
+extern D3DApp* g_pApp;
+extern lua_State* L;
+extern LuaConfigManager* g_pLuaConfigManager;
+
+// æ”¾åœ¨æ¸¸æˆåº”ç”¨çš„mainçš„å¼€å¤´ç»“å°¾
+// åˆå§‹åŒ–ç®¡ç†å™¨
+inline int Initialize() {
+	L = lua_open();
+	g_pLuaConfigManager = new LuaConfigManager();
+    return 0;
+}
+
+inline int Finalize() {
+	lua_close(L);
+	delete g_pLuaConfigManager;
+	return 0;
+}
+
 
 #endif //ZELOENGINE_ZELO_H

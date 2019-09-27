@@ -1,7 +1,9 @@
 # created on 2019/9/24
 # author @zoloypzuo
 
-add_library(Main Zelo.h dummy.h dummy.cpp)
+file(GLOB SRC_LIST *.cpp *.h)
+
+add_library(Main ${SRC_LIST})
 
 #
 # link libraray

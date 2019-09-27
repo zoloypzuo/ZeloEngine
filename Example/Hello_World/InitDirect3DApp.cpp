@@ -32,6 +32,8 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
+	Initialize();
+	int ret = 0;
     try
     {
 		// get the HINSTANCE of the Console Program
@@ -39,15 +41,15 @@ int main(int argc, char** argv)
         InitDirect3DApp theApp(hInstance);
         if(!theApp.Initialize())
             return 0;
-
-        return theApp.Run();
+		ret = theApp.Run();
     }
     catch(DxException& e)
     {
         MessageBox(nullptr, e.ToString().c_str(), L"HR Failed", MB_OK);
-        return 0;
+        ret = 0;
     }
-	return 0;
+	Finalize();
+	return ret;
 }
 
 InitDirect3DApp::InitDirect3DApp(HINSTANCE hInstance)

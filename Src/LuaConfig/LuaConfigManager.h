@@ -5,7 +5,6 @@
 #ifndef ZELOENGINE_LUACONFIGMANAGER_H
 #define ZELOENGINE_LUACONFIGMANAGER_H
 #include <string>
-#include "Zelo.h"
 #include "LuaUtil.h"
 #include "GlobalConfig.h"
 
