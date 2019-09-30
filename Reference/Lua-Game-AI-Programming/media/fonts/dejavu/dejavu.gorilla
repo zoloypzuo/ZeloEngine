@@ -1,0 +1,884 @@
+[Texture]
+file fonts/dejavu/dejavu.png
+whitepixel 26 4
+
+
+[Font.9]
+offset 0 1
+lineheight 14
+spacelength 3
+baseline 11
+kerning 0
+monowidth 13
+range 33 126
+glyph_33 0 0 5 14 4
+glyph_34 5 0 6 14 5
+glyph_35 11 0 11 14 10
+glyph_36 22 0 8 14 7
+glyph_37 30 0 12 14 11
+glyph_38 42 0 10 14 9
+glyph_39 52 0 4 14 3
+glyph_40 56 0 5 14 4
+glyph_41 61 0 5 14 4
+glyph_42 66 0 7 14 6
+glyph_43 73 0 11 14 10
+glyph_44 84 0 4 14 3
+glyph_45 88 0 5 14 4
+glyph_46 93 0 4 14 3
+glyph_47 97 0 5 14 4
+glyph_48 102 0 8 14 7
+glyph_49 110 0 8 14 7
+glyph_50 118 0 8 14 7
+glyph_51 126 0 8 14 7
+glyph_52 134 0 8 14 7
+glyph_53 142 0 8 14 7
+glyph_54 150 0 8 14 7
+glyph_55 158 0 8 14 7
+glyph_56 166 0 8 14 7
+glyph_57 174 0 8 14 7
+glyph_58 182 0 5 14 4
+glyph_59 187 0 5 14 4
+glyph_60 192 0 11 14 10
+glyph_61 203 0 11 14 10
+glyph_62 214 0 11 14 10
+glyph_63 225 0 7 14 6
+glyph_64 232 0 13 14 12
+glyph_65 245 0 9 14 8
+glyph_66 254 0 9 14 8
+glyph_67 263 0 9 14 8
+glyph_68 272 0 10 14 9
+glyph_69 282 0 8 14 7
+glyph_70 290 0 8 14 6
+glyph_71 298 0 10 14 9
+glyph_72 308 0 10 14 9
+glyph_73 318 0 4 14 3
+glyph_74 322 0 4 14 3
+glyph_75 326 0 9 14 7
+glyph_76 335 0 7 14 6
+glyph_77 342 0 11 14 10
+glyph_78 353 0 10 14 9
+glyph_79 363 0 10 14 9
+glyph_80 373 0 8 14 7
+glyph_81 381 0 10 14 9
+glyph_82 391 0 9 14 8
+glyph_83 400 0 8 14 7
+glyph_84 408 0 8 14 7
+glyph_85 416 0 10 14 8
+glyph_86 426 0 9 14 8
+glyph_87 435 0 13 14 11
+glyph_88 448 0 9 14 8
+glyph_89 457 0 8 14 7
+glyph_90 465 0 9 14 8
+glyph_91 474 0 5 14 4
+glyph_92 479 0 5 14 4
+glyph_93 484 0 5 14 4
+glyph_94 489 0 11 14 10
+glyph_95 500 0 7 14 6
+glyph_96 0 14 7 14 6
+glyph_97 7 14 8 14 7
+glyph_98 15 14 8 14 7
+glyph_99 23 14 7 14 6
+glyph_100 30 14 8 14 7
+glyph_101 38 14 8 14 7
+glyph_102 46 14 5 14 4
+glyph_103 51 14 8 14 7
+glyph_104 59 14 8 14 7
+glyph_105 67 14 4 14 3
+glyph_106 71 14 4 14 3
+glyph_107 75 14 8 14 6
+glyph_108 83 14 4 14 3
+glyph_109 87 14 13 14 11
+glyph_110 100 14 8 14 7
+glyph_111 108 14 8 14 7
+glyph_112 116 14 8 14 7
+glyph_113 124 14 8 14 7
+glyph_114 132 14 6 14 4
+glyph_115 138 14 7 14 6
+glyph_116 145 14 5 14 4
+glyph_117 150 14 8 14 7
+glyph_118 158 14 8 14 7
+glyph_119 166 14 11 14 9
+glyph_120 177 14 8 14 7
+glyph_121 185 14 8 14 7
+glyph_122 193 14 7 14 6
+glyph_123 200 14 8 14 7
+glyph_124 208 14 5 14 4
+glyph_125 213 14 8 14 7
+glyph_126 221 14 11 14 10
+kerning_84 45 -1
+kerning_89 45 -1
+kerning_46 70 -1
+kerning_65 70 -1
+kerning_97 70 -1
+kerning_121 70 -1
+kerning_45 75 -1
+kerning_84 76 -1
+kerning_86 76 -1
+kerning_87 76 -1
+kerning_89 76 -1
+kerning_121 76 -1
+kerning_46 80 -1
+kerning_45 84 -1
+kerning_46 84 -1
+kerning_58 84 -1
+kerning_97 84 -1
+kerning_99 84 -2
+kerning_101 84 -2
+kerning_111 84 -2
+kerning_114 84 -1
+kerning_115 84 -1
+kerning_117 84 -1
+kerning_119 84 -1
+kerning_121 84 -1
+kerning_46 86 -1
+kerning_46 87 -1
+kerning_45 89 -1
+kerning_46 89 -2
+kerning_58 89 -1
+kerning_97 89 -1
+kerning_101 89 -1
+kerning_111 89 -1
+kerning_117 89 -1
+kerning_46 114 -1
+kerning_46 119 -1
+kerning_46 121 -1
+
+
+[Font.14]
+offset 0 29
+lineheight 22
+spacelength 6
+baseline 18
+kerning 0
+monowidth 20
+range 33 126
+glyph_33 1 0 8 23 7
+glyph_34 9 0 10 23 8
+glyph_35 19 0 17 23 16
+glyph_36 36 0 13 23 12
+glyph_37 49 0 19 23 18
+glyph_38 68 0 16 23 14
+glyph_39 84 0 6 23 5
+glyph_40 90 0 8 23 7
+glyph_41 98 0 8 23 7
+glyph_42 106 0 10 23 9
+glyph_43 116 0 17 23 16
+glyph_44 133 0 7 23 6
+glyph_45 140 0 8 23 6
+glyph_46 148 0 7 23 6
+glyph_47 155 0 7 23 6
+glyph_48 162 0 13 23 12
+glyph_49 175 0 13 23 12
+glyph_50 188 0 13 23 12
+glyph_51 201 0 13 23 12
+glyph_52 214 0 13 23 12
+glyph_53 227 0 13 23 12
+glyph_54 240 0 13 23 12
+glyph_55 253 0 13 23 12
+glyph_56 266 0 13 23 12
+glyph_57 279 0 13 23 12
+glyph_58 292 0 7 23 6
+glyph_59 299 0 7 23 6
+glyph_60 306 0 17 23 16
+glyph_61 323 0 17 23 16
+glyph_62 340 0 17 23 16
+glyph_63 357 0 11 23 10
+glyph_64 368 0 20 23 19
+glyph_65 388 0 14 23 13
+glyph_66 402 0 14 23 13
+glyph_67 416 0 14 23 13
+glyph_68 430 0 16 23 14
+glyph_69 446 0 13 23 12
+glyph_70 459 0 12 23 11
+glyph_71 471 0 16 23 14
+glyph_72 487 0 15 23 14
+glyph_73 502 0 6 23 5
+glyph_74 0 23 6 23 5
+glyph_75 6 23 13 23 12
+glyph_76 19 23 12 23 10
+glyph_77 31 23 18 23 16
+glyph_78 49 23 15 23 14
+glyph_79 64 23 16 23 15
+glyph_80 80 23 12 23 11
+glyph_81 92 23 16 23 15
+glyph_82 108 23 14 23 13
+glyph_83 122 23 13 23 12
+glyph_84 135 23 13 23 11
+glyph_85 148 23 15 23 14
+glyph_86 163 23 14 23 13
+glyph_87 177 23 20 23 18
+glyph_88 197 23 14 23 13
+glyph_89 211 23 13 23 11
+glyph_90 224 23 14 23 13
+glyph_91 238 23 8 23 7
+glyph_92 246 23 7 23 6
+glyph_93 253 23 8 23 7
+glyph_94 261 23 17 23 16
+glyph_95 278 23 10 23 9
+glyph_96 288 23 10 23 9
+glyph_97 298 23 13 23 11
+glyph_98 311 23 13 23 12
+glyph_99 324 23 11 23 10
+glyph_100 335 23 13 23 12
+glyph_101 348 23 13 23 11
+glyph_102 361 23 8 23 6
+glyph_103 369 23 13 23 12
+glyph_104 382 23 13 23 12
+glyph_105 395 23 6 23 5
+glyph_106 401 23 6 23 5
+glyph_107 407 23 12 23 11
+glyph_108 419 23 6 23 5
+glyph_109 425 23 20 23 18
+glyph_110 445 23 13 23 12
+glyph_111 458 23 13 23 11
+glyph_112 471 23 13 23 12
+glyph_113 484 23 13 23 12
+glyph_114 497 23 9 23 7
+glyph_115 0 46 11 23 9
+glyph_116 11 46 8 23 7
+glyph_117 19 46 13 23 12
+glyph_118 32 46 12 23 11
+glyph_119 44 46 17 23 15
+glyph_120 61 46 12 23 11
+glyph_121 73 46 12 23 11
+glyph_122 85 46 11 23 10
+glyph_123 96 46 13 23 12
+glyph_124 109 46 7 23 6
+glyph_125 116 46 13 23 12
+glyph_126 129 46 17 23 16
+kerning_74 45 1
+kerning_84 45 -1
+kerning_86 45 -1
+kerning_89 45 -2
+kerning_84 65 -1
+kerning_86 65 -1
+kerning_87 65 -1
+kerning_89 65 -1
+kerning_118 65 -1
+kerning_121 65 -1
+kerning_89 66 -1
+kerning_89 68 -1
+kerning_46 70 -3
+kerning_58 70 -1
+kerning_65 70 -1
+kerning_97 70 -1
+kerning_101 70 -1
+kerning_105 70 -1
+kerning_114 70 -1
+kerning_117 70 -1
+kerning_121 70 -1
+kerning_45 75 -2
+kerning_67 75 -1
+kerning_79 75 -1
+kerning_84 75 -1
+kerning_121 75 -1
+kerning_84 76 -2
+kerning_86 76 -2
+kerning_87 76 -1
+kerning_89 76 -2
+kerning_121 76 -1
+kerning_88 79 -1
+kerning_89 79 -1
+kerning_46 80 -2
+kerning_65 80 -1
+kerning_84 82 -1
+kerning_86 82 -1
+kerning_89 82 -1
+kerning_121 82 -1
+kerning_45 84 -1
+kerning_46 84 -2
+kerning_58 84 -2
+kerning_65 84 -1
+kerning_67 84 -1
+kerning_97 84 -3
+kerning_99 84 -3
+kerning_101 84 -3
+kerning_111 84 -3
+kerning_114 84 -2
+kerning_115 84 -3
+kerning_117 84 -2
+kerning_119 84 -3
+kerning_121 84 -2
+kerning_45 86 -1
+kerning_46 86 -2
+kerning_58 86 -1
+kerning_65 86 -1
+kerning_97 86 -1
+kerning_101 86 -1
+kerning_111 86 -1
+kerning_117 86 -1
+kerning_46 87 -2
+kerning_58 87 -1
+kerning_65 87 -1
+kerning_97 87 -1
+kerning_101 87 -1
+kerning_111 87 -1
+kerning_67 88 -1
+kerning_79 88 -1
+kerning_45 89 -2
+kerning_46 89 -3
+kerning_58 89 -2
+kerning_65 89 -1
+kerning_67 89 -1
+kerning_79 89 -1
+kerning_97 89 -2
+kerning_101 89 -2
+kerning_111 89 -2
+kerning_117 89 -2
+kerning_45 102 -1
+kerning_46 102 -1
+kerning_45 114 -1
+kerning_46 114 -1
+kerning_46 118 -1
+kerning_58 118 -1
+kerning_46 119 -1
+kerning_58 119 -1
+kerning_46 121 -2
+kerning_58 121 -1
+
+
+[Font.24]
+offset 0 97
+lineheight 38
+spacelength 10
+baseline 30
+kerning 0
+monowidth 34
+range 33 126
+glyph_33 1 0 14 38 12
+glyph_34 15 0 16 38 14
+glyph_35 31 0 28 38 26
+glyph_36 59 0 22 38 20
+glyph_37 81 0 32 38 30
+glyph_38 113 0 27 38 24
+glyph_39 140 0 10 38 8
+glyph_40 150 0 14 38 12
+glyph_41 164 0 14 38 12
+glyph_42 178 0 17 38 16
+glyph_43 195 0 28 38 26
+glyph_44 223 0 11 38 10
+glyph_45 234 0 13 38 11
+glyph_46 247 0 11 38 10
+glyph_47 258 0 12 38 10
+glyph_48 270 0 22 38 20
+glyph_49 292 0 22 38 20
+glyph_50 314 0 22 38 20
+glyph_51 336 0 22 38 20
+glyph_52 358 0 22 38 20
+glyph_53 380 0 22 38 20
+glyph_54 402 0 22 38 20
+glyph_55 424 0 22 38 20
+glyph_56 446 0 22 38 20
+glyph_57 468 0 22 38 20
+glyph_58 490 0 12 38 10
+glyph_59 0 38 12 38 10
+glyph_60 12 38 28 38 26
+glyph_61 40 38 28 38 26
+glyph_62 68 38 28 38 26
+glyph_63 96 38 18 38 16
+glyph_64 114 38 34 38 32
+glyph_65 148 38 23 38 21
+glyph_66 171 38 23 38 21
+glyph_67 194 38 24 38 22
+glyph_68 218 38 26 38 24
+glyph_69 244 38 22 38 20
+glyph_70 266 38 20 38 18
+glyph_71 286 38 26 38 24
+glyph_72 312 38 26 38 24
+glyph_73 338 38 11 38 9
+glyph_74 349 38 11 38 9
+glyph_75 360 38 22 38 20
+glyph_76 382 38 19 38 17
+glyph_77 401 38 29 38 27
+glyph_78 430 38 25 38 23
+glyph_79 455 38 27 38 25
+glyph_80 482 38 21 38 19
+glyph_81 0 76 27 38 25
+glyph_82 27 76 24 38 22
+glyph_83 51 76 22 38 20
+glyph_84 73 76 21 38 19
+glyph_85 94 76 25 38 23
+glyph_86 119 76 23 38 21
+glyph_87 142 76 33 38 31
+glyph_88 175 76 23 38 21
+glyph_89 198 76 21 38 19
+glyph_90 219 76 23 38 21
+glyph_91 242 76 14 38 12
+glyph_92 256 76 12 38 10
+glyph_93 268 76 14 38 12
+glyph_94 282 76 28 38 26
+glyph_95 310 76 17 38 16
+glyph_96 327 76 17 38 16
+glyph_97 344 76 21 38 19
+glyph_98 365 76 22 38 20
+glyph_99 387 76 19 38 17
+glyph_100 406 76 22 38 20
+glyph_101 428 76 21 38 19
+glyph_102 449 76 12 38 11
+glyph_103 461 76 22 38 20
+glyph_104 483 76 22 38 20
+glyph_105 0 114 10 38 8
+glyph_106 10 114 10 38 8
+glyph_107 20 114 20 38 18
+glyph_108 40 114 10 38 8
+glyph_109 50 114 33 38 31
+glyph_110 83 114 22 38 20
+glyph_111 105 114 21 38 19
+glyph_112 126 114 22 38 20
+glyph_113 148 114 22 38 20
+glyph_114 170 114 14 38 13
+glyph_115 184 114 18 38 16
+glyph_116 202 114 14 38 12
+glyph_117 216 114 22 38 20
+glyph_118 238 114 20 38 18
+glyph_119 258 114 28 38 26
+glyph_120 286 114 20 38 18
+glyph_121 306 114 20 38 18
+glyph_122 326 114 18 38 16
+glyph_123 344 114 22 38 20
+glyph_124 366 114 12 38 10
+glyph_125 378 114 22 38 20
+glyph_126 400 114 28 38 26
+kerning_66 45 -1
+kerning_71 45 1
+kerning_74 45 1
+kerning_81 45 1
+kerning_84 45 -2
+kerning_86 45 -1
+kerning_87 45 -1
+kerning_88 45 -1
+kerning_89 45 -3
+kerning_84 65 -2
+kerning_86 65 -2
+kerning_87 65 -1
+kerning_89 65 -2
+kerning_102 65 -1
+kerning_118 65 -1
+kerning_119 65 -1
+kerning_121 65 -2
+kerning_87 66 -1
+kerning_89 66 -1
+kerning_89 68 -1
+kerning_46 70 -5
+kerning_58 70 -2
+kerning_65 70 -2
+kerning_97 70 -2
+kerning_101 70 -1
+kerning_105 70 -2
+kerning_111 70 -1
+kerning_114 70 -2
+kerning_117 70 -1
+kerning_121 70 -2
+kerning_84 71 -1
+kerning_89 71 -1
+kerning_45 74 -1
+kerning_45 75 -3
+kerning_67 75 -1
+kerning_79 75 -1
+kerning_84 75 -2
+kerning_87 75 -1
+kerning_89 75 -1
+kerning_101 75 -1
+kerning_111 75 -1
+kerning_117 75 -1
+kerning_121 75 -2
+kerning_79 76 -1
+kerning_84 76 -4
+kerning_85 76 -1
+kerning_86 76 -3
+kerning_87 76 -2
+kerning_89 76 -4
+kerning_121 76 -2
+kerning_46 79 -1
+kerning_88 79 -2
+kerning_89 79 -1
+kerning_46 80 -4
+kerning_65 80 -2
+kerning_97 80 -1
+kerning_101 80 -1
+kerning_111 80 -1
+kerning_45 82 -1
+kerning_46 82 -1
+kerning_65 82 -1
+kerning_67 82 -1
+kerning_84 82 -2
+kerning_86 82 -1
+kerning_87 82 -1
+kerning_89 82 -2
+kerning_101 82 -1
+kerning_111 82 -1
+kerning_117 82 -1
+kerning_121 82 -1
+kerning_45 84 -2
+kerning_46 84 -3
+kerning_58 84 -3
+kerning_65 84 -2
+kerning_67 84 -1
+kerning_97 84 -5
+kerning_99 84 -5
+kerning_101 84 -5
+kerning_111 84 -5
+kerning_114 84 -4
+kerning_115 84 -5
+kerning_117 84 -4
+kerning_119 84 -5
+kerning_121 84 -4
+kerning_45 86 -1
+kerning_46 86 -4
+kerning_58 86 -2
+kerning_65 86 -2
+kerning_97 86 -2
+kerning_101 86 -2
+kerning_111 86 -2
+kerning_117 86 -2
+kerning_45 87 -1
+kerning_46 87 -3
+kerning_58 87 -1
+kerning_65 87 -1
+kerning_97 87 -2
+kerning_101 87 -1
+kerning_111 87 -1
+kerning_114 87 -1
+kerning_117 87 -1
+kerning_45 88 -1
+kerning_67 88 -2
+kerning_79 88 -2
+kerning_101 88 -1
+kerning_45 89 -3
+kerning_46 89 -6
+kerning_58 89 -4
+kerning_65 89 -2
+kerning_67 89 -1
+kerning_79 89 -1
+kerning_97 89 -4
+kerning_101 89 -4
+kerning_105 89 -1
+kerning_111 89 -4
+kerning_117 89 -3
+kerning_45 102 -1
+kerning_46 102 -2
+kerning_58 102 -1
+kerning_101 107 -1
+kerning_111 107 -1
+kerning_121 107 -1
+kerning_45 114 -2
+kerning_46 114 -2
+kerning_46 118 -2
+kerning_58 118 -1
+kerning_46 119 -2
+kerning_58 119 -1
+kerning_46 121 -4
+kerning_58 121 -2
+
+
+[Font.91]
+offset 0 268
+lineheight 14
+spacelength 7
+baseline 11
+kerning 0
+monowidth 8
+range 33 126
+glyph_33 0 0 8 14 7
+glyph_34 8 0 8 14 7
+glyph_35 16 0 8 14 7
+glyph_36 24 0 8 14 7
+glyph_37 32 0 8 14 7
+glyph_38 40 0 8 14 7
+glyph_39 48 0 8 14 7
+glyph_40 56 0 8 14 7
+glyph_41 64 0 8 14 7
+glyph_42 72 0 8 14 7
+glyph_43 80 0 8 14 7
+glyph_44 88 0 8 14 7
+glyph_45 96 0 8 14 7
+glyph_46 104 0 8 14 7
+glyph_47 112 0 8 14 7
+glyph_48 120 0 8 14 7
+glyph_49 128 0 8 14 7
+glyph_50 136 0 8 14 7
+glyph_51 144 0 8 14 7
+glyph_52 152 0 8 14 7
+glyph_53 160 0 8 14 7
+glyph_54 168 0 8 14 7
+glyph_55 176 0 8 14 7
+glyph_56 184 0 8 14 7
+glyph_57 192 0 8 14 7
+glyph_58 200 0 8 14 7
+glyph_59 208 0 8 14 7
+glyph_60 216 0 8 14 7
+glyph_61 224 0 8 14 7
+glyph_62 232 0 8 14 7
+glyph_63 240 0 8 14 7
+glyph_64 248 0 8 14 7
+glyph_65 256 0 8 14 7
+glyph_66 264 0 8 14 7
+glyph_67 272 0 8 14 7
+glyph_68 280 0 8 14 7
+glyph_69 288 0 8 14 7
+glyph_70 296 0 8 14 7
+glyph_71 304 0 8 14 7
+glyph_72 312 0 8 14 7
+glyph_73 320 0 8 14 7
+glyph_74 328 0 8 14 7
+glyph_75 336 0 8 14 7
+glyph_76 344 0 8 14 7
+glyph_77 352 0 8 14 7
+glyph_78 360 0 8 14 7
+glyph_79 368 0 8 14 7
+glyph_80 376 0 8 14 7
+glyph_81 384 0 8 14 7
+glyph_82 392 0 8 14 7
+glyph_83 400 0 8 14 7
+glyph_84 408 0 8 14 7
+glyph_85 416 0 8 14 7
+glyph_86 424 0 8 14 7
+glyph_87 432 0 8 14 7
+glyph_88 440 0 8 14 7
+glyph_89 448 0 8 14 7
+glyph_90 456 0 8 14 7
+glyph_91 464 0 8 14 7
+glyph_92 472 0 8 14 7
+glyph_93 480 0 8 14 7
+glyph_94 488 0 8 14 7
+glyph_95 496 0 8 14 7
+glyph_96 504 0 8 14 7
+glyph_97 0 14 8 14 7
+glyph_98 8 14 8 14 7
+glyph_99 16 14 8 14 7
+glyph_100 24 14 8 14 7
+glyph_101 32 14 8 14 7
+glyph_102 40 14 8 14 7
+glyph_103 48 14 8 14 7
+glyph_104 56 14 8 14 7
+glyph_105 64 14 8 14 7
+glyph_106 72 14 8 14 7
+glyph_107 80 14 8 14 7
+glyph_108 88 14 8 14 7
+glyph_109 96 14 8 14 7
+glyph_110 104 14 8 14 7
+glyph_111 112 14 8 14 7
+glyph_112 120 14 8 14 7
+glyph_113 128 14 8 14 7
+glyph_114 136 14 8 14 7
+glyph_115 144 14 8 14 7
+glyph_116 152 14 8 14 7
+glyph_117 160 14 8 14 7
+glyph_118 168 14 8 14 7
+glyph_119 176 14 8 14 7
+glyph_120 184 14 8 14 7
+glyph_121 192 14 8 14 7
+glyph_122 200 14 8 14 7
+glyph_123 208 14 8 14 7
+glyph_124 216 14 8 14 7
+glyph_125 224 14 8 14 7
+glyph_126 232 14 8 14 7
+
+
+[Font.141]
+offset -1 296
+lineheight 22
+spacelength 11
+baseline 18
+kerning 0
+monowidth 11
+range 33 126
+glyph_33 0 0 11 23 11
+glyph_34 11 0 11 23 11
+glyph_35 22 0 11 23 11
+glyph_36 33 0 11 23 11
+glyph_37 44 0 11 23 11
+glyph_38 55 0 11 23 11
+glyph_39 66 0 11 23 11
+glyph_40 77 0 11 23 11
+glyph_41 88 0 11 23 11
+glyph_42 99 0 11 23 11
+glyph_43 110 0 11 23 11
+glyph_44 121 0 11 23 11
+glyph_45 132 0 11 23 11
+glyph_46 143 0 11 23 11
+glyph_47 154 0 11 23 11
+glyph_48 165 0 11 23 11
+glyph_49 176 0 11 23 11
+glyph_50 187 0 11 23 11
+glyph_51 198 0 11 23 11
+glyph_52 209 0 11 23 11
+glyph_53 220 0 11 23 11
+glyph_54 231 0 11 23 11
+glyph_55 242 0 11 23 11
+glyph_56 253 0 11 23 11
+glyph_57 264 0 11 23 11
+glyph_58 275 0 11 23 11
+glyph_59 286 0 11 23 11
+glyph_60 297 0 11 23 11
+glyph_61 308 0 11 23 11
+glyph_62 319 0 11 23 11
+glyph_63 330 0 11 23 11
+glyph_64 341 0 11 23 11
+glyph_65 352 0 11 23 11
+glyph_66 363 0 11 23 11
+glyph_67 374 0 11 23 11
+glyph_68 385 0 11 23 11
+glyph_69 396 0 11 23 11
+glyph_70 407 0 11 23 11
+glyph_71 418 0 11 23 11
+glyph_72 429 0 11 23 11
+glyph_73 440 0 11 23 11
+glyph_74 451 0 11 23 11
+glyph_75 462 0 11 23 11
+glyph_76 473 0 11 23 11
+glyph_77 484 0 11 23 11
+glyph_78 495 0 11 23 11
+glyph_79 0 23 11 23 11
+glyph_80 11 23 11 23 11
+glyph_81 22 23 11 23 11
+glyph_82 33 23 11 23 11
+glyph_83 44 23 11 23 11
+glyph_84 55 23 11 23 11
+glyph_85 66 23 11 23 11
+glyph_86 77 23 11 23 11
+glyph_87 88 23 11 23 11
+glyph_88 99 23 11 23 11
+glyph_89 110 23 11 23 11
+glyph_90 121 23 11 23 11
+glyph_91 132 23 11 23 11
+glyph_92 143 23 11 23 11
+glyph_93 154 23 11 23 11
+glyph_94 165 23 11 23 11
+glyph_95 176 23 11 23 11
+glyph_96 187 23 11 23 11
+glyph_97 198 23 11 23 11
+glyph_98 209 23 11 23 11
+glyph_99 220 23 11 23 11
+glyph_100 231 23 11 23 11
+glyph_101 242 23 11 23 11
+glyph_102 253 23 11 23 11
+glyph_103 264 23 11 23 11
+glyph_104 275 23 11 23 11
+glyph_105 286 23 11 23 11
+glyph_106 297 23 11 23 11
+glyph_107 308 23 11 23 11
+glyph_108 319 23 11 23 11
+glyph_109 330 23 11 23 11
+glyph_110 341 23 11 23 11
+glyph_111 352 23 11 23 11
+glyph_112 363 23 11 23 11
+glyph_113 374 23 11 23 11
+glyph_114 385 23 11 23 11
+glyph_115 396 23 11 23 11
+glyph_116 407 23 11 23 11
+glyph_117 418 23 11 23 11
+glyph_118 429 23 11 23 11
+glyph_119 440 23 11 23 11
+glyph_120 451 23 11 23 11
+glyph_121 462 23 11 23 11
+glyph_122 473 23 11 23 11
+glyph_123 484 23 11 23 11
+glyph_124 495 23 11 23 11
+glyph_125 0 46 11 23 11
+glyph_126 11 46 11 23 11
+
+
+[Font.241]
+offset 0 363
+lineheight 38
+spacelength 19
+baseline 30
+kerning 0
+monowidth 20
+range 33 126
+glyph_33 0 0 20 38 19
+glyph_34 20 0 20 38 19
+glyph_35 40 0 20 38 19
+glyph_36 60 0 20 38 19
+glyph_37 80 0 20 38 19
+glyph_38 100 0 20 38 19
+glyph_39 120 0 20 38 19
+glyph_40 140 0 20 38 19
+glyph_41 160 0 20 38 19
+glyph_42 180 0 20 38 19
+glyph_43 200 0 20 38 19
+glyph_44 220 0 20 38 19
+glyph_45 240 0 20 38 19
+glyph_46 260 0 20 38 19
+glyph_47 280 0 20 38 19
+glyph_48 300 0 20 38 19
+glyph_49 320 0 20 38 19
+glyph_50 340 0 20 38 19
+glyph_51 360 0 20 38 19
+glyph_52 380 0 20 38 19
+glyph_53 400 0 20 38 19
+glyph_54 420 0 20 38 19
+glyph_55 440 0 20 38 19
+glyph_56 460 0 20 38 19
+glyph_57 480 0 20 38 19
+glyph_58 0 38 20 38 19
+glyph_59 20 38 20 38 19
+glyph_60 40 38 20 38 19
+glyph_61 60 38 20 38 19
+glyph_62 80 38 20 38 19
+glyph_63 100 38 20 38 19
+glyph_64 120 38 20 38 19
+glyph_65 140 38 20 38 19
+glyph_66 160 38 20 38 19
+glyph_67 180 38 20 38 19
+glyph_68 200 38 20 38 19
+glyph_69 220 38 20 38 19
+glyph_70 240 38 20 38 19
+glyph_71 260 38 20 38 19
+glyph_72 280 38 20 38 19
+glyph_73 300 38 20 38 19
+glyph_74 320 38 20 38 19
+glyph_75 340 38 20 38 19
+glyph_76 360 38 20 38 19
+glyph_77 380 38 20 38 19
+glyph_78 400 38 20 38 19
+glyph_79 420 38 20 38 19
+glyph_80 440 38 20 38 19
+glyph_81 460 38 20 38 19
+glyph_82 480 38 20 38 19
+glyph_83 0 76 20 38 19
+glyph_84 20 76 20 38 19
+glyph_85 40 76 20 38 19
+glyph_86 60 76 20 38 19
+glyph_87 80 76 20 38 19
+glyph_88 100 76 20 38 19
+glyph_89 120 76 20 38 19
+glyph_90 140 76 20 38 19
+glyph_91 160 76 20 38 19
+glyph_92 180 76 20 38 19
+glyph_93 200 76 20 38 19
+glyph_94 220 76 20 38 19
+glyph_95 240 76 20 38 19
+glyph_96 260 76 20 38 19
+glyph_97 280 76 20 38 19
+glyph_98 300 76 20 38 19
+glyph_99 320 76 20 38 19
+glyph_100 340 76 20 38 19
+glyph_101 360 76 20 38 19
+glyph_102 380 76 20 38 19
+glyph_103 400 76 20 38 19
+glyph_104 420 76 20 38 19
+glyph_105 440 76 20 38 19
+glyph_106 460 76 20 38 19
+glyph_107 480 76 20 38 19
+glyph_108 0 114 20 38 19
+glyph_109 20 114 20 38 19
+glyph_110 40 114 20 38 19
+glyph_111 60 114 20 38 19
+glyph_112 80 114 20 38 19
+glyph_113 100 114 20 38 19
+glyph_114 120 114 20 38 19
+glyph_115 140 114 20 38 19
+glyph_116 160 114 20 38 19
+glyph_117 180 114 20 38 19
+glyph_118 200 114 20 38 19
+glyph_119 220 114 20 38 19
+glyph_120 240 114 20 38 19
+glyph_121 260 114 20 38 19
+glyph_122 280 114 20 38 19
+glyph_123 300 114 20 38 19
+glyph_124 320 114 20 38 19
+glyph_125 340 114 20 38 19
+glyph_126 360 114 20 38 19
+

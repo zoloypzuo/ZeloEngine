@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <file>
+    <filename>..\src\demo_framework\script\AgentUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_3_animation\script\AnimationState.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_3_animation\script\AnimationStateMachine.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_3_animation\script\AnimationTransition.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_3_animation\script\AnimationUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\DebugUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\GUI.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_3_animation\script\Sandbox.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\SandboxUtilities.lua</filename>
+  </file>
+</project>
