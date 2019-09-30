@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <file>
+    <filename>..\src\demo_framework_test\script\AgentTest.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\AgentUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework_test\script\AgentUtilitiesTest.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework_test\script\CoreTest.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\DebugUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework_test\script\LuaTest.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework_test\script\SandboxTest.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\SandboxUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework_test\script\SandboxUtilitiesTest.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework_test\script\TestRunner.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework_test\script\VectorTest.lua</filename>
+  </file>
+</project>
