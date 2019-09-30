@@ -1,0 +1,98 @@
+particle_system BulletImpact
+{
+	material Particles/Impact
+	particle_width 0.03
+	particle_height 0.03
+	quota 150
+	cull_each false
+	sorted false
+	local_space false
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type texcoord
+	point_rendering false
+	accurate_facing false
+
+	emitter Point
+	{
+		position 0.0 0.0 0.0
+		direction 0 0 -1
+		angle 26.4
+		emission_rate 3000
+		velocity_min 0.5
+		velocity_max 1.0
+		time_to_live_min 0.4
+		time_to_live_max 0.75
+		duration_min 0.1
+		duration_max 0.1
+		repeat_delay_min 0
+		repeat_delay_max 0
+		colour_range_start 1 1 1 1
+		colour_range_end 1 1 1 1
+	}
+	
+	emitter Point
+	{
+		position 0.0 0.0 0.0
+		direction 0 0 -1
+		angle 45
+		emission_rate 500
+		velocity_min 1
+		velocity_max 2
+		time_to_live_min 0.5
+		time_to_live_max 1.5
+		duration_min 0.1
+		duration_max 0.1
+		repeat_delay_min 0
+		repeat_delay_max 0
+		colour_range_start 1 1 1 1
+		colour_range_end 1 1 1 1
+	}
+	
+	emitter Point
+	{
+		position 0.0 0.0 0.0
+		direction 0 0 -1
+		angle 60
+		emission_rate 100
+		velocity_min 3
+		velocity_max 5
+		time_to_live_min 1
+		time_to_live_max 2
+		duration_min 0.1
+		duration_max 0.1
+		repeat_delay_min 0
+		repeat_delay_max 0
+		colour_range_start 1 1 1 1
+		colour_range_end 1 1 1 1
+	}
+
+	affector LinearForce
+	{
+		force_vector 0.0 -2.5 0.0
+		force_application add
+	}
+
+	affector ColourInterpolator
+	{
+		time0 0
+		colour0 1 1 1 1
+		time1 0.2
+		colour1 1 1 1 1
+		time2 0.4
+		colour2 1 1 1 1
+		time3 0.6
+		colour3 1 1 1 1
+		time4 0.8
+		colour4 0.5 0.5 0.5 1
+		time5 1
+		colour5 0 0 0 1
+	}
+
+	affector Scaler
+	{
+		rate 0.0005
+	}
+}

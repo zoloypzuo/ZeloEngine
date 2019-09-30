@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <file>
+    <filename>..\src\chapter_2_movement\script\AgentUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\DebugUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_2_movement\script\FollowerAgent.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\GUI.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_2_movement\script\PathingAgent.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_2_movement\script\PursuingAgent.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_2_movement\script\Sandbox.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_2_movement\script\SeekingAgent.lua</filename>
+  </file>
+</project>

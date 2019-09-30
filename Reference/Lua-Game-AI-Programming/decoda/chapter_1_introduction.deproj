@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <file>
+    <filename>..\src\demo_framework\script\DebugUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\GUI.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_1_introduction\script\Sandbox.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\SandboxUtilities.lua</filename>
+  </file>
+</project>
