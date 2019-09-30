@@ -1,0 +1,54 @@
+particle_system Bullet
+{
+	material Particles/Bullet
+	particle_width 0.02
+	particle_height 0.02
+	quota 100
+	cull_each false
+	sorted false
+	local_space true
+	iteration_interval 0.0
+	nonvisible_update_timeout 0.0
+	billboard_type point
+	billboard_origin center
+	billboard_rotation_type vertex
+	point_rendering false
+	accurate_facing false
+
+	emitter Box
+	{
+		position 0.0 0.0 0.0
+		direction 0.0 0.0 1.0
+		angle 0
+		width 0
+		height 0
+		depth 0.3
+		emission_rate 10000
+		velocity_min 0
+		velocity_max 0
+		time_to_live_min 2
+		time_to_live_max 5
+		duration_min 0
+		duration_max 0
+		repeat_delay_min 0
+		repeat_delay_max 0
+		colour_range_start 0 0 0 1
+		colour_range_end 0 0 0 1
+	}
+
+	affector ColourInterpolator
+	{
+		time0 0
+		colour0 1 1 1 1
+		time1 0.2
+		colour1 1 1 1 1
+		time2 0.4
+		colour2 1 1 1 1
+		time3 0.6
+		colour3 1 1 1 1
+		time4 0.8
+		colour4 0.5 0.5 0.5 1
+		time5 1
+		colour5 0 0 0 1
+	}
+}

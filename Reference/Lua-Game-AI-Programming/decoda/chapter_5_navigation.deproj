@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <file>
+    <filename>..\src\demo_framework\script\AgentUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\AnimationState.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\AnimationStateMachine.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\AnimationTransition.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\AnimationUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\DebugUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\DirectSoldierAgent.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\GUI.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_5_navigation\script\IndirectSoldierAgent.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\chapter_5_navigation\script\Sandbox.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\SandboxUtilities.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\Soldier.lua</filename>
+  </file>
+  <file>
+    <filename>..\src\demo_framework\script\SoldierController.lua</filename>
+  </file>
+</project>
