@@ -1,0 +1,131 @@
+/**
+ * Copyright (c) 2013 David Young dayoung@goliathdesigns.com
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ *  1. The origin of this software must not be misrepresented; you must not
+ *  claim that you wrote the original software. If you use this software
+ *  in a product, an acknowledgment in the product documentation would be
+ *  appreciated but is not required.
+ *
+ *  2. Altered source versions must be plainly marked as such, and must not be
+ *  misrepresented as being the original software.
+ *
+ *  3. This notice may not be removed or altered from any source
+ *  distribution.
+ */
+/*
+material CloudyLightRaysSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture textures/skybox_set/CloudyLightRays/CloudyLightRaysFront2048.png textures/skybox_set/CloudyLightRays/CloudyLightRaysBack2048.png textures/skybox_set/CloudyLightRays/CloudyLightRaysRight2048.png textures/skybox_set/CloudyLightRays/CloudyLightRaysLeft2048.png textures/skybox_set/CloudyLightRays/CloudyLightRaysUp2048.png textures/skybox_set/CloudyLightRays/CloudyLightRaysDown2048.png separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material DarkStormySkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture textures/skybox_set/DarkStormy/DarkStormyFront2048.png textures/skybox_set/DarkStormy/DarkStormyBack2048.png textures/skybox_set/DarkStormy/DarkStormyRight2048.png textures/skybox_set/DarkStormy/DarkStormyLeft2048.png textures/skybox_set/DarkStormy/DarkStormyUp2048.png textures/skybox_set/DarkStormy/DarkStormyDown2048.png separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material FullMoonSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture textures/skybox_set/FullMoon/FullMoonFront2048.png textures/skybox_set/FullMoon/FullMoonBack2048.png textures/skybox_set/FullMoon/FullMoonRight2048.png textures/skybox_set/FullMoon/FullMoonLeft2048.png textures/skybox_set/FullMoon/FullMoonUp2048.png textures/skybox_set/FullMoon/FullMoonDown2048.png separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+
+material SunSetSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture textures/skybox_set/SunSet/SunSetFront2048.png textures/skybox_set/SunSet/SunSetBack2048.png textures/skybox_set/SunSet/SunSetRight2048.png textures/skybox_set/SunSet/SunSetLeft2048.png textures/skybox_set/SunSet/SunSetUp2048.png textures/skybox_set/SunSet/SunSetDown2048.png separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+*/
+material ThickCloudsWaterSkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture textures/skybox_set/ThickCloudsWater/ThickCloudsWaterFront1024.tga textures/skybox_set/ThickCloudsWater/ThickCloudsWaterBack1024.tga textures/skybox_set/ThickCloudsWater/ThickCloudsWaterRight1024.tga textures/skybox_set/ThickCloudsWater/ThickCloudsWaterLeft1024.tga textures/skybox_set/ThickCloudsWater/ThickCloudsWaterUp1024.tga textures/skybox_set/ThickCloudsWater/ThickCloudsWaterDown1024.tga separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+/*
+material TropicalSunnyDaySkyBox
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture textures/skybox_set/TropicalSunnyDay/TropicalSunnyDayFront2048.png textures/skybox_set/TropicalSunnyDay/TropicalSunnyDayBack2048.png textures/skybox_set/TropicalSunnyDay/TropicalSunnyDayRight2048.png textures/skybox_set/TropicalSunnyDay/TropicalSunnyDayLeft2048.png textures/skybox_set/TropicalSunnyDay/TropicalSunnyDayUp2048.png textures/skybox_set/TropicalSunnyDay/TropicalSunnyDayDown2048.png separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+*/
