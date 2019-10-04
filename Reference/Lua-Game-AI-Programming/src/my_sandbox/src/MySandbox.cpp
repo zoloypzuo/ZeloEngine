@@ -1,17 +1,18 @@
 #include "my_sandbox/include/MySandbox.h"
 
-MySandbox::MySandbox() :SandboxApplication("My Sandbox"){
-
+MySandbox::MySandbox() : SandboxApplication("My Sandbox")
+{
 }
 
-MySandbox::~MySandbox(){
-
+MySandbox::~MySandbox()
+{
 }
 
-void MySandbox::Initialize(){
+void MySandbox::Initialize()
+{
 	SandboxApplication::Initialize();
 
-	// Ïà¶ÔÓÚbin/x32/debug
+	// ï¿½ï¿½ï¿½ï¿½ï¿½bin/x32/debug
 	AddResourceLocation("../../../src/my_sandbox/script");
 
 	CreateSandbox("Sandbox.lua");

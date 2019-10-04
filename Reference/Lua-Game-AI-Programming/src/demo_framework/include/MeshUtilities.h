@@ -24,60 +24,58 @@
 #ifndef DEMO_FRAMEWORK_MESH_UTILITIES_H
 #define DEMO_FRAMEWORK_MESH_UTILITIES_H
 
-#include <stddef.h>
-
 namespace Ogre
 {
-class Mesh;
-class SceneNode;
+	class Mesh;
+	class SceneNode;
 }
 
 struct RawMesh
 {
-    float* const vertexBuffer;
-    const size_t vertexBufferSize;
-    size_t vertexCount;
+	float* const vertexBuffer;
+	const size_t vertexBufferSize;
+	size_t vertexCount;
 
-    int* const indexBuffer;
-    const size_t indexBufferSize;
-    size_t indexCount;
+	int* const indexBuffer;
+	const size_t indexBufferSize;
+	size_t indexCount;
 
-    const Ogre::Vector3& position;
-    const Ogre::Quaternion& orientation;
-    const Ogre::Vector3& scale;
+	const Ogre::Vector3& position;
+	const Ogre::Quaternion& orientation;
+	const Ogre::Vector3& scale;
 
-    RawMesh(
-        float* const vertexBuffer,
-        const size_t vertexBufferSize,
-        int* const indexBuffer,
-        const size_t indexBufferSize,
-        const Ogre::Vector3& position = Ogre::Vector3::ZERO,
-        const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
-        const Ogre::Vector3& scale = Ogre::Vector3::UNIT_SCALE);
+	RawMesh(
+		float* vertexBuffer,
+		size_t vertexBufferSize,
+		int* indexBuffer,
+		size_t indexBufferSize,
+		const Ogre::Vector3& position = Ogre::Vector3::ZERO,
+		const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY,
+		const Ogre::Vector3& scale = Ogre::Vector3::UNIT_SCALE);
 
-    RawMesh(const RawMesh& mesh);
+	RawMesh(const RawMesh& mesh);
 
 private:
-    RawMesh& operator=(const RawMesh& mesh);
+	RawMesh& operator=(const RawMesh& mesh);
 };
 
 class MeshUtilities
 {
 public:
-    static bool ConvertToRawMesh(
-        const Ogre::Mesh& mesh, RawMesh& rawMesh);
+	static bool ConvertToRawMesh(
+		const Ogre::Mesh& mesh, RawMesh& rawMesh);
 
-    static const Ogre::Mesh* GetMesh(
-        const Ogre::SceneNode& node, const size_t meshIndex = 0);
+	static const Ogre::Mesh* GetMesh(
+		const Ogre::SceneNode& node, size_t meshIndex = 0);
 
-    static void GetMeshInformation(
-        const Ogre::Mesh& mesh, size_t& vertexCount, size_t& indexCount);
+	static void GetMeshInformation(
+		const Ogre::Mesh& mesh, size_t& vertexCount, size_t& indexCount);
 
 private:
-    MeshUtilities();
-    MeshUtilities(const MeshUtilities&);
-    ~MeshUtilities();
-    MeshUtilities& operator=(const MeshUtilities&);
+	MeshUtilities();
+	MeshUtilities(const MeshUtilities&);
+	~MeshUtilities();
+	MeshUtilities& operator=(const MeshUtilities&);
 };
 
 #endif  // DEMO_FRAMEWORK_MESH_UTILITIES_H

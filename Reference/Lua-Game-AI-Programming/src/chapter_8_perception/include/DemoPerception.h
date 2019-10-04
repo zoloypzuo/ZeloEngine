@@ -29,15 +29,15 @@
 class DemoPerception : public SandboxApplication
 {
 public:
-    DemoPerception();
+	DemoPerception();
 
-    virtual ~DemoPerception();
+	virtual ~DemoPerception();
 
-    virtual void Initialize();
+	void Initialize() override;
 
 private:
-    DemoPerception(const DemoPerception&);
-    DemoPerception& operator=(const DemoPerception&);
+	DemoPerception(const DemoPerception&);
+	DemoPerception& operator=(const DemoPerception&);
 };
 
 #endif  // CHAPTER_8_PERCEPTION_H

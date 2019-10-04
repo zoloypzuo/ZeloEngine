@@ -29,22 +29,22 @@
 #include "demo_framework/include/SandboxObject.h"
 
 SandboxObject::SandboxObject(
-    const unsigned int objectId,
-    Ogre::SceneNode* const sceneNode,
-    btRigidBody* const rigidBody)
-    : Object(objectId, Object::SANDBOX_OBJECT),
-    OpenSteer::SphericalObstacle(),
-    sceneNode_(sceneNode),
-    rigidBody_(rigidBody)
+	const unsigned int objectId,
+	Ogre::SceneNode* const sceneNode,
+	btRigidBody* const rigidBody)
+	: Object(objectId, Object::SANDBOX_OBJECT),
+	  OpenSteer::SphericalObstacle(),
+	  sceneNode_(sceneNode),
+	  rigidBody_(rigidBody)
 {
-    assert(sceneNode);
-    assert(rigidBody);
+	assert(sceneNode);
+	assert(rigidBody);
 }
 
 SandboxObject::~SandboxObject()
 {
-    LuaScriptUtilities::Remove(sceneNode_);
-    PhysicsUtilities::DeleteRigidBody(rigidBody_);
+	LuaScriptUtilities::Remove(sceneNode_);
+	PhysicsUtilities::DeleteRigidBody(rigidBody_);
 }
 
 void SandboxObject::Cleanup()
@@ -53,129 +53,129 @@ void SandboxObject::Cleanup()
 
 Ogre::Real SandboxObject::GetMass() const
 {
-    return PhysicsUtilities::GetRigidBodyMass(rigidBody_);
+	return PhysicsUtilities::GetRigidBodyMass(rigidBody_);
 }
 
 Ogre::Quaternion SandboxObject::GetOrientation() const
 {
-    const btQuaternion& rotation =
-        rigidBody_->getCenterOfMassTransform().getRotation();
+	const btQuaternion& rotation =
+		rigidBody_->getCenterOfMassTransform().getRotation();
 
-    return Ogre::Quaternion(
-        rotation.w(), rotation.x(), rotation.y(), rotation.z());
+	return Ogre::Quaternion(
+		rotation.w(), rotation.x(), rotation.y(), rotation.z());
 }
 
 OpenSteer::Vec3 SandboxObject::getPosition() const
 {
-    const btVector3& position = rigidBody_->getCenterOfMassPosition();
+	const btVector3& position = rigidBody_->getCenterOfMassPosition();
 
-    return OpenSteer::Vec3(
-        position.m_floats[0], position.m_floats[1], position.m_floats[2]);
+	return OpenSteer::Vec3(
+		position.m_floats[0], position.m_floats[1], position.m_floats[2]);
 }
 
 Ogre::Vector3 SandboxObject::GetPosition() const
 {
-    const btVector3& position = rigidBody_->getCenterOfMassPosition();
+	const btVector3& position = rigidBody_->getCenterOfMassPosition();
 
-    return Ogre::Vector3(
-        position.m_floats[0], position.m_floats[1], position.m_floats[2]);
+	return Ogre::Vector3(
+		position.m_floats[0], position.m_floats[1], position.m_floats[2]);
 }
 
 float SandboxObject::getRadius() const
 {
-    return GetRadius();
+	return GetRadius();
 }
 
 Ogre::Real SandboxObject::GetRadius() const
 {
-    return PhysicsUtilities::GetRigidBodyRadius(rigidBody_);
+	return PhysicsUtilities::GetRigidBodyRadius(rigidBody_);
 }
 
 btRigidBody* SandboxObject::GetRigidBody()
 {
-    return rigidBody_;
+	return rigidBody_;
 }
 
 const btRigidBody* SandboxObject::GetRigidBody() const
 {
-    return rigidBody_;
+	return rigidBody_;
 }
 
 Ogre::SceneNode* SandboxObject::GetSceneNode()
 {
-    return sceneNode_;
+	return sceneNode_;
 }
 
 const Ogre::SceneNode* SandboxObject::GetSceneNode() const
 {
-    return sceneNode_;
+	return sceneNode_;
 }
 
 void SandboxObject::Initialize()
 {
 }
 
-void SandboxObject::SetMass(const Ogre::Real mass)
+void SandboxObject::SetMass(const Ogre::Real mass) const
 {
-    PhysicsUtilities::SetRigidBodyMass(rigidBody_, mass);
+	PhysicsUtilities::SetRigidBodyMass(rigidBody_, mass);
 }
 
 void SandboxObject::SetOrientation(const Ogre::Quaternion& quaternion)
 {
-    PhysicsUtilities::SetRigidBodyOrientation(
-        rigidBody_,
-        btQuaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w));
+	PhysicsUtilities::SetRigidBodyOrientation(
+		rigidBody_,
+		btQuaternion(quaternion.x, quaternion.y, quaternion.z, quaternion.w));
 
-    SandboxUtilities::UpdateWorldTransform(this);
+	SandboxUtilities::UpdateWorldTransform(this);
 }
 
 void SandboxObject::SetPosition(const Ogre::Vector3& position)
 {
-    PhysicsUtilities::SetRigidBodyPosition(
-        rigidBody_, btVector3(position.x, position.y, position.z));
+	PhysicsUtilities::SetRigidBodyPosition(
+		rigidBody_, btVector3(position.x, position.y, position.z));
 
-    SandboxUtilities::UpdateWorldTransform(this);
+	SandboxUtilities::UpdateWorldTransform(this);
 }
 
 OpenSteer::Vec3 SandboxObject::steerToAvoid(
-    const OpenSteer::AbstractVehicle& v, const float minTimeToCollision) const
+	const OpenSteer::AbstractVehicle& v, const float minTimeToCollision) const
 {
-    // minimum distance to obstacle before avoidance is required
-    const float minDistanceToCollision = minTimeToCollision * v.speed();
-    const float minDistanceToCenter = minDistanceToCollision + getRadius();
+	// minimum distance to obstacle before avoidance is required
+	const float minDistanceToCollision = minTimeToCollision * v.speed();
+	const float minDistanceToCenter = minDistanceToCollision + getRadius();
 
-    // contact distance: sum of radii of obstacle and vehicle
-    const float totalRadius = getRadius() + v.radius ();
+	// contact distance: sum of radii of obstacle and vehicle
+	const float totalRadius = getRadius() + v.radius();
 
-    // obstacle center relative to vehicle position
-    const OpenSteer::Vec3 localOffset = getPosition() - v.position ();
+	// obstacle center relative to vehicle position
+	const OpenSteer::Vec3 localOffset = getPosition() - v.position();
 
-    // distance along vehicle's forward axis to obstacle's center
-    const float forwardComponent = localOffset.dot(v.forward ());
-    const OpenSteer::Vec3 forwardOffset = forwardComponent * v.forward();
+	// distance along vehicle's forward axis to obstacle's center
+	const float forwardComponent = localOffset.dot(v.forward());
+	const OpenSteer::Vec3 forwardOffset = forwardComponent * v.forward();
 
-    // offset from forward axis to obstacle's center
-    const OpenSteer::Vec3 offForwardOffset = localOffset - forwardOffset;
+	// offset from forward axis to obstacle's center
+	const OpenSteer::Vec3 offForwardOffset = localOffset - forwardOffset;
 
-    // test to see if sphere overlaps with obstacle-free corridor
-    const bool inCylinder = offForwardOffset.length() < totalRadius;
-    const bool nearby = forwardComponent < minDistanceToCenter;
-    const bool inFront = forwardComponent > 0;
+	// test to see if sphere overlaps with obstacle-free corridor
+	const bool inCylinder = offForwardOffset.length() < totalRadius;
+	const bool nearby = forwardComponent < minDistanceToCenter;
+	const bool inFront = forwardComponent > 0;
 
-    // if all three conditions are met, steer away from sphere center
-    if (inCylinder && nearby && inFront)
-    {
-        return offForwardOffset * -1;
-    }
-    else
-    {
-        return OpenSteer::Vec3::zero;
-    }
+	// if all three conditions are met, steer away from sphere center
+	if (inCylinder && nearby && inFront)
+	{
+		return offForwardOffset * -1;
+	}
+	else
+	{
+		return OpenSteer::Vec3::zero;
+	}
 }
 
 void SandboxObject::Update(const int deltaMilliseconds)
 {
-    (void)deltaMilliseconds;
+	(void)deltaMilliseconds;
 
-    SandboxUtilities::UpdateWorldTransform(this);
+	SandboxUtilities::UpdateWorldTransform(this);
 }

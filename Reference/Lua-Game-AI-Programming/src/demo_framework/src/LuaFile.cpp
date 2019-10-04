@@ -27,62 +27,62 @@
 #include "demo_framework/include/LuaFileSerializer.h"
 
 LuaFile::LuaFile(
-    Ogre::ResourceManager* const creator,
-    const Ogre::String& resourceName,
-    Ogre::ResourceHandle handle,
-    const Ogre::String& group,
-    const bool isManual,
-    Ogre::ManualResourceLoader* const loader)
-    : Ogre::Resource(creator, resourceName, handle, group, isManual, loader),
-    binaryData_(NULL),
-    dataLength_(0)
+	Ogre::ResourceManager* const creator,
+	const Ogre::String& resourceName,
+	Ogre::ResourceHandle handle,
+	const Ogre::String& group,
+	const bool isManual,
+	Ogre::ManualResourceLoader* const loader)
+	: Ogre::Resource(creator, resourceName, handle, group, isManual, loader),
+	  binaryData_(nullptr),
+	  dataLength_(0)
 {
-    createParamDictionary("LuaFile");
+	createParamDictionary("LuaFile");
 }
 
 LuaFile::~LuaFile()
 {
-    unload();
+	unload();
 }
 
 size_t LuaFile::calculateSize() const
 {
-    return dataLength_;
+	return dataLength_;
 }
 
 const char* LuaFile::GetData() const
 {
-    return binaryData_;
+	return binaryData_;
 }
 
 size_t LuaFile::GetDataLength() const
 {
-    return dataLength_;
+	return dataLength_;
 }
 
 void LuaFile::loadImpl()
 {
-    LuaFileSerializer serializer;
+	LuaFileSerializer serializer;
 
-    Ogre::DataStreamPtr stream =
-        Ogre::ResourceGroupManager::getSingleton().openResource(
-            mName, mGroup, true, this);
+	Ogre::DataStreamPtr stream =
+		Ogre::ResourceGroupManager::getSingleton().openResource(
+			mName, mGroup, true, this);
 
-    serializer.ImportLuaFile(stream, this);
+	serializer.ImportLuaFile(stream, this);
 }
 
 void LuaFile::SetData(const char* const data, const size_t dataLength)
 {
-    binaryData_ = data;
-    dataLength_ = dataLength;
+	binaryData_ = data;
+	dataLength_ = dataLength;
 }
 
 void LuaFile::unloadImpl()
 {
-    if (binaryData_)
-    {
-        delete binaryData_;
-        binaryData_ = NULL;
-        dataLength_ = 0;
-    }
+	if (binaryData_)
+	{
+		delete binaryData_;
+		binaryData_ = nullptr;
+		dataLength_ = 0;
+	}
 }

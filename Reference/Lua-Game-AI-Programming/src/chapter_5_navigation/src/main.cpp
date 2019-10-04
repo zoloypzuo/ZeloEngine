@@ -29,20 +29,20 @@
 
 int main()
 {
-    DemoNavigation application;
+	DemoNavigation application;
 
-    try
-    {
-        application.Run();
-    }
-    catch(Ogre::Exception& error)
-    {
-        MessageBox(
-            NULL,
-            error.getFullDescription().c_str(),
-            "An exception has occurred!",
-            MB_OK | MB_ICONERROR | MB_TASKMODAL);
-    }
+	try
+	{
+		application.Run();
+	}
+	catch (Ogre::Exception& error)
+	{
+		MessageBox(
+			nullptr,
+			error.getFullDescription().c_str(),
+			"An exception has occurred!",
+			MB_OK | MB_ICONERROR | MB_TASKMODAL);
+	}
 
-    return 0;
+	return 0;
 }

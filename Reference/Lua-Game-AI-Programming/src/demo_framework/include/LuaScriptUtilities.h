@@ -37,10 +37,10 @@ class SandboxObject;
 
 namespace Ogre
 {
-class Light;
-class Quaternion;
-class SceneManager;
-class SceneNode;
+	class Light;
+	class Quaternion;
+	class SceneManager;
+	class SceneNode;
 }
 
 #define LUA_SCRIPT_TYPE_METATABLE "LuaScriptType"
@@ -48,279 +48,279 @@ class SceneNode;
 
 enum RawScriptType
 {
-    SCRIPT_ANIMATION,
-    SCRIPT_SANDBOX,
-    SCRIPT_SANDBOX_OBJECT,
-    SCRIPT_SCENENODE
+	SCRIPT_ANIMATION,
+	SCRIPT_SANDBOX,
+	SCRIPT_SANDBOX_OBJECT,
+	SCRIPT_SCENENODE
 };
 
 static const char* const RawScriptTypeName[] =
 {
-    "Animation",
-    "Sandbox",
-    "SandboxObject",
-    "SceneNode"
+	"Animation",
+	"Sandbox",
+	"SandboxObject",
+	"SceneNode"
 };
 
 struct LuaScriptType
 {
-    void* rawPointer;
-    RawScriptType type;
+	void* rawPointer;
+	RawScriptType type;
 };
 
 class LuaScriptUtilities
 {
 public:
-    static void BindVMFunctions(lua_State* const luaVM);
+	static void BindVMFunctions(lua_State* luaVM);
 
-    static void CacheResource(const Ogre::String& resourceName);
+	static void CacheResource(const Ogre::String& resourceName);
 
-    static bool CheckArgumentCountOrDie(
-        lua_State* const luaVM,
-        const unsigned int mandatoryArgs,
-        const unsigned int optionalArgs = 0);
+	static bool CheckArgumentCountOrDie(
+		lua_State* luaVM,
+		unsigned int mandatoryArgs,
+		unsigned int optionalArgs = 0);
 
-    static Ogre::SceneNode* CreateBox(
-        Ogre::SceneNode* const parentNode,
-        const Ogre::Real width,
-        const Ogre::Real height,
-        const Ogre::Real length,
-        const Ogre::Real uTile = 1.0f,
-        const Ogre::Real vTile = 1.0f);
+	static Ogre::SceneNode* CreateBox(
+		Ogre::SceneNode* parentNode,
+		Ogre::Real width,
+		Ogre::Real height,
+		Ogre::Real length,
+		Ogre::Real uTile = 1.0f,
+		Ogre::Real vTile = 1.0f);
 
-    static Ogre::SceneNode* CreateCapsule(
-        Ogre::SceneNode* const parentNode,
-        const Ogre::Real height,
-        const Ogre::Real radius);
+	static Ogre::SceneNode* CreateCapsule(
+		Ogre::SceneNode* parentNode,
+		Ogre::Real height,
+		Ogre::Real radius);
 
-    static Ogre::SceneNode* CreateCircle(
-        Ogre::SceneNode* const parentNode, const Ogre::Real radius);
+	static Ogre::SceneNode* CreateCircle(
+		Ogre::SceneNode* parentNode, Ogre::Real radius);
 
-    static Ogre::SceneNode* CreateCylinder(
-        Ogre::SceneNode* const parentNode,
-        const Ogre::Real height,
-        const Ogre::Real radius);
+	static Ogre::SceneNode* CreateCylinder(
+		Ogre::SceneNode* parentNode,
+		Ogre::Real height,
+		Ogre::Real radius);
 
-    static Ogre::SceneNode* CreateLine(
-        Ogre::SceneNode* const parentNode,
-        const Ogre::Vector3& start,
-        const Ogre::Vector3& end);
+	static Ogre::SceneNode* CreateLine(
+		Ogre::SceneNode* parentNode,
+		const Ogre::Vector3& start,
+		const Ogre::Vector3& end);
 
-    static Ogre::SceneNode* CreateMesh(
-        Ogre::SceneNode* const parentNode,
-        const Ogre::String& meshFileName);
+	static Ogre::SceneNode* CreateMesh(
+		Ogre::SceneNode* parentNode,
+		const Ogre::String& meshFileName);
 
-    static Ogre::SceneNode* CreatePlane(
-        Ogre::SceneNode* const parentNode,
-        const Ogre::Real length,
-        const Ogre::Real width);
+	static Ogre::SceneNode* CreatePlane(
+		Ogre::SceneNode* parentNode,
+		Ogre::Real length,
+		Ogre::Real width);
 
-    static lua_State* CreateVM();
+	static lua_State* CreateVM();
 
-    static lua_State* CreateNamedVM(const char* const vmName);
+	static lua_State* CreateNamedVM(const char* vmName);
 
-    static void DestroyRigidBody(
-        btDiscreteDynamicsWorld* const physicsWorld,
-        btRigidBody* const rigidBody);
+	static void DestroyRigidBody(
+		btDiscreteDynamicsWorld* physicsWorld,
+		btRigidBody* rigidBody);
 
-    static void DestroySceneNode(
-        Ogre::SceneManager* const sceneManager,
-        Ogre::SceneNode* const sceneNode);
+	static void DestroySceneNode(
+		Ogre::SceneManager* sceneManager,
+		Ogre::SceneNode* sceneNode);
 
-    static void DestroyVM(lua_State* const luaVM);
+	static void DestroyVM(lua_State* luaVM);
 
-    static void DumpStack(
-        lua_State* const luaVM,
-        const Ogre::LogMessageLevel messageLevel = Ogre::LML_NORMAL);
+	static void DumpStack(
+		lua_State* luaVM,
+		Ogre::LogMessageLevel messageLevel = Ogre::LML_NORMAL);
 
-    static void DumpStackTrace(
-        lua_State* const luaVM,
-        const Ogre::LogMessageLevel messageLevel = Ogre::LML_NORMAL);
+	static void DumpStackTrace(
+		lua_State* luaVM,
+		Ogre::LogMessageLevel messageLevel = Ogre::LML_NORMAL);
 
-    static Ogre::String GetCallingFunctionName(lua_State* const luaVM);
+	static Ogre::String GetCallingFunctionName(lua_State* luaVM);
 
-    static Ogre::ColourValue GetColourValue(
-        lua_State* const luaVM, const int stackIndex);
+	static Ogre::ColourValue GetColourValue(
+		lua_State* luaVM, int stackIndex);
 
-    static LuaScriptType* GetDataType(
-        lua_State* const luaVM, const int stackIndex);
+	static LuaScriptType* GetDataType(
+		lua_State* luaVM, int stackIndex);
 
-    static Ogre::Entity* GetEntity(
-        Ogre::SceneNode& node, const unsigned short index = 0);
+	static Ogre::Entity* GetEntity(
+		Ogre::SceneNode& node, unsigned short index = 0);
 
-    static Ogre::Light* GetLight(lua_State* const luaVM, const int stackIndex);
+	static Ogre::Light* GetLight(lua_State* luaVM, int stackIndex);
 
-    static Object* GetObject(
-        lua_State* const luaVM, const int stackIndex);
+	static Object* GetObject(
+		lua_State* luaVM, int stackIndex);
 
-    static Ogre::Real GetRadius(Ogre::SceneNode* const sceneNode);
+	static Ogre::Real GetRadius(Ogre::SceneNode* sceneNode);
 
-    static Ogre::Real GetReal(lua_State* const luaVM, const int stackIndex);
+	static Ogre::Real GetReal(lua_State* luaVM, int stackIndex);
 
-    static Ogre::Real GetRealAttribute(
-        lua_State* const luaVM,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static Ogre::Real GetRealAttribute(
+		lua_State* luaVM,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static Ogre::Real GetRealAttribute(
-        lua_State* const luaVM,
-        const int index,
-        const int tableIndex);
+	static Ogre::Real GetRealAttribute(
+		lua_State* luaVM,
+		int index,
+		int tableIndex);
 
-    static Sandbox* GetSandbox(
-        lua_State* const luaVM, const int stackIndex);
+	static Sandbox* GetSandbox(
+		lua_State* luaVM, int stackIndex);
 
-    static SandboxObject* GetSandboxObject(
-        lua_State* const luaVM, const int stackIndex);
+	static SandboxObject* GetSandboxObject(
+		lua_State* luaVM, int stackIndex);
 
-    static Ogre::SceneNode* GetSceneNode(
-        lua_State* const luaVM, const int stackIndex);
+	static Ogre::SceneNode* GetSceneNode(
+		lua_State* luaVM, int stackIndex);
 
-    static Ogre::SceneNode* GetSceneNode(LuaScriptType& type);
+	static Ogre::SceneNode* GetSceneNode(LuaScriptType& type);
 
-    static Ogre::String GetString(lua_State* const luaVM, const int stackIndex);
+	static Ogre::String GetString(lua_State* luaVM, int stackIndex);
 
-    static Ogre::String GetUserdataTypeName(
-        lua_State* const luaVM, const int stackIndex);
+	static Ogre::String GetUserdataTypeName(
+		lua_State* luaVM, int stackIndex);
 
-    static Ogre::Vector3* GetVector3(
-        lua_State* const luaVM, const int stackIndex);
+	static Ogre::Vector3* GetVector3(
+		lua_State* luaVM, int stackIndex);
 
-    static Ogre::Vector3* GetVector3Attribute(
-        lua_State* const luaVM,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static Ogre::Vector3* GetVector3Attribute(
+		lua_State* luaVM,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static bool HasAttribute(
-        lua_State* const luaVM,
-        const int tableIndex,
-        const Ogre::String& attributeName);
+	static bool HasAttribute(
+		lua_State* luaVM,
+		int tableIndex,
+		const Ogre::String& attributeName);
 
-    static bool IsObject(lua_State* const luaVM, const int stackIndex);
+	static bool IsObject(lua_State* luaVM, int stackIndex);
 
-    static bool IsUserdataType(
-        lua_State* const luaVM,
-        const int stackIndex,
-        const Ogre::String datatype);
+	static bool IsUserdataType(
+		lua_State* luaVM,
+		int stackIndex,
+		Ogre::String datatype);
 
-    static bool IsVector3(lua_State* const luaVM, const int stackIndex);
+	static bool IsVector3(lua_State* luaVM, int stackIndex);
 
-    static bool IsVisisble(Ogre::SceneNode* const node);
+	static bool IsVisisble(Ogre::SceneNode* node);
 
-    static void LoadScript(
-        lua_State* const luaVM,
-        const char* const luaScriptContents,
-        const size_t bufferSize,
-        const char* const fileName);
+	static void LoadScript(
+		lua_State* luaVM,
+		const char* luaScriptContents,
+		size_t bufferSize,
+		const char* fileName);
 
-    static void NameVM(lua_State* const luaVM, const char* const vmName);
+	static void NameVM(lua_State* luaVM, const char* vmName);
 
-    static int PushBoolAttribute(
-        lua_State* const luaVM,
-        const bool value,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static int PushBoolAttribute(
+		lua_State* luaVM,
+		bool value,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static int PushColorValue(
-        lua_State* const luaVM, const Ogre::ColourValue& color);
+	static int PushColorValue(
+		lua_State* luaVM, const Ogre::ColourValue& color);
 
-    static int PushDataType(
-        lua_State* const luaVM,
-        void* const rawPointer,
-        const RawScriptType type);
+	static int PushDataType(
+		lua_State* luaVM,
+		void* rawPointer,
+		RawScriptType type);
 
-    static int PushDataTypeAttribute(
-        lua_State* const luaVM,
-        void* const rawPointer,
-        const Ogre::String& attributeName,
-        const RawScriptType type,
-        const int tableIndex);
+	static int PushDataTypeAttribute(
+		lua_State* luaVM,
+		void* rawPointer,
+		const Ogre::String& attributeName,
+		RawScriptType type,
+		int tableIndex);
 
-    static int PushErrorMessageAndDie(
-        lua_State* const luaVM,
-        const Ogre::String& message);
+	static int PushErrorMessageAndDie(
+		lua_State* luaVM,
+		const Ogre::String& message);
 
-    static int PushInt(lua_State* const luaVM, const int value);
+	static int PushInt(lua_State* luaVM, int value);
 
-    static int PushIntAttribute(
-        lua_State* const luaVM,
-        const int value,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static int PushIntAttribute(
+		lua_State* luaVM,
+		int value,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static int PushKeyboardEvent(
-        lua_State* const luaVM, const Ogre::String key, const bool pressed);
+	static int PushKeyboardEvent(
+		lua_State* luaVM, Ogre::String key, bool pressed);
 
-    static int PushMouseEvent(
-        lua_State* const luaVM,
-        const int width,
-        const int height,
-        const Ogre::String button,
-        const bool pressed);
+	static int PushMouseEvent(
+		lua_State* luaVM,
+		int width,
+		int height,
+		Ogre::String button,
+		bool pressed);
 
-    static int PushMouseMoveEvent(
-        lua_State* const luaVM, const int width, const int height);
+	static int PushMouseMoveEvent(
+		lua_State* luaVM, int width, int height);
 
-    static int PushReal(lua_State* const luaVM, const Ogre::Real real);
+	static int PushReal(lua_State* luaVM, Ogre::Real real);
 
-    static int PushRealAttribute(
-        lua_State* const luaVM,
-        const Ogre::Real real,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static int PushRealAttribute(
+		lua_State* luaVM,
+		Ogre::Real real,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static int PushString(lua_State* const luaVM, const Ogre::String value);
+	static int PushString(lua_State* luaVM, Ogre::String value);
 
-    static int PushStringAttribute(
-        lua_State* const luaVM,
-        const Ogre::String attributeValue,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static int PushStringAttribute(
+		lua_State* luaVM,
+		Ogre::String attributeValue,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static int PushVector2(
-        lua_State* const luaVM, const Ogre::Vector2& vector);
+	static int PushVector2(
+		lua_State* luaVM, const Ogre::Vector2& vector);
 
-    static int LuaScriptUtilities::PushVector2Attribute(
-        lua_State* const luaVM,
-        const Ogre::Vector2& vector,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static int LuaScriptUtilities::PushVector2Attribute(
+		lua_State* luaVM,
+		const Ogre::Vector2& vector,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static int PushVector3(
-        lua_State* const luaVM, const Ogre::Vector3& vector);
+	static int PushVector3(
+		lua_State* luaVM, const Ogre::Vector3& vector);
 
-    static int PushVector3Attribute(
-        lua_State* const luaVM,
-        const Ogre::Vector3& vector,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static int PushVector3Attribute(
+		lua_State* luaVM,
+		const Ogre::Vector3& vector,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static Ogre::Quaternion QuaternionFromRotationDegrees(
-        const Ogre::Vector3& degrees);
+	static Ogre::Quaternion QuaternionFromRotationDegrees(
+		const Ogre::Vector3& degrees);
 
-    static Ogre::Quaternion QuaternionFromRotationDegrees(
-        Ogre::Real xRotation, Ogre::Real yRotation, Ogre::Real zRotation);
+	static Ogre::Quaternion QuaternionFromRotationDegrees(
+		Ogre::Real xRotation, Ogre::Real yRotation, Ogre::Real zRotation);
 
-    static Ogre::Vector3 QuaternionToRotationDegrees(
-        const Ogre::Quaternion& quaternion);
+	static Ogre::Vector3 QuaternionToRotationDegrees(
+		const Ogre::Quaternion& quaternion);
 
-    static void RequireLuaModule(
-        lua_State* const luaVM, const Ogre::String luaScriptFileName);
+	static void RequireLuaModule(
+		lua_State* luaVM, Ogre::String luaScriptFileName);
 
-    static void Remove(Ogre::SceneNode* node);
+	static void Remove(Ogre::SceneNode* node);
 
-    static void SetLineStartEnd(
-        Ogre::SceneNode* line,
-        const Ogre::Vector3& start,
-        const Ogre::Vector3& end);
+	static void SetLineStartEnd(
+		Ogre::SceneNode* line,
+		const Ogre::Vector3& start,
+		const Ogre::Vector3& end);
 
-    static void SetLightRange(Ogre::Light* const light, const Ogre::Real range);
+	static void SetLightRange(Ogre::Light* light, Ogre::Real range);
 
 private:
-    LuaScriptUtilities();
-    ~LuaScriptUtilities();
-    LuaScriptUtilities(const LuaScriptUtilities&);
-    LuaScriptUtilities& operator=(const LuaScriptUtilities&);
+	LuaScriptUtilities();
+	~LuaScriptUtilities();
+	LuaScriptUtilities(const LuaScriptUtilities&);
+	LuaScriptUtilities& operator=(const LuaScriptUtilities&);
 };
 
 #endif  // DEMO_FRAMEWORK_LUA_SCRIPT_UTILITIES_H

@@ -24,8 +24,8 @@
 #include "chapter_3_animation/include/DemoAnimation.h"
 
 DemoAnimation::DemoAnimation()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Chapter 3 Animation")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Chapter 3 Animation")
 {
 }
 
@@ -35,23 +35,23 @@ DemoAnimation::~DemoAnimation()
 
 void DemoAnimation::Cleanup()
 {
-    SandboxApplication::Cleanup();
+	SandboxApplication::Cleanup();
 }
 
 void DemoAnimation::Draw()
 {
-    SandboxApplication::Draw();
+	SandboxApplication::Draw();
 }
 
 void DemoAnimation::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/chapter_3_animation/script");
-    CreateSandbox("Sandbox.lua");
+	AddResourceLocation("../../../src/chapter_3_animation/script");
+	CreateSandbox("Sandbox.lua");
 }
 
 void DemoAnimation::Update()
 {
-    SandboxApplication::Update();
+	SandboxApplication::Update();
 }

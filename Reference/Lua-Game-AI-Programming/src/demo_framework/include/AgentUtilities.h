@@ -42,234 +42,234 @@ class AgentPath;
 class AgentUtilities
 {
 public:
-    static void ApplyForce(Agent* const agent, const Ogre::Vector3 force);
+	static void ApplyForce(Agent* agent, Ogre::Vector3 force);
 
-    static void BindVMFunctions(lua_State* const luaVM);
+	static void BindVMFunctions(lua_State* luaVM);
 
-    static int CallFunction(
-        lua_State* const luaVM, const Ogre::String functionName);
+	static int CallFunction(
+		lua_State* luaVM, Ogre::String functionName);
 
-    static void CallLuaAgentCleanup(Agent* const agent);
+	static void CallLuaAgentCleanup(Agent* agent);
 
-    static void CallLuaAgentHandleKeyboardEvent(
-        Agent* const agent, const Ogre::String& key, const bool pressed);
+	static void CallLuaAgentHandleKeyboardEvent(
+		Agent* agent, const Ogre::String& key, bool pressed);
 
-    static void CallLuaAgentHandleMouseEvent(
-        Agent* const agent,
-        const int width,
-        const int height,
-        const Ogre::String button,
-        const bool pressed);
+	static void CallLuaAgentHandleMouseEvent(
+		Agent* agent,
+		int width,
+		int height,
+		Ogre::String button,
+		bool pressed);
 
-    static void CallLuaAgentHandleMouseMoveEvent(
-        Agent* const agent,
-        const int width,
-        const int height);
+	static void CallLuaAgentHandleMouseMoveEvent(
+		Agent* agent,
+		int width,
+		int height);
 
-    static void CallLuaAgentInitialize(Agent* const agent);
+	static void CallLuaAgentInitialize(Agent* agent);
 
-    static void CallLuaAgentUpdate(
-        Agent* const agent, const int deltaTimeInMillis);
+	static void CallLuaAgentUpdate(
+		Agent* agent, int deltaTimeInMillis);
 
-    static void CreateRigidBodyCapsule(Agent* const agent);
+	static void CreateRigidBodyCapsule(Agent* agent);
 
-    static Agent* GetAgent(lua_State* const luaVM, const int stackIndex);
+	static Agent* GetAgent(lua_State* luaVM, int stackIndex);
 
-    static Ogre::SceneNode* GetSceneNode(Agent* const agent);
+	static Ogre::SceneNode* GetSceneNode(Agent* agent);
 
-    static bool IsAgent(lua_State* const luaVM, const int stackIndex);
+	static bool IsAgent(lua_State* luaVM, int stackIndex);
 
-    static bool IsEqual(
-        const Agent* const leftAgent, const Agent* const rightAgent);
+	static bool IsEqual(
+		const Agent* leftAgent, const Agent* rightAgent);
 
-    static void LoadScript(
-        Agent* const agent,
-        const char* const luaScriptContents,
-        const size_t bufferSize,
-        const char* const fileName);
+	static void LoadScript(
+		Agent* agent,
+		const char* luaScriptContents,
+		size_t bufferSize,
+		const char* fileName);
 
-    static int PushAgent(lua_State* const luaVM, Agent* const agent);
+	static int PushAgent(lua_State* luaVM, Agent* agent);
 
-    static int PushAgentAttribute(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static int PushAgentAttribute(
+		lua_State* luaVM,
+		Agent* agent,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static int PushAgentId(lua_State* const luaVM, Agent* const agent);
+	static int PushAgentId(lua_State* luaVM, Agent* agent);
 
-    static int PushAgentProperties(
-        lua_State* const luaVM, const Agent* const agent);
+	static int PushAgentProperties(
+		lua_State* luaVM, const Agent* agent);
 
-    static int PushDistanceAlongPath(
-        lua_State* const luaVM,
-        const Agent* const agent,
-        const Ogre::Vector3& position);
+	static int PushDistanceAlongPath(
+		lua_State* luaVM,
+		const Agent* agent,
+		const Ogre::Vector3& position);
 
-    static int PushForceToAlign(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const float maxDistance,
-        const float maxAngle,
-        const std::vector<Agent*>& group);
+	static int PushForceToAlign(
+		lua_State* luaVM,
+		Agent* agent,
+		float maxDistance,
+		float maxAngle,
+		const std::vector<Agent*>& group);
 
-    static int PushForceToAvoidAgents(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const float predicitionTime = -1.0f);
+	static int PushForceToAvoidAgents(
+		lua_State* luaVM,
+		Agent* agent,
+		float predicitionTime = -1.0f);
 
-    static int PushForceToAvoidObjects(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const float predicitionTime = -1.0f);
+	static int PushForceToAvoidObjects(
+		lua_State* luaVM,
+		Agent* agent,
+		float predicitionTime = -1.0f);
 
-    static int PushForceToCombine(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const float maxDistance,
-        const float maxAngle,
-        const std::vector<Agent*>& group);
+	static int PushForceToCombine(
+		lua_State* luaVM,
+		Agent* agent,
+		float maxDistance,
+		float maxAngle,
+		const std::vector<Agent*>& group);
 
-    static int PushForceToFleePosition(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const Ogre::Vector3& position);
+	static int PushForceToFleePosition(
+		lua_State* luaVM,
+		Agent* agent,
+		const Ogre::Vector3& position);
 
-    static int PushForceToFollowPath(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const float predicitionTime = -1.0f);
+	static int PushForceToFollowPath(
+		lua_State* luaVM,
+		Agent* agent,
+		float predicitionTime = -1.0f);
 
-    static int PushForceToPosition(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const Ogre::Vector3& position);
+	static int PushForceToPosition(
+		lua_State* luaVM,
+		Agent* agent,
+		const Ogre::Vector3& position);
 
-    static int PushForceToSeparate(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const float maxDistance,
-        const float maxAngle,
-        const std::vector<Agent*>& group);
+	static int PushForceToSeparate(
+		lua_State* luaVM,
+		Agent* agent,
+		float maxDistance,
+		float maxAngle,
+		const std::vector<Agent*>& group);
 
-    static int PushForceToStayOnPath(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const float predicitionTime = -1.0f);
+	static int PushForceToStayOnPath(
+		lua_State* luaVM,
+		Agent* agent,
+		float predicitionTime = -1.0f);
 
-    static int PushForceToTargetSpeed(
-        lua_State* const luaVM, Agent* const agent, const Ogre::Real speed);
+	static int PushForceToTargetSpeed(
+		lua_State* luaVM, Agent* agent, Ogre::Real speed);
 
-    static int PushForceToWander(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const Ogre::Real deltaMilliseconds);
+	static int PushForceToWander(
+		lua_State* luaVM,
+		Agent* agent,
+		Ogre::Real deltaMilliseconds);
 
-    static int PushForward(lua_State* const luaVM, Agent* const agent);
+	static int PushForward(lua_State* luaVM, Agent* agent);
 
-    static int PushFunction(
-        lua_State* const luaVM, const Ogre::String functionName);
+	static int PushFunction(
+		lua_State* luaVM, Ogre::String functionName);
 
-    static int PushHasPath(lua_State* const luaVM, const Agent* const agent);
+	static int PushHasPath(lua_State* luaVM, const Agent* agent);
 
-    static int PushHealth(lua_State* const luaVM, const Agent* const agent);
+	static int PushHealth(lua_State* luaVM, const Agent* agent);
 
-    static int PushHeight(lua_State* const luaVM, const Agent* const agent);
+	static int PushHeight(lua_State* luaVM, const Agent* agent);
 
-    static int PushLeft(lua_State* const luaVM, Agent* const agent);
+	static int PushLeft(lua_State* luaVM, Agent* agent);
 
-    static int PushMass(lua_State* const luaVM, const Agent* const agent);
+	static int PushMass(lua_State* luaVM, const Agent* agent);
 
-    static int PushMaxForce(lua_State* const luaVM, const Agent* const agent);
+	static int PushMaxForce(lua_State* luaVM, const Agent* agent);
 
-    static int PushMaxSpeed(lua_State* const luaVM, const Agent* const agent);
+	static int PushMaxSpeed(lua_State* luaVM, const Agent* agent);
 
-    static int PushNearestPointOnPath(
-        lua_State* const luaVM,
-        const Agent* const agent,
-        const Ogre::Vector3& position);
+	static int PushNearestPointOnPath(
+		lua_State* luaVM,
+		const Agent* agent,
+		const Ogre::Vector3& position);
 
-    static int PushPath(lua_State* const luaVM, const Agent* const agent);
+	static int PushPath(lua_State* luaVM, const Agent* agent);
 
-    static int PushPathAttribute(
-        lua_State* const luaVM,
-        const Agent* const agent,
-        const Ogre::String attributeName,
-        const int tableIndex);
+	static int PushPathAttribute(
+		lua_State* luaVM,
+		const Agent* agent,
+		Ogre::String attributeName,
+		int tableIndex);
 
-    static int PushPointOnPath(
-        lua_State* const luaVM,
-        const Agent* const agent,
-        const Ogre::Real distance);
+	static int PushPointOnPath(
+		lua_State* luaVM,
+		const Agent* agent,
+		Ogre::Real distance);
 
-    static int PushPosition(lua_State* const luaVM, const Agent* const agent);
+	static int PushPosition(lua_State* luaVM, const Agent* agent);
 
-    static int PushPredictFuturePosition(
-        lua_State* const luaVM,
-        Agent* const agent,
-        const Ogre::Real timeInSeconds);
+	static int PushPredictFuturePosition(
+		lua_State* luaVM,
+		Agent* agent,
+		Ogre::Real timeInSeconds);
 
-    static int PushRadius(lua_State* const luaVM, const Agent* const agent);
+	static int PushRadius(lua_State* luaVM, const Agent* agent);
 
-    static int PushSandbox(lua_State* const luaVM, Agent* const agent);
+	static int PushSandbox(lua_State* luaVM, Agent* agent);
 
-    static int PushSpeed(lua_State* const luaVM, const Agent* const agent);
+	static int PushSpeed(lua_State* luaVM, const Agent* agent);
 
-    static int PushTarget(lua_State* const luaVM, const Agent* const agent);
+	static int PushTarget(lua_State* luaVM, const Agent* agent);
 
-    static int PushTargetRadius(
-        lua_State* const luaVM, const Agent* const agent);
+	static int PushTargetRadius(
+		lua_State* luaVM, const Agent* agent);
 
-    static int PushTeam(lua_State* const luaVM, const Agent* const agent);
+	static int PushTeam(lua_State* luaVM, const Agent* agent);
 
-    static int PushUp(lua_State* const luaVM, Agent* const agent);
+	static int PushUp(lua_State* luaVM, Agent* agent);
 
-    static int PushVelocity(lua_State* const luaVM, const Agent* const agent);
+	static int PushVelocity(lua_State* luaVM, const Agent* agent);
 
-    static void RemovePath(Agent* const agent);
+	static void RemovePath(Agent* agent);
 
-    static void RemovePhysics(Agent* const agent);
+	static void RemovePhysics(Agent* agent);
 
-    static void SetForward(Agent* const agent, const Ogre::Vector3& forward);
+	static void SetForward(Agent* agent, const Ogre::Vector3& forward);
 
-    static void SetHealth(Agent* const agent, const Ogre::Real health);
+	static void SetHealth(Agent* agent, Ogre::Real health);
 
-    static void SetHeight(Agent* const agent, const Ogre::Real height);
+	static void SetHeight(Agent* agent, Ogre::Real height);
 
-    static void SetMass(Agent* const agent, const Ogre::Real mass);
+	static void SetMass(Agent* agent, Ogre::Real mass);
 
-    static void SetMaxForce(Agent* const agent, const Ogre::Real maxForce);
+	static void SetMaxForce(Agent* agent, Ogre::Real maxForce);
 
-    static void SetMaxSpeed(Agent* const agent, const Ogre::Real maxSpeed);
+	static void SetMaxSpeed(Agent* agent, Ogre::Real maxSpeed);
 
-    static void SetPath(
-        Agent* const agent,
-        const std::vector<Ogre::Vector3>& points,
-        const bool cyclic);
+	static void SetPath(
+		Agent* agent,
+		const std::vector<Ogre::Vector3>& points,
+		bool cyclic);
 
-    static void SetPosition(Agent* const agent, const Ogre::Vector3& vector);
+	static void SetPosition(Agent* agent, const Ogre::Vector3& vector);
 
-    static void SetRadius(Agent* const agent, const Ogre::Real radius);
+	static void SetRadius(Agent* agent, Ogre::Real radius);
 
-    static void SetSpeed(Agent* const agent, const Ogre::Real speed);
+	static void SetSpeed(Agent* agent, Ogre::Real speed);
 
-    static void SetTarget(Agent* const agent, const Ogre::Vector3& target);
+	static void SetTarget(Agent* agent, const Ogre::Vector3& target);
 
-    static void SetTargetRadius(Agent* const agent, const Ogre::Real radius);
+	static void SetTargetRadius(Agent* agent, Ogre::Real radius);
 
-    static void SetTeam(Agent* const agent, const Ogre::String& team);
+	static void SetTeam(Agent* agent, const Ogre::String& team);
 
-    static void SetVelocity(Agent* const agent, const Ogre::Vector3& velocity);
+	static void SetVelocity(Agent* agent, const Ogre::Vector3& velocity);
 
-    static void UpdateRigidBodyCapsule(Agent* const agent);
+	static void UpdateRigidBodyCapsule(Agent* agent);
 
-    static void UpdateWorldTransform(Agent* const agent);
+	static void UpdateWorldTransform(Agent* agent);
 
 private:
-    AgentUtilities();
-    ~AgentUtilities();
-    AgentUtilities(const AgentUtilities&);
-    AgentUtilities& operator=(const AgentUtilities&);
-};  // class AgentUtilities
+	AgentUtilities();
+	~AgentUtilities();
+	AgentUtilities(const AgentUtilities&);
+	AgentUtilities& operator=(const AgentUtilities&);
+}; // class AgentUtilities
 
 #endif  // DEMO_FRAMEWORK_AGENT_UTILITIES_H

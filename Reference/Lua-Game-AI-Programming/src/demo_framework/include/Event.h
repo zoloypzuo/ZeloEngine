@@ -27,88 +27,87 @@
 #include <map>
 
 #include "ogre3d/include/OgrePrerequisites.h"
-#include "ogre3d/include/OgreString.h"
 
 class Object;
 
 class Event
 {
 public:
-    enum AttributeType
-    {
-        ATTRIBUTE_BOOLEAN,
-        ATTRIBUTE_INT,
-        ATTRIBUTE_FLOAT,
-        ATTRIBUTE_OBJECT,
-        ATTRIBUTE_STRING,
-        ATTRIBUTE_VECTOR3,
+	enum AttributeType
+	{
+		ATTRIBUTE_BOOLEAN,
+		ATTRIBUTE_INT,
+		ATTRIBUTE_FLOAT,
+		ATTRIBUTE_OBJECT,
+		ATTRIBUTE_STRING,
+		ATTRIBUTE_VECTOR3,
 
-        ATTRIBUTE_UNKNOWN
-    };
+		ATTRIBUTE_UNKNOWN
+	};
 
-    Event(const Ogre::String& eventType);
+	Event(const Ogre::String& eventType);
 
-    Event(const Event& event);
+	Event(const Event& event);
 
-    Event& operator=(const Event& event);
+	Event& operator=(const Event& event);
 
-    void AddAttribute(const Ogre::String& attributeName, const bool value);
+	void AddAttribute(const Ogre::String& attributeName, bool value);
 
-    void AddAttribute(const Ogre::String& attributeName, const int value);
+	void AddAttribute(const Ogre::String& attributeName, int value);
 
-    void AddAttribute(const Ogre::String& attributeName, const float value);
+	void AddAttribute(const Ogre::String& attributeName, float value);
 
-    void AddAttribute(
-        const Ogre::String& attributeName, const Ogre::String& value);
+	void AddAttribute(
+		const Ogre::String& attributeName, const Ogre::String& value);
 
-    void AddAttribute(
-        const Ogre::String& attributeName, Object* const object);
+	void AddAttribute(
+		const Ogre::String& attributeName, Object* object);
 
-    void AddAttribute(
-        const Ogre::String& attributeName, const Ogre::Vector3& value);
+	void AddAttribute(
+		const Ogre::String& attributeName, const Ogre::Vector3& value);
 
-    unsigned int GetAttributeCount() const;
+	unsigned int GetAttributeCount() const;
 
-    void GetAttributeNames(std::vector<Ogre::String>& attributeNames) const;
+	void GetAttributeNames(std::vector<Ogre::String>& attributeNames) const;
 
-    AttributeType GetAttributeType(const Ogre::String& attributeName) const;
+	AttributeType GetAttributeType(const Ogre::String& attributeName) const;
 
-    bool GetBoolAttribute(const Ogre::String& attributeName) const;
+	bool GetBoolAttribute(const Ogre::String& attributeName) const;
 
-    float GetFloatAttribute(const Ogre::String& attributeName) const;
+	float GetFloatAttribute(const Ogre::String& attributeName) const;
 
-    int GetIntAttribute(const Ogre::String& attributeName) const;
+	int GetIntAttribute(const Ogre::String& attributeName) const;
 
-    Object* GetObjectAttribute(const Ogre::String& attributeName) const;
+	Object* GetObjectAttribute(const Ogre::String& attributeName) const;
 
-    Ogre::String GetStringAttribute(const Ogre::String& attributeName) const;
+	Ogre::String GetStringAttribute(const Ogre::String& attributeName) const;
 
-    const Ogre::Vector3& GetVector3Attribute(
-        const Ogre::String& attributeName) const;
+	const Ogre::Vector3& GetVector3Attribute(
+		const Ogre::String& attributeName) const;
 
-    Ogre::String GetEventType() const;
+	Ogre::String GetEventType() const;
 
 private:
-    struct EventAttribute
-    {
-        Ogre::String string_;
-        Ogre::Vector3 vector_;
+	struct EventAttribute
+	{
+		Ogre::String string_;
+		Ogre::Vector3 vector_;
 
-        union
-        {
-            bool boolean_;
-            float float_;
-            int int_;
-            Object* object_;
-        };
+		union
+		{
+			bool boolean_;
+			float float_;
+			int int_;
+			Object* object_;
+		};
 
-        AttributeType type_;
-    };
+		AttributeType type_;
+	};
 
-    Ogre::String eventType_;
-    std::map<Ogre::String, EventAttribute> attributes_;
+	Ogre::String eventType_;
+	std::map<Ogre::String, EventAttribute> attributes_;
 
-    void InitializeAttribute(EventAttribute& attribute);
+	static void InitializeAttribute(EventAttribute& attribute);
 };
 
 #endif  // DEMO_FRAMEWORK_EVENT_H

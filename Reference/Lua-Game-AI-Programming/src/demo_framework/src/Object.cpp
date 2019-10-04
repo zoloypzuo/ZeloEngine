@@ -26,12 +26,12 @@
 #include "demo_framework/include/Object.h"
 
 Object::Object(const unsigned int objectId, const ObjectType type)
-    : objectId_(objectId), objectType_(type)
+	: objectId_(objectId), objectType_(type)
 {
 }
 
 Object::Object(Object& object)
-    : objectId_(object.objectId_), objectType_(object.objectType_)
+	: objectId_(object.objectId_), objectType_(object.objectType_)
 {
 }
 
@@ -41,10 +41,10 @@ Object::~Object()
 
 unsigned int Object::GetId() const
 {
-    return objectId_;
+	return objectId_;
 }
 
 Object::ObjectType Object::GetType() const
 {
-    return objectType_;
+	return objectType_;
 }

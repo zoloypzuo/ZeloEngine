@@ -24,16 +24,16 @@
 #include "chapter_1_introduction/include/DemoIntroduction.h"
 #include "demo_framework/include/LuaScriptUtilities.h"
 
-Ogre::AnimationState* state = NULL;
-Ogre::AnimationState* state2 = NULL;
-Ogre::Entity* meshEntity = NULL;
-Ogre::Entity* weaponEntity = NULL;
-Ogre::SceneNode* meshNode = NULL;
-Ogre::SceneNode* weaponNode = NULL;
+Ogre::AnimationState* state = nullptr;
+Ogre::AnimationState* state2 = nullptr;
+Ogre::Entity* meshEntity = nullptr;
+Ogre::Entity* weaponEntity = nullptr;
+Ogre::SceneNode* meshNode = nullptr;
+Ogre::SceneNode* weaponNode = nullptr;
 
 DemoIntroduction::DemoIntroduction()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Chapter 1 Introduction")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Chapter 1 Introduction")
 {
 }
 
@@ -43,13 +43,13 @@ DemoIntroduction::~DemoIntroduction()
 
 void DemoIntroduction::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/chapter_1_introduction/script");
-    CreateSandbox("Sandbox.lua");
+	AddResourceLocation("../../../src/chapter_1_introduction/script");
+	CreateSandbox("Sandbox.lua");
 }
 
 void DemoIntroduction::Update()
 {
-    SandboxApplication::Update();
+	SandboxApplication::Update();
 }

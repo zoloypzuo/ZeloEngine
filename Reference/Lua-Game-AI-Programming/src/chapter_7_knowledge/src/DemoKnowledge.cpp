@@ -23,12 +23,10 @@
 
 #include "chapter_7_knowledge/include/DemoKnowledge.h"
 
-#include "demo_framework/include/Sandbox.h"
-
 DemoKnowledge::DemoKnowledge()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Chapter 7 Knowledge "
-        "Representation")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Chapter 7 Knowledge "
+		"Representation")
 {
 }
 
@@ -38,8 +36,8 @@ DemoKnowledge::~DemoKnowledge()
 
 void DemoKnowledge::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/chapter_7_knowledge/script");
-    CreateSandbox("Sandbox.lua");
+	AddResourceLocation("../../../src/chapter_7_knowledge/script");
+	CreateSandbox("Sandbox.lua");
 }

@@ -28,108 +28,108 @@
 Ogre::NameGenerator ParticleUtilities::nameGenerator_("UnnamedParticle_");
 
 Ogre::SceneNode* ParticleUtilities::CreateParticle(
-    Ogre::SceneNode* const parentNode, const Ogre::String& particleName)
+	Ogre::SceneNode* const parentNode, const Ogre::String& particleName)
 {
-    assert(parentNode);
+	assert(parentNode);
 
-    Ogre::SceneNode* const particle = parentNode->createChildSceneNode();
+	Ogre::SceneNode* const particle = parentNode->createChildSceneNode();
 
-    Ogre::ParticleSystem* const particleSystem =
-        parentNode->getCreator()->createParticleSystem(
-            nameGenerator_.generate(), particleName);
+	Ogre::ParticleSystem* const particleSystem =
+		parentNode->getCreator()->createParticleSystem(
+			nameGenerator_.generate(), particleName);
 
-    particle->attachObject(particleSystem);
+	particle->attachObject(particleSystem);
 
-    return particle;
+	return particle;
 }
 
 Ogre::Real ParticleUtilities::GetLength(Ogre::SceneNode* const node)
 {
-    Ogre::Real length = 0;
+	Ogre::Real length = 0;
 
-    const unsigned short numAttachedObjects = node->numAttachedObjects();
+	const unsigned short numAttachedObjects = node->numAttachedObjects();
 
-    for (unsigned short index = 0; index < numAttachedObjects; ++index)
-    {
-        Ogre::MovableObject* const object = node->getAttachedObject(index);
+	for (unsigned short index = 0; index < numAttachedObjects; ++index)
+	{
+		Ogre::MovableObject* const object = node->getAttachedObject(index);
 
-        if (object->getMovableType() ==
-            Ogre::ParticleSystemFactory::FACTORY_TYPE_NAME)
-        {
-            Ogre::ParticleSystem* const particle =
-                static_cast<Ogre::ParticleSystem*>(object);
+		if (object->getMovableType() ==
+			Ogre::ParticleSystemFactory::FACTORY_TYPE_NAME)
+		{
+			Ogre::ParticleSystem* const particle =
+				static_cast<Ogre::ParticleSystem*>(object);
 
-            for(unsigned short i=0; i< particle->getNumEmitters(); i++)
-            {
-                Ogre::ParticleEmitter* const emitter =
-                    particle->getEmitter(i);
+			for (unsigned short i = 0; i < particle->getNumEmitters(); i++)
+			{
+				Ogre::ParticleEmitter* const emitter =
+					particle->getEmitter(i);
 
-                const Ogre::Real emitterLength =
-                    emitter->getMaxTimeToLive() + emitter->getMaxDuration();
+				const Ogre::Real emitterLength =
+					emitter->getMaxTimeToLive() + emitter->getMaxDuration();
 
-               if (emitterLength > length)
-               {
-                   length = emitterLength;
-               }
-            }
-        }
-    }
+				if (emitterLength > length)
+				{
+					length = emitterLength;
+				}
+			}
+		}
+	}
 
-    return length;
+	return length;
 }
 
 void ParticleUtilities::Reset(Ogre::SceneNode* const node)
 {
-    const unsigned short numAttachedObjects = node->numAttachedObjects();
+	const unsigned short numAttachedObjects = node->numAttachedObjects();
 
-    for (unsigned short index = 0; index < numAttachedObjects; ++index)
-    {
-        Ogre::MovableObject* const object = node->getAttachedObject(index);
+	for (unsigned short index = 0; index < numAttachedObjects; ++index)
+	{
+		Ogre::MovableObject* const object = node->getAttachedObject(index);
 
-        if (object->getMovableType() ==
-            Ogre::ParticleSystemFactory::FACTORY_TYPE_NAME)
-        {
-            Ogre::ParticleSystem* const particle =
-                static_cast<Ogre::ParticleSystem*>(object);
+		if (object->getMovableType() ==
+			Ogre::ParticleSystemFactory::FACTORY_TYPE_NAME)
+		{
+			Ogre::ParticleSystem* const particle =
+				static_cast<Ogre::ParticleSystem*>(object);
 
-            particle->setEmitting(true);
+			particle->setEmitting(true);
 
-            for(unsigned short i=0; i< particle->getNumEmitters(); i++)
-            {
-                Ogre::ParticleEmitter* const emitter =
-                    particle->getEmitter(i);
+			for (unsigned short i = 0; i < particle->getNumEmitters(); i++)
+			{
+				Ogre::ParticleEmitter* const emitter =
+					particle->getEmitter(i);
 
-                emitter->setEnabled(false);
-                //This resets the repeatDelay to 0
-                emitter->setMinRepeatDelay(0);
-                emitter->setEnabled(true);
-            }
-        }
-    }
+				emitter->setEnabled(false);
+				//This resets the repeatDelay to 0
+				emitter->setMinRepeatDelay(0);
+				emitter->setEnabled(true);
+			}
+		}
+	}
 }
 
 void ParticleUtilities::SetDirection(
-    Ogre::SceneNode* const node, const Ogre::Vector3 direction)
+	Ogre::SceneNode* const node, const Ogre::Vector3 direction)
 {
-    const unsigned short numAttachedObjects = node->numAttachedObjects();
+	const unsigned short numAttachedObjects = node->numAttachedObjects();
 
-    for (unsigned short index = 0; index < numAttachedObjects; ++index)
-    {
-        Ogre::MovableObject* const object = node->getAttachedObject(index);
+	for (unsigned short index = 0; index < numAttachedObjects; ++index)
+	{
+		Ogre::MovableObject* const object = node->getAttachedObject(index);
 
-        if (object->getMovableType() ==
-            Ogre::ParticleSystemFactory::FACTORY_TYPE_NAME)
-        {
-            Ogre::ParticleSystem* const particle =
-                static_cast<Ogre::ParticleSystem*>(object);
+		if (object->getMovableType() ==
+			Ogre::ParticleSystemFactory::FACTORY_TYPE_NAME)
+		{
+			Ogre::ParticleSystem* const particle =
+				static_cast<Ogre::ParticleSystem*>(object);
 
-            particle->setEmitting(true);
+			particle->setEmitting(true);
 
-            for(unsigned short i=0; i< particle->getNumEmitters(); i++)
-            {
-                Ogre::ParticleEmitter* const emitter = particle->getEmitter(i);
-                emitter->setDirection(direction);
-            }
-        }
-    }
+			for (unsigned short i = 0; i < particle->getNumEmitters(); i++)
+			{
+				Ogre::ParticleEmitter* const emitter = particle->getEmitter(i);
+				emitter->setDirection(direction);
+			}
+		}
+	}
 }
