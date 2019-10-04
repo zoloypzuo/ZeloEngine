@@ -70,6 +70,7 @@ vpaths({
     configuration("*")
     
     -- configurations for executables
+    entrypoint "main"
     configuration({"ConsoleApp or WindowedApp", "x32", "Debug"})
     targetdir("../bin/x32/debug")
     libdirs({"../lib/x32/debug"})
