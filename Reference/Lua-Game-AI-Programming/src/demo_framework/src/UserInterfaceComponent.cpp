@@ -27,402 +27,402 @@
 
 namespace
 {
-    static const int markupTextTopOffset = 1;
-    static const int markupTextLeftOffset = 1;
+	const int markupTextTopOffset = 1;
+	const int markupTextLeftOffset = 1;
 
-    struct FontString
-    {
-        UserInterfaceComponent::Font font;
-        char* fontString;
-    };
+	struct FontString
+	{
+		UserInterfaceComponent::Font font;
+		char* fontString;
+	};
 
-    const FontString fontStrings[] =
-    {
-        { UserInterfaceComponent::SMALL,            "small" },
-        { UserInterfaceComponent::SMALL_MONO,       "small_mono" },
-        { UserInterfaceComponent::MEDIUM,           "medium" },
-        { UserInterfaceComponent::MEDIUM_MONO,      "medium_mono" },
-        { UserInterfaceComponent::LARGE,            "large" },
-        { UserInterfaceComponent::LARGE_MONO,       "large_mono" }
-    };
+	const FontString fontStrings[] =
+	{
+		{UserInterfaceComponent::SMALL, "small"},
+		{UserInterfaceComponent::SMALL_MONO, "small_mono"},
+		{UserInterfaceComponent::MEDIUM, "medium"},
+		{UserInterfaceComponent::MEDIUM_MONO, "medium_mono"},
+		{UserInterfaceComponent::LARGE, "large"},
+		{UserInterfaceComponent::LARGE_MONO, "large_mono"}
+	};
 
-    struct GradientString
-    {
-        UserInterfaceComponent::GradientDirection gradient;
-        char* gradientString;
-    };
+	struct GradientString
+	{
+		UserInterfaceComponent::GradientDirection gradient;
+		char* gradientString;
+	};
 
-    const GradientString gradientStrings[] =
-    {
-        { UserInterfaceComponent::DIAGONAL,         "diagonal" },
-        { UserInterfaceComponent::NORTH_SOUTH,      "north_south" },
-        { UserInterfaceComponent::WEST_EAST,        "west_east" }
-    };
-}  // anonymous namespace
+	const GradientString gradientStrings[] =
+	{
+		{UserInterfaceComponent::DIAGONAL, "diagonal"},
+		{UserInterfaceComponent::NORTH_SOUTH, "north_south"},
+		{UserInterfaceComponent::WEST_EAST, "west_east"}
+	};
+} // anonymous namespace
 
 Ogre::String UserInterfaceComponent::FontToString(
-    const UserInterfaceComponent::Font font)
+	const UserInterfaceComponent::Font font)
 {
-    const size_t fontStringCount = sizeof(fontStrings) / sizeof(fontStrings[0]);
+	const size_t fontStringCount = sizeof fontStrings / sizeof fontStrings[0];
 
-    for (size_t index = 0; index < fontStringCount; ++index)
-    {
-        if (fontStrings[index].font == font)
-        {
-            return fontStrings[index].fontString;
-        }
-    }
+	for (size_t index = 0; index < fontStringCount; ++index)
+	{
+		if (fontStrings[index].font == font)
+		{
+			return fontStrings[index].fontString;
+		}
+	}
 
-    return "unknown_string";
+	return "unknown_string";
 }
 
 UserInterfaceComponent::Font UserInterfaceComponent::StringToFont(
-    const Ogre::String& string)
+	const Ogre::String& string)
 {
-    const size_t fontStringCount = sizeof(fontStrings) / sizeof(fontStrings[0]);
+	const size_t fontStringCount = sizeof fontStrings / sizeof fontStrings[0];
 
-    for (size_t index = 0; index < fontStringCount; ++index)
-    {
-        if (fontStrings[index].fontString == string)
-        {
-            return fontStrings[index].font;
-        }
-    }
+	for (size_t index = 0; index < fontStringCount; ++index)
+	{
+		if (fontStrings[index].fontString == string)
+		{
+			return fontStrings[index].font;
+		}
+	}
 
-    return UserInterfaceComponent::UNKNOWN_FONT;
+	return UserInterfaceComponent::UNKNOWN_FONT;
 }
 
 Ogre::String UserInterfaceComponent::GradientToString(
-    const GradientDirection gradient)
+	const GradientDirection gradient)
 {
-    const size_t gradientStringCount =
-        sizeof(gradientStrings) / sizeof(gradientStrings[0]);
+	const size_t gradientStringCount =
+		sizeof gradientStrings / sizeof gradientStrings[0];
 
-    for (size_t index = 0; index < gradientStringCount; ++index)
-    {
-        if (gradientStrings[index].gradient == gradient)
-        {
-            return gradientStrings[index].gradientString;
-        }
-    }
+	for (size_t index = 0; index < gradientStringCount; ++index)
+	{
+		if (gradientStrings[index].gradient == gradient)
+		{
+			return gradientStrings[index].gradientString;
+		}
+	}
 
-    return "unknown_gradient";
+	return "unknown_gradient";
 }
 
 UserInterfaceComponent::GradientDirection UserInterfaceComponent::StringToGradient(
-    const Ogre::String& string)
+	const Ogre::String& string)
 {
-    const size_t gradientStringCount =
-        sizeof(gradientStrings) / sizeof(gradientStrings[0]);
+	const size_t gradientStringCount =
+		sizeof gradientStrings / sizeof gradientStrings[0];
 
-    for (size_t index = 0; index < gradientStringCount; ++index)
-    {
-        if (gradientStrings[index].gradientString == string)
-        {
-            return gradientStrings[index].gradient;
-        }
-    }
+	for (size_t index = 0; index < gradientStringCount; ++index)
+	{
+		if (gradientStrings[index].gradientString == string)
+		{
+			return gradientStrings[index].gradient;
+		}
+	}
 
-    return UserInterfaceComponent::UNKNOWN_GRADIENT;
+	return UserInterfaceComponent::UNKNOWN_GRADIENT;
 }
 
 UserInterfaceComponent::UserInterfaceComponent(Gorilla::Layer* const layer)
-    : parentLayer_(layer),
-    topLeftPosition_(0, 0),
-    topLeftOffset_(0, 0),
-    textMargin_(0, 0),
-    font_(SMALL),
-    visible_(true),
-    sceneNode_(NULL),
-    screen_(NULL)
+	: parentLayer_(layer),
+	  screen_(nullptr),
+	  sceneNode_(nullptr),
+	  topLeftPosition_(0, 0),
+	  topLeftOffset_(0, 0),
+	  textMargin_(0, 0),
+	  visible_(true),
+	  font_(SMALL)
 {
-    Initialize();
+	Initialize();
 }
 
 UserInterfaceComponent::UserInterfaceComponent(
-    Ogre::SceneNode& sceneNode,
-    Gorilla::ScreenRenderable* const screenRenderable)
-    : parentLayer_(screenRenderable->createLayer(0)),
-    topLeftPosition_(0, 0),
-    topLeftOffset_(0, 0),
-    textMargin_(0, 0),
-    font_(SMALL),
-    visible_(true),
-    sceneNode_(&sceneNode),
-    screen_(screenRenderable)
+	Ogre::SceneNode& sceneNode,
+	Gorilla::ScreenRenderable* const screenRenderable)
+	: parentLayer_(screenRenderable->createLayer(0)),
+	  screen_(screenRenderable),
+	  sceneNode_(&sceneNode),
+	  topLeftPosition_(0, 0),
+	  topLeftOffset_(0, 0),
+	  textMargin_(0, 0),
+	  visible_(true),
+	  font_(SMALL)
 {
-    sceneNode_->attachObject(screen_);
-    Initialize();
+	sceneNode_->attachObject(screen_);
+	Initialize();
 }
 
 UserInterfaceComponent::~UserInterfaceComponent()
 {
-    parentLayer_->destroyCaption(text_);
-    parentLayer_->destroyRectangle(rectangle_);
-    parentLayer_->destroyMarkupText(markupText_);
+	parentLayer_->destroyCaption(text_);
+	parentLayer_->destroyRectangle(rectangle_);
+	parentLayer_->destroyMarkupText(markupText_);
 
-    for (std::vector<UserInterfaceComponent*>::iterator it = children_.begin();
-        it != children_.end(); ++it)
-    {
-        delete *it;
-    }
+	for (std::vector<UserInterfaceComponent*>::iterator it = children_.begin();
+	     it != children_.end(); ++it)
+	{
+		delete *it;
+	}
 
-    children_.clear();
+	children_.clear();
 }
 
 void UserInterfaceComponent::AddChild(UserInterfaceComponent* const child)
 {
-    children_.push_back(child);
+	children_.push_back(child);
 
-    child->SetOffsetPosition(topLeftPosition_ + topLeftOffset_);
+	child->SetOffsetPosition(topLeftPosition_ + topLeftOffset_);
 }
 
 UserInterfaceComponent* UserInterfaceComponent::CreateChildComponent()
 {
-    UserInterfaceComponent* const child =
-        new UserInterfaceComponent(parentLayer_);
+	UserInterfaceComponent* const child =
+		new UserInterfaceComponent(parentLayer_);
 
-    AddChild(child);
+	AddChild(child);
 
-    return child;
+	return child;
 }
 
 void UserInterfaceComponent::CreateLine(
-    std::vector<Ogre::Vector2> points,
-    const Ogre::ColourValue& color,
-    const Ogre::Real thickness,
-    const bool cyclical)
+	std::vector<Ogre::Vector2> points,
+	const Ogre::ColourValue& color,
+	const Ogre::Real thickness,
+	const bool cyclical)
 {
 }
 
 bool UserInterfaceComponent::DestroyChild(UserInterfaceComponent* const child)
 {
-    std::vector<UserInterfaceComponent*>::iterator it =
-        std::find(children_.begin(), children_.end(), child);
+	std::vector<UserInterfaceComponent*>::iterator it =
+		std::find(children_.begin(), children_.end(), child);
 
-    if (it != children_.end())
-    {
-        children_.erase(it);
-        return true;
-    }
-    return false;
+	if (it != children_.end())
+	{
+		children_.erase(it);
+		return true;
+	}
+	return false;
 }
 
 Ogre::Vector2 UserInterfaceComponent::GetDimensions() const
 {
-    return dimensions_;
+	return dimensions_;
 }
 
 UserInterfaceComponent::Font UserInterfaceComponent::GetFont() const
 {
-    return font_;
+	return font_;
 }
 
 Ogre::String UserInterfaceComponent::GetMarkupText() const
 {
-    return markupText_->text();
+	return markupText_->text();
 }
 
 Ogre::Vector2 UserInterfaceComponent::GetOffsetPosition() const
 {
-    return topLeftOffset_;
+	return topLeftOffset_;
 }
 
 Ogre::Vector2 UserInterfaceComponent::GetPosition() const
 {
-    return topLeftPosition_;
+	return topLeftPosition_;
 }
 
 Ogre::Vector2 UserInterfaceComponent::GetScreenPosition() const
 {
-    return GetOffsetPosition() + GetPosition();
+	return GetOffsetPosition() + GetPosition();
 }
 
 Ogre::String UserInterfaceComponent::GetText() const
 {
-    return text_->text();
+	return text_->text();
 }
 
 Ogre::Vector2 UserInterfaceComponent::GetTextMargin() const
 {
-    return textMargin_;
+	return textMargin_;
 }
 
 void UserInterfaceComponent::Initialize()
 {
-    text_ = parentLayer_->createCaption(
-        font_,
-        textMargin_.x + topLeftOffset_.x,
-        textMargin_.y + topLeftOffset_.y,
-        "");
+	text_ = parentLayer_->createCaption(
+		font_,
+		textMargin_.x + topLeftOffset_.x,
+		textMargin_.y + topLeftOffset_.y,
+		"");
 
-    rectangle_ = parentLayer_->createRectangle(
-        topLeftPosition_ + topLeftOffset_, dimensions_);
+	rectangle_ = parentLayer_->createRectangle(
+		topLeftPosition_ + topLeftOffset_, dimensions_);
 
-    markupText_ = parentLayer_->createMarkupText(
-        UserInterfaceComponent::SMALL,
-        textMargin_.x + topLeftOffset_.x + markupTextLeftOffset,
-        textMargin_.y + topLeftOffset_.y + markupTextTopOffset,
-        "");
+	markupText_ = parentLayer_->createMarkupText(
+		UserInterfaceComponent::SMALL,
+		textMargin_.x + topLeftOffset_.x + markupTextLeftOffset,
+		textMargin_.y + topLeftOffset_.y + markupTextTopOffset,
+		"");
 
-    SetBackgroundColor(Ogre::ColourValue(0, 0, 0, 0));
-    SetDimension(Ogre::Vector2(100, 100));
+	SetBackgroundColor(Ogre::ColourValue(0, 0, 0, 0));
+	SetDimension(Ogre::Vector2(100, 100));
 }
 
 bool UserInterfaceComponent::IsVisible() const
 {
-    return visible_;
+	return visible_;
 }
 
-void UserInterfaceComponent::SetBackgroundColor(const Ogre::ColourValue& color)
+void UserInterfaceComponent::SetBackgroundColor(const Ogre::ColourValue& color) const
 {
-    rectangle_->background_colour(color);
+	rectangle_->background_colour(color);
 }
 
-void UserInterfaceComponent::SetBackgroundImage(const Ogre::String& sprite)
+void UserInterfaceComponent::SetBackgroundImage(const Ogre::String& sprite) const
 {
-    rectangle_->background_image(sprite);
+	rectangle_->background_image(sprite);
 }
 
 void UserInterfaceComponent::SetDimension(const Ogre::Vector2& dimension)
 {
-    dimensions_ = dimension;
+	dimensions_ = dimension;
 
-    rectangle_->width(dimension.x);
-    rectangle_->height(dimension.y);
+	rectangle_->width(dimension.x);
+	rectangle_->height(dimension.y);
 
-    text_->size(
-        dimension.x - textMargin_.x * 2,
-        dimension.y - textMargin_.y * 2);
+	text_->size(
+		dimension.x - textMargin_.x * 2,
+		dimension.y - textMargin_.y * 2);
 
-    markupText_->size(
-        dimension.x - textMargin_.x * 2,
-        dimension.y - textMargin_.y * 2);
+	markupText_->size(
+		dimension.x - textMargin_.x * 2,
+		dimension.y - textMargin_.y * 2);
 }
 
-void UserInterfaceComponent::SetFont(const Font font)
+void UserInterfaceComponent::SetFont(const Font font) const
 {
-    text_->font(font);
+	text_->font(font);
 }
 
-void UserInterfaceComponent::SetFontColor(const Ogre::ColourValue& color)
+void UserInterfaceComponent::SetFontColor(const Ogre::ColourValue& color) const
 {
-    text_->colour(color);
+	text_->colour(color);
 }
 
 void UserInterfaceComponent::SetGradientColor(
-    const GradientDirection direction,
-    const Ogre::ColourValue startColor,
-    const Ogre::ColourValue endColor)
+	const GradientDirection direction,
+	const Ogre::ColourValue startColor,
+	const Ogre::ColourValue endColor) const
 {
-    rectangle_->background_gradient(
-        (Gorilla::Gradient)direction, startColor, endColor);
+	rectangle_->background_gradient(
+		static_cast<Gorilla::Gradient>(direction), startColor, endColor);
 }
 
 void UserInterfaceComponent::SetHeight(const Ogre::Real height)
 {
-    SetDimension(Ogre::Vector2(dimensions_.x, height));
+	SetDimension(Ogre::Vector2(dimensions_.x, height));
 }
 
-void UserInterfaceComponent::SetMarkupText(const Ogre::String& text)
+void UserInterfaceComponent::SetMarkupText(const Ogre::String& text) const
 {
-    markupText_->text(text);
+	markupText_->text(text);
 }
 
 void UserInterfaceComponent::SetOffsetPosition(const Ogre::Vector2& offset)
 {
-    topLeftOffset_ = offset;
+	topLeftOffset_ = offset;
 
-    rectangle_->position(topLeftOffset_ + topLeftPosition_);
+	rectangle_->position(topLeftOffset_ + topLeftPosition_);
 
-    text_->top(topLeftOffset_.y + topLeftPosition_.y + textMargin_.y);
-    text_->left(topLeftOffset_.x + topLeftPosition_.x + textMargin_.x);
+	text_->top(topLeftOffset_.y + topLeftPosition_.y + textMargin_.y);
+	text_->left(topLeftOffset_.x + topLeftPosition_.x + textMargin_.x);
 
-    markupText_->top(
-        topLeftOffset_.y + topLeftPosition_.y + textMargin_.y + markupTextTopOffset);
-    markupText_->left(
-        topLeftOffset_.x + topLeftPosition_.x + textMargin_.x + markupTextLeftOffset);
+	markupText_->top(
+		topLeftOffset_.y + topLeftPosition_.y + textMargin_.y + markupTextTopOffset);
+	markupText_->left(
+		topLeftOffset_.x + topLeftPosition_.x + textMargin_.x + markupTextLeftOffset);
 
-    for (std::vector<UserInterfaceComponent*>::iterator it = children_.begin();
-        it != children_.end(); ++it)
-    {
-        (*it)->SetOffsetPosition(topLeftOffset_ + topLeftPosition_);
-    }
+	for (std::vector<UserInterfaceComponent*>::iterator it = children_.begin();
+	     it != children_.end(); ++it)
+	{
+		(*it)->SetOffsetPosition(topLeftOffset_ + topLeftPosition_);
+	}
 }
 
 void UserInterfaceComponent::SetPosition(const Ogre::Vector2& position)
 {
-    topLeftPosition_ = position;
+	topLeftPosition_ = position;
 
-    rectangle_->position(topLeftOffset_ + topLeftPosition_);
+	rectangle_->position(topLeftOffset_ + topLeftPosition_);
 
-    text_->top(topLeftOffset_.y + topLeftPosition_.y + textMargin_.y);
-    text_->left(topLeftOffset_.x + topLeftPosition_.x + textMargin_.x);
+	text_->top(topLeftOffset_.y + topLeftPosition_.y + textMargin_.y);
+	text_->left(topLeftOffset_.x + topLeftPosition_.x + textMargin_.x);
 
-    markupText_->top(
-        topLeftOffset_.y + topLeftPosition_.y + textMargin_.y + markupTextTopOffset);
-    markupText_->left(
-        topLeftOffset_.x + topLeftPosition_.x + textMargin_.x + markupTextLeftOffset);
+	markupText_->top(
+		topLeftOffset_.y + topLeftPosition_.y + textMargin_.y + markupTextTopOffset);
+	markupText_->left(
+		topLeftOffset_.x + topLeftPosition_.x + textMargin_.x + markupTextLeftOffset);
 
-    for (std::vector<UserInterfaceComponent*>::iterator it = children_.begin();
-        it != children_.end(); ++it)
-    {
-        (*it)->SetOffsetPosition(topLeftOffset_ + topLeftPosition_);
-    }
+	for (std::vector<UserInterfaceComponent*>::iterator it = children_.begin();
+	     it != children_.end(); ++it)
+	{
+		(*it)->SetOffsetPosition(topLeftOffset_ + topLeftPosition_);
+	}
 }
 
-void UserInterfaceComponent::SetText(const Ogre::String& string)
+void UserInterfaceComponent::SetText(const Ogre::String& string) const
 {
-    text_->text(string);
+	text_->text(string);
 }
 
 void UserInterfaceComponent::SetTextMargin(
-    const Ogre::Real top, const Ogre::Real left)
+	const Ogre::Real top, const Ogre::Real left)
 {
-    textMargin_.x = left;
-    textMargin_.y = top;
+	textMargin_.x = left;
+	textMargin_.y = top;
 
-    text_->left(topLeftOffset_.x + topLeftPosition_.x + textMargin_.x);
-    text_->top(topLeftOffset_.y + topLeftPosition_.y + textMargin_.y);
+	text_->left(topLeftOffset_.x + topLeftPosition_.x + textMargin_.x);
+	text_->top(topLeftOffset_.y + topLeftPosition_.y + textMargin_.y);
 
-    markupText_->left(topLeftOffset_.x + topLeftPosition_.x + textMargin_.x);
-    markupText_->top(topLeftOffset_.y + topLeftPosition_.y + textMargin_.y);
+	markupText_->left(topLeftOffset_.x + topLeftPosition_.x + textMargin_.x);
+	markupText_->top(topLeftOffset_.y + topLeftPosition_.y + textMargin_.y);
 
-    text_->size(
-        dimensions_.x - textMargin_.x * 2,
-        dimensions_.y - textMargin_.y * 2);
+	text_->size(
+		dimensions_.x - textMargin_.x * 2,
+		dimensions_.y - textMargin_.y * 2);
 
-    markupText_->size(
-        dimensions_.x - textMargin_.x * 2,
-        dimensions_.y - textMargin_.y * 2);
+	markupText_->size(
+		dimensions_.x - textMargin_.x * 2,
+		dimensions_.y - textMargin_.y * 2);
 }
 
 void UserInterfaceComponent::SetWidth(const Ogre::Real width)
 {
-    SetDimension(Ogre::Vector2(width, dimensions_.y));
+	SetDimension(Ogre::Vector2(width, dimensions_.y));
 }
 
-void UserInterfaceComponent::SetWorldPosition(const Ogre::Vector3& position)
+void UserInterfaceComponent::SetWorldPosition(const Ogre::Vector3& position) const
 {
-    if (sceneNode_)
-    {
-        sceneNode_->_setDerivedPosition(position);
-    }
+	if (sceneNode_)
+	{
+		sceneNode_->_setDerivedPosition(position);
+	}
 }
 
-void UserInterfaceComponent::SetWorldRotation(const Ogre::Quaternion& rotation)
+void UserInterfaceComponent::SetWorldRotation(const Ogre::Quaternion& rotation) const
 {
-    if (sceneNode_)
-    {
-        sceneNode_->_setDerivedOrientation(rotation);
-    }
+	if (sceneNode_)
+	{
+		sceneNode_->_setDerivedOrientation(rotation);
+	}
 }
 
 void UserInterfaceComponent::SetVisible(const bool visible)
 {
-    visible_ = visible;
+	visible_ = visible;
 
-    rectangle_->visible(visible);
-    text_->visible(visible);
-    markupText_->visible(visible);
+	rectangle_->visible(visible);
+	text_->visible(visible);
+	markupText_->visible(visible);
 }

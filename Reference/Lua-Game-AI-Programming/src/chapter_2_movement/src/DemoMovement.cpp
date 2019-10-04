@@ -24,8 +24,8 @@
 #include "chapter_2_movement/include/DemoMovement.h"
 
 DemoMovement::DemoMovement()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Chapter 2 Movement")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Chapter 2 Movement")
 {
 }
 
@@ -35,23 +35,23 @@ DemoMovement::~DemoMovement()
 
 void DemoMovement::Cleanup()
 {
-    SandboxApplication::Cleanup();
+	SandboxApplication::Cleanup();
 }
 
 void DemoMovement::Draw()
 {
-    SandboxApplication::Draw();
+	SandboxApplication::Draw();
 }
 
 void DemoMovement::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/chapter_2_movement/script");
-    CreateSandbox("Sandbox.lua");
+	AddResourceLocation("../../../src/chapter_2_movement/script");
+	CreateSandbox("Sandbox.lua");
 }
 
 void DemoMovement::Update()
 {
-    SandboxApplication::Update();
+	SandboxApplication::Update();
 }

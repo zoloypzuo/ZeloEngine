@@ -29,42 +29,42 @@
 class LuaFile : public Ogre::Resource
 {
 public:
-    LuaFile(
-        Ogre::ResourceManager* const creator,
-        const Ogre::String& resourceName,
-        Ogre::ResourceHandle handle,
-        const Ogre::String& group,
-        const bool isManual = false,
-        Ogre::ManualResourceLoader* const loader = NULL);
+	LuaFile(
+		Ogre::ResourceManager* creator,
+		const Ogre::String& resourceName,
+		Ogre::ResourceHandle handle,
+		const Ogre::String& group,
+		bool isManual = false,
+		Ogre::ManualResourceLoader* loader = nullptr);
 
-    virtual ~LuaFile();
+	virtual ~LuaFile();
 
-    const char* GetData() const;
+	const char* GetData() const;
 
-    size_t GetDataLength() const;
+	size_t GetDataLength() const;
 
-    void SetData(const char* const data, const size_t dataLength);
+	void SetData(const char* data, size_t dataLength);
 
 protected:
-    virtual size_t calculateSize() const;
+	size_t calculateSize() const override;
 
-    virtual void loadImpl();
+	void loadImpl() override;
 
-    virtual void unloadImpl();
+	void unloadImpl() override;
 
 private:
-    const char* binaryData_;
-    size_t dataLength_;
+	const char* binaryData_;
+	size_t dataLength_;
 
-    /**
-     * Unimplemented copy constructor.
-     */
-    LuaFile(const LuaFile&);
+	/**
+	 * Unimplemented copy constructor.
+	 */
+	LuaFile(const LuaFile&);
 
-    /**
-     * Unimplemented assignment operator.
-     */
-    LuaFile& operator=(const LuaFile&);
-};  // class LuaFile
+	/**
+	 * Unimplemented assignment operator.
+	 */
+	LuaFile& operator=(const LuaFile&);
+}; // class LuaFile
 
 #endif  // DEMO_FRAMEWORK_LUA_FILE_H

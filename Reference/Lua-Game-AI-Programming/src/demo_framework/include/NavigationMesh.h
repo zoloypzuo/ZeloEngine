@@ -36,40 +36,40 @@ class SandboxObject;
 
 namespace Ogre
 {
-class SceneManager;
-class SceneNode;
-class Vector3;
+	class SceneManager;
+	class SceneNode;
+	class Vector3;
 }
 
 class NavigationMesh
 {
 public:
-    NavigationMesh(
-        rcConfig& config,
-        const std::vector<SandboxObject*>& objects,
-        Ogre::SceneManager* const manager = NULL);
+	NavigationMesh(
+		rcConfig& config,
+		const std::vector<SandboxObject*>& objects,
+		Ogre::SceneManager* manager = nullptr);
 
-    ~NavigationMesh();
+	~NavigationMesh();
 
-    Ogre::Vector3 FindClosestPoint(const Ogre::Vector3& point);
+	Ogre::Vector3 FindClosestPoint(const Ogre::Vector3& point) const;
 
-    void FindPath(
-        const Ogre::Vector3& start,
-        const Ogre::Vector3& end,
-        std::vector<Ogre::Vector3>& outPath);
+	void FindPath(
+		const Ogre::Vector3& start,
+		const Ogre::Vector3& end,
+		std::vector<Ogre::Vector3>& outPath) const;
 
-    Ogre::SceneNode* GetDebugMesh() const;
+	Ogre::SceneNode* GetDebugMesh() const;
 
-    Ogre::Vector3 RandomPoint();
+	Ogre::Vector3 RandomPoint() const;
 
-    void SetNavmeshDebug(const bool debug);
+	void SetNavmeshDebug(bool debug) const;
 
 private:
-    static Ogre::NameGenerator debugNameGenerator;
+	static Ogre::NameGenerator debugNameGenerator;
 
-    dtNavMesh* navMesh_;
-    dtNavMeshQuery* query_;
-    Ogre::SceneNode* debugMesh_;
+	dtNavMesh* navMesh_;
+	dtNavMeshQuery* query_;
+	Ogre::SceneNode* debugMesh_;
 };
 
 #endif  // DEMO_FRAMEWORK_NAVIGATION_MESH_H

@@ -23,12 +23,10 @@
 
 #include "chapter_8_perception/include/DemoPerception.h"
 
-#include "demo_framework/include/Sandbox.h"
-
 DemoPerception::DemoPerception()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Chapter 8 Sensory "
-        "Perception")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Chapter 8 Sensory "
+		"Perception")
 {
 }
 
@@ -38,8 +36,8 @@ DemoPerception::~DemoPerception()
 
 void DemoPerception::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/chapter_8_perception/script");
-    CreateSandbox("Sandbox.lua");
+	AddResourceLocation("../../../src/chapter_8_perception/script");
+	CreateSandbox("Sandbox.lua");
 }

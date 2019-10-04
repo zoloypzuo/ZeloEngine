@@ -32,8 +32,7 @@
 #include <algorithm>
 
 // C Library Headers
-extern "C"
-{
+extern "C" {
 #include "lua/include/lauxlib.h"
 #include "lua/include/lstate.h"
 #include "lua/include/lua.h"

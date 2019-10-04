@@ -29,15 +29,15 @@
 class DemoTactics : public SandboxApplication
 {
 public:
-    DemoTactics();
+	DemoTactics();
 
-    virtual ~DemoTactics();
+	virtual ~DemoTactics();
 
-    virtual void Initialize();
+	void Initialize() override;
 
 private:
-    DemoTactics(const DemoTactics&);
-    DemoTactics& operator=(const DemoTactics&);
+	DemoTactics(const DemoTactics&);
+	DemoTactics& operator=(const DemoTactics&);
 };
 
 #endif  // CHAPTER_9_TACTICS_H

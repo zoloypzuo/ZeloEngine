@@ -28,7 +28,6 @@
 #include <vector>
 
 #include "demo_framework/include/Object.h"
-#include "ogre3d/include/OgreTimer.h"
 
 struct lua_State;
 
@@ -46,226 +45,226 @@ class UserInterfaceComponent;
 
 namespace OIS
 {
-enum KeyCode;
-enum MouseButtonID;
+	enum KeyCode;
+	enum MouseButtonID;
 }
 
 namespace Ogre
 {
-class Camera;
-class SceneNode;
-class Quaternion;
-class Vector3;
+	class Camera;
+	class SceneNode;
+	class Quaternion;
+	class Vector3;
 }
 
 class Sandbox : public Object
 {
 public:
-    enum ProfileTime
-    {
-        RENDER_TIME,
-        SIMULATION_TIME,
-        TOTAL_SIMULATION_TIME,
+	enum ProfileTime
+	{
+		RENDER_TIME,
+		SIMULATION_TIME,
+		TOTAL_SIMULATION_TIME,
 
-        PROFILE_TIME_COUNT
-    };
+		PROFILE_TIME_COUNT
+	};
 
-    Sandbox(
-        const unsigned int sandboxId,
-        Ogre::SceneNode* const sandboxNode,
-        Ogre::Camera* const camera);
+	Sandbox(
+		unsigned int sandboxId,
+		Ogre::SceneNode* sandboxNode,
+		Ogre::Camera* camera);
 
-    ~Sandbox();
+	~Sandbox();
 
-    void AddAgent(Agent* const agent);
+	void AddAgent(Agent* agent);
 
-    void AddEvent(const Event& event);
+	void AddEvent(const Event& event);
 
-    void AddNavigationMesh(const Ogre::String& name, NavigationMesh& navMesh);
+	void AddNavigationMesh(const Ogre::String& name, NavigationMesh& navMesh);
 
-    void AddObjectEventCallback(
-        Object* const object, lua_State* luaVM, const int functionIndex);
+	void AddObjectEventCallback(
+		Object* object, lua_State* luaVM, int functionIndex);
 
-    void AddSandboxObject(SandboxObject* const sandboxObject);
+	void AddSandboxObject(SandboxObject* sandboxObject);
 
-    void AddSandboxObjectCollisionCallback(
-        SandboxObject* const sandboxObject,
-        lua_State* luaVM,
-        const int functionIndex);
+	void AddSandboxObjectCollisionCallback(
+		SandboxObject* sandboxObject,
+		lua_State* luaVM,
+		int functionIndex);
 
-    void Cleanup();
+	void Cleanup();
 
-    UserInterfaceComponent* CreateUIComponent(size_t layerIndex);
+	UserInterfaceComponent* CreateUIComponent(size_t layerIndex) const;
 
-    UserInterfaceComponent* CreateUIComponent3d(const Ogre::Vector3& position);
+	UserInterfaceComponent* CreateUIComponent3d(const Ogre::Vector3& position) const;
 
-    void DrawInfluenceMap(
-        const size_t layer,
-        const Ogre::ColourValue& positiveValue,
-        const Ogre::ColourValue& zeroValue,
-        const Ogre::ColourValue& negativeValue);
+	void DrawInfluenceMap(
+		size_t layer,
+		const Ogre::ColourValue& positiveValue,
+		const Ogre::ColourValue& zeroValue,
+		const Ogre::ColourValue& negativeValue) const;
 
-    int GenerateAgentId();
+	int GenerateAgentId();
 
-    int GenerateObjectId();
+	int GenerateObjectId();
 
-    Agent* GetAgent(const unsigned int agentId);
+	Agent* GetAgent(unsigned int agentId);
 
-    const Agent* GetAgent(const unsigned int agentId) const;
+	const Agent* GetAgent(unsigned int agentId) const;
 
-    std::vector<Agent*>& GetAgents();
+	std::vector<Agent*>& GetAgents();
 
-    const std::vector<Agent*>& GetAgents() const;
+	const std::vector<Agent*>& GetAgents() const;
 
-    Ogre::Camera* GetCamera();
+	Ogre::Camera* GetCamera() const;
 
-    Ogre::Vector3 GetCameraForward();
+	Ogre::Vector3 GetCameraForward() const;
 
-    Ogre::Vector3 GetCameraLeft();
+	Ogre::Vector3 GetCameraLeft() const;
 
-    Ogre::Quaternion GetCameraOrientation();
+	Ogre::Quaternion GetCameraOrientation() const;
 
-    const Ogre::Vector3& GetCameraPosition();
+	const Ogre::Vector3& GetCameraPosition() const;
 
-    Ogre::Vector3 GetCameraUp();
+	Ogre::Vector3 GetCameraUp() const;
 
-    bool GetDrawPhysicsWorld();
+	bool GetDrawPhysicsWorld() const;
 
-    std::vector<SandboxObject*> GetFixedObjects();
+	std::vector<SandboxObject*> GetFixedObjects();
 
-    InfluenceMap* GetInfluenceMap();
+	InfluenceMap* GetInfluenceMap() const;
 
-    InfluenceMapDrawer* GetInfluenceMapDrawer();
+	InfluenceMapDrawer* GetInfluenceMapDrawer() const;
 
-    lua_State* GetLuaVM();
+	lua_State* GetLuaVM() const;
 
-    Ogre::ColourValue GetMarkupColor(const int index) const;
+	Ogre::ColourValue GetMarkupColor(int index) const;
 
-    NavigationMesh* GetNavigationMesh(const Ogre::String& navMeshName);
+	NavigationMesh* GetNavigationMesh(const Ogre::String& navMeshName);
 
-    size_t GetNumberOfAgents() const;
+	size_t GetNumberOfAgents() const;
 
-    std::map<unsigned int, SandboxObject*>& GetObjects();
+	std::map<unsigned int, SandboxObject*>& GetObjects();
 
-    const std::map<unsigned int, SandboxObject*>& GetObjects() const;
+	const std::map<unsigned int, SandboxObject*>& GetObjects() const;
 
-    Ogre::SceneNode* GetRootNode();
+	Ogre::SceneNode* GetRootNode();
 
-    const Ogre::SceneNode* GetRootNode() const;
+	const Ogre::SceneNode* GetRootNode() const;
 
-    PhysicsWorld* GetPhysicsWorld();
+	PhysicsWorld* GetPhysicsWorld();
 
-    const PhysicsWorld* GetPhysicsWorld() const;
+	const PhysicsWorld* GetPhysicsWorld() const;
 
-    long long GetProfileTime(const ProfileTime profile) const;
+	long long GetProfileTime(ProfileTime profile) const;
 
-    SandboxObject* GetSandboxObject(const unsigned int objectId);
+	SandboxObject* GetSandboxObject(unsigned int objectId);
 
-    Ogre::SceneManager* GetSceneManager();
+	Ogre::SceneManager* GetSceneManager() const;
 
-    int GetScreenHeight() const;
+	int GetScreenHeight() const;
 
-    int GetScreenWidth() const;
+	int GetScreenWidth() const;
 
-    Ogre::Real GetTimeInMillis();
+	Ogre::Real GetTimeInMillis() const;
 
-    Ogre::Real GetTimeInSeconds();
+	Ogre::Real GetTimeInSeconds() const;
 
-    UserInterface* GetUserInterface();
+	UserInterface* GetUserInterface() const;
 
-    void HandleKeyPress(const OIS::KeyCode keycode, unsigned int key);
+	void HandleKeyPress(OIS::KeyCode keycode, unsigned int key);
 
-    void HandleKeyRelease(const OIS::KeyCode keycode, unsigned int key);
+	void HandleKeyRelease(OIS::KeyCode keycode, unsigned int key);
 
-    void HandleMouseMove(const int width, const int height);
+	void HandleMouseMove(int width, int height);
 
-    void HandleMousePress(
-        const int width, const int height, const OIS::MouseButtonID button);
+	void HandleMousePress(
+		int width, int height, OIS::MouseButtonID button);
 
-    void HandleMouseRelease(
-        const int width, const int height, const OIS::MouseButtonID button);
+	void HandleMouseRelease(
+		int width, int height, OIS::MouseButtonID button);
 
-    void Initialize();
+	void Initialize();
 
-    void LoadScript(
-        const char* const luaScript,
-        const size_t bufferSize,
-        const char* const fileName);
+	void LoadScript(
+		const char* luaScript,
+		size_t bufferSize,
+		const char* fileName);
 
-    bool RayCastToObject(
-        const Ogre::Vector3& from,
-        const Ogre::Vector3& to,
-        Ogre::Vector3& hitPoint,
-        Object*& object) const;
+	bool RayCastToObject(
+		const Ogre::Vector3& from,
+		const Ogre::Vector3& to,
+		Ogre::Vector3& hitPoint,
+		Object*& object) const;
 
-    bool ReloadScript(
-        const char* const luaScript,
-        const size_t bufferSize,
-        const char* const fileName);
+	static bool ReloadScript(
+		const char* luaScript,
+		size_t bufferSize,
+		const char* fileName);
 
-    void RemoveSandboxObject(SandboxObject* const sandboxObject);
+	void RemoveSandboxObject(SandboxObject* sandboxObject);
 
-    void SetDrawInfluenceMap(const bool drawInfluenceMap);
+	void SetDrawInfluenceMap(bool drawInfluenceMap) const;
 
-    void SetDrawPhysicsWorld(const bool drawPhysicsWorld);
+	void SetDrawPhysicsWorld(bool drawPhysicsWorld);
 
-    void SetInfluence(
-        const size_t layer,
-        const Ogre::Vector3& position,
-        const float influence);
+	void SetInfluence(
+		size_t layer,
+		const Ogre::Vector3& position,
+		float influence) const;
 
-    void SetInfluenceMap(InfluenceMap* const influenceMap);
+	void SetInfluenceMap(InfluenceMap* influenceMap);
 
-    void SetMarkupColor(const int index, const Ogre::ColourValue& color);
+	void SetMarkupColor(int index, const Ogre::ColourValue& color) const;
 
-    void SetProfileTime(const ProfileTime profile, const long long time);
+	void SetProfileTime(ProfileTime profile, long long time);
 
-    void Update(const int deltaMilliseconds);
+	void Update(int deltaMilliseconds);
 
 private:
-    struct LuaCallback
-    {
-        lua_State* luaVM;
-        int callbackIndex;
-        Object* object;
-    };
+	struct LuaCallback
+	{
+		lua_State* luaVM;
+		int callbackIndex;
+		Object* object;
+	};
 
-    long long profileTimes_[PROFILE_TIME_COUNT];
+	long long profileTimes_[PROFILE_TIME_COUNT];
 
-    lua_State* luaVM_;
-    Ogre::SceneNode* sandboxNode_;
-    Ogre::Camera* camera_;
-    PhysicsWorld* physicsWorld_;
-    UserInterface* userInterface_;
+	lua_State* luaVM_;
+	Ogre::SceneNode* sandboxNode_;
+	Ogre::Camera* camera_;
+	PhysicsWorld* physicsWorld_;
+	UserInterface* userInterface_;
 
-    int lastAgentId_;
-    std::vector<Agent*> agents_;
+	int lastAgentId_;
+	std::vector<Agent*> agents_;
 
-    int lastObjectId_;
-    std::map<unsigned int, SandboxObject*> objects_;
-    std::map<unsigned int, SandboxObject*> objectsForRemoval_;
-    std::map<unsigned int, std::vector<LuaCallback>> collisionCallbacks_;
+	int lastObjectId_;
+	std::map<unsigned int, SandboxObject*> objects_;
+	std::map<unsigned int, SandboxObject*> objectsForRemoval_;
+	std::map<unsigned int, std::vector<LuaCallback>> collisionCallbacks_;
 
-    std::map<Ogre::String, NavigationMesh*> navMeshes_;
+	std::map<Ogre::String, NavigationMesh*> navMeshes_;
 
-    InfluenceMap* influenceMap_;
-    InfluenceMapDrawer* influenceMapDrawer_;
+	InfluenceMap* influenceMap_;
+	InfluenceMapDrawer* influenceMapDrawer_;
 
-    std::vector<Event> events_;
-    std::map<unsigned int, LuaCallback> eventCallbacks_;
+	std::vector<Event> events_;
+	std::map<unsigned int, LuaCallback> eventCallbacks_;
 
-    bool drawPhysicsWorld_;
+	bool drawPhysicsWorld_;
 
-    long long simulationTime_;
+	long long simulationTime_;
 
-    Sandbox(const Sandbox&);
-    Sandbox& operator=(const Sandbox&);
+	Sandbox(const Sandbox&);
+	Sandbox& operator=(const Sandbox&);
 
-    void HandleCollisions(std::vector<Collision>& collisions);
+	void HandleCollisions(std::vector<Collision>& collisions);
 
-    void HandleEvents(std::vector<Event>& events);
+	void HandleEvents(std::vector<Event>& events);
 
-    void RemoveSandboxObjects();
-};  // class Sandbox
+	void RemoveSandboxObjects();
+}; // class Sandbox
 
 #endif  // DEMO_FRAMEWORK_SANDBOX_H

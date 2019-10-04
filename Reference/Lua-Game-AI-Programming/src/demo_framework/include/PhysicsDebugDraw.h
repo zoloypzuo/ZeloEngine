@@ -29,34 +29,34 @@
 class PhysicsDebugDraw : public btIDebugDraw
 {
 public:
-    PhysicsDebugDraw();
+	PhysicsDebugDraw();
 
-    virtual ~PhysicsDebugDraw();
+	virtual ~PhysicsDebugDraw();
 
-    virtual void draw3dText(const btVector3& location, const char* textString);
+	void draw3dText(const btVector3& location, const char* textString) override;
 
-    virtual void drawContactPoint(
-        const btVector3& pointOnB,
-        const btVector3& normalOnB,
-        btScalar distance,
-        int lifeTime,
-        const btVector3& color);
+	void drawContactPoint(
+		const btVector3& pointOnB,
+		const btVector3& normalOnB,
+		btScalar distance,
+		int lifeTime,
+		const btVector3& color) override;
 
-    virtual void drawLine(
-        const btVector3& from, const btVector3& to, const btVector3& color);
+	void drawLine(
+		const btVector3& from, const btVector3& to, const btVector3& color) override;
 
-    virtual int getDebugMode() const;
+	int getDebugMode() const override;
 
-    virtual void reportErrorWarning(const char* warningString);
+	void reportErrorWarning(const char* warningString) override;
 
-    virtual void setDebugMode(int debugMode);
+	void setDebugMode(int debugMode) override;
 
 private:
-    int debugMode_;
+	int debugMode_;
 
-    PhysicsDebugDraw(const PhysicsDebugDraw&);
+	PhysicsDebugDraw(const PhysicsDebugDraw&);
 
-    PhysicsDebugDraw& operator=(const PhysicsDebugDraw&);
+	PhysicsDebugDraw& operator=(const PhysicsDebugDraw&);
 };
 
 #endif  // DEMO_FRAMEWORK_PHYSICS_DEBUG_DRAW_H
