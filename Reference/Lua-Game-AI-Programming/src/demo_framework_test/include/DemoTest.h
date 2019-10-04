@@ -29,15 +29,15 @@
 class DemoTest : public SandboxApplication
 {
 public:
-    DemoTest(void);
+	DemoTest(void);
 
-    virtual ~DemoTest(void);
+	virtual ~DemoTest(void);
 
-    virtual void Initialize();
+	void Initialize() override;
 
 private:
-    DemoTest(const DemoTest&);
-    DemoTest& operator=(const DemoTest&);
+	DemoTest(const DemoTest&);
+	DemoTest& operator=(const DemoTest&);
 };
 
 #endif  // DEMO_FRAMEWORK_DEMO_TEST_H

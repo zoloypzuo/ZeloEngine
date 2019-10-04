@@ -26,216 +26,214 @@
 #include "demo_framework/include/MeshUtilities.h"
 
 RawMesh::RawMesh(
-    float* const vertexBuffer,
-    const size_t vertexBufferSize,
-    int* const indexBuffer,
-    const size_t indexBufferSize,
-    const Ogre::Vector3& position,
-    const Ogre::Quaternion& orientation,
-    const Ogre::Vector3& scale)
-    : vertexBuffer(vertexBuffer),
-    vertexBufferSize(vertexBufferSize),
-    vertexCount(0),
-    indexBuffer(indexBuffer),
-    indexBufferSize(indexBufferSize),
-    indexCount(0),
-    position(position),
-    orientation(orientation),
-    scale(scale)
+	float* const vertexBuffer,
+	const size_t vertexBufferSize,
+	int* const indexBuffer,
+	const size_t indexBufferSize,
+	const Ogre::Vector3& position,
+	const Ogre::Quaternion& orientation,
+	const Ogre::Vector3& scale)
+	: vertexBuffer(vertexBuffer),
+	  vertexBufferSize(vertexBufferSize),
+	  vertexCount(0),
+	  indexBuffer(indexBuffer),
+	  indexBufferSize(indexBufferSize),
+	  indexCount(0),
+	  position(position),
+	  orientation(orientation),
+	  scale(scale)
 {
-    assert(vertexBuffer);
-    assert(indexBuffer);
-    assert(vertexBufferSize);
-    assert(indexBufferSize);
+	assert(vertexBuffer);
+	assert(indexBuffer);
+	assert(vertexBufferSize);
+	assert(indexBufferSize);
 }
 
 RawMesh::RawMesh(const RawMesh& mesh)
-    : vertexBuffer(mesh.vertexBuffer),
-    vertexBufferSize(mesh.vertexBufferSize),
-    vertexCount(mesh.vertexCount),
-    indexBuffer(mesh.indexBuffer),
-    indexBufferSize(mesh.indexBufferSize),
-    indexCount(mesh.indexCount),
-    position(mesh.position),
-    orientation(mesh.orientation),
-    scale(mesh.scale)
+	: vertexBuffer(mesh.vertexBuffer),
+	  vertexBufferSize(mesh.vertexBufferSize),
+	  vertexCount(mesh.vertexCount),
+	  indexBuffer(mesh.indexBuffer),
+	  indexBufferSize(mesh.indexBufferSize),
+	  indexCount(mesh.indexCount),
+	  position(mesh.position),
+	  orientation(mesh.orientation),
+	  scale(mesh.scale)
 {
 }
 
 bool MeshUtilities::ConvertToRawMesh(const Ogre::Mesh& mesh, RawMesh& rawMesh)
 {
-    bool addedShared = false;
-    size_t currentOffset = 0;
-    size_t sharedOffset = 0;
-    size_t nextOffset = 0;
-    size_t index_offset = 0;
+	bool addedShared = false;
+	size_t currentOffset = 0;
+	size_t sharedOffset = 0;
+	size_t nextOffset = 0;
+	size_t index_offset = 0;
 
-    size_t vertexCount = 0;
-    size_t indexCount = 0;
+	size_t vertexCount = 0;
+	size_t indexCount = 0;
 
-    GetMeshInformation(mesh, vertexCount, indexCount);
+	GetMeshInformation(mesh, vertexCount, indexCount);
 
-    assert(rawMesh.vertexBufferSize >= (vertexCount * 3));
-    assert(rawMesh.indexBufferSize >= indexCount);
+	assert(rawMesh.vertexBufferSize >= (vertexCount * 3));
+	assert(rawMesh.indexBufferSize >= indexCount);
 
-    if (rawMesh.vertexBufferSize < vertexCount * 3 ||
-        rawMesh.indexBufferSize < indexCount)
-    {
-        return false;
-    }
+	if (rawMesh.vertexBufferSize < vertexCount * 3 ||
+		rawMesh.indexBufferSize < indexCount)
+	{
+		return false;
+	}
 
-    for (unsigned short sIndex = 0; sIndex < mesh.getNumSubMeshes(); ++sIndex)
-    {
-        Ogre::SubMesh* const subMesh = mesh.getSubMesh(sIndex);
+	for (unsigned short sIndex = 0; sIndex < mesh.getNumSubMeshes(); ++sIndex)
+	{
+		Ogre::SubMesh* const subMesh = mesh.getSubMesh(sIndex);
 
-        Ogre::RenderOperation renderOperation;
-        subMesh->_getRenderOperation(renderOperation);
+		Ogre::RenderOperation renderOperation;
+		subMesh->_getRenderOperation(renderOperation);
 
-        // Currently only handle triangle based meshes.
-        if (renderOperation.operationType != Ogre::RenderOperation::OT_TRIANGLE_LIST &&
-            renderOperation.operationType != Ogre::RenderOperation::OT_TRIANGLE_FAN &&
-            renderOperation.operationType != Ogre::RenderOperation::OT_TRIANGLE_STRIP)
-        {
-            continue;
-        }
+		// Currently only handle triangle based meshes.
+		if (renderOperation.operationType != Ogre::RenderOperation::OT_TRIANGLE_LIST &&
+			renderOperation.operationType != Ogre::RenderOperation::OT_TRIANGLE_FAN &&
+			renderOperation.operationType != Ogre::RenderOperation::OT_TRIANGLE_STRIP)
+		{
+			continue;
+		}
 
-        Ogre::VertexData* const vertexData = subMesh->useSharedVertices ?
-            mesh.sharedVertexData : subMesh->vertexData;
+		Ogre::VertexData* const vertexData = subMesh->useSharedVertices ? mesh.sharedVertexData : subMesh->vertexData;
 
-        if ((!subMesh->useSharedVertices) ||
-            (subMesh->useSharedVertices && !addedShared))
-        {
-            if (subMesh->useSharedVertices)
-            {
-                addedShared = true;
-                sharedOffset = currentOffset;
-            }
+		if ((!subMesh->useSharedVertices) ||
+			(subMesh->useSharedVertices && !addedShared))
+		{
+			if (subMesh->useSharedVertices)
+			{
+				addedShared = true;
+				sharedOffset = currentOffset;
+			}
 
-            const Ogre::VertexElement* const positionElement =
-                vertexData->vertexDeclaration->findElementBySemantic(
-                Ogre::VES_POSITION);
+			const Ogre::VertexElement* const positionElement =
+				vertexData->vertexDeclaration->findElementBySemantic(
+					Ogre::VES_POSITION);
 
-            Ogre::HardwareVertexBufferSharedPtr vertexBuffer =
-                vertexData->vertexBufferBinding->getBuffer(
-                positionElement->getSource());
+			Ogre::HardwareVertexBufferSharedPtr vertexBuffer =
+				vertexData->vertexBufferBinding->getBuffer(
+					positionElement->getSource());
 
-            unsigned char* vertex =
-                static_cast<unsigned char*>(vertexBuffer->lock(
-                    Ogre::HardwareBuffer::HBL_READ_ONLY));
+			unsigned char* vertex =
+				static_cast<unsigned char*>(vertexBuffer->lock(
+					Ogre::HardwareBuffer::HBL_READ_ONLY));
 
-            float* pReal;
+			float* pReal;
 
-            for (size_t vIndex = 0; vIndex < vertexData->vertexCount; ++vIndex)
-            {
-                positionElement->baseVertexPointerToElement(vertex, &pReal);
+			for (size_t vIndex = 0; vIndex < vertexData->vertexCount; ++vIndex)
+			{
+				positionElement->baseVertexPointerToElement(vertex, &pReal);
 
-                const Ogre::Vector3 point(pReal[0], pReal[1], pReal[2]);
-                const Ogre::Vector3 modelPoint =
-                    (rawMesh.orientation * (point * rawMesh.scale)) +
-                    rawMesh.position;
+				const Ogre::Vector3 point(pReal[0], pReal[1], pReal[2]);
+				const Ogre::Vector3 modelPoint =
+					(rawMesh.orientation * (point * rawMesh.scale)) +
+					rawMesh.position;
 
-                const size_t bufferOffset = currentOffset + vIndex * 3;
+				const size_t bufferOffset = currentOffset + vIndex * 3;
 
-                rawMesh.vertexBuffer[bufferOffset] = modelPoint.x;
-                rawMesh.vertexBuffer[bufferOffset + 1] = modelPoint.y;
-                rawMesh.vertexBuffer[bufferOffset + 2] = modelPoint.z;
+				rawMesh.vertexBuffer[bufferOffset] = modelPoint.x;
+				rawMesh.vertexBuffer[bufferOffset + 1] = modelPoint.y;
+				rawMesh.vertexBuffer[bufferOffset + 2] = modelPoint.z;
 
-                vertex += vertexBuffer->getVertexSize();
-            }
+				vertex += vertexBuffer->getVertexSize();
+			}
 
-            vertexBuffer->unlock();
-            nextOffset += vertexData->vertexCount;
-        }
+			vertexBuffer->unlock();
+			nextOffset += vertexData->vertexCount;
+		}
 
-        Ogre::IndexData* const indexData = subMesh->indexData;
-        const size_t numTris = indexData->indexCount / 3;
-        Ogre::HardwareIndexBufferSharedPtr ibuf = indexData->indexBuffer;
+		Ogre::IndexData* const indexData = subMesh->indexData;
+		const size_t numTris = indexData->indexCount / 3;
+		Ogre::HardwareIndexBufferSharedPtr ibuf = indexData->indexBuffer;
 
-        const bool use32bitindexes =
-            ibuf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT;
+		const bool use32bitindexes =
+			ibuf->getType() == Ogre::HardwareIndexBuffer::IT_32BIT;
 
-        unsigned int* pLong = static_cast<unsigned int*>(
-            ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
-        unsigned short* pShort = reinterpret_cast<unsigned short*>(pLong);
+		unsigned int* pLong = static_cast<unsigned int*>(
+			ibuf->lock(Ogre::HardwareBuffer::HBL_READ_ONLY));
+		unsigned short* pShort = reinterpret_cast<unsigned short*>(pLong);
 
-        size_t offset = (subMesh->useSharedVertices) ?
-        sharedOffset : currentOffset;
+		size_t offset = (subMesh->useSharedVertices) ? sharedOffset : currentOffset;
 
-        if (use32bitindexes)
-        {
-            for (size_t k = 0; k < numTris * 3; ++k)
-            {
-                rawMesh.indexBuffer[index_offset++] =
-                    pLong[k] + static_cast<unsigned int>(offset);
-            }
-        }
-        else
-        {
-            for (size_t k = 0; k < numTris * 3; ++k)
-            {
-                rawMesh.indexBuffer[index_offset++] =
-                    static_cast<unsigned int>(pShort[k]) +
-                    static_cast<unsigned int>(offset);
-            }
-        }
+		if (use32bitindexes)
+		{
+			for (size_t k = 0; k < numTris * 3; ++k)
+			{
+				rawMesh.indexBuffer[index_offset++] =
+					pLong[k] + static_cast<unsigned int>(offset);
+			}
+		}
+		else
+		{
+			for (size_t k = 0; k < numTris * 3; ++k)
+			{
+				rawMesh.indexBuffer[index_offset++] =
+					static_cast<unsigned int>(pShort[k]) +
+					static_cast<unsigned int>(offset);
+			}
+		}
 
-        ibuf->unlock();
-        currentOffset = nextOffset;
-    }
+		ibuf->unlock();
+		currentOffset = nextOffset;
+	}
 
-    return true;
+	return true;
 }
 
 const Ogre::Mesh* MeshUtilities::GetMesh(
-    const Ogre::SceneNode& node, const size_t meshIndex)
+	const Ogre::SceneNode& node, const size_t meshIndex)
 {
-    Ogre::SceneNode::ConstObjectIterator objectIt =
-        node.getAttachedObjectIterator();
+	Ogre::SceneNode::ConstObjectIterator objectIt =
+		node.getAttachedObjectIterator();
 
-    size_t index = 0;
+	size_t index = 0;
 
-    for (; objectIt.hasMoreElements(); objectIt.moveNext())
-    {
-        const Ogre::MovableObject* const object = objectIt.peekNextValue();
+	for (; objectIt.hasMoreElements(); objectIt.moveNext())
+	{
+		const Ogre::MovableObject* const object = objectIt.peekNextValue();
 
-        if (object->getMovableType() == Ogre::EntityFactory::FACTORY_TYPE_NAME)
-        {
-            if (index == meshIndex)
-            {
-                return static_cast<const Ogre::Entity*>(
-                    object)->getMesh().getPointer();
-            }
+		if (object->getMovableType() == Ogre::EntityFactory::FACTORY_TYPE_NAME)
+		{
+			if (index == meshIndex)
+			{
+				return static_cast<const Ogre::Entity*>(
+					object)->getMesh().getPointer();
+			}
 
-            ++index;
-        }
-    }
+			++index;
+		}
+	}
 
-    return NULL;
+	return NULL;
 }
 
 void MeshUtilities::GetMeshInformation(
-    const Ogre::Mesh& mesh, size_t& vertexCount, size_t& indexCount)
+	const Ogre::Mesh& mesh, size_t& vertexCount, size_t& indexCount)
 {
-    vertexCount = 0;
-    indexCount = 0;
+	vertexCount = 0;
+	indexCount = 0;
 
-    bool added_shared = false;
+	bool added_shared = false;
 
-    for (unsigned short index = 0; index < mesh.getNumSubMeshes(); ++index)
-    {
-        Ogre::SubMesh* const submesh = mesh.getSubMesh(index);
+	for (unsigned short index = 0; index < mesh.getNumSubMeshes(); ++index)
+	{
+		Ogre::SubMesh* const submesh = mesh.getSubMesh(index);
 
-        // We only need to add the shared vertices once
-        if (submesh->useSharedVertices && !added_shared)
-        {
-            vertexCount += mesh.sharedVertexData->vertexCount;
-            added_shared = true;
-        }
-        else
-        {
-            vertexCount += submesh->vertexData->vertexCount;
-        }
+		// We only need to add the shared vertices once
+		if (submesh->useSharedVertices && !added_shared)
+		{
+			vertexCount += mesh.sharedVertexData->vertexCount;
+			added_shared = true;
+		}
+		else
+		{
+			vertexCount += submesh->vertexData->vertexCount;
+		}
 
-        indexCount += submesh->indexData->indexCount;
-    }
+		indexCount += submesh->indexData->indexCount;
+	}
 }

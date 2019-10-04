@@ -4,18 +4,21 @@
 #define WIN32_LEAN_AND_MEAN
 #include "windows.h"
 
-int main(){
+int main()
+{
 	MySandbox app;
-	try{
+	try
+	{
 		app.Run();
 	}
-	catch (Ogre::Exception& err){
+	catch (Ogre::Exception& err)
+	{
 		MessageBox(
 			nullptr,
 			err.getFullDescription().c_str(),
 			"",
 			MB_OK | MB_ICONERROR | MB_TASKMODAL
-			);
+		);
 	}
 	return 0;
 }

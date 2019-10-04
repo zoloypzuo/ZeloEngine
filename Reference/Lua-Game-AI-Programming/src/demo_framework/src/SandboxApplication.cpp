@@ -30,168 +30,168 @@
 #include "demo_framework/include/SandboxApplication.h"
 
 SandboxApplication::SandboxApplication(const Ogre::String& applicationTitle)
-    : BaseApplication(applicationTitle),
-    lastSandboxId_(-1),
-    sandbox_(NULL),
-    luaFileManager_(NULL)
+	: BaseApplication(applicationTitle),
+	  luaFileManager_(nullptr),
+	  sandbox_(nullptr),
+	  lastSandboxId_(-1)
 {
-    timer_.reset();
+	timer_.reset();
 
-    lastUpdateTimeInMicro_ = timer_.getMilliseconds();
-    lastUpdateCallTime_ = timer_.getMilliseconds();
+	lastUpdateTimeInMicro_ = timer_.getMilliseconds();
+	lastUpdateCallTime_ = timer_.getMilliseconds();
 }
 
 SandboxApplication::~SandboxApplication()
 {
-    delete luaFileManager_;
+	delete luaFileManager_;
 
-    if (sandbox_)
-    {
-        delete sandbox_;
-    }
+	if (sandbox_)
+	{
+		delete sandbox_;
+	}
 }
 
 void SandboxApplication::AddResourceLocation(const Ogre::String& location)
 {
-    Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
-        location, "FileSystem");
+	Ogre::ResourceGroupManager::getSingleton().addResourceLocation(
+		location, "FileSystem");
 }
 
 void SandboxApplication::Cleanup()
 {
-    if (sandbox_)
-    {
-        sandbox_->Cleanup();
-    }
+	if (sandbox_)
+	{
+		sandbox_->Cleanup();
+	}
 }
 
 void SandboxApplication::CreateSandbox(const Ogre::String& sandboxLuaScript)
 {
 	// log
-    Ogre::LogManager::getSingletonPtr()->logMessage(
-        "Sandbox: Creating sandbox \"" + sandboxLuaScript + "\"",
-        Ogre::LML_NORMAL);
+	Ogre::LogManager::getSingletonPtr()->logMessage(
+		"Sandbox: Creating sandbox \"" + sandboxLuaScript + "\"",
+		Ogre::LML_NORMAL);
 
 	// load file
-    LuaFilePtr script = luaFileManager_->load(
-        sandboxLuaScript,
-        Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
+	LuaFilePtr script = luaFileManager_->load(
+		sandboxLuaScript,
+		Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME);
 
 	// create sandbox as child node in scene
-    Ogre::SceneNode* const sandboxNode =
-        GetSceneManager()->getRootSceneNode()->createChildSceneNode();
+	Ogre::SceneNode* const sandboxNode =
+		GetSceneManager()->getRootSceneNode()->createChildSceneNode();
 
 	// check if sandbox is singleton
-    if (sandbox_)
-    {
-        delete sandbox_;
-    }
+	if (sandbox_)
+	{
+		delete sandbox_;
+	}
 
 	// initialize sandbox object
-    sandbox_ = new Sandbox(GenerateSandboxId(), sandboxNode, GetCamera());
+	sandbox_ = new Sandbox(GenerateSandboxId(), sandboxNode, GetCamera());
 
-    sandbox_->LoadScript(
-        script->GetData(), script->GetDataLength(), script->getName().c_str());
+	sandbox_->LoadScript(
+		script->GetData(), script->GetDataLength(), script->getName().c_str());
 
-    sandbox_->Initialize();
+	sandbox_->Initialize();
 
 	// log
-    Ogre::LogManager::getSingletonPtr()->logMessage(
-        "Sandbox: Finished creating sandbox \"" + sandboxLuaScript + "\"",
-        Ogre::LML_NORMAL);
+	Ogre::LogManager::getSingletonPtr()->logMessage(
+		"Sandbox: Finished creating sandbox \"" + sandboxLuaScript + "\"",
+		Ogre::LML_NORMAL);
 }
 
 void SandboxApplication::Draw()
 {
-    const long long currentTime = timer_.getMicroseconds();
+	const long long currentTime = timer_.getMicroseconds();
 
-    sandbox_->SetProfileTime(
-        Sandbox::RENDER_TIME, currentTime - lastUpdateCallTime_);
+	sandbox_->SetProfileTime(
+		Sandbox::RENDER_TIME, currentTime - lastUpdateCallTime_);
 
-    lastUpdateCallTime_ = currentTime;
+	lastUpdateCallTime_ = currentTime;
 }
 
 int SandboxApplication::GenerateSandboxId()
 {
-    return ++lastSandboxId_;
+	return ++lastSandboxId_;
 }
 
 Sandbox* SandboxApplication::GetSandbox()
 {
-    return sandbox_;
+	return sandbox_;
 }
 
 void SandboxApplication::HandleKeyPress(
-    const OIS::KeyCode keycode, unsigned int key)
+	const OIS::KeyCode keycode, unsigned int key)
 {
-    if (sandbox_)
-    {
-        sandbox_->HandleKeyPress(keycode, key);
-    }
+	if (sandbox_)
+	{
+		sandbox_->HandleKeyPress(keycode, key);
+	}
 }
 
 void SandboxApplication::HandleKeyRelease(
-    const OIS::KeyCode keycode, unsigned int key)
+	const OIS::KeyCode keycode, unsigned int key)
 {
-    if (sandbox_)
-    {
-        sandbox_->HandleKeyRelease(keycode, key);
-    }
+	if (sandbox_)
+	{
+		sandbox_->HandleKeyRelease(keycode, key);
+	}
 }
 
 void SandboxApplication::HandleMouseMove(const int width, const int height)
 {
-    if (sandbox_)
-    {
-        sandbox_->HandleMouseMove(width, height);
-    }
+	if (sandbox_)
+	{
+		sandbox_->HandleMouseMove(width, height);
+	}
 }
 
 void SandboxApplication::HandleMousePress(
-    const int width, const int height, const OIS::MouseButtonID button)
+	const int width, const int height, const OIS::MouseButtonID button)
 {
-    if (sandbox_)
-    {
-        sandbox_->HandleMousePress(width, height, button);
-    }
+	if (sandbox_)
+	{
+		sandbox_->HandleMousePress(width, height, button);
+	}
 }
 
 void SandboxApplication::HandleMouseRelease(
-    const int width, const int height, const OIS::MouseButtonID button)
+	const int width, const int height, const OIS::MouseButtonID button)
 {
-    if (sandbox_)
-    {
-        sandbox_->HandleMouseRelease(width, height, button);
-    }
+	if (sandbox_)
+	{
+		sandbox_->HandleMouseRelease(width, height, button);
+	}
 }
 
 void SandboxApplication::Initialize()
 {
-    luaFileManager_ = new LuaFileManager();
+	luaFileManager_ = new LuaFileManager();
 
-    const Ogre::ColourValue ambient(0.0f, 0.0f, 0.0f);
+	const Ogre::ColourValue ambient(0.0f, 0.0f, 0.0f);
 
-    GetRenderWindow()->getViewport(0)->setBackgroundColour(ambient);
-    GetSceneManager()->setAmbientLight(ambient);
-    GetSceneManager()->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
+	GetRenderWindow()->getViewport(0)->setBackgroundColour(ambient);
+	GetSceneManager()->setAmbientLight(ambient);
+	GetSceneManager()->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
 
-    GetCamera()->setFarClipDistance(1000.0f);
-    GetCamera()->setNearClipDistance(0.1f);
-    GetCamera()->setAutoAspectRatio(true);
+	GetCamera()->setFarClipDistance(1000.0f);
+	GetCamera()->setNearClipDistance(0.1f);
+	GetCamera()->setAutoAspectRatio(true);
 
-    GetRenderWindow()->setDeactivateOnFocusChange(false);
+	GetRenderWindow()->setDeactivateOnFocusChange(false);
 
-    Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(4);
+	Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(4);
 
-    lastUpdateTimeInMicro_ = timer_.getMilliseconds();
+	lastUpdateTimeInMicro_ = timer_.getMilliseconds();
 
-    AddResourceLocation("../../../src/demo_framework/script");
+	AddResourceLocation("../../../src/demo_framework/script");
 
-    Gorilla::Silverback* mSilverback = new Gorilla::Silverback();
-    mSilverback->loadAtlas("fonts/dejavu/dejavu");
-    Gorilla::Screen* mScreen = mSilverback->createScreen(
-        GetCamera()->getViewport(), "fonts/dejavu/dejavu");
-    Gorilla::Layer* mLayer = mScreen->createLayer(0);
+	Gorilla::Silverback* mSilverback = new Gorilla::Silverback();
+	mSilverback->loadAtlas("fonts/dejavu/dejavu");
+	Gorilla::Screen* mScreen = mSilverback->createScreen(
+		GetCamera()->getViewport(), "fonts/dejavu/dejavu");
+	Gorilla::Layer* mLayer = mScreen->createLayer(0);
 
 #ifdef NDEBUG
 #define BUILD_TYPE "RELEASE"
@@ -199,48 +199,48 @@ void SandboxApplication::Initialize()
 #define BUILD_TYPE "DEBUG"
 #endif
 
-    Gorilla::MarkupText* const text = mLayer->createMarkupText(
-        91,
-        mScreen->getWidth(),
-        mScreen->getHeight(),
-        "Learning Game AI Programming with Lua v1.0 " BUILD_TYPE " " __TIMESTAMP__);
+	Gorilla::MarkupText* const text = mLayer->createMarkupText(
+		91,
+		mScreen->getWidth(),
+		mScreen->getHeight(),
+		"Learning Game AI Programming with Lua v1.0 " BUILD_TYPE " " __TIMESTAMP__);
 
-    text->left(mScreen->getWidth() - text->maxTextWidth() - 4);
-    text->top(mScreen->getHeight() -
-        mScreen->getAtlas()->getGlyphData(9)->mLineHeight - 4);
+	text->left(mScreen->getWidth() - text->maxTextWidth() - 4);
+	text->top(mScreen->getHeight() -
+		mScreen->getAtlas()->getGlyphData(9)->mLineHeight - 4);
 
-    mLayer->setVisible(true);
-    // mLayer->setVisible(false);
+	mLayer->setVisible(true);
+	// mLayer->setVisible(false);
 }
 
 void SandboxApplication::Update()
 {
-    // The sandbox simulation will update 30 times per second.
-    static const long long updatePerSecondInMicros = 1000000 / 30;
+	// The sandbox simulation will update 30 times per second.
+	static const long long updatePerSecondInMicros = 1000000 / 30;
 
-    const long long currentTimeInMicro = timer_.getMicroseconds();
+	const long long currentTimeInMicro = timer_.getMicroseconds();
 
-    const long long timeDeltaInMicros =
-        currentTimeInMicro - lastUpdateTimeInMicro_;
+	const long long timeDeltaInMicros =
+		currentTimeInMicro - lastUpdateTimeInMicro_;
 
-    if (sandbox_ && timeDeltaInMicros >= updatePerSecondInMicros)
-    {
-        sandbox_->SetProfileTime(
-            Sandbox::TOTAL_SIMULATION_TIME,
-            currentTimeInMicro - lastUpdateTimeInMicro_);
+	if (sandbox_ && timeDeltaInMicros >= updatePerSecondInMicros)
+	{
+		sandbox_->SetProfileTime(
+			Sandbox::TOTAL_SIMULATION_TIME,
+			currentTimeInMicro - lastUpdateTimeInMicro_);
 
-        // Flush out the previous debug graphics.
-        DebugDrawer::getSingleton().clear();
+		// Flush out the previous debug graphics.
+		DebugDrawer::getSingleton().clear();
 
-        // Fixed time step regardless of actual time that has passed.
-        sandbox_->Update(static_cast<int>(updatePerSecondInMicros / 1000));
+		// Fixed time step regardless of actual time that has passed.
+		sandbox_->Update(static_cast<int>(updatePerSecondInMicros / 1000));
 
-        lastUpdateTimeInMicro_ = currentTimeInMicro;
+		lastUpdateTimeInMicro_ = currentTimeInMicro;
 
-        DebugDrawer::getSingleton().build();
+		DebugDrawer::getSingleton().build();
 
-        sandbox_->SetProfileTime(
-            Sandbox::SIMULATION_TIME,
-            timer_.getMicroseconds() - currentTimeInMicro);
-    }
+		sandbox_->SetProfileTime(
+			Sandbox::SIMULATION_TIME,
+			timer_.getMicroseconds() - currentTimeInMicro);
+	}
 }

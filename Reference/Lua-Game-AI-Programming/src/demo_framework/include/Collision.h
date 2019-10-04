@@ -32,37 +32,37 @@ class btVector3;
 class Collision
 {
 public:
-    Collision(
-        const btRigidBody* objectA,
-        const btVector3& pointA,
-        const btRigidBody* objectB,
-        const btVector3& pointB,
-        const btVector3& normalOnB);
+	Collision(
+		const btRigidBody* objectA,
+		const btVector3& pointA,
+		const btRigidBody* objectB,
+		const btVector3& pointB,
+		const btVector3& normalOnB);
 
-    Collision(const Collision& collision);
+	Collision(const Collision& collision);
 
-    Collision& operator=(const Collision& collision);
+	Collision& operator=(const Collision& collision);
 
-    ~Collision();
+	~Collision();
 
-    const btRigidBody* GetObjectA() const;
+	const btRigidBody* GetObjectA() const;
 
-    const btRigidBody* GetObjectB() const;
+	const btRigidBody* GetObjectB() const;
 
-    const Ogre::Vector3& GetPointA() const;
+	const Ogre::Vector3& GetPointA() const;
 
-    const Ogre::Vector3& GetPointB() const;
+	const Ogre::Vector3& GetPointB() const;
 
-    const Ogre::Vector3& GetNormalOnB() const;
+	const Ogre::Vector3& GetNormalOnB() const;
 
 private:
-    const btRigidBody* objectA_;
-    const btRigidBody* objectB_;
+	const btRigidBody* objectA_;
+	const btRigidBody* objectB_;
 
-    Ogre::Vector3 pointA_;
-    Ogre::Vector3 pointB_;
+	Ogre::Vector3 pointA_;
+	Ogre::Vector3 pointB_;
 
-    Ogre::Vector3 normalOnB_;
+	Ogre::Vector3 normalOnB_;
 };
 
 #endif  // DEMO_FRAMEWORK_COLLISION_H

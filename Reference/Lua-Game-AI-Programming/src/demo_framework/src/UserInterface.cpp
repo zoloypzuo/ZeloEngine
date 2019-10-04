@@ -30,69 +30,69 @@
 
 UserInterface::UserInterface(Ogre::Viewport* const viewport)
 {
-    Gorilla::Silverback* const silverback =
-        Gorilla::Silverback::getSingletonPtr();
-    silverback->loadAtlas(DEFAULT_ATLAS);
+	Gorilla::Silverback* const silverback =
+		Gorilla::Silverback::getSingletonPtr();
+	silverback->loadAtlas(DEFAULT_ATLAS);
 
-    screen_ = silverback->createScreen(viewport, DEFAULT_ATLAS);
+	screen_ = silverback->createScreen(viewport, DEFAULT_ATLAS);
 
-    for (int index = 0; index < UI_LAYER_COUNT; ++index)
-    {
-        layers_[index] = screen_->createLayer(index);
-    }
+	for (int index = 0; index < UI_LAYER_COUNT; ++index)
+	{
+		layers_[index] = screen_->createLayer(index);
+	}
 }
 
 UserInterface::~UserInterface()
 {
-    for (size_t index = 0; index < UI_LAYER_COUNT; ++index)
-    {
-        screen_->destroy(layers_[index]);
-        layers_[index] = NULL;
-    }
+	for (size_t index = 0; index < UI_LAYER_COUNT; ++index)
+	{
+		screen_->destroy(layers_[index]);
+		layers_[index] = nullptr;
+	}
 
-    Gorilla::Silverback* const mSilverback =
-        Gorilla::Silverback::getSingletonPtr();
+	Gorilla::Silverback* const mSilverback =
+		Gorilla::Silverback::getSingletonPtr();
 
-    mSilverback->destroyScreen(screen_);
-    screen_ = NULL;
+	mSilverback->destroyScreen(screen_);
+	screen_ = nullptr;
 }
 
 UserInterfaceComponent* UserInterface::Create3DComponent(
-    Ogre::SceneNode& sceneNode)
+	Ogre::SceneNode& sceneNode)
 {
-    Gorilla::Silverback* const silverback =
-        Gorilla::Silverback::getSingletonPtr();
+	Gorilla::Silverback* const silverback =
+		Gorilla::Silverback::getSingletonPtr();
 
-    return new UserInterfaceComponent(
-        sceneNode,
-        silverback->createScreenRenderable(Ogre::Vector2::ZERO, DEFAULT_ATLAS));
+	return new UserInterfaceComponent(
+		sceneNode,
+		silverback->createScreenRenderable(Ogre::Vector2::ZERO, DEFAULT_ATLAS));
 }
 
 UserInterfaceComponent* UserInterface::CreateComponent(const size_t layerIndex)
 {
-    if (layerIndex < UI_LAYER_COUNT)
-    {
-        return new UserInterfaceComponent(layers_[layerIndex]);
-    }
+	if (layerIndex < UI_LAYER_COUNT)
+	{
+		return new UserInterfaceComponent(layers_[layerIndex]);
+	}
 
-    return NULL;
+	return nullptr;
 }
 
 void UserInterface::DestroyComponent(UserInterfaceComponent* const component)
 {
-    delete component;
+	delete component;
 }
 
 Ogre::ColourValue UserInterface::GetMarkupColor(const int index) const
 {
-    return layers_[0]->_getAtlas()->getMarkupColour(index);
+	return layers_[0]->_getAtlas()->getMarkupColour(index);
 }
 
 void UserInterface::SetMarkupColor(
-    const int index, const Ogre::ColourValue& color)
+	const int index, const Ogre::ColourValue& color) const
 {
-    for (size_t layerIndex = 0; layerIndex < UI_LAYER_COUNT; ++layerIndex)
-    {
-        layers_[layerIndex]->_getAtlas()->setMarkupColour(index, color);
-    }
+	for (size_t layerIndex = 0; layerIndex < UI_LAYER_COUNT; ++layerIndex)
+	{
+		layers_[layerIndex]->_getAtlas()->setMarkupColour(index, color);
+	}
 }

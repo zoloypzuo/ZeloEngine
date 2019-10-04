@@ -25,15 +25,15 @@
 #include "ogre3d/include/OgreLogManager.h"
 
 DemoTest::DemoTest()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Demo Framework Test")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Demo Framework Test")
 {
-    Ogre::LogManager* const logManager = new Ogre::LogManager();
+	Ogre::LogManager* const logManager = new Ogre::LogManager();
 
-    logManager->createLog("Ogre.log", true, true, true);
+	logManager->createLog("Ogre.log", true, true, true);
 
-    // Disable normal Ogre logging.
-    logManager->setLogDetail(Ogre::LL_LOW);
+	// Disable normal Ogre logging.
+	logManager->setLogDetail(Ogre::LL_LOW);
 }
 
 DemoTest::~DemoTest()
@@ -42,8 +42,8 @@ DemoTest::~DemoTest()
 
 void DemoTest::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/demo_framework_test/script");
-    CreateSandbox("TestRunner.lua");
+	AddResourceLocation("../../../src/demo_framework_test/script");
+	CreateSandbox("TestRunner.lua");
 }

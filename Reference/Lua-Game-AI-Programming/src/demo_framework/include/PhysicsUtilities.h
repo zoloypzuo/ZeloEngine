@@ -33,76 +33,76 @@ class Object;
 
 namespace Ogre
 {
-class Mesh;
-}  // namespace Ogre
+	class Mesh;
+} // namespace Ogre
 
 class PhysicsUtilities
 {
 public:
-    static void ApplyForce(
-        btRigidBody* const rigidBody, const btVector3& force);
+	static void ApplyForce(
+		btRigidBody* rigidBody, const btVector3& force);
 
-    static void ApplyImpulse(
-        btRigidBody* const rigidBody, const btVector3& impulse);
+	static void ApplyImpulse(
+		btRigidBody* rigidBody, const btVector3& impulse);
 
-    static void ApplyTorque(
-        btRigidBody* const rigidBody, const btVector3& torque);
+	static void ApplyTorque(
+		btRigidBody* rigidBody, const btVector3& torque);
 
-    static void ApplyTorqueImpulse(
-        btRigidBody* const rigidBody, const btVector3& impulse);
+	static void ApplyTorqueImpulse(
+		btRigidBody* rigidBody, const btVector3& impulse);
 
-    static Ogre::Vector3 BtVector3ToVector3(const btVector3& vector);
+	static Ogre::Vector3 BtVector3ToVector3(const btVector3& vector);
 
-    static btRigidBody* CreateBox(
-        const btScalar width, const btScalar height, const btScalar length);
+	static btRigidBody* CreateBox(
+		btScalar width, btScalar height, btScalar length);
 
-    static btRigidBody* CreateCapsule(
-        const btScalar height, const btScalar radius);
+	static btRigidBody* CreateCapsule(
+		btScalar height, btScalar radius);
 
-    static btRigidBody* CreatePlane(
-        const btVector3& normal, const btScalar originOffset);
+	static btRigidBody* CreatePlane(
+		const btVector3& normal, btScalar originOffset);
 
-    static btRigidBody* CreateRigidBodyFromMesh(
-        const Ogre::Mesh& mesh, const btVector3& position, const btScalar mass);
+	static btRigidBody* CreateRigidBodyFromMesh(
+		const Ogre::Mesh& mesh, const btVector3& position, btScalar mass);
 
-    static btConvexHullShape* CreateSimplifiedConvexHull(
-        const Ogre::Mesh& mesh);
+	static btConvexHullShape* CreateSimplifiedConvexHull(
+		const Ogre::Mesh& mesh);
 
-    static btRigidBody* CreateSphere(const btScalar radius);
+	static btRigidBody* CreateSphere(btScalar radius);
 
-    static void DeleteRigidBody(btRigidBody* const rigidBody);
+	static void DeleteRigidBody(btRigidBody* rigidBody);
 
-    static btScalar GetRigidBodyRadius(const btRigidBody* const rigidBody);
+	static btScalar GetRigidBodyRadius(const btRigidBody* rigidBody);
 
-    static btScalar GetRigidBodyMass(const btRigidBody* const rigidBody);
+	static btScalar GetRigidBodyMass(const btRigidBody* rigidBody);
 
-    static bool IsPlane(const btRigidBody& rigidBody);
+	static bool IsPlane(const btRigidBody& rigidBody);
 
-    static void SetRigidBodyGravity(
-        btRigidBody* const rigidBody, const btVector3& gravity);
+	static void SetRigidBodyGravity(
+		btRigidBody* rigidBody, const btVector3& gravity);
 
-    static void SetRigidBodyMass(
-        btRigidBody* const rigidBody, const btScalar mass);
+	static void SetRigidBodyMass(
+		btRigidBody* rigidBody, btScalar mass);
 
-    static void SetRigidBodyOrientation(
-        btRigidBody* const rigidBody, const btQuaternion& orientation);
+	static void SetRigidBodyOrientation(
+		btRigidBody* rigidBody, const btQuaternion& orientation);
 
-    static void SetRigidBodyPosition(
-        btRigidBody* const rigidBody, const btVector3& position);
+	static void SetRigidBodyPosition(
+		btRigidBody* rigidBody, const btVector3& position);
 
-    static void SetRigidBodyVelocity(
-        btRigidBody* const rigidBody, const btVector3& velocity);
+	static void SetRigidBodyVelocity(
+		btRigidBody* rigidBody, const btVector3& velocity);
 
-    static Object* ToObject(
-        const btRigidBody* const rigidBody);
+	static Object* ToObject(
+		const btRigidBody* rigidBody);
 
-    static btVector3 Vector3ToBtVector3(const Ogre::Vector3& vector);
+	static btVector3 Vector3ToBtVector3(const Ogre::Vector3& vector);
 
 private:
-    PhysicsUtilities();
-    ~PhysicsUtilities();
-    PhysicsUtilities(const PhysicsUtilities&);
-    PhysicsUtilities& operator=(const PhysicsUtilities&);
+	PhysicsUtilities();
+	~PhysicsUtilities();
+	PhysicsUtilities(const PhysicsUtilities&);
+	PhysicsUtilities& operator=(const PhysicsUtilities&);
 };
 
 #endif  // DEMO_FRAMEWORK_PHYSICS_UTILITIES_H

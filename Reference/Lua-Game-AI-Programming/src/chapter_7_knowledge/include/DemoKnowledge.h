@@ -29,15 +29,15 @@
 class DemoKnowledge : public SandboxApplication
 {
 public:
-    DemoKnowledge();
+	DemoKnowledge();
 
-    virtual ~DemoKnowledge();
+	virtual ~DemoKnowledge();
 
-    virtual void Initialize();
+	void Initialize() override;
 
 private:
-    DemoKnowledge(const DemoKnowledge&);
-    DemoKnowledge& operator=(const DemoKnowledge&);
+	DemoKnowledge(const DemoKnowledge&);
+	DemoKnowledge& operator=(const DemoKnowledge&);
 };
 
 #endif  // CHAPTER_7_KNOWLEDGE_H

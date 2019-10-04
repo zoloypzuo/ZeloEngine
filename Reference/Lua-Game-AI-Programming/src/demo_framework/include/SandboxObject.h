@@ -33,66 +33,66 @@ class Sandbox;
 
 namespace Ogre
 {
-class SceneNode;
+	class SceneNode;
 }
 
 class SandboxObject :
-    public Object,
-    private OpenSteer::SphericalObstacle
+	public Object,
+	private OpenSteer::SphericalObstacle
 {
-friend class Agent;
+	friend class Agent;
 
 public:
-    SandboxObject(
-        const unsigned int objectId,
-        Ogre::SceneNode* const sceneNode,
-        btRigidBody* const rigidBody);
+	SandboxObject(
+		unsigned int objectId,
+		Ogre::SceneNode* sceneNode,
+		btRigidBody* rigidBody);
 
-    virtual ~SandboxObject();
+	virtual ~SandboxObject();
 
-    virtual void Cleanup();
+	virtual void Cleanup();
 
-    Ogre::Real GetMass() const;
+	Ogre::Real GetMass() const;
 
-    Ogre::Quaternion GetOrientation() const;
+	Ogre::Quaternion GetOrientation() const;
 
-    Ogre::Vector3 GetPosition() const;
+	Ogre::Vector3 GetPosition() const;
 
-    Ogre::Real GetRadius() const;
+	Ogre::Real GetRadius() const;
 
-    btRigidBody* GetRigidBody();
+	btRigidBody* GetRigidBody();
 
-    const btRigidBody* GetRigidBody() const;
+	const btRigidBody* GetRigidBody() const;
 
-    Ogre::SceneNode* GetSceneNode();
+	Ogre::SceneNode* GetSceneNode();
 
-    const Ogre::SceneNode* GetSceneNode() const;
+	const Ogre::SceneNode* GetSceneNode() const;
 
-    virtual void Initialize();
+	virtual void Initialize();
 
-    void SetMass(const Ogre::Real mass);
+	void SetMass(Ogre::Real mass) const;
 
-    void SetOrientation(const Ogre::Quaternion& quaternion);
+	void SetOrientation(const Ogre::Quaternion& quaternion);
 
-    void SetPosition(const Ogre::Vector3& position);
+	void SetPosition(const Ogre::Vector3& position);
 
-    virtual void Update(const int deltaMilliseconds);
+	virtual void Update(int deltaMilliseconds);
 
 private:
-    Ogre::SceneNode* const sceneNode_;
-    btRigidBody* const rigidBody_;
+	Ogre::SceneNode* const sceneNode_;
+	btRigidBody* const rigidBody_;
 
-    SandboxObject(const SandboxObject& gameObject);
-    SandboxObject& operator=(const SandboxObject& gameObject);
+	SandboxObject(const SandboxObject& gameObject);
+	SandboxObject& operator=(const SandboxObject& gameObject);
 
-    OpenSteer::Vec3 getPosition() const;
+	OpenSteer::Vec3 getPosition() const;
 
-    // Overloading the SphericalObstacle's radius implementation.
-    virtual float getRadius() const;
+	// Overloading the SphericalObstacle's radius implementation.
+	float getRadius() const override;
 
-    virtual OpenSteer::Vec3 steerToAvoid(
-        const OpenSteer::AbstractVehicle& vehicle,
-        const float minTimeToCollision) const;
+	OpenSteer::Vec3 steerToAvoid(
+		const OpenSteer::AbstractVehicle& vehicle,
+		float minTimeToCollision) const override;
 };
 
 #endif  // DEMO_FRAMEWORK_GAME_OBJECT_H

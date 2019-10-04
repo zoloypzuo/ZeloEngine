@@ -30,36 +30,36 @@ class UserInterfaceComponent;
 
 namespace Gorilla
 {
-class Layer;
-class Screen;
-}  // namespace Gorilla
+	class Layer;
+	class Screen;
+} // namespace Gorilla
 
 namespace Ogre
 {
-class SceneNode;
-class Viewport;
+	class SceneNode;
+	class Viewport;
 }
 
 class UserInterface
 {
 public:
-    UserInterface(Ogre::Viewport* const viewport);
+	UserInterface(Ogre::Viewport* viewport);
 
-    ~UserInterface();
+	~UserInterface();
 
-    UserInterfaceComponent* Create3DComponent(Ogre::SceneNode& sceneNode);
+	static UserInterfaceComponent* Create3DComponent(Ogre::SceneNode& sceneNode);
 
-    UserInterfaceComponent* CreateComponent(const size_t layerIndex);
+	UserInterfaceComponent* CreateComponent(size_t layerIndex);
 
-    void DestroyComponent(UserInterfaceComponent* const component);
+	static void DestroyComponent(UserInterfaceComponent* component);
 
-    Ogre::ColourValue GetMarkupColor(const int index) const;
+	Ogre::ColourValue GetMarkupColor(int index) const;
 
-    void SetMarkupColor(const int index, const Ogre::ColourValue& color);
+	void SetMarkupColor(int index, const Ogre::ColourValue& color) const;
 
 private:
-    Gorilla::Screen* screen_;
-    Gorilla::Layer* layers_[UI_LAYER_COUNT];
+	Gorilla::Screen* screen_;
+	Gorilla::Layer* layers_[UI_LAYER_COUNT];
 };
 
 #endif  // DEMO_FRAMEWORK_USER_INTERFACE_H

@@ -30,83 +30,83 @@
 Ogre::NameGenerator NavigationMesh::debugNameGenerator("debugNavMesh");
 
 NavigationMesh::NavigationMesh(
-    rcConfig& config,
-    const std::vector<SandboxObject*>& objects,
-    Ogre::SceneManager* const manager)
+	rcConfig& config,
+	const std::vector<SandboxObject*>& objects,
+	Ogre::SceneManager* const manager)
 {
-    rcPolyMesh* polyMesh = NULL;
-    rcPolyMeshDetail* polyMeshDetail = NULL;
+	rcPolyMesh* polyMesh = nullptr;
+	rcPolyMeshDetail* polyMeshDetail = nullptr;
 
-    NavigationUtilities::CreatePolyMeshes(
-        config, objects, polyMesh, polyMeshDetail);
+	NavigationUtilities::CreatePolyMeshes(
+		config, objects, polyMesh, polyMeshDetail);
 
-    navMesh_ = NavigationUtilities::CreateNavMesh(
-        config, *polyMesh, *polyMeshDetail);
+	navMesh_ = NavigationUtilities::CreateNavMesh(
+		config, *polyMesh, *polyMeshDetail);
 
-    query_ = NavigationUtilities::CreateNavMeshQuery(*navMesh_);
+	query_ = NavigationUtilities::CreateNavMeshQuery(*navMesh_);
 
-    NavigationUtilities::DestroyPolyMesh(*polyMesh);
-    NavigationUtilities::DestroyPolyMeshDetail(*polyMeshDetail);
+	NavigationUtilities::DestroyPolyMesh(*polyMesh);
+	NavigationUtilities::DestroyPolyMeshDetail(*polyMeshDetail);
 
-    if (manager)
-    {
-        Ogre::ManualObject* const object =
-            NavigationUtilities::CreateManualObject(*manager, *navMesh_);
+	if (manager)
+	{
+		Ogre::ManualObject* const object =
+			NavigationUtilities::CreateManualObject(*manager, *navMesh_);
 
-        debugMesh_ = manager->getRootSceneNode()->createChildSceneNode();
+		debugMesh_ = manager->getRootSceneNode()->createChildSceneNode();
 
-        Ogre::MeshPtr mesh =
-            object->convertToMesh(debugNameGenerator.generate());
-        Ogre::Entity* const entity = manager->createEntity(mesh);
-        entity->setCastShadows(false);
+		Ogre::MeshPtr mesh =
+			object->convertToMesh(debugNameGenerator.generate());
+		Ogre::Entity* const entity = manager->createEntity(mesh);
+		entity->setCastShadows(false);
 
-        debugMesh_->attachObject(entity);
-        debugMesh_->setVisible(false);
-        debugMesh_->_updateBounds();
-    }
-    else
-    {
-        debugMesh_ = NULL;
-    }
+		debugMesh_->attachObject(entity);
+		debugMesh_->setVisible(false);
+		debugMesh_->_updateBounds();
+	}
+	else
+	{
+		debugMesh_ = nullptr;
+	}
 }
 
 NavigationMesh::~NavigationMesh()
 {
-    NavigationUtilities::DestroyNavMesh(*navMesh_);
-    navMesh_= NULL;
+	NavigationUtilities::DestroyNavMesh(*navMesh_);
+	navMesh_ = nullptr;
 
-    NavigationUtilities::DestroyNavMeshQuery(*query_);
+	NavigationUtilities::DestroyNavMeshQuery(*query_);
 
-    LuaScriptUtilities::DestroySceneNode(debugMesh_->getCreator(), debugMesh_);
+	LuaScriptUtilities::DestroySceneNode(debugMesh_->getCreator(), debugMesh_);
 }
 
-Ogre::Vector3 NavigationMesh::FindClosestPoint(const Ogre::Vector3& point)
+Ogre::Vector3 NavigationMesh::FindClosestPoint(const Ogre::Vector3& point) const
 {
-    return NavigationUtilities::FindClosestPoint(point, *query_);
+	return NavigationUtilities::FindClosestPoint(point, *query_);
 }
 
 void NavigationMesh::FindPath(
-    const Ogre::Vector3& start,
-    const Ogre::Vector3& end,
-    std::vector<Ogre::Vector3>& outPath)
+	const Ogre::Vector3& start,
+	const Ogre::Vector3& end,
+	std::vector<Ogre::Vector3>& outPath) const
 {
-    NavigationUtilities::FindStraightPath(start, end, *query_, outPath);
+	NavigationUtilities::FindStraightPath(start, end, *query_, outPath);
 }
 
 Ogre::SceneNode* NavigationMesh::GetDebugMesh() const
 {
-    return debugMesh_;
+	return debugMesh_;
 }
 
-Ogre::Vector3 NavigationMesh::RandomPoint()
+Ogre::Vector3 NavigationMesh::RandomPoint() const
 {
-    return NavigationUtilities::FindRandomPoint(*query_);
+	return NavigationUtilities::FindRandomPoint(*query_);
 }
 
-void NavigationMesh::SetNavmeshDebug(const bool debug)
+void NavigationMesh::SetNavmeshDebug(const bool debug) const
 {
-    if (debugMesh_)
-    {
-        debugMesh_->setVisible(debug);
-    }
+	if (debugMesh_)
+	{
+		debugMesh_->setVisible(debug);
+	}
 }

@@ -2,7 +2,6 @@
 #define DEMO_FRAMEWORK_SANDBOX_APPLICATION_H
 
 #include "demo_framework/include/BaseApplication.h"
-#include "ogre3d/include/OgreString.h"
 #include "ogre3d/include/OgreTimer.h"
 
 class LuaFileManager;
@@ -11,52 +10,52 @@ class Sandbox;
 class SandboxApplication : public BaseApplication
 {
 public:
-    SandboxApplication(const Ogre::String& applicationTitle);
+	SandboxApplication(const Ogre::String& applicationTitle);
 
-    virtual ~SandboxApplication();
+	virtual ~SandboxApplication();
 
-    void AddResourceLocation(const Ogre::String& location);
+	static void AddResourceLocation(const Ogre::String& location);
 
-    virtual void Cleanup();
+	void Cleanup() override;
 
-    virtual void CreateSandbox(const Ogre::String& sandboxLuaScript);
+	virtual void CreateSandbox(const Ogre::String& sandboxLuaScript);
 
-    virtual void Draw();
+	void Draw() override;
 
-    int GenerateSandboxId();
+	int GenerateSandboxId();
 
-    virtual Sandbox* GetSandbox();
+	virtual Sandbox* GetSandbox();
 
-    virtual void HandleKeyPress(const OIS::KeyCode keycode, unsigned int key);
+	void HandleKeyPress(OIS::KeyCode keycode, unsigned int key) override;
 
-    virtual void HandleKeyRelease(
-        const OIS::KeyCode keycode, unsigned int key);
+	void HandleKeyRelease(
+		OIS::KeyCode keycode, unsigned int key) override;
 
-    virtual void HandleMouseMove(const int width, const int height);
+	void HandleMouseMove(int width, int height) override;
 
-    virtual void HandleMousePress(
-        const int width, const int height, const OIS::MouseButtonID button);
+	void HandleMousePress(
+		int width, int height, OIS::MouseButtonID button) override;
 
-    virtual void HandleMouseRelease(
-        const int width, const int height, const OIS::MouseButtonID button);
+	void HandleMouseRelease(
+		int width, int height, OIS::MouseButtonID button) override;
 
-    virtual void Initialize();
+	void Initialize() override;
 
-    virtual void Update();
+	void Update() override;
 
 private:
-    long long lastUpdateTimeInMicro_;
-    long long lastUpdateCallTime_;
+	long long lastUpdateTimeInMicro_;
+	long long lastUpdateCallTime_;
 
-    LuaFileManager* luaFileManager_;
+	LuaFileManager* luaFileManager_;
 
-    Sandbox* sandbox_;
-    Ogre::Timer timer_;
+	Sandbox* sandbox_;
+	Ogre::Timer timer_;
 
-    int lastSandboxId_;
+	int lastSandboxId_;
 
-    SandboxApplication(const SandboxApplication&);
-    SandboxApplication& operator=(const SandboxApplication&);
+	SandboxApplication(const SandboxApplication&);
+	SandboxApplication& operator=(const SandboxApplication&);
 };
 
 #endif  // DEMO_FRAMEWORK_SANDBOX_APPLICATION_H

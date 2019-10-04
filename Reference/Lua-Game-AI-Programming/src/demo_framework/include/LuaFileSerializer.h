@@ -31,16 +31,16 @@ class LuaFile;
 class LuaFileSerializer : public Ogre::Serializer
 {
 public:
-    LuaFileSerializer();
+	LuaFileSerializer();
 
-    virtual ~LuaFileSerializer();
+	virtual ~LuaFileSerializer();
 
-    void ImportLuaFile(Ogre::DataStreamPtr& stream, LuaFile* const luaFile);
+	static void ImportLuaFile(Ogre::DataStreamPtr& stream, LuaFile* luaFile);
 
 private:
-    LuaFileSerializer(const LuaFileSerializer&);
+	LuaFileSerializer(const LuaFileSerializer&);
 
-    LuaFileSerializer& operator=(const LuaFileSerializer&);
-};  // class LuaFileSerializer
+	LuaFileSerializer& operator=(const LuaFileSerializer&);
+}; // class LuaFileSerializer
 
 #endif  // DEMO_FRAMEWORK_LUA_FILE_SERIALIZER_H
