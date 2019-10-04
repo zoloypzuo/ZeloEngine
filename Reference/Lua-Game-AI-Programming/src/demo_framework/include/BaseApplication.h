@@ -97,6 +97,7 @@ private:
     void CreateViewports();
     void LoadResources();
     bool Setup();
+	// 读取Resource.cfg，遍历加载资源map
     void SetupResources();
 
     // Ogre::FrameListener
