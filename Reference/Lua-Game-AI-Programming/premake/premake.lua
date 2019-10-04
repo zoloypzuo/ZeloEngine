@@ -13,12 +13,12 @@ includedirs({"../src/%{prj.name}/include/"})
 flags({
     -- "FatalWarnings",
     "MultiProcessorCompile",
-    "NoEditAndContinue",
+    -- "NoEditAndContinue",
     "NoImplicitLink",
     "NoImportLib",
     "NoIncrementalLink",
     "NoMinimalRebuild",
-    "StaticRuntime"
+    -- "StaticRuntime"
 })
 vpaths({
     ["include/*"] = {
@@ -43,11 +43,11 @@ vpaths({
     -- solution configuration specific configurations
     configuration("Debug")
     -- debug symbols
-    flags({"Symbols"})
+    -- flags({"Symbols"})
     configuration("Release")
     -- optimized build
     optimize("Full")
-    flags({"Symbols"})
+    -- flags({"Symbols"})
     defines({"NDEBUG"})
     configuration("*")
     
