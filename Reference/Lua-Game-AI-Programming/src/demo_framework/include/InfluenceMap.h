@@ -30,120 +30,120 @@ struct InfluenceMapValueToCell;
 
 namespace Ogre
 {
-class Vector3;
+	class Vector3;
 }
 
 struct InfluenceMapConfig
 {
-    float cellHeight;
+	float cellHeight;
 
-    float cellWidth;
+	float cellWidth;
 
-    float boundaryMin[3];
+	float boundaryMin[3];
 
-    float boundaryMax[3];
+	float boundaryMax[3];
 };
 
 struct InfluenceMapCell
 {
-    float values[MAX_INFLUENCE_LAYERS];
+	float values[MAX_INFLUENCE_LAYERS];
 
-    float buffer;
+	float buffer;
 
-    InfluenceMapValueToCell* valueToCells;
+	InfluenceMapValueToCell* valueToCells;
 
-    bool used;
+	bool used;
 };
 
 struct InfluenceMapValueToCell
 {
-    float value;
+	float value;
 
-    size_t toCellIndex;
+	size_t toCellIndex;
 };
 
 struct InfluenceMapGrid
 {
-    // Stores the three dimensional cells that can make up the influence map grid.
-    // To find the correct index:
-    // xIndex + yIndex * xCellCount + zIndex * xCellCount * yCellCount
-    InfluenceMapCell* cells;
+	// Stores the three dimensional cells that can make up the influence map grid.
+	// To find the correct index:
+	// xIndex + yIndex * xCellCount + zIndex * xCellCount * yCellCount
+	InfluenceMapCell* cells;
 
-    size_t cellCount;
+	size_t cellCount;
 
-    size_t xCellCount;
+	size_t xCellCount;
 
-    size_t yCellCount;
+	size_t yCellCount;
 
-    size_t zCellCount;
+	size_t zCellCount;
 
-    float cellHeight;
+	float cellHeight;
 
-    float cellWidth;
+	float cellWidth;
 
-    float boundaryMin[3];
+	float boundaryMin[3];
 
-    float boundaryMax[3];
+	float boundaryMax[3];
 };
 
 class InfluenceMap
 {
 public:
-    InfluenceMap(
-        const InfluenceMapConfig& config, const Ogre::SceneNode& mesh);
+	InfluenceMap(
+		const InfluenceMapConfig& config, const Ogre::SceneNode& mesh);
 
-    ~InfluenceMap();
+	~InfluenceMap();
 
-    void ClearInfluence(const size_t layer);
+	void ClearInfluence(size_t layer);
 
-    const InfluenceMapCell* GetCellAt(const size_t index) const;
+	const InfluenceMapCell* GetCellAt(size_t index) const;
 
-    const InfluenceMapCell* GetCellAt(const Ogre::Vector3& position) const;
+	const InfluenceMapCell* GetCellAt(const Ogre::Vector3& position) const;
 
-    size_t GetCellCount() const;
+	size_t GetCellCount() const;
 
-    float GetCellHeight() const;
+	float GetCellHeight() const;
 
-    float GetCellWidth() const;
+	float GetCellWidth() const;
 
-    float GetInfluenceAt(
-        const Ogre::Vector3& position, const size_t layer) const;
+	float GetInfluenceAt(
+		const Ogre::Vector3& position, size_t layer) const;
 
-    size_t GetInfluenceLayers() const;
+	size_t GetInfluenceLayers() const;
 
-    Ogre::Vector3 GetMaximumBoundary() const;
+	Ogre::Vector3 GetMaximumBoundary() const;
 
-    Ogre::Vector3 GetMinimumBoundary() const;
+	Ogre::Vector3 GetMinimumBoundary() const;
 
-    size_t GetXCellCount() const;
+	size_t GetXCellCount() const;
 
-    size_t GetYCellCount() const;
+	size_t GetYCellCount() const;
 
-    size_t GetZCellCount() const;
+	size_t GetZCellCount() const;
 
-    void SetFalloff(const size_t layer, const float falloff);
+	void SetFalloff(size_t layer, float falloff);
 
-    void SetInertia(const size_t layer, const float inertia);
+	void SetInertia(size_t layer, float inertia);
 
-    void SetInfluence(
-        const Ogre::Vector3& position,
-        const size_t layer,
-        const float value);
+	void SetInfluence(
+		const Ogre::Vector3& position,
+		size_t layer,
+		float value);
 
-    void SpreadInfluence(const size_t layer);
+	void SpreadInfluence(size_t layer);
 
 private:
-    InfluenceMapGrid* grid_;
+	InfluenceMapGrid* grid_;
 
-    // Value between 0 and 1.
-    float inertia_[MAX_INFLUENCE_LAYERS];
+	// Value between 0 and 1.
+	float inertia_[MAX_INFLUENCE_LAYERS];
 
-    // Value between 0 and 1.
-    float falloff_[MAX_INFLUENCE_LAYERS];
+	// Value between 0 and 1.
+	float falloff_[MAX_INFLUENCE_LAYERS];
 
-    InfluenceMap(const InfluenceMap&);
+	InfluenceMap(const InfluenceMap&);
 
-    InfluenceMap operator=(const InfluenceMap&);
+	InfluenceMap operator=(const InfluenceMap&);
 };
 
 #endif  // DEMO_FRAMEWORK_INFLUENCE_MAP_H

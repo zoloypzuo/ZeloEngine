@@ -24,36 +24,35 @@
 #ifndef DEMO_FRAMEWORK_PARTICLE_UTILITIES_H
 #define DEMO_FRAMEWORK_PARTICLE_UTILITIES_H
 
-#include "ogre3d/include/OgreCommon.h"
 #include "ogre3d/include/OgreNameGenerator.h"
 #include "ogre3d/include/OgrePrerequisites.h"
 
 namespace Ogre
 {
-class SceneNode;
+	class SceneNode;
 }
 
 class ParticleUtilities
 {
 public:
-    static Ogre::SceneNode* CreateParticle(
-        Ogre::SceneNode* const parentNode,
-        const Ogre::String& particleName);
+	static Ogre::SceneNode* CreateParticle(
+		Ogre::SceneNode* parentNode,
+		const Ogre::String& particleName);
 
-    static Ogre::Real GetLength(Ogre::SceneNode* const node);
+	static Ogre::Real GetLength(Ogre::SceneNode* node);
 
-    static void Reset(Ogre::SceneNode* const node);
+	static void Reset(Ogre::SceneNode* node);
 
-    static void SetDirection(
-        Ogre::SceneNode* const node, const Ogre::Vector3 direction);
+	static void SetDirection(
+		Ogre::SceneNode* node, Ogre::Vector3 direction);
 
 private:
-    static Ogre::NameGenerator nameGenerator_;
+	static Ogre::NameGenerator nameGenerator_;
 
-    ParticleUtilities();
-    ~ParticleUtilities();
-    ParticleUtilities(const ParticleUtilities&);
-    ParticleUtilities& operator=(const ParticleUtilities&);
+	ParticleUtilities();
+	~ParticleUtilities();
+	ParticleUtilities(const ParticleUtilities&);
+	ParticleUtilities& operator=(const ParticleUtilities&);
 };
 
 #endif  // DEMO_FRAMEWORK_PARTICLE_UTILITIES_H

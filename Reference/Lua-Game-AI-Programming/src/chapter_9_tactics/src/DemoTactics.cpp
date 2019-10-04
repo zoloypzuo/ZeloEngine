@@ -23,11 +23,9 @@
 
 #include "chapter_9_tactics/include/DemoTactics.h"
 
-#include "demo_framework/include/Sandbox.h"
-
 DemoTactics::DemoTactics()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Chapter 9 Tactics")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Chapter 9 Tactics")
 {
 }
 
@@ -37,8 +35,8 @@ DemoTactics::~DemoTactics()
 
 void DemoTactics::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/chapter_9_tactics/script");
-    CreateSandbox("Sandbox.lua");
+	AddResourceLocation("../../../src/chapter_9_tactics/script");
+	CreateSandbox("Sandbox.lua");
 }

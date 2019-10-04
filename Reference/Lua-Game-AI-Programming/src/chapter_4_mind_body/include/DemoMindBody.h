@@ -29,21 +29,21 @@
 class DemoMindBody : public SandboxApplication
 {
 public:
-    DemoMindBody(void);
+	DemoMindBody(void);
 
-    virtual ~DemoMindBody(void);
+	virtual ~DemoMindBody(void);
 
-    virtual void Cleanup();
+	void Cleanup() override;
 
-    virtual void Draw();
+	void Draw() override;
 
-    virtual void Initialize();
+	void Initialize() override;
 
-    virtual void Update();
+	void Update() override;
 
 private:
-    DemoMindBody(const DemoMindBody&);
-    DemoMindBody& operator=(const DemoMindBody&);
+	DemoMindBody(const DemoMindBody&);
+	DemoMindBody& operator=(const DemoMindBody&);
 };
 
 #endif  // CHAPTER_4_ANIMATION_DEMO_ANIMATION_H

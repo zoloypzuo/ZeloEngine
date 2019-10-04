@@ -30,278 +30,278 @@
 
 namespace
 {
-    const luaL_Reg LuaUIComponentFunctions[] =
-    {
-        { "CreateChild",                Lua_Script_UICreateChild },
-        { "GetDimensions",              Lua_Script_UIGetDimensions },
-        { "GetFont",                    Lua_Script_UIGetFont },
-        { "GetMarkupText",              Lua_Script_UIGetMarkupText },
-        { "GetOffsetPosition",          Lua_Script_UIGetOffsetPosition },
-        { "GetPosition",                Lua_Script_UIGetPosition },
-        { "GetScreenPosition",          Lua_Script_UIGetScreenPosition },
-        { "GetText",                    Lua_Script_UIGetText },
-        { "GetTextMargin",              Lua_Script_UIGetTextMargin },
-        { "IsVisible",                  Lua_Script_UIIsVisible },
-        { "SetBackgroundColor",         Lua_Script_UISetBackgroundColor },
-        { "SetDimensions",              Lua_Script_UISetDimensions },
-        { "SetGradientColor",           Lua_Script_UISetGradientColor },
-        { "SetFont",                    Lua_Script_UISetFont },
-        { "SetFontColor",               Lua_Script_UISetFontColor },
-        { "SetPosition",                Lua_Script_UISetPosition },
-        { "SetMarkupText",              Lua_Script_UISetMarkupText },
-        { "SetText",                    Lua_Script_UISetText },
-        { "SetTextMargin",              Lua_Script_UISetTextMargin },
-        { "SetVisible",                 Lua_Script_UISetVisible },
-        { "SetWorldPosition",           Lua_Script_UISetWorldPosition },
-        { "SetWorldRotation",           Lua_Script_UISetWorldRotation },
-        { NULL, NULL }
-    };
+	const luaL_Reg LuaUIComponentFunctions[] =
+	{
+		{"CreateChild", Lua_Script_UICreateChild},
+		{"GetDimensions", Lua_Script_UIGetDimensions},
+		{"GetFont", Lua_Script_UIGetFont},
+		{"GetMarkupText", Lua_Script_UIGetMarkupText},
+		{"GetOffsetPosition", Lua_Script_UIGetOffsetPosition},
+		{"GetPosition", Lua_Script_UIGetPosition},
+		{"GetScreenPosition", Lua_Script_UIGetScreenPosition},
+		{"GetText", Lua_Script_UIGetText},
+		{"GetTextMargin", Lua_Script_UIGetTextMargin},
+		{"IsVisible", Lua_Script_UIIsVisible},
+		{"SetBackgroundColor", Lua_Script_UISetBackgroundColor},
+		{"SetDimensions", Lua_Script_UISetDimensions},
+		{"SetGradientColor", Lua_Script_UISetGradientColor},
+		{"SetFont", Lua_Script_UISetFont},
+		{"SetFontColor", Lua_Script_UISetFontColor},
+		{"SetPosition", Lua_Script_UISetPosition},
+		{"SetMarkupText", Lua_Script_UISetMarkupText},
+		{"SetText", Lua_Script_UISetText},
+		{"SetTextMargin", Lua_Script_UISetTextMargin},
+		{"SetVisible", Lua_Script_UISetVisible},
+		{"SetWorldPosition", Lua_Script_UISetWorldPosition},
+		{"SetWorldRotation", Lua_Script_UISetWorldRotation},
+		{nullptr, nullptr}
+	};
 
-    const luaL_Reg LuaUIComponentMetatable[] =
-    {
-        { "__towatch",                  Lua_Script_UIComponentToWatch },
-        { NULL, NULL }
-    };
-}  // anonymous namespace
+	const luaL_Reg LuaUIComponentMetatable[] =
+	{
+		{"__towatch", Lua_Script_UIComponentToWatch},
+		{nullptr, nullptr}
+	};
+} // anonymous namespace
 
 void UserInterfaceUtilities::BindVMFunctions(lua_State* const luaVM)
 {
-    luaL_newmetatable(luaVM, LUA_UI_COMPONENT_METATABLE);
-    luaL_register(luaVM, NULL, LuaUIComponentMetatable);
+	luaL_newmetatable(luaVM, LUA_UI_COMPONENT_METATABLE);
+	luaL_register(luaVM, nullptr, LuaUIComponentMetatable);
 
-    luaL_register(luaVM, "UI", LuaUIComponentFunctions);
+	luaL_register(luaVM, "UI", LuaUIComponentFunctions);
 }
 
 UserInterfaceComponent* UserInterfaceUtilities::GetUserInterfaceComponent(
-    lua_State& luaVM, const int stackIndex)
+	lua_State& luaVM, const int stackIndex)
 {
-    return *static_cast<UserInterfaceComponent**>(
-        luaL_checkudata(&luaVM, stackIndex, LUA_UI_COMPONENT_METATABLE));
+	return *static_cast<UserInterfaceComponent**>(
+		luaL_checkudata(&luaVM, stackIndex, LUA_UI_COMPONENT_METATABLE));
 }
 
 int UserInterfaceUtilities::PushCreatedChildComponent(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return PushUserInterfaceComponent(
-        luaVM, *uiComponent.CreateChildComponent());
+	return PushUserInterfaceComponent(
+		luaVM, *uiComponent.CreateChildComponent());
 }
 
 int UserInterfaceUtilities::PushDimensions(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return LuaScriptUtilities::PushVector2(&luaVM, uiComponent.GetDimensions());
+	return LuaScriptUtilities::PushVector2(&luaVM, uiComponent.GetDimensions());
 }
 
 int UserInterfaceUtilities::PushFont(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return LuaScriptUtilities::PushString(
-        &luaVM, UserInterfaceComponent::FontToString(uiComponent.GetFont()));
+	return LuaScriptUtilities::PushString(
+		&luaVM, UserInterfaceComponent::FontToString(uiComponent.GetFont()));
 }
 
 int UserInterfaceUtilities::PushMarkupText(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return LuaScriptUtilities::PushString(&luaVM, uiComponent.GetMarkupText());
+	return LuaScriptUtilities::PushString(&luaVM, uiComponent.GetMarkupText());
 }
 
 int UserInterfaceUtilities::PushOffsetPosition(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return LuaScriptUtilities::PushVector2(
-        &luaVM, uiComponent.GetOffsetPosition());
+	return LuaScriptUtilities::PushVector2(
+		&luaVM, uiComponent.GetOffsetPosition());
 }
 
 int UserInterfaceUtilities::PushPosition(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return LuaScriptUtilities::PushVector2(&luaVM, uiComponent.GetPosition());
+	return LuaScriptUtilities::PushVector2(&luaVM, uiComponent.GetPosition());
 }
 
 int UserInterfaceUtilities::PushScreenPosition(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return LuaScriptUtilities::PushVector2(
-        &luaVM, uiComponent.GetScreenPosition());
+	return LuaScriptUtilities::PushVector2(
+		&luaVM, uiComponent.GetScreenPosition());
 }
 
 int UserInterfaceUtilities::PushText(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return LuaScriptUtilities::PushString(&luaVM, uiComponent.GetText());
+	return LuaScriptUtilities::PushString(&luaVM, uiComponent.GetText());
 }
 
 int UserInterfaceUtilities::PushTextMargin(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    return LuaScriptUtilities::PushVector2(&luaVM, uiComponent.GetPosition());
+	return LuaScriptUtilities::PushVector2(&luaVM, uiComponent.GetPosition());
 }
 
 int UserInterfaceUtilities::PushUserInterfaceComponent(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    const size_t uiComponentSize = sizeof(uiComponent);
+	const size_t uiComponentSize = sizeof uiComponent;
 
-    UserInterfaceComponent** const luaUIComponent =
-        static_cast<UserInterfaceComponent**>(
-            lua_newuserdata(&luaVM, uiComponentSize));
+	UserInterfaceComponent** const luaUIComponent =
+		static_cast<UserInterfaceComponent**>(
+			lua_newuserdata(&luaVM, uiComponentSize));
 
-    *luaUIComponent = &uiComponent;
+	*luaUIComponent = &uiComponent;
 
-    luaL_getmetatable(&luaVM, LUA_UI_COMPONENT_METATABLE);
-    lua_setmetatable(&luaVM, -2);
+	luaL_getmetatable(&luaVM, LUA_UI_COMPONENT_METATABLE);
+	lua_setmetatable(&luaVM, -2);
 
-    return 1;
+	return 1;
 }
 
 int UserInterfaceUtilities::PushUserInterfaceComponentProperties(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    lua_pushstring(&luaVM, "UserInterfaceComponent");
-    lua_newtable(&luaVM);
-    const int tableIndex = lua_gettop(&luaVM);
+	lua_pushstring(&luaVM, "UserInterfaceComponent");
+	lua_newtable(&luaVM);
+	const int tableIndex = lua_gettop(&luaVM);
 
-    LuaScriptUtilities::PushStringAttribute(
-        &luaVM,
-        UserInterfaceComponent::FontToString(uiComponent.GetFont()),
-        "font",
-        tableIndex);
+	LuaScriptUtilities::PushStringAttribute(
+		&luaVM,
+		UserInterfaceComponent::FontToString(uiComponent.GetFont()),
+		"font",
+		tableIndex);
 
-    LuaScriptUtilities::PushVector2Attribute(
-        &luaVM, uiComponent.GetScreenPosition(), "screenPosition", tableIndex);
+	LuaScriptUtilities::PushVector2Attribute(
+		&luaVM, uiComponent.GetScreenPosition(), "screenPosition", tableIndex);
 
-    LuaScriptUtilities::PushVector2Attribute(
-        &luaVM, uiComponent.GetPosition(), "position", tableIndex);
+	LuaScriptUtilities::PushVector2Attribute(
+		&luaVM, uiComponent.GetPosition(), "position", tableIndex);
 
-    LuaScriptUtilities::PushVector2Attribute(
-        &luaVM, uiComponent.GetOffsetPosition(), "offsetPosition", tableIndex);
+	LuaScriptUtilities::PushVector2Attribute(
+		&luaVM, uiComponent.GetOffsetPosition(), "offsetPosition", tableIndex);
 
-    LuaScriptUtilities::PushVector2Attribute(
-        &luaVM, uiComponent.GetTextMargin(), "textMargin", tableIndex);
+	LuaScriptUtilities::PushVector2Attribute(
+		&luaVM, uiComponent.GetTextMargin(), "textMargin", tableIndex);
 
-    LuaScriptUtilities::PushStringAttribute(
-        &luaVM, uiComponent.GetText(), "text", tableIndex);
+	LuaScriptUtilities::PushStringAttribute(
+		&luaVM, uiComponent.GetText(), "text", tableIndex);
 
-    LuaScriptUtilities::PushStringAttribute(
-        &luaVM, uiComponent.GetMarkupText(), "markupText", tableIndex);
+	LuaScriptUtilities::PushStringAttribute(
+		&luaVM, uiComponent.GetMarkupText(), "markupText", tableIndex);
 
-    LuaScriptUtilities::PushVector2Attribute(
-        &luaVM, uiComponent.GetDimensions(), "dimensions", tableIndex);
+	LuaScriptUtilities::PushVector2Attribute(
+		&luaVM, uiComponent.GetDimensions(), "dimensions", tableIndex);
 
-    LuaScriptUtilities::PushBoolAttribute(
-        &luaVM, uiComponent.IsVisible(), "visible", tableIndex);
+	LuaScriptUtilities::PushBoolAttribute(
+		&luaVM, uiComponent.IsVisible(), "visible", tableIndex);
 
-    return 2;
+	return 2;
 }
 
 int UserInterfaceUtilities::PushVisible(
-    lua_State& luaVM, UserInterfaceComponent& uiComponent)
+	lua_State& luaVM, UserInterfaceComponent& uiComponent)
 {
-    lua_pushboolean(&luaVM, uiComponent.IsVisible());
-    return 1;
+	lua_pushboolean(&luaVM, uiComponent.IsVisible());
+	return 1;
 }
 
 void UserInterfaceUtilities::SetBackgroundColor(
-    UserInterfaceComponent& uiComponent,
-    const Ogre::Real red,
-    const Ogre::Real green,
-    const Ogre::Real blue,
-    const Ogre::Real alpha)
+	UserInterfaceComponent& uiComponent,
+	const Ogre::Real red,
+	const Ogre::Real green,
+	const Ogre::Real blue,
+	const Ogre::Real alpha)
 {
-    uiComponent.SetBackgroundColor(
-        Ogre::ColourValue(
-            std::min(red, 1.0f),
-            std::min(green, 1.0f),
-            std::min(blue, 1.0f),
-            std::min(alpha, 1.0f)));
+	uiComponent.SetBackgroundColor(
+		Ogre::ColourValue(
+			std::min(red, 1.0f),
+			std::min(green, 1.0f),
+			std::min(blue, 1.0f),
+			std::min(alpha, 1.0f)));
 }
 
 void UserInterfaceUtilities::SetDimension(
-    UserInterfaceComponent& uiComponent,
-    const Ogre::Real width,
-    const Ogre::Real height)
+	UserInterfaceComponent& uiComponent,
+	const Ogre::Real width,
+	const Ogre::Real height)
 {
-    uiComponent.SetDimension(Ogre::Vector2(width, height));
+	uiComponent.SetDimension(Ogre::Vector2(width, height));
 }
 
 void UserInterfaceUtilities::SetGradientColor(
-    UserInterfaceComponent& uiComponent,
-    const Ogre::String& gradientName,
-    const Ogre::Real startRed,
-    const Ogre::Real startGreen,
-    const Ogre::Real startBlue,
-    const Ogre::Real startAlpha,
-    const Ogre::Real endRed,
-    const Ogre::Real endGreen,
-    const Ogre::Real endBlue,
-    const Ogre::Real endAlpha)
+	UserInterfaceComponent& uiComponent,
+	const Ogre::String& gradientName,
+	const Ogre::Real startRed,
+	const Ogre::Real startGreen,
+	const Ogre::Real startBlue,
+	const Ogre::Real startAlpha,
+	const Ogre::Real endRed,
+	const Ogre::Real endGreen,
+	const Ogre::Real endBlue,
+	const Ogre::Real endAlpha)
 {
-    uiComponent.SetGradientColor(
-        UserInterfaceComponent::StringToGradient(gradientName),
-        Ogre::ColourValue(startRed, startGreen, startBlue, startAlpha),
-        Ogre::ColourValue(endRed, endGreen, endBlue, endAlpha));
+	uiComponent.SetGradientColor(
+		UserInterfaceComponent::StringToGradient(gradientName),
+		Ogre::ColourValue(startRed, startGreen, startBlue, startAlpha),
+		Ogre::ColourValue(endRed, endGreen, endBlue, endAlpha));
 }
 
 void UserInterfaceUtilities::SetFont(
-    UserInterfaceComponent& uiComponent, const Ogre::String fontName)
+	UserInterfaceComponent& uiComponent, const Ogre::String fontName)
 {
-    uiComponent.SetFont(UserInterfaceComponent::StringToFont(fontName));
+	uiComponent.SetFont(UserInterfaceComponent::StringToFont(fontName));
 }
 
 void UserInterfaceUtilities::SetFontColor(
-    UserInterfaceComponent& uiComponent,
-    const Ogre::Real red,
-    const Ogre::Real green,
-    const Ogre::Real blue,
-    const Ogre::Real alpha)
+	UserInterfaceComponent& uiComponent,
+	const Ogre::Real red,
+	const Ogre::Real green,
+	const Ogre::Real blue,
+	const Ogre::Real alpha)
 {
-    uiComponent.SetFontColor(Ogre::ColourValue(red, green, blue, alpha));
+	uiComponent.SetFontColor(Ogre::ColourValue(red, green, blue, alpha));
 }
 
 void UserInterfaceUtilities::SetMarkupText(
-    UserInterfaceComponent& uiComponent, const Ogre::String& text)
+	UserInterfaceComponent& uiComponent, const Ogre::String& text)
 {
-    uiComponent.SetMarkupText(text);
+	uiComponent.SetMarkupText(text);
 }
 
 void UserInterfaceUtilities::SetPosition(
-    UserInterfaceComponent& uiComponent,
-    const Ogre::Real x,
-    const Ogre::Real y)
+	UserInterfaceComponent& uiComponent,
+	const Ogre::Real x,
+	const Ogre::Real y)
 {
-    uiComponent.SetPosition(Ogre::Vector2(x, y));
+	uiComponent.SetPosition(Ogre::Vector2(x, y));
 }
 
 void UserInterfaceUtilities::SetText(
-    UserInterfaceComponent& uiComponent, const Ogre::String& text)
+	UserInterfaceComponent& uiComponent, const Ogre::String& text)
 {
-    uiComponent.SetText(text);
+	uiComponent.SetText(text);
 }
 
 void UserInterfaceUtilities::SetTextMargin(
-    UserInterfaceComponent& uiComponent,
-    const Ogre::Real x,
-    const Ogre::Real y)
+	UserInterfaceComponent& uiComponent,
+	const Ogre::Real x,
+	const Ogre::Real y)
 {
-    uiComponent.SetTextMargin(x, y);
+	uiComponent.SetTextMargin(x, y);
 }
 
 void UserInterfaceUtilities::SetVisible(
-    UserInterfaceComponent& uiComponent, const bool visible)
+	UserInterfaceComponent& uiComponent, const bool visible)
 {
-    uiComponent.SetVisible(visible);
+	uiComponent.SetVisible(visible);
 }
 
 void UserInterfaceUtilities::SetWorldPosition(
-    UserInterfaceComponent& uiComponent,
-    const Ogre::Vector3& position)
+	UserInterfaceComponent& uiComponent,
+	const Ogre::Vector3& position)
 {
-    uiComponent.SetWorldPosition(position);
+	uiComponent.SetWorldPosition(position);
 }
 
 void UserInterfaceUtilities::SetWorldRotation(
-    UserInterfaceComponent& uiComponent,
-    const Ogre::Quaternion& rotation)
+	UserInterfaceComponent& uiComponent,
+	const Ogre::Quaternion& rotation)
 {
-    uiComponent.SetWorldRotation(rotation);
+	uiComponent.SetWorldRotation(rotation);
 }

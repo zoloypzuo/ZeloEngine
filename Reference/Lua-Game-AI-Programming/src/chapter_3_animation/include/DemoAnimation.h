@@ -29,21 +29,21 @@
 class DemoAnimation : public SandboxApplication
 {
 public:
-    DemoAnimation(void);
+	DemoAnimation(void);
 
-    virtual ~DemoAnimation(void);
+	virtual ~DemoAnimation(void);
 
-    virtual void Cleanup();
+	void Cleanup() override;
 
-    virtual void Draw();
+	void Draw() override;
 
-    virtual void Initialize();
+	void Initialize() override;
 
-    virtual void Update();
+	void Update() override;
 
 private:
-    DemoAnimation(const DemoAnimation&);
-    DemoAnimation& operator=(const DemoAnimation&);
+	DemoAnimation(const DemoAnimation&);
+	DemoAnimation& operator=(const DemoAnimation&);
 };
 
 #endif  // CHAPTER_3_ANIMATION_DEMO_ANIMATION_H

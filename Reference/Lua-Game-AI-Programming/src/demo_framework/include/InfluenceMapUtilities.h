@@ -31,55 +31,55 @@ class InfluenceMap;
 
 namespace Ogre
 {
-    class Mesh;
+	class Mesh;
 }
 
 class InfluenceMapUtilities
 {
 public:
-    static InfluenceMapGrid* BuildInfluenceMapGrid(
-        const InfluenceMapConfig& config, const Ogre::SceneNode& sceneNode);
+	static InfluenceMapGrid* BuildInfluenceMapGrid(
+		const InfluenceMapConfig& config, const Ogre::SceneNode& sceneNode);
 
-    static float ClampFalloff(const float falloff);
+	static float ClampFalloff(float falloff);
 
-    static float ClampInertia(const float inertia);
+	static float ClampInertia(float inertia);
 
-    static void ClearInfluences(InfluenceMap& influenceMap);
+	static void ClearInfluences(InfluenceMap& influenceMap);
 
-    static InfluenceMapCell* GetCell(
-        const InfluenceMapGrid& grid, const Ogre::Vector3& position);
+	static InfluenceMapCell* GetCell(
+		const InfluenceMapGrid& grid, const Ogre::Vector3& position);
 
-    static bool GetCellIndex(
-        const InfluenceMapGrid& grid,
-        const Ogre::Vector3& position,
-        size_t* const cellIndex);
+	static bool GetCellIndex(
+		const InfluenceMapGrid& grid,
+		const Ogre::Vector3& position,
+		size_t* cellIndex);
 
-    static bool GetCellIndexes(
-        const InfluenceMapGrid& grid,
-        const Ogre::Vector3& position,
-        size_t* const xCellIndex,
-        size_t* const yCellIndex,
-        size_t* const zCellIndex);
+	static bool GetCellIndexes(
+		const InfluenceMapGrid& grid,
+		const Ogre::Vector3& position,
+		size_t* xCellIndex,
+		size_t* yCellIndex,
+		size_t* zCellIndex);
 
-    static InfluenceMapConfig GetInfluenceMapConfig(
-        lua_State* luaVM, int stackIndex);
+	static InfluenceMapConfig GetInfluenceMapConfig(
+		lua_State* luaVM, int stackIndex);
 
-    static bool InGridBounds(
-        const InfluenceMapGrid& grid, const Ogre::Vector3& position);
+	static bool InGridBounds(
+		const InfluenceMapGrid& grid, const Ogre::Vector3& position);
 
-    static void SpreadInfluences(InfluenceMap& influenceMap);
+	static void SpreadInfluences(InfluenceMap& influenceMap);
 
-    static void UpdateInfluenceGrid(
-        InfluenceMapGrid& grid,
-        const size_t layer,
-        const float inertia,
-        const float falloff);
+	static void UpdateInfluenceGrid(
+		InfluenceMapGrid& grid,
+		size_t layer,
+		float inertia,
+		float falloff);
 
 private:
-    InfluenceMapUtilities();
-    ~InfluenceMapUtilities();
-    InfluenceMapUtilities(const InfluenceMapUtilities&);
-    InfluenceMapUtilities& operator=(const InfluenceMapUtilities&);
+	InfluenceMapUtilities();
+	~InfluenceMapUtilities();
+	InfluenceMapUtilities(const InfluenceMapUtilities&);
+	InfluenceMapUtilities& operator=(const InfluenceMapUtilities&);
 };
 
 #endif  // DEMO_FRAMEWORK_INFLUENCE_MAP_UTILITIES_H

@@ -38,42 +38,42 @@ class PhysicsDebugDraw;
 class PhysicsWorld
 {
 public:
-    PhysicsWorld();
+	PhysicsWorld();
 
-    ~PhysicsWorld();
+	~PhysicsWorld();
 
-    void AddRigidBody(btRigidBody* const rigidBody);
+	void AddRigidBody(btRigidBody* rigidBody) const;
 
-    void Cleanup();
+	void Cleanup();
 
-    void DrawDebugWorld();
+	void DrawDebugWorld() const;
 
-    void GetCollisions(std::vector<Collision>& collisions);
+	void GetCollisions(std::vector<Collision>& collisions) const;
 
-    btDiscreteDynamicsWorld* GetDynamicsWorld();
+	btDiscreteDynamicsWorld* GetDynamicsWorld() const;
 
-    void Initialize();
+	void Initialize();
 
-    bool RayCastToRigidBody(
-        const btVector3& from,
-        const btVector3& to,
-        btVector3& hitPoint,
-        const btRigidBody*& rigidBody) const;
+	bool RayCastToRigidBody(
+		const btVector3& from,
+		const btVector3& to,
+		btVector3& hitPoint,
+		const btRigidBody*& rigidBody) const;
 
-    void RemoveRigidBody(btRigidBody* const rigidBody);
+	void RemoveRigidBody(btRigidBody* rigidBody) const;
 
-    void StepWorld();
+	void StepWorld() const;
 
 private:
-    PhysicsWorld(const PhysicsWorld&);
-    PhysicsWorld& operator=(const PhysicsWorld&);
+	PhysicsWorld(const PhysicsWorld&);
+	PhysicsWorld& operator=(const PhysicsWorld&);
 
-    btBroadphaseInterface* broadphase_;
-    btDefaultCollisionConfiguration* collisionConfiguration_;
-    btCollisionDispatcher* dispatcher_;
-    btSequentialImpulseConstraintSolver* solver_;
-    btDiscreteDynamicsWorld* dynamicsWorld_;
-    PhysicsDebugDraw* debugDraw_;
+	btBroadphaseInterface* broadphase_;
+	btDefaultCollisionConfiguration* collisionConfiguration_;
+	btCollisionDispatcher* dispatcher_;
+	btSequentialImpulseConstraintSolver* solver_;
+	btDiscreteDynamicsWorld* dynamicsWorld_;
+	PhysicsDebugDraw* debugDraw_;
 };
 
 #endif  // DEMO_FRAMEWORK_PHYSICS_WORLD_H
