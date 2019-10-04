@@ -146,7 +146,11 @@ vpaths({
             "dinput8",
             "dxguid",
             "d3dx9",
-            "DxErr"
+            "DxErr",
+            "vcruntimed.lib",
+            "ucrtd.lib",
+            "libucrt.lib",
+            "libucrtd.lib"
         })
         -- static linking against ogre requires linking against ogre's resource file
         linkoptions("OgreWin32Resources.res")
