@@ -1,3 +1,6 @@
+DxHeaderDir = [[C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Include]]
+DxLibx64Dir = [[C:\Program Files (x86)\Microsoft DirectX SDK (June 2010)\Lib\x64]] 
+
 --require "SandboxDemos"
 dofile("SandboxDemos.lua");
 
@@ -8,7 +11,7 @@ platforms({"x32", "x64"})
 
 -- configuration shared between all projects
 language("C++")
-includedirs({"../src/%{prj.name}/include/"})
+includedirs({"../src/%{prj.name}/include/", DxHeaderDir})
 -- warnings("Extra")
 flags({
     -- "FatalWarnings",
@@ -155,12 +158,14 @@ vpaths({
         configuration({"windows", "x64", "Debug"})
         libdirs({
             "\"../build/projects/ogre3d/obj/x64/Debug\"",
-            "\"$(DXSDK_DIR)/Lib/x64\""
+            "\"$(DXSDK_DIR)/Lib/x64\"",
+            DxLibx64Dir
         })
         configuration({"windows", "x64", "Release"})
         libdirs({
             "\"../build/projects/ogre3d/obj/x64/Release\"",
-            "\"$(DXSDK_DIR)/Lib/x64\""
+            "\"$(DXSDK_DIR)/Lib/x64\"",
+            DxLibx64Dir
         })
         configuration("*")
         includedirs({
