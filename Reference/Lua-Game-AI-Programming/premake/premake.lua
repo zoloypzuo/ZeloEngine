@@ -21,8 +21,9 @@ flags({
     "NoImportLib",
     "NoIncrementalLink",
     "NoMinimalRebuild",
-    -- "StaticRuntime"
 })
+staticruntime "On"
+editandcontinue "Off"
 characterset("ASCII")
 vpaths({
     ["include/*"] = {
@@ -48,10 +49,12 @@ vpaths({
     configuration("Debug")
     -- debug symbols
     -- flags({"Symbols"})
+    symbols "On"
     configuration("Release")
     -- optimized build
     optimize("Full")
     -- flags({"Symbols"})
+    symbols "On"
     defines({"NDEBUG"})
     configuration("*")
     
