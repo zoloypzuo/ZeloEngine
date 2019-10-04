@@ -5,7 +5,7 @@
 @rem mkdir build and build the project
 
 @rem comment this to log more and help debug
-@echo off
+REM @echo off
 
 set CurrentDir=%cd%
 set ScriptDir=%~dp0
