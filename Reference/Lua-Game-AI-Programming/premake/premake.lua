@@ -23,6 +23,7 @@ flags({
     "NoMinimalRebuild",
     -- "StaticRuntime"
 })
+characterset("ASCII")
 vpaths({
     ["include/*"] = {
         "src/%{prj.name}/include/**.h",
