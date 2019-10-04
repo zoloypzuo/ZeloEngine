@@ -1,75 +1,90 @@
-@rem build.bat
-@rem created on 2019/8/31
-@rem author @zoloypzuo
-@rem
-@rem mkdir build and build the project
+# @rem build.bat
+# @rem created on 2019/8/31
+# @rem author @zoloypzuo
 
-@rem comment this to log more and help debug
-REM @echo off
+Write-Output @"
+=========================
+==== build.ps1 start ====
+=========================
+"@
+$CurrentDir = Get-Location
+$ScriptDir = $PSScriptRoot
+Set-Location -Path $ScriptDir
 
-set CurrentDir=%cd%
-set ScriptDir=%~dp0
-set Args=%*
-cd /d %ScriptDir%
+Write-Output @"
+========================================
+==== set environment variable start ====
+========================================
+"@
 
-@rem
-@rem set environment variable
-@rem
 setx LUA_INIT_5_3 "@D:\ZeloEngine\Src\Script\global.lua"
-setx LUA_PATH_5_3 ^
-D:\LuaRocks\lua\?.lua;^
-D:\LuaRocks\lua\?\init.lua;^
-D:\ZeloEngine\lua\?.lua;^
-D:\ZeloEngine\lua\?\init.lua;^
-D:\ZeloEngine\?.lua;^
-D:\ZeloEngine\?\init.lua;^
-D:\ZeloEngine\..\share\lua\5.3\?.lua;^
-D:\ZeloEngine\..\share\lua\5.3\?\init.lua;^
-.\?.lua;^
-.\?\init.lua;^
-C:\Users\91018\AppData\Roaming/luarocks/share/lua/5.3/?.lua;^
-C:\Users\91018\AppData\Roaming/luarocks/share/lua/5.3/?/init.lua;^
-D:\LuaRocks\systree/share/lua/5.3/?.lua;^
-D:\LuaRocks\systree/share/lua/5.3/?/init.lua;^
+setx LUA_PATH_5_3 @"
+D:\LuaRocks\lua\?.lua;
+D:\LuaRocks\lua\?\init.lua;
+D:\ZeloEngine\lua\?.lua;
+D:\ZeloEngine\lua\?\init.lua;
+D:\ZeloEngine\?.lua;
+D:\ZeloEngine\?\init.lua;
+D:\ZeloEngine\..\share\lua\5.3\?.lua;
+D:\ZeloEngine\..\share\lua\5.3\?\init.lua;
+.\?.lua;
+.\?\init.lua;
+C:\Users\91018\AppData\Roaming/luarocks/share/lua/5.3/?.lua;
+C:\Users\91018\AppData\Roaming/luarocks/share/lua/5.3/?/init.lua;
+D:\LuaRocks\systree/share/lua/5.3/?.lua;
+D:\LuaRocks\systree/share/lua/5.3/?/init.lua;
 D:\ZeloEngine\Src\Script\?.lua
+"@
 
-setx LUA_CPATH_5_3 ^
-D:\ZeloEngine\?.dll;^
-D:\ZeloEngine\..\lib\lua\5.3\?.dll;^
-D:\ZeloEngine\loadall.dll;.\?.dll;^
-D:\ZeloEngine\?53.dll;^
-.\?53.dll;^
-C:\Users\91018\AppData\Roaming/luarocks/lib/lua/5.3/?.dll;^
+setx LUA_CPATH_5_3 @"
+D:\ZeloEngine\?.dll;
+D:\ZeloEngine\..\lib\lua\5.3\?.dll;
+D:\ZeloEngine\loadall.dll;.\?.dll;
+D:\ZeloEngine\?53.dll;
+.\?53.dll;
+C:\Users\91018\AppData\Roaming/luarocks/lib/lua/5.3/?.dll;
 D:\LuaRocks\systree/lib/lua/5.3/?.dll
+"@
 
-
-@rem
-@rem load vs2017 devcmd.bat
-@rem
-if not defined IsVsDevCmdLoaded (
-  set IsVsDevCmdLoaded="True"
-  call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\Tools\VsDevCmd.bat"
-)
-
-@rem
-@rem lib build switch, uncomment this only when you want to rebuild lib
-@rem
-rem call External/build.bat
-
-@rem
-@rem call submodule build here
-@rem
-rem call d3d12book/build.bat
-rem call GameEngineFromScratch/Article21_DX12App/build.bat
-
-@rem build zelo
+Write-Output ================================
+# Write-Output ==== cmake build zelo start ====
+# Write-Output ================================
 mkdir build
-cd build
-cmake -G "Visual Studio 15" ..
-echo =====================
-echo ==== build start ====
-echo =====================
-msbuild ZeloEngine.sln
-cd %CurrentDir%
+Set-Location build
+cmake -G "Visual Studio 16" ..
 
-pause
+function buildVS
+{
+    param
+    (
+        [parameter(Mandatory=$true)]
+        [String] $path
+    )
+    process
+    {
+        $msBuildExe = "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\MSBuild.exe"
+
+        Write-Host "Building $($path)" -foregroundcolor green
+        & "$($msBuildExe)" "$($path)" /t:Build /m
+    }
+}
+
+Write-Output @"
+=======================
+==== msbuild start ====
+=======================
+"@
+buildVS ZeloEngine.sln
+
+# @rem lib build switch, uncomment this only when you want to rebuild lib
+# rem call External/build.bat
+
+# @rem call submodule build here
+# rem call d3d12book/build.bat
+# rem call GameEngineFromScratch/Article21_DX12App/build.bat
+
+# Write-Output =======================
+# Write-Output ==== build.ps1 end ====
+# Write-Output =======================
+# Set-Location $CurrentDir
+# pause
