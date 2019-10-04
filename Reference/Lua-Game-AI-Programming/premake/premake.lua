@@ -9,9 +9,9 @@ platforms({"x32", "x64"})
 -- configuration shared between all projects
 language("C++")
 includedirs({"../src/%{prj.name}/include/"})
-warnings("Extra")
+-- warnings("Extra")
 flags({
-    "FatalWarnings",
+    -- "FatalWarnings",
     "MultiProcessorCompile",
     "NoEditAndContinue",
     "NoImplicitLink",
@@ -36,7 +36,7 @@ vpaths({
     -- platform(windows/linux) specific configurations
     configuration("windows")
     -- fatal linker warnings
-    linkoptions ({"/WX"})
+    -- linkoptions ({"/WX"})
     configuration("linux")
     configuration("*")
     
