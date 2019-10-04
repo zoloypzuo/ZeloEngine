@@ -66,6 +66,7 @@ BaseApplication::~BaseApplication()
     }
 }
 
+// 创建通用场景和debug gizmoz drawer
 void BaseApplication::ChooseSceneManager()
 {
     // The sandbox is only built with the generic scene manager.
@@ -97,6 +98,7 @@ bool BaseApplication::Configure()
     }
 }
 
+// 创建主相机
 void BaseApplication::CreateCamera()
 {
     camera_ = sceneManager_->createCamera("PlayerCamera");
@@ -113,6 +115,7 @@ void BaseApplication::CreateCamera()
     cameraMan_->setTopSpeed(5.0f);
 }
 
+// 创建IOS输入管理
 void BaseApplication::CreateFrameListener()
 {
 	// log
@@ -159,6 +162,7 @@ void BaseApplication::CreateResourceListener()
 {
 }
 
+// 根据相机创建视口
 void BaseApplication::CreateViewports()
 {
     // Create one viewport, entire window
@@ -402,11 +406,11 @@ bool BaseApplication::Setup(void)
     CreateCamera();
     CreateViewports();
 
-    // Set default mipmap level (NB some APIs ignore this)
+    // Set default mipmap level (NB some APIs ignore this)（设置默认mipmap数量）
     Ogre::TextureManager::getSingleton().setDefaultNumMipmaps(5);
 
-    // Create any resource listeners (for loading screens)
-	// do nothing here
+    // Create any resource listeners (for loading screens)（创建资源监听）
+	// do nothing here（目前啥也不做）
     CreateResourceListener();
 
     // Load resources
