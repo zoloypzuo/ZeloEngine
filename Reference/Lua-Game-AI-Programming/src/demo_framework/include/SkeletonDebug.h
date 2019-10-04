@@ -36,46 +36,45 @@
 #define DEMO_FRAMEWORK_SKELETON_DEBUG_H
 
 #include "ogre3d/include/OgrePrerequisites.h"
-#include "ogre3d/include/OgreString.h"
 
 namespace Ogre
 {
-class Entity;
-class SceneManager;
+	class Entity;
+	class SceneManager;
 }
 
 class SkeletonDebug
 {
 public:
-    static Ogre::String axesName;
-    static Ogre::String axesMeshName;
-    static Ogre::String boneName;
-    static Ogre::String boneMeshName;
+	static Ogre::String axesName;
+	static Ogre::String axesMeshName;
+	static Ogre::String boneName;
+	static Ogre::String boneMeshName;
 
-    static bool HasSkeletonDebug(Ogre::Entity* entity);
+	static bool HasSkeletonDebug(Ogre::Entity* entity);
 
-    static void HideSkeletonDebug(Ogre::Entity* entity);
+	static void HideSkeletonDebug(Ogre::Entity* entity);
 
-    static void ShowSkeletonDebug(Ogre::Entity* entity);
+	static void ShowSkeletonDebug(Ogre::Entity* entity);
 
-    static void SetSkeletonDebug(
-        Ogre::Entity *entity,
-        Ogre::SceneManager *sceneManager,
-        const bool enable,
-        Ogre::Real boneSize = 0.05f,
-        Ogre::Real axisSize = 0.05f);
+	static void SetSkeletonDebug(
+		Ogre::Entity* entity,
+		Ogre::SceneManager* sceneManager,
+		bool enable,
+		Ogre::Real boneSize = 0.05f,
+		Ogre::Real axisSize = 0.05f);
 
 private:
-    SkeletonDebug();
-    ~SkeletonDebug();
-    SkeletonDebug(const SkeletonDebug&);
-    SkeletonDebug& operator=(const SkeletonDebug&);
+	SkeletonDebug();
+	~SkeletonDebug();
+	SkeletonDebug(const SkeletonDebug&);
+	SkeletonDebug& operator=(const SkeletonDebug&);
 
-    static Ogre::MaterialPtr GetAxesMaterial();
-    static Ogre::ResourcePtr GetAxesMesh();
+	static Ogre::MaterialPtr GetAxesMaterial();
+	static Ogre::ResourcePtr GetAxesMesh();
 
-    static Ogre::MaterialPtr GetBoneMaterial();
-    static Ogre::MeshPtr GetBoneMesh(const Ogre::Real boneSize);
+	static Ogre::MaterialPtr GetBoneMaterial();
+	static Ogre::MeshPtr GetBoneMesh(Ogre::Real boneSize);
 };
 
 #endif  // DEMO_FRAMEWORK_SKELETON_DEBUG_H

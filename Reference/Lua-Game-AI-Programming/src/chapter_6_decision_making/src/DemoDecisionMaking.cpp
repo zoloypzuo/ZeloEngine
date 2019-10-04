@@ -23,11 +23,9 @@
 
 #include "chapter_6_decision_making/include/DemoDecisionMaking.h"
 
-#include "demo_framework/include/Sandbox.h"
-
 DemoDecisionMaking::DemoDecisionMaking()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Chapter 6 Decision Making")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Chapter 6 Decision Making")
 {
 }
 
@@ -37,8 +35,8 @@ DemoDecisionMaking::~DemoDecisionMaking()
 
 void DemoDecisionMaking::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/chapter_6_decision_making/script");
-    CreateSandbox("Sandbox.lua");
+	AddResourceLocation("../../../src/chapter_6_decision_making/script");
+	CreateSandbox("Sandbox.lua");
 }

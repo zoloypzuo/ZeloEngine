@@ -29,21 +29,21 @@
 class DemoNavigation : public SandboxApplication
 {
 public:
-    DemoNavigation(void);
+	DemoNavigation(void);
 
-    virtual ~DemoNavigation(void);
+	virtual ~DemoNavigation(void);
 
-    virtual void Cleanup();
+	void Cleanup() override;
 
-    virtual void Draw();
+	void Draw() override;
 
-    virtual void Initialize();
+	void Initialize() override;
 
-    virtual void Update();
+	void Update() override;
 
 private:
-    DemoNavigation(const DemoNavigation&);
-    DemoNavigation& operator=(const DemoNavigation&);
+	DemoNavigation(const DemoNavigation&);
+	DemoNavigation& operator=(const DemoNavigation&);
 };
 
 #endif  // CHAPTER_5_NAVIGATION_H

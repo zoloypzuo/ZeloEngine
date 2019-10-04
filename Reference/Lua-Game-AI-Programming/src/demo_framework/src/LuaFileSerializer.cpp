@@ -26,23 +26,26 @@
 #include "demo_framework/include/LuaFile.h"
 #include "demo_framework/include/LuaFileSerializer.h"
 
-LuaFileSerializer::LuaFileSerializer() {
+LuaFileSerializer::LuaFileSerializer()
+{
 }
 
-LuaFileSerializer::~LuaFileSerializer() {
+LuaFileSerializer::~LuaFileSerializer()
+{
 }
 
 void LuaFileSerializer::ImportLuaFile(
-    Ogre::DataStreamPtr& stream, LuaFile* const luaFile) {
-    size_t dataSize = stream->size();
+	Ogre::DataStreamPtr& stream, LuaFile* const luaFile)
+{
+	size_t dataSize = stream->size();
 
-    if (dataSize)
-    {
-        char* const data = new char[dataSize + 1];
+	if (dataSize)
+	{
+		char* const data = new char[dataSize + 1];
 
-        stream->read(data, dataSize);
-        luaFile->SetData(data, dataSize);
+		stream->read(data, dataSize);
+		luaFile->SetData(data, dataSize);
 
-        data[dataSize] = 0;
-    }
+		data[dataSize] = 0;
+	}
 }

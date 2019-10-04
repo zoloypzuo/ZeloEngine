@@ -31,29 +31,29 @@
 
 int main(int argc, char* argv[])
 {
-    (void)argc;
-    (void)argv;
+	(void)argc;
+	(void)argv;
 
-    // Create application object
-    DemoTest app;
+	// Create application object
+	DemoTest app;
 
-    try
-    {
-        app.Run();
-    }
-    catch( Ogre::Exception& error )
-    {
+	try
+	{
+		app.Run();
+	}
+	catch (Ogre::Exception& error)
+	{
 #if OGRE_PLATFORM == OGRE_PLATFORM_WIN32
-        MessageBox(
-            NULL,
-            error.getFullDescription().c_str(),
-            "An exception has occured!",
-            MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		MessageBox(
+			nullptr,
+			error.getFullDescription().c_str(),
+			"An exception has occured!",
+			MB_OK | MB_ICONERROR | MB_TASKMODAL);
 #else
         std::cerr << "An exception has occured: " <<
             error.getFullDescription().c_str() << std::endl;
 #endif
-    }
+	}
 
-    return 0;
+	return 0;
 }

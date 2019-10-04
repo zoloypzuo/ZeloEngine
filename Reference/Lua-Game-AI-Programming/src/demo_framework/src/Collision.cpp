@@ -26,37 +26,37 @@
 #include "demo_framework/include/Collision.h"
 
 Collision::Collision(
-    const btRigidBody* objectA,
-    const btVector3& pointA,
-    const btRigidBody* objectB,
-    const btVector3& pointB,
-    const btVector3& normalOnB)
-    : objectA_(objectA),
-    pointA_(pointA.m_floats[0], pointA.m_floats[1], pointA.m_floats[2]),
-    objectB_(objectB),
-    pointB_(pointB.m_floats[0], pointB.m_floats[1], pointB.m_floats[2]),
-    normalOnB_(normalOnB.m_floats[0], normalOnB.m_floats[1], normalOnB.m_floats[2])
+	const btRigidBody* objectA,
+	const btVector3& pointA,
+	const btRigidBody* objectB,
+	const btVector3& pointB,
+	const btVector3& normalOnB)
+	: objectA_(objectA),
+	  objectB_(objectB),
+	  pointA_(pointA.m_floats[0], pointA.m_floats[1], pointA.m_floats[2]),
+	  pointB_(pointB.m_floats[0], pointB.m_floats[1], pointB.m_floats[2]),
+	  normalOnB_(normalOnB.m_floats[0], normalOnB.m_floats[1], normalOnB.m_floats[2])
 {
 }
 
 Collision::Collision(const Collision& collision)
-    : objectA_(collision.objectA_),
-    pointA_(collision.pointA_),
-    objectB_(collision.objectB_),
-    pointB_(collision.pointB_),
-    normalOnB_(collision.normalOnB_)
+	: objectA_(collision.objectA_),
+	  objectB_(collision.objectB_),
+	  pointA_(collision.pointA_),
+	  pointB_(collision.pointB_),
+	  normalOnB_(collision.normalOnB_)
 {
 }
 
 Collision& Collision::operator=(const Collision& collision)
 {
-    objectA_ = collision.objectA_;
-    objectB_ = collision.objectB_;
-    pointA_ = collision.pointA_;
-    pointB_ = collision.pointB_;
-    normalOnB_ = collision.normalOnB_;
+	objectA_ = collision.objectA_;
+	objectB_ = collision.objectB_;
+	pointA_ = collision.pointA_;
+	pointB_ = collision.pointB_;
+	normalOnB_ = collision.normalOnB_;
 
-    return *this;
+	return *this;
 }
 
 Collision::~Collision()
@@ -65,25 +65,25 @@ Collision::~Collision()
 
 const btRigidBody* Collision::GetObjectA() const
 {
-    return objectA_;
+	return objectA_;
 }
 
 const btRigidBody* Collision::GetObjectB() const
 {
-    return objectB_;
+	return objectB_;
 }
 
 const Ogre::Vector3& Collision::GetPointA() const
 {
-    return pointA_;
+	return pointA_;
 }
 
 const Ogre::Vector3& Collision::GetPointB() const
 {
-    return pointB_;
+	return pointB_;
 }
 
 const Ogre::Vector3& Collision::GetNormalOnB() const
 {
-    return normalOnB_;
+	return normalOnB_;
 }

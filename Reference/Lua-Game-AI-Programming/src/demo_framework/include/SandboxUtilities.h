@@ -43,7 +43,7 @@ class UserInterfaceComponent;
 
 namespace Ogre
 {
-class Vector3;
+	class Vector3;
 }
 
 #define SANDBOX_LUA_PACKAGE         "Sandbox"
@@ -56,264 +56,264 @@ class Vector3;
 class SandboxUtilities
 {
 public:
-    static void BindVMFunctions(lua_State* const luaVM);
+	static void BindVMFunctions(lua_State* luaVM);
 
-    static void AddCollisionCallback(
-        Sandbox* const sandbox,
-        SandboxObject* const sandboxObject,
-        lua_State* const luaVM,
-        const int callbackIndex);
+	static void AddCollisionCallback(
+		Sandbox* sandbox,
+		SandboxObject* sandboxObject,
+		lua_State* luaVM,
+		int callbackIndex);
 
-    static void AddEvent(Sandbox* const sandbox, const Event& event);
+	static void AddEvent(Sandbox* sandbox, const Event& event);
 
-    static void AddEventCallback(
-        Sandbox* const sandbox,
-        Object* const object,
-        lua_State* const luaVM,
-        const int callbackIndex);
+	static void AddEventCallback(
+		Sandbox* sandbox,
+		Object* object,
+		lua_State* luaVM,
+		int callbackIndex);
 
-    static void CallLuaCollisionHandler(
-        Sandbox* const sandbox,
-        lua_State* const luaVM,
-        int callbackIndex,
-        Object* const objectA,
-        Object* const objectB,
-        const Ogre::Vector3& pointA,
-        const Ogre::Vector3& pointB,
-        const Ogre::Vector3& normalOnB);
+	static void CallLuaCollisionHandler(
+		Sandbox* sandbox,
+		lua_State* luaVM,
+		int callbackIndex,
+		Object* objectA,
+		Object* objectB,
+		const Ogre::Vector3& pointA,
+		const Ogre::Vector3& pointB,
+		const Ogre::Vector3& normalOnB);
 
-    static void CallLuaEventHandler(
-        Sandbox* const sandbox,
-        Object* const object,
-        lua_State* const luaVM,
-        const int callbackIndex,
-        const Event& event);
+	static void CallLuaEventHandler(
+		Sandbox* sandbox,
+		Object* object,
+		lua_State* luaVM,
+		int callbackIndex,
+		const Event& event);
 
-    static void CallLuaSandboxCleanup(Sandbox* const sandbox);
+	static void CallLuaSandboxCleanup(Sandbox* sandbox);
 
-    static void CallLuaSandboxHandleKeyboardEvent(
-        Sandbox* const sandbox, const Ogre::String& key, const bool pressed);
+	static void CallLuaSandboxHandleKeyboardEvent(
+		Sandbox* sandbox, const Ogre::String& key, bool pressed);
 
-    static void CallLuaSandboxHandleMouseEvent(
-        Sandbox* const sandbox,
-        const int width,
-        const int height,
-        const Ogre::String button,
-        const bool pressed);
+	static void CallLuaSandboxHandleMouseEvent(
+		Sandbox* sandbox,
+		int width,
+		int height,
+		Ogre::String button,
+		bool pressed);
 
-    static void CallLuaSandboxHandleMouseMoveEvent(
-        Sandbox* const sandbox,
-        const int width,
-        const int height);
+	static void CallLuaSandboxHandleMouseMoveEvent(
+		Sandbox* sandbox,
+		int width,
+		int height);
 
-    static void CallLuaSandboxInitialize(Sandbox* const sandbox);
+	static void CallLuaSandboxInitialize(Sandbox* sandbox);
 
-    static void CallLuaSandboxUpdate(
-        Sandbox* const sandbox, const int deltaTimeInMillis);
+	static void CallLuaSandboxUpdate(
+		Sandbox* sandbox, int deltaTimeInMillis);
 
-    static void ClearInfluenceMap(
-        Sandbox* const sandbox, const size_t layer);
+	static void ClearInfluenceMap(
+		Sandbox* sandbox, size_t layer);
 
-    static Agent* CreateAgent(
-        Sandbox* const sandbox,
-        const Ogre::String luaScriptFileName);
+	static Agent* CreateAgent(
+		Sandbox* sandbox,
+		Ogre::String luaScriptFileName);
 
-    static UserInterfaceComponent* CreateUIComponent(
-        Sandbox* const sandbox, size_t layerIndex);
+	static UserInterfaceComponent* CreateUIComponent(
+		Sandbox* sandbox, size_t layerIndex);
 
-    static UserInterfaceComponent* CreateUIComponent3d(
-        Sandbox* const sandbox, const Ogre::Vector3& position);
+	static UserInterfaceComponent* CreateUIComponent3d(
+		Sandbox* sandbox, const Ogre::Vector3& position);
 
-    static InfluenceMap* CreateInfluenceMap(
-        Sandbox* const sandbox,
-        const InfluenceMapConfig& config,
-        const Ogre::String& navMeshName);
+	static InfluenceMap* CreateInfluenceMap(
+		Sandbox* sandbox,
+		const InfluenceMapConfig& config,
+		const Ogre::String& navMeshName);
 
-    static NavigationMesh* CreateNavigationMesh(
-        Sandbox* const sandbox,
-        rcConfig config,
-        const Ogre::String& navMeshName);
+	static NavigationMesh* CreateNavigationMesh(
+		Sandbox* sandbox,
+		rcConfig config,
+		const Ogre::String& navMeshName);
 
-    static SandboxObject* CreatePhysicsCapsule(
-        Sandbox* const sandbox,
-        const Ogre::Real height,
-        const Ogre::Real radius);
+	static SandboxObject* CreatePhysicsCapsule(
+		Sandbox* sandbox,
+		Ogre::Real height,
+		Ogre::Real radius);
 
-    static SandboxObject* CreatePhysicsSphere(
-        Sandbox* const sandbox,
-        const Ogre::Real radius);
+	static SandboxObject* CreatePhysicsSphere(
+		Sandbox* sandbox,
+		Ogre::Real radius);
 
-    static SandboxObject* CreateSandboxBox(
-        Sandbox* const sandbox,
-        const Ogre::Real width,
-        const Ogre::Real height,
-        const Ogre::Real length,
-        const Ogre::Real uTile = 1.0f,
-        const Ogre::Real vTile = 1.0f);
+	static SandboxObject* CreateSandboxBox(
+		Sandbox* sandbox,
+		Ogre::Real width,
+		Ogre::Real height,
+		Ogre::Real length,
+		Ogre::Real uTile = 1.0f,
+		Ogre::Real vTile = 1.0f);
 
-    static SandboxObject* CreateSandboxCapsule(
-        Sandbox* const sandbox,
-        const Ogre::Real height,
-        const Ogre::Real radius);
+	static SandboxObject* CreateSandboxCapsule(
+		Sandbox* sandbox,
+		Ogre::Real height,
+		Ogre::Real radius);
 
-    static SandboxObject* CreateSandboxObject(
-        Sandbox* const sandbox, const Ogre::String& meshFileName);
+	static SandboxObject* CreateSandboxObject(
+		Sandbox* sandbox, const Ogre::String& meshFileName);
 
-    static SandboxObject* CreateSandboxObject(
-        Sandbox* const sandbox, Ogre::SceneNode* const node);
+	static SandboxObject* CreateSandboxObject(
+		Sandbox* sandbox, Ogre::SceneNode* node);
 
-    static SandboxObject* CreateSandboxPlane(
-        Sandbox* const sandbox,
-        const Ogre::Real length,
-        const Ogre::Real width);
+	static SandboxObject* CreateSandboxPlane(
+		Sandbox* sandbox,
+		Ogre::Real length,
+		Ogre::Real width);
 
-    static void CreateSkyBox(
-        Sandbox* const sandbox,
-        const Ogre::String materialName,
-        const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
+	static void CreateSkyBox(
+		Sandbox* sandbox,
+		Ogre::String materialName,
+		const Ogre::Quaternion& orientation = Ogre::Quaternion::IDENTITY);
 
-    static void DrawInfluenceMap(
-        Sandbox* const sandbox,
-        const size_t layer,
-        const Ogre::ColourValue& positiveValue,
-        const Ogre::ColourValue& zeroValue,
-        const Ogre::ColourValue& negativeValue);
+	static void DrawInfluenceMap(
+		Sandbox* sandbox,
+		size_t layer,
+		const Ogre::ColourValue& positiveValue,
+		const Ogre::ColourValue& zeroValue,
+		const Ogre::ColourValue& negativeValue);
 
-    static Ogre::Vector3 FindClosestPoint(
-        Sandbox* const sandbox,
-        const Ogre::String& navMeshName,
-        const Ogre::Vector3& point);
+	static Ogre::Vector3 FindClosestPoint(
+		Sandbox* sandbox,
+		const Ogre::String& navMeshName,
+		const Ogre::Vector3& point);
 
-    static void FindPath(
-        Sandbox* const sandbox,
-        const Ogre::String& navMeshName,
-        const Ogre::Vector3& start,
-        const Ogre::Vector3& end,
-        std::vector<Ogre::Vector3>& outPath);
+	static void FindPath(
+		Sandbox* sandbox,
+		const Ogre::String& navMeshName,
+		const Ogre::Vector3& start,
+		const Ogre::Vector3& end,
+		std::vector<Ogre::Vector3>& outPath);
 
-    static bool GetDrawPhysicsWorld(Sandbox* const sandbox);
+	static bool GetDrawPhysicsWorld(Sandbox* sandbox);
 
-    static bool GetEvent(lua_State* luaVM, const int index, Event& event);
+	static bool GetEvent(lua_State* luaVM, int index, Event& event);
 
-    static float GetInertia(
-        Sandbox* const sandbox,
-        const size_t layer,
-        const Ogre::Vector3& position);
+	static float GetInertia(
+		Sandbox* sandbox,
+		size_t layer,
+		const Ogre::Vector3& position);
 
-    static long long GetProfileRenderTime(Sandbox* const sandbox);
+	static long long GetProfileRenderTime(Sandbox* sandbox);
 
-    static long long GetProfileSimTime(Sandbox* const sandbox);
+	static long long GetProfileSimTime(Sandbox* sandbox);
 
-    static long long GetProfileTotalSimTime(Sandbox* const sandbox);
+	static long long GetProfileTotalSimTime(Sandbox* sandbox);
 
-    static Ogre::Real GetTimeInMillis(Sandbox* const sandbox);
+	static Ogre::Real GetTimeInMillis(Sandbox* sandbox);
 
-    static Ogre::Real GetTimeInSeconds(Sandbox* const sandbox);
+	static Ogre::Real GetTimeInSeconds(Sandbox* sandbox);
 
-    static bool IsSandbox(const LuaScriptType& type);
+	static bool IsSandbox(const LuaScriptType& type);
 
-    static bool IsSandboxObject(const LuaScriptType& type);
+	static bool IsSandboxObject(const LuaScriptType& type);
 
-    static void LoadScript(
-        Sandbox* const sandbox,
-        const char* const luaScriptContents,
-        const size_t bufferSize,
-        const char* const fileName);
+	static void LoadScript(
+		Sandbox* sandbox,
+		const char* luaScriptContents,
+		size_t bufferSize,
+		const char* fileName);
 
-    static int PushEvent(lua_State* luaVM, const Event& event);
+	static int PushEvent(lua_State* luaVM, const Event& event);
 
-    static int PushMarkupColor(
-        lua_State* luaVM,
-        const Sandbox* const sandbox,
-        const int index);
+	static int PushMarkupColor(
+		lua_State* luaVM,
+		const Sandbox* sandbox,
+		int index);
 
-    static int PushObject(lua_State* luaVM, Object* const object);
+	static int PushObject(lua_State* luaVM, Object* object);
 
-    static int PushObjectAttribute(
-        lua_State* luaVM,
-        Object* const object,
-        const Ogre::String& attributeName,
-        const int tableIndex);
+	static int PushObjectAttribute(
+		lua_State* luaVM,
+		Object* object,
+		const Ogre::String& attributeName,
+		int tableIndex);
 
-    static int PushPath(
-        lua_State* luaVM,
-        const std::vector<Ogre::Vector3>& path);
+	static int PushPath(
+		lua_State* luaVM,
+		const std::vector<Ogre::Vector3>& path);
 
-    static int PushScreenHeight(lua_State* luaVM, const Sandbox* const sandbox);
+	static int PushScreenHeight(lua_State* luaVM, const Sandbox* sandbox);
 
-    static int PushScreenWidth(lua_State* luaVM, const Sandbox* const sandbox);
+	static int PushScreenWidth(lua_State* luaVM, const Sandbox* sandbox);
 
-    static Ogre::Vector3 RandomPoint(
-        Sandbox* const sandbox, const Ogre::String& navMeshName);
+	static Ogre::Vector3 RandomPoint(
+		Sandbox* sandbox, const Ogre::String& navMeshName);
 
-    static bool RayCastToObject(
-        Sandbox* const sandbox,
-        const Ogre::Vector3& from,
-        const Ogre::Vector3& to,
-        Ogre::Vector3& hitPoint,
-        Object*& object);
+	static bool RayCastToObject(
+		Sandbox* sandbox,
+		const Ogre::Vector3& from,
+		const Ogre::Vector3& to,
+		Ogre::Vector3& hitPoint,
+		Object*& object);
 
-    static void RemoveSandboxObject(
-        Sandbox* const sandbox, SandboxObject* object);
+	static void RemoveSandboxObject(
+		Sandbox* sandbox, SandboxObject* object);
 
-    static void SetAmbientLight(
-        Sandbox* const sandbox, const Ogre::Vector3& ambient);
+	static void SetAmbientLight(
+		Sandbox* sandbox, const Ogre::Vector3& ambient);
 
-    static void SetCameraForward(
-        Sandbox* const sandbox, const Ogre::Vector3& forward);
+	static void SetCameraForward(
+		Sandbox* sandbox, const Ogre::Vector3& forward);
 
-    static void SetCameraOrientation(
-        Sandbox* const sandbox, const Ogre::Quaternion& rotation);
+	static void SetCameraOrientation(
+		Sandbox* sandbox, const Ogre::Quaternion& rotation);
 
-    static void SetCameraPosition(
-        Sandbox* const sandbox, const Ogre::Vector3& position);
+	static void SetCameraPosition(
+		Sandbox* sandbox, const Ogre::Vector3& position);
 
-    static void SetDebugNavigationMesh(
-        Sandbox* const sandbox,
-        const Ogre::String& navMeshName,
-        const bool debug);
+	static void SetDebugNavigationMesh(
+		Sandbox* sandbox,
+		const Ogre::String& navMeshName,
+		bool debug);
 
-    static void SetDrawInfluenceMap(
-        Sandbox* const sandbox, const bool drawInfluenceMap);
+	static void SetDrawInfluenceMap(
+		Sandbox* sandbox, bool drawInfluenceMap);
 
-    static void SetDrawPhysicsWorld(
-        Sandbox* const sandbox, const bool drawPhysicsWorld);
+	static void SetDrawPhysicsWorld(
+		Sandbox* sandbox, bool drawPhysicsWorld);
 
-    static void SetFalloff(
-        Sandbox* const sandbox,
-        const size_t layer,
-        const float falloff);
+	static void SetFalloff(
+		Sandbox* sandbox,
+		size_t layer,
+		float falloff);
 
-    static void SetInertia(
-        Sandbox* const sandbox,
-        const size_t layer,
-        const float inertia);
+	static void SetInertia(
+		Sandbox* sandbox,
+		size_t layer,
+		float inertia);
 
-    static void SetInfluence(
-        Sandbox* const sandbox,
-        const size_t layer,
-        const Ogre::Vector3& position,
-        const float influence);
+	static void SetInfluence(
+		Sandbox* sandbox,
+		size_t layer,
+		const Ogre::Vector3& position,
+		float influence);
 
-    static void SetMarkupColor(
-        Sandbox* const sandbox,
-        const int index,
-        const Ogre::Real red,
-        const Ogre::Real green,
-        const Ogre::Real blue,
-        const Ogre::Real alpha = 1.0f);
+	static void SetMarkupColor(
+		Sandbox* sandbox,
+		int index,
+		Ogre::Real red,
+		Ogre::Real green,
+		Ogre::Real blue,
+		Ogre::Real alpha = 1.0f);
 
-    static void SpreadInfluenceMap(
-        Sandbox* const sandbox,
-        const size_t layer);
+	static void SpreadInfluenceMap(
+		Sandbox* sandbox,
+		size_t layer);
 
-    static void UpdateWorldTransform(SandboxObject* const sandboxObject);
+	static void UpdateWorldTransform(SandboxObject* sandboxObject);
 
 private:
-    SandboxUtilities();
-    ~SandboxUtilities();
-    SandboxUtilities(const SandboxUtilities&);
-    SandboxUtilities& operator=(const SandboxUtilities&);
+	SandboxUtilities();
+	~SandboxUtilities();
+	SandboxUtilities(const SandboxUtilities&);
+	SandboxUtilities& operator=(const SandboxUtilities&);
 };
 
 #endif  // DEMO_FRAMEWORK_SANDBOX_UTILITIES_H

@@ -23,11 +23,9 @@
 
 #include "chapter_4_mind_body/include/DemoMindBody.h"
 
-#include "demo_framework/include/Sandbox.h"
-
 DemoMindBody::DemoMindBody()
-    : SandboxApplication(
-        "Learning Game AI Programming with Lua - Chapter 4 Mind Body")
+	: SandboxApplication(
+		"Learning Game AI Programming with Lua - Chapter 4 Mind Body")
 {
 }
 
@@ -37,23 +35,23 @@ DemoMindBody::~DemoMindBody()
 
 void DemoMindBody::Cleanup()
 {
-    SandboxApplication::Cleanup();
+	SandboxApplication::Cleanup();
 }
 
 void DemoMindBody::Draw()
 {
-    SandboxApplication::Draw();
+	SandboxApplication::Draw();
 }
 
 void DemoMindBody::Initialize()
 {
-    SandboxApplication::Initialize();
+	SandboxApplication::Initialize();
 
-    AddResourceLocation("../../../src/chapter_4_mind_body/script");
-    CreateSandbox("Sandbox.lua");
+	AddResourceLocation("../../../src/chapter_4_mind_body/script");
+	CreateSandbox("Sandbox.lua");
 }
 
 void DemoMindBody::Update()
 {
-    SandboxApplication::Update();
+	SandboxApplication::Update();
 }

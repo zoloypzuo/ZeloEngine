@@ -29,21 +29,21 @@
 class DemoMovement : public SandboxApplication
 {
 public:
-    DemoMovement(void);
+	DemoMovement(void);
 
-    virtual ~DemoMovement(void);
+	virtual ~DemoMovement(void);
 
-    virtual void Cleanup();
+	void Cleanup() override;
 
-    virtual void Draw();
+	void Draw() override;
 
-    virtual void Initialize();
+	void Initialize() override;
 
-    virtual void Update();
+	void Update() override;
 
 private:
-    DemoMovement(const DemoMovement&);
-    DemoMovement& operator=(const DemoMovement&);
+	DemoMovement(const DemoMovement&);
+	DemoMovement& operator=(const DemoMovement&);
 };
 
 #endif  // CHAPTER_2_MOVEMENT_DEMO_MOVEMENT_H

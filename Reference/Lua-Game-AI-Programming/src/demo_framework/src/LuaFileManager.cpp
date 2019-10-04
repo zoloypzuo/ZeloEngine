@@ -27,61 +27,62 @@
 #include "demo_framework/include/LuaFilePtr.h"
 #include "demo_framework/include/LuaFileManager.h"
 
-template<> LuaFileManager *Ogre::Singleton<LuaFileManager>::msSingleton = 0;
+template <>
+LuaFileManager* Ogre::Singleton<LuaFileManager>::msSingleton = nullptr;
 
 LuaFileManager* LuaFileManager::getSingletonPtr()
 {
-    return msSingleton;
+	return msSingleton;
 }
 
 LuaFileManager& LuaFileManager::getSingleton()
 {
-    assert(msSingleton);
-    return(*msSingleton);
+	assert(msSingleton);
+	return *msSingleton;
 }
 
 LuaFileManager::LuaFileManager()
 {
-    mResourceType = "LuaFile";
+	mResourceType = "LuaFile";
 
-    // low, because it will likely reference other resources
-    mLoadOrder = 30.0f;
+	// low, because it will likely reference other resources
+	mLoadOrder = 30.0f;
 
-    Ogre::ResourceGroupManager::getSingleton()._registerResourceManager(
-        mResourceType, this);
+	Ogre::ResourceGroupManager::getSingleton()._registerResourceManager(
+		mResourceType, this);
 }
 
 LuaFileManager::~LuaFileManager()
 {
-    Ogre::ResourceGroupManager::getSingleton()._unregisterResourceManager(
-        mResourceType);
+	Ogre::ResourceGroupManager::getSingleton()._unregisterResourceManager(
+		mResourceType);
 }
 
 LuaFilePtr LuaFileManager::load(
-    const Ogre::String &resourceName, const Ogre::String &group)
+	const Ogre::String& resourceName, const Ogre::String& group)
 {
-    LuaFilePtr luaFile(getResourceByName(resourceName));
+	LuaFilePtr luaFile(getResourceByName(resourceName));
 
-    if (luaFile.isNull())
-    {
-        Ogre::LogManager::getSingletonPtr()->logMessage(
-            "LuaFile: Loading " + resourceName, Ogre::LML_NORMAL);
+	if (luaFile.isNull())
+	{
+		Ogre::LogManager::getSingletonPtr()->logMessage(
+			"LuaFile: Loading " + resourceName, Ogre::LML_NORMAL);
 
-        luaFile = createResource(resourceName, group);
-    }
+		luaFile = createResource(resourceName, group);
+	}
 
-    luaFile->load();
-    return luaFile;
+	luaFile->load();
+	return luaFile;
 }
 
-Ogre::Resource *LuaFileManager::createImpl(
-    const Ogre::String &name,
-    Ogre::ResourceHandle handle,
-    const Ogre::String &group,
-    bool isManual,
-    Ogre::ManualResourceLoader *loader,
-    const Ogre::NameValuePairList *createParams)
+Ogre::Resource* LuaFileManager::createImpl(
+	const Ogre::String& name,
+	Ogre::ResourceHandle handle,
+	const Ogre::String& group,
+	bool isManual,
+	Ogre::ManualResourceLoader* loader,
+	const Ogre::NameValuePairList* createParams)
 {
-    (void)createParams;
-    return new LuaFile(this, name, handle, group, isManual, loader);
+	(void)createParams;
+	return new LuaFile(this, name, handle, group, isManual, loader);
 }

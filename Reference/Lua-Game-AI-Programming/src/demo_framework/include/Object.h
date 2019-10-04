@@ -27,28 +27,28 @@
 class Object
 {
 public:
-    enum ObjectType
-    {
-        AGENT,
-        SANDBOX,
-        SANDBOX_OBJECT
-    };
+	enum ObjectType
+	{
+		AGENT,
+		SANDBOX,
+		SANDBOX_OBJECT
+	};
 
-    Object(const unsigned int objectId, const ObjectType type);
+	Object(unsigned int objectId, ObjectType type);
 
-    Object(Object& object);
+	Object(Object& object);
 
-    virtual ~Object();
+	virtual ~Object();
 
-    unsigned int GetId() const;
+	unsigned int GetId() const;
 
-    ObjectType GetType() const;
+	ObjectType GetType() const;
 
 private:
-    const unsigned int objectId_;
-    const ObjectType objectType_;
+	const unsigned int objectId_;
+	const ObjectType objectType_;
 
-    Object& operator=(Object& object);
+	Object& operator=(Object& object);
 };
 
 #endif  // DEMO_FRAMEWORK_OBJECT_H

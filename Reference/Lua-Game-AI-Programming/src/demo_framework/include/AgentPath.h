@@ -31,49 +31,49 @@
 
 namespace Ogre
 {
-    class Vector3;
+	class Vector3;
 }
 
 class AgentPath : private OpenSteer::PolylinePathway
 {
-/**
- * Having Agent as a friend class to AgentPath allows for an Agent's OpenSteer
- * implementation to access the private OpenSteer PolylinePathway
- * implementation.
- */
-friend class Agent;
+	/**
+	 * Having Agent as a friend class to AgentPath allows for an Agent's OpenSteer
+	 * implementation to access the private OpenSteer PolylinePathway
+	 * implementation.
+	 */
+	friend class Agent;
 
 public:
-    const static size_t MAX_PATH_POINTS = 255;
+	const static size_t MAX_PATH_POINTS = 255;
 
-    AgentPath();
+	AgentPath();
 
-    AgentPath(
-        const std::vector<Ogre::Vector3>& points,
-        const Ogre::Real radius,
-        const bool cyclic);
+	AgentPath(
+		const std::vector<Ogre::Vector3>& points,
+		Ogre::Real radius,
+		bool cyclic);
 
-    virtual ~AgentPath();
+	virtual ~AgentPath();
 
-    AgentPath(const AgentPath& path);
+	AgentPath(const AgentPath& path);
 
-    AgentPath& operator=(const AgentPath& path);
+	AgentPath& operator=(const AgentPath& path);
 
-    size_t GetNumberOfPathPoints() const;
+	size_t GetNumberOfPathPoints() const;
 
-    Ogre::Real GetPathLength() const;
+	Ogre::Real GetPathLength() const;
 
-    void GetPathPoints(std::vector<Ogre::Vector3>& outPoints) const;
+	void GetPathPoints(std::vector<Ogre::Vector3>& outPoints) const;
 
-    Ogre::Real GetDistanceAlongPath(const Ogre::Vector3& position) const;
+	Ogre::Real GetDistanceAlongPath(const Ogre::Vector3& position) const;
 
-    Ogre::Vector3 GetNearestPointOnPath(const Ogre::Vector3& position) const;
+	Ogre::Vector3 GetNearestPointOnPath(const Ogre::Vector3& position) const;
 
-    Ogre::Vector3 GetPointOnPath(const Ogre::Real distance) const;
+	Ogre::Vector3 GetPointOnPath(Ogre::Real distance) const;
 
-    Ogre::Real GetRadius() const;
+	Ogre::Real GetRadius() const;
 
-    unsigned int GetSegmentCount() const;
+	unsigned int GetSegmentCount() const;
 };
 
 #endif  // DEMO_FRAMEWORK_AGENT_PATH_H

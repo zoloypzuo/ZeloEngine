@@ -28,35 +28,35 @@ class InfluenceMap;
 
 namespace Ogre
 {
-class ColourValue;
-class ManualObject;
-class SceneManager;
-class SceneNode;
+	class ColourValue;
+	class ManualObject;
+	class SceneManager;
+	class SceneNode;
 }
 
 class InfluenceMapDrawer
 {
 public:
-    InfluenceMapDrawer(Ogre::SceneManager& sceneManager);
+	InfluenceMapDrawer(Ogre::SceneManager& sceneManager);
 
-    ~InfluenceMapDrawer();
+	~InfluenceMapDrawer();
 
-    void DrawInfluenceMap(
-        const InfluenceMap& map,
-        const size_t layer,
-        const Ogre::ColourValue& positiveValue,
-        const Ogre::ColourValue& zeroValue,
-        const Ogre::ColourValue& negativeValue);
+	void DrawInfluenceMap(
+		const InfluenceMap& map,
+		size_t layer,
+		const Ogre::ColourValue& positiveValue,
+		const Ogre::ColourValue& zeroValue,
+		const Ogre::ColourValue& negativeValue) const;
 
-    void SetVisible(const bool visible);
+	void SetVisible(bool visible) const;
 
 private:
-    Ogre::ManualObject* manualObject_;
-    Ogre::SceneNode* manualObjectNode;
+	Ogre::ManualObject* manualObject_;
+	Ogre::SceneNode* manualObjectNode;
 
-    InfluenceMapDrawer(const InfluenceMapDrawer&);
+	InfluenceMapDrawer(const InfluenceMapDrawer&);
 
-    InfluenceMapDrawer& operator=(const InfluenceMapDrawer&);
+	InfluenceMapDrawer& operator=(const InfluenceMapDrawer&);
 };
 
 #endif  // DEMO_FRAMEWORK_INFLUENCE_MAP_DRAWER_H

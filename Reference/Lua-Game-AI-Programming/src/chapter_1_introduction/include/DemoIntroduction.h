@@ -29,17 +29,17 @@
 class DemoIntroduction : public SandboxApplication
 {
 public:
-    DemoIntroduction(void);
+	DemoIntroduction(void);
 
-    virtual ~DemoIntroduction(void);
+	virtual ~DemoIntroduction(void);
 
-    virtual void Initialize();
+	void Initialize() override;
 
-    virtual void Update();
+	void Update() override;
 
 private:
-    DemoIntroduction(const DemoIntroduction&);
-    DemoIntroduction& operator=(const DemoIntroduction&);
+	DemoIntroduction(const DemoIntroduction&);
+	DemoIntroduction& operator=(const DemoIntroduction&);
 };
 
 #endif  // CHAPTER_1_MOVEMENT_DEMO_MOVEMENT_H

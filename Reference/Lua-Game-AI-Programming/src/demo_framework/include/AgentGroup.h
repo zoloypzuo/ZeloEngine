@@ -30,26 +30,26 @@ class Agent;
 
 class AgentGroup : private OpenSteer::AVGroup
 {
-friend class Agent;
+	friend class Agent;
 
 public:
-    AgentGroup();
+	AgentGroup();
 
-    AgentGroup(const AgentGroup& group);
+	AgentGroup(const AgentGroup& group);
 
-    AgentGroup& operator=(const AgentGroup& group);
+	AgentGroup& operator=(const AgentGroup& group);
 
-    virtual ~AgentGroup();
+	virtual ~AgentGroup();
 
-    void AddAgent(Agent* const agent);
+	void AddAgent(Agent* agent);
 
-    bool ContainsAgent(const Agent* const agent) const;
+	bool ContainsAgent(const Agent* agent) const;
 
-    bool RemoveAgent(const Agent* const agent);
+	bool RemoveAgent(const Agent* agent);
 
-    void RemoveAgents();
+	void RemoveAgents();
 
-    size_t Size() const;
+	size_t Size() const;
 };
 
 #endif  // DEMO_FRAMEWORK_AGENT_GROUP_H

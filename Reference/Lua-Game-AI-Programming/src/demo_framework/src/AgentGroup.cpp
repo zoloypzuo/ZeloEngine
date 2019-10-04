@@ -36,11 +36,11 @@ AgentGroup::AgentGroup(const AgentGroup& group) : OpenSteer::AVGroup(group)
 
 AgentGroup& AgentGroup::operator=(const AgentGroup& group)
 {
-    clear();
+	clear();
 
-    insert(begin(), group.begin(), group.end());
+	insert(begin(), group.begin(), group.end());
 
-    return *this;
+	return *this;
 }
 
 AgentGroup::~AgentGroup()
@@ -49,53 +49,53 @@ AgentGroup::~AgentGroup()
 
 void AgentGroup::AddAgent(Agent* const agent)
 {
-    if (!ContainsAgent(agent))
-    {
-        push_back(static_cast<OpenSteer::AbstractVehicle*>(agent));
-    }
+	if (!ContainsAgent(agent))
+	{
+		push_back(static_cast<OpenSteer::AbstractVehicle*>(agent));
+	}
 }
 
 bool AgentGroup::ContainsAgent(const Agent* const agent) const
 {
-    std::vector<OpenSteer::AbstractVehicle*>::const_iterator it;
+	std::vector<OpenSteer::AbstractVehicle*>::const_iterator it;
 
-    for (it = begin(); it != end(); ++it)
-    {
-        if (*it == static_cast<const OpenSteer::AbstractVehicle*>(agent))
-        {
-            return true;
-        }
-    }
+	for (it = begin(); it != end(); ++it)
+	{
+		if (*it == static_cast<const OpenSteer::AbstractVehicle*>(agent))
+		{
+			return true;
+		}
+	}
 
-    return false;
+	return false;
 }
 
 bool AgentGroup::RemoveAgent(const Agent* const agent)
 {
-    std::vector<OpenSteer::AbstractVehicle*>::const_iterator it;
+	std::vector<OpenSteer::AbstractVehicle*>::const_iterator it;
 
-    for (it = begin(); it != end(); ++it)
-    {
-        if (*it == static_cast<const OpenSteer::AbstractVehicle*>(agent))
-        {
-            break;
-        }
-    }
+	for (it = begin(); it != end(); ++it)
+	{
+		if (*it == static_cast<const OpenSteer::AbstractVehicle*>(agent))
+		{
+			break;
+		}
+	}
 
-    if (it != end())
-    {
-        erase(it);
-        return true;
-    }
-    return false;
+	if (it != end())
+	{
+		erase(it);
+		return true;
+	}
+	return false;
 }
 
 void AgentGroup::RemoveAgents()
 {
-    clear();
+	clear();
 }
 
 size_t AgentGroup::Size() const
 {
-    return size();
+	return size();
 }

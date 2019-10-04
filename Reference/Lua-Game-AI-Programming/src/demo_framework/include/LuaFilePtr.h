@@ -25,23 +25,22 @@
 #define DEMO_FRAMEWORK_LUA_FILE_PTR_H
 
 #include "demo_framework/include/LuaFile.h"
-#include "ogre3d/include/OgreResource.h"
 #include "ogre3d/include/OgreSharedPtr.h"
 
 class LuaFilePtr : public Ogre::SharedPtr<LuaFile>
 {
 public:
-    LuaFilePtr();
+	LuaFilePtr();
 
-    explicit LuaFilePtr(LuaFile* const resource);
+	explicit LuaFilePtr(LuaFile* resource);
 
-    LuaFilePtr(const LuaFilePtr& resource);
+	LuaFilePtr(const LuaFilePtr& resource);
 
-    explicit LuaFilePtr(const Ogre::ResourcePtr& resource);
+	explicit LuaFilePtr(const Ogre::ResourcePtr& resource);
 
-    LuaFilePtr& operator=(const Ogre::ResourcePtr& resource);
+	LuaFilePtr& operator=(const Ogre::ResourcePtr& resource);
 
 protected:
-};  // class LuaFilePtr
+}; // class LuaFilePtr
 
 #endif  // DEMO_FRAMEWORK_LUA_FILE_PTR_H

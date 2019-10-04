@@ -26,65 +26,66 @@
 #include "demo_framework/include/Event.h"
 
 Event::Event(const Ogre::String& eventType)
-    : eventType_(eventType) {
+	: eventType_(eventType)
+{
 }
 
 Event::Event(const Event& event)
 {
-    *this = event;
+	*this = event;
 }
 
 Event& Event::operator=(const Event& event)
 {
-    eventType_ = event.eventType_;
-    attributes_ = event.attributes_;
+	eventType_ = event.eventType_;
+	attributes_ = event.attributes_;
 
-    return *this;
+	return *this;
 }
 
 void Event::AddAttribute(const Ogre::String& attributeName, const bool value)
 {
-    InitializeAttribute(attributes_[attributeName]);
-    attributes_[attributeName].boolean_ = value;
-    attributes_[attributeName].type_ = ATTRIBUTE_BOOLEAN;
+	InitializeAttribute(attributes_[attributeName]);
+	attributes_[attributeName].boolean_ = value;
+	attributes_[attributeName].type_ = ATTRIBUTE_BOOLEAN;
 }
 
 void Event::AddAttribute(const Ogre::String& attributeName, const int value)
 {
-    InitializeAttribute(attributes_[attributeName]);
-    attributes_[attributeName].int_ = value;
-    attributes_[attributeName].type_ = ATTRIBUTE_INT;
+	InitializeAttribute(attributes_[attributeName]);
+	attributes_[attributeName].int_ = value;
+	attributes_[attributeName].type_ = ATTRIBUTE_INT;
 }
 
 void Event::AddAttribute(const Ogre::String& attributeName, const float value)
 {
-    InitializeAttribute(attributes_[attributeName]);
-    attributes_[attributeName].float_ = value;
-    attributes_[attributeName].type_ = ATTRIBUTE_FLOAT;
+	InitializeAttribute(attributes_[attributeName]);
+	attributes_[attributeName].float_ = value;
+	attributes_[attributeName].type_ = ATTRIBUTE_FLOAT;
 }
 
 void Event::AddAttribute(
-    const Ogre::String& attributeName, const Ogre::String& value)
+	const Ogre::String& attributeName, const Ogre::String& value)
 {
-    InitializeAttribute(attributes_[attributeName]);
-    attributes_[attributeName].string_ = value;
-    attributes_[attributeName].type_ = ATTRIBUTE_STRING;
+	InitializeAttribute(attributes_[attributeName]);
+	attributes_[attributeName].string_ = value;
+	attributes_[attributeName].type_ = ATTRIBUTE_STRING;
 }
 
 void Event::AddAttribute(
-    const Ogre::String& attributeName, Object* const object)
+	const Ogre::String& attributeName, Object* const object)
 {
-    InitializeAttribute(attributes_[attributeName]);
-    attributes_[attributeName].object_ = object;
-    attributes_[attributeName].type_ = ATTRIBUTE_OBJECT;
+	InitializeAttribute(attributes_[attributeName]);
+	attributes_[attributeName].object_ = object;
+	attributes_[attributeName].type_ = ATTRIBUTE_OBJECT;
 }
 
 void Event::AddAttribute(
-    const Ogre::String& attributeName, const Ogre::Vector3& value)
+	const Ogre::String& attributeName, const Ogre::Vector3& value)
 {
-    InitializeAttribute(attributes_[attributeName]);
-    attributes_[attributeName].vector_ = value;
-    attributes_[attributeName].type_ = ATTRIBUTE_VECTOR3;
+	InitializeAttribute(attributes_[attributeName]);
+	attributes_[attributeName].vector_ = value;
+	attributes_[attributeName].type_ = ATTRIBUTE_VECTOR3;
 }
 
 bool Event::GetBoolAttribute(const Ogre::String& attributeName) const
@@ -102,115 +103,115 @@ bool Event::GetBoolAttribute(const Ogre::String& attributeName) const
 
 unsigned int Event::GetAttributeCount() const
 {
-    return static_cast<unsigned int>(attributes_.size());
+	return static_cast<unsigned int>(attributes_.size());
 }
 
 void Event::GetAttributeNames(std::vector<Ogre::String>& attributeNames) const
 {
-    attributeNames.clear();
+	attributeNames.clear();
 
-    if (attributes_.size())
-    {
-        attributeNames.reserve(attributes_.size());
+	if (attributes_.size())
+	{
+		attributeNames.reserve(attributes_.size());
 
-        std::map<Ogre::String, EventAttribute>::const_iterator it;
+		std::map<Ogre::String, EventAttribute>::const_iterator it;
 
-        for (it = attributes_.begin(); it != attributes_.end(); ++it)
-        {
-            attributeNames.push_back(it->first);
-        }
-    }
+		for (it = attributes_.begin(); it != attributes_.end(); ++it)
+		{
+			attributeNames.push_back(it->first);
+		}
+	}
 }
 
 Event::AttributeType Event::GetAttributeType(
-    const Ogre::String& attributeName) const
+	const Ogre::String& attributeName) const
 {
-    std::map<Ogre::String, EventAttribute>::const_iterator it =
-        attributes_.find(attributeName);
+	std::map<Ogre::String, EventAttribute>::const_iterator it =
+		attributes_.find(attributeName);
 
-    if (it != attributes_.end())
-    {
-        return it->second.type_;
-    }
+	if (it != attributes_.end())
+	{
+		return it->second.type_;
+	}
 
-    return ATTRIBUTE_UNKNOWN;
+	return ATTRIBUTE_UNKNOWN;
 }
 
 float Event::GetFloatAttribute(const Ogre::String& attributeName) const
 {
-    std::map<Ogre::String, EventAttribute>::const_iterator it =
-        attributes_.find(attributeName);
+	std::map<Ogre::String, EventAttribute>::const_iterator it =
+		attributes_.find(attributeName);
 
-    if (it != attributes_.end())
-    {
-        return it->second.float_;
-    }
+	if (it != attributes_.end())
+	{
+		return it->second.float_;
+	}
 
-    return 0;
+	return 0;
 }
 
 int Event::GetIntAttribute(const Ogre::String& attributeName) const
 {
-    std::map<Ogre::String, EventAttribute>::const_iterator it =
-        attributes_.find(attributeName);
+	std::map<Ogre::String, EventAttribute>::const_iterator it =
+		attributes_.find(attributeName);
 
-    if (it != attributes_.end())
-    {
-        return it->second.int_;
-    }
+	if (it != attributes_.end())
+	{
+		return it->second.int_;
+	}
 
-    return 0;
+	return 0;
 }
 
 Object* Event::GetObjectAttribute(const Ogre::String& attributeName) const
 {
-    std::map<Ogre::String, EventAttribute>::const_iterator it =
-        attributes_.find(attributeName);
+	std::map<Ogre::String, EventAttribute>::const_iterator it =
+		attributes_.find(attributeName);
 
-    if (it != attributes_.end())
-    {
-        return it->second.object_;
-    }
+	if (it != attributes_.end())
+	{
+		return it->second.object_;
+	}
 
-    return NULL;
+	return nullptr;
 }
 
 Ogre::String Event::GetStringAttribute(const Ogre::String& attributeName) const
 {
-    std::map<Ogre::String, EventAttribute>::const_iterator it =
-        attributes_.find(attributeName);
+	std::map<Ogre::String, EventAttribute>::const_iterator it =
+		attributes_.find(attributeName);
 
-    if (it != attributes_.end())
-    {
-        return it->second.string_;
-    }
+	if (it != attributes_.end())
+	{
+		return it->second.string_;
+	}
 
-    return "";
+	return "";
 }
 
 const Ogre::Vector3& Event::GetVector3Attribute(
-    const Ogre::String& attributeName) const
+	const Ogre::String& attributeName) const
 {
-    std::map<Ogre::String, EventAttribute>::const_iterator it =
-        attributes_.find(attributeName);
+	std::map<Ogre::String, EventAttribute>::const_iterator it =
+		attributes_.find(attributeName);
 
-    if (it != attributes_.end())
-    {
-        return it->second.vector_;
-    }
+	if (it != attributes_.end())
+	{
+		return it->second.vector_;
+	}
 
-    return Ogre::Vector3::ZERO;
+	return Ogre::Vector3::ZERO;
 }
 
 Ogre::String Event::GetEventType() const
 {
-    return eventType_;
+	return eventType_;
 }
 
 void Event::InitializeAttribute(EventAttribute& attribute)
 {
-    attribute.string_ = "";
-    attribute.vector_ = Ogre::Vector3::ZERO;
-    attribute.int_ = 0;
-    attribute.type_ = ATTRIBUTE_UNKNOWN;
+	attribute.string_ = "";
+	attribute.vector_ = Ogre::Vector3::ZERO;
+	attribute.int_ = 0;
+	attribute.type_ = ATTRIBUTE_UNKNOWN;
 }

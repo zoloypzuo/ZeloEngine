@@ -1,10 +1,11 @@
-#include "demo_framework/include\SandboxApplication.h"
+#include "demo_framework/include/SandboxApplication.h"
 
-class MySandbox :public SandboxApplication{
+class MySandbox : public SandboxApplication
+{
 public:
 	MySandbox();
 	virtual ~MySandbox();
-	// ÖØÔØÒÔ¼ÓÔØlua½Å±¾
-	virtual void Initialize();
-	// ÖØÔØUpdateºÍCleanUpµÈº¯Êı£¬±ØĞëÏÈµ÷ÓÃ»ùÀàÊµÏÖ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Ô¼ï¿½ï¿½ï¿½luaï¿½Å±ï¿½
+	void Initialize() override;
+	// ï¿½ï¿½ï¿½ï¿½Updateï¿½ï¿½CleanUpï¿½Èºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Èµï¿½ï¿½Ã»ï¿½ï¿½ï¿½Êµï¿½ï¿½
 };

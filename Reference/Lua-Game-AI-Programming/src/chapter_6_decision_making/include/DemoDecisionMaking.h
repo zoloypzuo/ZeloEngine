@@ -29,15 +29,15 @@
 class DemoDecisionMaking : public SandboxApplication
 {
 public:
-    DemoDecisionMaking();
+	DemoDecisionMaking();
 
-    virtual ~DemoDecisionMaking();
+	virtual ~DemoDecisionMaking();
 
-    virtual void Initialize();
+	void Initialize() override;
 
 private:
-    DemoDecisionMaking(const DemoDecisionMaking&);
-    DemoDecisionMaking& operator=(const DemoDecisionMaking&);
+	DemoDecisionMaking(const DemoDecisionMaking&);
+	DemoDecisionMaking& operator=(const DemoDecisionMaking&);
 };
 
 #endif  // CHAPTER_6_DECISION_MAKING_H
