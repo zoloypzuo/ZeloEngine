@@ -34,6 +34,18 @@ namespace OIS
 #define APPLICATION_RESOURCES_DEBUG     "SandboxResources_d.cfg"
 #define APPLICATION_RESOURCES_RELEASE   "SandboxResources.cfg"
 
+// 虚函数
+// 继承了Ogre和OIS各两个类，把虚函数private地override了
+// 初始化和关闭：Initialize和Cleanup
+// 绘制和更新：Draw和Update
+// 输入回调：HandleKeyRelease，HandleKeyRelease，HandleMouseMove，HandleMousePress，HandleMouseRelease
+//
+// 非虚函数
+// SetShutdown
+// GetCamera
+// GetSceneManager
+// GetRenderWindow
+// Run
 class BaseApplication :
 	public Ogre::FrameListener,
 	public Ogre::WindowEventListener,
@@ -98,7 +110,7 @@ private:
 	bool Setup();
 	// 读取Resource.cfg，遍历加载资源map
 	void SetupResources() const;
-
+#pragma region override
 	// Ogre::FrameListener
 	bool frameEnded(const Ogre::FrameEvent& event) override;
 	bool frameRenderingQueued(const Ogre::FrameEvent& event) override;
@@ -118,6 +130,7 @@ private:
 	// Ogre::WindowEventListener
 	void windowResized(Ogre::RenderWindow* renderWindow) override;
 	void windowClosed(Ogre::RenderWindow* renderWindow) override;
+#pragma endregion
 
 	// OgreBites
 	OgreBites::SdkCameraMan* cameraMan_; // basic camera controller
