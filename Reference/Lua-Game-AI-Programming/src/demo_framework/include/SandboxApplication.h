@@ -7,6 +7,13 @@
 class LuaFileManager;
 class Sandbox;
 
+// 虚函数
+// GetSandbox
+// CreateSandbox
+//
+// 非虚函数
+// GenerateSandboxId
+// AddResourceLocation（静态）
 class SandboxApplication : public BaseApplication
 {
 public:
@@ -14,6 +21,7 @@ public:
 
 	virtual ~SandboxApplication();
 
+	// ogre添加资源搜索路径
 	static void AddResourceLocation(const Ogre::String& location);
 
 	void Cleanup() override;
@@ -22,6 +30,7 @@ public:
 
 	void Draw() override;
 
+	// 使用一个简单的递增id生成
 	int GenerateSandboxId();
 
 	virtual Sandbox* GetSandbox();

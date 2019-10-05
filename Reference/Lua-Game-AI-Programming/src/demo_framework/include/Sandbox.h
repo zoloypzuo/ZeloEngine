@@ -57,6 +57,8 @@ namespace Ogre
 	class Vector3;
 }
 
+
+// 场景图的根节点
 class Sandbox : public Object
 {
 public:
