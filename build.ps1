@@ -20,6 +20,7 @@ Write-Output @"
 setx LUA_INIT_5_3 "@D:\ZeloEngine\Src\Script\global_init.lua"
 setx LUA_PATH_5_3 @"
 D:\ZeloEngine\Src\Script\?.lua
+D:\ZeloEngine\Reference\Lua-Game-AI-Programming\script\?.lua
 D:\LuaRocks\lua\?.lua;
 D:\LuaRocks\lua\?\init.lua;
 D:\ZeloEngine\lua\?.lua;
