@@ -2,10 +2,12 @@
 -- created on 2019/9/26
 -- author @zoloypzuo
 
+-- 尽管global_init.lua中确定了初始化顺序
+-- 做到自包含仍然是一个好的选择
 require("std_extension")
-require("PlainClass")
+require("Class")
 
-list = PlainClass(function(self, ...)
+list = Class(function(self, ...)
     self._list = { ... }  -- internal list
 end)
 

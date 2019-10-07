@@ -1,7 +1,8 @@
 -- std_extension.lua
 -- created on 2019/9/26
 -- author @zoloypzuo
-
+--
+-- 扩展标准库
 
 function readall(path)
     local f = assert(io.open(path, "r"))
@@ -17,6 +18,7 @@ function writeall(path, text)
 end
 
 -- 区分出int和float
+-- ex是扩展，增强的意思，不要覆盖标准库的type，这样会造成令人困惑的错误
 function ex_type(o)
     local t = type(o)
     if t == "number" then
