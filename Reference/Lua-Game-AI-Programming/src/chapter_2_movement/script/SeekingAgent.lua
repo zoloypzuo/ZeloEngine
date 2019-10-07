@@ -1,3 +1,5 @@
+-- p48
+
 require "AgentUtilities";
 
 function Agent_Cleanup(agent)
@@ -58,6 +60,10 @@ function Agent_Update(agent, deltaTimeInMillis)
         
         agent:SetTarget(target);
     end
+
+    --
+    -- 调试信息
+    --
 
     -- Draw debug information for target and target radius.
     Core.DrawCircle(
