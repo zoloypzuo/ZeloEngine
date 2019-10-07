@@ -1,21 +1,26 @@
+local Sandbox_C_Module = Sandbox
+
 ---@class Sandbox @沙箱框架
-local Sandbox = {}
+local Sandbox = Class(function(self)
+
+end)
 
 ---@type fun() @创建平面，指定宽度，高度；并创建半空间并添加到物理模拟中
 ---@param sandbox Sandbox
 ---@param width number
 ---@param height number
 ---@return nil
-function Sandbox.CreatePlane(sandbox, width, height)
-
+function Sandbox:CreatePlane(width, height)
+    return Sandbox_C_Module.CreatePlane(self, width, height)
 end
 
 ---@type fun() @创建天空盒，指定材质名和rotation，以欧拉角，以角度
 --- 天空盒的ogre材质位于media/materials/skybox.material
 --- Sandbox.CreateSkyBox(sandbox, "ThickCloudsWaterSkyBox", Vector.new(0, 180, 0));
-function Sandbox.CreateSkyBox(sandbox, s, vector)
-
+function Sandbox:CreateSkyBox(s, vector)
+    return Sandbox_C_Module.CreateSkyBox(self, s, vector)
 end
+
 
 ---@type fun() @local agent = Sandbox.CreateAgent(sandbox, "Agent.lua")
 function Sandbox.CreateAgent(sandbox, scriptPath)
