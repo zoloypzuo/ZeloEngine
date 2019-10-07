@@ -2,7 +2,7 @@
 -- created on 2019/9/26
 -- author @zoloypzuo
 
-require("global")
+require("global_init")
 
 function tab(code)
     local ret = list()
