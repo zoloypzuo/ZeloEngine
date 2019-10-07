@@ -1,4 +1,4 @@
--- global.lua
+-- global_init.lua
 -- created on 2019/9/26
 -- author @zoloypzuo
 --
@@ -9,8 +9,17 @@
 -- 所有的全局脚本都在这里进行require，不要比如在std_extension中require其他全局脚本list
 -- 这是出于便于管理的原因，你可以看到有一些初始化顺序依赖的问题，都放在global，便于决策
 
+--
+-- 初始化是蛮坑爹的
+-- 这里要把基础的组件优先初始化
+--
 require("std_extension")
 require("PlainClass")
 require("Class")
+
+--
+-- 数据结构
+-- 在基础组件后初始化
+--
 require("list")
 
