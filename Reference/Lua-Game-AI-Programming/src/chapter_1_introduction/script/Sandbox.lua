@@ -1,25 +1,9 @@
---[[
-  Copyright (c) 2013 David Young dayoung@goliathdesigns.com
-
-  This software is provided 'as-is', without any express or implied
-  warranty. In no event will the authors be held liable for any damages
-  arising from the use of this software.
-
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
-  freely, subject to the following restrictions:
-
-   1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-
-   2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-
-   3. This notice may not be removed or altered from any source
-   distribution.
-]]
+-- Sandbox.lua
+-- 2019年10月7日
+--
+-- 总结
+-- 场景图要抽象出来
+-- 相机可以不必和GameObject统一，因为相机对于游戏来说是很特别的
 
 require "GUI"
 require "SandboxUtilities"
@@ -94,7 +78,9 @@ local function load_scene(sandbox, scene_config)
     end
 end
 
+-- 显示提示信息
 local function CreateSandboxText(sandbox)
+    -- TextArea
     ui = Sandbox.CreateUIComponent(sandbox, 1);
     local width = Sandbox.GetScreenWidth(sandbox);
     local height = Sandbox.GetScreenHeight(sandbox);
@@ -156,5 +142,6 @@ function Sandbox_Initialize(sandbox)
 end
 
 function Sandbox_Update(sandbox, deltaTimeInMillis)
+    -- 经过实验，删掉下面这一句不影响UI，正常显示和toggle
     GUI_UpdateUI(sandbox);
 end
