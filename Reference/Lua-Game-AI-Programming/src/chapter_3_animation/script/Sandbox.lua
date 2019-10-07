@@ -121,6 +121,10 @@ function Sandbox_Initialize(sandbox)
     Sandbox.SetCameraPosition(sandbox, Vector.new(0, 1, -3));
     Sandbox.SetCameraForward(sandbox, Vector.new(0, 0, -1));
 
+    --
+    --
+    --
+
     -- Create the basic soldier mesh without a physics representation.
     soldier = Core.CreateMesh(
         sandbox, "models/futuristic_soldier/futuristic_soldier_dark_anim.mesh");
@@ -142,7 +146,9 @@ function Sandbox_Initialize(sandbox)
     local sniperIdle = Animation.GetAnimation(weapon, "sniper_idle");
     local smgIdle = Animation.GetAnimation(weapon, "smg_idle");
 
+    --
     -- Create an animation state machine to handle weapon animations.
+    --
     weaponAsm = AnimationStateMachine.new();
 
     weaponAsm:AddState("smg_idle", Animation.GetAnimation(weapon, "smg_idle"), true);
@@ -164,7 +170,9 @@ function Sandbox_Initialize(sandbox)
     local idleAim = Animation.GetAnimation(soldier, "stand_idle_aim");
     local idleAimLength = Animation.GetLength(idleAim);
 
+    --
     -- Create an animation state machine to handle soldier animations.
+    --
     soldierAsm = AnimationStateMachine.new();
 
     soldierAsm:AddState("idle_aim", Animation.GetAnimation(soldier, "stand_idle_aim"), true);
@@ -228,7 +236,7 @@ function Sandbox_Update(sandbox, deltaTimeInMillis)
     soldierAsm:Update(deltaTimeInMillis, Sandbox.GetTimeInMillis(sandbox));
     weaponAsm:Update(deltaTimeInMillis, Sandbox.GetTimeInMillis(sandbox));
 
-    -- Always send both state machines back to the idle animation.
+    -- Always send both state machines back to the idle animation.（因为这次是动画演示，所以每帧都尝试回归idle状态）
     if (soldierAsm:GetCurrentStateName() ~= "idle_aim") then
         soldierAsm:RequestState("idle_aim");
     end

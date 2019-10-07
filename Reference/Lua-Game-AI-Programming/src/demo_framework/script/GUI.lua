@@ -140,7 +140,7 @@ function GUI_CreateProfileInformation(sandbox)
     UI.SetPosition(_profileUI, width - uiWidth - 20, 20);
     UI.SetDimensions(_profileUI, uiWidth, uiHeight);
     UI.SetTextMargin(_profileUI, 10, 10);
-    UI.SetVisible(_profileUI, false);
+    UI.SetVisible(_profileUI, true);
     GUI_SetGradientColor(_profileUI);
     
     GUI_UpdateProfileInformation(sandbox, _profileUI);
