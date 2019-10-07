@@ -150,6 +150,7 @@ function Class(base, _ctor, props)
     local mt = {}
 
     -- CWD没有找到定义
+    -- CWD是current working directory的意思
     if TrackClassInstances == true and CWD ~= nil then
         if ClassTrackingTable == nil then
             ClassTrackingTable = {}
