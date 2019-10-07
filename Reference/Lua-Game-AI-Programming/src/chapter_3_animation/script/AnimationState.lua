@@ -1,3 +1,4 @@
+-- 动画的状态
 AnimationState = {};
 
 function AnimationState.new()
