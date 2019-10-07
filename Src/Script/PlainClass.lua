@@ -2,7 +2,9 @@
 -- created on 2019/9/15
 -- author @zoloypzuo
 
--- 全局函数，因为太常用了，其实是标准库
+-- 平凡类
+-- Class的简化版
+-- 用于配置类，要求写的类不会被复用，进行复杂的编程
 function PlainClass(_ctor)
     local cls = {}
 
