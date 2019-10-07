@@ -4,24 +4,31 @@
 --
 -- 这个模块主要是Class函数
 -- Class函数附赠makereadonly，addsetter，removesetter，和一个TrackClassInstances开关
---
--- 只读属性和setter这两个功能，使用了_字段重写属性，一个属性变成一个tuple，tuple[0]是属性，tuple[1]是函数
---
--- TrackClassInstances开关（跟踪类实例）
--- 增加跟踪表和跟踪间隔两个全局变量
 
 local TrackClassInstances = false
 
--- 派生类 => 基类
---ClassRegistry[c] = c_inherited
+-- 类注册表
+-- 派生类 => 基类继承的字段的表
+-- ClassRegistry[c] = c_inherited
+-- 说明一下，这个不是继承链，继承链直接在类的_base字段就体现了
+-- 这个是区分一个成员是继承还是自己本身的
+-- 因为构造一个类的时候，c和c_inherited都会深复制一份基类的成员
+-- 之后c自己加了自己的成员，有了c_inherited就可以区别出来
 ClassRegistry = {}
 
+-- TrackClassInstances开关（跟踪类实例）
+-- 增加跟踪表和跟踪间隔两个全局变量
 if TrackClassInstances == true then
     global("ClassTrackingTable")
     global("ClassTrackingInterval")
 
     ClassTrackingInterval = 100
 end
+
+--
+-- 只读属性和setter这两个功能，使用了_字段重写属性
+-- 一个属性变成一个tuple，tuple[0]是属性，tuple[1]是函数
+--
 
 -- 加入只读和setter功能的index元方法
 -- 返回t._[k][1]，如果没有递归查找元表
@@ -93,8 +100,23 @@ function removesetter(t, k)
     end
 end
 
--- 返回一个类，指定基类和构造函数
--- 大部分情况下，只用_ctor一个参数
+-- 返回一个类，指定基类，构造函数和props
+-- 大部分情况下，只用_ctor一个参数（我们按照这个作为下面的描述的默认假设）
+--
+-- props是一个字典，k是成员名字，v是函数，这个是上面提到的属性的概念，比如setter
+-- props这个参数，如果有的话
+-- * c的__index和__newindex（也就是实例的元方法）被设为上面的两个函数
+-- * 实例创建一个名为_的表，存放特别的属性，用props初始化
+--
+-- c._base
+-- c._ctor
+-- c:is_a(klass)：类有继承链，所以is_a（基类）是true
+--
+-- 类的实例的元表默认是类本身
+--
+-- 类的元表暴露一个__call，用<classname>(<args>)的形式调用
+
+--
 function Class(base, _ctor, props)
     local c = {}    -- a new class instance
     local c_inherited = {}
@@ -102,12 +124,11 @@ function Class(base, _ctor, props)
         _ctor = base
         base = nil
     elseif type(base) == 'table' then
-        -- our new class is a shallow copy of the base class!
+        -- our new class is a shallow copy of the base class!（派生类是基类的浅拷贝）
         -- while at it also store our inherited members so we can get rid of them 
-        -- while monkey patching for the hot reload
-        -- if our class redefined a function personally
-        -- the function pointed to by our member is not the in in our inherited
-        -- table
+        -- while monkey patching for the hot reload（然而它也存储继承下来的成员，这样monkey patching的热加载时就可以消除它们）
+        -- if our class redefined a function personally（如果派生类重新定义了一个函数）
+        -- the function pointed to by our member is not the in in our inherited table（这个函数不是指向基类表的）
         for i, v in pairs(base) do
             c[i] = v
             c_inherited[i] = v
@@ -115,8 +136,9 @@ function Class(base, _ctor, props)
         c._base = base
     end
 
-    -- the class will be the metatable for all its objects,
-    -- and they will look up their methods in it.
+    -- 注意这里不是设置类的元表，而是设置实例的元表
+    -- the class will be the metatable for all its objects,（类将是所有实例的元表）
+    -- and they will look up their methods in it.（这样在类中查找方法）
     if props ~= nil then
         c.__index = __index
         c.__newindex = __newindex
@@ -124,7 +146,7 @@ function Class(base, _ctor, props)
         c.__index = c
     end
 
-    -- expose a constructor which can be called by <classname>(<args>)
+    -- expose a constructor which can be called by <classname>(<args>)（类的元表暴露一个__call，用<classname>(<args>)的形式调用）
     local mt = {}
 
     -- CWD没有找到定义
@@ -195,6 +217,9 @@ function Class(base, _ctor, props)
             return obj
         end
     else
+        -- 类的构造过程
+        -- 我先强调一下，不是具体的构造函数，而是通用的类的构造过程
+        -- 设置props，将类设为实例的元表，调用构造函数，就返回了
         mt.__call = function(class_tbl, ...)
             local obj = {}
             if props ~= nil then
