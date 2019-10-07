@@ -1,4 +1,5 @@
 -- 应用转向力
+--
 -- 总结一下这个算法（可以认为是算法了）
 -- 首先，必须意识到这是自己实现物理模拟计算
 -- 一开始先前件检查，避免计算
@@ -80,6 +81,7 @@ function AgentUtilities_ClampHorizontalSpeed(agent)
     end
 end
 
+-- 为Agent创建胶囊体
 function AgentUtilities_CreateAgentRepresentation(agent, height, radius)
     -- Capsule height and radius in meters.
     local capsule = Core.CreateCapsule(agent, height, radius);
