@@ -41,7 +41,7 @@ GUI.Markup.MediumMono =     "%@141%";
 GUI.Markup.Large =          "%@24%";
 GUI.Markup.LargeMono =      "%@241%";
 
---GUI.MarkupNewline = "\n";
+GUI.MarkupNewline = "\n";
 
 GUI.MarkupColor = {};
 

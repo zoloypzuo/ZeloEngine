@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-  <command>C:\Users\91018\Documents\GitHub\LearningGameAIProgrammingWithLua\bin\x32\debug\chapter_2_movement.exe</command>
-  <working_directory>C:\Users\91018\Documents\GitHub\LearningGameAIProgrammingWithLua\bin\x32\debug</working_directory>
-  <symbols_directory>C:\Users\91018\Documents\GitHub\LearningGameAIProgrammingWithLua\bin\x32\debug</symbols_directory>
+  <command>D:\ZeloEngine\Reference\Lua-Game-AI-Programming\bin\x32\debug\chapter_2_movement.exe</command>
+  <working_directory>D:\ZeloEngine\Reference\Lua-Game-AI-Programming\bin\x32\debug\</working_directory>
+  <symbols_directory>D:\ZeloEngine\Reference\Lua-Game-AI-Programming\bin\x32\debug\</symbols_directory>
   <command_arguments></command_arguments>
   <scc>
     <provider></provider>
