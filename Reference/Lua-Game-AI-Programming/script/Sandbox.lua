@@ -1,7 +1,22 @@
+-- Sandbox.lua
+-- 2019年10月8日
+-- author@zoloypzuo
+--
+-- 寻路
+-- Sandbox.FindPath
+-- Sandbox.RandomPoint
+--
+-- 路径信息
+-- 离智能体最近的导航点 nearest = Agent.GetNearestPointOnPath(agent, agent:GetPosition())
+-- 离出发点的通行距离（即智能体已经走了多远了） offset = Agent.GetDistanceAlongPath(agent, nearest)
+-- 得到一个路径点 point = Agent.GetPointOnPath(agent, distance + offset)
+
+
 local Sandbox_C_Module = Sandbox
 
 ---@class Sandbox @沙箱框架
 local Sandbox = Class(function(self)
+    ~!++++++
 
 end)
 
@@ -20,6 +35,7 @@ end
 function Sandbox:CreateSkyBox(s, vector)
     return Sandbox_C_Module.CreateSkyBox(self, s, vector)
 end
+
 
 
 ---@type fun() @local agent = Sandbox.CreateAgent(sandbox, "Agent.lua")
@@ -81,6 +97,10 @@ function Sandbox.DrawInfluenceMap(sandbox)
 end
 function Sandbox.FindClosestPoint(sandbox)
 end
+
+-- 仅考虑几何距离，返回最短路径（不考虑通行代价）
+-- 返回一个waypoints列表，如果不存在路径返回空表
+-- path = Sandbox.FindPath(sandbox, "default", startPoint, endPoint)
 function Sandbox.FindPath(sandbox)
 end
 function Sandbox.GetAgents(sandbox)
@@ -117,6 +137,9 @@ function Sandbox.GetTimeInSeconds(sandbox)
 end
 function Sandbox.GetTimeInMillis(sandbox)
 end
+
+-- 在nav-mesh上返回一个随机的点
+-- randomPoint = Sandbox.RandomPoint(sandbox, "default")
 function Sandbox.RandomPoint(sandbox)
 end
 function Sandbox.RayCastToObject(sandbox)
