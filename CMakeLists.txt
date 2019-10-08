@@ -22,8 +22,8 @@ add_compile_definitions(
 #
 # cotire (https://github.com/sakra/cotire)
 #
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
-include(cotire)
+#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+#include(cotire)
 
 #
 # Lua
