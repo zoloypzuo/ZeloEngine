@@ -55,7 +55,7 @@ function Agent_Initialize(agent)
     soldierUserData.alive = true;
     soldierUserData.ammo = 10;
     soldierUserData.maxAmmo = 10;
-    
+
     -- soldierLogic = SoldierLogic_DecisionTree(soldierUserData);
     -- soldierLogic = SoldierLogic_FiniteStateMachine(soldierUserData);
     soldierLogic = SoldierLogic_BehaviorTree(soldierUserData);

@@ -33,19 +33,19 @@ BehaviorTreeNode.Type = {
 
 function BehaviorTreeNode.AddChild(self, child, index)
     index = index or (#self.children_ + 1);
-    
+
     table.insert(self.children_, index, child);
-    
+
     child.parent_ = self;
 end
 
 function BehaviorTreeNode.ChildIndex(self, child)
-    for index=1, #self.children_ do
+    for index = 1, #self.children_ do
         if (self.children_[index] == child) then
             return index;
         end
     end
-    
+
     return -1;
 end
 
@@ -75,7 +75,7 @@ end
 
 function BehaviorTreeNode.new(name, type)
     local node = {};
-    
+
     -- The BehaviorTreeNode's data members.
     node.action_ = nil;
     node.children_ = {};
@@ -83,7 +83,7 @@ function BehaviorTreeNode.new(name, type)
     node.name_ = name or "";
     node.parent_ = nil;
     node.type_ = type or BehaviorTreeNode.Type.ACTION;
-    
+
     -- The BehaviorTreeNode's accessor functions.
     node.AddChild = BehaviorTreeNode.AddChild;
     node.ChildIndex = BehaviorTreeNode.ChildIndex;
@@ -93,6 +93,6 @@ function BehaviorTreeNode.new(name, type)
     node.SetAction = BehaviorTreeNode.SetAction;
     node.SetEvaluator = BehaviorTreeNode.SetEvaluator;
     node.SetType = BehaviorTreeNode.SetType;
-    
+
     return node;
 end

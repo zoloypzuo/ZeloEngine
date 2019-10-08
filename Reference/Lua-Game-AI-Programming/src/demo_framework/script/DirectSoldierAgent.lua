@@ -56,7 +56,7 @@ function Agent_DeathState(agent, deltaTimeInMillis)
     -- starts playing to prevent other agents from colliding with
     -- the agent's physics capsule.
     if (currentState == Soldier.SoldierStates.STAND_DEAD or
-        currentState == Soldier.SoldierStates.CROUCH_DEAD) then
+            currentState == Soldier.SoldierStates.CROUCH_DEAD) then
         agent:RemovePhysics();
         agent:SetHealth(0);
     end
@@ -68,7 +68,7 @@ function Agent_FallingState(agent, deltaTimeInMillis)
     -- Since there's no falling animation, move the soldier into an idle
     -- animation.
     if (currentState ~= Soldier.SoldierStates.STAND_IDLE_AIM and
-        currentState ~= Soldier.SoldierStates.STAND_FALL_DEAD) then
+            currentState ~= Soldier.SoldierStates.STAND_FALL_DEAD) then
         _soldierAsm:RequestState(Soldier.SoldierStates.STAND_IDLE_AIM);
     end
 
@@ -90,8 +90,8 @@ function Agent_HandleEvent(agent, event)
     if (event.source == "keyboard" and event.pressed) then
         -- Ignore new state requests if the agent is dead or about to die.
         if (_soldierState == _soldierStates.DEATH or
-            _soldierState == _soldierStates.FALLING) then
-            return;
+                _soldierState == _soldierStates.FALLING) then
+            return ;
         end
 
         -- Immediately switch the current state of the soldier.
@@ -163,9 +163,9 @@ function Agent_Initialize(agent)
     -- Add callbacks to shoot a bullet each time the shooting animation is
     -- played.
     _soldierAsm:AddStateCallback(
-        Soldier.SoldierStates.STAND_FIRE, Soldier_Shoot, callbackData);
+            Soldier.SoldierStates.STAND_FIRE, Soldier_Shoot, callbackData);
     _soldierAsm:AddStateCallback(
-        Soldier.SoldierStates.CROUCH_FIRE, Soldier_Shoot, callbackData);
+            Soldier.SoldierStates.CROUCH_FIRE, Soldier_Shoot, callbackData);
 
     -- Attach the weapon model after the animation state machines
     -- have been created.
@@ -201,8 +201,7 @@ function Agent_MovingState(agent, deltaTimeInMillis)
         end
 
         -- Calculate steering forces tuned for slow movement.
-        steeringForces =
-            Soldier_CalculateSlowSteering(agent, deltaTimeInSeconds);
+        steeringForces = Soldier_CalculateSlowSteering(agent, deltaTimeInSeconds);
     end
 
     Soldier_ApplySteering(agent, steeringForces, deltaTimeInSeconds);
@@ -248,11 +247,11 @@ function Agent_Update(agent, deltaTimeInMillis)
 
     -- Draw the agent's cyclic path, offset slightly above the level geometry.
     DebugUtilities_DrawPath(
-        agent:GetPath(), true, Vector.new(0, 0.02, 0));
+            agent:GetPath(), true, Vector.new(0, 0.02, 0));
 
     -- Ignore all state requests once the agent is dead.
     if (agent:GetHealth() <= 0) then
-        return;
+        return ;
     end
 
     -- Force the soldier into falling, this overrides all other requests.

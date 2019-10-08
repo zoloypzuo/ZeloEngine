@@ -3,19 +3,19 @@ Blackboard = {};
 local function EvaluateSources(self, sources)
     local bestConfidence = 0;
     local bestResult = nil;
-    
+
     -- Since there can be multiple data source for a single blackboard
     -- attribute, return the best result based on the confidence of
     -- the knowledge source.
     for index = 1, #sources do
         local eval = sources[index]:Evaluate(self.userData_);
-        
+
         if (eval.confidence > bestConfidence) then
             bestConfidence = eval.confidence;
             bestResult = eval.evaluation;
         end
     end
-    
+
     return bestResult;
 end
 
@@ -23,7 +23,7 @@ function Blackboard.AddSource(self, attribute, source)
     if (not self.sources_[attribute]) then
         self.sources_[attribute] = {};
     end
-    
+
     table.insert(self.sources_[attribute], source);
 end
 
@@ -48,7 +48,7 @@ function Blackboard.RemoveSource(self, attribute, source)
             end
         end
     end
-    
+
     return false;
 end
 
@@ -58,17 +58,17 @@ end
 
 function Blackboard.new(userData)
     local blackboard = {};
-    
+
     -- The Blackboard's data members.
     blackboard.attributes_ = {};
     blackboard.sources_ = {};
     blackboard.userData_ = userData;
-    
+
     -- The Blackboard's accessor functions.
     blackboard.AddSource = Blackboard.AddSource;
     blackboard.Get = Blackboard.Get;
     blackboard.RemoveSource = Blackboard.RemoveSource;
     blackboard.Set = Blackboard.Set;
-    
+
     return blackboard;
 end

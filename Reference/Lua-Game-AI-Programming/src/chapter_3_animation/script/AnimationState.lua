@@ -20,6 +20,6 @@ function AnimationState.new()
     -- 动画播放速率
     -- How fast the animation should play.
     state.rate_ = 1;
-    
+
     return state;
 end
