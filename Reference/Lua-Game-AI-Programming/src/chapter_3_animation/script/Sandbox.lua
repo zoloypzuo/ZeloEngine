@@ -16,35 +16,35 @@ local function CreateSandboxText(sandbox)
     local height = Sandbox.GetScreenHeight(sandbox);
     local uiWidth = 300;
     local uiHeight = 300;
-    
+
     UI.SetPosition(ui, width - uiWidth - 20, height - uiHeight - 35);
     UI.SetDimensions(ui, uiWidth, uiHeight);
     UI.SetTextMargin(ui, 10, 10);
     GUI_SetGradientColor(ui);
 
     UI.SetMarkupText(
-        ui,
-        GUI.MarkupColor.White .. GUI.Markup.SmallMono ..
-        "W/A/S/D: to move" .. GUI.MarkupNewline ..
-        "Hold Shift: to accelerate movement" .. GUI.MarkupNewline ..
-        "Hold RMB: to look" .. GUI.MarkupNewline ..
-        GUI.MarkupNewline ..
-        "F1: to reset the camera" .. GUI.MarkupNewline ..
-        "F2: toggle the menu" .. GUI.MarkupNewline ..
-        "F3: toggle skeleton" .. GUI.MarkupNewline ..
-        "F5: toggle performance information" .. GUI.MarkupNewline ..
-        "F6: toggle camera information" .. GUI.MarkupNewline ..
-        "F7: toggle physics debug" .. GUI.MarkupNewline ..
-        GUI.MarkupNewline ..
-        "Num 1: melee animation" .. GUI.MarkupNewline ..
-        "Num 2: sniper reload animation" .. GUI.MarkupNewline ..
-        "Num 3: sniper transform to smg animation" .. GUI.MarkupNewline ..
-        "Num 4: smg transform to sniper animation" .. GUI.MarkupNewline ..
-        "Num 5: fire animation" .. GUI.MarkupNewline ..
-        "Num 6: run forward animation" .. GUI.MarkupNewline ..
-        "Num 7: run backward animation" .. GUI.MarkupNewline ..
-        "Num 8: death animation" .. GUI.MarkupNewline ..
-        "Num 9: headshot animation" .. GUI.MarkupNewline);
+            ui,
+            GUI.MarkupColor.White .. GUI.Markup.SmallMono ..
+                    "W/A/S/D: to move" .. GUI.MarkupNewline ..
+                    "Hold Shift: to accelerate movement" .. GUI.MarkupNewline ..
+                    "Hold RMB: to look" .. GUI.MarkupNewline ..
+                    GUI.MarkupNewline ..
+                    "F1: to reset the camera" .. GUI.MarkupNewline ..
+                    "F2: toggle the menu" .. GUI.MarkupNewline ..
+                    "F3: toggle skeleton" .. GUI.MarkupNewline ..
+                    "F5: toggle performance information" .. GUI.MarkupNewline ..
+                    "F6: toggle camera information" .. GUI.MarkupNewline ..
+                    "F7: toggle physics debug" .. GUI.MarkupNewline ..
+                    GUI.MarkupNewline ..
+                    "Num 1: melee animation" .. GUI.MarkupNewline ..
+                    "Num 2: sniper reload animation" .. GUI.MarkupNewline ..
+                    "Num 3: sniper transform to smg animation" .. GUI.MarkupNewline ..
+                    "Num 4: smg transform to sniper animation" .. GUI.MarkupNewline ..
+                    "Num 5: fire animation" .. GUI.MarkupNewline ..
+                    "Num 6: run forward animation" .. GUI.MarkupNewline ..
+                    "Num 7: run backward animation" .. GUI.MarkupNewline ..
+                    "Num 8: death animation" .. GUI.MarkupNewline ..
+                    "Num 9: headshot animation" .. GUI.MarkupNewline);
 end
 
 local function IsNumKey(key, numKey)
@@ -108,7 +108,7 @@ function Sandbox_Initialize(sandbox)
 
     -- Create a background skybox.
     Sandbox.CreateSkyBox(
-        sandbox, "ThickCloudsWaterSkyBox", Vector.new(0, 180, 0));
+            sandbox, "ThickCloudsWaterSkyBox", Vector.new(0, 180, 0));
 
     -- Create a ground plane with physics.
     local plane = Sandbox.CreatePlane(sandbox, 200, 200);
@@ -127,19 +127,19 @@ function Sandbox_Initialize(sandbox)
 
     -- Create the basic soldier mesh without a physics representation.
     soldier = Core.CreateMesh(
-        sandbox, "models/futuristic_soldier/futuristic_soldier_dark_anim.mesh");
+            sandbox, "models/futuristic_soldier/futuristic_soldier_dark_anim.mesh");
 
     -- Set the position and rotation to work with the camera's default position.
     Core.SetPosition(soldier, Vector.new(0, 0, 0));
     Core.SetRotation(soldier, Vector.new(0, -90, 0));
-    
+
     -- Toggle on the skeletal debug information.
     displaySkeleton = true;
     Animation.SetDisplaySkeleton(soldier, displaySkeleton);
 
     -- Create the soldier's weapon mesh.
     local weapon = Core.CreateMesh(
-        sandbox, "models/futuristic_soldier/soldier_weapon.mesh");
+            sandbox, "models/futuristic_soldier/soldier_weapon.mesh");
 
     -- Retrieve and store the weapon animations before attaching the weapon to
     -- the soldier.
@@ -197,7 +197,7 @@ function Sandbox_Initialize(sandbox)
     soldierAsm:AddTransition("idle_aim", "run_forward", idleAimLength, 0.2);
     soldierAsm:AddTransition("idle_aim", "smg_transform", idleAimLength, 0.2);
     soldierAsm:AddTransition("idle_aim", "sniper_transform", idleAimLength, 0.2);
-    
+
     -- Fire Transitions
     soldierAsm:AddTransition("fire", "idle_aim", 0.1, 0.1);
     -- Melee Transitions
@@ -212,18 +212,18 @@ function Sandbox_Initialize(sandbox)
     soldierAsm:AddTransition("smg_transform", "idle_aim", 0.2, 0.2);
     -- Sniper Transitions
     soldierAsm:AddTransition("sniper_transform", "idle_aim", 0.2, 0.2);
-    
+
     -- Request a default looping animation to play.
     soldierAsm:RequestState("idle_aim");
-    
+
     -- Once a mesh is attached to a bone, you cannot reference the mesh again.
     Animation.AttachToBone(
-        soldier,
-        "b_RightHand",
-        weapon,
-        Vector.new(0.04, 0.05, -0.01),
-        Vector.new(98.0, 97.0, 0));
-    
+            soldier,
+            "b_RightHand",
+            weapon,
+            Vector.new(0.04, 0.05, -0.01),
+            Vector.new(98.0, 97.0, 0));
+
     weapon = nil;
 end
 
@@ -240,7 +240,7 @@ function Sandbox_Update(sandbox, deltaTimeInMillis)
     if (soldierAsm:GetCurrentStateName() ~= "idle_aim") then
         soldierAsm:RequestState("idle_aim");
     end
-    
+
     if (weaponState == "sniper") then
         if (weaponAsm:GetCurrentStateName() ~= "sniper_idle") then
             weaponAsm:RequestState("sniper_idle");

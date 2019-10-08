@@ -37,32 +37,32 @@ local function _CreateSandboxText(sandbox)
     local height = Sandbox.GetScreenHeight(sandbox);
     local uiWidth = 300;
     local uiHeight = 260;
-    
+
     UI.SetPosition(ui, width - uiWidth - 20, height - uiHeight - 35);
     UI.SetDimensions(ui, uiWidth, uiHeight);
     UI.SetTextMargin(ui, 10, 10);
     GUI_SetGradientColor(ui);
 
     UI.SetMarkupText(
-        ui,
-        GUI.MarkupColor.White .. GUI.Markup.SmallMono ..
-        "W/A/S/D: to move" .. GUI.MarkupNewline ..
-        "Hold Shift: to accelerate movement" .. GUI.MarkupNewline ..
-        "Hold RMB: to look" .. GUI.MarkupNewline ..
-        GUI.MarkupNewline ..
-        "F1: to reset the camera" .. GUI.MarkupNewline ..
-        "F2: toggle the menu" .. GUI.MarkupNewline ..
-        "F3: toggle the navigation mesh" .. GUI.MarkupNewline ..
-        "F5: toggle performance information" .. GUI.MarkupNewline ..
-        "F6: toggle camera information" .. GUI.MarkupNewline ..
-        "F7: toggle physics debug" .. GUI.MarkupNewline ..
-        GUI.MarkupNewline ..
-        "Switch Agents to:" .. GUI.MarkupNewline ..
-        "  Num 1: idle state" .. GUI.MarkupNewline ..
-        "  Num 2: shooting state" .. GUI.MarkupNewline ..
-        "  Num 3: moving state" .. GUI.MarkupNewline ..
-        "  Num 4: death state" .. GUI.MarkupNewline ..
-        "  Num 5: stand/crouch stance" .. GUI.MarkupNewline);
+            ui,
+            GUI.MarkupColor.White .. GUI.Markup.SmallMono ..
+                    "W/A/S/D: to move" .. GUI.MarkupNewline ..
+                    "Hold Shift: to accelerate movement" .. GUI.MarkupNewline ..
+                    "Hold RMB: to look" .. GUI.MarkupNewline ..
+                    GUI.MarkupNewline ..
+                    "F1: to reset the camera" .. GUI.MarkupNewline ..
+                    "F2: toggle the menu" .. GUI.MarkupNewline ..
+                    "F3: toggle the navigation mesh" .. GUI.MarkupNewline ..
+                    "F5: toggle performance information" .. GUI.MarkupNewline ..
+                    "F6: toggle camera information" .. GUI.MarkupNewline ..
+                    "F7: toggle physics debug" .. GUI.MarkupNewline ..
+                    GUI.MarkupNewline ..
+                    "Switch Agents to:" .. GUI.MarkupNewline ..
+                    "  Num 1: idle state" .. GUI.MarkupNewline ..
+                    "  Num 2: shooting state" .. GUI.MarkupNewline ..
+                    "  Num 3: moving state" .. GUI.MarkupNewline ..
+                    "  Num 4: death state" .. GUI.MarkupNewline ..
+                    "  Num 5: stand/crouch stance" .. GUI.MarkupNewline);
 
     return ui;
 end
@@ -72,34 +72,31 @@ local function _DrawPaths()
         -- Draw the agent's cyclic path, offset slightly above the level
         -- geometry.
         DebugUtilities_DrawPath(
-            agent:GetPath(), false, Vector.new(0, 0.02, 0));
+                agent:GetPath(), false, Vector.new(0, 0.02, 0));
         Core.DrawSphere(
-            agent:GetTarget(), 0.1, DebugUtilities.Red, true);
+                agent:GetTarget(), 0.1, DebugUtilities.Red, true);
     end
 end
 
 local function _UpdatePaths(sandbox)
     for index, agent in pairs(_agents) do
-        local navPosition =
-            Sandbox.FindClosestPoint(sandbox, "default", agent:GetPosition());
-        local targetRadiusSquared =
-            agent:GetTargetRadius() * agent:GetTargetRadius();
-        local distanceSquared =
-            Vector.DistanceSquared(navPosition, agent:GetTarget());
-        
+        local navPosition = Sandbox.FindClosestPoint(sandbox, "default", agent:GetPosition());
+        local targetRadiusSquared = agent:GetTargetRadius() * agent:GetTargetRadius();
+        local distanceSquared = Vector.DistanceSquared(navPosition, agent:GetTarget());
+
         -- Determine if the agent is within the target radius to their
         -- target position.
         if (distanceSquared < targetRadiusSquared) then
             local endPoint;
             local path = {};
-            
+
             -- Randomly try and pathfind to a new navmesh point, keep trying
             -- until a valid path is found.
             while #path == 0 do
                 endPoint = Sandbox.RandomPoint(sandbox, "default");
                 path = Sandbox.FindPath(sandbox, "default", agent:GetPosition(), endPoint);
             end
-            
+
             -- Assign a new path and target position.
             Soldier_SetPath(agent, path);
             agent:SetTarget(endPoint);
@@ -130,35 +127,34 @@ function Sandbox_Initialize(sandbox)
     -- Setup the demo UI menu.
     GUI_CreateUI(sandbox);
     _ui = _CreateSandboxText(sandbox);
-    
+
     -- Initialize the camera position to focus on the soldier.
     Sandbox.SetCameraPosition(sandbox, Vector.new(15, 65, 15));
     Sandbox.SetCameraOrientation(sandbox, Vector.new(-90, 0, 180));
 
     -- Create the sandbox level, handles creating geometry, skybox, and lighting.
     SandboxUtilities_CreateLevel(sandbox);
-    
+
     -- Override the default navigation mesh config generation.
     local navMeshConfig = {
         MinimumRegionArea = 100,
         WalkableRadius = 0.4,
         WalkableClimbHeight = 0.2,
         WalkableSlopeAngle = 45 };
-    
+
     _drawNavMesh = true;
     Sandbox.CreateNavigationMesh(sandbox, "default", navMeshConfig);
     Sandbox.SetDebugNavigationMesh(sandbox, "default", _drawNavMesh);
 
     -- Create agents and randomly place them on the navmesh.
-    for i=1, 5 do
+    for i = 1, 5 do
         local agent = Sandbox.CreateAgent(sandbox, "IndirectSoldierAgent.lua");
         table.insert(_agents, agent);
 
         agent:SetPosition(Sandbox.RandomPoint(sandbox, "default"));
 
         -- Use the Agent's closest point to the navmesh as their target position.
-        local navPosition =
-            Sandbox.FindClosestPoint(sandbox, "default", agent:GetPosition());
+        local navPosition = Sandbox.FindClosestPoint(sandbox, "default", agent:GetPosition());
 
         agent:SetTarget(navPosition);
 
@@ -174,7 +170,7 @@ function Sandbox_Update(sandbox, deltaTimeInMillis)
 
     -- Select new paths if agents have reached the end of their current path.
     _UpdatePaths(sandbox);
-    
+
     -- Draw every agent's path.
     _DrawPaths();
 end

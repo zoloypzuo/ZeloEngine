@@ -1,4 +1,3 @@
-
 local agentUserData = {};
 local agentCallbacks = {};
 
@@ -18,16 +17,16 @@ AgentCommunications.EventType.RetreatPosition = "RetreatPosition";
 
 local function AgentCommunications_HandleEvent(sandbox, agent, eventType, event)
     local callbacks = agentCallbacks[agent:GetId()];
-    
-    if (callbacks == nil or
-        callbacks[eventType] == nil or
-        type(callbacks[eventType]) ~= "function") then
 
-        return;
+    if (callbacks == nil or
+            callbacks[eventType] == nil or
+            type(callbacks[eventType]) ~= "function") then
+
+        return ;
     end
-    
+
     if (not event["teamOnly"] or
-        (event["teamOnly"] and agent:GetTeam() == event["team"])) then
+            (event["teamOnly"] and agent:GetTeam() == event["team"])) then
 
         callbacks[eventType](agentUserData[agent:GetId()], eventType, event);
     end
@@ -39,13 +38,13 @@ function AgentCommunications_AddEventCallback(userData, eventType, callback)
     if (agentCallbacks[agentId] == nil) then
         agentCallbacks[agentId] = {};
         agentUserData[agentId] = userData;
-        
+
         Sandbox.AddEventCallback(
-            userData.agent:GetSandbox(),
-            userData.agent,
-            AgentCommunications_HandleEvent);
+                userData.agent:GetSandbox(),
+                userData.agent,
+                AgentCommunications_HandleEvent);
     end
-    
+
     agentCallbacks[agentId][eventType] = callback;
 end
 

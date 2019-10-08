@@ -8,17 +8,17 @@ SoldierController = {};
 
 -- Supported commands that can be requested.
 SoldierController.Commands = {
-    CHANGE_STANCE =     "CHANGE_STANCE",
-    DIE =               "DIE",
-    IDLE =              "IDLE",
-    MOVE =              "MOVE",
-    SHOOT =             "SHOOT"
+    CHANGE_STANCE = "CHANGE_STANCE",
+    DIE = "DIE",
+    IDLE = "IDLE",
+    MOVE = "MOVE",
+    SHOOT = "SHOOT"
 };
 
 -- Supported soldier stances.
 SoldierController.Stances = {
-    CROUCH =    "CROUCH",
-    STAND =     "STAND"
+    CROUCH = "CROUCH",
+    STAND = "STAND"
 };
 
 -- Additional supported commands that cannot be requested.
@@ -93,45 +93,45 @@ local function _ExecuteDieCommand(self, agent, deltaTimeInMillis)
     if (_stance == SoldierController.Stances.STAND) then
         if (currentState ~= Soldier.SoldierStates.STAND_DEAD) then
             self.asms["soldier"]:RequestState(
-                Soldier.SoldierStates.STAND_DEAD);
+                    Soldier.SoldierStates.STAND_DEAD);
             agent:RemovePhysics();
             agent:SetHealth(0);
         end
     else
         if (currentState ~= Soldier.SoldierStates.CROUCH_DEAD) then
             self.asms["soldier"]:RequestState(
-                Soldier.SoldierStates.CROUCH_DEAD);
+                    Soldier.SoldierStates.CROUCH_DEAD);
             agent:RemovePhysics();
             agent:SetHealth(0);
         end
     end
-    
+
     -- Never clears the executing command since this is a terminal state.
 end
 
 local function _ExecuteFallingCommand(self, agent, deltaTimeInMillis)
     local currentState = self.asms["soldier"]:GetCurrentStateName();
-    
+
     -- Since there's no falling animation, move the soldier into an idle
     -- animation.
     if (currentState ~= Soldier.SoldierStates.STAND_FALL_IDLE and
-        currentState ~= Soldier.SoldierStates.STAND_FALL_DEAD) then
+            currentState ~= Soldier.SoldierStates.STAND_FALL_DEAD) then
         self.asms["soldier"]:RequestState(
-            Soldier.SoldierStates.STAND_FALL_IDLE);
+                Soldier.SoldierStates.STAND_FALL_IDLE);
     end
-    
+
     -- Once the soldier is no longer falling, play a death animation.
     if (not Soldier_IsFalling(agent)) then
         if (currentState ~= Soldier.SoldierStates.STAND_FALL_DEAD) then
             self.asms["soldier"]:RequestState(
-                Soldier.SoldierStates.STAND_FALL_DEAD);
+                    Soldier.SoldierStates.STAND_FALL_DEAD);
             -- Remove the soldier from physics once the death animation
             -- starts playing.
             agent:RemovePhysics();
             agent:SetHealth(0);
         end
     end
-    
+
     -- Never clears the executing command since this is a terminal state.
 end
 
@@ -143,11 +143,11 @@ local function _ExecuteIdleCommand(self, agent, deltaTimeInMillis)
             -- Slow movement to blend to an idle pose.
             Soldier_SlowMovement(agent, deltaTimeInMillis);
         end
-    
+
         if (currentState ~= Soldier.SoldierStates.STAND_IDLE_AIM) then
             -- Only request the STAND_IDLE_AIM state if not currently playing.
             self.asms["soldier"]:RequestState(
-                Soldier.SoldierStates.STAND_IDLE_AIM);
+                    Soldier.SoldierStates.STAND_IDLE_AIM);
         elseif (#self.commands > 0) then
             -- Continue executing till a new command is queued.
             _ClearExecutingCommand(self);
@@ -157,11 +157,11 @@ local function _ExecuteIdleCommand(self, agent, deltaTimeInMillis)
             -- Slow movement at twice the rate to blend to an idle pose.
             Soldier_SlowMovement(agent, deltaTimeInMillis, 2);
         end
-    
+
         if (currentState ~= Soldier.SoldierStates.CROUCH_IDLE_AIM) then
             -- Only request the CROUCH_IDLE_AIM state if not currently playing.
             self.asms["soldier"]:RequestState(
-            Soldier.SoldierStates.CROUCH_IDLE_AIM);
+                    Soldier.SoldierStates.CROUCH_IDLE_AIM);
         elseif (#self.commands > 0) then
             -- Continue executing till a new command is queued.
             _ClearExecutingCommand(self);
@@ -180,12 +180,12 @@ local function _ExecuteMoveCommand(self, agent, deltaTimeInMillis)
             -- Change the agent's desired speed for quick movement.
             agent:SetMaxSpeed(Soldier.Speed.Stand);
             self.asms["soldier"]:RequestState(
-                Soldier.SoldierStates.STAND_RUN_FORWARD);
+                    Soldier.SoldierStates.STAND_RUN_FORWARD);
         elseif (#self.commands > 0) then
             -- Continue executing till a new command is queued.
             _ClearExecutingCommand(self);
         end
-        
+
         -- Calculate steering forces tuned for quick movement.
         steeringForces = Soldier_CalculateSteering(agent, deltaTimeInSeconds);
     else
@@ -194,15 +194,14 @@ local function _ExecuteMoveCommand(self, agent, deltaTimeInMillis)
             -- Change the agent's desired speed for slow movement.
             agent:SetMaxSpeed(Soldier.Speed.Crouch);
             self.asms["soldier"]:RequestState(
-                Soldier.SoldierStates.CROUCH_FORWARD);
+                    Soldier.SoldierStates.CROUCH_FORWARD);
         elseif (#self.commands > 0) then
             -- Continue executing till a new command is queued.
             _ClearExecutingCommand(self);
         end
-        
+
         -- Calculate steering forces tuned for slow movement.
-        steeringForces =
-            Soldier_CalculateSlowSteering(agent, deltaTimeInSeconds);
+        steeringForces = Soldier_CalculateSlowSteering(agent, deltaTimeInSeconds);
     end
 
     Soldier_ApplySteering(agent, steeringForces, deltaTimeInSeconds);
@@ -216,11 +215,11 @@ local function _ExecuteShootCommand(self, agent, deltaTimeInMillis)
         if (Soldier_IsMoving(agent)) then
             Soldier_SlowMovement(agent, deltaTimeInMillis);
         end
-    
+
         -- Only request the STAND_FIRE state if not currently playing.
         if (currentState ~= Soldier.SoldierStates.STAND_FIRE) then
             self.asms["soldier"]:RequestState(
-                Soldier.SoldierStates.STAND_FIRE);
+                    Soldier.SoldierStates.STAND_FIRE);
         elseif (#self.commands > 0) then
             -- Continue executing till a new command is queued.
             _ClearExecutingCommand(self);
@@ -230,11 +229,11 @@ local function _ExecuteShootCommand(self, agent, deltaTimeInMillis)
         if (Soldier_IsMoving(agent)) then
             Soldier_SlowMovement(agent, deltaTimeInMillis, 2);
         end
-    
+
         -- Only request the CROUCH_FIRE state if not currently playing.
         if (currentState ~= Soldier.SoldierStates.CROUCH_FIRE) then
             self.asms["soldier"]:RequestState(
-                Soldier.SoldierStates.CROUCH_FIRE);
+                    Soldier.SoldierStates.CROUCH_FIRE);
         elseif (#self.commands > 0) then
             -- Continue executing till a new command is queued.
             _ClearExecutingCommand(self);
@@ -279,9 +278,9 @@ function SoldierController.Initialize(self, agent, soldier, weapon)
     -- Add callbacks to shoot a bullet each time the shooting animation is
     -- played.
     self.asms["soldier"]:AddStateCallback(
-        Soldier.SoldierStates.STAND_FIRE, Soldier_Shoot, callbackData );
+            Soldier.SoldierStates.STAND_FIRE, Soldier_Shoot, callbackData);
     self.asms["soldier"]:AddStateCallback(
-        Soldier.SoldierStates.CROUCH_FIRE, Soldier_Shoot, callbackData );
+            Soldier.SoldierStates.CROUCH_FIRE, Soldier_Shoot, callbackData);
 
     _soldierMesh = soldier;
 
@@ -291,17 +290,17 @@ function SoldierController.Initialize(self, agent, soldier, weapon)
 
     -- Associate a callback function to handle each command.
     _AddCommandCallback(
-        self, SoldierController.Commands.CHANGE_STANCE, _ExecuteChangeStanceCommand);
+            self, SoldierController.Commands.CHANGE_STANCE, _ExecuteChangeStanceCommand);
     _AddCommandCallback(
-        self, SoldierController.Commands.DIE, _ExecuteDieCommand);
+            self, SoldierController.Commands.DIE, _ExecuteDieCommand);
     _AddCommandCallback(
-        self, SoldierController.Commands.IDLE, _ExecuteIdleCommand);
+            self, SoldierController.Commands.IDLE, _ExecuteIdleCommand);
     _AddCommandCallback(
-        self, SoldierController.Commands.MOVE, _ExecuteMoveCommand);
+            self, SoldierController.Commands.MOVE, _ExecuteMoveCommand);
     _AddCommandCallback(
-        self, SoldierController.Commands.SHOOT, _ExecuteShootCommand);
+            self, SoldierController.Commands.SHOOT, _ExecuteShootCommand);
     _AddCommandCallback(
-        self, SoldierController.PrivateCommands.FALLING, _ExecuteFallingCommand);
+            self, SoldierController.PrivateCommands.FALLING, _ExecuteFallingCommand);
 end
 
 function SoldierController.QueueCommand(self, agent, command)
@@ -320,15 +319,15 @@ function SoldierController.Update(self, agent, deltaTimeInMillis)
 
     -- Allow the soldier to update any soldier's specific data.
     Soldier_Update(agent, deltaTimeInMillis);
-    
+
     -- Update the animation state machines to process animation requests.
     _UpdateAsms(self, deltaTimeInMillis, sandboxTimeInMillis);
 
     -- Ignore all state requests once the agent is dead.
     if (_IsDead(self)) then
-        return;
+        return ;
     end
-    
+
     -- Force the soldier into falling, this overrides all other requests.
     if (Soldier_IsFalling(agent)) then
         self:ImmediateCommand(agent, SoldierController.PrivateCommands.FALLING);
@@ -338,21 +337,21 @@ function SoldierController.Update(self, agent, deltaTimeInMillis)
     -- Select a new command to execute if the current command has finished and
     -- a new command is queued.
     _AdvanceExecutingCommand(self);
-    
+
     -- Process the current command.
     _ExecuteCommand(self, agent, deltaTimeInMillis);
 end
 
 function SoldierController.new(agent, soldier, weapon)
     local controller = {};
-    
+
     -- The SoldierController's data members.
     controller.commands = {};
     controller.commandCallbacks = {};
     controller.asms = {};
     controller.executingCommand = nil;
     controller.previousCommand = nil;
-    
+
     -- The SoldierController's accessor functions.
     controller.ClearCommands = SoldierController.ClearCommands;
     controller.CurrentCommand = SoldierController.CurrentCommand;
@@ -360,8 +359,8 @@ function SoldierController.new(agent, soldier, weapon)
     controller.QueueCommand = SoldierController.QueueCommand;
     controller.QueueLength = SoldierController.QueueLength;
     controller.Update = SoldierController.Update;
-    
+
     SoldierController.Initialize(controller, agent, soldier, weapon);
-    
+
     return controller;
 end

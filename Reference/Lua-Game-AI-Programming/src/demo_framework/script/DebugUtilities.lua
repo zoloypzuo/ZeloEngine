@@ -8,26 +8,26 @@ DebugUtilities.White = Vector.new(1, 1, 1);
 
 function DebugUtilities_DrawPath(path, cyclic, offset, color)
     assert(type(path) == "table");
-    
+
     color = color or DebugUtilities.Red;
     offset = offset or Vector.new();
-    
+
     for index = 1, #path do
         local endPoint;
-    
+
         if (index == #path) then
             if (cyclic == nil or not cyclic) then
-                break;
+                break ;
             end
             endPoint = path[1];
         else
             endPoint = path[index + 1];
         end
-        
+
         local startPoint = path[index];
-        
+
         Core.DrawLine(
-            startPoint + offset, endPoint + offset, color);
+                startPoint + offset, endPoint + offset, color);
     end
 end
 
@@ -35,14 +35,14 @@ function DebugUtilities_DrawPaths(agents)
     for index, agent in pairs(agents) do
         if (agent:GetHealth() > 0) then
             local path = agent:GetPath();
-        
+
             if (#path > 0) then
                 -- Draw the agent's cyclic path, offset slightly above the level
                 -- geometry.
                 DebugUtilities_DrawPath(
-                    path, false, Vector.new(0, 0.02, 0));
+                        path, false, Vector.new(0, 0.02, 0));
                 Core.DrawSphere(
-                    agent:GetTarget(), 0.1, DebugUtilities.Red, true);
+                        agent:GetTarget(), 0.1, DebugUtilities.Red, true);
             end
         end
     end
@@ -50,10 +50,10 @@ end
 
 function DebugUtilities_DrawBoundingSphere(object)
     Core.DrawSphere(
-        Core.GetPosition(object),
-        Core.GetRadius(object),
-        DebugUtilities.Red,
-        true);
+            Core.GetPosition(object),
+            Core.GetRadius(object),
+            DebugUtilities.Red,
+            true);
 end
 
 function DebugUtilities_DrawBoundingSpheres(objects)
