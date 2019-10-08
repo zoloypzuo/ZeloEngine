@@ -1,5 +1,9 @@
---
+-- Evaluator.lua
+-- 2019年10月8日
 
+-- 求值器
+-- 求值器是决策，它的输入是userdata，代表决策需要的信息，输出是bool
+-- 求值器是函数式的，行为树跑多少次都要有确定性的结果，所以尽管可以，求值器禁止修改userdata
 Evaluator = {};
 
 -- Type of object an Evalutor is.
