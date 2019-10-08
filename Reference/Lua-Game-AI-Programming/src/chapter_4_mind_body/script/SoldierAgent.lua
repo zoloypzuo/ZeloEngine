@@ -9,7 +9,7 @@ local _weaponAsm;
 local function _ParticleImpact(sandbox, collision)
     -- Remove the bullet particle.
     Sandbox.RemoveObject(sandbox, collision.objectA);
-    
+
     -- Create an impact particle where the bullet collided with another object.
     local particleImpact = Core.CreateParticle(sandbox, "BulletImpact");
     Core.SetPosition(particleImpact, collision.pointA);
@@ -27,14 +27,14 @@ local function _ShootBullet(sandbox, position, rotation)
     Core.SetMass(bullet, 0.1);
     Core.SetPosition(bullet, position + forward * 0.2);
     Core.SetAxis(bullet, left, -forward, up);
-    
+
     -- Create a particle to visibly show the bullet.
     local bulletParticle = Core.CreateParticle(bullet, "Bullet");
     Core.SetRotation(bulletParticle, Vector.new(-90, 0, 0));
-    
+
     -- Instantaneously apply a force in the forward direction. 
     Core.ApplyImpulse(bullet, forward * 750);
-    
+
     -- Add a particle impact callback to remove the bullet and create
     -- an impact particle effect.
     Sandbox.AddCollisionCallback(sandbox, bullet, _ParticleImpact);
@@ -48,7 +48,7 @@ local function _Shoot(stateName, callbackData)
     local soldier = callbackData.soldier;
     local position = Animation.GetBonePosition(soldier, "b_muzzle");
     local rotation = Animation.GetBoneRotation(soldier, "b_muzzle");
-    
+
     _ShootBullet(sandbox, position, rotation);
 end
 
@@ -57,7 +57,7 @@ end
 
 function Agent_HandleEvent(agent, event)
     if (event.source == "keyboard" and event.pressed) then
-        if ( event.key == "f2_key" ) then
+        if (event.key == "f2_key") then
             _soldierAsm:RequestState(Soldier.SoldierStates.STAND_FIRE);
             -- Disable moving while shooting.
             agent:SetMaxSpeed(0);
@@ -92,7 +92,7 @@ function Agent_Initialize(agent)
 
     -- Add the shoot callback to handle bullet creation.
     _soldierAsm:AddStateCallback(
-        Soldier.SoldierStates.STAND_FIRE, _Shoot, callbackData);
+            Soldier.SoldierStates.STAND_FIRE, _Shoot, callbackData);
 
     -- Assign the default level path and adjust the agent's speed to
     -- match the soldier's steering scalars.
@@ -119,8 +119,8 @@ function Agent_Update(agent, deltaTimeInMillis)
     -- Apply a steering force to move the agent along the path.
     if (agent:HasPath()) then
         local steeringForces = Soldier_CalculateSteering(
-            agent, deltaTimeInSeconds);
+                agent, deltaTimeInSeconds);
         Soldier_ApplySteering(
-            agent, steeringForces, deltaTimeInSeconds);
+                agent, steeringForces, deltaTimeInSeconds);
     end
 end

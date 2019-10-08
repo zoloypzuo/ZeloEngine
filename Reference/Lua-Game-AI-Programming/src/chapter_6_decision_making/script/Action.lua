@@ -1,26 +1,10 @@
---[[
-  Copyright (c) 2013 David Young dayoung@goliathdesigns.com
+-- Action.lua
+-- 2019年10月8日
 
-  This software is provided 'as-is', without any express or implied
-  warranty. In no event will the authors be held liable for any damages
-  arising from the use of this software.
-
-  Permission is granted to anyone to use this software for any purpose,
-  including commercial applications, and to alter it and redistribute it
-  freely, subject to the following restrictions:
-
-   1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-
-   2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-
-   3. This notice may not be removed or altered from any source
-   distribution.
-]]
-
+-- 智能体决策的结果就是行动
+-- 行动有三种状态：未初始化，运行中和已终止
+-- 对应的状态机是：未初始化=》初始化后进入运行中=》运行结束后进入已终止
+-- Action的ctor会为三个状态指定回调函数
 Action = {};
 
 -- The states an instance of an Action can be in.
@@ -30,6 +14,7 @@ Action.Status = {
     UNINITIALIZED = "UNINITIALIZED"
 };
 
+-- 现在开始使用type字段标记类的类型
 -- Type of object an Action is.
 Action.Type = "Action";
 
@@ -40,7 +25,7 @@ function Action.CleanUp(self)
             self.cleanUpFunction_(self.userData_);
         end
     end
-    
+
     -- Set the action to uninitialized after cleaning up.
     self.status_ = Action.Status.UNINITIALIZED;
 end
@@ -52,7 +37,7 @@ function Action.Initialize(self)
             self.initializeFunction_(self.userData_);
         end
     end
-    
+
     -- Set the action to running after initializing.
     self.status_ = Action.Status.RUNNING;
 end
@@ -80,7 +65,7 @@ end
 
 function Action.new(name, initializeFunction, updateFunction, cleanUpFunction, userData)
     local action = {};
-    
+
     -- The Action's data members.
     action.cleanUpFunction_ = cleanUpFunction;
     action.initializeFunction_ = initializeFunction;
@@ -89,11 +74,11 @@ function Action.new(name, initializeFunction, updateFunction, cleanUpFunction, u
     action.status_ = Action.Status.UNINITIALIZED;
     action.type_ = Action.Type;
     action.userData_ = userData;
-    
+
     -- The Action's accessor functions.
     action.CleanUp = Action.CleanUp;
     action.Initialize = Action.Initialize;
     action.Update = Action.Update;
-    
+
     return action;
 end

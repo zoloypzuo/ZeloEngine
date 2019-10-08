@@ -8,18 +8,18 @@
 -- 然后加到速度上
 -- 然而我们只需要速度的方向，它代表agent的方向
 function AgentUtilities_ApplyPhysicsSteeringForce(
-    agent, steeringForce, deltaTimeInSeconds)
+        agent, steeringForce, deltaTimeInSeconds)
 
     -- 忽略很弱的力
     -- Ignore very weak steering forces.
     if (Vector.LengthSquared(steeringForce) < 0.1) then
-        return;
+        return ;
     end
 
     -- 0质量的agent不可移动
     -- Agents with 0 mass are immovable.
     if (agent:GetMass() <= 0) then
-        return;
+        return ;
     end
 
     -- y方向力设为0
@@ -41,7 +41,7 @@ function AgentUtilities_ApplyPhysicsSteeringForce(
 
     -- Velocity is measured in meters per second(m/s).
     local currentVelocity = agent:GetVelocity();
-    
+
     -- 得到新速度
     -- Acceleration(m/s^2) multiplied by seconds results in velocity(m/s).
     local newVelocity = currentVelocity + (acceleration * deltaTimeInSeconds);
@@ -91,10 +91,10 @@ end
 function AgentUtilities_UpdatePosition(agent, deltaTimeInSeconds)
     -- Velocity(m/s) multiplied by seconds results in meters.
     local positionDelta = agent:GetVelocity() * deltaTimeInSeconds;
-    
+
     -- Calculate the change in meters to the agents current position.
     local newPosition = agent:GetPosition() + positionDelta;
-    
+
     -- Apply the change in position.
     agent:SetPosition(newPosition);
 end

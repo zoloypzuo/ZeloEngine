@@ -5,7 +5,7 @@ DecisionBranch.Type = "DecisionBranch";
 function DecisionBranch.AddChild(self, child, index)
     -- Add the child at the specified index, or as the last child.
     index = index or (#self.children_ + 1);
-    
+
     table.insert(self.children_, index, child);
 end
 

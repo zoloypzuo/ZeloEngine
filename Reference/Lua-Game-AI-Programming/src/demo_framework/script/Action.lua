@@ -17,7 +17,7 @@ function Action.CleanUp(self)
             self.cleanUpFunction_(self.userData_);
         end
     end
-    
+
     -- Set the action to uninitialized after cleaning up.
     self.status_ = Action.Status.UNINITIALIZED;
 end
@@ -29,7 +29,7 @@ function Action.Initialize(self)
             self.initializeFunction_(self.userData_);
         end
     end
-    
+
     -- Set the action to running after initializing.
     self.status_ = Action.Status.RUNNING;
 end
@@ -57,7 +57,7 @@ end
 
 function Action.new(name, initializeFunction, updateFunction, cleanUpFunction, userData)
     local action = {};
-    
+
     -- The Action's data members.
     action.cleanUpFunction_ = cleanUpFunction;
     action.initializeFunction_ = initializeFunction;
@@ -66,11 +66,11 @@ function Action.new(name, initializeFunction, updateFunction, cleanUpFunction, u
     action.status_ = Action.Status.UNINITIALIZED;
     action.type_ = Action.Type;
     action.userData_ = userData;
-    
+
     -- The Action's accessor functions.
     action.CleanUp = Action.CleanUp;
     action.Initialize = Action.Initialize;
     action.Update = Action.Update;
-    
+
     return action;
 end
