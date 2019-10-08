@@ -9,20 +9,20 @@ userData =
 
 function SoldierEvaluators_CanShootAgent(userData)
     local enemy = userData.blackboard:Get("enemy");
-    
+
     if (enemy ~= nil and
-        -- A simple distance check to determine whether one Agent can
-        -- shoot another.
-        Agent.GetHealth(enemy) > 0 and
-        Vector.Distance(userData.agent:GetPosition(), enemy:GetPosition()) < 3) then
+            -- A simple distance check to determine whether one Agent can
+            -- shoot another.
+            Agent.GetHealth(enemy) > 0 and
+            Vector.Distance(userData.agent:GetPosition(), enemy:GetPosition()) < 3) then
         return true;
-    end;
+    end ;
     return false;
 end
 
 function SoldierEvaluators_HasAmmo(userData)
     local ammo = userData.blackboard:Get("ammo");
-    
+
     return ammo ~= nil and ammo > 0;
 end
 
@@ -48,7 +48,7 @@ function SoldierEvaluators_HasMovePosition(userData)
     local movePosition = userData.agent:GetTarget();
 
     return movePosition ~= nil and
-        (Vector.Distance(userData.agent:GetPosition(), movePosition) > 1.5);
+            (Vector.Distance(userData.agent:GetPosition(), movePosition) > 1.5);
 end
 
 function SoldierEvaluators_IsAlive(userData)

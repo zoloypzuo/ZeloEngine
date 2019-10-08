@@ -34,10 +34,10 @@ _EvaluateSelector = function(self, node, deltaTimeInMillis)
 
     for index = 1, #node.children_ do
         local child = node:GetChild(index);
-        
+
         if (child.type_ == BehaviorTreeNode.Type.ACTION) then
             -- Execute all Actions, since Actions cannot fail.
-            return { node = child, result = true};
+            return { node = child, result = true };
         elseif (child.type_ == BehaviorTreeNode.Type.CONDITION) then
             -- Conditions are only valid within sequences, if one is
             -- encountered in a selector the tree is malformed.
@@ -59,7 +59,7 @@ _EvaluateSelector = function(self, node, deltaTimeInMillis)
             end
         end
     end
-    
+
     return { result = false };
 end
 
@@ -69,22 +69,22 @@ _EvaluateSequence = function(self, node, deltaTimeInMillis, index)
     -- sequence/selector being unable to find a valid Action to run.
     index = index or 1;
 
-    for count=index, #node.children_ do
+    for count = index, #node.children_ do
         local child = node:GetChild(count);
-        
+
         if (child.type_ == BehaviorTreeNode.Type.ACTION) then
             -- Execute all Actions, since Actions cannot fail.
-            return { node = child, result = true};
+            return { node = child, result = true };
         elseif (child.type_ == BehaviorTreeNode.Type.CONDITION) then
             local result = child.evaluator_(self.userData_);
-        
+
             -- Break out of execution if a condition fails.
             if (not child.evaluator_(self.userData_)) then
                 return { result = false };
             end
         elseif (child.type_ == BehaviorTreeNode.Type.SELECTOR) then
             local result = _EvaluateSelector(self, child, deltaTimeInMillis);
-            
+
             -- Unable to find an Action to run, return failure.
             if (not result.result) then
                 return { result = false };
@@ -93,12 +93,12 @@ _EvaluateSequence = function(self, node, deltaTimeInMillis, index)
                 -- caller.
                 return result;
             end
-            
+
             -- A selector must return an Action to be considered successful,
             -- if no Action was found, then the selectored failed.
         elseif (child.type_ == BehaviorTreeNode.Type.SEQUENCE) then
             local result = _EvaluateSequence(self, child, deltaTimeInMillis);
-            
+
             -- Sequence reported failure, propagate failure to the caller.
             if (not result.result) then
                 return { result = false };
@@ -113,11 +113,11 @@ _EvaluateSequence = function(self, node, deltaTimeInMillis, index)
             -- In that case let the sequence continue executing additional
             -- children.
         end
-        
+
         -- Move to the next child to execute.
         count = count + 1;
     end
-    
+
     -- Returns success without an Action to run if all children executed
     -- successfully.
     return { result = true };
@@ -158,19 +158,19 @@ local function _ContinueEvaluation(self, node, deltaTimeInMillis)
             -- Found a sequence, continue evaluating from the current
             -- executing node within the sequence.
             local childIndex = parentNode:ChildIndex(childNode);
-            
+
             -- So long as the executing child was not the last node within
             -- the sequence, evaluate the sequence starting on the next child
             -- node.
             if (childIndex < parentNode:GetNumberOfChildren()) then
                 return _EvaluateSequence(
-                    self,
-                    parentNode,
-                    deltaTimeInMillis,
-                    childIndex + 1);
+                        self,
+                        parentNode,
+                        deltaTimeInMillis,
+                        childIndex + 1);
             end
         end
-        
+
         -- Move one parent up in the tree.
         childNode = parentNode;
         parentNode = childNode:GetParent();
@@ -189,7 +189,7 @@ function BehaviorTree.Update(self, deltaTimeInMillis)
 
     if (self.currentNode_ ~= nil) then
         local status = self.currentNode_.action_.status_;
-        
+
         if (status == Action.Status.UNINITIALIZED) then
             self.currentNode_.action_:Initialize();
         elseif (status == Action.Status.TERMINATED) then
@@ -199,7 +199,7 @@ function BehaviorTree.Update(self, deltaTimeInMillis)
             -- _ContinueEvaluation can return nil, in case the tree needs to be
             -- reevaluated.
             self.currentNode_ = _ContinueEvaluation(
-                self, self.currentNode_, deltaTimeInMillis);
+                    self, self.currentNode_, deltaTimeInMillis);
         elseif (status == Action.Status.RUNNING) then
             self.currentNode_.action_:Update(deltaTimeInMillis);
         end
@@ -208,15 +208,15 @@ end
 
 function BehaviorTree.new(userData)
     local tree = {};
-    
+
     -- The BehaviorTree's data members.
     tree.currentNode_ = nil;
     tree.node_ = nil;
     tree.userData_ = userData;
-    
+
     -- The BehaviorTree's accessor functions.
     tree.SetNode = BehaviorTree.SetNode;
     tree.Update = BehaviorTree.Update;
-    
+
     return tree;
 end

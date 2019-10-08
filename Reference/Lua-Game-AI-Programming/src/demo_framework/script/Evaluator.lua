@@ -9,15 +9,15 @@ end
 
 function Evaluator.new(name, evalFunction, userData)
     local evaluator = {};
-    
+
     -- The Evaluator's data members.
     evaluator.function_ = evalFunction;
     evaluator.name_ = name or "";
     evaluator.type_ = Evaluator.Type;
     evaluator.userData_ = userData;
-    
+
     -- The Evaluator's accessor functions.
     evaluator.evaluate_ = Evaluate;
-    
+
     return evaluator;
 end

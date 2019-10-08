@@ -30,11 +30,11 @@ function Agent_Initialize(agent)
     else
         soldierUserData.soldier = Soldier_CreateLightSoldier(agent);
     end
-    
+
     local weapon = Soldier_CreateWeapon(agent);
 
     _soldierController = SoldierController.new(
-        agent, soldierUserData.soldier, weapon);
+            agent, soldierUserData.soldier, weapon);
 
     Soldier_AttachWeapon(soldierUserData.soldier, weapon);
     weapon = nil;
@@ -48,12 +48,12 @@ function Agent_Initialize(agent)
     soldierUserData.blackboard:Set("maxAmmo", 10);
     soldierUserData.blackboard:Set("maxHealth", Agent.GetHealth(agent));
     soldierUserData.blackboard:AddSource(
-        "enemy",
-        KnowledgeSource.new(SoldierKnowledge_ChooseBestVisibleEnemy));
+            "enemy",
+            KnowledgeSource.new(SoldierKnowledge_ChooseBestVisibleEnemy));
     soldierUserData.blackboard:AddSource(
-        "bestFleePosition",
-        KnowledgeSource.new(SoldierKnowledge_ChooseBestFleePosition),
-        5000);
+            "bestFleePosition",
+            KnowledgeSource.new(SoldierKnowledge_ChooseBestFleePosition),
+            5000);
     soldierUserData.blackboard:Set("bulletImpacts", {});
     soldierUserData.blackboard:Set("visibleAgents", {});
 
@@ -67,13 +67,13 @@ end
 function Agent_Update(agent, deltaTimeInMillis)
     if (soldierUserData.blackboard:Get("alive")) then
         soldierLogic:Update(deltaTimeInMillis);
-        
+
         AgentSenses_UpdateSenses(
-            agent:GetSandbox(), soldierUserData, deltaTimeInMillis);
+                agent:GetSandbox(), soldierUserData, deltaTimeInMillis);
     end
 
     _soldierController:Update(agent, deltaTimeInMillis);
-    
+
     --[[
     if (agent:GetTeam() == "team1") then
         local visibleAgents = soldierUserData.blackboard:Get("visibleAgents");
