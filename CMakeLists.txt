@@ -32,12 +32,6 @@ link_libraries(lua.lib)
 include_directories("${ExternalDir}lua-5.3.5/src")
 
 #
-# spdlog (https://github.com/gabime/spdlog)
-#
-link_libraries(spdlogd.lib)
-include_directories("${ExternalDir}spdlog/include")
-
-#
 # DirectX12TK (https://github.com/Microsoft/DirectXTK12)
 #
 link_libraries(directxtk12.lib)
