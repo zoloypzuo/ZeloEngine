@@ -47,8 +47,8 @@ end
 function SoldierActions_ChangeStanceInitialize(userData)
     -- Issue a change stance command and immediately terminate.
     userData.controller:QueueCommand(
-        userData.agent,
-        SoldierController.Commands.CHANGE_STANCE);
+            userData.agent,
+            SoldierController.Commands.CHANGE_STANCE);
     return Action.Status.TERMINATED;
 end
 
@@ -64,8 +64,8 @@ end
 function SoldierActions_DieInitialize(userData)
     -- Issue a die command and immediately terminate.
     userData.controller:ImmediateCommand(
-        userData.agent,
-        SoldierController.Commands.DIE);
+            userData.agent,
+            SoldierController.Commands.DIE);
 
     userData.alive = false;
     return Action.Status.TERMINATED;
@@ -82,12 +82,12 @@ end
 
 function SoldierActions_FleeInitialize(userData)
     local sandbox = userData.agent:GetSandbox();
-    
+
     if (userData.enemy) then
         local endPoint = Sandbox.RandomPoint(sandbox, "default");
         local path = Sandbox.FindPath(
-            sandbox, "default", userData.agent:GetPosition(), endPoint);
-        
+                sandbox, "default", userData.agent:GetPosition(), endPoint);
+
         -- Find a valid position at least 16 units away from the current
         -- enemy.
         -- Note: Since pathfinding is not affected by the enemy, it is entirely
@@ -96,14 +96,14 @@ function SoldierActions_FleeInitialize(userData)
         while #path == 0 do
             endPoint = Sandbox.RandomPoint(sandbox, "default");
             while Vector.DistanceSquared(endPoint,
-                userData.enemy:GetPosition()) < 16.0 do
+                    userData.enemy:GetPosition()) < 16.0 do
 
                 endPoint = Sandbox.RandomPoint(sandbox, "default");
             end
             path = Sandbox.FindPath(
-                sandbox, "default", userData.agent:GetPosition(), endPoint);
+                    sandbox, "default", userData.agent:GetPosition(), endPoint);
         end
-        
+
         Soldier_SetPath(userData.agent, path, false);
         userData.agent:SetTarget(endPoint);
         userData.movePosition = endPoint;
@@ -111,10 +111,10 @@ function SoldierActions_FleeInitialize(userData)
         -- Randomly move anywhere if the Agent has no current enemy.
         SoldierActions_RandomMoveInitialize(userData);
     end
-    
+
     userData.controller:QueueCommand(
-        userData.agent,
-        SoldierController.Commands.MOVE);
+            userData.agent,
+            SoldierController.Commands.MOVE);
 
     return Action.Status.RUNNING;
 end
@@ -127,18 +127,18 @@ function SoldierActions_FleeUpdate(deltaTimeInMillis, userData)
 
     path = userData.agent:GetPath();
     DebugUtilities_DrawPath(
-        path, false, Vector.new(), DebugUtilities.Blue);
+            path, false, Vector.new(), DebugUtilities.Blue);
     Core.DrawCircle(
-        path[#path], 1.5, DebugUtilities.Blue);
+            path[#path], 1.5, DebugUtilities.Blue);
 
     if (Vector.Distance(
-        userData.agent:GetPosition(),
-        userData.agent:GetTarget()) < 1.5) then
+            userData.agent:GetPosition(),
+            userData.agent:GetTarget()) < 1.5) then
 
         Agent.RemovePath(userData.agent);
         return Action.Status.TERMINATED;
     end
-    
+
     return Action.Status.RUNNING;
 end
 
@@ -149,19 +149,17 @@ end
 
 function SoldierActions_IdleInitialize(userData)
     userData.controller:QueueCommand(
-        userData.agent,
-        SoldierController.Commands.IDLE);
+            userData.agent,
+            SoldierController.Commands.IDLE);
 
     -- Since idle is a looping animation, cut off the idle
     -- Action after 2 seconds.
-    local sandboxTimeInMillis =
-        Sandbox.GetTimeInMillis(userData.agent:GetSandbox());
+    local sandboxTimeInMillis = Sandbox.GetTimeInMillis(userData.agent:GetSandbox());
     userData.idleEndTime = sandboxTimeInMillis + 2000;
 end
 
 function SoldierActions_IdleUpdate(deltaTimeInMillis, userData)
-    local sandboxTimeInMillis =
-        Sandbox.GetTimeInMillis(userData.agent:GetSandbox());
+    local sandboxTimeInMillis = Sandbox.GetTimeInMillis(userData.agent:GetSandbox());
     if (sandboxTimeInMillis >= userData.idleEndTime) then
         userData.idleEndTime = nil;
         return Action.Status.TERMINATED;
@@ -176,13 +174,12 @@ end
 
 function SoldierActions_MoveToInitialize(userData)
     userData.controller:QueueCommand(
-        userData.agent,
-        SoldierController.Commands.MOVE);
-    
+            userData.agent,
+            SoldierController.Commands.MOVE);
+
     -- Since movement is a looping animation, cut off the move
     -- Action after 0.5 seconds.
-    local sandboxTimeInMillis =
-        Sandbox.GetTimeInMillis(userData.agent:GetSandbox());
+    local sandboxTimeInMillis = Sandbox.GetTimeInMillis(userData.agent:GetSandbox());
     userData.moveEndTime = sandboxTimeInMillis + 500;
 
     return Action.Status.RUNNING;
@@ -192,8 +189,7 @@ function SoldierActions_MoveToUpdate(deltaTimeInMillis, userData)
     -- Terminate the action after the allotted 0.5 seconds.  The
     -- decision structure will simply repath if the Agent needs
     -- to move again.
-    local sandboxTimeInMillis =
-        Sandbox.GetTimeInMillis(userData.agent:GetSandbox());
+    local sandboxTimeInMillis = Sandbox.GetTimeInMillis(userData.agent:GetSandbox());
     if (sandboxTimeInMillis >= userData.moveEndTime) then
         userData.moveEndTime = nil;
         return Action.Status.TERMINATED;
@@ -203,14 +199,14 @@ function SoldierActions_MoveToUpdate(deltaTimeInMillis, userData)
     if (#path ~= 0) then
         offset = Vector.new(0, 0.05, 0);
         DebugUtilities_DrawPath(
-            path, false, offset, DebugUtilities.Orange);
+                path, false, offset, DebugUtilities.Orange);
         Core.DrawCircle(
-            path[#path] + offset, 1.5, DebugUtilities.Orange);
+                path[#path] + offset, 1.5, DebugUtilities.Orange);
     end
 
     -- Terminate movement is the Agent is close enough to the target.
     if (Vector.Distance(userData.agent:GetPosition(),
-        userData.agent:GetTarget()) < 1.5) then
+            userData.agent:GetTarget()) < 1.5) then
 
         Agent.RemovePath(userData.agent);
         return Action.Status.TERMINATED;
@@ -228,20 +224,20 @@ function SoldierActions_PursueInitialize(userData)
     local sandbox = userData.agent:GetSandbox();
     local endPoint = userData.enemy:GetPosition();
     local path = Sandbox.FindPath(
-        sandbox, "default", userData.agent:GetPosition(), endPoint);
-    
+            sandbox, "default", userData.agent:GetPosition(), endPoint);
+
     -- Path to the enemy if possible, otherwise idle and constantly
     -- try to repath to the enemy.
     if (#path ~= 0) then
         Soldier_SetPath(userData.agent, path, false);
         userData.agent:SetTarget(endPoint);
         userData.movePosition = endPoint;
-        
+
         userData.controller:QueueCommand(
-            userData.agent,
-            SoldierController.Commands.MOVE);
+                userData.agent,
+                SoldierController.Commands.MOVE);
     end
-    
+
     return Action.Status.RUNNING;
 end
 
@@ -255,30 +251,30 @@ function SoldierActions_PursueUpdate(deltaTimeInMillis, userData)
     local sandbox = userData.agent:GetSandbox();
     local endPoint = userData.enemy:GetPosition();
     local path = Sandbox.FindPath(
-        sandbox, "default", userData.agent:GetPosition(), endPoint);
-    
+            sandbox, "default", userData.agent:GetPosition(), endPoint);
+
     if (#path ~= 0) then
         Soldier_SetPath(userData.agent, path, false);
         userData.agent:SetTarget(endPoint);
         userData.movePosition = endPoint;
-        
+
         offset = Vector.new(0, 0.1, 0);
         path = userData.agent:GetPath();
         DebugUtilities_DrawPath(
-            path, false, offset, DebugUtilities.Red);
+                path, false, offset, DebugUtilities.Red);
         Core.DrawCircle(
-            path[#path] + offset, 3, DebugUtilities.Red);
+                path[#path] + offset, 3, DebugUtilities.Red);
     end
 
     -- Terminate the pursuit Action when the Agent is within
     -- shooting distance to the enemy.
     if (Vector.Distance(userData.agent:GetPosition(),
-        userData.agent:GetTarget()) < 3) then
+            userData.agent:GetTarget()) < 3) then
 
         Agent.RemovePath(userData.agent);
         return Action.Status.TERMINATED;
     end
-    
+
     return Action.Status.RUNNING;
 end
 
@@ -293,18 +289,18 @@ function SoldierActions_RandomMoveInitialize(userData)
     -- Find a random pathable point for the Agent to move to.
     local endPoint = Sandbox.RandomPoint(sandbox, "default");
     local path = Sandbox.FindPath(
-        sandbox, "default", userData.agent:GetPosition(), endPoint);
-    
+            sandbox, "default", userData.agent:GetPosition(), endPoint);
+
     while #path == 0 do
         endPoint = Sandbox.RandomPoint(sandbox, "default");
         path = Sandbox.FindPath(
-            sandbox, "default", userData.agent:GetPosition(), endPoint);
+                sandbox, "default", userData.agent:GetPosition(), endPoint);
     end
-    
+
     Soldier_SetPath(userData.agent, path, false);
     userData.agent:SetTarget(endPoint);
     userData.movePosition = endPoint;
-    
+
     return Action.Status.TERMINATED;
 end
 
@@ -319,8 +315,8 @@ end
 
 function SoldierActions_ReloadInitialize(userData)
     userData.controller:QueueCommand(
-        userData.agent,
-        SoldierController.Commands.RELOAD);
+            userData.agent,
+            SoldierController.Commands.RELOAD);
     return Action.Status.RUNNING;
 end
 
@@ -328,7 +324,7 @@ function SoldierActions_ReloadUpdate(deltaTimeInMillis, userData)
     if (userData.controller:QueueLength() > 0) then
         return Action.Status.RUNNING;
     end
-    
+
     return Action.Status.TERMINATED;
 end
 
@@ -339,12 +335,12 @@ end
 
 function SoldierActions_ShootInitialize(userData)
     userData.controller:QueueCommand(
-        userData.agent,
-        SoldierController.Commands.SHOOT);
+            userData.agent,
+            SoldierController.Commands.SHOOT);
     userData.controller:QueueCommand(
-        userData.agent,
-        SoldierController.Commands.IDLE);
-    
+            userData.agent,
+            SoldierController.Commands.IDLE);
+
     return Action.Status.RUNNING;
 end
 
@@ -354,8 +350,7 @@ function SoldierActions_ShootUpdate(deltaTimeInMillis, userData)
     -- A better fix for this would be to allow a slight amount of bullet
     -- deviation to hit the enemy and zeroing out any change in the y axis
     -- of the forward vector.
-    local forwardToEnemy =
-        userData.enemy:GetPosition() - userData.agent:GetPosition();
+    local forwardToEnemy = userData.enemy:GetPosition() - userData.agent:GetPosition();
     Agent.SetForward(userData.agent, forwardToEnemy);
 
     if (userData.controller:QueueLength() > 0) then

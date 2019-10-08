@@ -41,19 +41,19 @@ function Agent_HandleEvent(agent, event)
     if (event.source == "keyboard" and event.pressed) then
         if (_IsNumKey(event.key, 1)) then
             _soldierController:QueueCommand(
-                agent, SoldierController.Commands.IDLE);
+                    agent, SoldierController.Commands.IDLE);
         elseif (_IsNumKey(event.key, 2)) then
             _soldierController:QueueCommand(
-                agent, SoldierController.Commands.SHOOT);
+                    agent, SoldierController.Commands.SHOOT);
         elseif (_IsNumKey(event.key, 3)) then
             _soldierController:QueueCommand(
-                agent, SoldierController.Commands.MOVE);
+                    agent, SoldierController.Commands.MOVE);
         elseif (_IsNumKey(event.key, 4)) then
             _soldierController:ImmediateCommand(
-                agent, SoldierController.Commands.DIE);
+                    agent, SoldierController.Commands.DIE);
         elseif (_IsNumKey(event.key, 5)) then
             _soldierController:QueueCommand(
-                agent, SoldierController.Commands.CHANGE_STANCE);
+                    agent, SoldierController.Commands.CHANGE_STANCE);
         end
     end
 end

@@ -38,13 +38,13 @@ function SoldierEvaluators_CanShootAgent(userData)
     if (userData.enemy ~= nil and Agent.GetHealth(userData.enemy) > 0) then
         local shootSquared = 3 * 3;
         if (Vector.DistanceSquared(
-            userData.agent:GetPosition(),
-            userData.enemy:GetPosition()) < shootSquared) then
-            
+                userData.agent:GetPosition(),
+                userData.enemy:GetPosition()) < shootSquared) then
+
             return true;
         end
-    end;
-    
+    end ;
+
     return false;
 end
 
@@ -64,22 +64,21 @@ function SoldierEvaluators_HasEnemy(userData)
     local sandbox = userData.agent:GetSandbox();
     local position = Agent.GetPosition(userData.agent);
     local agents = Sandbox.GetAgents(userData.agent:GetSandbox());
-    
+
     local closestEnemy;
     local distanceToEnemy;
-    
-    for index=1, #agents do
+
+    for index = 1, #agents do
         local agent = agents[index];
         if (Agent.GetId(agent) ~= Agent.GetId(userData.agent) and
-            Agent.GetHealth(agent) > 0) then
+                Agent.GetHealth(agent) > 0) then
             -- Find the closest enemy.
-            local distanceToAgent =
-                Vector.DistanceSquared(position, Agent.GetPosition(agent));
+            local distanceToAgent = Vector.DistanceSquared(position, Agent.GetPosition(agent));
 
             if (closestEnemy == nil or distanceToAgent < distanceToEnemy) then
                 local path = Sandbox.FindPath(
-                    sandbox, "default", position, agent:GetPosition());
-                
+                        sandbox, "default", position, agent:GetPosition());
+
                 -- If the agent can path to the enemy, use this enemy as the 
                 -- best possible enemy.
                 if (#path ~= 0) then
@@ -89,7 +88,7 @@ function SoldierEvaluators_HasEnemy(userData)
             end
         end
     end
-    
+
     userData.enemy = closestEnemy;
 
     return userData.enemy ~= nil;
@@ -103,7 +102,7 @@ function SoldierEvaluators_HasMovePosition(userData)
     local movePosition = userData.agent:GetTarget();
 
     return movePosition ~= nil and
-        (Vector.Distance(userData.agent:GetPosition(), movePosition) > 1.5);
+            (Vector.Distance(userData.agent:GetPosition(), movePosition) > 1.5);
 end
 
 function SoldierEvaluators_IsAlive(userData)

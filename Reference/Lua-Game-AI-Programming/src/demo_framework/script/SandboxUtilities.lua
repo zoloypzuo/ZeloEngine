@@ -108,12 +108,12 @@ local impactParticles = {};
 
 local function ParticleImpact(sandbox, collision)
     Sandbox.RemoveObject(sandbox, collision.objectA);
-    
+
     local particleImpact = Core.CreateParticle(sandbox, "BulletImpact");
     Core.SetPosition(particleImpact, collision.pointA);
     Core.SetParticleDirection(particleImpact, collision.normalOnB);
 
-    table.insert(impactParticles, { particle = particleImpact, ttl = 2.0 } );
+    table.insert(impactParticles, { particle = particleImpact, ttl = 2.0 });
 end
 
 function SandboxUtilities_CreateBox(sandbox, size, position)
@@ -121,7 +121,7 @@ function SandboxUtilities_CreateBox(sandbox, size, position)
     Core.SetPosition(box, position);
     Core.SetMaterial(box, "Ground2");
     Core.SetMass(box, 0);
-    
+
     return box;
 end
 
@@ -143,22 +143,22 @@ end
 ]]
 function SandboxUtilities_CreateObject(sandbox, objectName, position, rotation)
     if SandboxUtilities.Objects[objectName] == nil then
-        return;
+        return ;
     end
 
     local object = Sandbox.CreateObject(
-        sandbox, SandboxUtilities.Objects[objectName].file);
+            sandbox, SandboxUtilities.Objects[objectName].file);
     assert(SandboxUtilities.Objects[objectName].mass);
     Core.SetMass(object, SandboxUtilities.Objects[objectName].mass);
-    
+
     if position ~= nil then
         Core.SetPosition(object, position);
     end
-    
+
     if rotation ~= nil then
         Core.SetRotation(object, rotation);
     end
-    
+
     return object;
 end
 
@@ -278,28 +278,27 @@ function SandboxUtilities_CreateLevel(sandbox)
         { 2, Vector.new(45, 5.635, 10.365), Vector.new(30, 0, 0) },
         { 2, Vector.new(45, 5.635, 7.635), Vector.new(-30, 0, 0) },
     }
-    
+
     for index = 1, #level do
         local block = level[index];
         local box = SandboxUtilities_CreateBox(sandbox, block[1], block[2]);
         Core.SetRotation(box, block[3]);
     end
-    
+
     Sandbox.CreateSkyBox(
-        sandbox, "ThickCloudsWaterSkyBox", Vector.new(0, 180, 0));
+            sandbox, "ThickCloudsWaterSkyBox", Vector.new(0, 180, 0));
 
     local plane = Sandbox.CreatePlane(sandbox, 200, 200);
     Core.SetPosition(plane, Vector.new(0, -10, 0));
     Core.SetMaterial(plane, "Ground2");
-    
+
     SandboxUtilities_CreateLights(sandbox);
 end
 
 function SandboxUtilities_CreateLights(sandbox)
     Sandbox.SetAmbientLight(sandbox, Vector.new(0.3));
 
-    local directional =
-        Core.CreateDirectionalLight(sandbox, Vector.new(1, -1, 1));
+    local directional = Core.CreateDirectionalLight(sandbox, Vector.new(1, -1, 1));
     Core.SetLightDiffuse(directional, Vector.new(1.8, 1.4, 0.9));
     Core.SetLightSpecular(directional, Vector.new(1.8, 1.4, 0.9));
 end
@@ -326,44 +325,44 @@ function SandboxUtilities_GetLevelPath()
         Vector.new(-9, 4, 25),
         Vector.new(-10, 4, 25),
         Vector.new(-26, 0, 25),
-        Vector.new(-26, 0, 19)};
+        Vector.new(-26, 0, 19) };
 
     return path;
 end
 
 function SandboxUtilities_ShootBox(sandbox)
     local object = SandboxUtilities_CreateObject(sandbox, "modular_block");
-    
+
     local cameraPosition = Sandbox.GetCameraPosition(sandbox);
     local cameraForward = Sandbox.GetCameraForward(sandbox);
     local blockPosition = cameraPosition + cameraForward * 2;
     local rotation = Sandbox.GetCameraOrientation(sandbox);
-    
+
     Core.SetRotation(object, rotation);
     Core.SetPosition(object, blockPosition);
-    
+
     Core.ApplyImpulse(object, Vector.new(cameraForward * 15000));
     Core.ApplyAngularImpulse(object, Sandbox.GetCameraLeft(sandbox) * 10);
-    
+
     return object;
 end
 
 function SandboxUtilities_ShootBullet(sandbox)
     local cameraForward = Sandbox.GetCameraForward(sandbox);
-        
+
     local particle = Sandbox.CreatePhysicsCapsule(sandbox, 0.3, 0.01);
     Core.SetMass(particle, 0.1);
     Core.SetPosition(particle, Sandbox.GetCameraPosition(sandbox));
     Core.SetAxis(
-        particle,
-        Sandbox.GetCameraLeft(sandbox),
-        -cameraForward,
-        Sandbox.GetCameraUp(sandbox));
+            particle,
+            Sandbox.GetCameraLeft(sandbox),
+            -cameraForward,
+            Sandbox.GetCameraUp(sandbox));
     Core.SetGravity(particle, Vector.new(0, -0.01, 0));
-    
+
     local bulletParticle = Core.CreateParticle(particle, "Bullet");
     Core.SetRotation(bulletParticle, Vector.new(-90, 0, 0));
-    
+
     Core.ApplyImpulse(particle, cameraForward * 750);
     Sandbox.AddCollisionCallback(sandbox, particle, ParticleImpact);
 end

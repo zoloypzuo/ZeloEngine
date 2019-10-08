@@ -10,13 +10,13 @@ end
 
 function Agent_Initialize(agent)
     AgentUtilities_CreateAgentRepresentation(
-        agent, agent:GetHeight(), agent:GetRadius());
+            agent, agent:GetHeight(), agent:GetRadius());
 
     -- Assign an acceptable target radius.
     agent:SetTargetRadius(1.0);
     -- Randomly assign a position to the agent.
     agent:SetPosition(
-        Vector.new(math.random(-50, 50), 0, math.random(-50, 50)));
+            Vector.new(math.random(-50, 50), 0, math.random(-50, 50)));
 
     -- Find the first valid agent and assign the agent as an enemy.
     local agents = Sandbox.GetAgents(agent:GetSandbox());
@@ -24,10 +24,10 @@ function Agent_Initialize(agent)
         if (agents[index] ~= agent) then
             enemy = agents[index];
             agent:SetTarget(enemy:GetPosition());
-            break;
+            break ;
         end
     end
-    
+
     -- Make the pursuing Agent slightly slower than the enemy.
     agent:SetMaxSpeed(enemy:GetMaxSpeed() * 0.8);
 end
@@ -48,6 +48,6 @@ function Agent_Update(agent, deltaTimeInMillis)
 
     -- Draw debug information for target and target radius.
     Core.DrawCircle(
-        destination, targetRadius, Vector.new(1, 0, 0));
+            destination, targetRadius, Vector.new(1, 0, 0));
     Core.DrawLine(position, destination, Vector.new(0, 1, 0));
 end

@@ -42,10 +42,10 @@ function FiniteStateMachine.AddState(self, name, action)
 end
 
 function FiniteStateMachine.AddTransition(
-    self, fromStateName, toStateName, evaluator)
+        self, fromStateName, toStateName, evaluator)
     -- Ensure both states exist within the FSM.
     if (self:ContainsState(fromStateName) and
-        self:ContainsState(toStateName)) then
+            self:ContainsState(toStateName)) then
 
         if (self.transitions_[fromStateName] == nil) then
             self.transitions_[fromStateName] = {};
@@ -53,8 +53,8 @@ function FiniteStateMachine.AddTransition(
 
         -- Add the new transition to the "from" state.
         table.insert(
-            self.transitions_[fromStateName],
-            FiniteStateTransition.new(toStateName, evaluator));
+                self.transitions_[fromStateName],
+                FiniteStateTransition.new(toStateName, evaluator));
     end
 end
 
@@ -64,7 +64,7 @@ end
 
 function FiniteStateMachine.ContainsTransition(self, fromStateName, toStateName)
     return self.transitions_[fromStateName] ~= nil and
-        self.transitions_[fromStateName][toStateName] ~= nil;
+            self.transitions_[fromStateName][toStateName] ~= nil;
 end
 
 function FiniteStateMachine.GetCurrentStateName(self)
@@ -84,7 +84,7 @@ function FiniteStateMachine.SetState(self, stateName)
         if (self.currentState_) then
             self.currentState_.action_:CleanUp();
         end
-        
+
         self.currentState_ = self.states_[stateName];
         self.currentState_.action_:Initialize();
     end
@@ -93,14 +93,13 @@ end
 function FiniteStateMachine.Update(self, deltaTimeInMillis)
     if (self.currentState_) then
         local status = self:GetCurrentStateStatus();
-        
+
         if (status == Action.Status.RUNNING) then
             self.currentState_.action_:Update(deltaTimeInMillis);
         elseif (status == Action.Status.TERMINATED) then
             -- Evaluate all transitions to find the next state
             -- to move the FSM to.
-            local toStateName =
-                EvaluateTransitions(self, self.transitions_[self.currentState_.name_]);
+            local toStateName = EvaluateTransitions(self, self.transitions_[self.currentState_.name_]);
             if (self.states_[toStateName] ~= nil) then
                 self.currentState_.action_:CleanUp();
                 self.currentState_ = self.states_[toStateName];

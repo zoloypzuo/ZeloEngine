@@ -43,16 +43,16 @@ end
 
 local function PruneEvents(events, deltaTimeInMillis)
     local validEvents = {};
-    
+
     for index = 1, #events do
         local event = events[index];
         event.ttl = event.ttl - deltaTimeInMillis;
-        
+
         if (event.ttl > 0) then
             table.insert(validEvents, event);
         end
     end
-    
+
     return validEvents;
 end
 
@@ -63,23 +63,23 @@ local function UpdateDangerousAreas(sandbox, layer, deltaTimeInMillis)
 
     for key, value in pairs(bulletImpacts) do
         local position = Sandbox.FindClosestPoint(
-            sandbox, "default", value.position);
+                sandbox, "default", value.position);
 
         Sandbox.SetInfluence(sandbox, layer, position, -1);
     end
 
     bulletShots = PruneEvents(bulletShots, deltaTimeInMillis);
-    
+
     for key, value in pairs(bulletShots) do
         local position = Sandbox.FindClosestPoint(
-            sandbox, "default", value.position);
+                sandbox, "default", value.position);
 
         Sandbox.SetInfluence(sandbox, layer, position, -1);
     end
 
     for key, value in pairs(deadFriendlies) do
         local position = Sandbox.FindClosestPoint(
-            sandbox, "default", value.agent:GetPosition());
+                sandbox, "default", value.agent:GetPosition());
 
         if (value.agent:GetTeam() == "team2") then
             Sandbox.SetInfluence(sandbox, layer, position, -1);
@@ -88,7 +88,7 @@ local function UpdateDangerousAreas(sandbox, layer, deltaTimeInMillis)
 
     for key, value in pairs(seenEnemies) do
         local position = Sandbox.FindClosestPoint(
-            sandbox, "default", value.seenAt);
+                sandbox, "default", value.seenAt);
 
         if (value.agent:GetTeam() ~= "team2") then
             Sandbox.SetInfluence(sandbox, layer, position, -1);
@@ -96,7 +96,7 @@ local function UpdateDangerousAreas(sandbox, layer, deltaTimeInMillis)
     end
 
     Sandbox.SpreadInfluenceMap(sandbox, layer);
-    
+
     SoldierTactics_DrawInfluenceMap(sandbox, layer);
 end
 
@@ -109,8 +109,8 @@ local function UpdateTeamAreas(sandbox, layer, deltaTimeInMillis)
         local agent = agents[index];
         if (agent:GetHealth() > 0) then
             local position = Sandbox.FindClosestPoint(
-                sandbox, "default", agent:GetPosition());
-        
+                    sandbox, "default", agent:GetPosition());
+
             if (agent:GetTeam() == "team1") then
                 Sandbox.SetInfluence(sandbox, layer, position, -1);
             else
@@ -120,7 +120,7 @@ local function UpdateTeamAreas(sandbox, layer, deltaTimeInMillis)
     end
 
     Sandbox.SpreadInfluenceMap(sandbox, layer);
-    
+
     -- SoldierTactics_DrawInfluenceMap(sandbox, layer);
 end
 
@@ -130,7 +130,7 @@ SoldierTactics.InfluenceMap.DangerousAreas = {
     lastUpdate = 0,
     updateFrequency = 500,
     updateFunction = UpdateDangerousAreas };
-    
+
 SoldierTactics.InfluenceMap.TeamAreas = {
     initializeFunction = InitializeTeamAreas,
     layer = 1,
@@ -140,22 +140,18 @@ SoldierTactics.InfluenceMap.TeamAreas = {
 
 function SoldierTactics_DrawInfluenceMap(sandbox, layer)
     Sandbox.DrawInfluenceMap(
-        sandbox,
-        layer,
-        { 0, 0, 1, 0.9 },
-        { 0, 0, 0, 0.75 },
-        { 1, 0, 0, 0.9 });
+            sandbox,
+            layer,
+            { 0, 0, 1, 0.9 },
+            { 0, 0, 0, 0.75 },
+            { 1, 0, 0, 0.9 });
 end
 
 function SoldierTactics_InitializeTactics(sandbox)
-    eventHandlers[AgentCommunications.EventType.BulletImpact] =
-        HandleBulletImpactEvent;
-    eventHandlers[AgentCommunications.EventType.BulletShot] =
-        HandleBulletShotEvent;
-    eventHandlers[AgentCommunications.EventType.DeadFriendlySighted] =
-        HandleDeadFriendlySightedEvent;
-    eventHandlers[AgentCommunications.EventType.EnemySighted] =
-        HandleEnemySightedEvents;
+    eventHandlers[AgentCommunications.EventType.BulletImpact] = HandleBulletImpactEvent;
+    eventHandlers[AgentCommunications.EventType.BulletShot] = HandleBulletShotEvent;
+    eventHandlers[AgentCommunications.EventType.DeadFriendlySighted] = HandleDeadFriendlySightedEvent;
+    eventHandlers[AgentCommunications.EventType.EnemySighted] = HandleEnemySightedEvents;
 
     Sandbox.AddEventCallback(sandbox, sandbox, HandleEvent);
 
