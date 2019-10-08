@@ -65,6 +65,7 @@ local function ClearAnimation(animation)
     Animation.SetEnabled(animation, false);
 end
 
+-- 为状态添加回调
 function AnimationStateMachine.AddStateCallback(self, name, callback, data)
     if (self:ContainsState(name)) then
         if (not self.stateCallbacks_[name]) then
@@ -171,6 +172,7 @@ local function CallCallbacks(callbacks, stateName)
     end
 end
 
+-- 调用状态的回调
 local function HandleCallbacks(self, stateName)
     if (self.stateCallbacks_[stateName]) then
         CallCallbacks(self.stateCallbacks_[stateName], stateName);
