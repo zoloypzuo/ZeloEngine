@@ -16,7 +16,6 @@ local Sandbox_C_Module = Sandbox
 
 ---@class Sandbox @沙箱框架
 local Sandbox = Class(function(self)
-    ~!++++++
 
 end)
 
