@@ -41,7 +41,7 @@ end
 function Agent_HandleEvent(agent, event)
     if (event.source == "keyboard" and event.pressed) then
         local key = event.key;
-        
+
         if (key == "1_key" or key == "numpad_1_key") then
             soldierController:QueueCommand(agent, SoldierController.Commands.IDLE);
         elseif (key == "2_key" or key == "numpad_2_key") then
@@ -76,13 +76,13 @@ function Agent_Initialize(agent)
     soldierUserData.blackboard:Set("maxAmmo", 10);
     soldierUserData.blackboard:Set("maxHealth", Agent.GetHealth(agent));
     soldierUserData.blackboard:AddSource(
-        "enemy",
-        KnowledgeSource.new(SoldierKnowledge_ChooseBestEnemy));
+            "enemy",
+            KnowledgeSource.new(SoldierKnowledge_ChooseBestEnemy));
     soldierUserData.blackboard:AddSource(
-        "bestFleePosition",
-        KnowledgeSource.new(SoldierKnowledge_ChooseBestFleePosition),
-        5000);
-    
+            "bestFleePosition",
+            KnowledgeSource.new(SoldierKnowledge_ChooseBestFleePosition),
+            5000);
+
     -- soldierLogic = SoldierLogic_DecisionTree(soldierUserData);
     -- soldierLogic = SoldierLogic_FiniteStateMachine(soldierUserData);
     soldierLogic = SoldierLogic_BehaviorTree(soldierUserData);

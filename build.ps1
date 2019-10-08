@@ -51,8 +51,8 @@ D:\LuaRocks\systree/lib/lua/5.3/?.dll
 # Write-Output ==== cmake build zelo start ====
 # Write-Output ================================
 # mkdir build
-# Set-Location build
-# cmake -G "Visual Studio 16" ..
+Set-Location build
+cmake -G -DCMAKE_TOOLCHAIN_FILE=D:/vcpkg/scripts/buildsystems/vcpkg.cmake "Visual Studio 16" ..
 
 # function buildVS
 # {
