@@ -52,7 +52,7 @@ D:\LuaRocks\systree/lib/lua/5.3/?.dll
 # Write-Output ================================
 # mkdir build
 Set-Location build
-cmake -G -DCMAKE_TOOLCHAIN_FILE=D:/vcpkg/scripts/buildsystems/vcpkg.cmake "Visual Studio 16" ..
+cmake -DCMAKE_TOOLCHAIN_FILE=D:/vcpkg/scripts/buildsystems/vcpkg.cmake -G  "Visual Studio 16" ..
 
 # function buildVS
 # {
