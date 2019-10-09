@@ -23,9 +23,9 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/LuaFile.h"
-#include "demo_framework/include/LuaFilePtr.h"
-#include "demo_framework/include/LuaFileManager.h"
+#include "LuaFile.h"
+#include "LuaFilePtr.h"
+#include "LuaFileManager.h"
 
 template <>
 LuaFileManager* Ogre::Singleton<LuaFileManager>::msSingleton = nullptr;

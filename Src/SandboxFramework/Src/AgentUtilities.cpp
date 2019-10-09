@@ -23,15 +23,15 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Agent.h"
-#include "demo_framework/include/AgentGroup.h"
-#include "demo_framework/include/AgentPath.h"
-#include "demo_framework/include/AgentUtilities.h"
-#include "demo_framework/include/LuaScriptBindings.h"
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/PhysicsUtilities.h"
-#include "demo_framework/include/PhysicsWorld.h"
-#include "demo_framework/include/Sandbox.h"
+#include "Agent.h"
+#include "AgentGroup.h"
+#include "AgentPath.h"
+#include "AgentUtilities.h"
+#include "LuaScriptBindings.h"
+#include "LuaScriptUtilities.h"
+#include "PhysicsUtilities.h"
+#include "PhysicsWorld.h"
+#include "Sandbox.h"
 
 namespace
 {

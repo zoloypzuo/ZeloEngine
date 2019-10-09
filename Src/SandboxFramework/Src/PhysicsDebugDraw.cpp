@@ -23,8 +23,8 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/DebugDrawer.h"
-#include "demo_framework/include/PhysicsDebugDraw.h"
+#include "DebugDrawer.h"
+#include "PhysicsDebugDraw.h"
 
 PhysicsDebugDraw::PhysicsDebugDraw()
 	: btIDebugDraw(),

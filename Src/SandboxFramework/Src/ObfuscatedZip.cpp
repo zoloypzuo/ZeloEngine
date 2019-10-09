@@ -34,7 +34,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/ObfuscatedZip.h"
+#include "ObfuscatedZip.h"
 
 // Change this magic number to a value of your choosing.
 static const int xor_value = 0x1EE7;

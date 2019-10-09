@@ -23,8 +23,8 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/LuaFile.h"
-#include "demo_framework/include/LuaFilePtr.h"
+#include "LuaFile.h"
+#include "LuaFilePtr.h"
 
 LuaFilePtr::LuaFilePtr()
 	: Ogre::SharedPtr<LuaFile>()

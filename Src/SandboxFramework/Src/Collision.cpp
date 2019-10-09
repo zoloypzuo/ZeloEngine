@@ -23,7 +23,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Collision.h"
+#include "Collision.h"
 
 Collision::Collision(
 	const btRigidBody* objectA,

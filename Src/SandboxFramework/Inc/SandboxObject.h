@@ -24,7 +24,7 @@
 #ifndef DEMO_FRAMEWORK_GAME_OBJECT_H
 #define DEMO_FRAMEWORK_GAME_OBJECT_H
 
-#include "demo_framework/include/Object.h"
+#include "Object.h"
 #include "opensteer/include/Obstacle.h"
 
 class Agent;
