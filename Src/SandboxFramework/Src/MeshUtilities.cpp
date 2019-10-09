@@ -23,7 +23,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/MeshUtilities.h"
+#include "MeshUtilities.h"
 
 RawMesh::RawMesh(
 	float* const vertexBuffer,

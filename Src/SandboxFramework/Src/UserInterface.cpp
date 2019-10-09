@@ -23,8 +23,8 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/UserInterface.h"
-#include "demo_framework/include/UserInterfaceComponent.h"
+#include "UserInterface.h"
+#include "UserInterfaceComponent.h"
 
 #define DEFAULT_ATLAS "fonts/dejavu/dejavu"
 

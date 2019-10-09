@@ -23,7 +23,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/ParticleUtilities.h"
+#include "ParticleUtilities.h"
 
 Ogre::NameGenerator ParticleUtilities::nameGenerator_("UnnamedParticle_");
 

@@ -34,7 +34,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/DebugDrawer.h"
+#include "DebugDrawer.h"
 
 IcoSphere::IcoSphere()
 	: index(0)
