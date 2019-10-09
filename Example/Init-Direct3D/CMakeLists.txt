@@ -8,4 +8,4 @@ set_target_properties(Init_Direct3D PROPERTIES
         VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}  # set working directory as "./"
         )
 
-target_link_libraries(Init_Direct3D Main)
+target_link_libraries(Init_Direct3D ZeloMain)
