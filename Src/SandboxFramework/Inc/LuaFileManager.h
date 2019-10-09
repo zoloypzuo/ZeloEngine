@@ -24,8 +24,8 @@
 #ifndef DEMO_FRAMEWORK_LUA_FILE_MANAGER_H
 #define DEMO_FRAMEWORK_LUA_FILE_MANAGER_H
 
-#include "ogre3d/include/OgreResourceManager.h"
-#include "ogre3d/include/OgreSingleton.h"
+#include "OGRE/OgreResourceManager.h"
+#include "OGRE/OgreSingleton.h"
 
 class LuaFilePtr;
 

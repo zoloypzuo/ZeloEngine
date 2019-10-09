@@ -35,7 +35,7 @@
 #ifndef DEMO_FRAMEWORK_SKELETON_DEBUG_H
 #define DEMO_FRAMEWORK_SKELETON_DEBUG_H
 
-#include "ogre3d/include/OgrePrerequisites.h"
+#include "OGRE/OgrePrerequisites.h"
 
 namespace Ogre
 {

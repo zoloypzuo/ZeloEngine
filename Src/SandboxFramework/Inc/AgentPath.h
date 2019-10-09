@@ -26,7 +26,7 @@
 
 #include <vector>
 
-#include "ogre3d/include/OgrePrerequisites.h"
+#include "OGRE/OgrePrerequisites.h"
 #include "opensteer/include/Pathway.h"
 
 namespace Ogre

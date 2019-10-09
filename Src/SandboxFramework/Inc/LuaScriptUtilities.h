@@ -24,8 +24,8 @@
 #ifndef DEMO_FRAMEWORK_LUA_SCRIPT_UTILITIES_H
 #define DEMO_FRAMEWORK_LUA_SCRIPT_UTILITIES_H
 
-#include "ogre3d/include/OgreLog.h"
-#include "ogre3d/include/OgrePrerequisites.h"
+#include "OGRE/OgreLog.h"
+#include "OGRE/OgrePrerequisites.h"
 
 struct lua_State;
 

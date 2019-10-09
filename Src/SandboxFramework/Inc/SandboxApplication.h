@@ -2,7 +2,7 @@
 #define DEMO_FRAMEWORK_SANDBOX_APPLICATION_H
 
 #include "BaseApplication.h"
-#include "ogre3d/include/OgreTimer.h"
+#include <OGRE/OgreTimer.h>
 
 class LuaFileManager;
 class Sandbox;
