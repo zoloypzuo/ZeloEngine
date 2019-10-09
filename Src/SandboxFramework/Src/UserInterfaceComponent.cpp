@@ -23,7 +23,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/UserInterfaceComponent.h"
+#include "UserInterfaceComponent.h"
 
 namespace
 {

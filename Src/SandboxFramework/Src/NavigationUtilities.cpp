@@ -23,11 +23,11 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Agent.h"
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/MeshUtilities.h"
-#include "demo_framework/include/NavigationUtilities.h"
-#include "demo_framework/include/SandboxObject.h"
+#include "Agent.h"
+#include "LuaScriptUtilities.h"
+#include "MeshUtilities.h"
+#include "NavigationUtilities.h"
+#include "SandboxObject.h"
 
 namespace
 {

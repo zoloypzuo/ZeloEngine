@@ -1,7 +1,7 @@
 #ifndef DEMO_FRAMEWORK_SANDBOX_APPLICATION_H
 #define DEMO_FRAMEWORK_SANDBOX_APPLICATION_H
 
-#include "demo_framework/include/BaseApplication.h"
+#include "BaseApplication.h"
 #include "ogre3d/include/OgreTimer.h"
 
 class LuaFileManager;

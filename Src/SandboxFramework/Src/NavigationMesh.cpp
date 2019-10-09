@@ -23,9 +23,9 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/NavigationMesh.h"
-#include "demo_framework/include/NavigationUtilities.h"
+#include "LuaScriptUtilities.h"
+#include "NavigationMesh.h"
+#include "NavigationUtilities.h"
 
 Ogre::NameGenerator NavigationMesh::debugNameGenerator("debugNavMesh");
 

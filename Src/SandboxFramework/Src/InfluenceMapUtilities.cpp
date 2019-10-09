@@ -23,11 +23,11 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/InfluenceMap.h"
-#include "demo_framework/include/InfluenceMapUtilities.h"
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/MeshUtilities.h"
-#include "demo_framework/include/TriangleBoxIntersection.h"
+#include "InfluenceMap.h"
+#include "InfluenceMapUtilities.h"
+#include "LuaScriptUtilities.h"
+#include "MeshUtilities.h"
+#include "TriangleBoxIntersection.h"
 
 inline static float GetInfluenceAtCell(
 	const InfluenceMapGrid& grid,

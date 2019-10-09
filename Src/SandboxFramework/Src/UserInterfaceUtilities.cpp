@@ -23,10 +23,10 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/LuaScriptBindings.h"
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/UserInterfaceComponent.h"
-#include "demo_framework/include/UserInterfaceUtilities.h"
+#include "LuaScriptBindings.h"
+#include "LuaScriptUtilities.h"
+#include "UserInterfaceComponent.h"
+#include "UserInterfaceUtilities.h"
 
 namespace
 {

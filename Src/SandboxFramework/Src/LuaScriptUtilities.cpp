@@ -24,17 +24,17 @@
 #include "PrecompiledHeaders.h"
 
 // TODO(David Young): Temp includes
-#include "demo_framework/include/Agent.h"
-#include "demo_framework/include/AgentUtilities.h"
-#include "demo_framework/include/AnimationUtilities.h"
+#include "Agent.h"
+#include "AgentUtilities.h"
+#include "AnimationUtilities.h"
 // end of TODO
 
-#include "demo_framework/include/LuaFileManager.h"
-#include "demo_framework/include/LuaFilePtr.h"
-#include "demo_framework/include/LuaScriptBindings.h"
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/Sandbox.h"
-#include "demo_framework/include/SandboxObject.h"
+#include "LuaFileManager.h"
+#include "LuaFilePtr.h"
+#include "LuaScriptBindings.h"
+#include "LuaScriptUtilities.h"
+#include "Sandbox.h"
+#include "SandboxObject.h"
 
 #define DEFAULT_MATERIAL "White"
 

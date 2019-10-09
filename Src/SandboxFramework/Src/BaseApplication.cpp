@@ -23,9 +23,9 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/BaseApplication.h"
-#include "demo_framework/include/DebugDrawer.h"
-#include "demo_framework/include/ObfuscatedZip.h"
+#include "BaseApplication.h"
+#include "DebugDrawer.h"
+#include "ObfuscatedZip.h"
 
 BaseApplication::BaseApplication(const Ogre::String& applicationTitle)
 	: debugDrawer_(nullptr),
