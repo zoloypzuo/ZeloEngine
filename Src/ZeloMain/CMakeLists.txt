@@ -3,15 +3,15 @@
 
 file(GLOB SRC_LIST *.cpp *.h)
 
-add_library(Main ${SRC_LIST})
+add_library(ZeloMain ${SRC_LIST})
 
 #
 # link libraray
 #
-target_link_libraries(Main
+target_link_libraries(ZeloMain
         Common
         LuaConfig
         LuaModule
         )
-link_libraries(Main)
+link_libraries(ZeloMain)
 #cotire(Main)
