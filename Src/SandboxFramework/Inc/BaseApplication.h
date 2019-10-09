@@ -1,10 +1,11 @@
 #ifndef DEMO_FRAMEWORK_BASE_APPLICATION_H
 #define DEMO_FRAMEWORK_BASE_APPLICATION_H
 
-#include "ogre3d/include/OgreFrameListener.h"
-#include "ogre3d/include/OgreWindowEventUtilities.h"
-#include "ois/include/OISKeyboard.h"
-#include "ois/include/OISMouse.h"
+#include <OGRE/OgreFrameListener.h>
+#include <OGRE/Bites/OgreWindowEventUtilities.h>
+
+#include <ois/OISKeyboard.h>
+#include <ois/OISMouse.h>
 
 class DebugDrawer;
 class ObfuscatedZipFactory;

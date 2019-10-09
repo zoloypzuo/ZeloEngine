@@ -23,8 +23,8 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/InfluenceMap.h"
-#include "demo_framework/include/InfluenceMapDrawer.h"
+#include "InfluenceMap.h"
+#include "InfluenceMapDrawer.h"
 
 inline static float interpolate(
 	const float to, const float from, const float percent)

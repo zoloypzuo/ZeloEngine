@@ -34,8 +34,9 @@
 #ifndef DEMO_FRAMEWORK_OBFUSCATED_ZIP_H
 #define DEMO_FRAMEWORK_OBFUSCATED_ZIP_H
 
-#include "ogre3d/include/OgreArchive.h"
-#include "ogre3d/include/OgreArchiveFactory.h"
+//#include "ogre3d/include/OgreArchiveFactory.h"
+#include "OGRE/OgreArchive.h"
+//#include "OGRE/OgreArchiveFactory"
 
 // Forward declaration for zziplib to avoid header file dependency.
 typedef struct zzip_dir ZZIP_DIR;

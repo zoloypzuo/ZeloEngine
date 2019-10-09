@@ -23,8 +23,8 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/InfluenceMap.h"
-#include "demo_framework/include/InfluenceMapUtilities.h"
+#include "InfluenceMap.h"
+#include "InfluenceMapUtilities.h"
 
 InfluenceMap::InfluenceMap(
 	const InfluenceMapConfig& config, const Ogre::SceneNode& mesh)

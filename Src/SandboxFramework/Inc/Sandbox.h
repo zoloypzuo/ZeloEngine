@@ -27,7 +27,7 @@
 #include <map>
 #include <vector>
 
-#include "demo_framework/include/Object.h"
+#include "Object.h"
 
 struct lua_State;
 

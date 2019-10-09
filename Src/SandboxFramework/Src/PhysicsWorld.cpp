@@ -23,9 +23,9 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Collision.h"
-#include "demo_framework/include/PhysicsDebugDraw.h"
-#include "demo_framework/include/PhysicsWorld.h"
+#include "Collision.h"
+#include "PhysicsDebugDraw.h"
+#include "PhysicsWorld.h"
 
 PhysicsWorld::PhysicsWorld()
 	: broadphase_(nullptr),
