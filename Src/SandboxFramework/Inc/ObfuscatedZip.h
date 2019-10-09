@@ -34,7 +34,7 @@
 #ifndef DEMO_FRAMEWORK_OBFUSCATED_ZIP_H
 #define DEMO_FRAMEWORK_OBFUSCATED_ZIP_H
 
-//#include "ogre3d/include/OgreArchiveFactory.h"
+//#include "OGRE/OgreArchiveFactory.h"
 #include "OGRE/OgreArchive.h"
 //#include "OGRE/OgreArchiveFactory"
 

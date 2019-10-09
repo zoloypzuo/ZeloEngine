@@ -26,8 +26,8 @@
 
 #include <vector>
 
-#include "ogre3d/include/OgreColourValue.h"
-#include "ogre3d/include/OgreVector2.h"
+#include "OGRE/OgreColourValue.h"
+#include "OGRE/OgreVector2.h"
 #include "ogre3d_gorilla/include/Gorilla.h"
 
 class UserInterfaceLineList;

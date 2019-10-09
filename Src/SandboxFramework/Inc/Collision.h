@@ -24,7 +24,7 @@
 #ifndef DEMO_FRAMEWORK_COLLISION_H
 #define DEMO_FRAMEWORK_COLLISION_H
 
-#include "ogre3d/include/OgreVector3.h"
+#include "OGRE/OgreVector3.h"
 
 class btRigidBody;
 class btVector3;

@@ -28,7 +28,7 @@
 
 #include "AgentPath.h"
 #include "Object.h"
-#include "ogre3d/include/OgrePrerequisites.h"
+#include "OGRE/OgrePrerequisites.h"
 #include "opensteer/include/AbstractVehicle.h"
 #include "opensteer/include/SteerLibrary.h"
 

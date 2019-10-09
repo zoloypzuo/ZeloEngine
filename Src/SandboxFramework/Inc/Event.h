@@ -26,7 +26,7 @@
 
 #include <map>
 
-#include "ogre3d/include/OgrePrerequisites.h"
+#include "OGRE/OgrePrerequisites.h"
 
 class Object;
 
