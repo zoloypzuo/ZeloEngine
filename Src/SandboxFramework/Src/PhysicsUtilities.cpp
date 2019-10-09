@@ -23,8 +23,8 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Object.h"
-#include "demo_framework/include/PhysicsUtilities.h"
+#include "Object.h"
+#include "PhysicsUtilities.h"
 
 namespace
 {

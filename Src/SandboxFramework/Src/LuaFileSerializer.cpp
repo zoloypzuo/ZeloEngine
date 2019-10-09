@@ -23,8 +23,8 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/LuaFile.h"
-#include "demo_framework/include/LuaFileSerializer.h"
+#include "LuaFile.h"
+#include "LuaFileSerializer.h"
 
 LuaFileSerializer::LuaFileSerializer()
 {

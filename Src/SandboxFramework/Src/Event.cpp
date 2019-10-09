@@ -23,7 +23,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Event.h"
+#include "Event.h"
 
 Event::Event(const Ogre::String& eventType)
 	: eventType_(eventType)

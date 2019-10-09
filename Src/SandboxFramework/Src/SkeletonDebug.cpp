@@ -36,7 +36,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/SkeletonDebug.h"
+#include "SkeletonDebug.h"
 
 Ogre::String SkeletonDebug::axesName = "SkeletonDebug/AxesMesh";
 Ogre::String SkeletonDebug::axesMeshName = "SkeletonDebug/AxesMesh";

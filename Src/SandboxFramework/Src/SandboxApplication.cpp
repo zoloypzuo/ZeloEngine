@@ -23,11 +23,11 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/DebugDrawer.h"
-#include "demo_framework/include/LuaFileManager.h"
-#include "demo_framework/include/LuaFilePtr.h"
-#include "demo_framework/include/Sandbox.h"
-#include "demo_framework/include/SandboxApplication.h"
+#include "DebugDrawer.h"
+#include "LuaFileManager.h"
+#include "LuaFilePtr.h"
+#include "Sandbox.h"
+#include "SandboxApplication.h"
 
 SandboxApplication::SandboxApplication(const Ogre::String& applicationTitle)
 	: BaseApplication(applicationTitle),

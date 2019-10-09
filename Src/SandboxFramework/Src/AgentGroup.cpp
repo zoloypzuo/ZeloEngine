@@ -23,8 +23,8 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Agent.h"
-#include "demo_framework/include/AgentGroup.h"
+#include "Agent.h"
+#include "AgentGroup.h"
 
 AgentGroup::AgentGroup() : OpenSteer::AVGroup()
 {

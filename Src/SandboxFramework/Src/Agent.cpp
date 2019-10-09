@@ -23,14 +23,14 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Agent.h"
-#include "demo_framework/include/AgentGroup.h"
-#include "demo_framework/include/AgentUtilities.h"
-#include "demo_framework/include/AnimationUtilities.h"
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/PhysicsUtilities.h"
-#include "demo_framework/include/SandboxObject.h"
-#include "demo_framework/include/SandboxUtilities.h"
+#include "Agent.h"
+#include "AgentGroup.h"
+#include "AgentUtilities.h"
+#include "AnimationUtilities.h"
+#include "LuaScriptUtilities.h"
+#include "PhysicsUtilities.h"
+#include "SandboxObject.h"
+#include "SandboxUtilities.h"
 
 namespace
 {

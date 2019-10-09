@@ -23,7 +23,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/AgentPath.h"
+#include "AgentPath.h"
 
 AgentPath::AgentPath() : PolylinePathway()
 {

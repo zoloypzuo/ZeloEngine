@@ -23,10 +23,10 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/PhysicsUtilities.h"
-#include "demo_framework/include/SandboxUtilities.h"
-#include "demo_framework/include/SandboxObject.h"
+#include "LuaScriptUtilities.h"
+#include "PhysicsUtilities.h"
+#include "SandboxUtilities.h"
+#include "SandboxObject.h"
 
 SandboxObject::SandboxObject(
 	const unsigned int objectId,

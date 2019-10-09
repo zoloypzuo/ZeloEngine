@@ -1,24 +1,24 @@
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/AgentUtilities.h"
-#include "demo_framework/include/AnimationUtilities.h"
-#include "demo_framework/include/DebugDrawer.h"
-#include "demo_framework/include/Event.h"
-#include "demo_framework/include/InfluenceMap.h"
-#include "demo_framework/include/InfluenceMapUtilities.h"
-#include "demo_framework/include/LuaScriptBindings.h"
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/NavigationUtilities.h"
-#include "demo_framework/include/ParticleUtilities.h"
-#include "demo_framework/include/PhysicsUtilities.h"
+#include "AgentUtilities.h"
+#include "AnimationUtilities.h"
+#include "DebugDrawer.h"
+#include "Event.h"
+#include "InfluenceMap.h"
+#include "InfluenceMapUtilities.h"
+#include "LuaScriptBindings.h"
+#include "LuaScriptUtilities.h"
+#include "NavigationUtilities.h"
+#include "ParticleUtilities.h"
+#include "PhysicsUtilities.h"
 // TODO(David Young): Bindings shouldn't include Sandbox.
-#include "demo_framework/include/Sandbox.h"
+#include "Sandbox.h"
 // end of TODO
 // TODO(David Young): Bindings shouldn't include SandboxObject.
-#include "demo_framework/include/SandboxObject.h"
+#include "SandboxObject.h"
 // end of TODO
-#include "demo_framework/include/SandboxUtilities.h"
-#include "demo_framework/include/UserInterfaceUtilities.h"
+#include "SandboxUtilities.h"
+#include "UserInterfaceUtilities.h"
 
 /**
  * @remarks

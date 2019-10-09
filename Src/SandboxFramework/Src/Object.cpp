@@ -23,7 +23,7 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/Object.h"
+#include "Object.h"
 
 Object::Object(const unsigned int objectId, const ObjectType type)
 	: objectId_(objectId), objectType_(type)

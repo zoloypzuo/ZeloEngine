@@ -33,50 +33,51 @@
 
 // C Library Headers
 extern "C" {
-#include "lua/include/lauxlib.h"
-#include "lua/include/lstate.h"
-#include "lua/include/lua.h"
-#include "lua/include/lualib.h"
+#include <lauxlib.h>
+#include <lstate.h>
+#include <lua.h>
+#include <lualib.h>
 };
 
-// C++ Library Headers
-#pragma warning(push)
-#pragma warning(disable : 4100)
-#pragma warning(disable : 4127)
-#include "bullet_dynamics/include/btBulletDynamicsCommon.h"
-#include "bullet_collision/include/BulletCollision/CollisionShapes/btShapeHull.h"
-#pragma warning(pop)
+//// C++ Library Headers
+//#pragma warning(push)
+//#pragma warning(disable : 4100)
+//#pragma warning(disable : 4127)
+//#include "bullet_dynamics/include/btBulletDynamicsCommon.h"
+//#include "bullet_collision/include/BulletCollision/CollisionShapes/btShapeHull.h"
+//#pragma warning(pop)
+//
+//#include "detour/include/DetourNavMesh.h"
+//#include "detour/include/DetourNavMeshQuery.h"
+//#include "detour/include/DetourNavMeshBuilder.h"
 
-#include "detour/include/DetourNavMesh.h"
-#include "detour/include/DetourNavMeshQuery.h"
-#include "detour/include/DetourNavMeshBuilder.h"
-
-#include "ogre3d/include/Ogre.h"
-#include "ogre3d/include/OgreTagPoint.h"
-
-#pragma warning(push)
-#pragma warning(disable : 4512)
-#include "ogre3d/include/Samples/SdkCameraMan.h"
-#pragma warning(pop)
-
-#include "ogre3d_direct3d9/include/OgreD3D9Plugin.h"
-#include "ogre3d_gorilla/include/Gorilla.h"
-#include "ogre3d_particlefx/include/OgreParticleFXPlugin.h"
-#include "ogre3d_procedural/include/Procedural.h"
+#include "OGRE/Ogre.h"
+#include "OGRE/OgreTagPoint.h"
 
 #pragma warning(push)
 #pragma warning(disable : 4512)
-#include "ois/include/OIS.h"
+//#include "ogre3d/include/Samples/SdkCameraMan.h"
+#include  <OGRE/>
 #pragma warning(pop)
 
-#include "opensteer/include/Vec3.h"
+//#include "ogre3d_direct3d9/include/OgreD3D9Plugin.h"
+//#include "ogre3d_gorilla/include/Gorilla.h"
+//#include "ogre3d_particlefx/include/OgreParticleFXPlugin.h"
+//#include "ogre3d_procedural/include/Procedural.h"
 
-#include "recast/include/Recast.h"
+#pragma warning(push)
+#pragma warning(disable : 4512)
+#include <ois/OIS.h>
+#pragma warning(pop)
 
-#include "zzip/include/zzip/_msvc.h"
-#include "zzip/include/zzip/conf.h"
-#include "zzip/include/zzip/types.h"
-#include "zzip/include/zzip/zzip.h"
-#include "zzip/include/zzip/plugin.h"
+//#include "opensteer/include/Vec3.h"
+//
+//#include "recast/include/Recast.h"
+//
+//#include "zzip/include/zzip/_msvc.h"
+//#include "zzip/include/zzip/conf.h"
+//#include "zzip/include/zzip/types.h"
+//#include "zzip/include/zzip/zzip.h"
+//#include "zzip/include/zzip/plugin.h"
 
 #endif  // DEMO_FRAMEWORK_PRECOMPILED_HEADERS_H

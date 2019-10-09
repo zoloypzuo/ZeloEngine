@@ -23,10 +23,10 @@
 
 #include "PrecompiledHeaders.h"
 
-#include "demo_framework/include/AnimationUtilities.h"
-#include "demo_framework/include/LuaScriptBindings.h"
-#include "demo_framework/include/LuaScriptUtilities.h"
-#include "demo_framework/include/SkeletonDebug.h"
+#include "AnimationUtilities.h"
+#include "LuaScriptBindings.h"
+#include "LuaScriptUtilities.h"
+#include "SkeletonDebug.h"
 
 namespace
 {
