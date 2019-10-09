@@ -43,7 +43,7 @@ include_directories("${ExternalDir}DirectXTK12/Inc")
 include_directories(Src/LuaConfig/CppConfigClass_Generated)
 include_directories(Src/LuaConfig)
 include_directories(Src/Common)
-include_directories(Src/Main)
+include_directories(Src/ZeloMain)
 include_directories(Src/Module/LogModule)
 include_directories(Src/Module/LuaModule)
 
