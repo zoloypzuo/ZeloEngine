@@ -7,7 +7,9 @@
 //***************************************************************************************
 
 #include "Zelo.h"
-
+#include "OGRE/Ogre.h"
+#include "ois/OIS.h"
+#include "lua.hpp"
 using namespace DirectX;
 
 class InitDirect3DApp : public D3DApp
@@ -32,6 +34,8 @@ int main(int argc, char** argv)
 	_CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
+	lua_State* L = lua_open();
+	lua_close(L);
 	Initialize();
 	int ret = 0;
     try
