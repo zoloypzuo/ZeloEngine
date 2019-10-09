@@ -13,6 +13,7 @@
 -- 初始化是蛮坑爹的
 -- 这里要把基础的组件优先初始化
 --
+require("strict") -- Class.lua要用strict
 require("std_extension")
 require("PlainClass")
 require("Class")
