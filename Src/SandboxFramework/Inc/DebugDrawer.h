@@ -36,7 +36,7 @@
 
 #include <map>
 
-#include "ogre3d/include/OgreSingleton.h"
+#include <OGRE/OgreSingleton.h>
 
 typedef std::pair<Ogre::Vector3, Ogre::ColourValue> VertexPair;
 

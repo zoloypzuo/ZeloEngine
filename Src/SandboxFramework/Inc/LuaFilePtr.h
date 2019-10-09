@@ -25,7 +25,7 @@
 #define DEMO_FRAMEWORK_LUA_FILE_PTR_H
 
 #include "LuaFile.h"
-#include "ogre3d/include/OgreSharedPtr.h"
+#include "OGRE/OgreSharedPtr.h"
 
 class LuaFilePtr : public Ogre::SharedPtr<LuaFile>
 {

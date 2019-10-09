@@ -24,9 +24,9 @@
 #ifndef DEMO_FRAMEWORK_ANIMATION_UTILITIES_H
 #define DEMO_FRAMEWORK_ANIMATION_UTILITIES_H
 
-#include "ogre3d/include/OgrePrerequisites.h"
-#include "ogre3d/include/OgreQuaternion.h"
-#include "ogre3d/include/OgreVector3.h"
+#include "OGRE/OgrePrerequisites.h"
+#include "OGRE/OgreQuaternion.h"
+#include "OGRE/OgreVector3.h"
 
 #define LUA_ANIMATION_METATABLE "AnimationType"
 
