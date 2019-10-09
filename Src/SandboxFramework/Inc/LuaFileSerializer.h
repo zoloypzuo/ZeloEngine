@@ -24,7 +24,7 @@
 #ifndef DEMO_FRAMEWORK_LUA_FILE_SERIALIZER_H
 #define DEMO_FRAMEWORK_LUA_FILE_SERIALIZER_H
 
-#include "ogre3d/include/OgreSerializer.h"
+#include "OGRE/OgreSerializer.h"
 
 class LuaFile;
 

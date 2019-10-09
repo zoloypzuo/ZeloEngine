@@ -24,8 +24,8 @@
 #ifndef DEMO_FRAMEWORK_SANDBOX_UTILITIES_H
 #define DEMO_FRAMEWORK_SANDBOX_UTILITIES_H
 
-#include "ogre3d/include/OgrePrerequisites.h"
-#include "ogre3d/include/OgreQuaternion.h"
+#include "OGRE/OgrePrerequisites.h"
+#include "OGRE/OgreQuaternion.h"
 
 struct InfluenceMapConfig;
 struct lua_State;

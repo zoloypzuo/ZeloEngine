@@ -24,8 +24,8 @@
 #ifndef DEMO_FRAMEWORK_PARTICLE_UTILITIES_H
 #define DEMO_FRAMEWORK_PARTICLE_UTILITIES_H
 
-#include "ogre3d/include/OgreNameGenerator.h"
-#include "ogre3d/include/OgrePrerequisites.h"
+#include "OGRE/OgreNameGenerator.h"
+#include "OGRE/OgrePrerequisites.h"
 
 namespace Ogre
 {

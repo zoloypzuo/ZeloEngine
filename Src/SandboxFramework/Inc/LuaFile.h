@@ -24,7 +24,7 @@
 #ifndef DEMO_FRAMEWORK_LUA_FILE_H
 #define DEMO_FRAMEWORK_LUA_FILE_H
 
-#include "ogre3d/include/OgreResource.h"
+#include "OGRE/OgreResource.h"
 
 class LuaFile : public Ogre::Resource
 {

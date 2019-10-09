@@ -26,7 +26,7 @@
 
 #include <vector>
 
-#include "ogre3d/include/OgreNameGenerator.h"
+#include "OGRE/OgreNameGenerator.h"
 
 struct rcConfig;
 

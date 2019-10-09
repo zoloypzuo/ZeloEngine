@@ -56,7 +56,7 @@ extern "C" {
 
 #pragma warning(push)
 #pragma warning(disable : 4512)
-//#include "ogre3d/include/Samples/SdkCameraMan.h"
+//#include "OGRE/Samples/SdkCameraMan.h"
 // vcpkg应该是不编译sample的，所以只能拷贝一下了
 #include  "SdkCameraMan.h"
 #pragma warning(pop)
