@@ -19,6 +19,8 @@ add_compile_definitions(
         NOMINMAX  # see also github issue #116
 )
 
+# 禁用cotiire，你还没有想清楚怎么用
+# 你应该弄一个独立的例子（比如某个cmake的lib，lumix或者ogre），哦，这样编译变快了
 #
 # cotire (https://github.com/sakra/cotire)
 #
@@ -37,6 +39,10 @@ include_directories("${ExternalDir}lua-5.3.5/src")
 link_libraries(directxtk12.lib)
 include_directories("${ExternalDir}DirectXTK12/Inc")
 
+# 不要使用ogre，要么你换vs2015编译（有可能可以；但是成本很高）
+# set(OGRE_DIR "C:/Users/zoloypzuo/Documents/vcpkg-master/installed/x64-windows/share/ogre")
+# find_package(OGRE CONFIG REQUIRED)
+
 #
 # include directory
 #
@@ -48,4 +54,5 @@ include_directories(Src/Module/LogModule)
 include_directories(Src/Module/LuaModule)
 
 add_subdirectory(Src)
-add_subdirectory(Example)
+# example单独编译（否则很乱），engine编译出库后cmake-export
+# add_subdirectory(Example)
