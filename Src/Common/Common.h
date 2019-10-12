@@ -5,8 +5,8 @@
 #ifndef ZELOENGINE_COMMON_H
 #define ZELOENGINE_COMMON_H
 
-#include "spdlog/spdlog.h"
-using namespace spdlog;
+//#include "spdlog/spdlog.h"
+//using namesnpace spdlog;
 
 #include "GlobalConfig.h"
 #include "MathHelper.h"

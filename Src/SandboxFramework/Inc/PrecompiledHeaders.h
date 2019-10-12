@@ -14,10 +14,10 @@
 // vcpkg
 //
 
-#include <ois/OIS.h>
-#include <OGRE/Ogre.h>
-#include <OGRE/OgreTagPoint.h>
-#include <spdlog/spdlog.h>
+//#include <ois/OIS.h>
+//#include <OGRE/Ogre.h>
+//#include <OGRE/OgreTagPoint.h>
+//#include <spdlog/spdlog.h>
 
 // 自己构建的库在External目录
 #include "lua.hpp"
