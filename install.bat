@@ -47,4 +47,7 @@ D:\LuaRocks\systree/lib/lua/5.3/?.dll
 @rem TODO 用户安装powershell
 powershell -executionpolicy remotesigned -File  Util/install/install_vcpkg.ps1
 powershell -executionpolicy remotesigned -File  Util/install/install_vcpkg_packages.ps1
+
+call build.bat
+
 pause
