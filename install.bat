@@ -18,8 +18,15 @@ rem require函数的搜索路径
 rem 我们只额外添加D:\ZeloEngine\Src\Script\
 rem 其他部分是由为zelo engine安装的luarocks生成的，附加了luarocks的路径
 rem TODO 用户安装luarocks
+rem
+rem 注意前面两个路径
+rem 我们的模块放在两个地方
+rem Src/Script和Util
 setx LUA_PATH_5_3 ^
 D:\ZeloEngine\Src\Script\?.lua;^
+D:\ZeloEngine\Src\Script\?\?.lua;^
+D:\ZeloEngine\Util\?.lua^
+D:\ZeloEngine\Util\?\?.lua^
 D:\LuaRocks\lua\?.lua;^
 D:\LuaRocks\lua\?\init.lua;^
 D:\ZeloEngine\lua\?.lua;^
