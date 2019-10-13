@@ -349,8 +349,10 @@ namespace
 } // anonymous namespace
 
 
-// ��ʼ��sandbox���ò���
-// ����lua vm�����غ�����
+// 构造函数中会绑定所有lua c api
+// 尽管这种方式不是最合适的
+// 很方便，而且确实我们的demo都需要这些库
+// 标准做法是编译成dll
 Sandbox::Sandbox(
 	const unsigned int sandboxId,
 	Ogre::SceneNode* const sandboxNode,
