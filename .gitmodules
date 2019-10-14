@@ -1,3 +1,6 @@
 [submodule "External/DirectXTK12"]
 	path = External/DirectXTK12
 	url = https://github.com/microsoft/DirectXTK12.git
+[submodule "Reference/Quake"]
+	path = Reference/Quake
+	url = https://github.com/id-Software/Quake.git
