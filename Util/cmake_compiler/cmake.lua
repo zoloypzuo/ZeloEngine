@@ -134,6 +134,107 @@ end
 add_subdirectory = function(source_dir)
     return cmake_command("ADD_SUBDIRECTORY", source_dir)
 end
+
+--INSTALL 指令用于定义安装规则，安装的内容可以包括目标二进制、动态库、静态库以及
+--文件、目录、脚本等。
+--INSTALL 指令包含了各种安装类型，我们需要一个个分开解释：
+--
+-- # 目标文件的安装：
+-- INSTALL(TARGETS targets...
+-- [[ARCHIVE|LIBRARY|RUNTIME]
+-- [DESTINATION <dir>]
+-- [PERMISSIONS permissions...]
+-- [CONFIGURATIONS
+-- [Debug|Release|...]]
+-- [COMPONENT <component>]
+-- [OPTIONAL]
+-- ] [...])
+--参数中的 TARGETS 后面跟的就是我们通过 ADD_EXECUTABLE 或者 ADD_LIBRARY 定义的
+--目标文件，可能是可执行二进制、动态库、静态库。
+--目标类型也就相对应的有三种，ARCHIVE 特指静态库，LIBRARY 特指动态库，RUNTIME
+--特指可执行目标二进制。
+--DESTINATION 定义了安装的路径，如果路径以/开头，那么指的是绝对路径，这时候
+--CMAKE_INSTALL_PREFIX 其实就无效了。如果你希望使用 CMAKE_INSTALL_PREFIX 来
+--定义安装路径，就要写成相对路径，即不要以/开头，那么安装后的路径就是
+--${CMAKE_INSTALL_PREFIX}/<DESTINATION 定义的路径>
+--
+-- # 普通文件的安装：
+-- INSTALL(FILES files... DESTINATION <dir>
+-- [PERMISSIONS permissions...]
+-- [CONFIGURATIONS [Debug|Release|...]]
+-- [COMPONENT <component>]
+-- [RENAME <name>] [OPTIONAL])
+--可用于安装一般文件，并可以指定访问权限，文件名是此指令所在路径下的相对路径。如果
+--默认不定义权限 PERMISSIONS，安装后的权限为：
+--OWNER_WRITE, OWNER_READ, GROUP_READ,和 WORLD_READ，即 644 权限。
+--
+-- # 非目标文件的可执行程序安装(比如脚本之类)：
+-- INSTALL(PROGRAMS files... DESTINATION <dir>
+-- [PERMISSIONS permissions...]
+-- [CONFIGURATIONS [Debug|Release|...]]
+-- [COMPONENT <component>]
+-- [RENAME <name>] [OPTIONAL])
+--跟上面的 FILES 指令使用方法一样，唯一的不同是安装后权限为:
+--OWNER_EXECUTE, GROUP_EXECUTE, 和 WORLD_EXECUTE，即 755 权限
+--
+-- # 目录的安装：
+-- INSTALL(DIRECTORY dirs... DESTINATION <dir>
+-- [FILE_PERMISSIONS permissions...]
+-- [DIRECTORY_PERMISSIONS permissions...]
+-- [USE_SOURCE_PERMISSIONS]
+-- [CONFIGURATIONS [Debug|Release|...]]
+-- [COMPONENT <component>]
+-- [[PATTERN <pattern> | REGEX <regex>]
+-- [EXCLUDE] [PERMISSIONS permissions...]] [...])
+--这里主要介绍其中的 DIRECTORY、PATTERN 以及 PERMISSIONS 参数。
+--DIRECTORY 后面连接的是所在 Source 目录的相对路径，但务必注意：
+--abc 和 abc/有很大的区别。
+--如果目录名不以/结尾，那么这个目录将被安装为目标路径下的 abc，如果目录名以/结尾，
+--代表将这个目录中的内容安装到目标路径，但不包括这个目录本身。
+--PATTERN 用于使用正则表达式进行过滤，PERMISSIONS 用于指定 PATTERN 过滤后的文件
+--权限。
+--我们来看一个例子:
+-- INSTALL(DIRECTORY icons scripts/ DESTINATION share/myproj
+-- PATTERN "CVS" EXCLUDE
+-- PATTERN "scripts/*"
+-- PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ
+-- GROUP_EXECUTE GROUP_READ)
+--这条指令的执行结果是：
+--将 icons 目录安装到 <prefix>/share/myproj，将 scripts/中的内容安装到
+--<prefix>/share/myproj
+--不包含目录名为 CVS 的目录，对于 scripts/*文件指定权限为 OWNER_EXECUTE
+--OWNER_WRITE OWNER_READ GROUP_EXECUTE GROUP_READ.
+--
+-- # 安装时 CMAKE 脚本的执行：
+--INSTALL([[SCRIPT <file>] [CODE <code>]] [...])
+--SCRIPT 参数用于在安装时调用 cmake 脚本文件（也就是<abc>.cmake 文件）
+--CODE 参数用于执行 CMAKE 指令，必须以双引号括起来。比如：
+--INSTALL(CODE "MESSAGE(\"Sample install message.\")
+local install = function()
+
+end
+
+-- 别忘了cmake指令要添加前缀
+--https://cmake.org/cmake/help/v3.0/variable/CMAKE_INSTALL_PREFIX.html
+--cmake -DCMAKE_INSTALL_PREFIX=/tmp/t2/usr ..
+
+
+install_target = function()
+end
+--拷贝版权，readme
+--INSTALL(FILES COPYRIGHT README DESTINATION share/doc/cmake/hello_world_out)
+install_file = function()
+end
+--拷贝exe
+--INSTALL(PROGRAMS runhello.sh DESTINATION bin)
+install_program = function()
+end
+--拷贝文档
+--INSTALL(DIRECTORY doc/ DESTINATION share/doc/cmake/hello_world_out)
+install_directory = function()
+end
+install_script = function()
+end
 --}}}
 
 
