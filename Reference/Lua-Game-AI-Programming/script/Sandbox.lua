@@ -19,6 +19,7 @@ local Sandbox = Class(function(self)
 
 end)
 
+--{{{Create*
 ---@type fun() @创建平面，指定宽度，高度；并创建半空间并添加到物理模拟中
 ---@param sandbox Sandbox
 ---@param width number
@@ -35,8 +36,6 @@ function Sandbox:CreateSkyBox(s, vector)
     return Sandbox_C_Module.CreateSkyBox(self, s, vector)
 end
 
-
-
 ---@type fun() @local agent = Sandbox.CreateAgent(sandbox, "Agent.lua")
 function Sandbox.CreateAgent(sandbox, scriptPath)
 
@@ -44,29 +43,6 @@ end
 
 function Sandbox.CreateObject(sandbox, meshPath)
 
-end
-
-function Sandbox.GetCameraPosition(sandbox)
-
-end
-
-function Sandbox.GetCameraForward(sandbox)
-
-end
-
-function Sandbox.GetCameraOrientation(sandbox)
-
-end
-
---{{{
--- Sandbox.lua
-function Sandbox.AddCollisionCallback(sandbox)
-end
-function Sandbox.AddEvent(sandbox)
-end
-function Sandbox.AddEventCallback(sandbox)
-end
-function Sandbox.ClearInfluenceMap(sandbox)
 end
 function Sandbox.CreateAgent(sandbox)
 end
@@ -96,16 +72,21 @@ end
 -- 这个函数，lua层没有脚本用过
 function Sandbox.CreateUIComponent3d(sandbox)
 end
-function Sandbox.DrawInfluenceMap(sandbox)
-end
-function Sandbox.FindClosestPoint(sandbox)
+--}}}
+
+--{{{Get*
+function Sandbox.GetCameraPosition(sandbox)
+
 end
 
--- 仅考虑几何距离，返回最短路径（不考虑通行代价）
--- 返回一个waypoints列表，如果不存在路径返回空表
--- path = Sandbox.FindPath(sandbox, "default", startPoint, endPoint)
-function Sandbox.FindPath(sandbox)
+function Sandbox.GetCameraForward(sandbox)
+
 end
+
+function Sandbox.GetCameraOrientation(sandbox)
+
+end
+
 function Sandbox.GetAgents(sandbox)
 end
 function Sandbox.GetCameraForward(sandbox)
@@ -140,15 +121,9 @@ function Sandbox.GetTimeInSeconds(sandbox)
 end
 function Sandbox.GetTimeInMillis(sandbox)
 end
+--}}}
 
--- 在nav-mesh上返回一个随机的点
--- randomPoint = Sandbox.RandomPoint(sandbox, "default")
-function Sandbox.RandomPoint(sandbox)
-end
-function Sandbox.RayCastToObject(sandbox)
-end
-function Sandbox.RemoveObject(sandbox)
-end
+--{{{Set*
 function Sandbox.SetAmbientLight(sandbox)
 end
 function Sandbox.SetCameraForward(sandbox)
@@ -171,6 +146,37 @@ function Sandbox.SetInfluence(sandbox)
 end
 function Sandbox.SetMarkupColor(sandbox)
 end
+--}}}
+
+--{{{其他
+function Sandbox.AddCollisionCallback(sandbox)
+end
+function Sandbox.AddEvent(sandbox)
+end
+function Sandbox.AddEventCallback(sandbox)
+end
+function Sandbox.ClearInfluenceMap(sandbox)
+end
+function Sandbox.DrawInfluenceMap(sandbox)
+end
+function Sandbox.FindClosestPoint(sandbox)
+end
+
+-- 仅考虑几何距离，返回最短路径（不考虑通行代价）
+-- 返回一个waypoints列表，如果不存在路径返回空表
+-- path = Sandbox.FindPath(sandbox, "default", startPoint, endPoint)
+function Sandbox.FindPath(sandbox)
+end
+
+-- 在nav-mesh上返回一个随机的点
+-- randomPoint = Sandbox.RandomPoint(sandbox, "default")
+function Sandbox.RandomPoint(sandbox)
+end
+function Sandbox.RayCastToObject(sandbox)
+end
+function Sandbox.RemoveObject(sandbox)
+end
+
 function Sandbox.SpreadInfluenceMap(sandbox)
 end
 --}}}
