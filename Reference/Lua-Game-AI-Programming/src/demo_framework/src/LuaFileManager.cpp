@@ -25,6 +25,9 @@ LuaFileManager::LuaFileManager()
 	// low, because it will likely reference other resources（低优先级，因为可能引用其他资源？没把，没道理啊）
 	mLoadOrder = 30.0f;
 
+	// 每一种资源都要写一个资源管理器
+	// 资源管理要注册到管理器中
+	// 注意到RAII，析构时解除注册
 	Ogre::ResourceGroupManager::getSingleton()._registerResourceManager(
 		mResourceType, this);
 }
