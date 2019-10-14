@@ -912,12 +912,19 @@ void LuaScriptUtilities::LoadScript(
 	assert(luaVM);
 
 	// Using luaL_loadbuffer allows Decoda to match which lua files the VM is
-	// using.
-	// The loadbuffer's name must match the lua filename.
+	// using.（使用load-buffer可以帮助decoda匹配lua文件名和虚拟机
+	// The loadbuffer's name must match the lua filename.（必须这样用名字）
+	// 我在想，引擎在加载时能拿到绝对路径，可以为lua脚本提供这个信息
+	// 因为一段lua代码，是没法知道自己是dofile还是dostring的，如果你是loadbuffer的话
+	// 但是怕decoda这边有问题，但是，decoda文档我没看到强调这一点
+	// 总之，你可以试一试
 	luaL_loadbuffer(luaVM, luaScriptContents, bufferSize, fileName);
 	lua_pcall(luaVM, 0, LUA_MULTRET, 0);
 }
 
+// 这个函数将全局变量decoda_name设为一个值
+// AgentUtilities::LoadScript和SandboxUtilities::LoadScript会在真正的虚拟机加载脚本前调用它来设置
+// lua脚本里没有访问过decoda_name，c++也没有，不知道要这个功能干嘛
 void LuaScriptUtilities::NameVM(
 	lua_State* const luaVM, const char* const vmName)
 {
