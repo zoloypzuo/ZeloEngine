@@ -358,15 +358,15 @@ Sandbox::Sandbox(
 	Ogre::SceneNode* const sandboxNode,
 	Ogre::Camera* const camera)
 	: Object(sandboxId, Object::SANDBOX),
-	  sandboxNode_(sandboxNode),
-	  camera_(camera),
-	  physicsWorld_(nullptr),
-	  userInterface_(nullptr),
-	  lastObjectId_(sandboxId),
-	  influenceMap_(nullptr),
-	  influenceMapDrawer_(nullptr),
-	  drawPhysicsWorld_(false),
-	  simulationTime_(0)
+	sandboxNode_(sandboxNode),
+	camera_(camera),
+	physicsWorld_(nullptr),
+	userInterface_(nullptr),
+	lastObjectId_(sandboxId),
+	influenceMap_(nullptr),
+	influenceMapDrawer_(nullptr),
+	drawPhysicsWorld_(false),
+	simulationTime_(0)
 {
 	for (size_t index = 0; index < PROFILE_TIME_COUNT; ++index)
 	{
@@ -838,13 +838,12 @@ void Sandbox::HandleCollisions(std::vector<Collision>& collisions)
 
 void Sandbox::HandleEvents(std::vector<Event>& events)
 {
-	std::vector<Event>::iterator eIt;
-
-	for (eIt = events.begin(); eIt != events.end(); ++eIt)
+	// 遍历所有event
+	for (std::vector<Event>::iterator eIt = events.begin(); eIt != events.end(); ++eIt)
 	{
-		std::map<unsigned int, LuaCallback>::iterator it;
-
-		for (it = eventCallbacks_.begin(); it != eventCallbacks_.end(); ++it)
+		//遍历所有回调
+		//std::map<unsigned int, LuaCallback>::iterator it;
+		for (auto it = eventCallbacks_.begin(); it != eventCallbacks_.end(); ++it)
 		{
 			SandboxUtilities::CallLuaEventHandler(
 				this,
@@ -1113,14 +1112,14 @@ void Sandbox::Update(const int deltaMilliseconds)
 	HandleEvents(events_);
 	events_.clear();
 
-	std::vector<Agent*>::iterator agentIt;
-	for (agentIt = agents_.begin(); agentIt != agents_.end(); ++agentIt)
+	//std::vector<Agent*>::iterator agentIt;
+	for (auto agentIt = agents_.begin(); agentIt != agents_.end(); ++agentIt)
 	{
 		(*agentIt)->Update(deltaMilliseconds);
 	}
 
-	std::map<unsigned int, SandboxObject*>::iterator objectIt;
-	for (objectIt = objects_.begin(); objectIt != objects_.end(); ++objectIt)
+	//std::map<unsigned int, SandboxObject*>::iterator objectIt;
+	for (auto objectIt = objects_.begin(); objectIt != objects_.end(); ++objectIt)
 	{
 		objectIt->second->Update(deltaMilliseconds);
 	}
