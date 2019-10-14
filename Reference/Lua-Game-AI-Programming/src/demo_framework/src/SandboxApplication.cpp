@@ -88,6 +88,7 @@ void SandboxApplication::CreateSandbox(const Ogre::String& sandboxLuaScript)
 	}
 
 	// initialize sandbox object
+	// 这里很奇怪，你是单例，你要id干什么
 	sandbox_ = new Sandbox(GenerateSandboxId(), sandboxNode, GetCamera());
 
 	sandbox_->LoadScript(
