@@ -1,26 +1,3 @@
-/**
- * Copyright (c) 2013 David Young dayoung@goliathdesigns.com
- *
- * This software is provided 'as-is', without any express or implied
- * warranty. In no event will the authors be held liable for any damages
- * arising from the use of this software.
- *
- * Permission is granted to anyone to use this software for any purpose,
- * including commercial applications, and to alter it and redistribute it
- * freely, subject to the following restrictions:
- *
- *  1. The origin of this software must not be misrepresented; you must not
- *  claim that you wrote the original software. If you use this software
- *  in a product, an acknowledgment in the product documentation would be
- *  appreciated but is not required.
- *
- *  2. Altered source versions must be plainly marked as such, and must not be
- *  misrepresented as being the original software.
- *
- *  3. This notice may not be removed or altered from any source
- *  distribution.
- */
-
 #include "PrecompiledHeaders.h"
 
 #include "demo_framework/include/UserInterface.h"
@@ -30,6 +7,8 @@
 
 UserInterface::UserInterface(Ogre::Viewport* const viewport)
 {
+	// 拿到管理器单例、
+	// 创建screen和layer
 	Gorilla::Silverback* const silverback =
 		Gorilla::Silverback::getSingletonPtr();
 	silverback->loadAtlas(DEFAULT_ATLAS);
@@ -44,6 +23,7 @@ UserInterface::UserInterface(Ogre::Viewport* const viewport)
 
 UserInterface::~UserInterface()
 {
+	// RAII析构
 	for (size_t index = 0; index < UI_LAYER_COUNT; ++index)
 	{
 		screen_->destroy(layers_[index]);
@@ -56,6 +36,11 @@ UserInterface::~UserInterface()
 	mSilverback->destroyScreen(screen_);
 	screen_ = nullptr;
 }
+
+//
+// 剩下的函数有点迷，不了解这个库
+// 大概地，就是screen，layer，uicomponent，atlas，markupcolor
+//
 
 UserInterfaceComponent* UserInterface::Create3DComponent(
 	Ogre::SceneNode& sceneNode)

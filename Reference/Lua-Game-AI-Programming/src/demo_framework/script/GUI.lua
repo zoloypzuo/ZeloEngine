@@ -50,6 +50,7 @@ GUI.Palette = {};
 GUI.Palette.DarkBlueGradient = { r = 0, g = 0.2, b = 0.4, a = 0.5 };
 GUI.Palette.DarkBlackGradient = { r = 0.1, g = 0.1, b = 0.1, a = 0.6 };
 
+-- 预制的相机UI和profiler-UI
 local _cameraUI;
 local _profileUI;
 
@@ -63,7 +64,6 @@ local function _ColorValue(value, mediumValue, lowValue)
     elseif (value <= mediumValue) then
         return GUI.MarkupColor.Orange;
     end
-
     return GUI.MarkupColor.Green;
 end
 
@@ -242,6 +242,8 @@ function GUI_UpdateProfileInformation(sandbox)
     UI.SetMarkupText(_profileUI, GUI.MarkupColor.White .. profileInfo);
 end
 
+-- 更新这两个UI
+-- TODO，改成列表风格
 function GUI_UpdateUI(sandbox)
     GUI_UpdateCameraInformation(sandbox);
     GUI_UpdateProfileInformation(sandbox);
