@@ -286,6 +286,33 @@ get_target_property = function(target, VAR, property)
     return cmake_command("GET_TARGET_PROPERTY", VAR, target, property)
 end
 
+--INCLUDE_DIRECTORIES，其完整语法为：
+--INCLUDE_DIRECTORIES([AFTER|BEFORE] [SYSTEM] dir1 dir2 ...)
+--这条指令可以用来向工程添加多个特定的头文件搜索路径，路径之间用空格分割，如果路径
+--中包含了空格，可以使用双引号将它括起来，默认的行为是追加到当前的头文件搜索路径的
+--后面，你可以通过两种方式来进行控制搜索路径添加的方式：
+--１，CMAKE_INCLUDE_DIRECTORIES_BEFORE，通过 SET 这个 cmake 变量为 on，可以
+--将添加的头文件搜索路径放在已有路径的前面。
+--２，通过 AFTER 或者 BEFORE 参数，也可以控制是追加还是置前。
+include_directory = function(...)
+    return cmake_command("INCLUDE_DIRECTORIES", ...)
+end
+
+--LINK_DIRECTORIES 的全部语法是：
+--LINK_DIRECTORIES(directory1 directory2 ...)
+link_directory = function(...)
+    return cmake_command("LINK_DIRECTORIES", ...)
+end
+
+--TARGET_LINK_LIBRARIES 的全部语法是:
+--TARGET_LINK_LIBRARIES(target library1
+-- <debug | optimized> library2
+-- ...)
+--这个指令可以用来为 target 添加需要链接的共享库，本例中是一个可执行文件，但是同样
+--可以用于为自己编写的共享库添加共享库链接。
+target_link_library = function(target, ...)
+    return cmake_command("TARGET_LINK_LIBRARIES", target, ...)
+end
 --}}}
 
 
