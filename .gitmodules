@@ -4,3 +4,6 @@
 [submodule "Reference/Quake"]
 	path = Reference/Quake
 	url = https://github.com/id-Software/Quake.git
+[submodule "Reference/UnityCsReference"]
+	path = Reference/UnityCsReference
+	url = https://github.com/Unity-Technologies/UnityCsReference.git
