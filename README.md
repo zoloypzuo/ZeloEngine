@@ -1,5 +1,5 @@
 # ZeloEngine
- 
+
 It is all about game engine.
 
 ## 安装指南
@@ -9,7 +9,7 @@ It is all about game engine.
 * Windows10 操作系统
 * Visual Studio 2019
 * DirectX12（安装VS时勾选C++桌面应用安装win sdk时附带了dx）
-* TODO，其他
+* TODO，其他（没空管）
 
 ### 安装步骤
 
@@ -27,6 +27,20 @@ It is all about game engine.
 
 ## 目录结构
 
+### 顶层目录概览
+
+目录名 | 描述
+---- | ----
+build | 构建（临时目录）
+Config | 引擎配置文件
+Example | 使用引擎的示例项目
+External | 第三方库
+Lib | 库（临时目录）
+Reference | 参考书籍和项目
+Src | 引擎源码
+Util | 引擎工具
+
+### 一个更加深入的目录描述
 
 ```batch
 ├─build  // 构建（临时目录）
