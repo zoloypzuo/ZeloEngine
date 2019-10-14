@@ -31,7 +31,7 @@ example_project = function(name)
     lfs.mkdir(name)
     lfs.chdir(project_dir)
     writeall(project_dir .. ".gitignore", "build/**\n")
-    local cmake_code = header() .. project(name) .. source_list() .. add_executable(name)
+    local cmake_code = cmake_header() .. project(name) .. source_list() .. add_executable(name)
     -- 不要创建代码文件，因为
     --    writeall(project_dir .. "CMakeLists.txt", cmake_code)
     --    writeall(project_dir .. name .. ".h", "")
