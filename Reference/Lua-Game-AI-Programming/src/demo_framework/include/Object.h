@@ -31,6 +31,7 @@ public:
 	{
 		AGENT,
 		SANDBOX,
+		// 沙箱对象指有物理模拟的游戏对象
 		SANDBOX_OBJECT
 	};
 
