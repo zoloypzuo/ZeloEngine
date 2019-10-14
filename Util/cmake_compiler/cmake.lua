@@ -42,6 +42,11 @@ end
 local cmake_command = function(command, ...)
     return command .. "(" .. table.concat({ ... }, " ") .. ")\n"
 end
+
+--${LIBHELLO_SRC}
+cmake_variable = function(s)
+    return "${" .. s .. "}"
+end
 --}}}
 
 --{{{cmake语法成分；cmake指令
@@ -57,25 +62,38 @@ project = function(name)
     return "project(" .. name .. ")\n"
 end
 
-
--- 默认使用SRC_LIST
 add_executable = function(name, ...)
-    -- ... is source list
-    local source_list = { ... }
-    if #source_list == 0 then
-        source_list = { "${SRC_LIST}" }
-    end
-    return "add_executable(" .. name .. " " .. table.concat(source_list) .. ")\n"
+    return cmake_command("ADD_EXECUTABLE", name, ...)
 end
 
-add_library = function(name, ...)
-    -- ... is source list
-    local source_list = { ... }
-    if #source_list == 0 then
-        source_list = { "${SRC_LIST}" }
-    end
-    return "add_library(" .. name .. " " .. table.concat(source_list) .. ")\n"
+--{{{指令 ADD_LIBRARY
+--指令 ADD_LIBRARY
+-- ADD_LIBRARY(libname [SHARED|STATIC|MODULE]
+-- [EXCLUDE_FROM_ALL]
+-- source1 source2 ... sourceN)
+--你不需要写全 libhello.so，只需要填写 hello 即可，cmake 系统会自动为你生成
+--libhello.X
+--类型有三种:
+--SHARED，动态库
+--STATIC，静态库
+--MODULE，在使用 dyld 的系统有效，如果不支持 dyld，则被当作 SHARED 对待。
+--EXCLUDE_FROM_ALL 参数的意思是这个库不会被默认构建，除非有其他的组件依赖或者手
+--工构建。
+--
+--ADD_LIBRARY(hello_dynamic SHARED ${LIBHELLO_SRC})
+--ADD_LIBRARY(hello_static STATIC ${LIBHELLO_SRC})
+add_library = function(name, lib_type, ...)
+    return cmake_command("ADD_LIBRARY", lib_type, ...)
 end
+
+add_library_static = function(name, ...)
+    return add_library(name, "STATIC", ...)
+end
+
+add_library_dynamic = function(name, ...)
+    return add_library(name, "SHARED", ...)
+end
+--}}}
 
 --{{{ MESSAGE 指令
 --MESSAGE 指令的语法是：
@@ -135,6 +153,7 @@ add_subdirectory = function(source_dir)
     return cmake_command("ADD_SUBDIRECTORY", source_dir)
 end
 
+--{{{INSTALL 指令
 --INSTALL 指令用于定义安装规则，安装的内容可以包括目标二进制、动态库、静态库以及
 --文件、目录、脚本等。
 --INSTALL 指令包含了各种安装类型，我们需要一个个分开解释：
@@ -235,6 +254,38 @@ install_directory = function()
 end
 install_script = function()
 end
+--}}}
+
+--SET_TARGET_PROPERTIES，其基本语法是：
+-- SET_TARGET_PROPERTIES(target1 target2 ...
+-- PROPERTIES prop1 value1
+-- prop2 value2 ...)
+--这条指令可以用来设置输出的名称，对于动态库，还可以用来指定动态库版本和 API 版本。
+--
+-- 不要一次性设置很多
+-- 一个一个设置
+--
+-- 例子
+-- SET_TARGET_PROPERTIES(hello_dynamic PROPERTIES OUTPUT_NAME "hello")
+set_target_property = function(target, props)
+    local i = list()
+    for k, v in pairs(props) do
+        i.append(k .. " " .. v)
+    end
+    return cmake_command("SET_TARGET_PROPERTIES", target, table.unpack(i._list))
+end
+
+--与他对应的指令是：
+--GET_TARGET_PROPERTY(VAR target property)
+--具体用法如下例，我们向 lib/CMakeListst.txt 中添加：
+--GET_TARGET_PROPERTY(OUTPUT_VALUE hello_static OUTPUT_NAME)
+--MESSAGE(STATUS “This is the hello_static
+--OUTPUT_NAME:”${OUTPUT_VALUE})
+--如果没有这个属性定义，则返回 NOTFOUND.
+get_target_property = function(target, VAR, property)
+    return cmake_command("GET_TARGET_PROPERTY", VAR, target, property)
+end
+
 --}}}
 
 
