@@ -1,9 +1,22 @@
 -- UI.lua
+
+-- 这样有一个问题
+-- UI没有类型
+-- 其实UI是OOP最严重的
+
+
 UI = {}
+-- ？？？
 function UI.__towatch(ui)
 end
+
+
 function UI.CreateChild(ui)
 end
+
+--
+-- 属性
+--
 function UI.GetDimensions(ui)
 end
 function UI.GetFont(ui)

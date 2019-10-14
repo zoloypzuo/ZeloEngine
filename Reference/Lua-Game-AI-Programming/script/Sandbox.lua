@@ -90,6 +90,10 @@ function Sandbox.CreateSkyBox(sandbox)
 end
 function Sandbox.CreateUIComponent(sandbox)
 end
+
+-- 这个和上面的CreateUIComponent都是返回一个UIComponent
+-- 相当于参数列表重载
+-- 这个函数，lua层没有脚本用过
 function Sandbox.CreateUIComponent3d(sandbox)
 end
 function Sandbox.DrawInfluenceMap(sandbox)
