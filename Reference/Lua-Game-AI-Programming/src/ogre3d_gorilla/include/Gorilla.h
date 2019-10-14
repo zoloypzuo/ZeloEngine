@@ -686,7 +686,7 @@ namespace Gorilla
 
     /*! function. setMarkupColour
         desc.
-            Change one of the ten markup colours.
+            Change one of the ten markup colours.（设置标记颜色，枚举值0~9）
         note.
             colour_palette_index must be between or equal to 0 and 9.
     */
