@@ -536,7 +536,7 @@ SandboxObject* SandboxUtilities::CreateSandboxCapsule(
 	return object;
 }
 
-// ��һ��mesh�ļ�������һ��ɳ�����
+// ��һ��mesh�ļ�������һ��ɳ�����?
 SandboxObject* SandboxUtilities::CreateSandboxObject(
         Sandbox* const sandbox, const Ogre::String& meshFileName)
 {
