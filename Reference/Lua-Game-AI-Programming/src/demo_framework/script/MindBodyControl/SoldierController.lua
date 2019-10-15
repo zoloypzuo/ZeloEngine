@@ -1,5 +1,19 @@
-require "AnimationStateMachine"
-require "Soldier"
+-- SoldierController.lua
+-- 2019年10月8日
+--
+-- 命令队列
+-- QueueCommand
+-- ClearCommands
+-- CurrentCommand
+-- ImmediateCommand
+--
+-- 内部操作实现
+-- _AddCommandCallback
+-- _AdvanceExecutingCommand
+-- _ExecuteCommand
+
+require "Animation/AnimationStateMachine"
+require "Soldier/Soldier"
 
 local _stance;
 local _soldierMesh;
@@ -94,15 +108,15 @@ local function _ExecuteDieCommand(self, agent, deltaTimeInMillis)
         if (currentState ~= Soldier.SoldierStates.STAND_DEAD) then
             self.asms["soldier"]:RequestState(
                     Soldier.SoldierStates.STAND_DEAD);
-            agent:RemovePhysics();
             agent:SetHealth(0);
+            agent:RemovePhysics();
         end
     else
         if (currentState ~= Soldier.SoldierStates.CROUCH_DEAD) then
             self.asms["soldier"]:RequestState(
                     Soldier.SoldierStates.CROUCH_DEAD);
-            agent:RemovePhysics();
             agent:SetHealth(0);
+            agent:RemovePhysics();
         end
     end
 
@@ -125,10 +139,10 @@ local function _ExecuteFallingCommand(self, agent, deltaTimeInMillis)
         if (currentState ~= Soldier.SoldierStates.STAND_FALL_DEAD) then
             self.asms["soldier"]:RequestState(
                     Soldier.SoldierStates.STAND_FALL_DEAD);
+            agent:SetHealth(0);
             -- Remove the soldier from physics once the death animation
             -- starts playing.
             agent:RemovePhysics();
-            agent:SetHealth(0);
         end
     end
 
@@ -290,17 +304,23 @@ function SoldierController.Initialize(self, agent, soldier, weapon)
 
     -- Associate a callback function to handle each command.
     _AddCommandCallback(
-            self, SoldierController.Commands.CHANGE_STANCE, _ExecuteChangeStanceCommand);
+            self, SoldierController.Commands.CHANGE_STANCE,
+            _ExecuteChangeStanceCommand);
     _AddCommandCallback(
-            self, SoldierController.Commands.DIE, _ExecuteDieCommand);
+            self, SoldierController.Commands.DIE,
+            _ExecuteDieCommand);
     _AddCommandCallback(
-            self, SoldierController.Commands.IDLE, _ExecuteIdleCommand);
+            self, SoldierController.Commands.IDLE,
+            _ExecuteIdleCommand);
     _AddCommandCallback(
-            self, SoldierController.Commands.MOVE, _ExecuteMoveCommand);
+            self, SoldierController.Commands.MOVE,
+            _ExecuteMoveCommand);
     _AddCommandCallback(
-            self, SoldierController.Commands.SHOOT, _ExecuteShootCommand);
+            self, SoldierController.Commands.SHOOT,
+            _ExecuteShootCommand);
     _AddCommandCallback(
-            self, SoldierController.PrivateCommands.FALLING, _ExecuteFallingCommand);
+            self, SoldierController.PrivateCommands.FALLING,
+            _ExecuteFallingCommand);
 end
 
 function SoldierController.QueueCommand(self, agent, command)
