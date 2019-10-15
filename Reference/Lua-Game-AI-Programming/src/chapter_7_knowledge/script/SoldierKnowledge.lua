@@ -1,5 +1,5 @@
 
-require "Soldier"
+require "Soldier/Soldier"
 
 function SoldierKnowledge_ChooseBestEnemy(userData)
     local sandbox = userData.agent:GetSandbox();
