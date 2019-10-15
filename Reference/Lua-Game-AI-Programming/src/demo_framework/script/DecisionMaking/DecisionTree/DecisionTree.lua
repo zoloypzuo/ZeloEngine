@@ -1,4 +1,4 @@
-require "DecisionMaking.Action"
+require "DecisionMaking/Action"
 
 DecisionTree = {};
 
