@@ -2,10 +2,10 @@ require "Blackboard"
 require "DebugUtilities"
 require "KnowledgeSource"
 require "SandboxUtilities"
-require "Soldier"
-require "SoldierController"
+require "Soldier/Soldier"
+require "MindBodyControl/SoldierController"
 require "SoldierKnowledge"
-require "SoldierLogic"
+require "Soldier/SoldierLogic"
 
 local soldier;
 local soldierController;
