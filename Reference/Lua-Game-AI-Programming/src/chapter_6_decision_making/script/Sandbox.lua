@@ -3,6 +3,10 @@ require "SandboxUtilities"
 
 require "GUI"
 
+-- 我写的，因为SoldierLogic是demo-framework里的脚本
+-- 现在，SoldierAction和SoldierEvaluator在c6和demo-frame work里是不一样的，没有黑板逻辑，你没区分的话，就会运行时错误
+IS_CHAPTER_6 = true
+
 local _drawNavMesh;
 local _ui;
 
