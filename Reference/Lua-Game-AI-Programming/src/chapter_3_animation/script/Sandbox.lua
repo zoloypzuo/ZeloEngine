@@ -1,5 +1,7 @@
-require "AnimationStateMachine"
-require "AnimationUtilities"
+-- Sandbox.lua
+
+require "Animation/AnimationStateMachine"
+require "Animation/AnimationUtilities"
 require "SandboxUtilities"
 require "GUI"
 
