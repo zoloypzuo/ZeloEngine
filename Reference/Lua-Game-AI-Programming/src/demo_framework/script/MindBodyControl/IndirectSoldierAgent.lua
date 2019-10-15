@@ -1,7 +1,7 @@
 require "DebugUtilities"
 require "SandboxUtilities"
-require "Soldier"
-require "SoldierController"
+require "Soldier/Soldier"
+require "MindBodyControl/SoldierController"
 
 local _soldierController;
 

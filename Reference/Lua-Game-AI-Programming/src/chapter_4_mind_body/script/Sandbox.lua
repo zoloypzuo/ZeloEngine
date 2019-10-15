@@ -1,6 +1,6 @@
 require "GUI"
 require "SandboxUtilities"
-require "Soldier"
+require "Soldier/Soldier"
 
 local _ui;
 local _ui3ds = {};
@@ -67,12 +67,12 @@ function Sandbox_HandleEvent(sandbox, event)
             UI.SetVisible(_ui, not UI.IsVisible(_ui));
         elseif (event.key == "f3_key") then
             -- Create a direct controlled agent.
-            local agent = Sandbox.CreateAgent(sandbox, "DirectSoldierAgent.lua");
+            local agent = Sandbox.CreateAgent(sandbox, "MindBodyControl/DirectSoldierAgent.lua");
 
             _InitializeAgent(agent);
         elseif (event.key == "f4_key") then
             -- Create an indirect controlled agent.
-            local agent = Sandbox.CreateAgent(sandbox, "IndirectSoldierAgent.lua");
+            local agent = Sandbox.CreateAgent(sandbox, "MindBodyControl/IndirectSoldierAgent.lua");
 
             _InitializeAgent(agent);
         end

@@ -1,8 +1,8 @@
 require "AgentUtilities"
-require "AnimationStateMachine"
+require "Animation/AnimationStateMachine"
 require "DebugUtilities"
 require "SandboxUtilities"
-require "Soldier"
+require "Soldier/Soldier"
 
 local _soldier;
 local _soldierAsm;
@@ -28,6 +28,111 @@ local _soldierStates = {
 local function _IsNumKey(key, numKey)
     -- Match both numpad keys and numeric keys.
     return string.find(key, string.format("^[numpad_]*%d_key$", numKey));
+end
+
+function Agent_Initialize(agent)
+    -- Initialize the soldier and weapon models.
+    _soldier = Soldier_CreateLightSoldier(agent);
+    local weapon = Soldier_CreateWeapon(agent);
+
+    -- Create the soldier and weapon animation state machines.
+    _soldierAsm = Soldier_CreateSoldierStateMachine(_soldier);
+    _weaponAsm = Soldier_CreateWeaponStateMachine(weapon);
+
+    -- Data that is passed into Soldier_Shoot, expects an agent, and soldier
+    -- attribute.
+    local callbackData = {
+        agent = agent;
+        soldier = _soldier
+    };
+
+    -- Add callbacks to shoot a bullet each time the shooting animation is
+    -- played.
+    _soldierAsm:AddStateCallback(
+            Soldier.SoldierStates.STAND_FIRE, Soldier_Shoot, callbackData);
+    _soldierAsm:AddStateCallback(
+            Soldier.SoldierStates.CROUCH_FIRE, Soldier_Shoot, callbackData);
+
+    -- Attach the weapon model after the animation state machines
+    -- have been created.
+    Soldier_AttachWeapon(_soldier, weapon);
+    weapon = nil;
+
+    -- Set the default state and stance.
+    _soldierState = _soldierStates.IDLE;
+    _soldierStance = _soldierStances.STAND;
+end
+
+function Agent_HandleEvent(agent, event)
+    if (event.source == "keyboard" and event.pressed) then
+        -- Ignore new state requests if the agent is dead or about to die.
+        if (_soldierState == _soldierStates.DEATH or
+                _soldierState == _soldierStates.FALLING) then
+            return ;
+        end
+
+        -- Immediately switch the current state of the soldier.
+        if (_IsNumKey(event.key, 1)) then
+            _soldierState = _soldierStates.IDLE;
+        elseif (_IsNumKey(event.key, 2)) then
+            _soldierState = _soldierStates.SHOOTING;
+        elseif (_IsNumKey(event.key, 3)) then
+            _soldierState = _soldierStates.MOVING;
+        elseif (_IsNumKey(event.key, 4)) then
+            _soldierState = _soldierStates.DEATH;
+        elseif (_IsNumKey(event.key, 5)) then
+            -- Immediately switch the stance of the soldier, does not
+            -- switch the current state of the soldier. Doing this assumes
+            -- all possible states can transitions to both stances.
+            if (_soldierStance == _soldierStances.CROUCH) then
+                _soldierStance = _soldierStances.STAND;
+                Soldier_SetHeight(agent, _soldier, Soldier.Height.Stand);
+            else
+                _soldierStance = _soldierStances.CROUCH;
+                Soldier_SetHeight(agent, _soldier, Soldier.Height.Crouch);
+            end
+        end
+    end
+end
+
+function Agent_Update(agent, deltaTimeInMillis)
+    -- Returns the amount of time that has passed in the sandbox,
+    -- this is not the same as lua's os.time();
+    local sandboxTimeInMillis = Sandbox.GetTimeInMillis(agent:GetSandbox());
+
+    -- Allow the soldier to update any soldier's specific data.
+    Soldier_Update(agent, deltaTimeInMillis);
+
+    -- Update the animation state machines to process animation requests.
+    _soldierAsm:Update(deltaTimeInMillis, sandboxTimeInMillis);
+    _weaponAsm:Update(deltaTimeInMillis, sandboxTimeInMillis);
+
+    -- Draw the agent's cyclic path, offset slightly above the level geometry.
+    DebugUtilities_DrawPath(
+            agent:GetPath(), true, Vector.new(0, 0.02, 0));
+
+    -- Ignore all state requests once the agent is dead.
+    if (agent:GetHealth() <= 0) then
+        return ;
+    end
+
+    -- Force the soldier into falling, this overrides all other requests.
+    if (Soldier_IsFalling(agent)) then
+        _soldierState = _soldierStates.FALLING;
+    end
+
+    -- Handle the current soldier's requested state.
+    if (_soldierState == _soldierStates.IDLE) then
+        Agent_IdleState(agent, deltaTimeInMillis);
+    elseif (_soldierState == _soldierStates.SHOOTING) then
+        Agent_ShootState(agent, deltaTimeInMillis);
+    elseif (_soldierState == _soldierStates.MOVING) then
+        Agent_MovingState(agent, deltaTimeInMillis);
+    elseif (_soldierState == _soldierStates.FALLING) then
+        Agent_FallingState(agent, deltaTimeInMillis);
+    elseif (_soldierState == _soldierStates.DEATH) then
+        Agent_DeathState(agent, deltaTimeInMillis);
+    end
 end
 
 function Agent_Cleanup(agent)
@@ -86,38 +191,6 @@ function Agent_FallingState(agent, deltaTimeInMillis)
     end
 end
 
-function Agent_HandleEvent(agent, event)
-    if (event.source == "keyboard" and event.pressed) then
-        -- Ignore new state requests if the agent is dead or about to die.
-        if (_soldierState == _soldierStates.DEATH or
-                _soldierState == _soldierStates.FALLING) then
-            return ;
-        end
-
-        -- Immediately switch the current state of the soldier.
-        if (_IsNumKey(event.key, 1)) then
-            _soldierState = _soldierStates.IDLE;
-        elseif (_IsNumKey(event.key, 2)) then
-            _soldierState = _soldierStates.SHOOTING;
-        elseif (_IsNumKey(event.key, 3)) then
-            _soldierState = _soldierStates.MOVING;
-        elseif (_IsNumKey(event.key, 4)) then
-            _soldierState = _soldierStates.DEATH;
-        elseif (_IsNumKey(event.key, 5)) then
-            -- Immediately switch the stance of the soldier, does not
-            -- switch the current state of the soldier. Doing this assumes
-            -- all possible states can transitions to both stances.
-            if (_soldierStance == _soldierStances.CROUCH) then
-                _soldierStance = _soldierStances.STAND;
-                Soldier_SetHeight(agent, _soldier, Soldier.Height.Stand);
-            else
-                _soldierStance = _soldierStances.CROUCH;
-                Soldier_SetHeight(agent, _soldier, Soldier.Height.Crouch);
-            end
-        end
-    end
-end
-
 function Agent_IdleState(agent, deltaTimeInMillis)
     local currentState = _soldierAsm:GetCurrentStateName();
 
@@ -142,39 +215,6 @@ function Agent_IdleState(agent, deltaTimeInMillis)
             _soldierAsm:RequestState(Soldier.SoldierStates.CROUCH_IDLE_AIM);
         end
     end
-end
-
-function Agent_Initialize(agent)
-    -- Initialize the soldier and weapon models.
-    _soldier = Soldier_CreateLightSoldier(agent);
-    local weapon = Soldier_CreateWeapon(agent);
-
-    -- Create the soldier and weapon animation state machines.
-    _soldierAsm = Soldier_CreateSoldierStateMachine(_soldier);
-    _weaponAsm = Soldier_CreateWeaponStateMachine(weapon);
-
-    -- Data that is passed into Soldier_Shoot, expects an agent, and soldier
-    -- attribute.
-    local callbackData = {
-        agent = agent;
-        soldier = _soldier
-    };
-
-    -- Add callbacks to shoot a bullet each time the shooting animation is
-    -- played.
-    _soldierAsm:AddStateCallback(
-            Soldier.SoldierStates.STAND_FIRE, Soldier_Shoot, callbackData);
-    _soldierAsm:AddStateCallback(
-            Soldier.SoldierStates.CROUCH_FIRE, Soldier_Shoot, callbackData);
-
-    -- Attach the weapon model after the animation state machines
-    -- have been created.
-    Soldier_AttachWeapon(_soldier, weapon);
-    weapon = nil;
-
-    -- Set the default state and stance.
-    _soldierState = _soldierStates.IDLE;
-    _soldierStance = _soldierStances.STAND;
 end
 
 function Agent_MovingState(agent, deltaTimeInMillis)
@@ -230,45 +270,5 @@ function Agent_ShootState(agent, deltaTimeInMillis)
         if (currentState ~= Soldier.SoldierStates.CROUCH_FIRE) then
             _soldierAsm:RequestState(Soldier.SoldierStates.CROUCH_FIRE);
         end
-    end
-end
-
-function Agent_Update(agent, deltaTimeInMillis)
-    -- Returns the amount of time that has passed in the sandbox,
-    -- this is not the same as lua's os.time();
-    local sandboxTimeInMillis = Sandbox.GetTimeInMillis(agent:GetSandbox());
-
-    -- Allow the soldier to update any soldier's specific data.
-    Soldier_Update(agent, deltaTimeInMillis);
-
-    -- Update the animation state machines to process animation requests.
-    _soldierAsm:Update(deltaTimeInMillis, sandboxTimeInMillis);
-    _weaponAsm:Update(deltaTimeInMillis, sandboxTimeInMillis);
-
-    -- Draw the agent's cyclic path, offset slightly above the level geometry.
-    DebugUtilities_DrawPath(
-            agent:GetPath(), true, Vector.new(0, 0.02, 0));
-
-    -- Ignore all state requests once the agent is dead.
-    if (agent:GetHealth() <= 0) then
-        return ;
-    end
-
-    -- Force the soldier into falling, this overrides all other requests.
-    if (Soldier_IsFalling(agent)) then
-        _soldierState = _soldierStates.FALLING;
-    end
-
-    -- Handle the current soldier's requested state.
-    if (_soldierState == _soldierStates.IDLE) then
-        Agent_IdleState(agent, deltaTimeInMillis);
-    elseif (_soldierState == _soldierStates.SHOOTING) then
-        Agent_ShootState(agent, deltaTimeInMillis);
-    elseif (_soldierState == _soldierStates.MOVING) then
-        Agent_MovingState(agent, deltaTimeInMillis);
-    elseif (_soldierState == _soldierStates.FALLING) then
-        Agent_FallingState(agent, deltaTimeInMillis);
-    elseif (_soldierState == _soldierStates.DEATH) then
-        Agent_DeathState(agent, deltaTimeInMillis);
     end
 end
