@@ -1,4 +1,4 @@
-require "BehaviorTreeNode"
+require "DecisionMaking.BehaviorTree.BehaviorTreeNode"
 
 BehaviorTree = {};
 

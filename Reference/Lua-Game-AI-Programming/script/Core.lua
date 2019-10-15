@@ -60,6 +60,16 @@ function Core.ApplyAngularImpulse(agent)
 end
 function Core.CacheResource(agent)
 end
+function Core.IsVisisble(agent)
+end
+function Core.Remove(agent)
+end
+function Core.ResetParticle(agent)
+end
+
+---}}}
+
+--{{{Create*
 function Core.CreateBox(agent)
 end
 function Core.CreateCapsule(agent)
@@ -80,6 +90,9 @@ function Core.CreatePlane(agent)
 end
 function Core.CreatePointLight(agent)
 end
+--}}}
+
+--{{{Draw*
 function Core.DrawCircle(agent)
 end
 function Core.DrawLine(agent)
@@ -88,20 +101,9 @@ function Core.DrawSphere(agent)
 end
 function Core.DrawSquare(agent)
 end
-function Core.GetMass(agent)
-end
-function Core.GetPosition(agent)
-end
-function Core.GetRadius(agent)
-end
-function Core.GetRotation(agent)
-end
-function Core.IsVisisble(agent)
-end
-function Core.Remove(agent)
-end
-function Core.ResetParticle(agent)
-end
+--}}}
+
+--{{{Set*
 function Core.SetAxis(agent)
 end
 function Core.SetGravity(agent)
@@ -126,7 +128,16 @@ function Core.SetRotation(agent)
 end
 function Core.SetVisisble(agent)
 end
----}}}
+--}}}
 
-
+--{{{Get*
+function Core.GetMass(agent)
+end
+function Core.GetPosition(agent)
+end
+function Core.GetRadius(agent)
+end
+function Core.GetRotation(agent)
+end
+--}}}
 return Core

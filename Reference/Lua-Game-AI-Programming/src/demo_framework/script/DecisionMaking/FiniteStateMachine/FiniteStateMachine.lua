@@ -1,6 +1,6 @@
-require "Action";
-require "FiniteState";
-require "FiniteStateTransition";
+require "DecisionMaking.Action";
+require "DecisionMaking.FiniteStateMachine.FiniteState";
+require "DecisionMaking.FiniteStateMachine.FiniteStateTransition";
 
 FiniteStateMachine = {};
 
