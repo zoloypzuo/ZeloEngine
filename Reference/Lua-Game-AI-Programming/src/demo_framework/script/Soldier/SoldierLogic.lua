@@ -1,11 +1,20 @@
-require "Action"
-require "BehaviorTree"
-require "DecisionBranch"
-require "DecisionTree"
-require "Evaluator"
-require "FiniteStateMachine"
-require "SoldierActions"
-require "SoldierEvaluators"
+require "DecisionMaking/Action"
+require "DecisionMaking/BehaviorTree/BehaviorTree"
+require "DecisionMaking/DecisionTree/DecisionBranch"
+require "DecisionMaking/DecisionTree/DecisionTree"
+require "DecisionMaking/BehaviorTree/Evaluator"
+require "DecisionMaking/FiniteStateMachine/FiniteStateMachine"
+
+-- 这个没有用处
+-- 可能他保护了全局环境，其他文件定义的？》？？？？不科学，懒得弄看、
+-- 你自己要调整
+--if IS_CHAPTER_6 then
+    require "SoldierActions"
+    require "SoldierEvaluators"
+--else
+--    require "Soldier/SoldierActions"
+--    require "Soldier/SoldierEvaluators"
+--end
 
 local function ChangeStanceAction(userData)
     return Action.new(
