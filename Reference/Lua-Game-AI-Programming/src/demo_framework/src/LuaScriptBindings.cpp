@@ -1231,26 +1231,25 @@ int Lua_Script_AnimationToWatch(lua_State* luaVM)
 	return 0;
 }
 
+// ɱ������rbӦ��һ����
 int Lua_Script_CoreApplyForce(lua_State* luaVM)
 {
-	if (lua_gettop(luaVM) == 2)
-	{
-		LuaScriptType* const type =
-			LuaScriptUtilities::GetDataType(luaVM, -2);
-		const Ogre::Vector3* const force =
-			LuaScriptUtilities::GetVector3(luaVM, -1);
+    if (lua_gettop(luaVM) == 2) {
+        LuaScriptType* const type =
+                LuaScriptUtilities::GetDataType(luaVM, -2);
+        const Ogre::Vector3* const force =
+                LuaScriptUtilities::GetVector3(luaVM, -1);
 
-		if (type && type->type == SCRIPT_SANDBOX_OBJECT)
-		{
-			SandboxObject* const object =
-				static_cast<SandboxObject*>(type->rawPointer);
-			PhysicsUtilities::ApplyForce(
-				object->GetRigidBody(),
-				btVector3(force->x, force->y, force->z));
-		}
-	}
+        if (type && type->type == SCRIPT_SANDBOX_OBJECT) {
+            SandboxObject* const object =
+                    static_cast<SandboxObject*>(type->rawPointer);
+            PhysicsUtilities::ApplyForce(
+                    object->GetRigidBody(),
+                    btVector3(force->x, force->y, force->z));
+        }
+    }
 
-	return 0;
+    return 0;
 }
 
 int Lua_Script_CoreApplyImpulse(lua_State* luaVM)
