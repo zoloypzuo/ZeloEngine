@@ -1,6 +1,6 @@
-require "AgentCommunications"
+require "Perception/AgentCommunications"
 require "AgentUtilities"
-require "AnimationStateMachine"
+require "Animation/AnimationStateMachine"
 
 Soldier = {};
 
