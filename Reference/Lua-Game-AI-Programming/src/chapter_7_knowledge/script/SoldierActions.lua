@@ -7,8 +7,8 @@ userData =
 };
 ]]
 
-require "Action"
-require "SoldierController"
+require "DecisionMaking/Action"
+require "MindBodyControl/SoldierController"
 
 -- Change Stance
 function SoldierActions_ChangeStanceCleanUp(userData)
