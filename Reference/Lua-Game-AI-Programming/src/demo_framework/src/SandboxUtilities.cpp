@@ -536,28 +536,29 @@ SandboxObject* SandboxUtilities::CreateSandboxCapsule(
 	return object;
 }
 
+// ��һ��mesh�ļ�������һ��ɳ�����
 SandboxObject* SandboxUtilities::CreateSandboxObject(
-	Sandbox* const sandbox, const Ogre::String& meshFileName)
+        Sandbox* const sandbox, const Ogre::String& meshFileName)
 {
-	Ogre::SceneNode* const node =
-		sandbox->GetRootNode()->createChildSceneNode();
+    Ogre::SceneNode* const node =
+            sandbox->GetRootNode()->createChildSceneNode();
 
-	Ogre::Entity* const meshEntity =
-		node->getCreator()->createEntity(meshFileName);
+    Ogre::Entity* const meshEntity =
+            node->getCreator()->createEntity(meshFileName);
 
-	node->attachObject(meshEntity);
+    node->attachObject(meshEntity);
 
-	btRigidBody* const rigidBody = PhysicsUtilities::CreateRigidBodyFromMesh(
-		*meshEntity->getMesh().getPointer(), btVector3(0, 0, 0), 1.0f);
+    btRigidBody* const rigidBody = PhysicsUtilities::CreateRigidBodyFromMesh(
+            *meshEntity->getMesh().getPointer(), btVector3(0, 0, 0), 1.0f);
 
-	SandboxObject* const object = new SandboxObject(
-		sandbox->GenerateObjectId(), node, rigidBody);
+    SandboxObject* const object = new SandboxObject(
+            sandbox->GenerateObjectId(), node, rigidBody);
 
-	rigidBody->setUserPointer(object);
+    rigidBody->setUserPointer(object);
 
-	sandbox->AddSandboxObject(object);
+    sandbox->AddSandboxObject(object);
 
-	return object;
+    return object;
 }
 
 SandboxObject* SandboxUtilities::CreateSandboxObject(
