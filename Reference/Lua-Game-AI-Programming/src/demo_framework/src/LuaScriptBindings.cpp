@@ -1821,9 +1821,14 @@ int Lua_Script_CoreRequireLuaModule(lua_State* luaVM)
 
 		if (lua_isnil(luaVM, -1))
 		{
-			// Module hasn't been loaded yet.
-			LuaScriptUtilities::RequireLuaModule(luaVM, moduleName + ".lua");
-
+			try{
+				// Module hasn't been loaded yet.
+				LuaScriptUtilities::RequireLuaModule(luaVM, moduleName + ".lua");
+			}
+			catch (Ogre::FileNotFoundException& e)
+			{
+				return luaL_error(luaVM, e.getDescription().c_str());
+			}
 			// Mark that the Module is loaded.
 			LuaScriptUtilities::PushBoolAttribute(
 				luaVM, true, moduleName, loadedTableIndex);
