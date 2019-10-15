@@ -1,7 +1,7 @@
 require "GUI"
 require "DebugUtilities"
 require "SandboxUtilities"
-require "Soldier"
+require "Soldier/Soldier"
 
 local _drawNavMesh;
 local _ui;
@@ -125,7 +125,7 @@ function Sandbox_Initialize(sandbox)
 
     -- Create agents and randomly place them on the navmesh.
     for i = 1, 5 do
-        local agent = Sandbox.CreateAgent(sandbox, "IndirectSoldierAgent.lua");
+        local agent = Sandbox.CreateAgent(sandbox, "MindBodyControl/IndirectSoldierAgent.lua");
         table.insert(_agents, agent);
 
         agent:SetPosition(Sandbox.RandomPoint(sandbox, "default"));
