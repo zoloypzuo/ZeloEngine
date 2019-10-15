@@ -1,3 +1,10 @@
+-- Action.lua
+-- 2019年10月8日
+
+-- 智能体决策的结果就是行动
+-- 行动有三种状态：未初始化，运行中和已终止
+-- 对应的状态机是：未初始化=》初始化后进入运行中=》运行结束后进入已终止
+-- Action的ctor会为三个状态指定回调函数
 Action = {};
 
 -- The states an instance of an Action can be in.
@@ -7,6 +14,7 @@ Action.Status = {
     UNINITIALIZED = "UNINITIALIZED"
 };
 
+-- 现在开始使用type字段标记类的类型
 -- Type of object an Action is.
 Action.Type = "Action";
 

@@ -7,9 +7,9 @@ userData =
 };
 ]]
 
-require "Action"
-require "AgentCommunications"
-require "SoldierController"
+require "DecisionMaking/Action"
+require "Perception/AgentCommunications"
+require "MindBodyControl/SoldierController"
 
 local function SendEnemySelection(sandbox, agent, enemy)
     AgentCommunications_SendTeamMessage(
