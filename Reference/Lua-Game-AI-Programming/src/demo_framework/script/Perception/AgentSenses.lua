@@ -1,4 +1,4 @@
-require "AgentCommunications"
+require "Perception.AgentCommunications"
 require "DebugUtilities"
 
 local PruneEvents;
