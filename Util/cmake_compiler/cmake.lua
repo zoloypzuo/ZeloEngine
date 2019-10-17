@@ -83,7 +83,7 @@ end
 --ADD_LIBRARY(hello_dynamic SHARED ${LIBHELLO_SRC})
 --ADD_LIBRARY(hello_static STATIC ${LIBHELLO_SRC})
 add_library = function(name, lib_type, ...)
-    return cmake_command("ADD_LIBRARY", lib_type, ...)
+    return cmake_command("ADD_LIBRARY", target, lib_type, ...)
 end
 
 add_library_static = function(name, ...)
@@ -312,6 +312,33 @@ end
 --可以用于为自己编写的共享库添加共享库链接。
 target_link_library = function(target, ...)
     return cmake_command("TARGET_LINK_LIBRARIES", target, ...)
+end
+
+-- (我们现在只需要)递归扫描h和cpp到SRC_LIST
+-- 递归扫描整个目录中匹配模式的文件
+--https://cmake.org/cmake/help/v3.12/command/file.html#glob-recurse
+file_glob_recursive_h_cpp = function(dir)
+    dir = dir or "./"
+    return cmake_command("FILE", "GLOB_RECURSE", "SRC_LIST", dir .. "*.h", dir .. "*.cpp")
+end
+
+-- 暂时都是private的
+-- flag是这样的 UNIT_TEST=1，不要有引号
+--https://cmake.org/cmake/help/v3.0/command/target_compile_definitions.html
+--target_compile_definitions(<target>
+--  <INTERFACE|PUBLIC|PRIVATE> [items1...]
+--  [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
+target_compile_definitions = function(target, ...)
+    return cmake_command("target_compile_definitions", target, "PRIVATE", ...)
+end
+
+-- 暂时都是private的
+--https://cmake.org/cmake/help/latest/command/target_include_directories.html
+--target_include_directories(<target> [SYSTEM] [BEFORE]
+--  <INTERFACE|PUBLIC|PRIVATE> [items1...]
+--  [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
+target_include_directories = function(target, ...)
+    return cmake_command("target_include_directories", target, "PRIVATE", ...)
 end
 --}}}
 
