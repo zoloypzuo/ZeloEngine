@@ -43,4 +43,93 @@ example_project = function(name)
     --]])
 end
 
-example_project "test"
+--example_project "test"
+
+--========================================================================================
+--
+-- 接下来我们将SandboxFramework从premake迁移到cmake
+--
+
+Solution = Class(function(self)
+
+end)
+
+Project = Class(function(self)
+end)
+
+--
+BaseProject = Class(Project, function(self)
+    -- lang = cpp，cmake不需要
+    self.include_dirs = "%{SolutionDir}/src/include/"
+    -- warning = extra。可以先忽略
+    -- flags = xxxx，要看一下，有些影响编译
+    -- vpaths = 这里不需要，cmake指定头文件和源文件即可
+end)
+
+FrameworkProject = Class(BaseProject, function(self)
+    -- kind = static lib
+    -- pch = XXX.h
+    -- pch.c = XXX.c
+    -- option = xx
+    self.include_dirs = {
+        "%{SolutionDir}/src/bulletxxx",
+        "xxx"
+    }
+
+end)
+
+target = "bullet_collision"
+code = {
+    cmake_header();
+    project "bullet";
+    file_glob_recursive_h_cpp("bullet_collision/");
+    add_library(target, "${SRC_LIST}");
+    target_include_directories(target,
+            "bullet_collision/include/",
+            "bullet_collision/include/BulletCollision/BroadphaseCollision",
+            "bullet_collision/include/BulletCollision/CollisionDispatch",
+            "bullet_collision/include/BulletCollision/CollisionShapes",
+            "bullet_collision/include/BulletCollision/Gimpact",
+            "bullet_collision/include/BulletCollision/NarrowPhaseCollision",
+            "bullet_linearmath/include"
+    );
+    target_compile_definitions(target, "WIN32", "_CRT_SECURE_NO_WARNINGS")
+}
+
+-- TODO 这里的option没有处理
+target = "bullet_dynamics"
+code = {
+    cmake_header();
+    project "bullet";
+    file_glob_recursive_h_cpp("bullet_dynamics/");
+    add_library(target, "${SRC_LIST}");
+    target_include_directories(target,
+            "bullet_dynamics/include/",
+            "bullet_collision/include/",
+            "bullet_dynamics/include/BulletDynamics/Character",
+            "bullet_dynamics/include/BulletDynamics/ConstraintSolver",
+            "bullet_dynamics/include/BulletDynamics/Dynamics",
+            "bullet_dynamics/include/BulletDynamics/Vehicle",
+            "bullet_linearmath/include"
+    );
+    target_compile_definitions(target, "WIN32", "_CRT_SECURE_NO_WARNINGS")
+}
+code = (table.concat(code))
+
+writeall([[D:\ZeloEngine\External\bullet\CMakeLists.txt]], code)
+
+target = "bullet_linearmath"
+code = {
+    cmake_header();
+    project "bullet";
+    file_glob_recursive_h_cpp("bullet_linearmath/");
+    add_library(target, "${SRC_LIST}");
+    target_include_directories(target,
+            "bullet_linearmath/include/",
+            "bullet_linearmath/include/LinearMath"
+    );
+    target_compile_definitions(target, "WIN32", "_CRT_SECURE_NO_WARNINGS")
+}
+code = (table.concat(code))
+
+writeall([[D:\ZeloEngine\External\bullet\CMakeLists.txt]], code)
