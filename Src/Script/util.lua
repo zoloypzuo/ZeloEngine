@@ -19,6 +19,6 @@ function map(func, iterable)
     for _, v in pairs(iterable) do
         ret[#ret+1] = func(v)
     end
-    print(#ret)
+    --print(#ret)
     return ret
 end
