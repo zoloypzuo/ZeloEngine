@@ -119,4 +119,24 @@ code = {
 
 code = (table.concat(code))
 
-writeall([[D:\ZeloEngine\External\bullet\CMakeLists.txt]], code)
+--writeall([[D:\ZeloEngine\External\bullet\CMakeLists.txt]], code)
+
+
+
+target = "lua"
+
+code = {
+    cmake_header();
+    project "lua";
+    file_glob_recursive("include/*.h", "src/*.c");
+    log("${SRC_LIST}");
+    add_library(target, "${SRC_LIST}");
+    target_include_directories(target,
+            "include"
+    );
+    target_compile_definitions(target, "WIN32", "_CRT_SECURE_NO_WARNINGS")
+}
+
+code = (table.concat(code))
+
+writeall([[D:\ZeloEngine\External\lua\CMakeLists.txt]], code)
