@@ -317,9 +317,16 @@ end
 -- (我们现在只需要)递归扫描h和cpp到SRC_LIST
 -- 递归扫描整个目录中匹配模式的文件
 --https://cmake.org/cmake/help/v3.12/command/file.html#glob-recurse
-file_glob_recursive_h_cpp = function(dir)
-    dir = dir or "./"
-    return cmake_command("FILE", "GLOB_RECURSE", "SRC_LIST", dir .. "*.h", dir .. "*.cpp")
+file_glob_recursive_h_cpp = function(...)
+    local dirs = { ... }
+    if #dirs == 0 then
+        dirs = { "./" }
+    end
+    print(#dirs)
+    local patterns = map(function(dir)
+        return dir .. "*.h" .. " " .. dir .. "*.cpp"
+    end, dirs)
+    return cmake_command("FILE", "GLOB_RECURSE", "SRC_LIST", table.unpack(patterns))
 end
 
 -- 暂时都是private的
