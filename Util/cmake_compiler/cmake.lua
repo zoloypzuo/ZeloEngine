@@ -314,6 +314,11 @@ target_link_library = function(target, ...)
     return cmake_command("TARGET_LINK_LIBRARIES", target, ...)
 end
 
+-- patterns
+file_glob_recursive = function(...)
+    return cmake_command("file", "GLOB_RECURSE", "SRC_LIST", ...)
+end
+
 -- (我们现在只需要)递归扫描h和cpp到SRC_LIST
 -- 递归扫描整个目录中匹配模式的文件
 --https://cmake.org/cmake/help/v3.12/command/file.html#glob-recurse
@@ -322,11 +327,11 @@ file_glob_recursive_h_cpp = function(...)
     if #dirs == 0 then
         dirs = { "./" }
     end
-    print(#dirs)
+    --print(#dirs)
     local patterns = map(function(dir)
         return dir .. "*.h" .. " " .. dir .. "*.cpp"
     end, dirs)
-    return cmake_command("FILE", "GLOB_RECURSE", "SRC_LIST", table.unpack(patterns))
+    return file_glob_recursive(table.unpack(patterns))
 end
 
 -- 暂时都是private的
