@@ -1,0 +1,1 @@
+libpng v1.5.13 September 27, 2012
