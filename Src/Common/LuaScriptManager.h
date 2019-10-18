@@ -4,12 +4,10 @@
 
 #ifndef ZELOENGINE_LUASCRIPTMANAGER_H
 #define ZELOENGINE_LUASCRIPTMANAGER_H
-#include "lua.hpp"
 
 
 class LuaScriptManager {
 public:
-    lua_State* L;
 };
 
 
