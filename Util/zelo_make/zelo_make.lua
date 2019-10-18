@@ -1,4 +1,4 @@
--- cmake_compiler.lua
+-- zelo_make.lua
 -- created on 2019/10/9
 -- author @zoloypzuo
 
@@ -19,26 +19,25 @@
 --这个脚本会加载lua配置，生成CMakeList.txt，重新生成和构建Visual Studio项目
 
 
--- 这个其实是zelo-make
--- 你最好重新起个名字，这样比较
+-- zelo-make
 -- 读取ProjectConfig文件，生成cmake，构建
 -- 你用wizard创建好项目
 -- 然后每次修改配置，用zelo-make重新构建
 
 require "lfs"
-require "cmake_compiler.cmake"
+require "cmake"
 
 -- 为一个target导入一套库
-ImportLibConfig = Class(function(self)
+ImportLibConfig = Class(function(self, include_dirs, lib_dirs, lib_names)
     -- "include/"
-    self.include_dirs = {}
+    self.include_dirs = include_dirs or {}
     -- "lib/x64/"
-    self.lib_dirs = {}
+    self.lib_dirs = lib_dirs or {}
     -- "lua.lib"
-    self.lib_names = {}
+    self.lib_names = lib_names or {}
 end)
 
-ImportLibConfig.generate_cmake_code = function(self, target)
+function ImportLibConfig:generate_cmake_code(target)
     local code = {
         target_include_directories(target, table.unpack(self.include_dirs));
         target_link_directories(target, table.unpack(self.lib_dirs));
@@ -47,10 +46,10 @@ ImportLibConfig.generate_cmake_code = function(self, target)
     return code
 end
 
-ProjectConfig = Class(function(self)
-    self.name = ""
+ProjectConfig = Class(function(self, name, targets)
+    self.name = name or ""
     -- e.g. ExeConfig
-    self.targets = {}
+    self.targets = targets or {}
 end)
 
 function ProjectConfig:generate_cmake_code()
@@ -76,3 +75,5 @@ function ExeTargetConfig:generate_cmake_code()
     return code
 end
 
+--print(table.concat(ProjectConfig("Init_Sandbox"):generate_cmake_code()))
+print(table.concat(dofile([[D:\ZeloEngine\Config\CMakeProjectConfig\ImportLibConfig_sandbox.lua]]):generate_cmake_code("Init_Sandbox")))
