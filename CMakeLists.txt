@@ -7,12 +7,6 @@ set(CMAKE_CXX_STANDARD 11)
 
 project(ZeloEngine)
 
-#
-# set variable
-#
-set(ExternalDir ${PROJECT_SOURCE_DIR}/External/)
-set(LibDir ${PROJECT_SOURCE_DIR}/Lib/Win32Debug/)
-link_directories(${LibDir})
 
 add_compile_definitions(
         UNICODE
@@ -44,17 +38,6 @@ include_directories("${ExternalDir}DirectXTK12/Inc")
 # set(OGRE_DIR "C:/Users/zoloypzuo/Documents/vcpkg-master/installed/x64-windows/share/ogre")
 # find_package(OGRE CONFIG REQUIRED)
 
-#
-# include directory
-#
-include_directories(Src/LuaConfig/CppConfigClass_Generated)
-include_directories(Src/LuaConfig)
-include_directories(Src/Common)
-include_directories(Src/ZeloMain)
-include_directories(Src/Module/LogModule)
-include_directories(Src/Module/LuaModule)
-
-add_subdirectory(Src)
 # example单独编译（否则很乱），engine编译出库后cmake-export
 # add_subdirectory(Example)
 # 按从底层到高层的顺序
