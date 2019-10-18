@@ -14,7 +14,7 @@
 -- 这里要把基础的组件优先初始化
 --
 require("strict") -- Class.lua要用strict
-require("std_extension")
+require("extension_stdlib")
 require("PlainClass")
 require("Class")
 
@@ -28,8 +28,9 @@ require("Class")
 -- 工具是独立的，最后加载
 require "util"
 
-require "pprint"
+pprint = require "pprint"
 
 require "LuaConfigManager"
 
 require "pl"
+require "extension_List"
