@@ -24,57 +24,69 @@
 -- 你用wizard创建好项目
 -- 然后每次修改配置，用zelo-make重新构建
 
+-- cmake变量，尽量不使用，我们用lua变量
+--
+-- ${PROJECT_SOURCE_DIR}暂时不用，我们主要使用顶层cmake-list文件，就是source-dir
+
 require "lfs"
 require "cmake"
 
--- 为一个target导入一套库
+local config_dir = [[D:\ZeloEngine\Config\CMakeProjectConfig\]]
+local project_config_manager = LuaConfigManager(config_dir, "ProjectConfig")
+local import_lib_config_manager = LuaConfigManager(config_dir, "ImportLibConfig")
+local exe_config_manager = LuaConfigManager(config_dir, "ExeTargetConfig")
+
+
+-- 为一个exe导入一套库
+-- 一个ImportLib实际上是一套库，因为dir是公用的
+-- 而且我们实际上把一组库作为一个整体链接到一个exe上
 ImportLibConfig = Class(function(self, include_dirs, lib_dirs, lib_names)
     -- "include/"
-    self.include_dirs = include_dirs or {}
+    self.include_dirs = include_dirs
     -- "lib/x64/"
-    self.lib_dirs = lib_dirs or {}
+    self.lib_dirs = lib_dirs
     -- "lua.lib"
-    self.lib_names = lib_names or {}
+    self.lib_names = lib_names
 end)
 
 function ImportLibConfig:generate_cmake_code(target)
-    local code = {
-        target_include_directories(target, table.unpack(self.include_dirs));
-        target_link_directories(target, table.unpack(self.lib_dirs));
-        target_link_library(target, table.unpack(self.lib_names));
+    return List {
+        target_include_directories(target, self.include_dirs);
+        target_link_directories(target, self.lib_dirs);
+        target_link_library(target, self.lib_names);
     }
-    return code
 end
 
-ProjectConfig = Class(function(self, name, targets)
-    self.name = name or ""
-    -- e.g. ExeConfig
-    self.targets = targets or {}
+-- 分离exe和lib
+-- 1-lib先构建
+-- 2-不分离，写在一起，你代码没法写通的
+ProjectConfig = Class(function(self, name, lib_targets, exe_targets)
+    self.name = name
+    self.lib_targets = lib_targets
+    self.exe_targets = exe_targets
 end)
 
 function ProjectConfig:generate_cmake_code()
-    local code = {
+    return List {
         cmake_header();
         project(self.name);
-        log(cmake_string "This is BINARY dir ", "${PROJECT_BINARY_DIR}");
-    }
-    return code
+    } .. self.exe_targets:map(function(t)
+        return exe_config_manager:load_config(t):generate_cmake_code()
+    end)     :join_list()
 end
 
-ExeTargetConfig = Class(function(self)
-    self.name = ""
-    -- ImportLibConfig list
-    self.import_libs = {}
+ExeTargetConfig = Class(function(self, name, import_libs)
+    self.name = name
+    self.import_libs = import_libs
 end)
 
 function ExeTargetConfig:generate_cmake_code()
-    local code = {
-        file_glob_recursive_h_cpp();
-        add_executable(self.name, "${SRC_LIST}");
-    }
-    return code
+    return List {
+        file_glob_current_dir_to_source_list();
+        add_executable_with_source_list(self.name);
+    } .. self.import_libs:map(function(lib)
+        return import_lib_config_manager:load_config(lib):generate_cmake_code(self.name)
+    end)     :join_list()
 end
 
---print(table.concat(ProjectConfig("Init_Sandbox"):generate_cmake_code()))
-print(table.concat(dofile([[D:\ZeloEngine\Config\CMakeProjectConfig\ImportLibConfig_sandbox.lua]]):generate_cmake_code("Init_Sandbox")))
-
+print(project_config_manager:load_config("ZeloEngine"):generate_cmake_code():concat())

@@ -323,7 +323,7 @@ file_glob_recursive_h_cpp_to_source_list = function(dirs)
     local patterns = map(function(dir)
         return dir .. "*.h" .. " " .. dir .. "*.cpp"
     end, dirs)
-    return file_glob_recursive(cmake_variable "SRC_LIST", patterns)
+    return file_glob_recursive("SRC_LIST", patterns)
 end
 
 -- 默认头文件和源文件都在当前目录
