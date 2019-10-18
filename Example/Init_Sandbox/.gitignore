@@ -1,0 +1,15 @@
+# @zoloypzuo 2019-8-5-10-47
+.DS_Store
+
+# @zoloypzuo 2019-8-19-9-43
+.idea/
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/ZeloEngine.iml
+
+# @zoloypzuo 2019-8-21-0-7
+build/**
+
+# @zoloypzuo 2019-9-2-15-14
+cmake-build-debug/**
