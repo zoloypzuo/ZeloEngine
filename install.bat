@@ -12,7 +12,7 @@ rem Lua
 rem
 
 rem 初始化脚本
-setx LUA_INIT_5_3 "@D:\ZeloEngine\Src\Script\global_init.lua"
+setx LUA_INIT_5_3 "@D:\ZeloEngine\CoreScript\global_init.lua"
 
 rem require函数的搜索路径
 rem 我们只额外添加D:\ZeloEngine\Src\Script\
@@ -23,8 +23,8 @@ rem 注意前面两个路径
 rem 我们的模块放在两个地方
 rem Src/Script和Util
 setx LUA_PATH_5_3 ^
-D:\ZeloEngine\Src\Script\?.lua;^
-D:\ZeloEngine\Src\Script\?\?.lua;^
+D:\ZeloEngine\CoreScript\?.lua;^
+D:\ZeloEngine\CoreScript\?\?.lua;^
 D:\ZeloEngine\Util\?.lua^
 D:\ZeloEngine\Util\?\?.lua^
 D:\LuaRocks\lua\?.lua;^
