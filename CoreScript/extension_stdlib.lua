@@ -1,4 +1,4 @@
--- std_extension.lua
+-- extension_stdlib.lua
 -- created on 2019/9/26
 -- author @zoloypzuo
 --
@@ -28,6 +28,7 @@ function ex_type(o)
     end
 end
 
+-- 可以有，但是pl.List有map了
 function map(func, array)
     local new_array = {}
     for i, v in ipairs(array) do
