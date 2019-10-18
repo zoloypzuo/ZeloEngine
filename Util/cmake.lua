@@ -39,8 +39,8 @@ end
 
 -- 返回一个单行的指令
 -- 指令一定在本文件实现，所以private
-local cmake_command = function(command, ...)
-    return command .. "(" .. table.concat({ ... }, " ") .. ")\n"
+local cmake_command = function(command, args)
+    return command .. "(" .. args:concat(" ") .. ")\n"
 end
 
 --${LIBHELLO_SRC}
@@ -59,11 +59,15 @@ set(CMAKE_CXX_STANDARD 11)
 end
 
 project = function(name)
-    return "project(" .. name .. ")\n"
+    return cmake_command("project", List { name })
 end
 
-add_executable = function(name, ...)
-    return cmake_command("ADD_EXECUTABLE", name, ...)
+add_executable = function(name, args)
+    return cmake_command("ADD_EXECUTABLE", List { name } .. args)
+end
+
+add_executable_with_source_list = function(name)
+    return add_executable(name, List { cmake_variable "SRC_LIST" })
 end
 
 --{{{指令 ADD_LIBRARY
@@ -82,16 +86,16 @@ end
 --
 --ADD_LIBRARY(hello_dynamic SHARED ${LIBHELLO_SRC})
 --ADD_LIBRARY(hello_static STATIC ${LIBHELLO_SRC})
-add_library = function(name, lib_type, ...)
-    return cmake_command("ADD_LIBRARY", target, lib_type, ...)
+add_library = function(name, lib_type, sources)
+    return cmake_command("ADD_LIBRARY", List { target, lib_type } .. sources)
 end
 
-add_library_static = function(name, ...)
-    return add_library(name, "STATIC", ...)
+add_library_static = function(name, sources)
+    return add_library(name, "STATIC", sources)
 end
 
-add_library_dynamic = function(name, ...)
-    return add_library(name, "SHARED", ...)
+add_library_dynamic = function(name, sources)
+    return add_library(name, "SHARED", sources)
 end
 --}}}
 
@@ -103,34 +107,26 @@ end
 --SEND_ERROR，产生错误，生成过程被跳过。
 --SATUS，输出前缀为—的信息。
 --FATAL_ERROR，立即终止所有 cmake 过程.
-local message = function(flag, ...)
-    return "MESSAGE(" .. flag .. " " .. table.concat({ ... }, " ") .. ")\n"
+local message = function(flag, msg)
+    return cmake_command("MESSAGE", List { flag, msg })
 end
 
 -- ...是str列表
 -- 例子
 --MESSAGE(STATUS "This is BINARY dir " ${PROJECT_BINARY_DIR})
 -- STATUS标志打印时会加一个前缀的连字符-
-log = function(...)
-    return message("STATUS", ...)
+log = function(msg)
+    return message("STATUS", msg)
 end
 
-log_warning = function(...)
-    return message("SEND_ERROR", ...)
+log_warning = function(msg)
+    return message("SEND_ERROR", msg)
 end
 
-log_error = function(...)
-    return message("FATAL_ERROR", ...)
+log_error = function(msg)
+    return message("FATAL_ERROR", msg)
 end
 --}}}
-
--- 语法
---SET(VAR [VALUE] [CACHE TYPE DOCSTRING [FORCE]])
--- 我们只用
---SET(SRC_LIST main.c)
-set = function(lhs, ...)
-    return "SET(" .. lhs .. " " .. table.concat({ ... }, " ") .. ")\n"
-end
 
 --ADD_SUBDIRECTORY 指令
 --ADD_SUBDIRECTORY(source_dir [binary_dir] [EXCLUDE_FROM_ALL])
@@ -294,14 +290,14 @@ end
 --１，CMAKE_INCLUDE_DIRECTORIES_BEFORE，通过 SET 这个 cmake 变量为 on，可以
 --将添加的头文件搜索路径放在已有路径的前面。
 --２，通过 AFTER 或者 BEFORE 参数，也可以控制是追加还是置前。
-include_directory = function(...)
-    return cmake_command("INCLUDE_DIRECTORIES", ...)
+include_directory = function(dirs)
+    return cmake_command("INCLUDE_DIRECTORIES", dirs)
 end
 
 --LINK_DIRECTORIES 的全部语法是：
 --LINK_DIRECTORIES(directory1 directory2 ...)
-link_directory = function(...)
-    return cmake_command("LINK_DIRECTORIES", ...)
+link_directory = function(dirs)
+    return cmake_command("LINK_DIRECTORIES", dirs)
 end
 
 --TARGET_LINK_LIBRARIES 的全部语法是:
@@ -310,28 +306,31 @@ end
 -- ...)
 --这个指令可以用来为 target 添加需要链接的共享库，本例中是一个可执行文件，但是同样
 --可以用于为自己编写的共享库添加共享库链接。
-target_link_library = function(target, ...)
-    return cmake_command("TARGET_LINK_LIBRARIES", target, ...)
+target_link_library = function(target, libs)
+    return cmake_command("TARGET_LINK_LIBRARIES", List { target } .. libs)
 end
 
 -- patterns
-file_glob_recursive = function(...)
-    return cmake_command("file", "GLOB_RECURSE", "SRC_LIST", ...)
+file_glob_recursive = function(var, patterns)
+    return cmake_command("file", List { "GLOB_RECURSE", var } .. patterns)
 end
 
 -- (我们现在只需要)递归扫描h和cpp到SRC_LIST
 -- 递归扫描整个目录中匹配模式的文件
 --https://cmake.org/cmake/help/v3.12/command/file.html#glob-recurse
-file_glob_recursive_h_cpp = function(...)
-    local dirs = { ... }
-    if #dirs == 0 then
-        dirs = { "./" }
-    end
-    --print(#dirs)
+file_glob_recursive_h_cpp_to_source_list = function(dirs)
+    dirs = dirs or { "./" }
     local patterns = map(function(dir)
         return dir .. "*.h" .. " " .. dir .. "*.cpp"
     end, dirs)
-    return file_glob_recursive(table.unpack(patterns))
+    return file_glob_recursive(cmake_variable "SRC_LIST", patterns)
+end
+
+-- 默认头文件和源文件都在当前目录
+file_glob_current_dir_to_source_list = function(inc_dir, src_dir)
+    inc_dir = inc_dir or ""
+    src_dir = src_dir or ""
+    return "file(GLOB SRC_LIST " .. src_dir .. "*.cpp " .. inc_dir .. "*.h)\n"
 end
 
 -- 暂时都是private的
@@ -340,8 +339,8 @@ end
 --target_compile_definitions(<target>
 --  <INTERFACE|PUBLIC|PRIVATE> [items1...]
 --  [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
-target_compile_definitions = function(target, ...)
-    return cmake_command("target_compile_definitions", target, "PRIVATE", ...)
+target_compile_definitions = function(target, items)
+    return cmake_command("target_compile_definitions", List { target, "PRIVATE" } .. items)
 end
 
 -- 暂时都是private的
@@ -349,27 +348,18 @@ end
 --target_include_directories(<target> [SYSTEM] [BEFORE]
 --  <INTERFACE|PUBLIC|PRIVATE> [items1...]
 --  [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
-target_include_directories = function(target, ...)
-    return cmake_command("target_include_directories", target, "PRIVATE", ...)
+target_include_directories = function(target, items)
+    return cmake_command("target_include_directories", List { target, "PRIVATE" } .. items)
 end
 
 --https://cmake.org/cmake/help/latest/command/target_link_directories.html
 --target_link_directories(<target> [BEFORE]
 --  <INTERFACE|PUBLIC|PRIVATE> [items1...]
 --  [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
-target_link_directories = function(target, ...)
-    return cmake_command("target_link_directories", target, "PRIVATE", ...)
+target_link_directories = function(target, items)
+    return cmake_command("target_link_directories", List { target, "PRIVATE" } .. items)
 end
---}}}
 
-
---{{{二次封装的常用工具函数
--- 默认头文件和源文件都在当前目录
-source_list = function(inc_dir, src_dir)
-    inc_dir = inc_dir or ""
-    src_dir = src_dir or ""
-    return "file(GLOB SRC_LIST " .. src_dir .. "*.cpp " .. inc_dir .. "*.h)\n"
-end
 
 -- 指定输出目录
 --（我们不使用ADD_SUBDIRECTORY 指令来指定编译输出目录）
