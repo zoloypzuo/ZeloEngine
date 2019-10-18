@@ -29,3 +29,7 @@ require("list")
 require "util"
 
 require "pprint"
+
+require "LuaConfigManager"
+
+require "pl"
