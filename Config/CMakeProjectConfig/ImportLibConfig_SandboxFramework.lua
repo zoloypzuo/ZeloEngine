@@ -20,7 +20,7 @@ DxLibNames = {
 }
 
 local import_lib_config = ImportLibConfig()
-import_lib_config.include_dirs = map(cmake_string, {
+import_lib_config.include_dirs = List {
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/",
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/lua/include/",
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/bullet_collision/include/",
@@ -31,9 +31,9 @@ import_lib_config.include_dirs = map(cmake_string, {
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/ogre3d/include/",
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/ogre3d_direct3d9/include/",
     DxHeaderDir
-})
+}:map(cmake_string)
 
-import_lib_config.lib_names = {
+import_lib_config.lib_names = List {
     "bullet_collision",
     "bullet_dynamics",
     "bullet_linearmath",
@@ -69,8 +69,8 @@ import_lib_config.lib_names = {
     "DxErr",
 }
 
-import_lib_config.lib_dirs = {
+import_lib_config.lib_dirs = List {
     string.gsub([[D:\ZeloEngine\Reference\Lua-Game-AI-Programming\lib\x64\debug\]], "\\", "/"),
-    DxLibx64Dir }
+    DxLibx64Dir }:map(cmake_string)
 
 return import_lib_config
