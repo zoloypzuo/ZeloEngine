@@ -7,8 +7,13 @@
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
+extern "C" {
+#include "lauxlib.h"
+#include "lstate.h"
+#include "lua.h"
+#include "lualib.h"
+};
 
-#include "lua.hpp"
 #include <csignal>
 
 
@@ -24,9 +29,9 @@ const int LUA_TOP = -1;
 const int LUA_TABLE_INDEX = -1;
 
 
-static lua_State *globalL = NULL;
+static lua_State* globalL = NULL;
 
-static void lstop(lua_State *L, lua_Debug *ar) {
+static void lstop(lua_State* L, lua_Debug* ar) {
 	(void)ar;  /* unused arg. */
 	lua_sethook(L, NULL, 0, 0);
 	luaL_error(L, "interrupted!");
@@ -39,7 +44,7 @@ inline void laction(int i) {
 	lua_sethook(globalL, lstop, LUA_MASKCALL | LUA_MASKRET | LUA_MASKCOUNT, 1);
 }
 
-inline int traceback(lua_State *L) {
+inline int traceback(lua_State* L) {
 	if (!lua_isstring(L, 1))  /* 'message' not a string? */
 		return 1;  /* keep it intact */
 	lua_getglobal(L, "debug");
@@ -58,7 +63,7 @@ inline int traceback(lua_State *L) {
 	return 1;
 }
 
-inline int docall(lua_State *L, int narg, int clear = 0) {
+inline int docall(lua_State* L, int narg, int clear = 0) {
 	int status;
 	int base = lua_gettop(L) - narg;  /* function index */
 	lua_pushcfunction(L, traceback);  /* push traceback function */
@@ -112,24 +117,23 @@ inline void stackDump(lua_State* L)
 
 inline lua_Integer getFieldInt(lua_State* L, const char* k)
 {
-	stackDump(L);
 	lua_Integer res{};
 	int isInt{};
 
 	lua_getfield(L, LUA_TABLE_INDEX, k);
+#if defined(LUA_VERSION_NUM) && LUA_VERSION_NUM >= 510
 	res = lua_tointegerx(L, LUA_TOP, &isInt);
 	if (!isInt)
 	{
 		luaL_error(L, "invalid value for %s", k);
 	}
 	lua_pop(L, 1);
-	stackDump(L);
+#endif
 	return res;
 }
 
 inline const char* getFieldString(lua_State* L, const char* k)
 {
-	stackDump(L);
 	const char* res{};
 	lua_getfield(L, LUA_TABLE_INDEX, k);
 	if (!lua_isstring(L, LUA_TOP))
@@ -138,7 +142,6 @@ inline const char* getFieldString(lua_State* L, const char* k)
 	}
 	res = lua_tostring(L, LUA_TOP);
 	lua_pop(L, 1);
-	stackDump(L);
 	return res;
 }
 
