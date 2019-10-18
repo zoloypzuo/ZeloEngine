@@ -139,4 +139,77 @@ code = {
 
 code = (table.concat(code))
 
-writeall([[D:\ZeloEngine\External\lua\CMakeLists.txt]], code)
+--writeall([[D:\ZeloEngine\External\lua\CMakeLists.txt]], code)
+
+
+--TODO freetype这个库优点坑，暂时不处理
+target = "ogre"
+
+projects = {
+    "detour",
+    "freeimage",
+    "freetype",
+    "gorilla_audio",
+    "libjpeg",
+    "libogg",
+    "libopenjpeg",
+    "libpng",
+    "libraw",
+    "libtiff4",
+    "libvorbis",
+    "ogre3d",
+    "ogre3d_direct3d9",
+    "ogre3d_gorilla",
+    "ogre3d_particlefx",
+    "ogre3d_procedural",
+    "ois",
+    "openexr",
+    "opensteer",
+    "recast",
+    "zlib",
+    "zzip",
+}
+
+local files = map(function(s)
+    return s .. "/"
+end, projects)
+
+local include_dirs = map(function(s)
+    return s .. "/include/"
+end, projects)
+
+code = {
+    cmake_header();
+    project "ogre";
+    -- 简单的递归当前目录犯了一个错误，就是build目录里会生成cpp文件
+    file_glob_recursive_h_cpp(table.unpack(files));
+    --log("${SRC_LIST}");
+    add_library(target, "${SRC_LIST}");
+    target_include_directories(target,
+            "openexr/include/half",
+            "openexr/include/iex",
+            "openexr/include/ilmimf",
+            "openexr/include/imath",
+            "openexr/include/ilmthread",
+            "ogre3d/include/nedmalloc",
+            "./",
+            "$(DXSDK_DIR)/Include/",
+            table.unpack(include_dirs)
+    );
+    target_compile_definitions(target, "WIN32", "_CRT_SECURE_NO_WARNINGS",
+    -- freeimage
+            "FREEIMAGE_LIB",
+            "OPJ_STATIC",
+            "LIBRAW_NODLL",
+    --freetype
+            "FT2_BUILD_LIBRARY",
+    --
+            "ENABLE_XAUDIO2",
+            "OGRE_NONCLIENT_BUILD",
+            "HAVE_NO_GLUT"
+    )
+}
+
+code = (table.concat(code))
+
+writeall([[D:\ZeloEngine\External\ogre\CMakeLists.txt]], code)

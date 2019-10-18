@@ -1,0 +1,8 @@
+cmake_minimum_required(VERSION 3.8)  # cmake 3.8 to use VS_DEBUGGER_WORKING_DIRECTORY
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 11)
+project(ogre)
+file(GLOB_RECURSE SRC_LIST detour/*.h detour/*.cpp freeimage/*.h freeimage/*.cpp freetype/*.h freetype/*.cpp gorilla_audio/*.h gorilla_audio/*.cpp libjpeg/*.h libjpeg/*.cpp libogg/*.h libogg/*.cpp libopenjpeg/*.h libopenjpeg/*.cpp libpng/*.h libpng/*.cpp libraw/*.h libraw/*.cpp libtiff4/*.h libtiff4/*.cpp libvorbis/*.h libvorbis/*.cpp ogre3d/*.h ogre3d/*.cpp ogre3d_direct3d9/*.h ogre3d_direct3d9/*.cpp ogre3d_gorilla/*.h ogre3d_gorilla/*.cpp ogre3d_particlefx/*.h ogre3d_particlefx/*.cpp ogre3d_procedural/*.h ogre3d_procedural/*.cpp ois/*.h ois/*.cpp openexr/*.h openexr/*.cpp opensteer/*.h opensteer/*.cpp recast/*.h recast/*.cpp zlib/*.h zlib/*.cpp zzip/*.h zzip/*.cpp)
+ADD_LIBRARY(ogre ${SRC_LIST})
+target_include_directories(ogre PRIVATE openexr/include/half openexr/include/iex openexr/include/ilmimf openexr/include/imath openexr/include/ilmthread ogre3d/include/nedmalloc ./ $(DXSDK_DIR)/Include/ detour/include/ freeimage/include/ freetype/include/ gorilla_audio/include/ libjpeg/include/ libogg/include/ libopenjpeg/include/ libpng/include/ libraw/include/ libtiff4/include/ libvorbis/include/ ogre3d/include/ ogre3d_direct3d9/include/ ogre3d_gorilla/include/ ogre3d_particlefx/include/ ogre3d_procedural/include/ ois/include/ openexr/include/ opensteer/include/ recast/include/ zlib/include/ zzip/include/)
+target_compile_definitions(ogre PRIVATE WIN32 _CRT_SECURE_NO_WARNINGS FREEIMAGE_LIB OPJ_STATIC LIBRAW_NODLL FT2_BUILD_LIBRARY ENABLE_XAUDIO2 OGRE_NONCLIENT_BUILD HAVE_NO_GLUT)
