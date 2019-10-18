@@ -56,3 +56,5 @@ include_directories(Src/Module/LuaModule)
 add_subdirectory(Src)
 # example单独编译（否则很乱），engine编译出库后cmake-export
 # add_subdirectory(Example)
+
+add_subdirectory(Example/Init_Sandbox)
