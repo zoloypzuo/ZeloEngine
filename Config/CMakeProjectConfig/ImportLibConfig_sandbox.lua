@@ -5,6 +5,20 @@
 -- zelo直接导入Renference/Lua-Game-AI
 -- 我们看到premake.lua的两个地方
 
+DxHeaderDir = cmake_string [[C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include]]
+DxLibx64Dir = cmake_string [[C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Lib/x64]]
+DxLibNames = {
+    "d3d9",
+    "dinput8",
+    "dxguid",
+    "d3dx9",
+    "DxErr",
+    "vcruntimed.lib",
+    --"ucrtd.lib",
+    --"libucrt.lib",
+    --"libucrtd.lib"
+}
+
 local import_lib_config = ImportLibConfig()
 import_lib_config.include_dirs = {
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/",
@@ -14,7 +28,8 @@ import_lib_config.include_dirs = {
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/demo_framework/include",
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/ois/include/",
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/ogre3d/include/",
-    "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/ogre3d_direct3d9/include/"
+    "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/ogre3d_direct3d9/include/",
+    DxHeaderDir
 }
 
 import_lib_config.lib_names = {
@@ -44,9 +59,21 @@ import_lib_config.lib_names = {
     "opensteer",
     "recast",
     "zlib",
-    "zzip"
+    "zzip",
+    --
+    "d3d9",
+    "dinput8",
+    "dxguid",
+    "d3dx9",
+    "DxErr",
+    "vcruntimed.lib",
+    "ucrtd.lib",
+    "libucrt.lib",
+    "libucrtd.lib"
 }
 
-import_lib_config.lib_dirs = { string.gsub([[D:\ZeloEngine\Reference\Lua-Game-AI-Programming\lib\x64\debug\]], "\\", "/") }
+import_lib_config.lib_dirs = {
+    string.gsub([[D:\ZeloEngine\Reference\Lua-Game-AI-Programming\lib\x64\debug\]], "\\", "/"),
+    DxLibx64Dir }
 
 return import_lib_config
