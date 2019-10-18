@@ -27,11 +27,12 @@ add_compile_definitions(
 #set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
 #include(cotire)
 
+# 开发SandboxFramework，用lua5.1
 #
 # Lua
 #
-link_libraries(lua.lib)
-include_directories("${ExternalDir}lua-5.3.5/src")
+#link_libraries(lua.lib)
+#include_directories("${ExternalDir}lua-5.3.5/src")
 
 #
 # DirectX12TK (https://github.com/Microsoft/DirectXTK12)
@@ -56,5 +57,11 @@ include_directories(Src/Module/LuaModule)
 add_subdirectory(Src)
 # example单独编译（否则很乱），engine编译出库后cmake-export
 # add_subdirectory(Example)
+# 按从底层到高层的顺序
+add_subdirectory(Src/Common)
+#add_subdirectory(Src/Framework)
+#add_subdirectory(SResourceManager)
+#add_subdirectory(Module)
+#add_subdirectory(ZeloMain)
 
 add_subdirectory(Example/Init_Sandbox)
