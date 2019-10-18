@@ -22,7 +22,7 @@ require("Class")
 -- 数据结构
 -- 在基础组件后初始化
 --
-require("list")
+--require("list")
 
 -- 工具
 -- 工具是独立的，最后加载
