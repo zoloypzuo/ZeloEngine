@@ -352,6 +352,14 @@ end
 target_include_directories = function(target, ...)
     return cmake_command("target_include_directories", target, "PRIVATE", ...)
 end
+
+--https://cmake.org/cmake/help/latest/command/target_link_directories.html
+--target_link_directories(<target> [BEFORE]
+--  <INTERFACE|PUBLIC|PRIVATE> [items1...]
+--  [<INTERFACE|PUBLIC|PRIVATE> [items2...] ...])
+target_link_directories = function(target, ...)
+    return cmake_command("target_link_directories", target, "PRIVATE", ...)
+end
 --}}}
 
 
