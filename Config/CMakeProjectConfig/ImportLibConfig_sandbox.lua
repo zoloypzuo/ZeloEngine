@@ -4,7 +4,6 @@
 
 -- zelo直接导入Renference/Lua-Game-AI
 -- 我们看到premake.lua的两个地方
-require "zelo_make"
 
 local import_lib_config = ImportLibConfig()
 import_lib_config.include_dirs = {
