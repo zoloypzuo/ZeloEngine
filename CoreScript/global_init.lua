@@ -27,3 +27,5 @@ require("list")
 -- 工具
 -- 工具是独立的，最后加载
 require "util"
+
+require "pprint"
