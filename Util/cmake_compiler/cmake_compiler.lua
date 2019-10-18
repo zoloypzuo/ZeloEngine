@@ -14,202 +14,65 @@
 -- 开关
 -- 注释一行调用，即可开关，不要注释掉一段代码，那很糟糕
 
+--你可以开启一个cmd.exe，输入`lua -e "require 'cmake_compiler'"`来启动`Util/cmake_compiler/cmake_compiler.lua`
+--
+--这个脚本会加载lua配置，生成CMakeList.txt，重新生成和构建Visual Studio项目
+
+
+-- 这个其实是zelo-make
+-- 你最好重新起个名字，这样比较
+-- 读取ProjectConfig文件，生成cmake，构建
+-- 你用wizard创建好项目
+-- 然后每次修改配置，用zelo-make重新构建
+
 require "lfs"
 require "cmake_compiler.cmake"
-require "cpp"
 
--- ZeloEngine/Examples下的示例项目
--- 每一个示例都是独立的项目（cmake project）
--- 调用此函数为你生成一个空白的项目
--- 包含一个目录，CMakeLists.txt，gitignore，一对C++源文件
--- 可以运行，什么都不做
--- 暂时不生成文件头信息，这个无所谓
-example_project = function(name)
-    local example_dir = [[D:\ZeloEngine\Example\]]
-    local project_dir = example_dir .. name .. "\\"
-    lfs.chdir(example_dir)
-    lfs.mkdir(name)
-    lfs.chdir(project_dir)
-    writeall(project_dir .. ".gitignore", "build/**\n")
-    local cmake_code = cmake_header() .. project(name) .. source_list() .. add_executable(name)
-    -- 不要创建代码文件，因为
-    --    writeall(project_dir .. "CMakeLists.txt", cmake_code)
-    --    writeall(project_dir .. name .. ".h", "")
-    --    writeall(project_dir .. name .. ".cpp", [[
-    --int main(size_t argc, char** argv)
-    --{
-    --    return 0;
-    --}
-    --]])
+-- 为一个target导入一套库
+ImportLibConfig = Class(function(self)
+    -- "include/"
+    self.include_dirs = {}
+    -- "lib/x64/"
+    self.lib_dirs = {}
+    -- "lua.lib"
+    self.lib_names = {}
+end)
+
+ImportLibConfig.generate_cmake_code = function(self, target)
+    local code = {
+        target_include_directories(target, table.unpack(self.include_dirs));
+        target_link_directories(target, table.unpack(self.lib_dirs));
+        target_link_library(target, table.unpack(self.lib_names));
+    }
+    return code
 end
 
---example_project "test"
-
---========================================================================================
---
--- 接下来我们将SandboxFramework从premake迁移到cmake
---
-
-Solution = Class(function(self)
-
+ProjectConfig = Class(function(self)
+    self.name = ""
+    -- e.g. ExeConfig
+    self.targets = {}
 end)
 
-Project = Class(function(self)
-end)
-
---
-BaseProject = Class(Project, function(self)
-    -- lang = cpp，cmake不需要
-    self.include_dirs = "%{SolutionDir}/src/include/"
-    -- warning = extra。可以先忽略
-    -- flags = xxxx，要看一下，有些影响编译
-    -- vpaths = 这里不需要，cmake指定头文件和源文件即可
-end)
-
-FrameworkProject = Class(BaseProject, function(self)
-    -- kind = static lib
-    -- pch = XXX.h
-    -- pch.c = XXX.c
-    -- option = xx
-    self.include_dirs = {
-        "%{SolutionDir}/src/bulletxxx",
-        "xxx"
+function ProjectConfig:generate_cmake_code()
+    local code = {
+        cmake_header();
+        project(self.name);
+        log(cmake_string "This is BINARY dir ", "${PROJECT_BINARY_DIR}");
     }
+    return code
+end
 
+ExeTargetConfig = Class(function(self)
+    self.name = ""
+    -- ImportLibConfig list
+    self.import_libs = {}
 end)
 
-target = "bullet"
+function ExeTargetConfig:generate_cmake_code()
+    local code = {
+        file_glob_recursive_h_cpp();
+        add_executable(self.name, "${SRC_LIST}");
+    }
+    return code
+end
 
-code = {
-    cmake_header();
-    project "bullet";
-    -- 简单的递归当前目录犯了一个错误，就是build目录里会生成cpp文件
-    file_glob_recursive_h_cpp("bullet_collision/", "bullet_dynamics/", "bullet_linearmath/");
-    log("${SRC_LIST}");
-    add_library(target, "${SRC_LIST}");
-    target_include_directories(target,
-            "bullet_collision/include/",
-            "bullet_collision/include/BulletCollision/BroadphaseCollision",
-            "bullet_collision/include/BulletCollision/CollisionDispatch",
-            "bullet_collision/include/BulletCollision/CollisionShapes",
-            "bullet_collision/include/BulletCollision/Gimpact",
-            "bullet_collision/include/BulletCollision/NarrowPhaseCollision",
-            "bullet_linearmath/include",
-            "bullet_collision/include/",
-            "bullet_collision/include/BulletCollision/BroadphaseCollision",
-            "bullet_collision/include/BulletCollision/CollisionDispatch",
-            "bullet_collision/include/BulletCollision/CollisionShapes",
-            "bullet_collision/include/BulletCollision/Gimpact",
-            "bullet_collision/include/BulletCollision/NarrowPhaseCollision",
-            "bullet_linearmath/include",
-    --
-            "bullet_dynamics/include/",
-            "bullet_collision/include/",
-            "bullet_dynamics/include/BulletDynamics/Character",
-            "bullet_dynamics/include/BulletDynamics/ConstraintSolver",
-            "bullet_dynamics/include/BulletDynamics/Dynamics",
-            "bullet_dynamics/include/BulletDynamics/Vehicle",
-            "bullet_linearmath/include",
-    --
-            "bullet_linearmath/include/",
-            "bullet_linearmath/include/LinearMath"
-    );
-    target_compile_definitions(target, "WIN32", "_CRT_SECURE_NO_WARNINGS")
-}
-
-code = (table.concat(code))
-
---writeall([[D:\ZeloEngine\External\bullet\CMakeLists.txt]], code)
-
-
-
-target = "lua"
-
-code = {
-    cmake_header();
-    project "lua";
-    file_glob_recursive("include/*.h", "src/*.c");
-    log("${SRC_LIST}");
-    add_library(target, "${SRC_LIST}");
-    target_include_directories(target,
-            "include"
-    );
-    target_compile_definitions(target, "WIN32", "_CRT_SECURE_NO_WARNINGS")
-}
-
-code = (table.concat(code))
-
---writeall([[D:\ZeloEngine\External\lua\CMakeLists.txt]], code)
-
-
---TODO freetype这个库优点坑，暂时不处理
-target = "ogre"
-
-projects = {
-    "detour",
-    "freeimage",
-    "freetype",
-    "gorilla_audio",
-    "libjpeg",
-    "libogg",
-    "libopenjpeg",
-    "libpng",
-    "libraw",
-    "libtiff4",
-    "libvorbis",
-    "ogre3d",
-    "ogre3d_direct3d9",
-    "ogre3d_gorilla",
-    "ogre3d_particlefx",
-    "ogre3d_procedural",
-    "ois",
-    "openexr",
-    "opensteer",
-    "recast",
-    "zlib",
-    "zzip",
-}
-
-local files = map(function(s)
-    return s .. "/"
-end, projects)
-
-local include_dirs = map(function(s)
-    return s .. "/include/"
-end, projects)
-
-code = {
-    cmake_header();
-    project "ogre";
-    -- 简单的递归当前目录犯了一个错误，就是build目录里会生成cpp文件
-    file_glob_recursive_h_cpp(table.unpack(files));
-    --log("${SRC_LIST}");
-    add_library(target, "${SRC_LIST}");
-    target_include_directories(target,
-            "openexr/include/half",
-            "openexr/include/iex",
-            "openexr/include/ilmimf",
-            "openexr/include/imath",
-            "openexr/include/ilmthread",
-            "ogre3d/include/nedmalloc",
-            "./",
-            "$(DXSDK_DIR)/Include/",
-            table.unpack(include_dirs)
-    );
-    target_compile_definitions(target, "WIN32", "_CRT_SECURE_NO_WARNINGS",
-    -- freeimage
-            "FREEIMAGE_LIB",
-            "OPJ_STATIC",
-            "LIBRAW_NODLL",
-    --freetype
-            "FT2_BUILD_LIBRARY",
-    --
-            "ENABLE_XAUDIO2",
-            "OGRE_NONCLIENT_BUILD",
-            "HAVE_NO_GLUT"
-    )
-}
-
-code = (table.concat(code))
-
-writeall([[D:\ZeloEngine\External\ogre\CMakeLists.txt]], code)
