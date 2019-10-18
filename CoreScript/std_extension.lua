@@ -35,12 +35,3 @@ function map(func, array)
     end
     return new_array
 end
-
-function table.tostring(t)
-    local a = {}
-    for k, v in pairs(t) do
-        print(k, v)
-        a[#a + 1] = tostring(k) .. " : " .. tostring(v)
-    end
-    return "{" .. table.concat(a, ", ") .. "}"
-end
