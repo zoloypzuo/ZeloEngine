@@ -1,0 +1,12 @@
+-- cmake_project_wizard.lua
+-- created on 2019/10/18
+-- author @zoloypzuo
+
+-- 用于创建空白项目
+-- 典型的，就是Example项目
+-- 你要创建一个项目目录
+-- 一个cmake-compiler的ProjectConfig文件；链接ZeloEngine
+-- 一个gitignore，ignore build，ignore CMakeList（因为是生成的）
+-- 一对h和cpp，要能运行hello-world
+--
+-- 你要做到一键运行
