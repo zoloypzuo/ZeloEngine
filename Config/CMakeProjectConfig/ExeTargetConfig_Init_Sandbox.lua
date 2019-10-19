@@ -2,4 +2,9 @@
 -- created on 2019/10/18
 -- author @zoloypzuo
 
-return ExeTargetConfig("Init_Sandbox", List { "SandboxFramework", "ZeloEngine" })
+
+local self = ExeTargetConfig()
+self.name = "Init_Sandbox"
+self.import_libs = List { "SandboxFramework", "ZeloEngine" }
+self.dir = "Example/Init_Sandbox"
+return self

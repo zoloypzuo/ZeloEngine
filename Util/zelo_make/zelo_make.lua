@@ -28,6 +28,35 @@
 --
 -- ${PROJECT_SOURCE_DIR}暂时不用，我们主要使用顶层cmake-list文件，就是source-dir
 
+--# 禁用cotiire，你还没有想清楚怎么用
+--# 你应该弄一个独立的例子（比如某个cmake的lib，lumix或者ogre），哦，这样编译变快了
+--#
+--# cotire (https://github.com/sakra/cotire)
+--#
+--#set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}")
+--#include(cotir
+
+--# 开发SandboxFramework，用lua5.1
+--#
+--# Lua
+--#
+--#link_libraries(lua.lib)
+--#include_directories("${ExternalDir}lua-5.3.5/src")
+
+--#
+--# DirectX12TK (https://github.com/Microsoft/DirectXTK12)
+--#
+--link_libraries(directxtk12.lib)
+--include_directories("${ExternalDir}DirectXTK12/Inc")
+
+--# 不要使用ogre，要么你换vs2015编译（有可能可以；但是成本很高）
+--# set(OGRE_DIR "C:/Users/zoloypzuo/Documents/vcpkg-master/installed/x64-windows/share/ogre")
+--# find_package(OGRE CONFIG REQUIRED)
+--
+--# example单独编译（否则很乱），engine编译出库后cmake-export
+
+--# 按从底层到高层的顺序
+
 require "lfs"
 require "cmake"
 
@@ -35,18 +64,15 @@ local config_dir = [[D:\ZeloEngine\Config\CMakeProjectConfig\]]
 local project_config_manager = LuaConfigManager(config_dir, "ProjectConfig")
 local import_lib_config_manager = LuaConfigManager(config_dir, "ImportLibConfig")
 local exe_config_manager = LuaConfigManager(config_dir, "ExeTargetConfig")
-
+local lib_config_manager = LuaConfigManager(config_dir, "LibTargetConfig")
 
 -- 为一个exe导入一套库
 -- 一个ImportLib实际上是一套库，因为dir是公用的
 -- 而且我们实际上把一组库作为一个整体链接到一个exe上
-ImportLibConfig = Class(function(self, include_dirs, lib_dirs, lib_names)
-    -- "include/"
-    self.include_dirs = include_dirs
-    -- "lib/x64/"
-    self.lib_dirs = lib_dirs
-    -- "lua.lib"
-    self.lib_names = lib_names
+ImportLibConfig = Class(function(self)
+    --self.include_dirs = include_dirs
+    --self.lib_dirs = lib_dirs
+    --self.lib_names = lib_names
 end)
 
 function ImportLibConfig:generate_cmake_code(target)
@@ -60,24 +86,41 @@ end
 -- 分离exe和lib
 -- 1-lib先构建
 -- 2-不分离，写在一起，你代码没法写通的
-ProjectConfig = Class(function(self, name, lib_targets, exe_targets)
-    self.name = name
-    self.lib_targets = lib_targets
-    self.exe_targets = exe_targets
+ProjectConfig = Class(function(self)
+    --self.name = name
+    --self.lib_targets = lib_targets
+    --self.exe_targets = exe_targets
+    --self.compile_definitions =
+    --self.include_dirs =
+    --self.link_libs =
 end)
 
 function ProjectConfig:generate_cmake_code()
-    return List {
+    local code = List {
         cmake_header();
         project(self.name);
-    } .. self.exe_targets:map(function(t)
+        add_compile_definitions(self.compile_definitions);
+        include_directory(self.include_dirs);
+        self.lib_targets:map(function(lib)
+            return add_subdirectory(lib.dir)
+        end):join_list();
+        self.exe_targets:map(function(exe)
+            return add_subdirectory(exe.dir)
+        end):join_list()
+        --link_libraries(self.link_libs)
+    }
+    self.lib_targets:map(function(t)
+        return lib_config_manager:load_config(t):generate_cmake_code()
+    end)
+    self.exe_targets:map(function(t)
         return exe_config_manager:load_config(t):generate_cmake_code()
-    end)     :join_list()
+    end)
 end
 
-ExeTargetConfig = Class(function(self, name, import_libs)
-    self.name = name
-    self.import_libs = import_libs
+ExeTargetConfig = Class(function(self)
+    --self.name = name
+    --self.import_libs = import_libs
+    --self.dir
 end)
 
 function ExeTargetConfig:generate_cmake_code()
@@ -88,5 +131,10 @@ function ExeTargetConfig:generate_cmake_code()
         return import_lib_config_manager:load_config(lib):generate_cmake_code(self.name)
     end)     :join_list()
 end
+
+LibTargetConfig = Class(function(self)
+    --self.name
+    --self.dir
+end)
 
 print(project_config_manager:load_config("ZeloEngine"):generate_cmake_code():concat())
