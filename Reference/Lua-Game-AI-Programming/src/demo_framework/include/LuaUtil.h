@@ -7,11 +7,12 @@
 #include <cstdarg>
 #include <cstdio>
 #include <cstdlib>
+
 extern "C" {
-#include "lauxlib.h"
-#include "lstate.h"
-#include "lua.h"
-#include "lualib.h"
+#include "lua/include/lua.h"
+#include "lua/include/lauxlib.h"
+#include "lua/include/lstate.h"
+#include "lua/include/lualib.h"
 };
 
 #include <csignal>
