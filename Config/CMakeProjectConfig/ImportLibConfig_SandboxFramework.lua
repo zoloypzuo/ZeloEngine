@@ -5,6 +5,7 @@
 -- zelo直接导入Renference/Lua-Game-AI
 -- 我们看到premake.lua的两个地方
 
+
 DxHeaderDir = [[C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Include]]
 DxLibx64Dir = [[C:/Program Files (x86)/Microsoft DirectX SDK (June 2010)/Lib/x64]]
 DxLibNames = {
@@ -19,8 +20,8 @@ DxLibNames = {
     --"libucrtd.lib"
 }
 
-local import_lib_config = ImportLibConfig()
-import_lib_config.include_dirs = List {
+local self = ImportLibConfig()
+self.include_dirs = List {
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/",
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/lua/include/",
     "D:/ZeloEngine/Reference/Lua-Game-AI-Programming/src/bullet_collision/include/",
@@ -33,7 +34,7 @@ import_lib_config.include_dirs = List {
     DxHeaderDir
 }:map(cmake_string)
 
-import_lib_config.lib_names = List {
+self.lib_names = List {
     "bullet_collision",
     "bullet_dynamics",
     "bullet_linearmath",
@@ -61,15 +62,9 @@ import_lib_config.lib_names = List {
     "recast",
     "zlib",
     "zzip",
-    --
-    "d3d9",
-    "dinput8",
-    "dxguid",
-    "d3dx9",
-    "DxErr",
-}
+} .. DxLibNames
 
-import_lib_config.lib_dirs = List {
+self.lib_dirs = List {
     string.gsub([[D:\ZeloEngine\Reference\Lua-Game-AI-Programming\lib\x64\debug\]], "\\", "/"),
     DxLibx64Dir }:map(cmake_string)
 
