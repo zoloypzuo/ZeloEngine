@@ -372,4 +372,12 @@ end
 --们指的编译发生的当前目录，
 --本节我们没有提到共享库和静态库的构建，所以，你可以不考虑第二条指令。
 -- TODO
+
+add_compile_definitions = function(definitions)
+    return cmake_command("add_compile_definitions", definitions)
+end
+
+include_directories = function(dirs)
+    return cmake_command("include_directories",dirs)
+end
 --}}}
