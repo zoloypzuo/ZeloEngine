@@ -5,25 +5,28 @@ local Hunger = Class(function(self, inst)
 
     self.hungerrate = 1
     self.hurtrate = 1
-    
+
     self.burning = true
     --100% burn rate. Currently used only by belt of hunger, will have to change unequip if use in something else
-    self.burnrate = 1 
+    self.burnrate = 1
     self.period = 1
-    
-    self.task = self.inst:DoPeriodicTask(self.period, function() self:DoDec(self.period) end)
-	self.inst:ListenForEvent("respawn", function(inst) self:OnRespawn() end)
-	
+
+    self.task = self.inst:DoPeriodicTask(self.period, function()
+        self:DoDec(self.period)
+    end)
+    self.inst:ListenForEvent("respawn", function(inst)
+        self:OnRespawn()
+    end)
+
 end)
 
-
 function Hunger:OnRespawn()
-	
+
 end
 
 function Hunger:OnSave()
     if self.current ~= self.max then
-        return {hunger = self.current}
+        return { hunger = self.current }
     end
 end
 
@@ -39,7 +42,7 @@ function Hunger:SetOverrideStarveFn(fn)
 end
 
 function Hunger:LongUpdate(dt)
-	self:DoDec(dt, true)
+    self:DoDec(dt, true)
 end
 
 function Hunger:Pause()
@@ -59,13 +62,12 @@ function Hunger:SetMax(amount)
     self.current = amount
 end
 
-
-function Hunger:IsStarving() 
+function Hunger:IsStarving()
     return self.current <= 0
 end
 
 function Hunger:DoDelta(delta, overtime, ignore_invincible)
-    
+
     if self.redirect then
         self.redirect(self.inst, delta, overtime)
         return
@@ -77,13 +79,13 @@ function Hunger:DoDelta(delta, overtime, ignore_invincible)
 
     local old = self.current
     self.current = self.current + delta
-    if self.current < 0 then 
+    if self.current < 0 then
         self.current = 0
     elseif self.current > self.max then
         self.current = self.max
     end
-    
-    self.inst:PushEvent("hungerdelta", {oldpercent = old/self.max, newpercent = self.current/self.max, overtime = overtime})
+
+    self.inst:PushEvent("hungerdelta", { oldpercent = old / self.max, newpercent = self.current / self.max, overtime = overtime })
 
     if old > 0 and self.current <= 0 then
         self.inst:PushEvent("startstarving")
@@ -92,7 +94,7 @@ function Hunger:DoDelta(delta, overtime, ignore_invincible)
         self.inst:PushEvent("stopstarving")
         ProfileStatsSet("stopped_starving", true)
     end
-    
+
 end
 
 function Hunger:GetPercent(p)
@@ -101,8 +103,8 @@ end
 
 function Hunger:SetPercent(p)
     local old = self.current
-    self.current  = p*self.max
-    self.inst:PushEvent("hungerdelta", {oldpercent = old/self.max, newpercent = p})
+    self.current = p * self.max
+    self.inst:PushEvent("hungerdelta", { oldpercent = old / self.max, newpercent = p })
 
     if old > 0 and self.current <= 0 then
         self.inst:PushEvent("startstarving")
@@ -115,24 +117,24 @@ function Hunger:SetPercent(p)
 end
 
 function Hunger:DoDec(dt, ignore_damage)
-	
+
     local old = self.current
-    
+
     if self.burning then
         if self.current <= 0 then
-			if not ignore_damage then
+            if not ignore_damage then
                 if self.overridestarvefn ~= nil then
                     self.overridestarvefn(self.inst, dt)
-                else   
-                    self.inst.components.health:DoDelta(-self.hurtrate*dt, true, "hunger") --  ich haber hunger
+                else
+                    self.inst.components.health:DoDelta(-self.hurtrate * dt, true, "hunger") --  ich haber hunger
                 end
             end
         else
-            self:DoDelta(self.burnrate*(-self.hungerrate*dt), true)
+            self:DoDelta(self.burnrate * (-self.hungerrate * dt), true)
 
         end
     end
-    
+
     --self.task = self.inst:DoTaskInTime(self.period, function() self:DoDec() end)
 end
 
@@ -143,6 +145,5 @@ end
 function Hunger:SetRate(rate)
     self.hungerrate = rate
 end
-
 
 return Hunger

@@ -11,18 +11,18 @@ function HomeSeeker:HasHome()
 end
 
 function HomeSeeker:GetDebugString()
-	return string.format("home: %s", tostring(self.home) )
+    return string.format("home: %s", tostring(self.home))
 end
 
 function HomeSeeker:SetHome(home)
     if self.home then
         self.inst:RemoveEventCallback("onremove", self.onhomeremoved, self.home)
     end
-	if home and home:IsValid() then
-	    self.home = home
-	else
-		self.home = nil
-	end
+    if home and home:IsValid() then
+        self.home = home
+    else
+        self.home = nil
+    end
     if self.home then
         self.inst:ListenForEvent("onremove", self.onhomeremoved, self.home)
     end
@@ -41,13 +41,13 @@ function HomeSeeker:GoHome(shouldrun)
 end
 
 function HomeSeeker:ForceGoHome()
-	if self:HasHome() then
-		if self.home.components.spawner then
-			self.home.components.spawner:GoHome(self.inst)
-		elseif self.home.components.childspawner then
-			self.home.components.childspawner:GoHome(self.inst)
-		end
-	end
+    if self:HasHome() then
+        if self.home.components.spawner then
+            self.home.components.spawner:GoHome(self.inst)
+        elseif self.home.components.childspawner then
+            self.home.components.childspawner:GoHome(self.inst)
+        end
+    end
 end
 
 function HomeSeeker:GetHomePos()

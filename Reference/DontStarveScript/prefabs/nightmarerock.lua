@@ -1,13 +1,11 @@
 --Down when sane, up when insane.
-local assets = 
-{
+local assets = {
     Asset("ANIM", "anim/blocker_sanity.zip"),
     Asset("ANIM", "anim/blocker_sanity_fx.zip"),
     Asset("MINIMAP_IMAGE", "obelisk"),
 }
 
-local prefabs = 
-{
+local prefabs = {
     "sanity_raise",
     "sanity_lower"
 }
@@ -17,7 +15,7 @@ local function getnearbypoints(inst, pt)
     local arrayspot = 1
     for numPoints = -inst.collisionsize, inst.collisionsize do
         r_array[arrayspot] = pt + numPoints
-        arrayspot = arrayspot + 1       
+        arrayspot = arrayspot + 1
     end
     return r_array
 end
@@ -25,20 +23,22 @@ end
 local function turnonpathfinding(inst)
     local ground = GetWorld()
     if ground then
-        if not inst.pftable then --There's no table of pathfinding values, create it
+        if not inst.pftable then
+            --There's no table of pathfinding values, create it
             inst.pftable = {}
-        else --there was stored pathfinding values. Wipe it incase object has moved, we'll create new values.
+        else
+            --there was stored pathfinding values. Wipe it incase object has moved, we'll create new values.
             inst.pftable = nil
             inst.pftable = {}
-        end 
-        local pt = Point(inst.Transform:GetWorldPosition())       
+        end
+        local pt = Point(inst.Transform:GetWorldPosition())
         local nearbyX = getnearbypoints(inst, pt.x)
-        local nearbyZ = getnearbypoints(inst, pt.z)        
-        for x_counter = 1,#nearbyX do
-            for z_counter = 1,#nearbyZ do
-                local block = {nearbyX[x_counter], pt.y, nearbyZ[z_counter]}
-                ground.Pathfinder:AddWall(block[1], block[2], block[3]) 
-                table.insert(inst.pftable, block)                                 
+        local nearbyZ = getnearbypoints(inst, pt.z)
+        for x_counter = 1, #nearbyX do
+            for z_counter = 1, #nearbyZ do
+                local block = { nearbyX[x_counter], pt.y, nearbyZ[z_counter] }
+                ground.Pathfinder:AddWall(block[1], block[2], block[3])
+                table.insert(inst.pftable, block)
             end
         end
     end
@@ -47,31 +47,33 @@ end
 local function turnoffpathfinding(inst)
     local ground = GetWorld()
     if ground then
-        if not inst.pftable then --there is no stored table of pathfinding locations, use world location
+        if not inst.pftable then
+            --there is no stored table of pathfinding locations, use world location
             local pt = Point(inst.Transform:GetWorldPosition())
             local nearbyX = getnearbypoints(inst, pt.x)
-            local nearbyZ = getnearbypoints(inst, pt.z)                    
-            for x_counter = 1,#nearbyX do
-                for z_counter = 1,#nearbyZ do
-                    ground.Pathfinder:RemoveWall(nearbyX[x_counter], pt.y, nearbyZ[z_counter])          
+            local nearbyZ = getnearbypoints(inst, pt.z)
+            for x_counter = 1, #nearbyX do
+                for z_counter = 1, #nearbyZ do
+                    ground.Pathfinder:RemoveWall(nearbyX[x_counter], pt.y, nearbyZ[z_counter])
                 end
             end
-        else --there was a table of stored pathfinding locations, use them instead.            
+        else
+            --there was a table of stored pathfinding locations, use them instead.
             for pftable_counter = 1, #inst.pftable do
-                ground.Pathfinder:RemoveWall(inst.pftable[pftable_counter][1], inst.pftable[pftable_counter][2], inst.pftable[pftable_counter][3])             
+                ground.Pathfinder:RemoveWall(inst.pftable[pftable_counter][1], inst.pftable[pftable_counter][2], inst.pftable[pftable_counter][3])
             end
         end
 
     end
 end
 
-local function setrockactive(inst)    
+local function setrockactive(inst)
     inst.AnimState:PlayAnimation("raise")
     inst.AnimState:PushAnimation("idle_active", true)
     local fx = SpawnPrefab("sanity_raise")
     local pos = inst:GetPosition()
     fx.Transform:SetPosition(pos.x, pos.y, pos.z)
-    
+
     inst.Physics:SetCollisionGroup(COLLISION.OBSTACLES)
     inst.Physics:ClearCollisionMask()
     inst.Physics:CollidesWith(COLLISION.WORLD)
@@ -81,7 +83,7 @@ local function setrockactive(inst)
     inst.SoundEmitter:PlaySound("dontstarve/sanity/shadowrock_up")
 end
 
-local function  setrockinactive(inst)    
+local function setrockinactive(inst)
     inst.AnimState:PlayAnimation("lower")
     inst.AnimState:PushAnimation("idle_inactive", true)
     local fx = SpawnPrefab("sanity_lower")
@@ -101,7 +103,7 @@ local function startrockactive(inst)
         inst.task:Cancel()
         inst.task = nil
     end
-    inst.task = inst:DoTaskInTime(math.random(), setrockactive) 
+    inst.task = inst:DoTaskInTime(math.random(), setrockactive)
 end
 
 local function startrockinactive(inst)
@@ -109,11 +111,11 @@ local function startrockinactive(inst)
         inst.task:Cancel()
         inst.task = nil
     end
-    inst.task = inst:DoTaskInTime(math.random(), setrockinactive)  
+    inst.task = inst:DoTaskInTime(math.random(), setrockinactive)
 end
 
 local function inspect_insanityrock(inst)
-    local player = GetPlayer()    
+    local player = GetPlayer()
     if player and player.components.sanity then
         if player.components.sanity:IsSane() then
             return "INACTIVE"
@@ -126,7 +128,7 @@ local function inspect_insanityrock(inst)
 end
 
 local function inspect_sanityrock(inst)
-    local player = GetPlayer()    
+    local player = GetPlayer()
     if player and player.components.sanity then
         if player.components.sanity:IsSane() then
             return "ACTIVE"
@@ -165,10 +167,10 @@ local function rockstartup(inst, player, ifinsanefn, ifsanefn)
     end
 end
 
-local function  onsave(inst, data)
+local function onsave(inst, data)
     if inst.pftable then
         data.pftable = inst.pftable
-    end   
+    end
 end
 
 local function onload(inst, data)
@@ -199,7 +201,7 @@ local function commonfn()
     inst.entity:AddSoundEmitter()
 
     local minimap = inst.entity:AddMiniMapEntity()
-    minimap:SetIcon( "obelisk.png" )
+    minimap:SetIcon("obelisk.png")
 
     inst:AddComponent("inspectable")
 
@@ -215,8 +217,12 @@ end
 
 local function insanityrock()
     local inst = commonfn()
-    inst.player:ListenForEvent("gosane",function() startrockinactive(inst) end)
-    inst.player:ListenForEvent("goinsane", function() startrockactive(inst) end)
+    inst.player:ListenForEvent("gosane", function()
+        startrockinactive(inst)
+    end)
+    inst.player:ListenForEvent("goinsane", function()
+        startrockactive(inst)
+    end)
     rockstartup(inst, inst.player, forcerockactive, forcerockinactive)
     inst.components.inspectable.getstatus = inspect_insanityrock
     inst.OnLoad = insanityrockonload
@@ -225,8 +231,12 @@ end
 
 local function sanityrock()
     local inst = commonfn()
-    inst.player:ListenForEvent("gosane",function() startrockactive(inst) end)
-    inst.player:ListenForEvent("goinsane", function() startrockinactive(inst) end)
+    inst.player:ListenForEvent("gosane", function()
+        startrockactive(inst)
+    end)
+    inst.player:ListenForEvent("goinsane", function()
+        startrockinactive(inst)
+    end)
     rockstartup(inst, inst.player, forcerockinactive, forcerockactive)
     inst.components.inspectable.getstatus = inspect_sanityrock
     inst.OnLoad = sanityrockonload
@@ -235,4 +245,4 @@ local function sanityrock()
 end
 
 return Prefab("forest/objects/rocks/insanityrock", insanityrock, assets, prefabs),
-       Prefab("forest/objects/rocks/sanityrock", sanityrock, assets, prefabs) 
+Prefab("forest/objects/rocks/sanityrock", sanityrock, assets, prefabs)

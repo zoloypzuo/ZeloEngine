@@ -1,12 +1,11 @@
-local assets =
-{
-	Asset("ANIM", "anim/thulecite_pieces.zip"),
+local assets = {
+    Asset("ANIM", "anim/thulecite_pieces.zip"),
 }
 
 local function fn(Sim)
-	local inst = CreateEntity()
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
     MakeInventoryPhysics(inst)
 
     inst.AnimState:SetBank("thulecite_pieces")
@@ -31,4 +30,4 @@ local function fn(Sim)
     return inst
 end
 
-return Prefab( "common/inventory/thulecite_pieces", fn, assets)
+return Prefab("common/inventory/thulecite_pieces", fn, assets)

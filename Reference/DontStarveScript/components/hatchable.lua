@@ -22,17 +22,17 @@ function Hatchable:SetOnState(fn)
 end
 
 function Hatchable:SetCrackTime(t)
---    print("Hatchable:SetCrackTime", t)
+    --    print("Hatchable:SetCrackTime", t)
     self.cracktime = t
 end
 
 function Hatchable:SetHatchTime(t)
---    print("Hatchable:SetHatchTime", t)
+    --    print("Hatchable:SetHatchTime", t)
     self.hatchtime = t
 end
 
 function Hatchable:SetHatchFailTime(t)
---    print("Hatchable:SetHatchFailTime", t)
+    --    print("Hatchable:SetHatchFailTime", t)
     self.hatchfailtime = t
 end
 
@@ -48,7 +48,9 @@ end
 
 function Hatchable:Delay(time)
     self.delay = true
-    self.inst:DoTaskInTime(time, function() self.delay = false end)
+    self.inst:DoTaskInTime(time, function()
+        self.delay = false
+    end)
 end
 
 function Hatchable:StopUpdating()
@@ -63,7 +65,9 @@ function Hatchable:StartUpdating()
     --print("Hatchable:StartUpdating", self.state)
     if not (self.state == "dead" or self.state == "hatch") and not self.task then
         local dt = TUNING.HATCH_UPDATE_PERIOD
-        self.task = self.inst:DoPeriodicTask(dt, function() self:OnUpdate(dt) end, 0)
+        self.task = self.inst:DoPeriodicTask(dt, function()
+            self:OnUpdate(dt)
+        end, 0)
     end
 end
 
@@ -74,28 +78,28 @@ function Hatchable:OnUpdate(dt)
         return
     end
 
-    local fire = FindEntity(self.inst, TUNING.HATCH_CAMPFIRE_RADIUS, function(thing) 
+    local fire = FindEntity(self.inst, TUNING.HATCH_CAMPFIRE_RADIUS, function(thing)
         return thing:HasTag("campfire") and thing.components.burnable and thing.components.burnable:IsBurning()
     end)
-    
+
     local hasfire = (fire ~= nil)
 
     if self.state == "unhatched" then
-		if hasfire then
-			self.progress = self.progress + dt
-			if self.progress >= self.cracktime then
-				self.progress = 0
+        if hasfire then
+            self.progress = self.progress + dt
+            if self.progress >= self.cracktime then
+                self.progress = 0
                 self:OnState("crack")
-			end
-		else
-			self.progress = 0
-		end
+            end
+        else
+            self.progress = 0
+        end
         --print(string.format("   crack progress=%u/%u", self.progress, self.cracktime))
         return
     end
 
     local oldstate = self.state
- 
+
     self.toohot = false
     self.toocold = false
 
@@ -119,7 +123,7 @@ function Hatchable:OnUpdate(dt)
         -- I guess during dusk you can be either near or not near the fire and it's ok
         self:OnState("comfy")
     end
-    
+
     if self.state == "comfy" then
         --print("   comfy")
 
@@ -127,7 +131,7 @@ function Hatchable:OnUpdate(dt)
         if self.discomfort <= 0 then
             self.progress = self.progress + dt
         end
-        
+
         if self.progress >= self.hatchtime then
             self:StopUpdating()
             self:OnState("hatch")
@@ -144,8 +148,7 @@ end
 
 function Hatchable:OnSave()
     --print("Hatchable:OnSave")
-    local data = 
-    {
+    local data = {
         state = self.state,
         progress = self.progress,
         discomfort = self.discomfort,
@@ -154,7 +157,7 @@ function Hatchable:OnSave()
     }
     --print("   state,progress,discomfort", data.state, data.progress, data.discomfort)
     return data
-end   
+end
 
 function Hatchable:OnLoad(data)
     --print("Hatchable:OnLoad")

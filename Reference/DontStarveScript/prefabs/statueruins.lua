@@ -1,14 +1,12 @@
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/statue_ruins_small.zip"),
-	Asset("ANIM", "anim/statue_ruins_small_gem.zip"),
+    Asset("ANIM", "anim/statue_ruins_small_gem.zip"),
     Asset("ANIM", "anim/statue_ruins.zip"),
-	Asset("ANIM", "anim/statue_ruins_gem.zip"),
+    Asset("ANIM", "anim/statue_ruins_gem.zip"),
     Asset("MINIMAP_IMAGE", "statue_ruins"),
 }
 
-local prefabs = 
-{
+local prefabs = {
     "marble",
     "greengem",
     "redgem",
@@ -19,8 +17,7 @@ local prefabs =
     "nightmarefuel",
 }
 
-local gemlist  = 
-{
+local gemlist = {
     "greengem",
     "redgem",
     "bluegem",
@@ -29,13 +26,12 @@ local gemlist  =
     "purplegem",
 }
 
-
-SetSharedLootTable( 'statue_ruins_no_gem',
-{
-    {'thulecite',     1.00},
-    {'nightmarefuel', 1.00},
-    {'thulecite',     0.05},
-})
+SetSharedLootTable('statue_ruins_no_gem',
+        {
+            { 'thulecite', 1.00 },
+            { 'nightmarefuel', 1.00 },
+            { 'thulecite', 0.05 },
+        })
 
 local LIGHT_INTENSITY = .25
 local LIGHT_RADIUS = 2.5
@@ -48,41 +44,44 @@ local function turnoff(inst, light)
     end
 end
 
-
 local function DoFx(inst)
     if ExecutingLongUpdate then
         return
     end
     inst.SoundEmitter:PlaySound("dontstarve/common/ghost_spawn")
-    
+
     local fx = SpawnPrefab("statue_transition_2")
     if fx then
         fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
-        fx.AnimState:SetScale(1,2,1)
+        fx.AnimState:SetScale(1, 2, 1)
     end
     fx = SpawnPrefab("statue_transition")
     if fx then
         fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
-        fx.AnimState:SetScale(1,1.5,1)
+        fx.AnimState:SetScale(1, 1.5, 1)
     end
 end
 local function fade_in(inst)
     inst.Light:Enable(true)
     --DoFx(inst)
-    inst.components.lighttweener:StartTween(nil, 3, nil, nil, nil, 0.5) 
+    inst.components.lighttweener:StartTween(nil, 3, nil, nil, nil, 0.5)
 end
 
 local function fade_out(inst)
     --DoFx(inst)
 
-    inst.components.lighttweener:StartTween(nil, 0, nil, nil, nil, 1, turnoff) 
+    inst.components.lighttweener:StartTween(nil, 0, nil, nil, nil, 1, turnoff)
 end
 
-local function ShowState(inst,data)
+local function ShowState(inst, data)
 
-    if not data then data = {} end
+    if not data then
+        data = {}
+    end
 
-    if inst.fading then return end
+    if inst.fading then
+        return
+    end
 
     local nclock = GetNightmareClock()
 
@@ -102,7 +101,7 @@ local function ShowState(inst,data)
 
     if nclock and nclock:IsNightmare() then
         suffix = "_night"
-        inst.AnimState:SetBloomEffectHandle( "shaders/anim.ksh" )
+        inst.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
         if not data.fromwork then
             DoFx(inst)
         end
@@ -120,15 +119,14 @@ local function ShowState(inst,data)
         inst.phase = data.newphase
     end
 
-    if workleft < TUNING.MARBLEPILLAR_MINE*(1/3) then
-        inst.AnimState:PlayAnimation("hit_low"..suffix, true)
-    elseif workleft < TUNING.MARBLEPILLAR_MINE*(2/3) then
-        inst.AnimState:PlayAnimation("hit_med"..suffix, true)
+    if workleft < TUNING.MARBLEPILLAR_MINE * (1 / 3) then
+        inst.AnimState:PlayAnimation("hit_low" .. suffix, true)
+    elseif workleft < TUNING.MARBLEPILLAR_MINE * (2 / 3) then
+        inst.AnimState:PlayAnimation("hit_med" .. suffix, true)
     else
-        inst.AnimState:PlayAnimation("idle_full"..suffix, true)
+        inst.AnimState:PlayAnimation("idle_full" .. suffix, true)
     end
 end
-
 
 local function OnWork(inst, worked, workleft)
     local pt = Point(inst.Transform:GetWorldPosition())
@@ -136,22 +134,22 @@ local function OnWork(inst, worked, workleft)
         inst.SoundEmitter:KillSound("hoverloop")
         inst.SoundEmitter:PlaySound("dontstarve/wilson/rock_break")
         inst.components.lootdropper:DropLoot(pt)
-	    SpawnAt("collapse_small",inst)
+        SpawnAt("collapse_small", inst)
 
         local nclock = GetNightmareClock()
         if nclock and nclock:IsNightmare() then
             if math.random() <= 0.3 then
                 if math.random() <= 0.5 then
-                    SpawnAt("crawlingnightmare",inst)
+                    SpawnAt("crawlingnightmare", inst)
                 else
-                    SpawnAt("nightmarebeak",inst)
+                    SpawnAt("nightmarebeak", inst)
                 end
             end
         end
 
         inst:Remove()
-    else                
-        ShowState(inst, {fromwork = true})
+    else
+        ShowState(inst, { fromwork = true })
     end
 end
 
@@ -161,7 +159,7 @@ local function commonfn(small)
     local anim = inst.entity:AddAnimState()
     inst.entity:AddSoundEmitter()
     inst.small = small
-    
+
     inst.fadeout = fade_out
     inst.fadein = fade_in
 
@@ -176,7 +174,7 @@ local function commonfn(small)
     end
 
     inst.entity:AddMiniMapEntity()
-    inst.MiniMapEntity:SetIcon( "statue_ruins.png" )
+    inst.MiniMapEntity:SetIcon("statue_ruins.png")
 
     inst:AddTag("structure")
 
@@ -191,27 +189,27 @@ local function commonfn(small)
     inst.components.workable:SetOnWorkCallback(OnWork)
 
     inst:AddComponent("fader")
-    
+
     inst:AddComponent("lighttweener")
     local light = inst.entity:AddLight()
-    inst.components.lighttweener:StartTween(light, 1, .9, 0.9, {255/255,255/255,255/255}, 0, turnoff)
+    inst.components.lighttweener:StartTween(light, 1, .9, 0.9, { 255 / 255, 255 / 255, 255 / 255 }, 0, turnoff)
 
     inst:AddComponent("lootdropper")
 
     if GetNightmareClock() then
-	    inst:ListenForEvent( "phasechange",
-                                function(source,data)
-                                    --dprint("PHASECHANGE:",data.newphase)
-                                    ShowState(inst,data)
-                                end,
-                                GetWorld() )
+        inst:ListenForEvent("phasechange",
+                function(source, data)
+                    --dprint("PHASECHANGE:",data.newphase)
+                    ShowState(inst, data)
+                end,
+                GetWorld())
     end
 
-    inst:DoTaskInTime(1*FRAMES, function()
-                            ShowState(inst)
-                            end)
-    
-	--fade_in(inst,0)
+    inst:DoTaskInTime(1 * FRAMES, function()
+        ShowState(inst)
+    end)
+
+    --fade_in(inst,0)
 
     return inst
 end
@@ -226,22 +224,30 @@ local function gem(small)
     else
         inst.AnimState:OverrideSymbol("swap_gem", "statue_ruins_gem", gem)
     end
-    inst.components.lootdropper:SetLoot({"thulecite", gem})
-    inst.components.lootdropper:AddChanceLoot("thulecite"  , 0.05)
+    inst.components.lootdropper:SetLoot({ "thulecite", gem })
+    inst.components.lootdropper:AddChanceLoot("thulecite", 0.05)
 
     return inst
 end
 
 local function nogem(small)
     local inst = commonfn(small)
-    
+
     inst.components.lootdropper:SetChanceLootTable('statue_ruins_no_gem')
 
     return inst
 end
 
-return Prefab("cave/objects/ruins_statue_head", function(Sim) return gem(true) end, assets, prefabs),
-       Prefab("cave/objects/ruins_statue_head_nogem", function(Sim) return nogem(true) end, assets, prefabs),
-       Prefab("cave/objects/ruins_statue_mage", function(Sim) return gem() end, assets, prefabs),
-       Prefab("cave/objects/ruins_statue_mage_nogem", function(Sim) return nogem() end, assets, prefabs)
+return Prefab("cave/objects/ruins_statue_head", function(Sim)
+    return gem(true)
+end, assets, prefabs),
+Prefab("cave/objects/ruins_statue_head_nogem", function(Sim)
+    return nogem(true)
+end, assets, prefabs),
+Prefab("cave/objects/ruins_statue_mage", function(Sim)
+    return gem()
+end, assets, prefabs),
+Prefab("cave/objects/ruins_statue_mage_nogem", function(Sim)
+    return nogem()
+end, assets, prefabs)
 

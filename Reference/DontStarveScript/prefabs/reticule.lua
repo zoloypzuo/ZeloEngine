@@ -1,5 +1,4 @@
-local assets = 
-{
+local assets = {
     Asset("ANIM", "anim/reticule.zip"),
 
 }
@@ -12,12 +11,12 @@ local function reticule()
     anim:SetBank("reticule")
     anim:SetBuild("reticule")
     anim:PlayAnimation("idle")
-    anim:SetOrientation( ANIM_ORIENTATION.OnGround )
-    anim:SetLayer( LAYER_BACKGROUND )
-    anim:SetSortOrder( 3 )
+    anim:SetOrientation(ANIM_ORIENTATION.OnGround)
+    anim:SetLayer(LAYER_BACKGROUND)
+    anim:SetSortOrder(3)
 
     inst:AddComponent("colourtweener")
-    inst.components.colourtweener:StartTween({0,0,0,1}, 0)
+    inst.components.colourtweener:StartTween({ 0, 0, 0, 1 }, 0)
 
     inst:AddTag("NOCLICK")
     inst:AddTag("FX")

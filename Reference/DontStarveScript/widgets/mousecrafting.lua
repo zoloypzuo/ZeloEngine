@@ -21,5 +21,4 @@ local MouseCrafting = Class(Crafting, function(self)
     self.craftslots:EnablePopups()
 end)
 
-
 return MouseCrafting

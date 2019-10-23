@@ -1,14 +1,12 @@
+local trace = function()
+end
 
-local trace = function() end
-
-local assets=
-{
+local assets = {
     Asset("ANIM", "anim/koalefant_tracks.zip"),
     Asset("ANIM", "anim/smoke_puff_small.zip"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "small_puff"
 }
 
@@ -22,9 +20,9 @@ end
 local function OnInvestigated(inst, doer)
     local pt = Vector3(inst.Transform:GetWorldPosition())
     trace("dirtpile - OnInvestigated", pt)
-	if GetWorld().components.hunter then
-		GetWorld().components.hunter:OnDirtInvestigated(pt)
-	end
+    if GetWorld().components.hunter then
+        GetWorld().components.hunter:OnDirtInvestigated(pt)
+    end
 
     local fx = SpawnPrefab("small_puff")
     local pos = inst:GetPosition()
@@ -38,12 +36,14 @@ local function OnAudioHint(inst)
 
     local MainCharacter = GetPlayer()
     local distsq = inst:GetDistanceSqToInst(MainCharacter)
-    if distsq > AUDIO_HINT_MIN*AUDIO_HINT_MIN and distsq < AUDIO_HINT_MAX*AUDIO_HINT_MAX then
+    if distsq > AUDIO_HINT_MIN * AUDIO_HINT_MIN and distsq < AUDIO_HINT_MAX * AUDIO_HINT_MAX then
         trace("    playing hint")
         inst.SoundEmitter:PlaySound("dontstarve/creatures/koalefant/grunt")
     end
 
-    inst:DoTaskInTime(math.random(7, 14), function() OnAudioHint(inst) end)
+    inst:DoTaskInTime(math.random(7, 14), function()
+        OnAudioHint(inst)
+    end)
 end
 
 local function create(sim)
@@ -51,9 +51,9 @@ local function create(sim)
 
     local inst = CreateEntity()
     inst.entity:AddTransform()
-    
+
     inst:AddTag("dirtpile")
-    
+
     inst.entity:AddAnimState()
     inst.AnimState:SetBank("track")
     inst.AnimState:SetBuild("koalefant_tracks")
@@ -67,12 +67,12 @@ local function create(sim)
     MakeInventoryPhysics(inst)
 
     --inst.Transform:SetRotation(math.random(360))
-    
+
     inst:AddComponent("inspectable")
     --inst.components.inspectable.getstatus = GetStatus
-    
-    inst:AddComponent("activatable")    
-    
+
+    inst:AddComponent("activatable")
+
     -- set required
     inst.components.activatable.OnActivate = OnInvestigated
     inst.components.activatable.inactive = true
@@ -85,4 +85,4 @@ local function create(sim)
     return inst
 end
 
-return Prefab( "forest/objects/dirtpile", create, assets, prefabs) 
+return Prefab("forest/objects/dirtpile", create, assets, prefabs)

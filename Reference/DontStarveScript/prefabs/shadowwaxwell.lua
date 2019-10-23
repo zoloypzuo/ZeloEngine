@@ -1,45 +1,42 @@
 require "brains/shadowwaxwellbrain"
 require "stategraphs/SGshadowwaxwell"
 
-local assets = 
-{
+local assets = {
     Asset("ANIM", "anim/waxwell_shadow_mod.zip"),
-	Asset("SOUND", "sound/maxwell.fsb"),
-	Asset("ANIM", "anim/swap_pickaxe.zip"),
-	Asset("ANIM", "anim/swap_axe.zip"),
-	Asset("ANIM", "anim/swap_nightmaresword.zip"),
+    Asset("SOUND", "sound/maxwell.fsb"),
+    Asset("ANIM", "anim/swap_pickaxe.zip"),
+    Asset("ANIM", "anim/swap_axe.zip"),
+    Asset("ANIM", "anim/swap_nightmaresword.zip"),
 }
 
-local prefabs = 
-{
+local prefabs = {
 
 }
 
-local items =
-{
-	AXE = "swap_axe",
-	PICK = "swap_pickaxe",
+local items = {
+    AXE = "swap_axe",
+    PICK = "swap_pickaxe",
     SWORD = "swap_nightmaresword"
 }
 
 local function ondeath(inst)
-	inst.components.sanityaura.penalty = 0
-	local player = GetPlayer()
-	if player then
-		player.components.sanity:RecalculatePenalty()
-	end
+    inst.components.sanityaura.penalty = 0
+    local player = GetPlayer()
+    if player then
+        player.components.sanity:RecalculatePenalty()
+    end
 end
 
 local function EquipItem(inst, item)
-	if item then
-	    inst.AnimState:OverrideSymbol("swap_object", item, item)
-	    inst.AnimState:Show("ARM_carry") 
-	    inst.AnimState:Hide("ARM_normal")
-	end
+    if item then
+        inst.AnimState:OverrideSymbol("swap_object", item, item)
+        inst.AnimState:Show("ARM_carry")
+        inst.AnimState:Hide("ARM_normal")
+    end
 end
 
 local function die(inst)
-	inst.components.health:Kill()
+    inst.components.health:Kill()
 end
 
 local function resume(inst, time)
@@ -71,23 +68,25 @@ end
 
 local function entitydeathfn(inst, data)
     if data.inst:HasTag("player") then
-        inst:DoTaskInTime(math.random(), function() inst.components.health:Kill() end)
+        inst:DoTaskInTime(math.random(), function()
+            inst.components.health:Kill()
+        end)
     end
 end
 
 local function fn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
-	local sound = inst.entity:AddSoundEmitter()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
+    local sound = inst.entity:AddSoundEmitter()
 
-	inst.Transform:SetFourFaced(inst)
+    inst.Transform:SetFourFaced(inst)
 
-	MakeGhostPhysics(inst, 1, .5)
+    MakeGhostPhysics(inst, 1, .5)
 
-	anim:SetBank("wilson")
-	anim:SetBuild("waxwell_shadow_mod")
-	anim:PlayAnimation("idle")
+    anim:SetBank("wilson")
+    anim:SetBuild("waxwell_shadow_mod")
+    anim:PlayAnimation("idle")
 
     anim:Hide("ARM_carry")
     anim:Hide("hat")
@@ -96,11 +95,11 @@ local function fn()
     inst:AddTag("scarytoprey")
     inst:AddTag("NOCLICK")
 
-	inst:AddComponent("colourtweener")
-	inst.components.colourtweener:StartTween({0,0,0,.5}, 0)
+    inst:AddComponent("colourtweener")
+    inst.components.colourtweener:StartTween({ 0, 0, 0, .5 }, 0)
 
-	inst:AddComponent("locomotor")
-    inst.components.locomotor:SetSlowMultiplier( 0.6 )
+    inst:AddComponent("locomotor")
+    inst.components.locomotor:SetSlowMultiplier(0.6)
     inst.components.locomotor.pathcaps = { ignorecreep = true }
     inst.components.locomotor.runspeed = TUNING.SHADOWWAXWELL_SPEED
 
@@ -117,7 +116,7 @@ local function fn()
     inst.components.health.nofadeout = true
     inst:ListenForEvent("death", ondeath)
 
-	inst:AddComponent("inventory")
+    inst:AddComponent("inventory")
     inst.components.inventory.dropondeath = false
 
     inst:AddComponent("sanityaura")
@@ -134,15 +133,17 @@ local function fn()
 
     EquipItem(inst)
 
-    inst:ListenForEvent("entity_death", function(world, data) entitydeathfn(inst, data) end, GetWorld())
+    inst:ListenForEvent("entity_death", function(world, data)
+        entitydeathfn(inst, data)
+    end, GetWorld())
 
     inst:AddComponent("follower")
 
-	local brain = require"brains/shadowwaxwellbrain"
-	inst:SetBrain(brain)
-	inst:SetStateGraph("SGshadowwaxwell")
+    local brain = require "brains/shadowwaxwellbrain"
+    inst:SetBrain(brain)
+    inst:SetStateGraph("SGshadowwaxwell")
 
-	return inst
+    return inst
 end
 
 return Prefab("common/shadowwaxwell", fn, assets, prefabs)

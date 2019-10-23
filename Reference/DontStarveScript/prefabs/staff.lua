@@ -1,11 +1,9 @@
-local assets=
-{
+local assets = {
     Asset("ANIM", "anim/staffs.zip"),
-    Asset("ANIM", "anim/swap_staffs.zip"), 
+    Asset("ANIM", "anim/swap_staffs.zip"),
 }
 
-local prefabs = 
-{
+local prefabs = {
     "ice_projectile",
     "fire_projectile",
     "staffcastfx",
@@ -17,17 +15,17 @@ local prefabs =
 local function onattack_red(inst, attacker, target)
 
     if target.components.burnable and not target.components.burnable:IsBurning() then
-        if target.components.freezable and target.components.freezable:IsFrozen() then           
-            target.components.freezable:Unfreeze()            
-        else            
+        if target.components.freezable and target.components.freezable:IsFrozen() then
+            target.components.freezable:Unfreeze()
+        else
             target.components.burnable:Ignite(true)
-        end   
+        end
     end
 
     if target.components.freezable then
         target.components.freezable:AddColdness(-1) --Does this break ice staff?
         if target.components.freezable:IsFrozen() then
-            target.components.freezable:Unfreeze()            
+            target.components.freezable:Unfreeze()
         end
     end
 
@@ -62,7 +60,7 @@ local function onattack_blue(inst, attacker, target)
     if attacker and attacker.components.sanity then
         attacker.components.sanity:DoDelta(-TUNING.SANITY_SUPERTINY)
     end
-    
+
     if target.components.freezable then
         target.components.freezable:AddColdness(1)
         target.components.freezable:SpawnShatterFX()
@@ -86,10 +84,10 @@ end
 local function getrandomposition(inst)
     local ground = GetWorld()
     local centers = {}
-    for i,node in ipairs(ground.topology.nodes) do
+    for i, node in ipairs(ground.topology.nodes) do
         local tile = GetWorld().Map:GetTileAtPoint(node.x, 0, node.y)
         if tile and tile ~= GROUND.IMPASSABLE then
-            table.insert(centers, {x = node.x, z = node.y})
+            table.insert(centers, { x = node.x, z = node.y })
         end
     end
     if #centers > 0 then
@@ -128,14 +126,14 @@ local function teleport_thread(inst, caster, teletarget, loctarget)
 
     if ground.topology.level_type == "cave" then
         TheCamera:Shake("FULL", 0.3, 0.02, .5, 40)
-        ground.components.quaker:MiniQuake(3, 5, 1.5, teleportee)     
+        ground.components.quaker:MiniQuake(3, 5, 1.5, teleportee)
         return
     end
 
     if teleportee.components.health then
         teleportee.components.health:SetInvincible(true)
     end
-    
+
     GetSeasonManager():DoLightningStrike(pt)
     teleportee:Hide()
 
@@ -143,7 +141,7 @@ local function teleport_thread(inst, caster, teletarget, loctarget)
         TheFrontEnd:Fade(false, 2)
         Sleep(3)
     end
-    
+
     if caster.components.sanity then
         caster.components.sanity:DoDelta(-TUNING.SANITY_HUGE)
     end
@@ -158,7 +156,9 @@ local function teleport_thread(inst, caster, teletarget, loctarget)
         TheFrontEnd:DoFadeIn(1)
         Sleep(1)
     end
-    if loctarget and loctarget.onteleto then loctarget.onteleto(loctarget) end
+    if loctarget and loctarget.onteleto then
+        loctarget.onteleto(loctarget)
+    end
     GetSeasonManager():DoLightningStrike(t_loc)
     teleportee:Show()
     if teleportee.components.health then
@@ -176,32 +176,40 @@ local function teleport_func(inst, target)
     local caster = inst.components.inventoryitem.owner
     local tar = target or caster
     local pt = tar:GetPosition()
-    local ents = TheSim:FindEntities(pt.x,pt.y,pt.z, 9000, {"telebase"})
+    local ents = TheSim:FindEntities(pt.x, pt.y, pt.z, 9000, { "telebase" })
 
     if #ents <= 0 then
         --There's no bases, active or inactive. Teleport randomly.
-        inst.task = inst:StartThread(function() teleport_thread(inst, caster, tar) end)
+        inst.task = inst:StartThread(function()
+            teleport_thread(inst, caster, tar)
+        end)
         return
     end
 
     local targets = {}
-    for k,v in pairs(ents) do
+    for k, v in pairs(ents) do
         local v_pt = v:GetPosition()
         if distsq(pt, v_pt) >= mindistance * mindistance then
-            table.insert(targets, {base = v, distance = distsq(pt, v_pt)}) 
+            table.insert(targets, { base = v, distance = distsq(pt, v_pt) })
         end
     end
 
-    table.sort(targets, function(a,b) return (a.distance) < (b.distance) end)
+    table.sort(targets, function(a, b)
+        return (a.distance) < (b.distance)
+    end)
     for i = 1, #targets do
         local teletarget = targets[i]
         if teletarget.base and teletarget.base.canteleto(teletarget.base) then
-            inst.task = inst:StartThread(function()  teleport_thread(inst, caster, tar, teletarget.base) end)
+            inst.task = inst:StartThread(function()
+                teleport_thread(inst, caster, tar, teletarget.base)
+            end)
             return
         end
     end
 
-    inst.task = inst:StartThread(function() teleport_thread(inst, caster, tar) end)
+    inst.task = inst:StartThread(function()
+        teleport_thread(inst, caster, tar)
+    end)
 end
 
 ---------ORANGE STAFF-----------
@@ -212,46 +220,47 @@ local function onblink(staff, pos, caster)
         caster.components.sanity:DoDelta(-TUNING.SANITY_MED)
     end
 
-    staff.components.finiteuses:Use(1) 
+    staff.components.finiteuses:Use(1)
 
 end
 
 -------GREEN STAFF-----------
 
-local DESTSOUNDS =
-{
+local DESTSOUNDS = {
     {   --magic
         soundpath = "dontstarve/common/destroy_magic",
-        ing = {"nightmarefuel", "livinglog"},
+        ing = { "nightmarefuel", "livinglog" },
     },
     {   --cloth
         soundpath = "dontstarve/common/destroy_clothing",
-        ing = {"silk", "beefalowool"},
+        ing = { "silk", "beefalowool" },
     },
     {   --tool
         soundpath = "dontstarve/common/destroy_tool",
-        ing = {"twigs"},
+        ing = { "twigs" },
     },
     {   --gem
         soundpath = "dontstarve/common/gem_shatter",
-        ing = {"redgem", "bluegem", "greengem", "purplegem", "yellowgem", "orangegem"},
+        ing = { "redgem", "bluegem", "greengem", "purplegem", "yellowgem", "orangegem" },
     },
     {   --wood
         soundpath = "dontstarve/common/destroy_wood",
-        ing = {"log", "board"}
+        ing = { "log", "board" }
     },
     {   --stone
         soundpath = "dontstarve/common/destroy_stone",
-        ing = {"rocks", "cutstone"}
+        ing = { "rocks", "cutstone" }
     },
     {   --straw
         soundpath = "dontstarve/common/destroy_straw",
-        ing = {"cutgrass", "cutreeds"}
+        ing = { "cutgrass", "cutreeds" }
     },
 }
 
 local function candestroy(staff, caster, target)
-    if not target then return false end
+    if not target then
+        return false
+    end
 
     local recipe = GetRecipe(target.prefab)
 
@@ -262,39 +271,39 @@ local function SpawnLootPrefab(inst, lootprefab)
     if lootprefab then
         local loot = SpawnPrefab(lootprefab)
         if loot then
-            
-            local pt = Point(inst.Transform:GetWorldPosition())           
-            
-            loot.Transform:SetPosition(pt.x,pt.y,pt.z)
-            
+
+            local pt = Point(inst.Transform:GetWorldPosition())
+
+            loot.Transform:SetPosition(pt.x, pt.y, pt.z)
+
             if loot.Physics then
-            
-                local angle = math.random()*2*PI
-                loot.Physics:SetVel(2*math.cos(angle), 10, 2*math.sin(angle))
+
+                local angle = math.random() * 2 * PI
+                loot.Physics:SetVel(2 * math.cos(angle), 10, 2 * math.sin(angle))
 
                 if loot.Physics and inst.Physics then
-                    pt = pt + Vector3(math.cos(angle), 0, math.sin(angle))*(loot.Physics:GetRadius() + inst.Physics:GetRadius())
-                    loot.Transform:SetPosition(pt.x,pt.y,pt.z)
+                    pt = pt + Vector3(math.cos(angle), 0, math.sin(angle)) * (loot.Physics:GetRadius() + inst.Physics:GetRadius())
+                    loot.Transform:SetPosition(pt.x, pt.y, pt.z)
                 end
-                
-                loot:DoTaskInTime(1, 
-                    function() 
-                        if not (loot.components.inventoryitem and loot.components.inventoryitem:IsHeld()) then
-                            if not loot:IsOnValidGround() then
-                                local fx = SpawnPrefab("splash_ocean")
-                                local pos = loot:GetPosition()
-                                fx.Transform:SetPosition(pos.x, pos.y, pos.z)
-                                --PlayFX(loot:GetPosition(), "splash", "splash_ocean", "idle")
-                                if loot:HasTag("irreplaceable") then
-                                    loot.Transform:SetPosition(GetPlayer().Transform:GetWorldPosition())
-                                else
-                                    loot:Remove()
+
+                loot:DoTaskInTime(1,
+                        function()
+                            if not (loot.components.inventoryitem and loot.components.inventoryitem:IsHeld()) then
+                                if not loot:IsOnValidGround() then
+                                    local fx = SpawnPrefab("splash_ocean")
+                                    local pos = loot:GetPosition()
+                                    fx.Transform:SetPosition(pos.x, pos.y, pos.z)
+                                    --PlayFX(loot:GetPosition(), "splash", "splash_ocean", "idle")
+                                    if loot:HasTag("irreplaceable") then
+                                        loot.Transform:SetPosition(GetPlayer().Transform:GetWorldPosition())
+                                    else
+                                        loot:Remove()
+                                    end
                                 end
                             end
-                        end
-                    end)
+                        end)
             end
-            
+
             return loot
         end
     end
@@ -306,14 +315,14 @@ local function getsoundsforstructure(inst, target)
 
     local recipe = GetRecipe(target.prefab)
 
-    if recipe then       
+    if recipe then
         for k, soundtbl in pairs(DESTSOUNDS) do
             for k2, ing in pairs(soundtbl.ing) do
                 for k3, rec_ingredients in pairs(recipe.ingredients) do
                     if rec_ingredients.type == ing then
                         table.insert(sounds, soundtbl.soundpath)
                     end
-                end 
+                end
             end
         end
     end
@@ -340,8 +349,8 @@ local function destroystructure(staff, target)
 
     local loot = {}
 
-    if recipe then       
-        for k,v in ipairs(recipe.ingredients) do
+    if recipe then
+        for k, v in ipairs(recipe.ingredients) do
             if not string.find(v.type, "gem") then
                 local amt = math.ceil(v.amount * ingredient_percent)
                 for n = 1, amt do
@@ -357,12 +366,12 @@ local function destroystructure(staff, target)
 
     local sounds = {}
     sounds = getsoundsforstructure(staff, target)
-    for k,v in pairs(sounds) do
-        print("playing ",v)
+    for k, v in pairs(sounds) do
+        print("playing ", v)
         staff.SoundEmitter:PlaySound(v)
     end
 
-    for k,v in pairs(loot) do
+    for k, v in pairs(loot) do
         SpawnLootPrefab(target, v)
     end
 
@@ -388,7 +397,7 @@ local function destroystructure(staff, target)
     end
 
     target:Remove()
-    
+
     if target.components.resurrector and not target.components.resurrector.used then
         local player = GetPlayer()
         if player then
@@ -441,15 +450,15 @@ end
 
 local function commonfn(colour)
 
-    local onequip = function(inst, owner) 
-        owner.AnimState:OverrideSymbol("swap_object", "swap_staffs", colour.."staff")
-        owner.AnimState:Show("ARM_carry") 
-        owner.AnimState:Hide("ARM_normal") 
+    local onequip = function(inst, owner)
+        owner.AnimState:OverrideSymbol("swap_object", "swap_staffs", colour .. "staff")
+        owner.AnimState:Show("ARM_carry")
+        owner.AnimState:Hide("ARM_normal")
     end
 
-    local onunequip = function(inst, owner) 
-        owner.AnimState:Hide("ARM_carry") 
-        owner.AnimState:Show("ARM_normal") 
+    local onunequip = function(inst, owner)
+        owner.AnimState:Hide("ARM_carry")
+        owner.AnimState:Show("ARM_normal")
     end
 
     local inst = CreateEntity()
@@ -457,24 +466,22 @@ local function commonfn(colour)
     local anim = inst.entity:AddAnimState()
     local sound = inst.entity:AddSoundEmitter()
     MakeInventoryPhysics(inst)
-    
+
     anim:SetBank("staffs")
     anim:SetBuild("staffs")
-    anim:PlayAnimation(colour.."staff")
-    -------   
+    anim:PlayAnimation(colour .. "staff")
+    -------
     inst:AddComponent("finiteuses")
-    inst.components.finiteuses:SetOnFinished( onfinished )
+    inst.components.finiteuses:SetOnFinished(onfinished)
 
     inst:AddComponent("inspectable")
-    
+
     inst:AddComponent("inventoryitem")
-    
+
     inst:AddComponent("equippable")
-    inst.components.equippable:SetOnEquip( onequip )
-    inst.components.equippable:SetOnUnequip( onunequip )
+    inst.components.equippable:SetOnEquip(onequip)
+    inst.components.equippable:SetOnUnequip(onunequip)
 
-
-    
     return inst
 end
 
@@ -504,7 +511,7 @@ end
 
 local function blue()
     local inst = commonfn("blue")
-    
+
     inst:AddTag("icestaff")
 
     inst:AddComponent("weapon")
@@ -515,13 +522,13 @@ local function blue()
 
     inst.components.finiteuses:SetMaxUses(TUNING.ICESTAFF_USES)
     inst.components.finiteuses:SetUses(TUNING.ICESTAFF_USES)
-    
+
     return inst
 end
 
 local function purple()
     local inst = commonfn("purple")
-    inst.fxcolour = {104/255,40/255,121/255}
+    inst.fxcolour = { 104 / 255, 40 / 255, 121 / 255 }
     inst.components.finiteuses:SetMaxUses(TUNING.TELESTAFF_USES)
     inst.components.finiteuses:SetUses(TUNING.TELESTAFF_USES)
     inst:AddComponent("spellcaster")
@@ -535,7 +542,7 @@ end
 
 local function yellow()
     local inst = commonfn("yellow")
-    inst.fxcolour = {223/255, 208/255, 69/255}
+    inst.fxcolour = { 223 / 255, 208 / 255, 69 / 255 }
     inst.castsound = "dontstarve/common/staffteleport"
 
     inst:AddComponent("spellcaster")
@@ -545,8 +552,8 @@ local function yellow()
     inst.components.spellcaster.canusefrominventory = false
 
     inst:AddComponent("reticule")
-    inst.components.reticule.targetfn = function() 
-        return Vector3(GetPlayer().entity:LocalToWorldSpace(5,0,0))
+    inst.components.reticule.targetfn = function()
+        return Vector3(GetPlayer().entity:LocalToWorldSpace(5, 0, 0))
     end
     inst.components.reticule.ease = true
 
@@ -560,7 +567,7 @@ end
 local function green()
     local inst = commonfn("green")
     inst:AddTag("nopunch")
-    inst.fxcolour = {51/255,153/255,51/255}
+    inst.fxcolour = { 51 / 255, 153 / 255, 51 / 255 }
     inst:AddComponent("spellcaster")
     inst.components.spellcaster.canuseontargets = true
     inst.components.spellcaster.canusefrominventory = false
@@ -575,15 +582,15 @@ end
 
 local function orange()
     local inst = commonfn("orange")
-    
-    inst.fxcolour = {1, 145/255, 0}
+
+    inst.fxcolour = { 1, 145 / 255, 0 }
     inst.castsound = "dontstarve/common/staffteleport"
 
     inst:AddComponent("blinkstaff")
     inst.components.blinkstaff.onblinkfn = onblink
-    
+
     inst:AddComponent("reticule")
-    inst.components.reticule.targetfn = function() 
+    inst.components.reticule.targetfn = function()
         return inst.components.blinkstaff:GetBlinkPoint()
     end
     inst.components.reticule.ease = true
@@ -597,7 +604,7 @@ local function orange()
     return inst
 end
 
-return Prefab( "common/inventory/icestaff", blue, assets, prefabs),
+return Prefab("common/inventory/icestaff", blue, assets, prefabs),
 Prefab("common/inventory/firestaff", red, assets, prefabs),
 Prefab("common/inventory/telestaff", purple, assets, prefabs),
 Prefab("common/inventory/orangestaff", orange, assets, prefabs),

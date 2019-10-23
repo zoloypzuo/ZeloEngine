@@ -12,15 +12,14 @@ local MAX_CHASE_DIST = 20
 local RUN_AWAY_DIST = 5
 local STOP_RUN_AWAY_DIST = 8
 
-
 local KnightBrain = Class(Brain, function(self, inst)
     Brain._ctor(self, inst)
 end)
 
 local function GoHomeAction(inst)
     local homePos = inst.components.knownlocations:GetLocation("home")
-    if homePos and 
-       not inst.components.combat.target then
+    if homePos and
+            not inst.components.combat.target then
         return BufferedAction(inst, nil, ACTIONS.WALKTO, nil, homePos, nil, 0.2)
     end
 end
@@ -33,7 +32,7 @@ local function GetFaceTargetFn(inst)
 end
 
 local function KeepFaceTargetFn(inst, target)
-    return inst:GetDistanceSqToInst(target) <= KEEP_FACE_DIST*KEEP_FACE_DIST and not target:HasTag("notarget")
+    return inst:GetDistanceSqToInst(target) <= KEEP_FACE_DIST * KEEP_FACE_DIST and not target:HasTag("notarget")
 end
 
 local function ShouldGoHome(inst)
@@ -43,32 +42,42 @@ local function ShouldGoHome(inst)
     end
 
     local homePos = inst.components.knownlocations:GetLocation("home")
-    local myPos = Vector3(inst.Transform:GetWorldPosition() )
-    return (homePos and distsq(homePos, myPos) > GO_HOME_DIST*GO_HOME_DIST)
+    local myPos = Vector3(inst.Transform:GetWorldPosition())
+    return (homePos and distsq(homePos, myPos) > GO_HOME_DIST * GO_HOME_DIST)
 end
 
 function KnightBrain:OnStart()
     local root = PriorityNode(
-    {
-        WhileNode( function() return self.inst.components.health.takingfiredamage end, "OnFire", Panic(self.inst)),
-        WhileNode( function()
-                        return self.inst.components.combat.target == nil or
-                               not self.inst.components.combat:InCooldown()
-                    end,
-                  "AttackMomentarily",
-                  ChaseAndAttack(self.inst, MAX_CHASE_TIME, MAX_CHASE_DIST) ),
-        WhileNode( function() return self.inst.components.combat.target and self.inst.components.combat:InCooldown() end, "Dodge",
-            RunAway(self.inst, function() return self.inst.components.combat.target end, RUN_AWAY_DIST, STOP_RUN_AWAY_DIST) ),
-        WhileNode(function() return ShouldGoHome(self.inst) end, "ShouldGoHome",
-            DoAction(self.inst, GoHomeAction, "Go Home", true )),
+            {
+                WhileNode(function()
+                    return self.inst.components.health.takingfiredamage
+                end, "OnFire", Panic(self.inst)),
+                WhileNode(function()
+                    return self.inst.components.combat.target == nil or
+                            not self.inst.components.combat:InCooldown()
+                end,
+                        "AttackMomentarily",
+                        ChaseAndAttack(self.inst, MAX_CHASE_TIME, MAX_CHASE_DIST)),
+                WhileNode(function()
+                    return self.inst.components.combat.target and self.inst.components.combat:InCooldown()
+                end, "Dodge",
+                        RunAway(self.inst, function()
+                            return self.inst.components.combat.target
+                        end, RUN_AWAY_DIST, STOP_RUN_AWAY_DIST)),
+                WhileNode(function()
+                    return ShouldGoHome(self.inst)
+                end, "ShouldGoHome",
+                        DoAction(self.inst, GoHomeAction, "Go Home", true)),
 
-        Follow(self.inst, function() return self.inst.components.follower and self.inst.components.follower.leader end, 
-             5, 7, 12),
+                Follow(self.inst, function()
+                    return self.inst.components.follower and self.inst.components.follower.leader
+                end,
+                        5, 7, 12),
 
-        FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
-        StandStill(self.inst),
-    }, .25)
-    
+                FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
+                StandStill(self.inst),
+            }, .25)
+
     self.bt = BT(self.inst, root)
 end
 

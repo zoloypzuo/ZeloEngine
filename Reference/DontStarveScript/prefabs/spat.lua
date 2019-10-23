@@ -1,5 +1,4 @@
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/spat_basic.zip"),
     Asset("ANIM", "anim/spat_actions.zip"),
     Asset("ANIM", "anim/spat_build.zip"),
@@ -7,8 +6,7 @@ local assets =
     Asset("SOUND", "sound/beefalo.fsb"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "meat",
     "poop",
     "steelwool",
@@ -16,13 +14,11 @@ local prefabs =
     "spat_bomb",
 }
 
-local projectile_assets =
-{
+local projectile_assets = {
     Asset("ANIM", "anim/spat_bomb.zip"),
 }
 
-local projectile_prefabs =
-{
+local projectile_prefabs = {
     "spat_splat_fx",
     "spat_splash_fx_full",
     "spat_splash_fx_med",
@@ -32,21 +28,20 @@ local projectile_prefabs =
 
 local brain = require("brains/spatbrain")
 
-SetSharedLootTable( 'spat',
-{
-    {'meat',            1.00},
-    {'meat',            1.00},
-    {'meat',            1.00},
-    {'meat',            1.00},
-    {'steelwool',       1.00},
-    {'steelwool',       1.00},
-    {'steelwool',       0.50},
-    {'phlegm',          1.00},
-    {'phlegm',          0.50},
-})
+SetSharedLootTable('spat',
+        {
+            { 'meat', 1.00 },
+            { 'meat', 1.00 },
+            { 'meat', 1.00 },
+            { 'meat', 1.00 },
+            { 'steelwool', 1.00 },
+            { 'steelwool', 1.00 },
+            { 'steelwool', 0.50 },
+            { 'phlegm', 1.00 },
+            { 'phlegm', 0.50 },
+        })
 
-local sounds =
-{
+local sounds = {
     walk = "dontstarve/creatures/spat/walk",
     grunt = "dontstarve/creatures/spat/grunt",
     yell = "dontstarve/creatures/spat/yell",
@@ -61,14 +56,14 @@ local sounds =
 
 local function Retarget(inst)
     return FindEntity(
-        inst,
-        TUNING.SPAT_TARGET_DIST,
-        function(guy)
-            return inst.components.combat:CanTarget(guy)
-        end,
-        nil,
-        nil,
-        { "player", "monster" }
+            inst,
+            TUNING.SPAT_TARGET_DIST,
+            function(guy)
+                return inst.components.combat:CanTarget(guy)
+            end,
+            nil,
+            nil,
+            { "player", "monster" }
     )
 end
 
@@ -154,7 +149,6 @@ local function fn()
     inst:AddComponent("eater")
     inst.components.eater.foodprefs = { "VEGGIE" }
     inst.components.eater.ablefoods = { "VEGGIE" }
-    
 
     inst:AddComponent("combat")
     inst.components.combat.hiteffectsymbol = "spat_body"
@@ -169,7 +163,7 @@ local function fn()
     inst:AddComponent("inventory")
 
     inst:AddComponent("lootdropper")
-    inst.components.lootdropper:SetChanceLootTable('spat')    
+    inst.components.lootdropper:SetChanceLootTable('spat')
 
     inst:AddComponent("inspectable")
 
@@ -241,9 +235,9 @@ local function oncollide(inst, other)
     -- This is so you can't hide forever behind walls etc.
     local attacker = inst.components.complexprojectile.attacker
     if other ~= doprojectilehit(inst, attacker, other) and
-        other ~= nil and
-        other:IsValid() and
-        other.components.combat ~= nil then
+            other ~= nil and
+            other:IsValid() and
+            other.components.combat ~= nil then
         if attacker ~= nil and attacker:IsValid() then
             attacker.components.combat:DoAttack(other, inst.components.complexprojectile.owningweapon, inst)
         end
@@ -286,4 +280,4 @@ local function projectilefn()
 end
 
 return Prefab("spat", fn, assets, prefabs),
-    Prefab("spat_bomb", projectilefn, projectile_assets, projectile_prefabs)
+Prefab("spat_bomb", projectilefn, projectile_assets, projectile_prefabs)

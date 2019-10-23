@@ -1,13 +1,11 @@
-
 function MakeHat(name)
 
-    local fname = "hat_"..name
-    local symname = name.."hat"
-    local texture = symname..".tex"
+    local fname = "hat_" .. name
+    local symname = name .. "hat"
+    local texture = symname .. ".tex"
     local prefabname = symname
-    local assets=
-    {
-        Asset("ANIM", "anim/"..fname..".zip"),
+    local assets = {
+        Asset("ANIM", "anim/" .. fname .. ".zip"),
         --Asset("IMAGE", texture),
     }
 
@@ -22,15 +20,15 @@ function MakeHat(name)
         owner.AnimState:Show("HAIR_HAT")
         owner.AnimState:Hide("HAIR_NOHAT")
         owner.AnimState:Hide("HAIR")
-        
+
         if owner:HasTag("player") then
-			owner.AnimState:Hide("HEAD")
-			owner.AnimState:Show("HEAD_HAIR")
-		end
-        
-		if inst.components.fueled then
-			inst.components.fueled:StartConsuming()        
-		end
+            owner.AnimState:Hide("HEAD")
+            owner.AnimState:Show("HEAD_HAIR")
+        end
+
+        if inst.components.fueled then
+            inst.components.fueled:StartConsuming()
+        end
     end
 
     local function onunequip(inst, owner)
@@ -39,31 +37,30 @@ function MakeHat(name)
         owner.AnimState:Show("HAIR_NOHAT")
         owner.AnimState:Show("HAIR")
 
-		if owner:HasTag("player") then
-	        owner.AnimState:Show("HEAD")
-			owner.AnimState:Hide("HEAD_HAIR")
-		end
+        if owner:HasTag("player") then
+            owner.AnimState:Show("HEAD")
+            owner.AnimState:Hide("HEAD_HAIR")
+        end
 
-		if inst.components.fueled then
-			inst.components.fueled:StopConsuming()        
-		end
+        if inst.components.fueled then
+            inst.components.fueled:StopConsuming()
+        end
     end
-    
+
     local function opentop_onequip(inst, owner)
         owner.AnimState:OverrideSymbol("swap_hat", fname, "swap_hat")
         owner.AnimState:Show("HAT")
         owner.AnimState:Hide("HAIR_HAT")
         owner.AnimState:Show("HAIR_NOHAT")
         owner.AnimState:Show("HAIR")
-        
+
         owner.AnimState:Show("HEAD")
         owner.AnimState:Hide("HEAD_HAIR")
 
-		if inst.components.fueled then
-			inst.components.fueled:StartConsuming()        
-		end
+        if inst.components.fueled then
+            inst.components.fueled:StartConsuming()
+        end
     end
-
 
     local function simple()
         local inst = CreateEntity()
@@ -86,59 +83,58 @@ function MakeHat(name)
         inst:AddComponent("equippable")
         inst.components.equippable.equipslot = EQUIPSLOTS.HEAD
 
-        inst.components.equippable:SetOnEquip( onequip )
+        inst.components.equippable:SetOnEquip(onequip)
 
-        inst.components.equippable:SetOnUnequip( onunequip )
+        inst.components.equippable:SetOnUnequip(onunequip)
 
         return inst
     end
 
     local function bee()
         local inst = simple()
-		inst:AddComponent("armor")
-		inst.components.armor:InitCondition(TUNING.ARMOR_BEEHAT, TUNING.ARMOR_BEEHAT_ABSORPTION)
-		inst.components.armor:SetTags({"bee"})
-		return inst
+        inst:AddComponent("armor")
+        inst.components.armor:InitCondition(TUNING.ARMOR_BEEHAT, TUNING.ARMOR_BEEHAT_ABSORPTION)
+        inst.components.armor:SetTags({ "bee" })
+        return inst
     end
-   
-   
+
     local function generic_perish(inst)
         inst:Remove()
     end
-   
+
     local function earmuffs()
         local inst = simple()
         inst:AddComponent("insulator")
         inst.components.insulator.insulation = TUNING.INSULATION_SMALL
-        inst.components.equippable:SetOnEquip( opentop_onequip )
+        inst.components.equippable:SetOnEquip(opentop_onequip)
         inst:AddComponent("fueled")
         inst.components.fueled.fueltype = "USAGE"
         inst.components.fueled:InitializeFuelLevel(TUNING.EARMUFF_PERISHTIME)
         inst.components.fueled:SetDepletedFn(generic_perish)
-		inst.AnimState:SetRayTestOnBB(true)
-		return inst
+        inst.AnimState:SetRayTestOnBB(true)
+        return inst
     end
-   
+
     local function winter()
         local inst = simple()
-		inst:AddComponent("dapperness")
-		inst.components.dapperness.dapperness = TUNING.DAPPERNESS_TINY
+        inst:AddComponent("dapperness")
+        inst.components.dapperness.dapperness = TUNING.DAPPERNESS_TINY
         inst:AddComponent("insulator")
         inst.components.insulator.insulation = TUNING.INSULATION_MED
-        
+
         inst:AddComponent("fueled")
         inst.components.fueled.fueltype = "USAGE"
         inst.components.fueled:InitializeFuelLevel(TUNING.WINTERHAT_PERISHTIME)
         inst.components.fueled:SetDepletedFn(generic_perish)
-        
-		return inst
+
+        return inst
     end
 
     local function football()
         local inst = simple()
-		inst:AddComponent("armor")
-		inst.components.armor:InitCondition(TUNING.ARMOR_FOOTBALLHAT, TUNING.ARMOR_FOOTBALLHAT_ABSORPTION)
-		return inst
+        inst:AddComponent("armor")
+        inst.components.armor:InitCondition(TUNING.ARMOR_FOOTBALLHAT, TUNING.ARMOR_FOOTBALLHAT_ABSORPTION)
+        return inst
     end
 
     local function ruinshat_proc(inst, owner)
@@ -172,14 +168,16 @@ function MakeHat(name)
                 inst:RemoveTag("forcefield")
                 inst.components.armor.ontakedamage = nil
                 inst.components.armor:SetAbsorption(TUNING.ARMOR_RUINSHAT_ABSORPTION)
-                owner:DoTaskInTime(--[[Cooldown]] TUNING.ARMOR_RUINSHAT_COOLDOWN, function() inst.active = false end)
+                owner:DoTaskInTime(--[[Cooldown]] TUNING.ARMOR_RUINSHAT_COOLDOWN, function()
+                    inst.active = false
+                end)
             end
         end)
     end
 
     local function tryproc(inst, owner)
         if not inst.active and math.random() < --[[ Chance to proc ]] TUNING.ARMOR_RUINSHAT_PROC_CHANCE then
-           ruinshat_proc(inst, owner)
+            ruinshat_proc(inst, owner)
         end
     end
 
@@ -197,17 +195,19 @@ function MakeHat(name)
         owner:RemoveEventCallback("attacked", inst.procfn)
 
     end
-    
+
     local function ruins_onequip(inst, owner)
         owner.AnimState:OverrideSymbol("swap_hat", fname, "swap_hat")
         owner.AnimState:Show("HAT")
         owner.AnimState:Hide("HAIR_HAT")
         owner.AnimState:Show("HAIR_NOHAT")
         owner.AnimState:Show("HAIR")
-        
+
         owner.AnimState:Show("HEAD")
         owner.AnimState:Hide("HEAD_HAIR")
-        inst.procfn = function() tryproc(inst, owner) end
+        inst.procfn = function()
+            tryproc(inst, owner)
+        end
         owner:ListenForEvent("attacked", inst.procfn)
     end
 
@@ -241,19 +241,19 @@ function MakeHat(name)
     end
     local function feather()
         local inst = simple()
-        
-		inst:AddComponent("dapperness")
-		inst.components.dapperness.dapperness = TUNING.DAPPERNESS_SMALL
-        
-        inst.components.equippable:SetOnEquip( feather_equip )
-        inst.components.equippable:SetOnUnequip( feather_unequip )
-        
+
+        inst:AddComponent("dapperness")
+        inst.components.dapperness.dapperness = TUNING.DAPPERNESS_SMALL
+
+        inst.components.equippable:SetOnEquip(feather_equip)
+        inst.components.equippable:SetOnUnequip(feather_unequip)
+
         inst:AddComponent("fueled")
         inst.components.fueled.fueltype = "USAGE"
         inst.components.fueled:InitializeFuelLevel(TUNING.FEATHERHAT_PERISHTIME)
         inst.components.fueled:SetDepletedFn(generic_perish)
-        
-		return inst
+
+        return inst
     end
 
     local function beefalo_equip(inst, owner)
@@ -266,18 +266,17 @@ function MakeHat(name)
     end
     local function beefalo()
         local inst = simple()
-        inst.components.equippable:SetOnEquip( beefalo_equip )
-        inst.components.equippable:SetOnUnequip( beefalo_unequip )
+        inst.components.equippable:SetOnEquip(beefalo_equip)
+        inst.components.equippable:SetOnUnequip(beefalo_unequip)
 
         inst:AddComponent("insulator")
         inst.components.insulator.insulation = TUNING.INSULATION_LARGE
-        
+
         inst:AddComponent("fueled")
         inst.components.fueled.fueltype = "USAGE"
         inst.components.fueled:InitializeFuelLevel(TUNING.BEEFALOHAT_PERISHTIME)
         inst.components.fueled:SetDepletedFn(generic_perish)
-        
-        
+
         return inst
     end
 
@@ -289,13 +288,12 @@ function MakeHat(name)
 
         inst:AddComponent("insulator")
         inst.components.insulator.insulation = TUNING.INSULATION_MED
-        
-        
+
         inst:AddComponent("fueled")
         inst.components.fueled.fueltype = "USAGE"
         inst.components.fueled:InitializeFuelLevel(TUNING.WALRUSHAT_PERISHTIME)
         inst.components.fueled:SetDepletedFn(generic_perish)
-        
+
         return inst
     end
     local function miner_turnon(inst)
@@ -338,7 +336,7 @@ function MakeHat(name)
     local function miner_perish(inst)
         local owner = inst.components.inventoryitem and inst.components.inventoryitem.owner
         if owner then
-            owner:PushEvent("torchranout", {torch = inst})
+            owner:PushEvent("torchranout", { torch = inst })
         end
         miner_turnoff(inst)
     end
@@ -354,18 +352,18 @@ function MakeHat(name)
     local function miner()
         local inst = simple()
 
-        inst.entity:AddSoundEmitter()        
+        inst.entity:AddSoundEmitter()
 
         local light = inst.entity:AddLight()
         light:SetFalloff(0.4)
         light:SetIntensity(.7)
         light:SetRadius(2.5)
-        light:SetColour(180/255, 195/255, 150/255)
+        light:SetColour(180 / 255, 195 / 255, 150 / 255)
         light:Enable(false)
 
-        inst.components.inventoryitem:SetOnDroppedFn( miner_drop )
-        inst.components.equippable:SetOnEquip( miner_equip )
-        inst.components.equippable:SetOnUnequip( miner_unequip )
+        inst.components.inventoryitem:SetOnDroppedFn(miner_drop)
+        inst.components.equippable:SetOnEquip(miner_equip)
+        inst.components.equippable:SetOnUnequip(miner_unequip)
 
         inst:AddComponent("fueled")
         inst.components.fueled.fueltype = "CAVE"
@@ -376,7 +374,6 @@ function MakeHat(name)
         return inst
     end
 
-
     local function spider_disable(inst)
         if inst.updatetask then
             inst.updatetask:Cancel()
@@ -385,7 +382,7 @@ function MakeHat(name)
         local owner = inst.components.inventoryitem and inst.components.inventoryitem.owner
         if owner and owner.components.leader then
             owner:RemoveTag("monster")
-            for k,v in pairs(owner.components.leader.followers) do
+            for k, v in pairs(owner.components.leader.followers) do
                 if k:HasTag("spider") and k.components.combat then
                     k.components.combat:SuggestTarget(owner)
                 end
@@ -397,10 +394,10 @@ function MakeHat(name)
         local owner = inst.components.inventoryitem and inst.components.inventoryitem.owner
         if owner and owner.components.leader then
             owner.components.leader:RemoveFollowersByTag("pig")
-            local x,y,z = owner.Transform:GetWorldPosition()
-            local ents = TheSim:FindEntities(x,y,z, TUNING.SPIDERHAT_RANGE, {"spider"})
-            for k,v in pairs(ents) do
-                if (not v.components.health or not v.components.health:IsDead() ) and v.components.follower and not v.components.follower.leader and not owner.components.leader:IsFollower(v) and owner.components.leader.numfollowers < 10 then
+            local x, y, z = owner.Transform:GetWorldPosition()
+            local ents = TheSim:FindEntities(x, y, z, TUNING.SPIDERHAT_RANGE, { "spider" })
+            for k, v in pairs(ents) do
+                if (not v.components.health or not v.components.health:IsDead()) and v.components.follower and not v.components.follower.leader and not owner.components.leader:IsFollower(v) and owner.components.leader.numfollowers < 10 then
                     owner.components.leader:AddFollower(v)
                 end
             end
@@ -428,27 +425,26 @@ function MakeHat(name)
         inst:Remove()
     end
 
-
-	local function top()
-		local inst = simple()
-		inst:AddComponent("dapperness")
-		inst.components.dapperness.dapperness = TUNING.DAPPERNESS_MED
+    local function top()
+        local inst = simple()
+        inst:AddComponent("dapperness")
+        inst.components.dapperness.dapperness = TUNING.DAPPERNESS_MED
         inst:AddComponent("fueled")
         inst.components.fueled.fueltype = "USAGE"
         inst.components.fueled:InitializeFuelLevel(TUNING.TOPHAT_PERISHTIME)
         inst.components.fueled:SetDepletedFn(generic_perish)
-		return inst
-	end
-	
+        return inst
+    end
+
     local function spider()
         local inst = simple()
 
-		inst:AddComponent("dapperness")
-		inst.components.dapperness.dapperness = -TUNING.DAPPERNESS_SMALL
+        inst:AddComponent("dapperness")
+        inst.components.dapperness.dapperness = -TUNING.DAPPERNESS_SMALL
 
-        inst.components.inventoryitem:SetOnDroppedFn( spider_disable )
-        inst.components.equippable:SetOnEquip( spider_equip )
-        inst.components.equippable:SetOnUnequip( spider_unequip )
+        inst.components.inventoryitem:SetOnDroppedFn(spider_disable)
+        inst.components.equippable:SetOnEquip(spider_equip)
+        inst.components.equippable:SetOnUnequip(spider_unequip)
         inst:AddComponent("fueled")
         inst.components.fueled.fueltype = "SPIDERHAT"
         inst.components.fueled:InitializeFuelLevel(TUNING.SPIDERHAT_PERISHTIME)
@@ -469,17 +465,17 @@ function MakeHat(name)
         owner.AnimState:Show("HAIR_HAT")
         owner.AnimState:Hide("HAIR_NOHAT")
         owner.AnimState:Hide("HAIR")
-        
+
         if owner:HasTag("player") then
             owner.AnimState:Hide("HEAD")
             owner.AnimState:Show("HEAD_HAIR")
         end
-        
+
         if inst.components.fueled then
-            inst.components.fueled:StartConsuming()        
+            inst.components.fueled:StartConsuming()
         end
 
-        inst:ListenForEvent("newstate", stopusingbush, owner) 
+        inst:ListenForEvent("newstate", stopusingbush, owner)
     end
 
     local function onunequipbush(inst, owner)
@@ -494,7 +490,7 @@ function MakeHat(name)
         end
 
         if inst.components.fueled then
-            inst.components.fueled:StopConsuming()        
+            inst.components.fueled:StopConsuming()
         end
 
         inst:RemoveEventCallback("newstate", stopusingbush, owner)
@@ -506,7 +502,7 @@ function MakeHat(name)
             owner.sg:GoToState("hide")
         end
     end
-    
+
     local function bush()
         local inst = simple()
 
@@ -516,35 +512,34 @@ function MakeHat(name)
         inst:AddComponent("useableitem")
         inst.components.useableitem:SetOnUseFn(onusebush)
 
-        inst.components.equippable:SetOnEquip( onequipbush )
-        inst.components.equippable:SetOnUnequip( onunequipbush )
-
+        inst.components.equippable:SetOnEquip(onequipbush)
+        inst.components.equippable:SetOnUnequip(onunequipbush)
 
         return inst
     end
-    
-	local function flower()
-		local inst = simple()
-		inst:AddComponent("dapperness")
-		inst.components.dapperness.dapperness = TUNING.DAPPERNESS_TINY
 
-		--[[
-		inst:AddComponent("edible")
-		inst.components.edible.healthvalue = TUNING.HEALING_SMALL
-		inst.components.edible.hungervalue = 0
-		inst.components.edible.sanityvalue = TUNING.SANITY_SMALL
-		inst.components.edible.foodtype = "VEGGIE"
-		--]]
-		
+    local function flower()
+        local inst = simple()
+        inst:AddComponent("dapperness")
+        inst.components.dapperness.dapperness = TUNING.DAPPERNESS_TINY
+
+        --[[
+        inst:AddComponent("edible")
+        inst.components.edible.healthvalue = TUNING.HEALING_SMALL
+        inst.components.edible.hungervalue = 0
+        inst.components.edible.sanityvalue = TUNING.SANITY_SMALL
+        inst.components.edible.foodtype = "VEGGIE"
+        --]]
+
         inst:AddTag("show_spoilage")
 
-		inst:AddComponent("perishable")
-		inst.components.perishable:SetPerishTime(TUNING.PERISH_FAST)
-		inst.components.perishable:StartPerishing()
-		inst.components.perishable:SetOnPerishFn(generic_perish)
-        inst.components.equippable:SetOnEquip( opentop_onequip )
-		return inst
-    end 
+        inst:AddComponent("perishable")
+        inst.components.perishable:SetPerishTime(TUNING.PERISH_FAST)
+        inst.components.perishable:StartPerishing()
+        inst.components.perishable:SetOnPerishFn(generic_perish)
+        inst.components.equippable:SetOnEquip(opentop_onequip)
+        return inst
+    end
 
     local function slurtle()
         local inst = simple()
@@ -552,33 +547,32 @@ function MakeHat(name)
         inst.components.armor:InitCondition(TUNING.ARMOR_SLURTLEHAT, TUNING.ARMOR_SLURTLEHAT_ABSORPTION)
         return inst
     end
-    
+
     local fn = nil
     local prefabs = nil
     if name == "bee" then
         fn = bee
     elseif name == "top" then
-		fn = top
+        fn = top
     elseif name == "feather" then
-		fn = feather
+        fn = feather
     elseif name == "football" then
-		fn = football
+        fn = football
     elseif name == "flower" then
-		fn = flower
+        fn = flower
     elseif name == "spider" then
-		fn = spider
+        fn = spider
     elseif name == "miner" then
         fn = miner
-        prefabs =
-        {
+        prefabs = {
             "strawhat",
         }
     elseif name == "earmuffs" then
-		fn = earmuffs
+        fn = earmuffs
     elseif name == "winter" then
-		fn = winter
+        fn = winter
     elseif name == "beefalo" then
-		fn = beefalo
+        fn = beefalo
     elseif name == "bush" then
         fn = bush
     elseif name == "walrus" then
@@ -586,25 +580,25 @@ function MakeHat(name)
     elseif name == "slurtle" then
         fn = slurtle
     elseif name == "ruins" then
-        prefabs = {"forcefieldfx"}
+        prefabs = { "forcefieldfx" }
         fn = ruins
     end
 
-    return Prefab( "common/inventory/"..prefabname, fn or simple, assets, prefabs)
+    return Prefab("common/inventory/" .. prefabname, fn or simple, assets, prefabs)
 end
 
 return MakeHat("straw"),
-        MakeHat("top"),
-        MakeHat("beefalo"),
-        MakeHat("feather"),
-        MakeHat("bee"),
-        MakeHat("miner"),
-        MakeHat("spider"),
-        MakeHat("football"),
-        MakeHat("earmuffs"),
-        MakeHat("winter"),
-        MakeHat("bush"),
-        MakeHat("flower"),
-        MakeHat("walrus"),
-        MakeHat("slurtle"),
-        MakeHat("ruins")
+MakeHat("top"),
+MakeHat("beefalo"),
+MakeHat("feather"),
+MakeHat("bee"),
+MakeHat("miner"),
+MakeHat("spider"),
+MakeHat("football"),
+MakeHat("earmuffs"),
+MakeHat("winter"),
+MakeHat("bush"),
+MakeHat("flower"),
+MakeHat("walrus"),
+MakeHat("slurtle"),
+MakeHat("ruins")

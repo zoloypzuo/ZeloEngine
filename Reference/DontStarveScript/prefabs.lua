@@ -9,7 +9,7 @@ require("class")
 -- 函数
 -- 资产列表
 -- 深度？
-Prefab = Class( function(self, name, fn, assets, deps)
+Prefab = Class(function(self, name, fn, assets, deps)
     self.name = name or ""
     self.path = name or nil
     self.name = string.sub(name, string.find(name, "[^/]*$"))
@@ -26,7 +26,7 @@ end
 -- 类型
 -- 文件
 -- 参数
-Asset = Class( function(self, type, file, param)
+Asset = Class(function(self, type, file, param)
     self.type = type
     self.file = file
     self.param = param

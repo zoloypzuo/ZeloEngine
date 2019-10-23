@@ -4,7 +4,8 @@
 -- and leave the spawner (eg. spiders). it can manage more than one, but can not maintain
 -- individual properties of each entity
 
-local trace = function() end
+local trace = function()
+end
 -- local trace = function(inst, ...)
 --     print(inst, ...)
 -- end
@@ -26,31 +27,31 @@ local function OnEntitySleep(inst)
 end
 
 local Spawner = Class(function(self, inst)
-	self.inst = inst
-	self.child = nil
+    self.inst = inst
+    self.child = nil
     self.delay = 0
     self.onoccupied = nil
     self.onvacate = nil
     self.spawnsleft = nil
     self.spawnoffscreen = false
-    
+
     self.task = nil
     self.nextspawntime = nil
 end)
 
 function Spawner:GetDebugString()
-    local str = "child: "..tostring(self.child)
+    local str = "child: " .. tostring(self.child)
     if self:IsOccupied() then
-        str = str.." occupied"
+        str = str .. " occupied"
     end
     if self.task and self.nextspawntime then
-        str = str..string.format(" spawn in %2.2fs", self.nextspawntime - GetTime() )
+        str = str .. string.format(" spawn in %2.2fs", self.nextspawntime - GetTime())
     end
-    
+
     if self.spawnsleft then
-		str = str .. " left:".. self.spawnsleft
+        str = str .. " left:" .. self.spawnsleft
     end
-    
+
     return str
 end
 
@@ -65,16 +66,16 @@ end
 function Spawner:SetOnlySpawnOffscreen(offscreen)
     self.spawnoffscreen = offscreen
     if self.spawnoffscreen then
-	    self.inst:ListenForEvent("entitysleep", OnEntitySleep)
-	else
-	    self.inst:RemoveEventCallback("entitysleep", OnEntitySleep)
-	end
+        self.inst:ListenForEvent("entitysleep", OnEntitySleep)
+    else
+        self.inst:RemoveEventCallback("entitysleep", OnEntitySleep)
+    end
 end
 
-function Spawner:Configure( childname, delay, startdelay)
+function Spawner:Configure(childname, delay, startdelay)
     self.childname = childname
     self.delay = delay
-    
+
     self:SpawnWithDelay(startdelay or 0)
 end
 
@@ -97,7 +98,6 @@ function Spawner:CancelSpawning()
     end
 end
 
-
 function Spawner:OnSave()
     local data = {}
 
@@ -108,21 +108,20 @@ function Spawner:OnSave()
     elseif self.nextspawntime then
         data.startdelay = self.nextspawntime - GetTime()
     end
-    
+
     data.spawnsleft = self.spawnsleft
-    
+
     local refs = nil
     if data.childid then
-		refs = {data.childid}
+        refs = { data.childid }
     end
     return data, refs
-end   
-   
+end
 
 function Spawner:OnLoad(data, newents)
-    
+
     self:CancelSpawning()
-    
+
     if data.child then
         local child = SpawnSaveRecord(data.child, newents)
         self:TakeOwnership(child)
@@ -131,7 +130,7 @@ function Spawner:OnLoad(data, newents)
     if data.startdelay then
         self:SpawnWithDelay(data.startdelay)
     end
-    
+
     --[[if data.spawnsleft then
 		self.spawnsleft = data.spawnsleft
 		if data.spawnsleft and data.spawnsleft == 0 and self.onoutofspawns then
@@ -143,8 +142,12 @@ end
 
 function Spawner:TakeOwnership(child)
     if self.child ~= child then
-        child:ListenForEvent( "ontrapped", function() self:OnChildKilled( child ) end, child )
-        child:ListenForEvent( "death", function() self:OnChildKilled( child ) end, child )
+        child:ListenForEvent("ontrapped", function()
+            self:OnChildKilled(child)
+        end, child)
+        child:ListenForEvent("death", function()
+            self:OnChildKilled(child)
+        end, child)
         if child.components.knownlocations then
             child.components.knownlocations:RememberLocation("home", Vector3(self.inst.Transform:GetWorldPosition()))
         end
@@ -171,81 +174,81 @@ end
 function Spawner:ReleaseChild()
 
     if self.spawnsleft and self.spawnsleft == 0 then
-		return
+        return
     end
-    
-    self:CancelSpawning()    
+
+    self:CancelSpawning()
     local child = self.child
     if not child then
-        
+
         local childname = self.childname
         if self.childfn then
-			childname = self.childfn(self.inst)
+            childname = self.childfn(self.inst)
         end
-        
+
         local child = SpawnPrefab(childname)
         self:TakeOwnership(child)
         self:GoHome(child)
     end
-    
+
     if self:IsOccupied() then
         self.inst:RemoveChild(self.child)
         self.child:ReturnToScene()
-    
+
         local rad = self.release_radius or 0.5
         if self.inst.Physics then
-	        local prad = self.inst.Physics:GetRadius() or 0
+            local prad = self.inst.Physics:GetRadius() or 0
             rad = rad + prad
         end
-        
+
         if self.child.Physics then
-	        local prad = self.child.Physics:GetRadius() or 0
+            local prad = self.child.Physics:GetRadius() or 0
             rad = rad + prad
         end
-        
+
         local pos = Vector3(self.inst.Transform:GetWorldPosition())
-        local start_angle = math.random()*2*PI
+        local start_angle = math.random() * 2 * PI
 
         local offset = FindWalkableOffset(pos, start_angle, rad, self.release_attempts or 8, false)
         if offset == nil then
             -- well it's gotta go somewhere!
             trace(self.inst, "Spawner:ReleaseChild() no good place to spawn child: ", self.child)
-            pos = pos + Vector3(rad*math.cos(start_angle), 0, rad*math.sin(start_angle))
+            pos = pos + Vector3(rad * math.cos(start_angle), 0, rad * math.sin(start_angle))
         else
             trace(self.inst, "Spawner:ReleaseChild() safe spawn of: ", self.child)
             pos = pos + offset
         end
-    
+
         self:TakeOwnership(self.child)
         if self.child.Physics then
-            self.child.Physics:Teleport(pos:Get() )
+            self.child.Physics:Teleport(pos:Get())
         else
             self.child.Transform:SetPosition(pos:Get())
         end
-        
+
         if self.onvacate then
             self.onvacate(self.inst, self.child)
         end
         return true
-	end
+    end
 end
 
-function Spawner:GoHome( child )
+function Spawner:GoHome(child)
     if self.child == child and not self:IsOccupied() then
         self.inst:AddChild(child)
         child:RemoveFromScene()
-        
+
         if child.components.locomotor then
-			child.components.locomotor:Stop()
+            child.components.locomotor:Stop()
         end
-        
+
         if child.components.burnable and child.components.burnable:IsBurning() then
             child.components.burnable:Extinguish()
         end
-        
+
         if child.components.health and child.components.health:IsHurt() then
         end
-        
+
         child:RemoveComponent("homeseeker")
         if self.onoccupied then
             self.onoccupied(self.inst, child)
@@ -255,26 +258,25 @@ function Spawner:GoHome( child )
 
 end
 
+function Spawner:OnChildKilled(child)
 
-function Spawner:OnChildKilled( child )
+    if self.spawnsleft and self.spawnsleft > 0 then
+        self.spawnsleft = self.spawnsleft - 1
+        if self.spawnsleft == 0 then
+            if self.onoutofspawns then
+                self.onoutofspawns(self.inst)
+            end
+        end
+    end
 
-	if self.spawnsleft and self.spawnsleft > 0 then
-		self.spawnsleft = self.spawnsleft - 1
-		if self.spawnsleft == 0 then
-			if self.onoutofspawns then
-				self.onoutofspawns(self.inst)
-			end
-		end
-	end
-	
-	if not self.spawnsleft or self.spawnsleft > 0 then
-		if not self:IsOccupied() then
-			self.child = nil
-			self:SpawnWithDelay(self.delay)
-		end
-	end
-	
-	
+    if not self.spawnsleft or self.spawnsleft > 0 then
+        if not self:IsOccupied() then
+            self.child = nil
+            self:SpawnWithDelay(self.delay)
+        end
+    end
+
+
 end
 
 return Spawner

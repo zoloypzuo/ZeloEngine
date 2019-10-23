@@ -13,14 +13,21 @@ local ShadowCreatureBrain = Class(Brain, function(self, inst)
 end)
 
 function ShadowCreatureBrain:OnStart()
-    
+
     local root = PriorityNode(
-    {
-        ChaseAndAttack(self.inst, 100),
-        Follow(self.inst, function() return GetPlayer() end, MIN_FOLLOW, MED_FOLLOW, MAX_FOLLOW),
-        Wander(self.inst, function() local player = GetPlayer() if player then return Vector3(player.Transform:GetWorldPosition()) end end, 20)
-    }, .25)
-    
+            {
+                ChaseAndAttack(self.inst, 100),
+                Follow(self.inst, function()
+                    return GetPlayer()
+                end, MIN_FOLLOW, MED_FOLLOW, MAX_FOLLOW),
+                Wander(self.inst, function()
+                    local player = GetPlayer()
+                    if player then
+                        return Vector3(player.Transform:GetWorldPosition())
+                    end
+                end, 20)
+            }, .25)
+
     self.bt = BT(self.inst, root)
 end
 

@@ -1,25 +1,23 @@
-local assets =
-{
-	Asset("ANIM", "anim/monkey_barrel.zip"),
+local assets = {
+    Asset("ANIM", "anim/monkey_barrel.zip"),
     Asset("SOUND", "sound/monkey.fsb"),
     Asset("MINIMAP_IMAGE", "monkey_barrel"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "monkey",
     "poop",
     "cave_banana"
 }
 
-SetSharedLootTable( 'monkey_barrel',
-{
-    {'poop',        1.0},
-    {'poop',        1.0},
-    {'cave_banana', 1.0},
-    {'cave_banana', 1.0},
-    {'trinket_4',   .01},
-})
+SetSharedLootTable('monkey_barrel',
+        {
+            { 'poop', 1.0 },
+            { 'poop', 1.0 },
+            { 'cave_banana', 1.0 },
+            { 'cave_banana', 1.0 },
+            { 'trinket_4', .01 },
+        })
 
 local function shake(inst)
     local anim = ((math.random() > .5) and "move1") or "move2"
@@ -54,23 +52,23 @@ local function onhit(inst, worker)
 end
 
 local function ReturnChildren(inst)
-	for k,child in pairs(inst.components.childspawner.childrenoutside) do
-		if child.components.homeseeker then
-			child.components.homeseeker:GoHome()
-		end
-		child:PushEvent("gohome")
-	end
+    for k, child in pairs(inst.components.childspawner.childrenoutside) do
+        if child.components.homeseeker then
+            child.components.homeseeker:GoHome()
+        end
+        child:PushEvent("gohome")
+    end
 
     if not inst.task then
-        inst.task = inst:DoTaskInTime(math.random(60, 120), function() 
-            inst.task = nil 
+        inst.task = inst:DoTaskInTime(math.random(60, 120), function()
+            inst.task = nil
             inst:PushEvent("safetospawn")
         end)
     end
 end
 
 local function OnIgniteFn(inst)
-	inst.AnimState:PlayAnimation("shake", true)
+    inst.AnimState:PlayAnimation("shake", true)
     inst.shake:Cancel()
     inst.shake = nil
     if inst.components.childspawner then
@@ -86,11 +84,11 @@ local function ongohome(inst, child)
 end
 
 local function fn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
     inst.entity:AddSoundEmitter()
-    MakeObstaclePhysics( inst, 1)
+    MakeObstaclePhysics(inst, 1)
 
     local minimap = inst.entity:AddMiniMapEntity()
     minimap:SetIcon("monkey_barrel.png")
@@ -99,17 +97,17 @@ local function fn()
     anim:SetBuild("monkey_barrel")
     anim:PlayAnimation("idle", true)
 
-	inst:AddComponent( "childspawner" )
-	inst.components.childspawner:SetRegenPeriod(120)
-	inst.components.childspawner:SetSpawnPeriod(30)
-	inst.components.childspawner:SetMaxChildren(math.random(3,4))
-	inst.components.childspawner:StartRegen()
-	inst.components.childspawner.childname = "monkey"
+    inst:AddComponent("childspawner")
+    inst.components.childspawner:SetRegenPeriod(120)
+    inst.components.childspawner:SetSpawnPeriod(30)
+    inst.components.childspawner:SetMaxChildren(math.random(3, 4))
+    inst.components.childspawner:StartRegen()
+    inst.components.childspawner.childname = "monkey"
     inst.components.childspawner:StartSpawning()
     inst.components.childspawner.ongohome = ongohome
     inst.components.childspawner:SetSpawnedFn(shake)
 
-	inst:AddComponent("lootdropper")
+    inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetChanceLootTable('monkey_barrel')
 
     inst:AddComponent("workable")
@@ -118,24 +116,26 @@ local function fn()
     inst.components.workable:SetOnFinishCallback(onhammered)
     inst.components.workable:SetOnWorkCallback(onhit)
 
-	inst:ListenForEvent("warnquake", function()  --Monkeys all return on a quake start
+    inst:ListenForEvent("warnquake", function()
+        --Monkeys all return on a quake start
         if inst.components.childspawner then
             inst.components.childspawner:StopSpawning()
-            ReturnChildren(inst) 
+            ReturnChildren(inst)
         end
     end, GetWorld())
 
-    inst:ListenForEvent("monkeydanger", function()  --Monkeys all return on a quake start
+    inst:ListenForEvent("monkeydanger", function()
+        --Monkeys all return on a quake start
         if inst.components.childspawner then
             inst.components.childspawner:StopSpawning()
-            ReturnChildren(inst) 
+            ReturnChildren(inst)
         end
     end)
 
-	inst:ListenForEvent("safetospawn", function() 
+    inst:ListenForEvent("safetospawn", function()
         if inst.components.childspawner then
-    		inst.components.childspawner:StartSpawning()
-	    end		
+            inst.components.childspawner:StartSpawning()
+        end
     end)
 
     inst:AddComponent("inspectable")
@@ -144,8 +144,8 @@ local function fn()
 
     MakeLargeBurnable(inst)
 
-    inst.shake = inst:DoPeriodicTask(GetRandomWithVariance(10, 3), shake )
-	return inst
+    inst.shake = inst:DoPeriodicTask(GetRandomWithVariance(10, 3), shake)
+    return inst
 end
 
-return Prefab( "cave/objects/monkeybarrel", fn, assets, prefabs) 
+return Prefab("cave/objects/monkeybarrel", fn, assets, prefabs)

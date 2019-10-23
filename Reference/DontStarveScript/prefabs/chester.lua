@@ -5,8 +5,7 @@ require "stategraphs/SGchester"
 local WAKE_TO_FOLLOW_DISTANCE = 14
 local SLEEP_NEAR_LEADER_DISTANCE = 7
 
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/ui_chester_shadow_3x4.zip"),
     Asset("ANIM", "anim/ui_chest_3x3.zip"),
 
@@ -26,8 +25,7 @@ local assets =
     Asset("MINIMAP_IMAGE", "chestersnow"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "chester_eyebone",
     "die_fx",
     "chesterlight",
@@ -40,16 +38,14 @@ end
 
 local function ShouldSleep(inst)
     --print(inst, "ShouldSleep", DefaultSleepTest(inst), not inst.sg:HasStateTag("open"), inst.components.follower:IsNearLeader(SLEEP_NEAR_LEADER_DISTANCE))
-    return DefaultSleepTest(inst) and not inst.sg:HasStateTag("open") 
-    and inst.components.follower:IsNearLeader(SLEEP_NEAR_LEADER_DISTANCE) 
-    and GetWorld().components.clock:GetMoonPhase() ~= "full"
+    return DefaultSleepTest(inst) and not inst.sg:HasStateTag("open")
+            and inst.components.follower:IsNearLeader(SLEEP_NEAR_LEADER_DISTANCE)
+            and GetWorld().components.clock:GetMoonPhase() ~= "full"
 end
-
 
 local function ShouldKeepTarget(inst, target)
     return false -- chester can't attack, and won't sleep if he has a target
 end
-
 
 local function OnOpen(inst)
     if not inst.components.health:IsDead() then
@@ -59,30 +55,30 @@ local function OnOpen(inst)
         end
         inst.sg:GoToState("open")
     end
-end 
+end
 
-local function OnClose(inst) 
+local function OnClose(inst)
     if not inst.components.health:IsDead() then
         inst.sg:GoToState("close")
     end
-end 
-
--- eye bone was killed/destroyed
-local function OnStopFollowing(inst) 
-    --print("chester - OnStopFollowing")
-    inst:RemoveTag("companion") 
 end
 
-local function OnStartFollowing(inst) 
+-- eye bone was killed/destroyed
+local function OnStopFollowing(inst)
+    --print("chester - OnStopFollowing")
+    inst:RemoveTag("companion")
+end
+
+local function OnStartFollowing(inst)
     --print("chester - OnStartFollowing")
-    inst:AddTag("companion") 
+    inst:AddTag("companion")
 end
 
 local slotpos_3x3 = {}
 
 for y = 2, 0, -1 do
     for x = 0, 2 do
-        table.insert(slotpos_3x3, Vector3(80*x-80*2+80, 80*y-80*2+80,0))
+        table.insert(slotpos_3x3, Vector3(80 * x - 80 * 2 + 80, 80 * y - 80 * 2 + 80, 0))
     end
 end
 
@@ -90,7 +86,7 @@ local slotpos_3x4 = {}
 
 for y = 2.5, -0.5, -1 do
     for x = 0, 2 do
-        table.insert(slotpos_3x4, Vector3(75*x-75*2+75, 75*y-75*2+75,0))
+        table.insert(slotpos_3x4, Vector3(75 * x - 75 * 2 + 75, 75 * y - 75 * 2 + 75, 0))
     end
 end
 
@@ -100,11 +96,11 @@ local function MorphShadowChester(inst, dofx)
     inst.components.container.widgetslotpos = slotpos_3x4
     inst.components.container.widgetanimbank = "ui_chester_shadow_3x4"
     inst.components.container.widgetanimbuild = "ui_chester_shadow_3x4"
-    inst.components.container.widgetpos = Vector3(0,220,0)
-    inst.components.container.widgetpos_controller = Vector3(0,220,0)
+    inst.components.container.widgetpos = Vector3(0, 220, 0)
+    inst.components.container.widgetpos_controller = Vector3(0, 220, 0)
     inst.components.container.side_align_tip = 160
 
-    local leader = inst.components.follower.leader    
+    local leader = inst.components.follower.leader
     if leader then
         inst.components.follower.leader:MorphShadowEyebone()
     end
@@ -134,7 +130,7 @@ local function MorphNormalChester(inst, dofx)
     inst:RemoveTag("spoiler")
     inst.AnimState:SetBuild("chester_build")
 
-    local leader = inst.components.follower.leader    
+    local leader = inst.components.follower.leader
     if leader then
         inst.components.follower.leader:MorphNormalEyebone()
     end
@@ -157,7 +153,7 @@ local function CanMorph(inst)
 
     for i = 1, container:GetNumSlots() do
         local item = container:GetItemInSlot(i)
-        
+
         if not item then
             canShadow = false
             canSnow = false
@@ -213,7 +209,9 @@ local function OnSave(inst, data)
 end
 
 local function OnPreLoad(inst, data)
-    if not data then return end
+    if not data then
+        return
+    end
     if data.ChesterState == "SHADOW" then
         MorphShadowChester(inst)
     elseif data.ChesterState == "SNOW" then
@@ -225,7 +223,7 @@ local function create_chester()
     --print("chester - create_chester")
 
     local inst = CreateEntity()
-    
+
     inst:AddTag("companion")
     inst:AddTag("character")
     inst:AddTag("scarytoprey")
@@ -236,7 +234,7 @@ local function create_chester()
     inst.entity:AddTransform()
 
     local minimap = inst.entity:AddMiniMapEntity()
-    minimap:SetIcon( "chester.png" )
+    minimap:SetIcon("chester.png")
 
     --print("   AnimState")
     inst.entity:AddAnimState()
@@ -248,11 +246,11 @@ local function create_chester()
 
     --print("   shadow")
     inst.entity:AddDynamicShadow()
-    inst.DynamicShadow:SetSize( 2, 1.5 )
+    inst.DynamicShadow:SetSize(2, 1.5)
 
     --print("   Physics")
     MakeCharacterPhysics(inst, 75, .5)
-    
+
     --print("   Collision")
     inst.Physics:SetCollisionGroup(COLLISION.CHARACTERS)
     inst.Physics:ClearCollisionMask()
@@ -282,7 +280,7 @@ local function create_chester()
 
     --print("   inspectable")
     inst:AddComponent("inspectable")
-	inst.components.inspectable:RecordViews()
+    inst.components.inspectable:RecordViews()
     --inst.components.inspectable.getstatus = GetStatus
 
     --print("   locomotor")
@@ -300,18 +298,18 @@ local function create_chester()
 
     --print("   burnable")
     MakeSmallBurnableCharacter(inst, "chester_body")
-    
+
     --("   container")
     inst:AddComponent("container")
     inst.components.container:SetNumSlots(#slotpos_3x3)
-    
+
     inst.components.container.onopenfn = OnOpen
     inst.components.container.onclosefn = OnClose
-    
+
     inst.components.container.widgetslotpos = slotpos_3x3
     inst.components.container.widgetanimbank = "ui_chest_3x3"
     inst.components.container.widgetanimbuild = "ui_chest_3x3"
-    inst.components.container.widgetpos = Vector3(0,200,0)
+    inst.components.container.widgetpos = Vector3(0, 200, 0)
     inst.components.container.side_align_tip = 160
 
     --print("   sleeper")
@@ -331,8 +329,12 @@ local function create_chester()
     inst.ChesterState = "NORMAL"
     inst.CanMorph = CanMorph
     inst.MorphChester = MorphChester
-    inst:ListenForEvent("nighttime", function() CheckForMorph(inst) end, GetWorld())
-    inst:ListenForEvent("onclose", function() CheckForMorph(inst) end)
+    inst:ListenForEvent("nighttime", function()
+        CheckForMorph(inst)
+    end, GetWorld())
+    inst:ListenForEvent("onclose", function()
+        CheckForMorph(inst)
+    end)
 
     inst.OnSave = OnSave
     inst.OnPreLoad = OnPreLoad
@@ -348,4 +350,4 @@ local function create_chester()
     return inst
 end
 
-return Prefab( "common/chester", create_chester, assets, prefabs) 
+return Prefab("common/chester", create_chester, assets, prefabs)

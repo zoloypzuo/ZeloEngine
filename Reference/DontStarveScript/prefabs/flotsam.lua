@@ -24,20 +24,19 @@ local debris_prefabs = {
     "sunken_boat_trinket_5",
 }
 
-local flotsam_loot =
-{
-    ['log']                  = 2.00,
-    ['twigs']                = 2.00,
-    ['cutgrass']             = 2.00,
+local flotsam_loot = {
+    ['log'] = 2.00,
+    ['twigs'] = 2.00,
+    ['cutgrass'] = 2.00,
 
-    ['boards']               = 1.00,
-    ['rope']                 = 1.00,
+    ['boards'] = 1.00,
+    ['rope'] = 1.00,
 
-    ['sunken_boat_trinket_1']  = 0.65,
-    ['sunken_boat_trinket_2']  = 0.75,
-    ['sunken_boat_trinket_3']  = 0.65,
-    ['sunken_boat_trinket_4']  = 0.50,
-    ['sunken_boat_trinket_5']  = 0.90,
+    ['sunken_boat_trinket_1'] = 0.65,
+    ['sunken_boat_trinket_2'] = 0.75,
+    ['sunken_boat_trinket_3'] = 0.65,
+    ['sunken_boat_trinket_4'] = 0.50,
+    ['sunken_boat_trinket_5'] = 0.90,
 }
 
 local DEBRIS_WIDTH = 4
@@ -45,10 +44,12 @@ local DEBRIS_WIDTH = 4
 local function SpawnDebris(inst)
     local d = SpawnPrefab("flotsam_debris")
     d.entity:SetParent(inst.entity)
-    d.localoffset = Vector3(math.random()*DEBRIS_WIDTH - DEBRIS_WIDTH/2, -0.5, math.random()*DEBRIS_WIDTH - DEBRIS_WIDTH/2)
+    d.localoffset = Vector3(math.random() * DEBRIS_WIDTH - DEBRIS_WIDTH / 2, -0.5, math.random() * DEBRIS_WIDTH - DEBRIS_WIDTH / 2)
     d.Transform:SetPosition(d.localoffset.x, d.localoffset.y, d.localoffset.z)
     d:AddTag("NOCLICK")
-    d:ListenForEvent("onremove", function() d:Remove() end, inst)
+    d:ListenForEvent("onremove", function()
+        d:Remove()
+    end, inst)
 
     return d
 end
@@ -60,7 +61,7 @@ local function UpdateDebris(inst)
 
     local currentcount = 0
 
-    for k,v in pairs(inst.debris) do
+    for k, v in pairs(inst.debris) do
         currentcount = currentcount + 1
     end
 
@@ -110,13 +111,13 @@ local function fn()
     inst.AnimState:SetBank("flotsam")
     inst.AnimState:SetBuild("flotsam")
     inst.AnimState:PlayAnimation("idle")
-	inst.AnimState:SetOrientation( ANIM_ORIENTATION.OnGround )
-	inst.AnimState:SetLayer( LAYER_BACKGROUND )
+    inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
+    inst.AnimState:SetLayer(LAYER_BACKGROUND)
 
     inst:AddTag("FARSELECT")
 
     inst:AddComponent("drifter")
-    inst.components.drifter.radius = DEBRIS_WIDTH/2 + 3
+    inst.components.drifter.radius = DEBRIS_WIDTH / 2 + 3
 
     inst:AddComponent("flotsamfisher")
     inst.components.flotsamfisher.flotsam_loot = flotsam_loot
@@ -135,7 +136,6 @@ local function fn()
 
     return inst
 end
-
 
 local debris_anims = {
     "idle",
@@ -158,17 +158,17 @@ local function debris_fn()
     inst.AnimState:SetBuild("flotsam_debris")
     inst.AnimState:PlayAnimation(debris_anims[math.random(#debris_anims)], true)
 
-    inst.localoffset = Vector3(0,0,0)
+    inst.localoffset = Vector3(0, 0, 0)
     inst:DoPeriodicTask(0, function(inst)
-        local x,y,z = inst.entity:GetParent().Transform:GetWorldPosition()
+        local x, y, z = inst.entity:GetParent().Transform:GetWorldPosition()
         inst.Transform:SetPosition(
-                inst.localoffset.x + math.sin(GetTime()*3 + inst.localoffset.x + x)*.2,
-                inst.localoffset.y + math.sin(GetTime()*3)*.1,
-                inst.localoffset.z + math.sin(GetTime()*3 + inst.localoffset.z + z)*.2)
+                inst.localoffset.x + math.sin(GetTime() * 3 + inst.localoffset.x + x) * .2,
+                inst.localoffset.y + math.sin(GetTime() * 3) * .1,
+                inst.localoffset.z + math.sin(GetTime() * 3 + inst.localoffset.z + z) * .2)
     end)
 
     return inst
 end
 
 return Prefab("forest/common/flotsam", fn, assets, prefabs),
-        Prefab("forest/common/flotsam_debris", debris_fn, debris_assets, debris_prefabs)
+Prefab("forest/common/flotsam_debris", debris_fn, debris_assets, debris_prefabs)

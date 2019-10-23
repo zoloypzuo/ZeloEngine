@@ -1,8 +1,7 @@
 require "brains/walrusbrain"
 require "stategraphs/SGwalrus"
 
-local assets=
-{
+local assets = {
     Asset("ANIM", "anim/walrus_actions.zip"),
     Asset("ANIM", "anim/walrus_attacks.zip"),
     Asset("ANIM", "anim/walrus_basic.zip"),
@@ -13,8 +12,7 @@ local assets=
     Asset("INV_IMAGE", "walrus_tusk"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "meat",
     "blowdart_walrus", -- creature weapon
     "blowdart_pipe", -- player loot
@@ -22,18 +20,18 @@ local prefabs =
     "walrus_tusk",
 }
 
-SetSharedLootTable( 'walrus',
-{
-    {'meat',            1.00},
-    {'blowdart_pipe',   1.00},
-    {'walrushat',       0.25},
-    {'walrus_tusk',     0.50},
-})
+SetSharedLootTable('walrus',
+        {
+            { 'meat', 1.00 },
+            { 'blowdart_pipe', 1.00 },
+            { 'walrushat', 0.25 },
+            { 'walrus_tusk', 0.50 },
+        })
 
-SetSharedLootTable( 'walrus_wee_loot',
-{
-    ['meat']     = 1.0,
-})
+SetSharedLootTable('walrus_wee_loot',
+        {
+            ['meat'] = 1.0,
+        })
 
 local function OnAttacked(inst, data)
     inst.components.combat:SetTarget(data.attacker)
@@ -43,7 +41,7 @@ local function OnAttacked(inst, data)
 end
 
 local function Retarget(inst)
-    return FindEntity(inst, TUNING.WALRUS_TARGET_DIST, function(guy) 
+    return FindEntity(inst, TUNING.WALRUS_TARGET_DIST, function(guy)
         return (guy:HasTag("animal") or guy:HasTag("character") or guy:HasTag("monster")) and not (guy:HasTag("hound") or guy:HasTag("walrus")) and inst.components.combat:CanTarget(guy)
     end)
 end
@@ -55,7 +53,7 @@ end
 local function DoReturn(inst)
     --print("DoReturn", inst)
     if inst.components.homeseeker and inst.components.homeseeker.home then
-        inst.components.homeseeker.home:PushEvent("onwenthome", {doer = inst})
+        inst.components.homeseeker.home:PushEvent("onwenthome", { doer = inst })
         inst:Remove()
     end
 end
@@ -63,10 +61,9 @@ end
 local function OnNight(inst)
     --print("OnNight", inst)
     if inst:IsAsleep() then
-        DoReturn(inst)  
+        DoReturn(inst)
     end
 end
-
 
 local function OnEntitySleep(inst)
     --print("OnEntitySleep", inst)
@@ -96,30 +93,30 @@ local function EquipBlowdart(inst)
         blowdart.persists = false
         blowdart.components.inventoryitem:SetOnDroppedFn(BlowdartDropped)
         blowdart:AddComponent("equippable")
-        
+
         inst.components.inventory:Equip(blowdart)
     end
 end
 
 local function create()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
-	local sound = inst.entity:AddSoundEmitter()
-	local shadow = inst.entity:AddDynamicShadow()
-	shadow:SetSize( 2.5, 1.5 )
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
+    local sound = inst.entity:AddSoundEmitter()
+    local shadow = inst.entity:AddDynamicShadow()
+    shadow:SetSize(2.5, 1.5)
     inst.Transform:SetFourFaced()
-    inst.Transform:SetScale(1.5,1.5,1.5)
+    inst.Transform:SetScale(1.5, 1.5, 1.5)
 
-    MakeCharacterPhysics(inst, 50, .5)    
-     
+    MakeCharacterPhysics(inst, 50, .5)
+
     anim:SetBank("walrus")
     anim:SetBuild("walrus_build")
-    
+
     inst:AddComponent("locomotor")
     inst.components.locomotor.runspeed = 4
     inst.components.locomotor.walkspeed = 2
-    
+
     inst:SetStateGraph("SGwalrus")
     inst.soundgroup = "mctusk"
 
@@ -137,7 +134,7 @@ local function create()
 
     inst:AddComponent("eater")
     inst.components.eater:SetCarnivore()
-    
+
     inst:AddComponent("combat")
     inst.components.combat.hiteffectsymbol = "pig_torso"
     inst.components.combat:SetRange(TUNING.WALRUS_ATTACK_DIST)
@@ -145,33 +142,36 @@ local function create()
     inst.components.combat:SetAttackPeriod(TUNING.WALRUS_ATTACK_PERIOD)
     inst.components.combat:SetRetargetFunction(1, Retarget)
     inst.components.combat:SetKeepTargetFunction(KeepTarget)
-    
+
     inst:AddComponent("health")
     inst.components.health:SetMaxHealth(TUNING.WALRUS_HEALTH)
 
     inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetChanceLootTable('walrus')
-    
+
     inst:AddComponent("inventory")
-    
+
     inst:AddComponent("inspectable")
-    
+
     MakeMediumBurnableCharacter(inst, "swap_fire")
     MakeMediumFreezableCharacter(inst, "pig_torso")
-   
+
     inst:AddComponent("leader")
-    
+
     inst:ListenForEvent("attacked", OnAttacked)
 
-    inst:ListenForEvent( "dusktime", function() OnNight( inst ) end, GetWorld()) 
-    inst:ListenForEvent( "nighttime", function() OnNight( inst ) end, GetWorld()) 
+    inst:ListenForEvent("dusktime", function()
+        OnNight(inst)
+    end, GetWorld())
+    inst:ListenForEvent("nighttime", function()
+        OnNight(inst)
+    end, GetWorld())
     inst.OnEntitySleep = OnEntitySleep
-    
+
     inst:DoTaskInTime(1, EquipBlowdart)
 
     return inst
 end
-
 
 local function create_little()
     local inst = create()
@@ -200,5 +200,5 @@ local function create_little()
     return inst
 end
 
-return Prefab( "forest/animals/walrus", create, assets, prefabs), 
-    Prefab( "forest/animals/little_walrus", create_little, assets) 
+return Prefab("forest/animals/walrus", create, assets, prefabs),
+Prefab("forest/animals/little_walrus", create_little, assets)

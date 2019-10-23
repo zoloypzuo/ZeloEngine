@@ -39,14 +39,14 @@ function Stretcher:OnUpdate(dt)
         self:SetStretchTarget(nil)
         return
     end
-    
-    local targetpos = Vector3(self.target.Transform:GetWorldPosition() )
-    local mypos = Vector3(self.inst.Transform:GetWorldPosition() )
+
+    local targetpos = Vector3(self.target.Transform:GetWorldPosition())
+    local mypos = Vector3(self.inst.Transform:GetWorldPosition())
     local diff = targetpos - mypos
-    
+
     self.inst:FacePoint(targetpos)
     local scale = diff:Length() / self.restinglength
-    local widthscale = 1 + self.widthratio*(scale-1)
+    local widthscale = 1 + self.widthratio * (scale - 1)
     self.inst.AnimState:SetScale(scale, widthscale)
 end
 

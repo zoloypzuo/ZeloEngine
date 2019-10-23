@@ -1,5 +1,4 @@
-local trinket_loot =
-{
+local trinket_loot = {
     "redgem",
     "bluegem",
     "goldnugget",
@@ -8,17 +7,17 @@ local trinket_loot =
 }
 
 local function MakeTrinket(num)
-	local name = "sunken_boat_trinket_"..tostring(num)
+    local name = "sunken_boat_trinket_" .. tostring(num)
 
-    local prefabname = "common/inventory/"..name
+    local prefabname = "common/inventory/" .. name
 
-    local assets=
-    {
+    local assets = {
         Asset("ANIM", "anim/sea_trinkets.zip"),
-        Asset("INV_IMAGE", "sunken_boat_trinket_"..num),
+        Asset("INV_IMAGE", "sunken_boat_trinket_" .. num),
     }
 
-    local function GiveClue(inst) -- /wolly
+    local function GiveClue(inst)
+        -- /wolly
         local script = { }
         local clue, clue_start, clue_end = TheSim:GetSailorClue(num)
         if not clue_start then
@@ -28,7 +27,7 @@ local function MakeTrinket(num)
         if not clue_end then
             table.insert(script, Line(STRINGS.SUNKEN_BOAT_SQUAWKS[math.random(#STRINGS.SUNKEN_BOAT_SQUAWKS)], 1.5, nil))
         end
-    	return script, trinket_loot[num]
+        return script, trinket_loot[num]
     end
 
     local function fn(Sim)
@@ -44,7 +43,7 @@ local function MakeTrinket(num)
 
         inst:AddComponent("inspectable")
         inst:AddComponent("stackable")
-		inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
+        inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
 
         inst:AddComponent("inventoryitem")
         inst:AddComponent("tradable")
@@ -57,11 +56,11 @@ local function MakeTrinket(num)
         return inst
     end
 
-    return Prefab( prefabname, fn, assets)
+    return Prefab(prefabname, fn, assets)
 end
 
 local ret = {}
-for k =1,5 do
+for k = 1, 5 do
     table.insert(ret, MakeTrinket(k))
 end
 

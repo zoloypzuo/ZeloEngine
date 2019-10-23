@@ -1,9 +1,8 @@
-
 local function DoSpawn(inst)
     local spawner = inst.components.periodicspawner
     if spawner then
-		spawner.target_time = nil    
-		spawner:TrySpawn()
+        spawner.target_time = nil
+        spawner:TrySpawn()
         spawner:Start()
     end
 end
@@ -13,14 +12,14 @@ local PeriodicSpawner = Class(function(self, inst)
     self.basetime = 40
     self.randtime = 60
     self.prefab = nil
-    
+
     self.range = nil
     self.density = nil
     self.spacing = nil
-    
+
     self.onspawn = nil
     self.spawntest = nil
-    
+
     self.spawnoffscreen = false
 end)
 
@@ -59,24 +58,24 @@ function PeriodicSpawner:TrySpawn(prefab)
     if not self.inst:IsValid() or not prefab then
         return
     end
-    
+
     local canspawn = true
-    
+
     if canspawn and self.spawnoffscreen and not self.inst:IsAsleep() then
         canspawn = false
     end
-    
+
     if canspawn and self.spawntest then
         canspawn = self.spawntest(self.inst)
     end
-    
+
     if canspawn and (self.range or self.spacing) then
         local pos = Vector3(self.inst.Transform:GetWorldPosition())
-        local ents = TheSim:FindEntities(pos.x,pos.y,pos.z, self.range or self.spacing)
+        local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, self.range or self.spacing)
         local count = 0
-        for k,v in pairs(ents) do
+        for k, v in pairs(ents) do
             if v.prefab == prefab then
-                if self.spacing and v:GetDistanceSqToInst(self.inst) < self.spacing*self.spacing then
+                if self.spacing and v:GetDistanceSqToInst(self.inst) < self.spacing * self.spacing then
                     canspawn = false
                     break
                 end
@@ -87,7 +86,7 @@ function PeriodicSpawner:TrySpawn(prefab)
             canspawn = false
         end
     end
-    
+
     if canspawn then
         local inst = SpawnPrefab(prefab)
         if self.onspawn then
@@ -99,11 +98,10 @@ function PeriodicSpawner:TrySpawn(prefab)
 end
 
 function PeriodicSpawner:Start()
-    local t = self.basetime + math.random()*self.randtime
+    local t = self.basetime + math.random() * self.randtime
     self.target_time = GetTime() + t
     self.task = self.inst:DoTaskInTime(t, DoSpawn)
 end
-
 
 function PeriodicSpawner:Stop()
     self.target_time = nil
@@ -124,20 +122,20 @@ end
 --]]
 
 function PeriodicSpawner:LongUpdate(dt)
-	if self.target_time then
-		if self.task then
-			self.task:Cancel()
-			self.task = nil
-		end
-		local time_to_wait = self.target_time - GetTime() - dt
-		
-		if time_to_wait <= 0 then
-			DoSpawn(self.inst)		
-		else
-			self.target_time = GetTime() + time_to_wait
-			self.task = self.inst:DoTaskInTime(time_to_wait, DoSpawn)
-		end
-	end
+    if self.target_time then
+        if self.task then
+            self.task:Cancel()
+            self.task = nil
+        end
+        local time_to_wait = self.target_time - GetTime() - dt
+
+        if time_to_wait <= 0 then
+            DoSpawn(self.inst)
+        else
+            self.target_time = GetTime() + time_to_wait
+            self.task = self.inst:DoTaskInTime(time_to_wait, DoSpawn)
+        end
+    end
 end
 
 return PeriodicSpawner

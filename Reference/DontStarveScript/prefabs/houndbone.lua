@@ -1,26 +1,24 @@
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/hound_base.zip"),
 }
 
-local names = {"piece1","piece2","piece3","piece4"}
+local names = { "piece1", "piece2", "piece3", "piece4" }
 
 local function onsave(inst, data)
-	data.anim = inst.animname
+    data.anim = inst.animname
 end
 
 local function onload(inst, data)
     if data and data.anim then
         inst.animname = data.anim
-	    inst.AnimState:PlayAnimation(inst.animname)
-	end
+        inst.AnimState:PlayAnimation(inst.animname)
+    end
 end
 
-
 local function fn(Sim)
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
 
     inst.entity:AddSoundEmitter()
 
@@ -33,12 +31,12 @@ local function fn(Sim)
 
     -------------------
     inst:AddComponent("inspectable")
-    
-	--MakeSnowCovered(inst)
-    inst.OnSave = onsave 
-    inst.OnLoad = onload 
-	return inst
+
+    --MakeSnowCovered(inst)
+    inst.OnSave = onsave
+    inst.OnLoad = onload
+    return inst
 end
 
-return Prefab( "forest/monsters/houndbone", fn, assets) 
+return Prefab("forest/monsters/houndbone", fn, assets)
 

@@ -1,23 +1,21 @@
-local assets =
-{
-	Asset("ANIM", "anim/nightmare_crack_ruins.zip"),
-	Asset("ANIM", "anim/nightmare_crack_upper.zip"),
+local assets = {
+    Asset("ANIM", "anim/nightmare_crack_ruins.zip"),
+    Asset("ANIM", "anim/nightmare_crack_upper.zip"),
 }
 
-local prefabs =
-{
-	"nightmarebeak",
-	"crawlingnightmare",
+local prefabs = {
+    "nightmarebeak",
+    "crawlingnightmare",
     "nightmarefissurefx",
     "upper_nightmarefissurefx"
 }
 
 local transitionTime = 1
 
-local topLightColour = {239/255, 194/255, 194/255}
+local topLightColour = { 239 / 255, 194 / 255, 194 / 255 }
 
 local function returnchildren(inst)
-    for k,child in pairs(inst.components.childspawner.childrenoutside) do
+    for k, child in pairs(inst.components.childspawner.childrenoutside) do
         if child.components.combat then
             child.components.combat:SetTarget(nil)
         end
@@ -36,7 +34,7 @@ local function spawnchildren(inst)
     if inst.components.childspawner then
         inst.components.childspawner:StartSpawning()
         inst.components.childspawner:StopRegen()
-    end 
+    end
 end
 
 local function killchildren(inst)
@@ -44,14 +42,14 @@ local function killchildren(inst)
         inst.components.childspawner:StopSpawning()
         inst.components.childspawner:StartRegen()
         returnchildren(inst)
-    end 
+    end
 end
 
 local function dofx(inst)
     fx = SpawnPrefab("statue_transition")
     if fx then
         fx.Transform:SetPosition(inst.Transform:GetWorldPosition())
-        fx.AnimState:SetScale(1,1.5,1)
+        fx.AnimState:SetScale(1, 1.5, 1)
     end
 end
 
@@ -69,27 +67,25 @@ local function spawnfx(inst)
     end
 end
 
-local states =
-{
+local states = {
     calm = function(inst, instant)
         inst.SoundEmitter:KillSound("loop")
 
         RemovePhysicsColliders(inst)
 
         inst.Light:Enable(true)
-        inst.components.lighttweener:StartTween(nil, 0, nil, nil, nil, (instant and 0) or .33, turnoff) 
+        inst.components.lighttweener:StartTween(nil, 0, nil, nil, nil, (instant and 0) or .33, turnoff)
         if not instant then
-            inst.AnimState:PushAnimation("close_2") 
+            inst.AnimState:PushAnimation("close_2")
             inst.AnimState:PushAnimation("idle_closed")
 
-            inst.fx.AnimState:PushAnimation("close_2") 
+            inst.fx.AnimState:PushAnimation("close_2")
             inst.fx.AnimState:PushAnimation("idle_closed")
             inst.SoundEmitter:PlaySound("dontstarve/cave/nightmare_spawner_close")
         else
             inst.AnimState:PlayAnimation("idle_closed")
-            inst.fx.AnimState:PlayAnimation("idle_closed")            
+            inst.fx.AnimState:PlayAnimation("idle_closed")
         end
-
 
         killchildren(inst)
     end,
@@ -98,8 +94,8 @@ local states =
 
         ChangeToObstaclePhysics(inst)
         inst.Light:Enable(true)
-        inst.components.lighttweener:StartTween(nil, 2, nil, nil, nil, (instant and 0) or  0.5)
-        inst.AnimState:PlayAnimation("open_1") 
+        inst.components.lighttweener:StartTween(nil, 2, nil, nil, nil, (instant and 0) or 0.5)
+        inst.AnimState:PlayAnimation("open_1")
         inst.fx.AnimState:PlayAnimation("open_1")
         inst.SoundEmitter:KillSound("loop")
         inst.SoundEmitter:PlaySound("dontstarve/cave/nightmare_fissure_open_warning")
@@ -114,7 +110,6 @@ local states =
         inst.SoundEmitter:KillSound("loop")
         inst.SoundEmitter:PlaySound("dontstarve/cave/nightmare_fissure_open")
         inst.SoundEmitter:PlaySound("dontstarve/cave/nightmare_fissure_open_LP", "loop")
-
 
         if not instant then
             inst.AnimState:PlayAnimation("open_2")
@@ -142,13 +137,12 @@ local states =
 
         inst.AnimState:PlayAnimation("close_1")
         inst.fx.AnimState:PlayAnimation("close_1")
-       
+
         inst.SoundEmitter:PlaySound("dontstarve/cave/nightmare_spawner_open")
 
         spawnchildren(inst)
     end
 }
-
 
 local function phasechange(inst, data)
     local statefn = states[data.newphase]
@@ -173,7 +167,7 @@ end
 local function nextphase(inst)
     spawnfx(inst)
     local nexttime = 0
-    if inst.state =="calm" then
+    if inst.state == "calm" then
         inst.state = "warn"
         nexttime = math.random(TUNING.FISSURE_WARNTIME_MIN, TUNING.FISSURE_WARNTIME_MAX)
     elseif inst.state == "warn" then
@@ -187,14 +181,16 @@ local function nextphase(inst)
         nexttime = math.random(TUNING.FISSURE_CALMTIME_MIN, TUNING.FISSURE_CALMTIME_MAX)
     end
 
-
     local statefn = states[inst.state]
 
     if statefn then
         inst:DoTaskInTime(math.random() * 2, statefn)
     end
 
-    if inst.task then inst.task:Cancel() inst.task = nil end
+    if inst.task then
+        inst.task:Cancel()
+        inst.task = nil
+    end
     inst.taskinfo = nil
 
     inst.task, inst.taskinfo = inst:ResumeTask(nexttime, nextphase)
@@ -212,12 +208,14 @@ local function onload(inst, data)
     end
 
     if data.timeleft then
-        if inst.task then inst.task:Cancel() inst.task = nil end
+        if inst.task then
+            inst.task:Cancel()
+            inst.task = nil
+        end
         inst.taskinfo = nil
         inst.task, inst.taskinfo = inst:ResumeTask(data.timeleft, nextphase)
     end
 end
-
 
 local function onsave(inst, data)
     if inst.state then
@@ -231,11 +229,11 @@ end
 
 local function commonfn(type)
 
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
     inst.entity:AddSoundEmitter()
-    
+
     MakeObstaclePhysics(inst, 1.2)
     RemovePhysicsColliders(inst)
 
@@ -243,7 +241,7 @@ local function commonfn(type)
     anim:SetBank(type)
     anim:PlayAnimation("idle_closed")
 
-    inst:AddComponent( "childspawner" )
+    inst:AddComponent("childspawner")
     inst.components.childspawner:SetRegenPeriod(5)
     inst.components.childspawner:SetSpawnPeriod(30)
     inst.components.childspawner:SetMaxChildren(1)
@@ -259,7 +257,6 @@ local function commonfn(type)
     return inst
 end
 
-
 local function upper()
     local inst = commonfn("nightmare_crack_upper")
     inst.components.lighttweener:StartTween(inst.Light, 1, .9, 0.9, topLightColour, 0, turnoff)
@@ -271,16 +268,17 @@ local function upper()
 end
 
 local function lower()
-	local inst = commonfn("nightmare_crack_ruins")
-    inst.components.lighttweener:StartTween(inst.Light, 1, .9, 0.9, {1,1,1}, 0, turnoff)
+    local inst = commonfn("nightmare_crack_ruins")
+    inst.components.lighttweener:StartTween(inst.Light, 1, .9, 0.9, { 1, 1, 1 }, 0, turnoff)
     inst.state = "calm"
     inst.fxprefab = "nightmarefissurefx"
-    inst:ListenForEvent("phasechange", function(world, data) phasechange(inst, data) end, GetWorld())
-	return inst
+    inst:ListenForEvent("phasechange", function(world, data)
+        phasechange(inst, data)
+    end, GetWorld())
+    return inst
 end
 
-
-return Prefab( "cave/objects/fissure", upper, assets, prefabs),
+return Prefab("cave/objects/fissure", upper, assets, prefabs),
 Prefab("cave/objects/fissure_lower", lower, assets, prefabs)
 
 

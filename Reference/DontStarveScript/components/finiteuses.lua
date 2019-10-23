@@ -10,12 +10,12 @@ function FiniteUses:SetConsumption(action, uses)
 end
 
 function FiniteUses:GetDebugString()
-	return string.format("%d/%d", self.current, self.total)
+    return string.format("%d/%d", self.current, self.total)
 end
 
 function FiniteUses:OnSave()
     if self.current ~= self.total then
-        return {uses = self.current}
+        return { uses = self.current }
     end
 end
 
@@ -25,7 +25,6 @@ function FiniteUses:OnLoad(data)
     end
 end
 
-
 function FiniteUses:SetMaxUses(val)
     self.total = val
 end
@@ -33,14 +32,14 @@ end
 function FiniteUses:SetUses(val)
     local was_positive = self.current > 0
     self.current = val
-    self.inst:PushEvent("percentusedchange", {percent = self:GetPercent()})    
+    self.inst:PushEvent("percentusedchange", { percent = self:GetPercent() })
     if self.current <= 0 then
         self.current = 0
         if was_positive and self.onfinished then
             self.onfinished(self.inst)
         end
     end
-    
+
 end
 
 function FiniteUses:GetUses()
@@ -54,7 +53,7 @@ function FiniteUses:Use(num)
 end
 
 function FiniteUses:OnUsedAsItem(action)
-    local uses = self.consumption[action]        
+    local uses = self.consumption[action]
     if uses then
         self:Use(uses)
     end

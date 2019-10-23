@@ -1,4 +1,5 @@
-local trace = function() end
+local trace = function()
+end
 --local trace = function(...) print(...) end
 
 local HUNT_UPDATE = 2
@@ -8,7 +9,7 @@ local MAX_TRACKS = 12
 
 local Hunter = Class(function(self, inst)
     self.inst = inst
-    
+
     self.dirt_prefab = "dirtpile"
     self.track_prefab = "animal_track"
     self.beast_prefab_summer = "koalefant_summer"
@@ -18,7 +19,9 @@ local Hunter = Class(function(self, inst)
     self.trackspawned = 0
     self.numtrackstospawn = 0
 
-    self.inst:DoTaskInTime(0, function(inst) inst.components.hunter:StartCooldown() end)
+    self.inst:DoTaskInTime(0, function(inst)
+        inst.components.hunter:StartCooldown()
+    end)
 end)
 
 function Hunter:OnSave()
@@ -48,7 +51,7 @@ function Hunter:OnSave()
             table.insert(references, self.lastdirt.GUID)
             data.lastdirtid = self.lastdirt.GUID
             trace("       has dirt", data.lastdirtid)
-    
+
             data.numtrackstospawn = self.numtrackstospawn
             data.trackspawned = self.trackspawned
             data.direction = self.direction
@@ -100,7 +103,7 @@ function Hunter:LoadPostPass(newents, data)
             self.lastdirt = newents[data.lastdirtid] and newents[data.lastdirtid].entity
 
             --dumptable(self.lastdirt)
-    
+
             if self.lastdirt then
                 self.numtrackstospawn = data.numtrackstospawn or math.random(MIN_TRACKS, MAX_TRACKS)
                 self.trackspawned = data.trackspawned or 0
@@ -120,7 +123,9 @@ function Hunter:LoadPostPass(newents, data)
 
             if self.huntedbeast then
                 self:StopCooldown()
-                self.inst:ListenForEvent("death", function(inst, data) self:OnBeastDeath(self.huntedbeast) end, self.huntedbeast)
+                self.inst:ListenForEvent("death", function(inst, data)
+                    self:OnBeastDeath(self.huntedbeast)
+                end, self.huntedbeast)
             else
                 self:BeginHunt()
             end
@@ -153,7 +158,7 @@ function Hunter:StartDirt()
     self.trackspawned = 0
     self.direction = self:GetNextSpawnAngle(pt, nil, TUNING.HUNT_SPAWN_DIST)
     if self.direction then
-        trace(string.format("   first angle: %2.2f", self.direction/DEGREES))
+        trace(string.format("   first angle: %2.2f", self.direction / DEGREES))
 
         trace("    numtrackstospawn", self.numtrackstospawn)
 
@@ -177,9 +182,9 @@ function Hunter:OnUpdate()
             self.lastkillpos = Point(GetPlayer().Transform:GetWorldPosition())
         end
 
-        distance = math.sqrt( distsq( mypos, self.lastkillpos ) )
+        distance = math.sqrt(distsq(mypos, self.lastkillpos))
         self.distance = distance
-        trace(string.format("    %2.2f", distance)) 
+        trace(string.format("    %2.2f", distance))
 
         if distance > TUNING.MIN_HUNT_DISTANCE then
             self:StartDirt()
@@ -188,7 +193,7 @@ function Hunter:OnUpdate()
         local distance = 0
         local dirtpos = Point(self.lastdirt.Transform:GetWorldPosition())
 
-        distance = math.sqrt( distsq( mypos, dirtpos ) )
+        distance = math.sqrt(distsq(mypos, dirtpos))
         self.distance = distance
         trace(string.format("    dirt %2.2f", distance))
 
@@ -259,13 +264,13 @@ function Hunter:GetNextSpawnAngle(pt, direction, radius)
     trace("Hunter:GetNextSpawnAngle", tostring(pt), radius)
 
     local base_angle = direction or math.random() * 2 * PI
-    local deviation = math.random(-TUNING.TRACK_ANGLE_DEVIATION, TUNING.TRACK_ANGLE_DEVIATION)*DEGREES
+    local deviation = math.random(-TUNING.TRACK_ANGLE_DEVIATION, TUNING.TRACK_ANGLE_DEVIATION) * DEGREES
 
     local start_angle = base_angle + deviation
-    trace(string.format("   original: %2.2f, deviation: %2.2f, starting angle: %2.2f", base_angle/DEGREES, deviation/DEGREES, start_angle/DEGREES))
+    trace(string.format("   original: %2.2f, deviation: %2.2f, starting angle: %2.2f", base_angle / DEGREES, deviation / DEGREES, start_angle / DEGREES))
 
     local angle = self:GetRunAngle(pt, start_angle, radius)
-    trace(string.format("Hunter:GetSpawnPoint RESULT %s", tostring(angle and angle/DEGREES)))
+    trace(string.format("Hunter:GetSpawnPoint RESULT %s", tostring(angle and angle / DEGREES)))
     return angle
 end
 
@@ -274,9 +279,9 @@ function Hunter:GetSpawnPoint(pt, radius)
 
     local angle = self.direction
     if angle then
-        local offset = Vector3(radius * math.cos( angle ), 0, -radius * math.sin( angle ))
+        local offset = Vector3(radius * math.cos(angle), 0, -radius * math.sin(angle))
         local spawn_point = pt + offset
-        trace(string.format("Hunter:GetSpawnPoint RESULT %s, %2.2f", tostring(spawn_point), angle/DEGREES))
+        trace(string.format("Hunter:GetSpawnPoint RESULT %s, %2.2f", tostring(spawn_point), angle / DEGREES))
         return spawn_point
     end
 
@@ -284,7 +289,7 @@ end
 
 function Hunter:GetAlternateBeastChance()
     local day = GetClock():GetNumCycles()
-    local chance = Lerp(TUNING.HUNT_ALTERNATE_BEAST_CHANCE_MIN, TUNING.HUNT_ALTERNATE_BEAST_CHANCE_MAX, day/100)
+    local chance = Lerp(TUNING.HUNT_ALTERNATE_BEAST_CHANCE_MIN, TUNING.HUNT_ALTERNATE_BEAST_CHANCE_MAX, day / 100)
     chance = math.clamp(chance, TUNING.HUNT_ALTERNATE_BEAST_CHANCE_MIN, TUNING.HUNT_ALTERNATE_BEAST_CHANCE_MAX)
     return chance
 end
@@ -292,7 +297,7 @@ end
 function Hunter:SpawnHuntedBeast()
     trace("Hunter:SpawnHuntedBeast")
     local pt = Vector3(GetPlayer().Transform:GetWorldPosition())
-        
+
     local spawn_pt = self:GetSpawnPoint(pt, TUNING.HUNT_SPAWN_DIST)
     if spawn_pt then
         if math.random() > self:GetAlternateBeastChance() then
@@ -307,7 +312,9 @@ function Hunter:SpawnHuntedBeast()
         if self.huntedbeast then
             print("Kill the Beast!")
             self.huntedbeast.Physics:Teleport(spawn_pt:Get())
-            self.inst:ListenForEvent("death", function(inst, data) self:OnBeastDeath(self.huntedbeast) end, self.huntedbeast)
+            self.inst:ListenForEvent("death", function(inst, data)
+                self:OnBeastDeath(self.huntedbeast)
+            end, self.huntedbeast)
             return true
         end
     end
@@ -345,8 +352,8 @@ function Hunter:SpawnTrack(spawn_pt)
 
                 self.direction = next_angle
 
-                trace(string.format("   next angle: %2.2f", self.direction/DEGREES))
-                spawned.Transform:SetRotation(self.direction/DEGREES - 90)
+                trace(string.format("   next angle: %2.2f", self.direction / DEGREES))
+                spawned.Transform:SetRotation(self.direction / DEGREES - 90)
 
                 self.trackspawned = self.trackspawned + 1
                 trace(string.format("   spawned %u/%u", self.trackspawned, self.numtrackstospawn))
@@ -375,7 +382,9 @@ end
 function Hunter:BeginHunt()
     trace("Hunter:BeginHunt")
 
-    self.hunttask = self.inst:DoPeriodicTask(HUNT_UPDATE, function() self:OnUpdate() end)
+    self.hunttask = self.inst:DoPeriodicTask(HUNT_UPDATE, function()
+        self:OnUpdate()
+    end)
     if self.hunttask then
         trace("The Hunt Begins!")
     else
@@ -386,7 +395,7 @@ end
 
 function Hunter:OnCooldownEnd()
     trace("Hunter:OnCooldownEnd")
-    
+
     self:StopCooldown() -- clean up references
     self:StopHunt()
 
@@ -419,26 +428,27 @@ function Hunter:StartCooldown(cooldown)
     if cooldown and cooldown > 0 then
         --print("The Hunt begins in", cooldown)
         self.lastdirttime = nil
-        self.cooldowntask = self.inst:DoTaskInTime(cooldown, function() self:OnCooldownEnd() end)
+        self.cooldowntask = self.inst:DoTaskInTime(cooldown, function()
+            self:OnCooldownEnd()
+        end)
         self.cooldowntime = GetTime() + cooldown
     end
 end
 
 function Hunter:GetDebugString()
     local str = ""
-    
-    str = str.." Cooldown: ".. (self.cooldowntime and string.format("%2.2f", math.max(1, self.cooldowntime - GetTime())) or "-")
+
+    str = str .. " Cooldown: " .. (self.cooldowntime and string.format("%2.2f", math.max(1, self.cooldowntime - GetTime())) or "-")
     if not self.lastdirt then
-        str = str.." No last dirt."
-        str = str.." Distance: ".. (self.distance and string.format("%2.2f", self.distance) or "-")
-        str = str.."/"..tostring(TUNING.MIN_HUNT_DISTANCE)
+        str = str .. " No last dirt."
+        str = str .. " Distance: " .. (self.distance and string.format("%2.2f", self.distance) or "-")
+        str = str .. "/" .. tostring(TUNING.MIN_HUNT_DISTANCE)
     else
-        str = str.." Dirt"
-        str = str.." Distance: ".. (self.distance and string.format("%2.2f", self.distance) or "-")
-        str = str.."/"..tostring(TUNING.MAX_DIRT_DISTANCE)
+        str = str .. " Dirt"
+        str = str .. " Distance: " .. (self.distance and string.format("%2.2f", self.distance) or "-")
+        str = str .. "/" .. tostring(TUNING.MAX_DIRT_DISTANCE)
     end
     return str
 end
-
 
 return Hunter

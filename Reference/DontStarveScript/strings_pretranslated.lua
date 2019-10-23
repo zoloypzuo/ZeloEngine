@@ -1,8 +1,7 @@
 --This file is separate from strings.lua so that UTF-8 strings won't be in that file causing problems with encoding in certain editors.
 
 --From constants.lua, manually including here to minimize require dependencies in strings pipeline.
-local _LANGUAGE = 
-{
+local _LANGUAGE = {
     ENGLISH = 0,
     ENGLISH_UK = 1,
     FRENCH = 2,
@@ -29,10 +28,8 @@ local _LANGUAGE =
     CHINESE_S_RAIL = 23,
 }
 
-STRINGS.PRETRANSLATED =
-{
-    LANGUAGES =
-    {
+STRINGS.PRETRANSLATED = {
+    LANGUAGES = {
         [_LANGUAGE.ENGLISH] = "English",
         [_LANGUAGE.FRENCH] = "Français (French)",
         [_LANGUAGE.SPANISH] = "Español (Spanish)",
@@ -45,9 +42,8 @@ STRINGS.PRETRANSLATED =
         [_LANGUAGE.KOREAN] = "한국어 (Korean)",
         [_LANGUAGE.CHINESE_S] = "简体中文 (Simplified Chinese)",
     },
-    
-    LANGUAGES_TITLE =
-    {
+
+    LANGUAGES_TITLE = {
         [_LANGUAGE.ENGLISH] = "Translation Option",
         [_LANGUAGE.FRENCH] = "Option de traduction",
         [_LANGUAGE.SPANISH] = "Opción de traducción",
@@ -59,10 +55,9 @@ STRINGS.PRETRANSLATED =
         [_LANGUAGE.RUSSIAN] = "Вариант перевода",
         [_LANGUAGE.KOREAN] = "번역 옵션",
         [_LANGUAGE.CHINESE_S] = "语言设定",
-    }, 
+    },
 
-	LANGUAGES_BODY =
-    {
+    LANGUAGES_BODY = {
         [_LANGUAGE.ENGLISH] = "Your interface language is set to English. Would you like to enable the translation for your language?",
         [_LANGUAGE.FRENCH] = "Votre langue d'interface est définie sur Français. Voulez-vous activer la traduction pour votre langue?",
         [_LANGUAGE.SPANISH] = "El idioma de la interfaz está configurado a español. ¿Quieres permitir la traducción a tu idioma?",
@@ -75,9 +70,8 @@ STRINGS.PRETRANSLATED =
         [_LANGUAGE.KOREAN] = "인터페이스 언어가 한국어로 설정되어 있습니다. 해당 언어의 번역을 사용 하시겠습니까?",
         [_LANGUAGE.CHINESE_S] = "是否把语言设定为中文？",
     },
-	
-	LANGUAGES_YES =
-    {
+
+    LANGUAGES_YES = {
         [_LANGUAGE.ENGLISH] = "Yes",
         [_LANGUAGE.FRENCH] = "Oui",
         [_LANGUAGE.SPANISH] = "Sí",
@@ -89,10 +83,9 @@ STRINGS.PRETRANSLATED =
         [_LANGUAGE.RUSSIAN] = "Да",
         [_LANGUAGE.KOREAN] = "예",
         [_LANGUAGE.CHINESE_S] = "是",
-    },	
-	
-	LANGUAGES_NO =
-    {
+    },
+
+    LANGUAGES_NO = {
         [_LANGUAGE.ENGLISH] = "No",
         [_LANGUAGE.FRENCH] = "Non",
         [_LANGUAGE.SPANISH] = "No",
@@ -108,5 +101,5 @@ STRINGS.PRETRANSLATED =
 }
 
 if IsConsole() then
-	STRINGS.PRETRANSLATED.LANGUAGES[_LANGUAGE.SPANISH] = "Español - España\n(Spanish - Spain)"
+    STRINGS.PRETRANSLATED.LANGUAGES[_LANGUAGE.SPANISH] = "Español - España\n(Spanish - Spain)"
 end

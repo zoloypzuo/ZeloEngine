@@ -13,11 +13,11 @@ end
 
 local function FindSaltlick(inst)
     if inst._brainsaltlick == nil or
-        not inst._brainsaltlick:IsValid() or
-        not inst:HasTag("saltlick") or
-        inst._brainsaltlick:IsInLimbo() or
-        (inst._brainsaltlick.components.burnable ~= nil and inst._brainsaltlick.components.burnable:IsBurning()) or
-        inst._brainsaltlick:HasTag("burnt") then
+            not inst._brainsaltlick:IsValid() or
+            not inst:HasTag("saltlick") or
+            inst._brainsaltlick:IsInLimbo() or
+            (inst._brainsaltlick.components.burnable ~= nil and inst._brainsaltlick.components.burnable:IsBurning()) or
+            inst._brainsaltlick:HasTag("burnt") then
         local hadsaltlick = inst._brainsaltlick ~= nil
         inst._brainsaltlick = FindEntity(inst, TUNING.SALTLICK_CHECK_DIST, nil, { "saltlick" }, { "INLIMBO", "fire", "burnt" })
         if inst._brainsaltlick ~= nil then
@@ -34,31 +34,31 @@ end
 local function WanderFromSaltlickDistFn(inst)
     local t = inst.components.timer ~= nil and (inst.components.timer:GetTimeLeft("salt") or 0) or nil
     return t ~= nil
-        and t < TIME_TO_SEEK_SALT
-        and Remap(math.max(TIME_TO_SEEK_SALT * .5, t), TIME_TO_SEEK_SALT * .5, TIME_TO_SEEK_SALT, TUNING.SALTLICK_USE_DIST * .75, TUNING.SALTLICK_CHECK_DIST * .75)
-        or TUNING.SALTLICK_CHECK_DIST * .75
+            and t < TIME_TO_SEEK_SALT
+            and Remap(math.max(TIME_TO_SEEK_SALT * .5, t), TIME_TO_SEEK_SALT * .5, TIME_TO_SEEK_SALT, TUNING.SALTLICK_USE_DIST * .75, TUNING.SALTLICK_CHECK_DIST * .75)
+            or TUNING.SALTLICK_CHECK_DIST * .75
 end
 
 local function ShouldSeekSalt(inst)
     return inst._brainsaltlick ~= nil
-        and inst.components.timer ~= nil
-        and (inst.components.timer:GetTimeLeft("salt") or 0) < TIME_TO_SEEK_SALT
+            and inst.components.timer ~= nil
+            and (inst.components.timer:GetTimeLeft("salt") or 0) < TIME_TO_SEEK_SALT
 end
 
 local function AnchorToSaltlick(inst)
     local node = WhileNode(
-        function()
-            return FindSaltlick(inst)
-        end,
-        "Stay Near Salt",
-        Wander(inst,
             function()
-                return inst._brainsaltlick ~= nil
-                    and inst._brainsaltlick:IsValid()
-                    and inst._brainsaltlick:GetPosition()
-                    or inst:GetPosition()
+                return FindSaltlick(inst)
             end,
-            WanderFromSaltlickDistFn)
+            "Stay Near Salt",
+            Wander(inst,
+                    function()
+                        return inst._brainsaltlick ~= nil
+                                and inst._brainsaltlick:IsValid()
+                                and inst._brainsaltlick:GetPosition()
+                                or inst:GetPosition()
+                    end,
+                    WanderFromSaltlickDistFn)
     )
 
     local _OnStop = node.OnStop
@@ -94,15 +94,15 @@ local function PanicWhenScared(inst, loseloyaltychance, chatty)
     end
 
     if loseloyaltychance ~= nil and loseloyaltychance > 0 then
-        panicscarednode = ParallelNode{
+        panicscarednode = ParallelNode {
             panicscarednode,
             LoopNode({
                 WaitNode(3),
                 ActionNode(function()
                     if math.random() < loseloyaltychance and
-                        inst.components.follower ~= nil and
-                        inst.components.follower:GetLoyaltyPercent() > 0 and
-                        inst.components.follower:GetLeader() ~= nil then
+                            inst.components.follower ~= nil and
+                            inst.components.follower:GetLoyaltyPercent() > 0 and
+                            inst.components.follower:GetLeader() ~= nil then
                         inst.components.follower:SetLeader(nil)
                     end
                 end),
@@ -112,17 +112,17 @@ local function PanicWhenScared(inst, loseloyaltychance, chatty)
 
     local scared = false
     panicscarednode = WhileNode(
-        function()
-            if (GetTime() < scareendtime) ~= scared then
-                if inst.components.combat ~= nil then
-                    inst.components.combat:SetTarget(nil)
+            function()
+                if (GetTime() < scareendtime) ~= scared then
+                    if inst.components.combat ~= nil then
+                        inst.components.combat:SetTarget(nil)
+                    end
+                    scared = not scared
                 end
-                scared = not scared
-            end
-            return scared
-        end,
-        "PanicScared",
-        panicscarednode
+                return scared
+            end,
+            "PanicScared",
+            panicscarednode
     )
 
     local _OnStop = panicscarednode.OnStop
