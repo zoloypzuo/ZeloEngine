@@ -1,11 +1,9 @@
-
 StandStill = Class(BehaviourNode, function(self, inst, startfn, keepfn)
     BehaviourNode._ctor(self, "StandStill")
     self.inst = inst
     self.startfn = startfn
     self.keepfn = keepfn
 end)
-
 
 function StandStill:Visit()
 
@@ -27,6 +25,6 @@ function StandStill:Visit()
         end
         self:Sleep(.5)
     end
-    
+
 end
 

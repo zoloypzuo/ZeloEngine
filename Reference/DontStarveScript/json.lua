@@ -97,119 +97,121 @@ local isEncodable
 -- @param v The Lua object / variable to be JSON encoded.
 -- @return String containing the JSON encoding in internal Lua string format (i.e. not unicode)
 function encode (v)
-  -- Handle nil values
-  if v==nil then
-    return "null"
-  end
-  
-  local vtype = base.type(v)  
+    -- Handle nil values
+    if v == nil then
+        return "null"
+    end
 
-  -- Handle strings
-  if vtype=='string' then    
-    return '"' .. encodeString(v) .. '"'      -- Need to handle encoding in string
-  end
-  
-  -- Handle booleans
-  if vtype=='number' or vtype=='boolean' then
-    return base.tostring(v)
-  end
-  
-  -- Handle tables
-  if vtype=='table' then
-    local rval = {}
-    -- Consider arrays separately
-    local bArray, maxCount = isArray(v)
-    if bArray then
-      for i = 1,maxCount do
-        table.insert(rval, encode(v[i]))
-      end
-    else  -- An object, not an array
-      for i,j in base.pairs(v) do
-        if isEncodable(i) and isEncodable(j) then
-          table.insert(rval, '"' .. encodeString(i) .. '":' .. encode(j))
+    local vtype = base.type(v)
+
+    -- Handle strings
+    if vtype == 'string' then
+        return '"' .. encodeString(v) .. '"'      -- Need to handle encoding in string
+    end
+
+    -- Handle booleans
+    if vtype == 'number' or vtype == 'boolean' then
+        return base.tostring(v)
+    end
+
+    -- Handle tables
+    if vtype == 'table' then
+        local rval = {}
+        -- Consider arrays separately
+        local bArray, maxCount = isArray(v)
+        if bArray then
+            for i = 1, maxCount do
+                table.insert(rval, encode(v[i]))
+            end
+        else
+            -- An object, not an array
+            for i, j in base.pairs(v) do
+                if isEncodable(i) and isEncodable(j) then
+                    table.insert(rval, '"' .. encodeString(i) .. '":' .. encode(j))
+                end
+            end
         end
-      end
+        if bArray then
+            return '[' .. table.concat(rval, ',') .. ']'
+        else
+            return '{' .. table.concat(rval, ',') .. '}'
+        end
     end
-    if bArray then
-      return '[' .. table.concat(rval,',') ..']'
-    else
-      return '{' .. table.concat(rval,',') .. '}'
+
+    -- Handle null values
+    if vtype == 'function' and v == null then
+        return 'null'
     end
-  end
-  
-  -- Handle null values
-  if vtype=='function' and v==null then
-    return 'null'
-  end
-  
-  if not (false) then
-    base.tracked_assert(false,'encode attempt to encode unsupported type ' .. vtype .. ':' .. base.tostring(v))
-  end
+
+    if not (false) then
+        base.tracked_assert(false, 'encode attempt to encode unsupported type ' .. vtype .. ':' .. base.tostring(v))
+    end
 end
 
 --- Encodes a string to be JSON-compliant, only use in encode_compliant(v).
 function encodeString_compliant(s)
-  s = string.gsub(s,'\\','\\\\')
-  s = string.gsub(s,'"','\\"')
-  --s = string.gsub(s,"'","\\'") -- json standards do not support escaping single quotes
-  s = string.gsub(s,'\n','\\n')
-  s = string.gsub(s,'\t','\\t')  
-  s = string.gsub(s,'\r','\\r')
-  return s 
+    s = string.gsub(s, '\\', '\\\\')
+    s = string.gsub(s, '"', '\\"')
+    --s = string.gsub(s,"'","\\'") -- json standards do not support escaping single quotes
+    s = string.gsub(s, '\n', '\\n')
+    s = string.gsub(s, '\t', '\\t')
+    s = string.gsub(s, '\r', '\\r')
+    return s
 end
 
 -- Use this function only if you are sending data out to a web service or some other external system. The game will not be able to decode this data.
 -- The supplied encodeString/decodeString function does not produce valid json files. This is okay for the save/load system but not when sending data out to the internet.
 -- NOTE: Never add decode support from encode_compliant's returned string. This output may change without warning if new bugs in the original code are found.
 function encode_compliant(v)
-  -- Handle nil values
-  if v==nil then
-    return "null"
-  end
-  
-  local vtype = base.type(v)  
+    -- Handle nil values
+    if v == nil then
+        return "null"
+    end
 
-  -- Handle strings
-  if vtype=='string' then    
-    return '"' .. encodeString_compliant(v) .. '"'	    -- Need to handle encoding in string
-  end
-  
-  -- Handle booleans
-  if vtype=='number' or vtype=='boolean' then
-    return base.tostring(v)
-  end
-  
-  -- Handle tables
-  if vtype=='table' then
-    local rval = {}
-    -- Consider arrays separately
-    local bArray, maxCount = isArray(v)
-    if bArray then
-      for i = 1,maxCount do
-        table.insert(rval, encode_compliant(v[i]))
-      end
-    else	-- An object, not an array
-      for i,j in base.pairs(v) do
-        if isEncodable(i) and isEncodable(j) then
-          table.insert(rval, '"' .. encodeString_compliant(i) .. '":' .. encode_compliant(j))
+    local vtype = base.type(v)
+
+    -- Handle strings
+    if vtype == 'string' then
+        return '"' .. encodeString_compliant(v) .. '"'        -- Need to handle encoding in string
+    end
+
+    -- Handle booleans
+    if vtype == 'number' or vtype == 'boolean' then
+        return base.tostring(v)
+    end
+
+    -- Handle tables
+    if vtype == 'table' then
+        local rval = {}
+        -- Consider arrays separately
+        local bArray, maxCount = isArray(v)
+        if bArray then
+            for i = 1, maxCount do
+                table.insert(rval, encode_compliant(v[i]))
+            end
+        else
+            -- An object, not an array
+            for i, j in base.pairs(v) do
+                if isEncodable(i) and isEncodable(j) then
+                    table.insert(rval, '"' .. encodeString_compliant(i) .. '":' .. encode_compliant(j))
+                end
+            end
         end
-      end
+        if bArray then
+            return '[' .. table.concat(rval, ',') .. ']'
+        else
+            return '{' .. table.concat(rval, ',') .. '}'
+        end
     end
-    if bArray then
-      return '[' .. table.concat(rval,',') ..']'
-    else
-      return '{' .. table.concat(rval,',') .. '}'
+
+    -- Handle null values
+    if vtype == 'function' and v == null then
+        return 'null'
     end
-  end
-  
-  -- Handle null values
-  if vtype=='function' and v==null then
-    return 'null'
-  end
-  
-  if not (false) then
-    base.tracked_assert(false,'encode_compliant attempt to encode unsupported type ' .. vtype .. ':' .. base.tostring(v))
-  end
+
+    if not (false) then
+        base.tracked_assert(false, 'encode_compliant attempt to encode unsupported type ' .. vtype .. ':' .. base.tostring(v))
+    end
 end
 
 
@@ -220,40 +222,40 @@ end
 -- and the position of the first character after
 -- the scanned JSON object.
 function decode(s, startPos)
-  startPos = startPos and startPos or 1
-  startPos = decode_scanWhitespace(s,startPos)
-  if not (startPos<=string.len(s)) then
-    base.tracked_assert(startPos<=string.len(s), 'Unterminated JSON encoded object found at position ['..base.tostring(startPos) ..'] in [' .. s .. ']')
-  end
+    startPos = startPos and startPos or 1
+    startPos = decode_scanWhitespace(s, startPos)
+    if not (startPos <= string.len(s)) then
+        base.tracked_assert(startPos <= string.len(s), 'Unterminated JSON encoded object found at position [' .. base.tostring(startPos) .. '] in [' .. s .. ']')
+    end
 
-  local curChar = string.sub(s,startPos,startPos)
-  -- Object
-  if curChar=='{' then
-    return decode_scanObject(s,startPos)
-  end
-  -- Array
-  if curChar=='[' then
-    return decode_scanArray(s,startPos)
-  end
-  -- Number
-  if string.find("+-0123456789.e", curChar, 1, true) then
-    return decode_scanNumber(s,startPos)
-  end
-  -- String
-  if curChar==[["]] or curChar==[[']] then
-    return decode_scanString(s,startPos)
-  end
-  if string.sub(s,startPos,startPos+1)=='/*' then
-    return decode(s, decode_scanComment(s,startPos))
-  end
-  -- Otherwise, it must be a constant
-  return decode_scanConstant(s,startPos)
+    local curChar = string.sub(s, startPos, startPos)
+    -- Object
+    if curChar == '{' then
+        return decode_scanObject(s, startPos)
+    end
+    -- Array
+    if curChar == '[' then
+        return decode_scanArray(s, startPos)
+    end
+    -- Number
+    if string.find("+-0123456789.e", curChar, 1, true) then
+        return decode_scanNumber(s, startPos)
+    end
+    -- String
+    if curChar == [["]] or curChar == [[']] then
+        return decode_scanString(s, startPos)
+    end
+    if string.sub(s, startPos, startPos + 1) == '/*' then
+        return decode(s, decode_scanComment(s, startPos))
+    end
+    -- Otherwise, it must be a constant
+    return decode_scanConstant(s, startPos)
 end
 
 --- The null function allows one to specify a null value in an associative array (which is otherwise
 -- discarded if you set the value with 'nil' in Lua. Simply set t = { first=json.null }
 function null()
-  return null -- so json.null() will also return null ;-)
+    return null -- so json.null() will also return null ;-)
 end
 -----------------------------------------------------------------------------
 -- Internal, PRIVATE functions.
@@ -267,32 +269,32 @@ end
 -- @param s The string being scanned.
 -- @param startPos The starting position for the scan.
 -- @return table, int The scanned array as a table, and the position of the next character to scan.
-function decode_scanArray(s,startPos)
-  local array = {}  -- The return value
-  local stringLen = string.len(s)
-  if not (string.sub(s,startPos,startPos)=='[') then  
-    base.tracked_assert(string.sub(s,startPos,startPos)=='[','decode_scanArray called but array does not start at position ' .. startPos .. ' in string:\n'..s )
-  end
-  startPos = startPos + 1
-  -- Infinite loop for array elements
-  repeat
-    startPos = decode_scanWhitespace(s,startPos)
-    if not (startPos<=stringLen) then
-      base.tracked_assert(startPos<=stringLen,'JSON String ended unexpectedly scanning array.')
+function decode_scanArray(s, startPos)
+    local array = {}  -- The return value
+    local stringLen = string.len(s)
+    if not (string.sub(s, startPos, startPos) == '[') then
+        base.tracked_assert(string.sub(s, startPos, startPos) == '[', 'decode_scanArray called but array does not start at position ' .. startPos .. ' in string:\n' .. s)
     end
-    local curChar = string.sub(s,startPos,startPos)
-    if (curChar==']') then
-      return array, startPos+1
-    end
-    if (curChar==',') then
-      startPos = decode_scanWhitespace(s,startPos+1)
-    end
-    if not (startPos<=stringLen) then
-      base.tracked_assert(startPos<=stringLen, 'JSON String ended unexpectedly scanning array.')
-    end
-    object, startPos = decode(s,startPos)
-    table.insert(array,object)
-  until false
+    startPos = startPos + 1
+    -- Infinite loop for array elements
+    repeat
+        startPos = decode_scanWhitespace(s, startPos)
+        if not (startPos <= stringLen) then
+            base.tracked_assert(startPos <= stringLen, 'JSON String ended unexpectedly scanning array.')
+        end
+        local curChar = string.sub(s, startPos, startPos)
+        if (curChar == ']') then
+            return array, startPos + 1
+        end
+        if (curChar == ',') then
+            startPos = decode_scanWhitespace(s, startPos + 1)
+        end
+        if not (startPos <= stringLen) then
+            base.tracked_assert(startPos <= stringLen, 'JSON String ended unexpectedly scanning array.')
+        end
+        object, startPos = decode(s, startPos)
+        table.insert(array, object)
+    until false
 end
 
 --- Scans a comment and discards the comment.
@@ -300,14 +302,14 @@ end
 -- @param string s The JSON string to scan.
 -- @param int startPos The starting position of the comment
 function decode_scanComment(s, startPos)
-  if not (string.sub(s,startPos,startPos+1)=='/*') then
-    base.tracked_assert( string.sub(s,startPos,startPos+1)=='/*', "decode_scanComment called but comment does not start at position " .. startPos)
-  end
-  local endPos = string.find(s,'*/',startPos+2)
-  if not (endPos~=nil) then
-    base.tracked_assert(endPos~=nil, "Unterminated comment in string at " .. startPos)
-  end
-  return endPos+2  
+    if not (string.sub(s, startPos, startPos + 1) == '/*') then
+        base.tracked_assert(string.sub(s, startPos, startPos + 1) == '/*', "decode_scanComment called but comment does not start at position " .. startPos)
+    end
+    local endPos = string.find(s, '*/', startPos + 2)
+    if not (endPos ~= nil) then
+        base.tracked_assert(endPos ~= nil, "Unterminated comment in string at " .. startPos)
+    end
+    return endPos + 2
 end
 
 --- Scans for given constants: true, false or null
@@ -317,18 +319,18 @@ end
 -- @return object, int The object (true, false or nil) and the position at which the next character should be 
 -- scanned.
 function decode_scanConstant(s, startPos)
-  local consts = { ["true"] = true, ["false"] = false, ["null"] = nil }
-  local constNames = {"true","false","null"}
+    local consts = { ["true"] = true, ["false"] = false, ["null"] = nil }
+    local constNames = { "true", "false", "null" }
 
-  for i,k in base.pairs(constNames) do
-    --print ("[" .. string.sub(s,startPos, startPos + string.len(k) -1) .."]", k)
-    if string.sub(s,startPos, startPos + string.len(k) -1 )==k then
-      return consts[k], startPos + string.len(k)
+    for i, k in base.pairs(constNames) do
+        --print ("[" .. string.sub(s,startPos, startPos + string.len(k) -1) .."]", k)
+        if string.sub(s, startPos, startPos + string.len(k) - 1) == k then
+            return consts[k], startPos + string.len(k)
+        end
     end
-  end
-  if not (nil) then
-    base.tracked_assert(nil, 'Failed to scan constant from string ' .. s .. ' at starting position ' .. startPos)
-  end
+    if not (nil) then
+        base.tracked_assert(nil, 'Failed to scan constant from string ' .. s .. ' at starting position ' .. startPos)
+    end
 end
 
 --- Scans a number from the JSON encoded string.
@@ -339,21 +341,21 @@ end
 -- @param s The string being scanned.
 -- @param startPos The position at which to start scanning.
 -- @return number, int The extracted number and the position of the next character to scan.
-function decode_scanNumber(s,startPos)
-  local endPos = startPos+1
-  local stringLen = string.len(s)
-  local acceptableChars = "+-0123456789.e"
-  while (string.find(acceptableChars, string.sub(s,endPos,endPos), 1, true)
-  and endPos<=stringLen
-  ) do
-    endPos = endPos + 1
-  end
-  local stringValue = 'return ' .. string.sub(s,startPos, endPos-1)
-  local stringEval = base.loadstring(stringValue)
-  if not (stringEval) then
-    base.tracked_assert(stringEval, 'Failed to scan number [ ' .. stringValue .. '] in JSON string at position ' .. startPos .. ' : ' .. endPos)
-  end
-  return stringEval(), endPos
+function decode_scanNumber(s, startPos)
+    local endPos = startPos + 1
+    local stringLen = string.len(s)
+    local acceptableChars = "+-0123456789.e"
+    while (string.find(acceptableChars, string.sub(s, endPos, endPos), 1, true)
+            and endPos <= stringLen
+    ) do
+        endPos = endPos + 1
+    end
+    local stringValue = 'return ' .. string.sub(s, startPos, endPos - 1)
+    local stringEval = base.loadstring(stringValue)
+    if not (stringEval) then
+        base.tracked_assert(stringEval, 'Failed to scan number [ ' .. stringValue .. '] in JSON string at position ' .. startPos .. ' : ' .. endPos)
+    end
+    return stringEval(), endPos
 end
 
 --- Scans a JSON object into a Lua object.
@@ -362,48 +364,48 @@ end
 -- @param s The string being scanned.
 -- @param startPos The starting position of the scan.
 -- @return table, int The scanned object as a table and the position of the next character to scan.
-function decode_scanObject(s,startPos)
-  local object = {}
-  local stringLen = string.len(s)
-  local key, value
-  if not (string.sub(s,startPos,startPos)=='{') then
-    base.tracked_assert(string.sub(s,startPos,startPos)=='{','decode_scanObject called but object does not start at position ' .. startPos .. ' in string:\n' .. s)
-  end
-  startPos = startPos + 1
-  repeat
-    startPos = decode_scanWhitespace(s,startPos)
-    if not (startPos<=stringLen) then
-      base.tracked_assert(startPos<=stringLen, 'JSON string ended unexpectedly while scanning object.')
+function decode_scanObject(s, startPos)
+    local object = {}
+    local stringLen = string.len(s)
+    local key, value
+    if not (string.sub(s, startPos, startPos) == '{') then
+        base.tracked_assert(string.sub(s, startPos, startPos) == '{', 'decode_scanObject called but object does not start at position ' .. startPos .. ' in string:\n' .. s)
     end
-    local curChar = string.sub(s,startPos,startPos)
-    if (curChar=='}') then
-      return object,startPos+1
-    end
-    if (curChar==',') then
-      startPos = decode_scanWhitespace(s,startPos+1)
-    end
-    if not (startPos<=stringLen) then
-      base.tracked_assert(startPos<=stringLen, 'JSON string ended unexpectedly scanning object.')
-    end
-    -- Scan the key
-    key, startPos = decode(s,startPos)
-    if not (startPos<=stringLen) then
-      base.tracked_assert(startPos<=stringLen, 'JSON string ended unexpectedly searching for value of key ' .. key)
-    end
-    startPos = decode_scanWhitespace(s,startPos)
-    if not (startPos<=stringLen) then
-      base.tracked_assert(startPos<=stringLen, 'JSON string ended unexpectedly searching for value of key ' .. key)
-    end
-    if not (string.sub(s,startPos,startPos)==':') then
-      base.tracked_assert(string.sub(s,startPos,startPos)==':','JSON object key-value assignment mal-formed at ' .. startPos)
-    end
-    startPos = decode_scanWhitespace(s,startPos+1)
-    if not (startPos<=stringLen) then
-      base.tracked_assert(startPos<=stringLen, 'JSON string ended unexpectedly searching for value of key ' .. key)
-    end
-    value, startPos = decode(s,startPos)
-    object[key]=value
-  until false -- infinite loop while key-value pairs are found
+    startPos = startPos + 1
+    repeat
+        startPos = decode_scanWhitespace(s, startPos)
+        if not (startPos <= stringLen) then
+            base.tracked_assert(startPos <= stringLen, 'JSON string ended unexpectedly while scanning object.')
+        end
+        local curChar = string.sub(s, startPos, startPos)
+        if (curChar == '}') then
+            return object, startPos + 1
+        end
+        if (curChar == ',') then
+            startPos = decode_scanWhitespace(s, startPos + 1)
+        end
+        if not (startPos <= stringLen) then
+            base.tracked_assert(startPos <= stringLen, 'JSON string ended unexpectedly scanning object.')
+        end
+        -- Scan the key
+        key, startPos = decode(s, startPos)
+        if not (startPos <= stringLen) then
+            base.tracked_assert(startPos <= stringLen, 'JSON string ended unexpectedly searching for value of key ' .. key)
+        end
+        startPos = decode_scanWhitespace(s, startPos)
+        if not (startPos <= stringLen) then
+            base.tracked_assert(startPos <= stringLen, 'JSON string ended unexpectedly searching for value of key ' .. key)
+        end
+        if not (string.sub(s, startPos, startPos) == ':') then
+            base.tracked_assert(string.sub(s, startPos, startPos) == ':', 'JSON object key-value assignment mal-formed at ' .. startPos)
+        end
+        startPos = decode_scanWhitespace(s, startPos + 1)
+        if not (startPos <= stringLen) then
+            base.tracked_assert(startPos <= stringLen, 'JSON string ended unexpectedly searching for value of key ' .. key)
+        end
+        value, startPos = decode(s, startPos)
+        object[key] = value
+    until false -- infinite loop while key-value pairs are found
 end
 
 --- Scans a JSON string from the opening inverted comma or single quote to the
@@ -414,42 +416,42 @@ end
 -- @param s The string being scanned.
 -- @param startPos The starting position of the scan.
 -- @return string, int The extracted string as a Lua string, and the next character to parse.
-function decode_scanString(s,startPos)
-  if not (startPos) then
-    base.tracked_assert(startPos, 'decode_scanString(..) called without start position')
-  end
-  local startChar = string.sub(s,startPos,startPos)
-  if not (startChar==[[']] or startChar==[["]]) then
-    base.tracked_assert(startChar==[[']] or startChar==[["]],'decode_scanString called for a non-string')
-  end
-  local escaped = false
-  local endPos = startPos + 1
-  local bEnded = false
-  local stringLen = string.len(s)
-  repeat
-    local curChar = string.sub(s,endPos,endPos)
-    -- Character escaping is only used to escape the string delimiters
-    if not escaped then 
-      if curChar==[[\]] then
-        escaped = true
-      else
-        bEnded = curChar==startChar
-      end
-    else
-      -- If we're escaped, we accept the current character come what may
-      escaped = false
+function decode_scanString(s, startPos)
+    if not (startPos) then
+        base.tracked_assert(startPos, 'decode_scanString(..) called without start position')
     end
-    endPos = endPos + 1
-    if not (endPos <= stringLen+1) then
-       base.tracked_assert(endPos <= stringLen+1, "String decoding failed: unterminated string at position " .. endPos)
+    local startChar = string.sub(s, startPos, startPos)
+    if not (startChar == [[']] or startChar == [["]]) then
+        base.tracked_assert(startChar == [[']] or startChar == [["]], 'decode_scanString called for a non-string')
     end
-  until bEnded
-  local stringValue = 'return ' .. string.sub(s, startPos, endPos-1)
-  local stringEval = base.loadstring(stringValue)
-  if not (stringEval) then
-     base.tracked_assert(stringEval, 'Failed to load string [ ' .. stringValue .. '] in JSON4Lua.decode_scanString at position ' .. startPos .. ' : ' .. endPos)
-  end
-  return stringEval(), endPos  
+    local escaped = false
+    local endPos = startPos + 1
+    local bEnded = false
+    local stringLen = string.len(s)
+    repeat
+        local curChar = string.sub(s, endPos, endPos)
+        -- Character escaping is only used to escape the string delimiters
+        if not escaped then
+            if curChar == [[\]] then
+                escaped = true
+            else
+                bEnded = curChar == startChar
+            end
+        else
+            -- If we're escaped, we accept the current character come what may
+            escaped = false
+        end
+        endPos = endPos + 1
+        if not (endPos <= stringLen + 1) then
+            base.tracked_assert(endPos <= stringLen + 1, "String decoding failed: unterminated string at position " .. endPos)
+        end
+    until bEnded
+    local stringValue = 'return ' .. string.sub(s, startPos, endPos - 1)
+    local stringEval = base.loadstring(stringValue)
+    if not (stringEval) then
+        base.tracked_assert(stringEval, 'Failed to load string [ ' .. stringValue .. '] in JSON4Lua.decode_scanString at position ' .. startPos .. ' : ' .. endPos)
+    end
+    return stringEval(), endPos
 end
 
 --- Scans a JSON string skipping all whitespace from the current start position.
@@ -458,13 +460,13 @@ end
 -- @param startPos The starting position where we should begin removing whitespace.
 -- @return int The first position where non-whitespace was encountered, or string.len(s)+1 if the end of string
 -- was reached.
-function decode_scanWhitespace(s,startPos)
-  local whitespace=" \n\r\t"
-  local stringLen = string.len(s)
-  while ( string.find(whitespace, string.sub(s,startPos,startPos), 1, true)  and startPos <= stringLen) do
-    startPos = startPos + 1
-  end
-  return startPos
+function decode_scanWhitespace(s, startPos)
+    local whitespace = " \n\r\t"
+    local stringLen = string.len(s)
+    while (string.find(whitespace, string.sub(s, startPos, startPos), 1, true) and startPos <= stringLen) do
+        startPos = startPos + 1
+    end
+    return startPos
 end
 
 --- Encodes a string to be JSON-compatible.
@@ -472,13 +474,13 @@ end
 -- @param s The string to return as a JSON encoded (i.e. backquoted string)
 -- @return The string appropriately escaped.
 function encodeString(s)
-  s = string.gsub(s,'\\','\\\\')
-  s = string.gsub(s,'"','\\"')
-  s = string.gsub(s,"'","\\'")
-  s = string.gsub(s,'\n','\\n')
-  s = string.gsub(s,'\t','\\t')  
-  s = string.gsub(s,'\r','\\r')
-  return s 
+    s = string.gsub(s, '\\', '\\\\')
+    s = string.gsub(s, '"', '\\"')
+    s = string.gsub(s, "'", "\\'")
+    s = string.gsub(s, '\n', '\\n')
+    s = string.gsub(s, '\t', '\\t')
+    s = string.gsub(s, '\r', '\\r')
+    return s
 end
 
 -- Determines whether the given Lua type is an array or a table / dictionary.
@@ -490,22 +492,30 @@ end
 -- the second returned value is the maximum
 -- number of indexed elements in the array. 
 function isArray(t)
-  -- Next we count all the elements, ensuring that any non-indexed elements are not-encodable 
-  -- (with the possible exception of 'n')
-  local maxIndex = 0
-  for k,v in base.pairs(t) do
-    if (base.type(k)=='number' and math.floor(k)==k and 1<=k) then  -- k,v is an indexed pair
-      if (not isEncodable(v)) then return false end -- All array elements must be encodable
-      maxIndex = math.max(maxIndex,k)
-    else
-      if (k=='n') then
-        if v ~= table.getn(t) then return false end  -- False if n does not hold the number of elements
-      else -- Else of (k=='n')
-        if isEncodable(v) then return false end
-      end  -- End of (k~='n')
-    end -- End of k,v not an indexed pair
-  end  -- End of loop across all pairs
-  return true, maxIndex
+    -- Next we count all the elements, ensuring that any non-indexed elements are not-encodable
+    -- (with the possible exception of 'n')
+    local maxIndex = 0
+    for k, v in base.pairs(t) do
+        if (base.type(k) == 'number' and math.floor(k) == k and 1 <= k) then
+            -- k,v is an indexed pair
+            if (not isEncodable(v)) then
+                return false
+            end -- All array elements must be encodable
+            maxIndex = math.max(maxIndex, k)
+        else
+            if (k == 'n') then
+                if v ~= table.getn(t) then
+                    return false
+                end  -- False if n does not hold the number of elements
+            else
+                -- Else of (k=='n')
+                if isEncodable(v) then
+                    return false
+                end
+            end  -- End of (k~='n')
+        end -- End of k,v not an indexed pair
+    end  -- End of loop across all pairs
+    return true, maxIndex
 end
 
 --- Determines whether the given Lua object / table / variable can be JSON encoded. The only
@@ -514,6 +524,6 @@ end
 -- @param o The object to examine.
 -- @return boolean True if the object should be JSON encoded, false if it should be ignored.
 function isEncodable(o)
-  local t = base.type(o)
-  return (t=='string' or t=='boolean' or t=='number' or t=='nil' or t=='table') or (t=='function' and o==null) 
+    local t = base.type(o)
+    return (t == 'string' or t == 'boolean' or t == 'number' or t == 'nil' or t == 'table') or (t == 'function' and o == null)
 end

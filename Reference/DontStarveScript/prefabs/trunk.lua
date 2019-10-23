@@ -1,28 +1,26 @@
-local assets=
-{
-	Asset("ANIM", "anim/koalephant_trunk.zip"),
+local assets = {
+    Asset("ANIM", "anim/koalephant_trunk.zip"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "trunk_cooked",
     "spoiled_food",
-}    
+}
 
 local function create_common()
     local inst = CreateEntity()
     inst.entity:AddTransform()
     inst.entity:AddAnimState()
-    
+
     inst.AnimState:SetBank("trunk")
     inst.AnimState:SetBuild("koalephant_trunk")
     MakeInventoryPhysics(inst)
-    
+
     inst:AddComponent("stackable")
     inst.components.stackable.maxsize = TUNING.STACK_SIZE_MEDITEM
 
     inst:AddComponent("inspectable")
-    
+
     inst:AddComponent("inventoryitem")
 
     inst:AddComponent("tradable")
@@ -92,6 +90,6 @@ local function create_cooked()
     return inst
 end
 
-return Prefab( "common/inventory/trunk_summer", create_summer, assets, prefabs),
-        Prefab( "common/inventory/trunk_winter", create_winter, assets, prefabs),
-        Prefab( "common/inventory/trunk_cooked", create_cooked, assets) 
+return Prefab("common/inventory/trunk_summer", create_summer, assets, prefabs),
+Prefab("common/inventory/trunk_winter", create_winter, assets, prefabs),
+Prefab("common/inventory/trunk_cooked", create_cooked, assets)

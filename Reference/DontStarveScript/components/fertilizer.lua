@@ -12,8 +12,7 @@ function Fertilizer:CollectUseActions(doer, target, actions)
     elseif target.components.pickable and target.components.pickable:CanBeFertilized() then
         table.insert(actions, ACTIONS.FERTILIZE)
     end
-    
-end
 
+end
 
 return Fertilizer

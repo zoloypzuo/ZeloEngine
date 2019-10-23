@@ -1,5 +1,4 @@
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/saddlehorn.zip"),
     Asset("ANIM", "anim/swap_saddlehorn.zip"),
 }

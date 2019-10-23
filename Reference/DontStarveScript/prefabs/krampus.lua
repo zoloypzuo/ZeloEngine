@@ -1,37 +1,35 @@
 require "brains/krampusbrain"
 require "stategraphs/SGkrampus"
 
-local assets=
-{
-	Asset("ANIM", "anim/krampus_basic.zip"),
-	Asset("ANIM", "anim/krampus_build.zip"),
-	Asset("SOUND", "sound/krampus.fsb"),
+local assets = {
+    Asset("ANIM", "anim/krampus_basic.zip"),
+    Asset("ANIM", "anim/krampus_build.zip"),
+    Asset("SOUND", "sound/krampus.fsb"),
 }
 
-local prefabs =
-{
-	"charcoal",
-	"monstermeat",
-	"krampus_sack",
+local prefabs = {
+    "charcoal",
+    "monstermeat",
+    "krampus_sack",
 }
 
-SetSharedLootTable( 'krampus',
-{
-    {'monstermeat',  1.0},
-    {'charcoal',     1.0},
-    {'charcoal',     1.0},
-    {'krampus_sack', .01},
-})
+SetSharedLootTable('krampus',
+        {
+            { 'monstermeat', 1.0 },
+            { 'charcoal', 1.0 },
+            { 'charcoal', 1.0 },
+            { 'krampus_sack', .01 },
+        })
 
 local function makebagfull(inst)
-	inst.AnimState:Show("SACK")
-	inst.AnimState:Hide("ARM")
-end 
+    inst.AnimState:Show("SACK")
+    inst.AnimState:Hide("ARM")
+end
 
 local function makebagempty(inst)
-	inst.AnimState:Hide("SACK")
-	inst.AnimState:Show("ARM")
-end 
+    inst.AnimState:Hide("SACK")
+    inst.AnimState:Show("ARM")
+end
 
 local function OnAttacked(inst, data)
     inst.components.combat:SetTarget(data.attacker)
@@ -39,24 +37,23 @@ local function OnAttacked(inst, data)
 end
 
 local function fn(Sim)
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
     local physics = inst.entity:AddPhysics()
-	local sound = inst.entity:AddSoundEmitter()
-	local shadow = inst.entity:AddDynamicShadow()
-	shadow:SetSize( 3, 1 )
+    local sound = inst.entity:AddSoundEmitter()
+    local shadow = inst.entity:AddDynamicShadow()
+    shadow:SetSize(3, 1)
     inst.Transform:SetFourFaced()
-	inst.AnimState:Hide("ARM")
-	
-	inst:AddTag("scarytoprey")
-	
+    inst.AnimState:Hide("ARM")
+
+    inst:AddTag("scarytoprey")
+
     MakeCharacterPhysics(inst, 10, .5)
 
     inst:AddComponent("inventory")
     inst.components.inventory.ignorescangoincontainer = true
 
-     
     anim:SetBank("krampus")
     anim:SetBuild("krampus_build")
     anim:PlayAnimation("run_loop", true)
@@ -69,19 +66,19 @@ local function fn(Sim)
 
     local brain = require "brains/krampusbrain"
     inst:SetBrain(brain)
-    
+
     MakeLargeBurnableCharacter(inst, "krampus_torso")
     MakeLargeFreezableCharacter(inst, "krampus_torso")
-    
- --[[   inst:AddComponent("eater")
-    inst.components.eater:SetCarnivore()
-	inst.components.eater:SetCanEatHorrible()
-    inst.components.eater.strongstomach = true -- can eat monster meat!--]]
-    
+
+    --[[   inst:AddComponent("eater")
+       inst.components.eater:SetCarnivore()
+       inst.components.eater:SetCanEatHorrible()
+       inst.components.eater.strongstomach = true -- can eat monster meat!--]]
+
     inst:AddComponent("sleeper")
     inst:AddComponent("health")
     inst.components.health:SetMaxHealth(TUNING.KRAMPUS_HEALTH)
-    
+
     inst:AddComponent("combat")
     inst.components.combat.hiteffectsymbol = "krampus_torso"
     inst.components.combat:SetDefaultDamage(TUNING.KRAMPUS_DAMAGE)
@@ -89,14 +86,13 @@ local function fn(Sim)
 
     inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetChanceLootTable('krampus')
-    
+
     inst:AddComponent("inspectable")
-	inst.components.inspectable:RecordViews()
-    
+    inst.components.inspectable:RecordViews()
+
     inst:ListenForEvent("attacked", OnAttacked)
 
     return inst
 end
 
-
-return Prefab( "monsters/krampus", fn, assets, prefabs) 
+return Prefab("monsters/krampus", fn, assets, prefabs)

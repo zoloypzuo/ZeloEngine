@@ -1,29 +1,25 @@
-local assets=
-{
-	Asset("ANIM", "anim/tallbird_egg.zip"),
+local assets = {
+    Asset("ANIM", "anim/tallbird_egg.zip"),
 }
 
-local prefabs = 
-{
-	"smallbird",
-	"tallbirdegg_cracked",
-	"tallbirdegg_cooked",
-	"spoiled_food",
+local prefabs = {
+    "smallbird",
+    "tallbirdegg_cracked",
+    "tallbirdegg_cooked",
+    "spoiled_food",
 }
 
-local loot_hot = 
-{
+local loot_hot = {
     "cookedsmallmeat",
 }
 
-local loot_cold = 
-{
+local loot_cold = {
     "wetgoop",
 }
 
 local function Hatch(inst)
     --print("tallbirdegg - Hatch")
-   
+
     local smallbird = SpawnPrefab("smallbird")
     smallbird.Transform:SetPosition(inst.Transform:GetWorldPosition())
     smallbird.sg:GoToState("hatch")
@@ -86,7 +82,7 @@ end
 
 local function DropLoot(inst)
     --print("tallbirdegg - DropLoot")
-    
+
     inst:AddComponent("lootdropper")
     if inst.components.hatchable.toohot then
         inst.components.lootdropper:SetLoot(loot_hot)
@@ -98,7 +94,7 @@ end
 
 local function OnHatchState(inst, state)
     --print("tallbirdegg - OnHatchState", state)
-    
+
     inst.SoundEmitter:KillSound("uncomfy")
 
     if state == "crack" then
@@ -123,53 +119,58 @@ local function OnHatchState(inst, state)
         --print("   ACK! *splat*")
         if inst.components.hatchable.toohot then
             inst.SoundEmitter:PlaySound("dontstarve/creatures/egg/egg_hot_jump")
-            inst:DoTaskInTime(20*FRAMES, function() inst.SoundEmitter:PlaySound("dontstarve/creatures/egg/egg_hot_explo") end)
-            inst:DoTaskInTime(20*FRAMES, DropLoot)
+            inst:DoTaskInTime(20 * FRAMES, function()
+                inst.SoundEmitter:PlaySound("dontstarve/creatures/egg/egg_hot_explo")
+            end)
+            inst:DoTaskInTime(20 * FRAMES, DropLoot)
             inst.AnimState:PlayAnimation("toohot")
         elseif inst.components.hatchable.toocold then
-            inst:DoTaskInTime(15*FRAMES, function() inst.SoundEmitter:PlaySound("dontstarve/creatures/egg/egg_cold_freeze") end)
-            inst:DoTaskInTime(30*FRAMES, DropLoot)
+            inst:DoTaskInTime(15 * FRAMES, function()
+                inst.SoundEmitter:PlaySound("dontstarve/creatures/egg/egg_cold_freeze")
+            end)
+            inst:DoTaskInTime(30 * FRAMES, DropLoot)
             inst.AnimState:PlayAnimation("toocold")
         end
-        
-        inst:ListenForEvent("animover", function(inst) inst:Remove() end)
+
+        inst:ListenForEvent("animover", function(inst)
+            inst:Remove()
+        end)
     end
 end
 
 local function OnEaten(inst, eater)
     if eater.components.talker then
-        eater.components.talker:Say( GetString(eater.prefab, "EAT_FOOD", "TALLBIRDEGG_CRACKED") )
+        eater.components.talker:Say(GetString(eater.prefab, "EAT_FOOD", "TALLBIRDEGG_CRACKED"))
     end
 end
 
-
 local function commonfn()
-	local inst = CreateEntity()
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
-    
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+
     MakeInventoryPhysics(inst)
-    
+
     inst.AnimState:SetBuild("tallbird_egg")
     inst.AnimState:SetBank("egg")
     inst.AnimState:PlayAnimation("egg")
-    
+
     inst:AddComponent("inspectable")
-    
+
     inst:AddComponent("inventoryitem")
 
     inst:AddComponent("edible")
 
     inst:AddTag("cattoy")
     inst:AddComponent("tradable")
-    
+
     return inst
 end
 
 local function defaultfn()
-	local inst = commonfn()
+    local inst = commonfn()
 
-	inst.entity:AddSoundEmitter()
+    inst.entity:AddSoundEmitter()
 
     inst.AnimState:PlayAnimation("egg")
     inst.components.edible.healthvalue = TUNING.HEALING_SMALL
@@ -192,12 +193,12 @@ local function defaultfn()
 
     inst.playernear = false
 
-	return inst
+    return inst
 end
 
 local function crackedfn()
     local inst = defaultfn()
-    
+
     inst.components.hatchable.state = "comfy"
     inst.AnimState:PlayAnimation("idle_happy")
 
@@ -205,31 +206,30 @@ local function crackedfn()
     inst.components.playerprox:SetDist(4, 6)
     inst.components.playerprox:SetOnPlayerNear(OnNear)
     inst.components.playerprox:SetOnPlayerFar(OnFar)
-    
+
     inst.components.edible:SetOnEatenFn(OnEaten)
 
     return inst
 end
 
 local function cookedfn()
-	local inst = commonfn()
-    
+    local inst = commonfn()
+
     inst:AddComponent("stackable")
 
     inst.AnimState:PlayAnimation("cooked")
     inst.components.edible.healthvalue = 0
     inst.components.edible.hungervalue = TUNING.CALORIES_LARGE
-    
-	inst:AddComponent("perishable")
-	inst.components.perishable:SetPerishTime(TUNING.PERISH_FAST)
-	inst.components.perishable:StartPerishing()
+
+    inst:AddComponent("perishable")
+    inst.components.perishable:SetPerishTime(TUNING.PERISH_FAST)
+    inst.components.perishable:StartPerishing()
     inst.components.edible.foodstate = "COOKED"
-	inst.components.perishable.onperishreplacement = "spoiled_food"
-    
-	return inst
+    inst.components.perishable.onperishreplacement = "spoiled_food"
+
+    return inst
 end
 
-
-return Prefab( "common/inventory/tallbirdegg", defaultfn, assets, prefabs),
-		Prefab( "common/inventory/tallbirdegg_cracked", crackedfn, assets),
-		Prefab( "common/inventory/tallbirdegg_cooked", cookedfn, assets) 
+return Prefab("common/inventory/tallbirdegg", defaultfn, assets, prefabs),
+Prefab("common/inventory/tallbirdegg_cracked", crackedfn, assets),
+Prefab("common/inventory/tallbirdegg_cooked", cookedfn, assets)

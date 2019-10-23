@@ -1,31 +1,29 @@
-local assets = 
-{
-	Asset("ANIM", "anim/nightmare_timepiece.zip"),
+local assets = {
+    Asset("ANIM", "anim/nightmare_timepiece.zip"),
     Asset("INV_IMAGE", "nightmare_timepiece"),
     Asset("INV_IMAGE", "nightmare_timepiece_nightmare"),
     Asset("INV_IMAGE", "nightmare_timepiece_warn"),
 }
 
-local states =
-{
+local states = {
     calm = function(inst)
-    	inst.AnimState:PlayAnimation("idle_1")
-		inst.components.inventoryitem:ChangeImageName("nightmare_timepiece")    	
+        inst.AnimState:PlayAnimation("idle_1")
+        inst.components.inventoryitem:ChangeImageName("nightmare_timepiece")
     end,
 
     warn = function(inst)
-    	inst.AnimState:PlayAnimation("idle_3")
-		inst.components.inventoryitem:ChangeImageName("nightmare_timepiece_nightmare")
+        inst.AnimState:PlayAnimation("idle_3")
+        inst.components.inventoryitem:ChangeImageName("nightmare_timepiece_nightmare")
     end,
 
     nightmare = function(inst)
-    	inst.AnimState:PlayAnimation("idle_3")
-		inst.components.inventoryitem:ChangeImageName("nightmare_timepiece_nightmare")    
+        inst.AnimState:PlayAnimation("idle_3")
+        inst.components.inventoryitem:ChangeImageName("nightmare_timepiece_nightmare")
     end,
 
     dawn = function(inst)
-    	inst.AnimState:PlayAnimation("idle_1")
-		inst.components.inventoryitem:ChangeImageName("nightmare_timepiece")    
+        inst.AnimState:PlayAnimation("idle_1")
+        inst.components.inventoryitem:ChangeImageName("nightmare_timepiece")
     end,
 }
 
@@ -79,31 +77,33 @@ local function onload(inst, data)
 end
 
 local function fn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
 
-	MakeInventoryPhysics(inst)
+    MakeInventoryPhysics(inst)
 
-	anim:SetBank("nightmare_watch")
-	anim:SetBuild("nightmare_timepiece")
-	anim:PlayAnimation("idle_1")
+    anim:SetBank("nightmare_watch")
+    anim:SetBuild("nightmare_timepiece")
+    anim:PlayAnimation("idle_1")
 
-	inst:AddComponent("inspectable")
-	inst.components.inspectable.getstatus = GetStatus
+    inst:AddComponent("inspectable")
+    inst.components.inspectable.getstatus = GetStatus
 
-	inst:AddComponent("inventoryitem")
+    inst:AddComponent("inventoryitem")
 
-	inst:ListenForEvent("phasechange", function(world, data) phasechange(inst, data) end, GetWorld())
+    inst:ListenForEvent("phasechange", function(world, data)
+        phasechange(inst, data)
+    end, GetWorld())
 
     if GetNightmareClock() then
-        phasechange(inst, {newphase = GetNightmareClock():GetPhase()})
+        phasechange(inst, { newphase = GetNightmareClock():GetPhase() })
     end
-    
+
     inst.OnSave = onsave
     inst.OnLoad = onload
 
-	return inst
+    return inst
 end
 
 return Prefab("common/inventory/nightmare_timepiece", fn, assets)

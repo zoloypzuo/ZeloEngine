@@ -1,11 +1,9 @@
-local assets=
-{
-	Asset("ANIM", "anim/slurtle_slime.zip"),
+local assets = {
+    Asset("ANIM", "anim/slurtle_slime.zip"),
     Asset("ANIM", "anim/explode.zip"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "explode_small"
 }
 
@@ -20,23 +18,23 @@ local function OnExplodeFn(inst)
     local explode = SpawnPrefab("explode_small")
     local pos = inst:GetPosition()
     explode.Transform:SetPosition(pos.x, pos.y, pos.z)
-    explode.AnimState:SetBloomEffectHandle( "shaders/anim.ksh" )
+    explode.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
     explode.AnimState:SetLightOverride(1)
 end
 
 local function fn(Sim)
-	local inst = CreateEntity()
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
     inst.entity:AddSoundEmitter()
     MakeInventoryPhysics(inst)
-    
+
     inst.AnimState:SetBank("slurtle_slime")
     inst.AnimState:SetBuild("slurtle_slime")
     inst.AnimState:PlayAnimation("idle")
-    
+
     inst:AddComponent("stackable")
-	inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM    
+    inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
     inst:AddComponent("inspectable")
 
     inst:AddComponent("fuel")
@@ -45,7 +43,7 @@ local function fn(Sim)
 
     inst:AddComponent("inventoryitem")
 
-    MakeSmallBurnable(inst, 3+math.random()*3)
+    MakeSmallBurnable(inst, 3 + math.random() * 3)
     MakeSmallPropagator(inst)
 
     inst:AddComponent("explosive")
@@ -64,7 +62,7 @@ local function fn(Sim)
     light:Enable(true)
     --]]
 
-	return inst
+    return inst
 end
 
-return Prefab( "common/inventory/slurtleslime", fn, assets, prefabs) 
+return Prefab("common/inventory/slurtleslime", fn, assets, prefabs)

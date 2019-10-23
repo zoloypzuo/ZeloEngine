@@ -52,8 +52,8 @@ function Rider:Mount(target, instant)
     end
 
     if not target.components.rideable:TestObedience() then
-        self.inst:PushEvent("refusedmount", {rider=self.inst,rideable=target})
-        target:PushEvent("refusedrider", {rider=self.inst,rideable=target})
+        self.inst:PushEvent("refusedmount", { rider = self.inst, rideable = target })
+        target:PushEvent("refusedrider", { rider = self.inst, rideable = target })
         print("RIDER EXIT 2")
         return
     end
@@ -82,16 +82,15 @@ function Rider:Mount(target, instant)
     end
 
     if target.components.combat ~= nil then
-        self.inst.components.combat.redirectdamagefn =
-            function(inst, attacker, damage, weapon, stimuli)
-                return target:IsValid()
+        self.inst.components.combat.redirectdamagefn = function(inst, attacker, damage, weapon, stimuli)
+            return target:IsValid()
                     and not (target.components.health ~= nil and target.components.health:IsDead())
                     and not (weapon ~= nil and (weapon.components.projectile ~= nil or weapon.components.weapon:CanRangedAttack()))
                     and stimuli ~= "electric"
                     and stimuli ~= "darkness"
                     and target
                     or nil
-            end
+        end
     end
 
     --self.inst.components.pinnable.canbepinned = false
@@ -117,7 +116,7 @@ function Rider:Mount(target, instant)
     self._mountannouncetask = self.inst:DoTaskInTime(2 + math.random() * 2, AnnounceMountHealth, self)
 
     self.inst:PushEvent("mounted", { target = target })
-    self.inst:PushEvent("mounthurt")    
+    self.inst:PushEvent("mounthurt")
 end
 
 function Rider:Dismount()

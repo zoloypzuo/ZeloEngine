@@ -1,5 +1,7 @@
 function DefaultIgniteFn(inst)
-	if inst.components.burnable then inst.components.burnable:Ignite() end 
+    if inst.components.burnable then
+        inst.components.burnable:Ignite()
+    end
 end
 
 function DefaultBurnFn(inst)
@@ -15,10 +17,10 @@ function DefaultBurnFn(inst)
     if inst.components.inventoryitem and not inst.components.inventoryitem:IsHeld() then
         inst:RemoveComponent("inventoryitem")
     end
-    
+
     if not inst:HasTag("tree") then
-		inst.persists = false
-	end
+        inst.persists = false
+    end
 end
 
 function DefaultExtinguishFn(inst)
@@ -30,7 +32,7 @@ end
 function DefaultBurntFn(inst)
     local ash = SpawnPrefab("ash")
     ash.Transform:SetPosition(inst.Transform:GetWorldPosition())
-    
+
     if inst.components.stackable then
         ash.components.stackable.stacksize = inst.components.stackable.stacksize
     end
@@ -38,8 +40,7 @@ function DefaultBurntFn(inst)
     inst:Remove()
 end
 
-local burnfx = 
-{
+local burnfx = {
     character = "character_fire",
     generic = "fire",
 }
@@ -48,7 +49,7 @@ function MakeSmallBurnable(inst, time, offset)
     inst:AddComponent("burnable")
     inst.components.burnable:SetFXLevel(2)
     inst.components.burnable:SetBurnTime(time or 5)
-    inst.components.burnable:AddBurnFX(burnfx.generic, offset or Vector3(0, 0, 0) )
+    inst.components.burnable:AddBurnFX(burnfx.generic, offset or Vector3(0, 0, 0))
     inst.components.burnable:SetOnIgniteFn(DefaultBurnFn)
     inst.components.burnable:SetOnBurntFn(DefaultBurntFn)
 end
@@ -57,7 +58,7 @@ function MakeMediumBurnable(inst, time, offset)
     inst:AddComponent("burnable")
     inst.components.burnable:SetFXLevel(3)
     inst.components.burnable:SetBurnTime(time or 10)
-    inst.components.burnable:AddBurnFX(burnfx.generic, offset or Vector3(0, 0, 0) )
+    inst.components.burnable:AddBurnFX(burnfx.generic, offset or Vector3(0, 0, 0))
     inst.components.burnable:SetOnIgniteFn(DefaultBurnFn)
     inst.components.burnable:SetOnBurntFn(DefaultBurntFn)
 end
@@ -66,21 +67,21 @@ function MakeLargeBurnable(inst, time, offset)
     inst:AddComponent("burnable")
     inst.components.burnable:SetFXLevel(4)
     inst.components.burnable:SetBurnTime(time or 15)
-    inst.components.burnable:AddBurnFX(burnfx.generic, offset or Vector3(0, 0, 0) )
+    inst.components.burnable:AddBurnFX(burnfx.generic, offset or Vector3(0, 0, 0))
     inst.components.burnable:SetOnIgniteFn(DefaultBurnFn)
     inst.components.burnable:SetOnBurntFn(DefaultBurntFn)
 end
 
 function MakeSmallPropagator(inst)
-   
+
     inst:AddComponent("propagator")
     inst.components.propagator.acceptsheat = true
     inst.components.propagator:SetOnFlashPoint(DefaultIgniteFn)
-    inst.components.propagator.flashpoint = 5 + math.random()*5
+    inst.components.propagator.flashpoint = 5 + math.random() * 5
     inst.components.propagator.decayrate = 1
     inst.components.propagator.propagaterange = 3
     inst.components.propagator.heatoutput = 8
-    
+
     inst.components.propagator.damagerange = 2
     inst.components.propagator.damages = true
 end
@@ -89,7 +90,7 @@ function MakeMediumPropagator(inst)
     inst:AddComponent("propagator")
     inst.components.propagator.acceptsheat = true
     inst.components.propagator:SetOnFlashPoint(DefaultIgniteFn)
-    inst.components.propagator.flashpoint = 10+math.random()*10
+    inst.components.propagator.flashpoint = 10 + math.random() * 10
     inst.components.propagator.decayrate = 1
     inst.components.propagator.propagaterange = 4
     inst.components.propagator.heatoutput = 8.5--12
@@ -99,15 +100,15 @@ function MakeMediumPropagator(inst)
 end
 
 function MakeLargePropagator(inst)
-    
+
     inst:AddComponent("propagator")
     inst.components.propagator.acceptsheat = true
     inst.components.propagator:SetOnFlashPoint(DefaultIgniteFn)
-    inst.components.propagator.flashpoint = 15+math.random()*10
+    inst.components.propagator.flashpoint = 15 + math.random() * 10
     inst.components.propagator.decayrate = 1
     inst.components.propagator.propagaterange = 6
     inst.components.propagator.heatoutput = 12
-    
+
     inst.components.propagator.damagerange = 3
     inst.components.propagator.damages = true
 end
@@ -142,8 +143,7 @@ function MakeLargeBurnableCharacter(inst, sym, offset)
     inst.components.propagator.acceptsheat = false
 end
 
-local shatterfx = 
-{
+local shatterfx = {
     character = "shatter",
 }
 
@@ -195,7 +195,6 @@ function MakeInventoryPhysics(inst)
 
 end
 
-
 function MakeCharacterPhysics(inst, mass, rad)
 
     local physics = inst.entity:AddPhysics()
@@ -243,7 +242,7 @@ end
 function ChangeToObstaclePhysics(inst)
     inst.Physics:SetCollisionGroup(COLLISION.OBSTACLES)
     inst.Physics:ClearCollisionMask()
-    inst.Physics:SetMass(0) 
+    inst.Physics:SetMass(0)
     --inst.Physics:CollidesWith(COLLISION.GROUND)
     inst.Physics:CollidesWith(COLLISION.ITEMS)
     inst.Physics:CollidesWith(COLLISION.CHARACTERS)
@@ -264,10 +263,10 @@ function MakeObstaclePhysics(inst, rad, height)
     inst.entity:AddPhysics()
     --this is lame. Bullet wants 0 mass for static objects, 
     -- for for some reason it is slow when we do that
-    
+
     -- Doesnt seem to slow anything down now.
-    inst.Physics:SetMass(0) 
-    inst.Physics:SetCapsule(rad,height)
+    inst.Physics:SetMass(0)
+    inst.Physics:SetCapsule(rad, height)
     inst.Physics:SetCollisionGroup(COLLISION.OBSTACLES)
     inst.Physics:ClearCollisionMask()
     inst.Physics:CollidesWith(COLLISION.ITEMS)
@@ -281,37 +280,43 @@ function RemovePhysicsColliders(inst)
     end
 end
 
-
 local function OnGrowSeasonChange(inst)
-	if not GetSeasonManager() then return end
-	
-	if inst.components.pickable then
-		if GetSeasonManager():IsWinter() then
-			inst.components.pickable:Pause()
-		else
-			inst.components.pickable:Resume()
-		end
-	end
+    if not GetSeasonManager() then
+        return
+    end
+
+    if inst.components.pickable then
+        if GetSeasonManager():IsWinter() then
+            inst.components.pickable:Pause()
+        else
+            inst.components.pickable:Resume()
+        end
+    end
 end
 
 function MakeNoGrowInWinter(inst)
-	if not GetSeasonManager() then return end
-	
-	inst:ListenForEvent("seasonChange", function() OnGrowSeasonChange(inst) end, GetWorld())
-	if GetSeasonManager():IsWinter() then
-		OnGrowSeasonChange(inst)
-	end
+    if not GetSeasonManager() then
+        return
+    end
+
+    inst:ListenForEvent("seasonChange", function()
+        OnGrowSeasonChange(inst)
+    end, GetWorld())
+    if GetSeasonManager():IsWinter() then
+        OnGrowSeasonChange(inst)
+    end
 end
 
-
 function MakeSnowCovered(inst)
-	if not GetSeasonManager() then return end
-	inst.AnimState:OverrideSymbol("snow", "snow", "snow")
-	inst:AddTag("SnowCovered")
+    if not GetSeasonManager() then
+        return
+    end
+    inst.AnimState:OverrideSymbol("snow", "snow", "snow")
+    inst:AddTag("SnowCovered")
 
-	if GetSeasonManager().ground_snow_level < SNOW_THRESH then
-		inst.AnimState:Hide("snow")
-	else
-		inst.AnimState:Show("snow")
-	end
+    if GetSeasonManager().ground_snow_level < SNOW_THRESH then
+        inst.AnimState:Hide("snow")
+    else
+        inst.AnimState:Show("snow")
+    end
 end

@@ -2,23 +2,22 @@ local Widget = require "widgets/widget"
 
 local Text = Class(Widget, function(self, font, size, text)
     Widget._ctor(self, "Text")
-   
+
     self.inst.entity:AddTextWidget()
-    
+
     self.inst.TextWidget:SetFont(font)
     self.inst.TextWidget:SetSize(size)
 
-	if text then
-		self:SetString( text )
-	end
+    if text then
+        self:SetString(text)
+    end
 end)
 
 function Text:__tostring()
     return string.format("%s - %s", self.name, self.string or "")
 end
 
-
-function Text:SetColour(r,g,b,a)
+function Text:SetColour(r, g, b, a)
     if type(r) == "number" then
         self.inst.TextWidget:SetColour(r, g, b, a)
     else
@@ -26,12 +25,12 @@ function Text:SetColour(r,g,b,a)
     end
 end
 
-function Text:SetHorizontalSqueeze( squeeze )
+function Text:SetHorizontalSqueeze(squeeze)
     self.inst.TextWidget:SetHorizontalSqueeze(squeeze)
 end
 
 function Text:SetAlpha(a)
-    self.inst.TextWidget:SetColour(1,1,1, a)
+    self.inst.TextWidget:SetColour(1, 1, 1, a)
 end
 
 function Text:SetFont(font)
@@ -39,19 +38,19 @@ function Text:SetFont(font)
 end
 
 function Text:SetSize(sz)
-	if LOC then
-		sz = sz * LOC.GetTextScale()
-	end
+    if LOC then
+        sz = sz * LOC.GetTextScale()
+    end
     self.inst.TextWidget:SetSize(sz)
     self.size = sz
 end
 
 function Text:SetSize(sz)
-	return self.size
+    return self.size
 end
 
-function Text:SetRegionSize(w,h)
-    self.inst.TextWidget:SetRegionSize(w,h)
+function Text:SetRegionSize(w, h)
+    self.inst.TextWidget:SetRegionSize(w, h)
 end
 
 function Text:GetRegionSize()
@@ -59,10 +58,10 @@ function Text:GetRegionSize()
 end
 
 function Text:SetString(str)
-    if( type(str) == "table" ) then 
+    if (type(str) == "table") then
         print("*** Error - SetString called with a table")
-        for i,v in pairs(str) do
-            print("",i,v)
+        for i, v in pairs(str) do
+            print("", i, v)
         end
     end
     self.string = str
@@ -70,7 +69,7 @@ function Text:SetString(str)
 end
 
 function Text:GetString()
-	--print("Text:GetString()", self.inst.TextWidget:GetString())
+    --print("Text:GetString()", self.inst.TextWidget:GetString())
     return self.inst.TextWidget:GetString() or ""
 end
 
@@ -83,7 +82,7 @@ function Text:SetHAlign(anchor)
 end
 
 function Text:EnableWordWrap(enable)
-	self.inst.TextWidget:EnableWordWrap(enable)
+    self.inst.TextWidget:EnableWordWrap(enable)
 end
 
 return Text

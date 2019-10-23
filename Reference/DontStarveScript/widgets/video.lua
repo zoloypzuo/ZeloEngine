@@ -2,19 +2,19 @@ local Widget = require "widgets/widget"
 
 Video = Class(Widget, function(self)
     Widget._ctor(self, "Video")
-    
-    self.inst.entity:AddVideoWidget()    
+
+    self.inst.entity:AddVideoWidget()
 end)
 
 function Video:__tostring()
-	return string.format("%s - %s:%s", self.name, self.atlas or "", self.texture or "")
+    return string.format("%s - %s:%s", self.name, self.atlas or "", self.texture or "")
 end
 
 function Video:SetSize(w, h)
     if type(w) == "number" then
-        self.inst.VideoWidget:SetSize(w,h)
+        self.inst.VideoWidget:SetSize(w, h)
     else
-        self.inst.VideoWidget:SetSize(w[1],w[2])
+        self.inst.VideoWidget:SetSize(w[1], w[2])
     end
 end
 
@@ -24,15 +24,15 @@ function Video:GetSize()
 end
 
 function Video:ScaleToSize(w, h)
-	local w0, h0 = self.inst.VideoWidget:GetSize()
-	local scalex = w / w0
-	local scaley = h / h0
-	self:SetScale(scalex, scaley, 1)
+    local w0, h0 = self.inst.VideoWidget:GetSize()
+    local scalex = w / w0
+    local scaley = h / h0
+    self:SetScale(scalex, scaley, 1)
 end
 
-function Video:SetTint(r,g,b,a)
-    self.inst.VideoWidget:SetTint(r,g,b,a)
-    self.tint = {r, g, b, a}
+function Video:SetTint(r, g, b, a)
+    self.inst.VideoWidget:SetTint(r, g, b, a)
+    self.tint = { r, g, b, a }
 end
 --[[
 function Video:SetAlphaRange(min, max)
@@ -58,28 +58,24 @@ function Video:SetHRegPoint(anchor)
     self.inst.VideoWidget:SetHAnchor(anchor)
 end
 
-
 function Video:Load(filename)
-	return self.inst.VideoWidget:Load(filename)
+    return self.inst.VideoWidget:Load(filename)
 end
 
 function Video:Play()
-	self.inst.VideoWidget:Play()
+    self.inst.VideoWidget:Play()
 end
 
 function Video:IsDone()
-	return self.inst.VideoWidget:IsDone()
+    return self.inst.VideoWidget:IsDone()
 end
 
 function Video:Pause()
-	self.inst.VideoWidget:Pause()
+    self.inst.VideoWidget:Pause()
 end
 
 function Video:Stop()
-	self.inst.VideoWidget:Stop()
+    self.inst.VideoWidget:Stop()
 end
-
-
-
 
 return Video

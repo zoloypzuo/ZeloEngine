@@ -16,7 +16,7 @@ end
 
 local function _onsaltlickplaced(inst, data)
     if not inst.components.timer:TimerExists("salt") and
-        inst:IsNear(data.inst, TUNING.SALTLICK_USE_DIST) then
+            inst:IsNear(data.inst, TUNING.SALTLICK_USE_DIST) then
         local self = inst.components.saltlicker
         inst.components.timer:StartTimer("salt", self.saltedduration)
         _StopSeeking(self)
@@ -46,8 +46,8 @@ local function _ontimerdone(inst, data)
     if data.name == "salt" then
         local self = inst.components.saltlicker
         if inst:IsInLimbo() or
-            (inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()) or
-            (inst.components.freezable ~= nil and inst.components.freezable:IsFrozen()) then
+                (inst.components.sleeper ~= nil and inst.components.sleeper:IsAsleep()) or
+                (inst.components.freezable ~= nil and inst.components.freezable:IsFrozen()) then
             self:SetSalted(false)
         elseif not _checkforsaltlick(inst, self, true) then
             _StartSeeking(self)
@@ -146,10 +146,10 @@ function SaltLicker:LoadPostPass()
 end
 
 function SaltLicker:GetDebugString()
-    return "salted: "..(self.salted and string.format("%2.2f", self.inst.components.timer:GetTimeLeft("salt")) or "--")
-        ..", seeking: "..(self._task ~= nil and string.format("%2.2f", self._task:NextTime() - GetTime()) or "--")
-        ..", duration: "..tostring(self.saltedduration)
-        ..", uses: "..tostring(self.uses_per_lick)
+    return "salted: " .. (self.salted and string.format("%2.2f", self.inst.components.timer:GetTimeLeft("salt")) or "--")
+            .. ", seeking: " .. (self._task ~= nil and string.format("%2.2f", self._task:NextTime() - GetTime()) or "--")
+            .. ", duration: " .. tostring(self.saltedduration)
+            .. ", uses: " .. tostring(self.uses_per_lick)
 end
 
 return SaltLicker

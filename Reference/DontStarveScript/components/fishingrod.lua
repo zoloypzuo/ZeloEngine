@@ -30,12 +30,12 @@ local function DoLoseRod(inst)
 end
 
 function FishingRod:GetDebugString()
-    local str = string.format("target: %s", tostring(self.target) )
+    local str = string.format("target: %s", tostring(self.target))
     if self.hookedfish then
-        str = str.." hooked: "..tostring(self.hookedfish)
+        str = str .. " hooked: " .. tostring(self.hookedfish)
     end
     if self.caughtfish then
-        str = str.." caught: "..tostring(self.caughtfish)
+        str = str .. " caught: " .. tostring(self.caughtfish)
     end
     return str
 end
@@ -52,13 +52,13 @@ end
 
 function FishingRod:CollectUseActions(doer, target, actions)
     if target.components.fishable and not self:HasCaughtFish() then
-		if not target.components.fishable:IsFrozenOver() then
-			if target == self.target then
-				table.insert(actions, ACTIONS.REEL)
-			else
-				table.insert(actions, ACTIONS.FISH)
-			end
-		end
+        if not target.components.fishable:IsFrozenOver() then
+            if target == self.target then
+                table.insert(actions, ACTIONS.REEL)
+            else
+                table.insert(actions, ACTIONS.FISH)
+            end
+        end
     end
 
     if target.components.flotsamfisher and not self:HasCaughtFish() then
@@ -72,13 +72,13 @@ end
 
 function FishingRod:CollectEquippedActions(doer, target, actions)
     if target.components.fishable and not self:HasCaughtFish() then
-		if not target.components.fishable:IsFrozenOver() then
-			if target == self.target then
-				table.insert(actions, ACTIONS.REEL)
-			else
-				table.insert(actions, ACTIONS.FISH)
-			end
-		end
+        if not target.components.fishable:IsFrozenOver() then
+            if target == self.target then
+                table.insert(actions, ACTIONS.REEL)
+            else
+                table.insert(actions, ACTIONS.FISH)
+            end
+        end
     end
 
     if target.components.flotsamfisher and not self:HasCaughtFish() then
@@ -93,14 +93,13 @@ end
 function FishingRod:OnUpdate(dt)
     if self:IsFishing() then
         if not self.fisherman:IsValid()
-           or (not self.fisherman.sg:HasStateTag("fishing") and not self.fisherman.sg:HasStateTag("catchfish") )
-           or not self.inst.components.equippable
-           or not self.inst.components.equippable.isequipped then
+                or (not self.fisherman.sg:HasStateTag("fishing") and not self.fisherman.sg:HasStateTag("catchfish"))
+                or not self.inst.components.equippable
+                or not self.inst.components.equippable.isequipped then
             self:StopFishing()
         end
     end
 end
-
 
 function FishingRod:IsFishing()
     return self.target ~= nil and self.fisherman ~= nil
@@ -136,7 +135,7 @@ function FishingRod:WaitForFish()
         local fishleft = self.target.components.fishable:GetFishPercent()
         local nibbletime = nil
         if fishleft > 0 then
-            nibbletime = self.minwaittime + (1.0 - fishleft)*(self.maxwaittime - self.minwaittime)
+            nibbletime = self.minwaittime + (1.0 - fishleft) * (self.maxwaittime - self.minwaittime)
         end
         self:CancelFishTask()
         if nibbletime then
@@ -170,7 +169,7 @@ function FishingRod:Hook()
         self.hookedfish = self.target.components.fishable:HookFish()
         if self.inst.components.finiteuses then
             local roddurability = self.inst.components.finiteuses:GetPercent()
-            local loserodtime = self.minstraintime + roddurability*(self.maxstraintime - self.minstraintime)
+            local loserodtime = self.minstraintime + roddurability * (self.maxstraintime - self.minstraintime)
             self.fishtask = self.inst:DoTaskInTime(loserodtime, DoLoseRod)
         end
         self.inst:PushEvent("fishingstrain")
@@ -191,21 +190,21 @@ function FishingRod:Reel()
         self.hookedfish = nil
         self:CancelFishTask()
         if self.caughtfish then
-            self.inst:PushEvent("fishingcatch", {build = self.caughtfish.build} )
-            self.fisherman:PushEvent("fishingcatch", {build = self.caughtfish.build} )
+            self.inst:PushEvent("fishingcatch", { build = self.caughtfish.build })
+            self.fisherman:PushEvent("fishingcatch", { build = self.caughtfish.build })
         end
     end
 end
 
 function FishingRod:Collect()
     if self.caughtfish and self.fisherman then
-        local spawnPos = Vector3(self.fisherman.Transform:GetWorldPosition() )
-        local offset = spawnPos - Vector3(self.target.Transform:GetWorldPosition() )
+        local spawnPos = Vector3(self.fisherman.Transform:GetWorldPosition())
+        local offset = spawnPos - Vector3(self.target.Transform:GetWorldPosition())
         offset = offset:GetNormalized()
         spawnPos = spawnPos + offset
-        self.caughtfish.Transform:SetPosition(spawnPos:Get() )
-        self.inst:PushEvent("fishingcollect", {fish = self.caughtfish} )
-        self.fisherman:PushEvent("fishingcollect", {fish = self.caughtfish} )
+        self.caughtfish.Transform:SetPosition(spawnPos:Get())
+        self.inst:PushEvent("fishingcollect", { fish = self.caughtfish })
+        self.fisherman:PushEvent("fishingcollect", { fish = self.caughtfish })
         self:StopFishing()
     end
 end
@@ -213,8 +212,8 @@ end
 function FishingRod:CollectFlotsam()
     if self.target and self.target.components.flotsamfisher and self.fisherman then
         self.target.components.flotsamfisher:Fish(self.fisherman)
-        self.inst:PushEvent("fishingcollect", {fish = nil} )
-        self.fisherman:PushEvent("fishingcollect", {fish = nil} )
+        self.inst:PushEvent("fishingcollect", { fish = nil })
+        self.fisherman:PushEvent("fishingcollect", { fish = nil })
         self:StopFishing()
     end
 end

@@ -1,17 +1,18 @@
-local assets = 
-{
-   Asset("ANIM", "anim/forcefield.zip")
+local assets = {
+    Asset("ANIM", "anim/forcefield.zip")
 }
 
 local function kill_fx(inst)
     inst.AnimState:PlayAnimation("close")
     inst.components.lighttweener:StartTween(nil, 0, .9, 0.9, nil, .2)
-    inst:DoTaskInTime(0.6, function() inst:Remove() end)    
+    inst:DoTaskInTime(0.6, function()
+        inst:Remove()
+    end)
 end
 
 local function fn(Sim)
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
     local anim = inst.entity:AddAnimState()
     local sound = inst.entity:AddSoundEmitter()
 
@@ -22,7 +23,7 @@ local function fn(Sim)
 
     inst:AddComponent("lighttweener")
     local light = inst.entity:AddLight()
-    inst.components.lighttweener:StartTween(light, 0, .9, 0.9, {1,1,1}, 0)
+    inst.components.lighttweener:StartTween(light, 0, .9, 0.9, { 1, 1, 1 }, 0)
     inst.components.lighttweener:StartTween(nil, 3, .9, 0.9, nil, .2)
 
     inst.kill_fx = kill_fx
@@ -32,4 +33,4 @@ local function fn(Sim)
     return inst
 end
 
-return Prefab( "common/forcefieldfx", fn, assets) 
+return Prefab("common/forcefieldfx", fn, assets)

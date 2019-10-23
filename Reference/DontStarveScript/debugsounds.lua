@@ -18,13 +18,13 @@ local loopingSounds = {}
 local soundCount = 0
 local listenerPos = nil
 
-local event_filter  = nil
+local event_filter = nil
 local prefab_filter = nil
 local entity_filter = nil
 
 local update_periodic = nil
- 
-TheSim:LoadPrefabs({"sounddebugicon"})
+
+TheSim:LoadPrefabs({ "sounddebugicon" })
 
 local function FilterSound(soundInfo)
 
@@ -33,11 +33,11 @@ local function FilterSound(soundInfo)
     if entity_filter then
         filter = entity_filter == soundInfo.guid
     elseif prefab_filter then
-        filter = string.match (soundInfo.prefab, prefab_filter)
+        filter = string.match(soundInfo.prefab, prefab_filter)
     end
 
     if event_filter then
-        filter = filter and string.match (soundInfo.event, event_filter)
+        filter = filter and string.match(soundInfo.event, event_filter)
     end
 
     if filter then
@@ -56,16 +56,17 @@ local function SortFilteredSounds()
         return
     end
 
-    table.sort(filtered_sounds, function(a,b) return a.count < b.count end )
+    table.sort(filtered_sounds, function(a, b)
+        return a.count < b.count
+    end)
 end
-
 
 local function OverrideSoundEmitter()
     SoundEmitter.PlaySound = function(emitter, event, name, volume, ...)
         local ent = emitter:GetEntity()
         if ent and ent.Transform and listenerPos then
-            local pos = Vector3(ent.Transform:GetWorldPosition() )
-            local dist = math.sqrt(distsq(pos, listenerPos) )
+            local pos = Vector3(ent.Transform:GetWorldPosition())
+            local dist = math.sqrt(distsq(pos, listenerPos))
             if dist < maxDistance or name then
                 local soundIcon = nil
                 if name and loopingSounds[ent] and loopingSounds[ent][name] then
@@ -74,9 +75,9 @@ local function OverrideSoundEmitter()
                     soundIcon = SpawnPrefab("sounddebugicon")
                 end
                 if soundIcon then
-                    soundIcon.Transform:SetPosition(pos:Get() )
+                    soundIcon.Transform:SetPosition(pos:Get())
                 end
-                local soundInfo = {event=event, owner=ent, guid=ent.GUID, prefab=ent.prefab or "", position=pos, dist=dist, volume=volume or 1, icon=soundIcon, timestamp = GetTime()}
+                local soundInfo = { event = event, owner = ent, guid = ent.GUID, prefab = ent.prefab or "", position = pos, dist = dist, volume = volume or 1, icon = soundIcon, timestamp = GetTime() }
                 if name then
                     --add to looping sounds list
                     soundInfo.params = {}
@@ -94,7 +95,7 @@ local function OverrideSoundEmitter()
                 else
                     --add to oneshot sound list
                     soundCount = soundCount + 1
-                    local index = (soundCount % maxRecentSounds)+1
+                    local index = (soundCount % maxRecentSounds) + 1
                     soundInfo.count = soundCount
                     nearbySounds[index] = soundInfo
 
@@ -103,12 +104,12 @@ local function OverrideSoundEmitter()
                     end
 
                     if soundIcon then
-                        soundIcon.Label:SetText(tostring(soundCount) )
+                        soundIcon.Label:SetText(tostring(soundCount))
                     end
                 end
             end
         end
-        
+
         playsound(emitter, event, name, volume, ...)
     end
 
@@ -126,7 +127,7 @@ local function OverrideSoundEmitter()
     SoundEmitter.KillAllSounds = function(emitter, ...)
         local sounds = loopingSounds[emitter:GetEntity()]
         if sounds then
-            for k,v in pairs(sounds) do
+            for k, v in pairs(sounds) do
                 if v.icon then
                     v.icon:Remove()
                 end
@@ -160,23 +161,23 @@ local function OverrideSoundEmitter()
 end
 
 local function DoUpdate()
-    for ent,sounds in pairs(loopingSounds) do
+    for ent, sounds in pairs(loopingSounds) do
         if not next(sounds) then
             loopingSounds[ent] = nil
         else
-            for name,info in pairs(sounds) do
+            for name, info in pairs(sounds) do
                 if not ent:IsValid() or not ent.SoundEmitter or not ent.SoundEmitter:PlayingSound(name) then
                     if info.icon then
                         info.icon:Remove()
                     end
                     sounds[name] = nil
                 else
-                    local pos = Vector3(ent.Transform:GetWorldPosition() )
-                    local dist = math.sqrt(distsq(pos, listenerPos) )
+                    local pos = Vector3(ent.Transform:GetWorldPosition())
+                    local dist = math.sqrt(distsq(pos, listenerPos))
                     info.dist = dist
                     info.pos = pos
                     if info.icon then
-                        info.icon.Transform:SetPosition(pos:Get() )
+                        info.icon.Transform:SetPosition(pos:Get())
                     end
                 end
             end
@@ -184,7 +185,7 @@ local function DoUpdate()
     end
 end
 
-function SetEntitySoundFilter ( new_filter )
+function SetEntitySoundFilter (new_filter)
     entity_filter = new_filter
     filtered_sounds = {}
 
@@ -195,7 +196,7 @@ function SetEntitySoundFilter ( new_filter )
     SortFilteredSounds()
 end
 
-function SetPrefabSoundFilter ( new_filter )
+function SetPrefabSoundFilter (new_filter)
     prefab_filter = new_filter
     filtered_sounds = {}
 
@@ -206,7 +207,7 @@ function SetPrefabSoundFilter ( new_filter )
     SortFilteredSounds()
 end
 
-function SetEventSoundFilter( new_filter )
+function SetEventSoundFilter(new_filter)
     event_filter = new_filter
     filtered_sounds = {}
 
@@ -225,15 +226,15 @@ function GetSoundDebugString()
     local lines = {}
     table.insert(lines, "-------SOUND DEBUG-------")
     table.insert(lines, "Looping Sounds")
-    for ent,sounds in pairs(loopingSounds) do
-        for name,info in pairs(sounds) do
+    for ent, sounds in pairs(loopingSounds) do
+        for name, info in pairs(sounds) do
             if info.dist < maxDistance then
                 local params = ""
-                for k,v in pairs(info.params) do
-                    params = params.." "..k.."="..v
+                for k, v in pairs(info.params) do
+                    params = params .. " " .. k .. "=" .. v
                 end
                 table.insert(lines, string.format("[%s] %s owner:%d %s pos:%s dist:%2.2f volume:%d params:{%s}",
-                        name, info.event, info.guid, info.prefab, tostring(info.pos), info.dist, info.volume, params) )
+                        name, info.event, info.guid, info.prefab, tostring(info.pos), info.dist, info.volume, params))
             end
         end
     end
@@ -244,24 +245,24 @@ function GetSoundDebugString()
         for i = 1, #filtered_sounds do
             local soundInfo = filtered_sounds[i]
             local str = string.format("[%d] %s owner:%d %s pos:%s dist:%2.2f volume:%d",
-                soundInfo.count, soundInfo.event, soundInfo.guid, soundInfo.prefab, tostring(soundInfo.pos), soundInfo.dist, soundInfo.volume)
+                    soundInfo.count, soundInfo.event, soundInfo.guid, soundInfo.prefab, tostring(soundInfo.pos), soundInfo.dist, soundInfo.volume)
 
-            table.insert(lines,  str)
+            table.insert(lines, str)
 
             selected_count = selected_count + 1
             if selected_count == maxRecentSounds then
                 break
             end
         end
-    else    
-        for i = soundCount-maxRecentSounds+1, soundCount do
-            local index = (i % maxRecentSounds)+1
+    else
+        for i = soundCount - maxRecentSounds + 1, soundCount do
+            local index = (i % maxRecentSounds) + 1
             if nearbySounds[index] then
                 local soundInfo = nearbySounds[index]
                 local str = string.format("[%d] %s owner:%d %s pos:%s dist:%2.2f volume:%d",
-                    soundInfo.count, soundInfo.event, soundInfo.guid, soundInfo.prefab, tostring(soundInfo.pos), soundInfo.dist, soundInfo.volume)
+                        soundInfo.count, soundInfo.event, soundInfo.guid, soundInfo.prefab, tostring(soundInfo.pos), soundInfo.dist, soundInfo.volume)
 
-                table.insert(lines,  str)
+                table.insert(lines, str)
             end
         end
     end
@@ -295,7 +296,7 @@ function ResetSoundDebug()
 
     soundCount = 0
     listenerPos = nil
-    event_filter  = nil
+    event_filter = nil
     prefab_filter = nil
     entity_filter = nil
 

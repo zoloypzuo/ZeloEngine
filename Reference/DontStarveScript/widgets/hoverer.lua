@@ -12,17 +12,17 @@ local HoverText = Class(Widget, function(self, owner)
     self:SetClickable(false)
     --self:MakeNonClickable()
     self.text = self:AddChild(Text(UIFONT, 30))
-    self.text:SetPosition(0,YOFFSETUP,0)
+    self.text:SetPosition(0, YOFFSETUP, 0)
     self.secondarytext = self:AddChild(Text(UIFONT, 30))
-    self.secondarytext:SetPosition(0,-YOFFSETDOWN,0)
+    self.secondarytext:SetPosition(0, -YOFFSETDOWN, 0)
     self:FollowMouseConstrained()
     self:StartUpdating()
 end)
 
 function HoverText:OnUpdate()
-        
-    local using_mouse = self.owner.components and self.owner.components.playercontroller:UsingMouse()        
-    
+
+    local using_mouse = self.owner.components and self.owner.components.playercontroller:UsingMouse()
+
     if using_mouse ~= self.shown then
         if using_mouse then
             self:Show()
@@ -30,36 +30,36 @@ function HoverText:OnUpdate()
             self:Hide()
         end
     end
-    
-    if not self.shown then 
-        return 
+
+    if not self.shown then
+        return
     end
-    
+
     local str = nil
-    if self.isFE == false then 
+    if self.isFE == false then
         str = self.owner.HUD.controls:GetTooltip() or self.owner.components.playercontroller:GetHoverTextOverride()
     else
         str = self.owner:GetTooltip()
     end
 
     local secondarystr = nil
- 
+
     if not str and self.isFE == false then
         local lmb = self.owner.components.playercontroller:GetLeftMouseAction()
         if lmb then
-            
+
             str = lmb:GetActionString()
-            
+
             if lmb.target and lmb.invobject == nil and lmb.target ~= lmb.doer then
                 local name = lmb.target:GetDisplayName() or (lmb.target.components.named and lb.target.components.named.name)
 
                 if name then
-                
+
                     -- fixes a crash where a table can sneak in here. If it does, we just use the first entry
                     if type(name) == "table" then
                         local newname = nil
-                        for code,text in pairs(name) do
-                            print(code,text)
+                        for code, text in pairs(name) do
+                            print(code, text)
                             newname = text
                             break
                         end
@@ -67,13 +67,13 @@ function HoverText:OnUpdate()
                     end
 
                     local adjective = lmb.target:GetAdjective()
-                    
+
                     if adjective then
-                        str = str.. " " .. adjective .. " " .. name
+                        str = str .. " " .. adjective .. " " .. name
                     else
-                        str = str.. " " .. name
+                        str = str .. " " .. name
                     end
-                    
+
                     if lmb.target.components.stackable and lmb.target.components.stackable.stacksize > 1 then
                         str = str .. " x" .. tostring(lmb.target.components.stackable.stacksize)
                     end
@@ -114,11 +114,11 @@ function HoverText:OnUpdate()
     end
 end
 
-function HoverText:UpdatePosition(x,y)
+function HoverText:UpdatePosition(x, y)
 
 
     local scale = self:GetScale()
-    
+
     local scr_w, scr_h = TheSim:GetScreenSize()
 
     local w = 0
@@ -135,21 +135,23 @@ function HoverText:UpdatePosition(x,y)
         h = math.max(h, h1)
     end
 
-    w = w*scale.x
-    h = h*scale.y
-    
-    x = math.max(x, w/2 + XOFFSET)
-    x = math.min(x, scr_w - w/2 - XOFFSET)
+    w = w * scale.x
+    h = h * scale.y
 
-    y = math.max(y, h/2 + YOFFSETDOWN*scale.y)
-    y = math.min(y, scr_h - h/2 - YOFFSETUP*scale.x)
+    x = math.max(x, w / 2 + XOFFSET)
+    x = math.min(x, scr_w - w / 2 - XOFFSET)
 
-    self:SetPosition(x,y,0)
+    y = math.max(y, h / 2 + YOFFSETDOWN * scale.y)
+    y = math.min(y, scr_h - h / 2 - YOFFSETUP * scale.x)
+
+    self:SetPosition(x, y, 0)
 end
 
 function HoverText:FollowMouseConstrained()
     if not self.followhandler then
-        self.followhandler = TheInput:AddMoveHandler(function(x,y) self:UpdatePosition(x,y) end)
+        self.followhandler = TheInput:AddMoveHandler(function(x, y)
+            self:UpdatePosition(x, y)
+        end)
         local pos = TheInput:GetScreenPosition()
         self:UpdatePosition(pos.x, pos.y)
     end

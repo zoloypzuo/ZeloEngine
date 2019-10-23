@@ -1,18 +1,17 @@
-local assets=
-{
-	Asset("ANIM", "anim/structure_collapse_fx.zip"),
+local assets = {
+    Asset("ANIM", "anim/structure_collapse_fx.zip"),
 }
 
 local function kill(inst)
-	inst:Remove()
+    inst:Remove()
 end
 
 local function fn_big(Sim)
-	local inst = CreateEntity()
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
-	
-	inst.entity:AddSoundEmitter()
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+
+    inst.entity:AddSoundEmitter()
     inst.AnimState:SetBank("collapse")
     inst.AnimState:SetBuild("structure_collapse_fx")
     inst:AddTag("NOCLICK")
@@ -24,10 +23,10 @@ local function fn_big(Sim)
 end
 
 local function fn_small(Sim)
-	local inst = CreateEntity()
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
-	inst.entity:AddSoundEmitter()
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
     inst.AnimState:SetBank("collapse")
     inst.AnimState:SetBuild("structure_collapse_fx")
     inst:AddTag("NOCLICK")
@@ -38,5 +37,5 @@ local function fn_small(Sim)
     return inst
 end
 
-return Prefab( "fx/collapse_big", fn_big, assets),
-		Prefab( "fx/collapse_small", fn_small, assets) 
+return Prefab("fx/collapse_big", fn_big, assets),
+Prefab("fx/collapse_small", fn_small, assets)

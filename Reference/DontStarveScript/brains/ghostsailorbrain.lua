@@ -23,9 +23,9 @@ local function KeepFaceTargetFn(inst, target)
 end
 
 local function HasValidHome(inst)
-    return inst.components.homeseeker and 
-       inst.components.homeseeker.home and 
-       inst.components.homeseeker.home:IsValid()
+    return inst.components.homeseeker and
+            inst.components.homeseeker.home and
+            inst.components.homeseeker.home:IsValid()
 end
 
 local function GetHomePos(inst)
@@ -37,14 +37,13 @@ local GhostSailorBrain = Class(Brain, function(self, inst)
 end)
 
 function GhostSailorBrain:OnStart()
-    local root = 
-    PriorityNode({
+    local root = PriorityNode({
         FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
         Leash(self.inst, GetHomePos, MAX_LEASH, RETURN_LEASH),
-        ParallelNodeAny{
+        ParallelNodeAny {
             WaitNode(10),
-            ChattyNode(self.inst, STRINGS.SHIPWRECK_IDLE, 
-                Wander(self.inst)),
+            ChattyNode(self.inst, STRINGS.SHIPWRECK_IDLE,
+                    Wander(self.inst)),
         }
     }, .25)
     self.bt = BT(self.inst, root)

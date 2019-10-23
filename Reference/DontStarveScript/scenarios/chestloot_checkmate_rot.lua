@@ -1,18 +1,17 @@
 chestfunctions = require("scenarios/chestfunctions")
 
-local loot =
-{
-	{
-		item = "spoiled_food",
-		count = math.random(80,300)
-	},
+local loot = {
+    {
+        item = "spoiled_food",
+        count = math.random(80, 300)
+    },
 }
 
 local function OnCreate(inst, scenariorunner)
-	chestfunctions.AddChestItems(inst, loot)
+    chestfunctions.AddChestItems(inst, loot)
 end
 
-return 
+return
 {
-	OnCreate = OnCreate
+    OnCreate = OnCreate
 }

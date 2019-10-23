@@ -1,6 +1,5 @@
 chestfunctions = require("scenarios/chestfunctions")
-loot =
-{
+loot = {
     {
         item = "log",
         count = 7

@@ -1,17 +1,16 @@
 require "prefabutil"
 
-local trace = function() end
+local trace = function()
+end
 
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/walrus_house.zip"),
     Asset("ANIM", "anim/igloo_track.zip"),
     Asset("SOUND", "sound/pig.fsb"), -- light on/off sounds
     Asset("MINIMAP_IMAGE", "igloo"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "walrus",
     "little_walrus",
     "icehound",
@@ -24,8 +23,8 @@ local function GetSpawnPoint(inst)
     local rad = 2
     local pos = inst:GetPosition()
     trace("GetSpawnPoint", inst, pos)
-    local angle = math.random()*2*PI
-    pos = pos + Point(rad*math.cos(angle), 0, -rad*math.sin(angle))
+    local angle = math.random() * 2 * PI
+    pos = pos + Point(rad * math.cos(angle), 0, -rad * math.sin(angle))
     trace("    ", pos)
     return pos:Get()
 end
@@ -68,9 +67,9 @@ local function SetOccupied(inst, occupied)
 
         UpdateLight(inst, not GetClock():IsDay())
 
-        anim:SetOrientation( ANIM_ORIENTATION.Default )
-        anim:SetLayer( LAYER_WORLD )
-        anim:SetSortOrder( 0 )
+        anim:SetOrientation(ANIM_ORIENTATION.Default)
+        anim:SetLayer(LAYER_WORLD)
+        anim:SetSortOrder(0)
 
         MakeObstaclePhysics(inst, 3)
     else
@@ -79,9 +78,9 @@ local function SetOccupied(inst, occupied)
         anim:SetBank("igloo_track")
         anim:SetBuild("igloo_track")
         anim:PlayAnimation("idle")
-        anim:SetOrientation( ANIM_ORIENTATION.OnGround )
-        anim:SetLayer( LAYER_BACKGROUND )
-        anim:SetSortOrder( 3 )
+        anim:SetOrientation(ANIM_ORIENTATION.OnGround)
+        anim:SetLayer(LAYER_BACKGROUND)
+        anim:SetSortOrder(3)
 
         inst.Physics:ClearCollisionMask()
         inst.Physics:CollidesWith(COLLISION.WORLD)
@@ -91,14 +90,14 @@ end
 local function UpdateCampOccupied(inst)
     trace("UpdateCampOccupied", inst, inst:GetPosition())
     if inst.data.occupied and GetSeasonManager() and GetSeasonManager():IsSummer() then
-        for k,v in pairs(inst.data.children) do
+        for k, v in pairs(inst.data.children) do
             if k:IsValid() and not k:IsAsleep() then
                 -- don't go away while there are children alive in the world
                 trace("    Child still awake", k)
                 return
             end
         end
-        for k,v in pairs(inst.data.children) do
+        for k, v in pairs(inst.data.children) do
             trace("    Removing sleeping child", k)
             k:Remove()
         end
@@ -108,7 +107,6 @@ local function UpdateCampOccupied(inst)
         SetOccupied(inst, true)
     end
 end
-
 
 local function RemoveMember(inst, member)
     trace("RemoveMember", inst, member)
@@ -138,8 +136,12 @@ local OnMemberNewTarget -- forward declaration
 local function TrackMember(inst, member)
     trace("TrackMember", inst, member)
     inst.data.children[member] = true
-    inst:ListenForEvent( "death", function(...) OnMemberKilled(inst, ...) end, member )
-    inst:ListenForEvent( "newcombattarget", function(...) OnMemberNewTarget(inst, ...) end, member)
+    inst:ListenForEvent("death", function(...)
+        OnMemberKilled(inst, ...)
+    end, member)
+    inst:ListenForEvent("newcombattarget", function(...)
+        OnMemberNewTarget(inst, ...)
+    end, member)
 
     if not member.components.homeseeker then
         member:AddComponent("homeseeker")
@@ -156,9 +158,8 @@ local function SpawnMember(inst, prefab)
     return member
 end
 
-
 local function GetMember(inst, prefab)
-    for k,v in pairs(inst.data.children) do
+    for k, v in pairs(inst.data.children) do
         if k.prefab == prefab then
             return k
         end
@@ -167,7 +168,7 @@ end
 
 local function GetMembers(inst, prefab)
     local members = {}
-    for k,v in pairs(inst.data.children) do
+    for k, v in pairs(inst.data.children) do
         if k.prefab == prefab then
             table.insert(members, k)
         end
@@ -195,7 +196,6 @@ local function OnWentHome(inst, data)
     UpdateLight(inst, inst.data.occupied)
 end
 
-
 local function SpawnHuntingParty(inst, target, houndsonly)
     trace("SpawnHuntingParty", inst, target, houndsonly)
     local leader = GetMember(inst, "walrus")
@@ -211,13 +211,13 @@ local function SpawnHuntingParty(inst, target, houndsonly)
         companion.Transform:SetPosition(GetSpawnPoint(inst))
         trace("spawn", companion)
     end
-  
+
     if companion and leader then
         companion.components.follower:SetLeader(leader)
     end
 
     local existing_hounds = GetMembers(inst, "icehound")
-    for i = 1,NUM_HOUNDS do
+    for i = 1, NUM_HOUNDS do
         trace("hound", i)
 
         local hound = existing_hounds[i]
@@ -250,7 +250,6 @@ local function SpawnHuntingParty(inst, target, houndsonly)
     end
 end
 
-
 local function CheckSpawnHuntingParty(inst, target, houndsonly)
     trace("CheckSpawnHuntingParty", inst, target)
     if inst.data.occupied and GetSeasonManager():IsWinter() then
@@ -260,7 +259,7 @@ local function CheckSpawnHuntingParty(inst, target, houndsonly)
 end
 
 -- assign value to forward declared local above
-OnMemberNewTarget = function (inst, member, data)
+OnMemberNewTarget = function(inst, member, data)
     trace("OnMemberNewTarget", inst, member, data)
     if member:IsNear(inst, AGGRO_SPAWN_PARTY_RADIUS) then
         CheckSpawnHuntingParty(inst, data.target, false)
@@ -270,9 +269,9 @@ end
 local function OnEntitySleep(inst)
     trace("OnEntitySleep", inst)
     if not POPULATING then
-	    UpdateCampOccupied(inst)
-    	CheckSpawnHuntingParty(inst, nil, not GetClock():IsDay())
-	end
+        UpdateCampOccupied(inst)
+        CheckSpawnHuntingParty(inst, nil, not GetClock():IsDay())
+    end
 end
 
 local function OnEntityWake(inst)
@@ -298,7 +297,7 @@ local function OnSave(inst, data)
 
     data.children = {}
 
-    for k,v in pairs(inst.data.children) do
+    for k, v in pairs(inst.data.children) do
         trace("    ", k.prefab, k.GUID)
         table.insert(data.children, k.GUID)
     end
@@ -313,7 +312,7 @@ local function OnSave(inst, data)
     if inst.data.regentime then
         local time = GetTime()
         data.regentimeremaining = {}
-        for k,v in pairs(inst.data.regentime) do
+        for k, v in pairs(inst.data.regentime) do
             local remaining = v - time
             if remaining > 0 then
                 data.regentimeremaining[k] = remaining
@@ -325,12 +324,12 @@ local function OnSave(inst, data)
     return data.children
 
 end
-        
+
 local function OnLoad(inst, data)
 
     trace("OnLoad", inst, GetTime())
     if data then
-    -- children loaded by OnLoadPostPass
+        -- children loaded by OnLoadPostPass
 
         trace("    occupied", data.occupied)
         if data.occupied ~= nil then
@@ -340,7 +339,7 @@ local function OnLoad(inst, data)
         inst.data.regentime = {}
         if data.regentimeremaining then
             local time = GetTime()
-            for k,v in pairs(data.regentimeremaining) do
+            for k, v in pairs(data.regentimeremaining) do
                 inst.data.regentime[k] = time + v
                 trace("    ", k, time + v)
             end
@@ -349,10 +348,10 @@ local function OnLoad(inst, data)
 end
 
 local function OnLoadPostPass(inst, newents, data)
---    print("OnLoadPostPass", inst, newents, data and data.children and #data.children)
+    --    print("OnLoadPostPass", inst, newents, data and data.children and #data.children)
 
     if data and data.children and #data.children > 0 then
-        for k,v in pairs(data.children) do
+        for k, v in pairs(data.children) do
             local child = newents[v]
             if child then
                 print("Child Name: ", child.entity.prefab)
@@ -365,37 +364,38 @@ local function OnLoadPostPass(inst, newents, data)
     end
 end
 
-
 local function create(Sim)
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
 
     anim:SetBank("walrus_house")
     anim:SetBuild("walrus_house")
 
-	local minimap = inst.entity:AddMiniMapEntity()
-	minimap:SetIcon( "igloo.png" )
-	
+    local minimap = inst.entity:AddMiniMapEntity()
+    minimap:SetIcon("igloo.png")
+
     inst.data = { children = {} }
 
-	inst.entity:AddSoundEmitter()
+    inst.entity:AddSoundEmitter()
 
-	--inst:AddTag("tent")    
-    
+    --inst:AddTag("tent")
+
     MakeObstaclePhysics(inst, 3)
 
     inst:AddComponent("inspectable")
     inst.components.inspectable.getstatus = GetStatus
 
-    inst:ListenForEvent("daytime", function() OnDay(inst) end, GetWorld())
+    inst:ListenForEvent("daytime", function()
+        OnDay(inst)
+    end, GetWorld())
     inst:ListenForEvent("onwenthome", OnWentHome)
 
     local light = inst.entity:AddLight()
     light:SetFalloff(1)
     light:SetIntensity(.5)
     light:SetRadius(2)
-    light:SetColour(180/255, 195/255, 50/255)
+    light:SetColour(180 / 255, 195 / 255, 50 / 255)
 
     inst.data.lighton = not GetClock():IsDay()
     light:Enable(inst.data.lighton)
@@ -407,11 +407,13 @@ local function create(Sim)
     inst.OnEntitySleep = OnEntitySleep
     inst.OnEntityWake = OnEntityWake
 
-	SetOccupied(inst, GetSeasonManager() and GetSeasonManager():IsWinter() or false)
+    SetOccupied(inst, GetSeasonManager() and GetSeasonManager():IsWinter() or false)
 
-    inst:ListenForEvent("seasonChange", function() OnSeasonChange(inst) end, GetWorld())
+    inst:ListenForEvent("seasonChange", function()
+        OnSeasonChange(inst)
+    end, GetWorld())
 
     return inst
 end
 
-return Prefab( "common/objects/walrus_camp", create, assets, prefabs) 
+return Prefab("common/objects/walrus_camp", create, assets, prefabs)

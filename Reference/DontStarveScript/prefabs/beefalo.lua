@@ -1,8 +1,7 @@
 require "brains/beefalobrain"
 require "stategraphs/SGBeefalo"
 
-local assets=
-{
+local assets = {
     Asset("ANIM", "anim/beefalo_basic.zip"),
     Asset("ANIM", "anim/beefalo_actions.zip"),
     Asset("ANIM", "anim/beefalo_actions_domestic.zip"),
@@ -21,28 +20,26 @@ local assets=
     Asset("SOUND", "sound/beefalo.fsb"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "meat",
     "poop",
     "beefalowool",
     "horn",
 }
 
-SetSharedLootTable( 'beefalo',
-{
-    {'meat',            1.00},
-    {'meat',            1.00},
-    {'meat',            1.00},
-    {'meat',            1.00},
-    {'beefalowool',     1.00},
-    {'beefalowool',     1.00},
-    {'beefalowool',     1.00},
-    {'horn',            0.33},
-})
+SetSharedLootTable('beefalo',
+        {
+            { 'meat', 1.00 },
+            { 'meat', 1.00 },
+            { 'meat', 1.00 },
+            { 'meat', 1.00 },
+            { 'beefalowool', 1.00 },
+            { 'beefalowool', 1.00 },
+            { 'beefalowool', 1.00 },
+            { 'horn', 0.33 },
+        })
 
-local sounds = 
-{
+local sounds = {
     walk = "dontstarve/beefalo/walk",
     grunt = "dontstarve/beefalo/grunt",
     yell = "dontstarve/beefalo/yell",
@@ -50,27 +47,22 @@ local sounds =
     curious = "dontstarve/beefalo/curious",
     angry = "dontstarve/beefalo/angry",
 
-    sleep = "dontstarve/beefalo/sleep",    
+    sleep = "dontstarve/beefalo/sleep",
 }
 
-local tendencies =
-{
-    DEFAULT =
-    {
+local tendencies = {
+    DEFAULT = {
     },
 
-    ORNERY =
-    {
+    ORNERY = {
         build = "beefalo_personality_ornery",
     },
 
-    RIDER =
-    {
+    RIDER = {
         build = "beefalo_personality_docile",
     },
 
-    PUDGY =
-    {
+    PUDGY = {
         build = "beefalo_personality_pudgy",
         customactivatefn = function(inst)
             inst:AddComponent("sanityaura")
@@ -96,7 +88,7 @@ local function ApplyBuildOverrides(inst, animstate)
     end
 
     if (herd and herd.components.mood and herd.components.mood:IsInMood())
-        or (inst.components.mood and inst.components.mood:IsInMood()) then
+            or (inst.components.mood and inst.components.mood:IsInMood()) then
         animstate:Show("HEAT")
     else
         animstate:Hide("HEAT")
@@ -136,28 +128,28 @@ end
 
 local function Retarget(inst)
     if inst.components.herdmember
-       and inst.components.herdmember:GetHerd()
-       and inst.components.herdmember:GetHerd().components.mood
-       and inst.components.herdmember:GetHerd().components.mood:IsInMood() then
+            and inst.components.herdmember:GetHerd()
+            and inst.components.herdmember:GetHerd().components.mood
+            and inst.components.herdmember:GetHerd().components.mood:IsInMood() then
         return FindEntity(inst, TUNING.BEEFALO_TARGET_DIST, function(guy)
-            return not guy:HasTag("beefalo") and 
-                    inst.components.combat:CanTarget(guy) and 
+            return not guy:HasTag("beefalo") and
+                    inst.components.combat:CanTarget(guy) and
                     not guy:HasTag("wall")
                     and (guy.components.rider == nil
-                            or guy.components.rider:GetMount() == nil
-                            or not guy.components.rider:GetMount():HasTag("beefalo"))
+                    or guy.components.rider:GetMount() == nil
+                    or not guy.components.rider:GetMount():HasTag("beefalo"))
         end)
     end
 end
 
 local function KeepTarget(inst, target)
     if inst.components.herdmember
-       and inst.components.herdmember:GetHerd()
-       and inst.components.herdmember:GetHerd().components.mood
-       and inst.components.herdmember:GetHerd().components.mood:IsInMood() then
+            and inst.components.herdmember:GetHerd()
+            and inst.components.herdmember:GetHerd().components.mood
+            and inst.components.herdmember:GetHerd().components.mood:IsInMood() then
         local herd = inst.components.herdmember and inst.components.herdmember:GetHerd()
         if herd and herd.components.mood and herd.components.mood:IsInMood() then
-            return distsq(Vector3(herd.Transform:GetWorldPosition() ), Vector3(inst.Transform:GetWorldPosition() ) ) < TUNING.BEEFALO_CHASE_DIST*TUNING.BEEFALO_CHASE_DIST
+            return distsq(Vector3(herd.Transform:GetWorldPosition()), Vector3(inst.Transform:GetWorldPosition())) < TUNING.BEEFALO_CHASE_DIST * TUNING.BEEFALO_CHASE_DIST
         end
     end
     return true
@@ -171,8 +163,8 @@ end
 
 local function CanShareTarget(dude)
     return dude:HasTag("beefalo")
-        and not dude:IsInLimbo()
-        and not (dude.components.health:IsDead() or dude:HasTag("player"))
+            and not dude:IsInLimbo()
+            and not (dude.components.health:IsDead() or dude:HasTag("player"))
 end
 
 local function OnAttacked(inst, data)
@@ -199,11 +191,11 @@ end
 
 local function GetStatus(inst)
     return (inst.components.follower.leader ~= nil and "FOLLOWER")
-        or (inst.components.beard ~= nil and inst.components.beard.bits == 0 and "NAKED")
-        or (inst.components.domesticatable ~= nil and
+            or (inst.components.beard ~= nil and inst.components.beard.bits == 0 and "NAKED")
+            or (inst.components.domesticatable ~= nil and
             inst.components.domesticatable:IsDomesticated() and
             (inst.tendency == TENDENCY.DEFAULT and "DOMESTICATED" or inst.tendency))
-        or nil
+            or nil
 end
 
 --[[
@@ -221,7 +213,6 @@ local function OnResetBeard(inst)
     inst.components.brushable:SetBrushable(false)
     inst.components.domesticatable:DeltaObedience(TUNING.BEEFALO_DOMESTICATION_SHAVED_OBEDIENCE)
 end
-
 
 local function CanShaveTest(inst)
     if inst.components.sleeper:IsAsleep() then
@@ -253,11 +244,11 @@ end
 
 local function ShouldAcceptItem(inst, item)
     return inst.components.eater:CanEat(item)
-        and not inst.components.combat.target
+            and not inst.components.combat.target
 end
 
 local function OnGetItemFromPlayer(inst, giver, item)
-    print(item.prefab,inst.components.eater:CanEat(item))
+    print(item.prefab, inst.components.eater:CanEat(item))
     if inst.components.eater:CanEat(item) then
         inst.components.eater:Eat(item, giver)
     end
@@ -330,7 +321,7 @@ local function SetTendency(inst, changedomestication)
             tendencies[inst.tendency].customactivatefn(inst)
         end
     elseif changedomestication == "feral"
-        and tendencies[oldtendency].customdeactivatefn ~= nil then
+            and tendencies[oldtendency].customdeactivatefn ~= nil then
         tendencies[oldtendency].customdeactivatefn(inst)
     end
 
@@ -356,43 +347,39 @@ end
 
 local function ShouldBeg(inst)
     local herd = inst.components.herdmember and inst.components.herdmember:GetHerd()
---[[
-    print("=---")
-    print(inst.components.domesticatable:GetDomestication())
-    print(inst.components.hunger:GetPercent())
-    print(herd.components.mood:IsInMood())
-    print(inst.components.mood:IsInMood())
-    ]]
+    --[[
+        print("=---")
+        print(inst.components.domesticatable:GetDomestication())
+        print(inst.components.hunger:GetPercent())
+        print(herd.components.mood:IsInMood())
+        print(inst.components.mood:IsInMood())
+        ]]
 
     return inst.components.domesticatable ~= nil
-        and inst.components.domesticatable:GetDomestication() > 0.0
-        and inst.components.hunger ~= nil
-        and inst.components.hunger:GetPercent() < TUNING.BEEFALO_BEG_HUNGER_PERCENT
-        and (herd and herd.components.mood ~= nil and herd.components.mood:IsInMood() == false)
-        and (inst.components.mood ~= nil and inst.components.mood:IsInMood() == false)
+            and inst.components.domesticatable:GetDomestication() > 0.0
+            and inst.components.hunger ~= nil
+            and inst.components.hunger:GetPercent() < TUNING.BEEFALO_BEG_HUNGER_PERCENT
+            and (herd and herd.components.mood ~= nil and herd.components.mood:IsInMood() == false)
+            and (inst.components.mood ~= nil and inst.components.mood:IsInMood() == false)
 end
 
 local function CalculateBuckDelay(inst)
-    local domestication =
-        inst.components.domesticatable ~= nil
-        and inst.components.domesticatable:GetDomestication()
-        or 0
+    local domestication = inst.components.domesticatable ~= nil
+            and inst.components.domesticatable:GetDomestication()
+            or 0
 
-    local moodmult =
-        (   (inst.components.herdmember ~= nil and inst.components.herdmember.herd ~= nil and inst.components.herdmember.herd.components.mood ~= nil and inst.components.herdmember.herd.components.mood:IsInMood()) or
-            (inst.components.mood ~= nil and inst.components.mood:IsInMood())   )
-        and TUNING.BEEFALO_BUCK_TIME_MOOD_MULT
-        or 1
+    local moodmult = ((inst.components.herdmember ~= nil and inst.components.herdmember.herd ~= nil and inst.components.herdmember.herd.components.mood ~= nil and inst.components.herdmember.herd.components.mood:IsInMood()) or
+            (inst.components.mood ~= nil and inst.components.mood:IsInMood()))
+            and TUNING.BEEFALO_BUCK_TIME_MOOD_MULT
+            or 1
 
-    local beardmult =
-        (inst.components.beard ~= nil and inst.components.beard.bits == 0)
-        and TUNING.BEEFALO_BUCK_TIME_NUDE_MULT
-        or 1
+    local beardmult = (inst.components.beard ~= nil and inst.components.beard.bits == 0)
+            and TUNING.BEEFALO_BUCK_TIME_NUDE_MULT
+            or 1
 
-    local domesticmult =
-        inst.components.domesticatable:IsDomesticated()
-        and 1
-        or TUNING.BEEFALO_BUCK_TIME_UNDOMESTICATED_MULT
+    local domesticmult = inst.components.domesticatable:IsDomesticated()
+            and 1
+            or TUNING.BEEFALO_BUCK_TIME_UNDOMESTICATED_MULT
 
     local basedelay = Remap(domestication, 0, 1, TUNING.BEEFALO_MIN_BUCK_TIME, TUNING.BEEFALO_MAX_BUCK_TIME)
 
@@ -425,7 +412,7 @@ end
 
 local function DomesticationTriggerFn(inst)
     return inst.components.hunger:GetPercent() > 0
-        or inst.components.rideable:IsBeingRidden() == true
+            or inst.components.rideable:IsBeingRidden() == true
 end
 
 local function OnStarving(inst, dt)
@@ -467,8 +454,8 @@ end
 
 local function OnHealthDelta(inst, data)
     if data.oldpercent >= 0.2 and
-        data.newpercent < 0.2 and
-        inst.components.rideable.rider ~= nil then
+            data.newpercent < 0.2 and
+            inst.components.rideable.rider ~= nil then
         inst.components.rideable.rider:PushEvent("mountwounded")
     end
 end
@@ -578,39 +565,42 @@ local function GetDebugString(inst)
     return string.format("tendency %s nextbuck %.2f", inst.tendency, GetTaskRemaining(inst._bucktask))
 end
 
-
 local function fn(Sim)
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
-	local sound = inst.entity:AddSoundEmitter()
-	inst.sounds = sounds
-	local shadow = inst.entity:AddDynamicShadow()
-	shadow:SetSize( 6, 2 )
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
+    local sound = inst.entity:AddSoundEmitter()
+    inst.sounds = sounds
+    local shadow = inst.entity:AddDynamicShadow()
+    shadow:SetSize(6, 2)
     inst.Transform:SetSixFaced()
     MakeCharacterPhysics(inst, 100, .5)
-    
+
     inst:AddTag("beefalo")
     anim:SetBank("beefalo")
     anim:SetBuild("beefalo_build")
     anim:PlayAnimation("idle_loop", true)
-    
+
     inst:AddTag("animal")
     inst:AddTag("largecreature")
-
 
     local hair_growth_days = 3
 
     inst:AddComponent("beard")
     -- assume the beefalo has already grown its hair
     inst.components.beard.bits = 3
-    inst.components.beard.daysgrowth = hair_growth_days + 1 
+    inst.components.beard.daysgrowth = hair_growth_days + 1
     inst.components.beard.onreset = function()
         inst.sg:GoToState("shaved")
     end
-    
-    inst.components.beard.canshavetest = function() if not inst.components.sleeper:IsAsleep() then return false, "AWAKEBEEFALO" end return true end
-    
+
+    inst.components.beard.canshavetest = function()
+        if not inst.components.sleeper:IsAsleep() then
+            return false, "AWAKEBEEFALO"
+        end
+        return true
+    end
+
     inst.components.beard.prize = "beefalowool"
     inst.components.beard:AddCallback(0, function()
         if inst.components.beard.bits == 0 then
@@ -622,32 +612,30 @@ local function fn(Sim)
             inst.hairGrowthPending = true
         end
     end)
-    
+
     inst:AddComponent("eater")
-    inst.components.eater.foodprefs = { "VEGGIE","ROUGHAGE" }
-    inst.components.eater.ablefoods = { "VEGGIE","ROUGHAGE" }
+    inst.components.eater.foodprefs = { "VEGGIE", "ROUGHAGE" }
+    inst.components.eater.ablefoods = { "VEGGIE", "ROUGHAGE" }
     --inst.components.eater:SetAbsorptionModifiers(4,1,1)
     inst.components.eater:SetOnEatFn(OnEat)
-    
+
     inst:AddComponent("combat")
     inst.components.combat.hiteffectsymbol = "beefalo_body"
     inst.components.combat:SetDefaultDamage(TUNING.BEEFALO_DAMAGE.DEFAULT)
     inst.components.combat:SetRetargetFunction(1, Retarget)
     inst.components.combat:SetKeepTargetFunction(KeepTarget)
-     
+
     inst:AddComponent("health")
     inst.components.health:SetMaxHealth(TUNING.BEEFALO_HEALTH)
 
     inst:AddComponent("lootdropper")
-    inst.components.lootdropper:SetChanceLootTable('beefalo')    
-    
+    inst.components.lootdropper:SetChanceLootTable('beefalo')
+
     inst:AddComponent("inspectable")
     inst.components.inspectable.getstatus = GetStatus
-    
+
     inst:AddComponent("knownlocations")
     inst:AddComponent("herdmember")
-
-
 
     inst:AddComponent("leader")
     inst:AddComponent("follower")
@@ -665,14 +653,13 @@ local function fn(Sim)
 
     MakeLargeBurnableCharacter(inst, "swap_fire")
     MakeLargeFreezableCharacter(inst, "beefalo_body")
-    
+
     inst:AddComponent("locomotor") -- locomotor must be constructed before the stategraph
     inst.components.locomotor.walkspeed = 1.5
     inst.components.locomotor.runspeed = 7
-    
+
     inst:AddComponent("sleeper")
     inst.components.sleeper:SetResistance(3)
-
 
     inst:AddComponent("brushable")
     inst.components.brushable.regrowthdays = 1
@@ -701,17 +688,17 @@ local function fn(Sim)
     inst.components.domesticatable:SetDomesticationTrigger(DomesticationTriggerFn)
 
     inst:ListenForEvent("death", OnDeath) -- need to handle this due to being mountable
-    
+
     inst:AddComponent("timer")
     inst:AddComponent("saltlicker")
     inst.components.saltlicker:SetUp(TUNING.SALTLICK_BEEFALO_USES)
     inst:ListenForEvent("saltchange", ToggleDomesticationDecay)
     inst:ListenForEvent("gotosleep", ToggleDomesticationDecay)
-    inst:ListenForEvent("onwakeup", ToggleDomesticationDecay)    
+    inst:ListenForEvent("onwakeup", ToggleDomesticationDecay)
 
     inst.ApplyBuildOverrides = ApplyBuildOverrides
     inst.ClearBuildOverrides = ClearBuildOverrides
-    
+
     inst.tendency = TENDENCY.DEFAULT
     inst._bucktask = nil
 
@@ -720,7 +707,7 @@ local function fn(Sim)
     inst.components.mood:SetInMoodFn(OnEnterMood)
     inst.components.mood:SetLeaveMoodFn(OnLeaveMood)
     inst.components.mood:CheckForMoodChange()
-    inst.components.mood:Enable(false)    
+    inst.components.mood:Enable(false)
 
     inst:ListenForEvent("entermood", OnEnterMood)
     inst:ListenForEvent("leavemood", OnLeaveMood)
@@ -735,7 +722,7 @@ local function fn(Sim)
     inst:ListenForEvent("riderchanged", OnRiderChanged)
     inst:ListenForEvent("riderdoattackother", OnRiderDoAttack)
     inst:ListenForEvent("hungerdelta", OnHungerDelta)
-    inst:ListenForEvent("ridersleep", OnRiderSleep)   
+    inst:ListenForEvent("ridersleep", OnRiderSleep)
 
     inst.SetTendency = SetTendency
     inst:SetTendency()
@@ -750,8 +737,8 @@ local function fn(Sim)
 
     inst.debugstringfn = GetDebugString
     inst.OnSave = OnSave
-    inst.OnLoad = OnLoad     
+    inst.OnLoad = OnLoad
     return inst
 end
 
-return Prefab( "forest/animals/beefalo", fn, assets, prefabs) 
+return Prefab("forest/animals/beefalo", fn, assets, prefabs)

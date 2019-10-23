@@ -4,10 +4,9 @@ require "behaviours/faceentity"
 require "behaviours/follow"
 require "behaviours/standstill"
 
-
 local MIN_FOLLOW_DIST = 2
 local MAX_FOLLOW_DIST = 9
-local TARGET_FOLLOW_DIST = (MAX_FOLLOW_DIST+MIN_FOLLOW_DIST)/2
+local TARGET_FOLLOW_DIST = (MAX_FOLLOW_DIST + MIN_FOLLOW_DIST) / 2
 
 local MAX_CHASE_TIME = 10
 
@@ -31,11 +30,13 @@ local function IsStarving(inst)
 end
 
 local function ShouldStandStill(inst)
-    return inst.components.hunger and inst.components.hunger:IsStarving() and not inst:HasTag("teenbird") 
+    return inst.components.hunger and inst.components.hunger:IsStarving() and not inst:HasTag("teenbird")
 end
 
 local function CanSeeFood(inst)
-    local target = FindEntity(inst, SEE_FOOD_DIST, function(item) return inst.components.eater:CanEat(item) end)
+    local target = FindEntity(inst, SEE_FOOD_DIST, function(item)
+        return inst.components.eater:CanEat(item)
+    end)
     if target then
         --print("CanSeeFood", inst.name, target.name)
     end
@@ -66,45 +67,66 @@ local SmallBirdBrain = Class(Brain, function(self, inst)
 end)
 
 function SmallBirdBrain:OnStart()
-    local root = 
-    PriorityNode({
+    local root = PriorityNode({
         FaceEntity(self.inst, GetTraderFn, KeepTraderFn),
         -- when starving prefer finding food over fighting
-        SequenceNode{
-            ConditionNode(function() return IsStarving(self.inst) and CanSeeFood(self.inst) end, "SeesFoodToEat"),
+        SequenceNode {
+            ConditionNode(function()
+                return IsStarving(self.inst) and CanSeeFood(self.inst)
+            end, "SeesFoodToEat"),
             ParallelNodeAny {
-                WaitNode(math.random()*.5),
+                WaitNode(math.random() * .5),
                 PriorityNode {
                     StandStill(self.inst, ShouldStandStill),
-                    Follow(self.inst, function() return self.inst.components.follower.leader end, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST),
+                    Follow(self.inst, function()
+                        return self.inst.components.follower.leader
+                    end, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST),
                 },
             },
-            DoAction(self.inst, function() return FindFoodAction(self.inst) end),
+            DoAction(self.inst, function()
+                return FindFoodAction(self.inst)
+            end),
         },
-        SequenceNode{
-            ConditionNode(function() return self.inst.components.combat.target ~= nil end, "HasTarget"),
-            WaitNode(math.random()*.9),
+        SequenceNode {
+            ConditionNode(function()
+                return self.inst.components.combat.target ~= nil
+            end, "HasTarget"),
+            WaitNode(math.random() * .9),
             ChaseAndAttack(self.inst, MAX_CHASE_TIME),
         },
-        RunAway(self.inst, "player", START_RUN_DIST, STOP_RUN_DIST, function(target) return ShouldRunAwayFromPlayer(self.inst, target) end ),
-        SequenceNode{
-            ConditionNode(function() return IsHungry(self.inst) and CanSeeFood(self.inst) end, "SeesFoodToEat"),
+        RunAway(self.inst, "player", START_RUN_DIST, STOP_RUN_DIST, function(target)
+            return ShouldRunAwayFromPlayer(self.inst, target)
+        end),
+        SequenceNode {
+            ConditionNode(function()
+                return IsHungry(self.inst) and CanSeeFood(self.inst)
+            end, "SeesFoodToEat"),
             ParallelNodeAny {
-                WaitNode(1 + math.random()*2),
+                WaitNode(1 + math.random() * 2),
                 PriorityNode {
                     StandStill(self.inst, ShouldStandStill),
-                    Follow(self.inst, function() return self.inst.components.follower.leader end, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST),
+                    Follow(self.inst, function()
+                        return self.inst.components.follower.leader
+                    end, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST),
                 },
             },
-            DoAction(self.inst, function() return FindFoodAction(self.inst) end),
+            DoAction(self.inst, function()
+                return FindFoodAction(self.inst)
+            end),
         },
         PriorityNode {
             StandStill(self.inst, ShouldStandStill),
-            Follow(self.inst, function() return self.inst.components.follower.leader end, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST),
+            Follow(self.inst, function()
+                return self.inst.components.follower.leader
+            end, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST),
         },
-        Wander(self.inst, function() if self.inst.components.follower.leader then return Vector3(self.inst.components.follower.leader.Transform:GetWorldPosition()) end end, MAX_FOLLOW_DIST- 1, {minwalktime=.5, randwalktime=.5, minwaittime=6, randwaittime=3}),
-    },.25)
+        Wander(self.inst, function()
+            if self.inst.components.follower.leader then
+                return Vector3(self.inst.components.follower.leader.Transform:GetWorldPosition())
+            end
+        end, MAX_FOLLOW_DIST - 1, { minwalktime = .5, randwalktime = .5, minwaittime = 6, randwaittime = 3 }),
+    }, .25)
     self.bt = BT(self.inst, root)
- end
+end
 
 return SmallBirdBrain

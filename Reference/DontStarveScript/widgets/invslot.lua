@@ -1,6 +1,5 @@
 local ItemSlot = require "widgets/itemslot"
 
-
 local InvSlot = Class(ItemSlot, function(self, num, atlas, bgim, owner, container)
     ItemSlot._ctor(self, atlas, bgim, owner)
     self.owner = owner
@@ -15,7 +14,9 @@ function InvSlot:GetSlotNum()
 end
 
 function InvSlot:OnControl(control, down)
-    if InvSlot._base.OnControl(self, control, down) then return true end
+    if InvSlot._base.OnControl(self, control, down) then
+        return true
+    end
     if down then
         if control == CONTROL_ACCEPT then
             --generic click, with possible modifiers
@@ -32,8 +33,8 @@ function InvSlot:OnControl(control, down)
         elseif control == CONTROL_SECONDARY and self.tile and self.tile.item then
             --alt use (usually RMB)
             GetPlayer().components.inventory:UseItemFromInvTile(self.tile.item)
-        
-        --  the rest are explicit control presses for controllers
+
+            --  the rest are explicit control presses for controllers
         elseif control == CONTROL_SPLITSTACK then
             self:Click(true)
         elseif control == CONTROL_TRADEITEM then
@@ -51,7 +52,6 @@ function InvSlot:OnControl(control, down)
 
 end
 
-
 function InvSlot:Click(stack_mod)
     local character = GetPlayer()
     local active_item = GetPlayer().components.inventory:GetActiveItem()
@@ -62,33 +62,33 @@ function InvSlot:Click(stack_mod)
 
     local can_take_active_item = active_item and (not container.CanTakeItemInSlot or container:CanTakeItemInSlot(active_item, slot_number))
     if active_item and not container_item then
-        
+
         if can_take_active_item then
 
             if active_item.components.stackable and active_item.components.stackable:StackSize() > 1 and (stack_mod or not container.acceptsstacks) then
-                container:GiveItem( active_item.components.stackable:Get(), slot_number, nil, true)
+                container:GiveItem(active_item.components.stackable:Get(), slot_number, nil, true)
             else
                 inventory:RemoveItem(active_item, true)
                 container:GiveItem(active_item, slot_number, nil, true, true)
             end
-            
+
             character.SoundEmitter:PlaySound("dontstarve/HUD/click_object")
-            
+
         else
             character.SoundEmitter:PlaySound("dontstarve/HUD/click_negative")
         end
-        
+
     elseif container_item and not active_item then
-        
+
         if stack_mod and container_item.components.stackable and container_item.components.stackable:StackSize() > 1 then
-            inventory:GiveActiveItem( container_item.components.stackable:Get(math.floor(container_item.components.stackable:StackSize() / 2)))
+            inventory:GiveActiveItem(container_item.components.stackable:Get(math.floor(container_item.components.stackable:StackSize() / 2)))
         else
             container:RemoveItemBySlot(slot_number)
             inventory:GiveActiveItem(container_item)
         end
 
         character.SoundEmitter:PlaySound("dontstarve/HUD/click_object")
-        
+
     elseif container_item and active_item then
         if can_take_active_item then
             local same_prefab = container_item and active_item and container_item.prefab == active_item.prefab
@@ -102,7 +102,7 @@ function InvSlot:Click(stack_mod)
                 end
             else
                 local cant_trade_stack = not container.acceptsstacks and (active_item.components.stackable and active_item.components.stackable:StackSize() > 1)
-                
+
                 if not cant_trade_stack then
                     inventory:RemoveItem(active_item, true)
                     container:RemoveItemBySlot(slot_number)
@@ -110,13 +110,13 @@ function InvSlot:Click(stack_mod)
                     container:GiveItem(active_item, slot_number, nil, true, true)
                 end
             end
-            
+
             character.SoundEmitter:PlaySound("dontstarve/HUD/click_object")
-            
+
         else
             character.SoundEmitter:PlaySound("dontstarve/HUD/click_negative")
         end
-    end 
+    end
 end
 
 
@@ -132,14 +132,14 @@ function InvSlot:TradeItem(stack_mod)
     if character and inventory and container_item then
         --find our destination container
         local dest_inst = container ~= inventory and character or nil
-        for k,v in pairs(inventory.opencontainers) do
+        for k, v in pairs(inventory.opencontainers) do
             if k ~= container.inst and (not dest_inst or not k.components.equippable) then
                 local dest = k.components.inventory or k.components.container
                 if dest then
                     if dest:CanTakeItemInSlot(container_item) then
                         if dest:IsFull() and dest.acceptsstacks then
                             --check the container to see if an item of that type is in it already and can be put in.
-                            for c,v in pairs(dest.slots) do
+                            for c, v in pairs(dest.slots) do
                                 if v.prefab == container_item.prefab then
                                     dest_inst = k
                                 end
@@ -149,16 +149,16 @@ function InvSlot:TradeItem(stack_mod)
                         end
                     end
                 end
-            end 
+            end
         end
-        
+
 
         --if a destination container/inv is found...
         if dest_inst then
             local dest = dest_inst.components.inventory or dest_inst.components.container
             if dest then
                 local item = nil
-                
+
                 --take either the item or half of its stack
                 if container_item.components.stackable and stack_mod then
                     item = container_item.components.stackable:Get(math.floor(container_item.components.stackable:StackSize() / 2))

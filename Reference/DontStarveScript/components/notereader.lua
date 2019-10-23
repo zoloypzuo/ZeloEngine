@@ -1,4 +1,4 @@
-local NoteReader = Class(function(self,inst)
+local NoteReader = Class(function(self, inst)
 
 end)
 

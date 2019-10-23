@@ -1,6 +1,5 @@
-local assets=
-{
-	Asset("ANIM", "anim/worm_light.zip"),
+local assets = {
+    Asset("ANIM", "anim/worm_light.zip"),
 }
 
 local function item_oneaten(inst, eater)
@@ -19,21 +18,21 @@ local function item_oneaten(inst, eater)
 end
 
 local function itemfn()
-	local inst = CreateEntity()
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
-    
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+
     inst.AnimState:SetBank("worm_light")
     inst.AnimState:SetBuild("worm_light")
     inst.AnimState:PlayAnimation("idle")
     MakeInventoryPhysics(inst)
-    
+
     inst:AddComponent("inspectable")
-    
+
     inst:AddComponent("inventoryitem")
 
     inst:AddComponent("tradable")
-    
+
     inst:AddComponent("edible")
     inst.components.edible.foodtype = "VEGGIE"
     inst.components.edible.healthvalue = TUNING.HEALING_MEDSMALL + TUNING.HEALING_SMALL
@@ -50,20 +49,19 @@ local function itemfn()
     light:SetFalloff(0.7)
     light:SetIntensity(.5)
     light:SetRadius(0.5)
-    light:SetColour(169/255, 231/255, 245/255)
+    light:SetColour(169 / 255, 231 / 255, 245 / 255)
     light:Enable(true)
-    inst.AnimState:SetBloomEffectHandle( "shaders/anim.ksh" )
-
+    inst.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
 
     return inst
 end
 
 local function light_resume(inst, time)
-    local percent = time/inst.components.spell.duration
+    local percent = time / inst.components.spell.duration
     local var = inst.components.spell.variables
     if percent and time > 0 then
         --Snap light to value
-        inst.components.lighttweener:StartTween(inst.light, Lerp(0, var.radius, percent), 0.8, 0.5, {1,1,1}, 0)
+        inst.components.lighttweener:StartTween(inst.light, Lerp(0, var.radius, percent), 0.8, 0.5, { 1, 1, 1 }, 0)
         --resume tween with time left
         inst.components.lighttweener:StartTween(nil, 0, nil, nil, nil, time)
     end
@@ -87,12 +85,14 @@ end
 
 local function light_start(inst)
     local spell = inst.components.spell
-    inst.components.lighttweener:StartTween(inst.light, spell.variables.radius, 0.8, 0.5, {169/255,231/255,245/255}, 0)
+    inst.components.lighttweener:StartTween(inst.light, spell.variables.radius, 0.8, 0.5, { 169 / 255, 231 / 255, 245 / 255 }, 0)
     inst.components.lighttweener:StartTween(nil, 0, nil, nil, nil, spell.duration)
 end
 
 local function light_ontarget(inst, target)
-    if not target then return end
+    if not target then
+        return
+    end
     target.wormlight = inst
     target:AddTag(inst.components.spell.spellname)
     target.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
@@ -135,5 +135,5 @@ local function lightfn()
     return inst
 end
 
-return Prefab( "common/inventory/wormlight", itemfn, assets),
+return Prefab("common/inventory/wormlight", itemfn, assets),
 Prefab("common/inventory/wormlight_light", lightfn)

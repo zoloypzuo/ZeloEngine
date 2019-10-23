@@ -1,33 +1,32 @@
 --Should be empty during winter.
 
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/parrot_pirate.zip"),
     Asset("SOUND", "sound/updates.fsb"),
 }
 
-SetSharedLootTable( 'sunken_boat',
-{
-    {'boards',                1.00},
-    {'boards',                1.00},
-    {'boards',                1.00},
-    {'redgem',                1.00},
-    {'bluegem',               1.00},
-    {'goldnugget',            1.00},
-    {'goldnugget',            1.00},
-    {'goldnugget',            1.00},
-    {'sunken_boat_trinket_4', 1.00},
-})
+SetSharedLootTable('sunken_boat',
+        {
+            { 'boards', 1.00 },
+            { 'boards', 1.00 },
+            { 'boards', 1.00 },
+            { 'redgem', 1.00 },
+            { 'bluegem', 1.00 },
+            { 'goldnugget', 1.00 },
+            { 'goldnugget', 1.00 },
+            { 'goldnugget', 1.00 },
+            { 'sunken_boat_trinket_4', 1.00 },
+        })
 
-SetSharedLootTable( 'sunken_boat_burnt',
-{
-    {'boards',                1.00},
-    {'boards',                0.50},
-    {'bluegem',               0.50},
-    {'goldnugget',            1.00},
-    {'goldnugget',            0.50},
-    {'sunken_boat_trinket_4', 1.00},
-})
+SetSharedLootTable('sunken_boat_burnt',
+        {
+            { 'boards', 1.00 },
+            { 'boards', 0.50 },
+            { 'bluegem', 0.50 },
+            { 'goldnugget', 1.00 },
+            { 'goldnugget', 0.50 },
+            { 'sunken_boat_trinket_4', 1.00 },
+        })
 
 local function HasBird(inst)
     return inst.bird
@@ -36,7 +35,7 @@ end
 local function CanLand(inst)
     --Not burning
     return not (inst.components.burnable and inst.components.burnable:IsBurning())
-    and not (GetWorld() and GetWorld().components.seasonmanager and GetWorld().components.seasonmanager:IsWinter())
+            and not (GetWorld() and GetWorld().components.seasonmanager and GetWorld().components.seasonmanager:IsWinter())
     --Not winter
 end
 
@@ -52,8 +51,7 @@ local function SquawkScript(str)
     return script
 end
 
-local rand_loot =
-{
+local rand_loot = {
     "flint",
     "goldnugget",
     "petals_evil",
@@ -62,17 +60,19 @@ local rand_loot =
 local function dropitem(inst, item)
     local nug = SpawnPrefab(item)
 
-    if not nug then return end
+    if not nug then
+        return
+    end
 
-    local pt = Vector3(inst.Transform:GetWorldPosition()) + Vector3(0,3.5,0)
+    local pt = Vector3(inst.Transform:GetWorldPosition()) + Vector3(0, 3.5, 0)
     nug.Transform:SetPosition(pt:Get())
-    local offset = FindWalkableOffset(pt, math.random()*2*math.pi, 15, 12)
+    local offset = FindWalkableOffset(pt, math.random() * 2 * math.pi, 15, 12)
     if offset then
-        local sp = math.random()*4
+        local sp = math.random() * 4
         offset:Normalize()
-        offset.x = offset.x*2 + offset.x*sp
-        offset.z = offset.z*2 + offset.z*sp
-        nug.Physics:SetVel(offset.x, math.random()*2+8, offset.z)
+        offset.x = offset.x * 2 + offset.x * sp
+        offset.z = offset.z * 2 + offset.z * sp
+        nug.Physics:SetVel(offset.x, math.random() * 2 + 8, offset.z)
     end
 end
 
@@ -89,14 +89,14 @@ local function OnGetItemFromPlayer(inst, giver, item)
     if item:HasTag("sunken_boat_special") then
         --Spawn some special item, say some special string.
         local str, loot = item:GiveCluefn()
-        inst.components.talker.colour = Vector3(1 ,0.5, 0.5)
+        inst.components.talker.colour = Vector3(1, 0.5, 0.5)
         inst.components.talker:Say(str)
         giftprefab = loot
         delay = TUNING.TOTAL_DAY_TIME * 4.75
         fly_off_time = 6
     else
-		local str = SquawkScript(STRINGS.SUNKEN_BOAT_ACCEPT_TRADE[math.random(#STRINGS.SUNKEN_BOAT_ACCEPT_TRADE)])
-        inst.components.talker.colour = Vector3(1 ,1, 1)
+        local str = SquawkScript(STRINGS.SUNKEN_BOAT_ACCEPT_TRADE[math.random(#STRINGS.SUNKEN_BOAT_ACCEPT_TRADE)])
+        inst.components.talker.colour = Vector3(1, 1, 1)
         inst.components.talker:Say(str)
         delay = TUNING.TOTAL_DAY_TIME * 0.75
     end
@@ -120,7 +120,7 @@ end
 
 local function OnRefuseItem(inst, giver, item)
     inst:PushEvent("rejectitem")
-	inst.components.talker.colour = Vector3(1 ,1, 1)
+    inst.components.talker.colour = Vector3(1, 1, 1)
     local str = SquawkScript(STRINGS.SUNKEN_BOAT_REFUSE_TRADE[math.random(#STRINGS.SUNKEN_BOAT_REFUSE_TRADE)])
     inst.components.talker:Say(str)
 end
@@ -159,7 +159,9 @@ local function TakeOff(inst, delay)
 
         bird.AnimState:PlayAnimation("takeoff_vertical_loop", true)
 
-        bird:DoTaskInTime(2, function() bird:Remove() end)
+        bird:DoTaskInTime(2, function()
+            bird:Remove()
+        end)
 
         bird:DoPeriodicTask(7 * FRAMES, function()
             inst.SoundEmitter:PlaySound("dontstarve/birds/flyin")
@@ -227,7 +229,9 @@ local function ontimerdone(inst, data)
             inst:Land()
         else
             inst.waitingtoland = true
-            inst.landfn = function() inst:Land() end
+            inst.landfn = function()
+                inst:Land()
+            end
             inst:ListenForEvent("daytime", inst.landfn, GetWorld())
         end
     end
@@ -256,7 +260,9 @@ local function OnLoad(inst, data)
 
     if data and data.waitingtoland then
         inst.waitingtoland = true
-        inst.landfn = function() inst:Land() end
+        inst.landfn = function()
+            inst:Land()
+        end
         inst:ListenForEvent("daytime", inst.landfn, GetWorld())
     end
 end
@@ -268,15 +274,15 @@ local debris_anims = {
 }
 -- hand-coded list so that we have stable positions across loads
 local debris_offsets = {
-    Vector3(1,0,1.5),
-    Vector3(2,0,0.5),
-    Vector3(0.5,0,-1.5),
-    Vector3(-1,0,-2.5),
-    Vector3(-2,0,0.5),
-    Vector3(-1,0,2.5),
-    Vector3(0,0,-2.5),
-    Vector3(.5,0,1.5),
-    Vector3(-1.5,0,-2.5),
+    Vector3(1, 0, 1.5),
+    Vector3(2, 0, 0.5),
+    Vector3(0.5, 0, -1.5),
+    Vector3(-1, 0, -2.5),
+    Vector3(-2, 0, 0.5),
+    Vector3(-1, 0, 2.5),
+    Vector3(0, 0, -2.5),
+    Vector3(.5, 0, 1.5),
+    Vector3(-1.5, 0, -2.5),
 }
 
 local debris_num = 1
@@ -291,7 +297,7 @@ local function debris_fn()
     inst.AnimState:SetBank("parrot_pirate")
     inst.AnimState:SetBuild("parrot_pirate")
     inst.AnimState:PlayAnimation(debris_anims[debris_num], true)
-    debris_num = ( debris_num % #debris_anims ) + 1
+    debris_num = (debris_num % #debris_anims) + 1
 
     MakeSmallBurnable(inst)
     MakeSmallPropagator(inst)
@@ -319,7 +325,9 @@ end
 function ExtinguishFn(inst)
     if not inst.waitingtoland then
         inst.waitingtoland = true
-        inst.landfn = function() inst:Land() end
+        inst.landfn = function()
+            inst:Land()
+        end
         inst:ListenForEvent("daytime", inst.landfn, GetWorld())
     end
 end
@@ -336,7 +344,9 @@ local function OnSeasonChange(inst, data)
     else
         if not inst.waitingtoland and not inst:HasBird() then
             inst.waitingtoland = true
-            inst.landfn = function() inst:Land() end
+            inst.landfn = function()
+                inst:Land()
+            end
             inst:ListenForEvent("daytime", inst.landfn, GetWorld())
         end
     end
@@ -360,7 +370,7 @@ local function fn()
     inst:AddTag("structure")
 
     inst:AddComponent("inspectable")
-	inst.components.inspectable.getstatus = getstatus
+    inst.components.inspectable.getstatus = getstatus
 
     inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetChanceLootTable('sunken_boat')
@@ -373,7 +383,7 @@ local function fn()
     inst:AddComponent("talker")
     inst.components.talker.fontsize = 35
     inst.components.talker.font = TALKINGFONT
-    inst.components.talker.offset = Vector3(0,-550,0)
+    inst.components.talker.offset = Vector3(0, -550, 0)
 
     inst:AddComponent("timer")
     inst:ListenForEvent("timerdone", ontimerdone)
@@ -381,9 +391,9 @@ local function fn()
     inst:AddComponent("trader")
 
     inst.components.trader:SetAcceptTest(
-        function(inst, item)
-            return inst:HasBird() and item.components.tradable.goldvalue > 0
-        end)
+            function(inst, item)
+                return inst:HasBird() and item.components.tradable.goldvalue > 0
+            end)
 
     inst.components.trader.onaccept = OnGetItemFromPlayer
     inst.components.trader.onrefuse = OnRefuseItem
@@ -401,7 +411,9 @@ local function fn()
     inst.components.burnable:SetOnExtinguishFn(ExtinguishFn)
     MakeLargePropagator(inst)
 
-    inst:ListenForEvent("seasonChange", function(world, data) OnSeasonChange(inst, data) end, GetWorld())
+    inst:ListenForEvent("seasonChange", function(world, data)
+        OnSeasonChange(inst, data)
+    end, GetWorld())
 
     inst.HasBird = HasBird
     inst.Land = Land
@@ -416,10 +428,10 @@ local function fn()
     inst:DoTaskInTime(0, function()
         local pos = Vector3(inst.Transform:GetWorldPosition())
         local numdebrispawned = 0
-        for i=1,#debris_offsets do
+        for i = 1, #debris_offsets do
             if GetGroundTypeAtPosition(pos + debris_offsets[i]) ~= GROUND.IMPASSABLE then
                 local newdebris = SpawnPrefab("sunken_boat_debris")
-                newdebris.Transform:SetPosition((pos+debris_offsets[i]):Get())
+                newdebris.Transform:SetPosition((pos + debris_offsets[i]):Get())
                 table.insert(debris, newdebris)
                 numdebrispawned = numdebrispawned + 1
                 if numdebrispawned == 3 then
@@ -431,13 +443,13 @@ local function fn()
 
     inst:DoTaskInTime(0, function()
         if inst:HasBird() and GetWorld().components.seasonmanager and
-        GetWorld().components.seasonmanager:IsWinter() then
+                GetWorld().components.seasonmanager:IsWinter() then
             inst:TakeOff()
         end
     end)
 
     inst.OnRemoveEntity = function(inst)
-        for i,v in ipairs(debris) do
+        for i, v in ipairs(debris) do
             v:Remove()
         end
     end

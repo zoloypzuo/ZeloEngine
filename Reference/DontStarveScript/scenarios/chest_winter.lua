@@ -1,6 +1,5 @@
 chestfunctions = require("scenarios/chestfunctions")
-loot =
-{
+loot = {
     {
         item = "icestaff",
         count = 1,
@@ -46,18 +45,16 @@ local function triggertrap(inst, scenariorunner)
 end
 
 local function OnCreate(inst, scenariorunner)
-	chestfunctions.AddChestItems(inst, loot)
+    chestfunctions.AddChestItems(inst, loot)
 end
 
-
-local function OnLoad(inst, scenariorunner) 
+local function OnLoad(inst, scenariorunner)
     chestfunctions.InitializeChestTrap(inst, scenariorunner, triggertrap)
 end
 
 local function OnDestroy(inst)
     chestfunctions.OnDestroy(inst)
 end
-
 
 return
 {

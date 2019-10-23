@@ -57,7 +57,7 @@ end
 
 function Drifter:OnLoad(data)
     if data.drifttarget then
-        self:SetDriftTarget( Vector3(data.drifttarget.x, data.drifttarget.y, data.drifttarget.z) )
+        self:SetDriftTarget(Vector3(data.drifttarget.x, data.drifttarget.y, data.drifttarget.z))
     end
 end
 

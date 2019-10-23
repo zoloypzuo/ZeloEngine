@@ -1,5 +1,4 @@
-local pinsymbols =
-{
+local pinsymbols = {
     "swap_goo6",
     "swap_goo5",
     "swap_goo4",
@@ -8,8 +7,7 @@ local pinsymbols =
     "swap_goo1",
 }
 
-local splashprefabs =
-{
+local splashprefabs = {
     "spat_splash_fx_melted",
     "spat_splash_fx_low",
     "spat_splash_fx_med",
@@ -72,10 +70,10 @@ local Pinnable = Class(function(self, inst)
     inst:ListenForEvent("attacked", OnAttacked)
     inst:ListenForEvent("playerdied", OnDied)
 end,
-nil,
-{
-    stuck = onstuck,
-})
+        nil,
+        {
+            stuck = onstuck,
+        })
 
 function Pinnable:OnRemoveFromEntity()
     if self.wearofftask ~= nil then
@@ -93,7 +91,7 @@ end
 
 function Pinnable:SpawnShatterFX(ratio)
     local ratio = self:RemainingRatio()
-    local index = math.clamp(math.floor(#splashprefabs*ratio)+1, 1, #splashprefabs)
+    local index = math.clamp(math.floor(#splashprefabs * ratio) + 1, 1, #splashprefabs)
     local fx = SpawnPrefab(splashprefabs[index])
     if fx ~= nil then
         self.inst:AddChild(fx)
@@ -118,8 +116,8 @@ function Pinnable:StartWearingOff(wearofftime)
 end
 
 function Pinnable:Stick()
-    if self.canbepinned and self.inst.entity:IsVisible() and (self.inst.components.health == nil or not self.inst.components.health:IsDead()) and ( not self.inst.components.rider or not self.inst.components.rider:IsRiding()) then
-       
+    if self.canbepinned and self.inst.entity:IsVisible() and (self.inst.components.health == nil or not self.inst.components.health:IsDead()) and (not self.inst.components.rider or not self.inst.components.rider:IsRiding()) then
+
         local prevState = self.stuck
         self.stuck = true
 
@@ -152,7 +150,7 @@ function Pinnable:UpdateStuckStatus()
         if remaining <= 0 then
             self:Unstick()
         else
-            local index = math.clamp(math.floor(#pinsymbols*remaining)+1, 1, #pinsymbols)
+            local index = math.clamp(math.floor(#pinsymbols * remaining) + 1, 1, #pinsymbols)
             self.inst.AnimState:OverrideSymbol("swap_goo", "goo", pinsymbols[index])
 
             self:StartWearingOff(remaining)
@@ -161,7 +159,7 @@ function Pinnable:UpdateStuckStatus()
 end
 
 function Pinnable:RemainingRatio()
-    local remaining = self.wearofftime - ( GetTime() - self.last_stuck_time )
+    local remaining = self.wearofftime - (GetTime() - self.last_stuck_time)
     remaining = remaining - self.attacks_since_pinned * TUNING.PINNABLE_ATTACK_WEAR_OFF
     return remaining / self.wearofftime
 end

@@ -4,10 +4,10 @@ local Dapperness = Class(function(self, inst)
 end)
 
 function Dapperness:GetDapperness(owner)
-	if self.dapperfn then
-		return self.dapperfn(self.inst,owner)
-	end
-	return self.dapperness
+    if self.dapperfn then
+        return self.dapperfn(self.inst, owner)
+    end
+    return self.dapperness
 end
 
 return Dapperness

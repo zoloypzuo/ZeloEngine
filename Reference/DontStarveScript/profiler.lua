@@ -1,4 +1,3 @@
-
 local os = {}
 os.clock = walltime
 
@@ -114,25 +113,25 @@ _profiler = {}
 -- object can be executing at one time.
 --
 function newProfiler(variant, sampledelay)
-  if _profiler.running then
-    print("Profiler already running.")
-    return
-  end
+    if _profiler.running then
+        print("Profiler already running.")
+        return
+    end
 
-  variant = variant or "time"
+    variant = variant or "time"
 
-  if variant ~= "time" and variant ~= "call" then
-    print("Profiler method must be 'time' or 'call'.")
-    return
-  end
-  
-  local newprof = {}
-  for k,v in pairs(_profiler) do
-    newprof[k] = v
-  end
-  newprof.variant = variant
-  newprof.sampledelay = sampledelay or 100000
-  return newprof
+    if variant ~= "time" and variant ~= "call" then
+        print("Profiler method must be 'time' or 'call'.")
+        return
+    end
+
+    local newprof = {}
+    for k, v in pairs(_profiler) do
+        newprof[k] = v
+    end
+    newprof.variant = variant
+    newprof.sampledelay = sampledelay or 100000
+    return newprof
 end
 
 
@@ -141,22 +140,22 @@ end
 -- if this (or any other) profiler is already running.
 --
 function _profiler.start(self)
-  if _profiler.running then
-    return
-  end
-  -- Start the profiler. This begins by setting up internal profiler state
-  _profiler.running = self
-  self.rawstats = {}
-  self.callstack = {}
-  if self.variant == "time" then
-    self.lastclock = os.clock()
-    debug.sethook( _profiler_hook_wrapper_by_time, "", self.sampledelay )
-  elseif self.variant == "call" then
-    debug.sethook( _profiler_hook_wrapper_by_call, "cr" )
-  else
-    print("Profiler method must be 'time' or 'call'.")
-    sys.exit(1)
-  end
+    if _profiler.running then
+        return
+    end
+    -- Start the profiler. This begins by setting up internal profiler state
+    _profiler.running = self
+    self.rawstats = {}
+    self.callstack = {}
+    if self.variant == "time" then
+        self.lastclock = os.clock()
+        debug.sethook(_profiler_hook_wrapper_by_time, "", self.sampledelay)
+    elseif self.variant == "call" then
+        debug.sethook(_profiler_hook_wrapper_by_call, "cr")
+    else
+        print("Profiler method must be 'time' or 'call'.")
+        sys.exit(1)
+    end
 end
 
 
@@ -166,12 +165,12 @@ end
 -- the currently running profiler.
 --
 function _profiler.stop(self)
-  if _profiler.running ~= self then
-    return
-  end
-  -- Stop the profiler.
-  debug.sethook( nil )
-  _profiler.running = nil
+    if _profiler.running ~= self then
+        return
+    end
+    -- Stop the profiler.
+    debug.sethook(nil)
+    _profiler.running = nil
 end
 
 
@@ -180,17 +179,17 @@ end
 -- be calling this directly. Duplicated to reduce overhead.
 --
 function _profiler_hook_wrapper_by_call(action)
-  if _profiler.running == nil then
-    debug.sethook( nil )
-  end
-  _profiler.running:_internal_profile_by_call(action)
+    if _profiler.running == nil then
+        debug.sethook(nil)
+    end
+    _profiler.running:_internal_profile_by_call(action)
 end
 
 function _profiler_hook_wrapper_by_time(action)
-  if _profiler.running == nil then
-    debug.sethook( nil )
-  end
-  _profiler.running:_internal_profile_by_time(action)
+    if _profiler.running == nil then
+        debug.sethook(nil)
+    end
+    _profiler.running:_internal_profile_by_time(action)
 end
 
 
@@ -198,96 +197,91 @@ end
 -- This is the main by-function-call function of the profiler and should not
 -- be called except by the hook wrapper
 --
-function _profiler._internal_profile_by_call(self,action)
-  -- Since we can obtain the 'function' for the item we've had call us, we
-  -- can use that...
-  local caller_info = debug.getinfo( 3 )
-  if caller_info == nil then
-    print "No caller_info"
-    return
-  end
-  
-  --SHG_LOG("[_profiler._internal_profile] "..(caller_info.name or "<nil>"))
-
-  -- Retrieve the most recent activation record...
-  local latest_ar = nil
-  if table.getn(self.callstack) > 0 then
-    latest_ar = self.callstack[table.getn(self.callstack)]
-  end
-  
-  -- Are we allowed to profile this function?
-  local should_not_profile = 0
-  for k,v in pairs(self.prevented_functions) do
-    if k == caller_info.func then
-      should_not_profile = v
-    end
-  end
-
-  -- Also check the top activation record...
-  if latest_ar then
-    if latest_ar.should_not_profile == 2 then
-      should_not_profile = 2
-    end
-  end
-  
-  -- Now then, are we in 'call' or 'return' ?
-  -- print("Profile:", caller_info.name, "SNP:", should_not_profile,
-  --       "Action:", action )
-  if action == "call" then
-    -- Making a call...
-    local this_ar = {}
-    this_ar.should_not_profile = should_not_profile
-    this_ar.parent_ar = latest_ar
-    this_ar.anon_child = 0
-    this_ar.name_child = 0
-    this_ar.children = {}
-    this_ar.children_time = {}
-    this_ar.clock_start = os.clock()
-    -- Last thing to do on a call is to insert this onto the ar stack...
-    table.insert( self.callstack, this_ar )
-  else
-    local this_ar = latest_ar
-    if this_ar == nil then
-      return -- No point in doing anything if no upper activation record
+function _profiler._internal_profile_by_call(self, action)
+    -- Since we can obtain the 'function' for the item we've had call us, we
+    -- can use that...
+    local caller_info = debug.getinfo(3)
+    if caller_info == nil then
+        print "No caller_info"
+        return
     end
 
-    -- Right, calculate the time in this function...
-    this_ar.clock_end = os.clock()
-    this_ar.this_time = this_ar.clock_end - this_ar.clock_start
-    
-    -- Now, if we have a parent, update its call info...
-    if this_ar.parent_ar then
-      this_ar.parent_ar.children[caller_info.func] =
-        (this_ar.parent_ar.children[caller_info.func] or 0) + 1
-      this_ar.parent_ar.children_time[caller_info.func] =
-        (this_ar.parent_ar.children_time[caller_info.func] or 0 ) +
-        this_ar.this_time
-      if caller_info.name == nil then
-        this_ar.parent_ar.anon_child =
-          this_ar.parent_ar.anon_child + this_ar.this_time
-      else
-        this_ar.parent_ar.name_child =
-          this_ar.parent_ar.name_child + this_ar.this_time
-      end
-    end
-    -- Now if we're meant to record information about ourselves, do so...
-    if this_ar.should_not_profile == 0 then
-      local inforec = self:_get_func_rec(caller_info.func,1)
-      inforec.count = inforec.count + 1
-      inforec.time = inforec.time + this_ar.this_time
-      inforec.anon_child_time = inforec.anon_child_time + this_ar.anon_child
-      inforec.name_child_time = inforec.name_child_time + this_ar.name_child
-      inforec.func_info = caller_info
-      for k,v in pairs(this_ar.children) do
-        inforec.children[k] = (inforec.children[k] or 0) + v
-        inforec.children_time[k] =
-          (inforec.children_time[k] or 0) + this_ar.children_time[k]
-      end
+    --SHG_LOG("[_profiler._internal_profile] "..(caller_info.name or "<nil>"))
+
+    -- Retrieve the most recent activation record...
+    local latest_ar = nil
+    if table.getn(self.callstack) > 0 then
+        latest_ar = self.callstack[table.getn(self.callstack)]
     end
 
-    -- Last thing to do on return is to drop the last activation record...
-    table.remove( self.callstack, table.getn( self.callstack ) )
-  end
+    -- Are we allowed to profile this function?
+    local should_not_profile = 0
+    for k, v in pairs(self.prevented_functions) do
+        if k == caller_info.func then
+            should_not_profile = v
+        end
+    end
+
+    -- Also check the top activation record...
+    if latest_ar then
+        if latest_ar.should_not_profile == 2 then
+            should_not_profile = 2
+        end
+    end
+
+    -- Now then, are we in 'call' or 'return' ?
+    -- print("Profile:", caller_info.name, "SNP:", should_not_profile,
+    --       "Action:", action )
+    if action == "call" then
+        -- Making a call...
+        local this_ar = {}
+        this_ar.should_not_profile = should_not_profile
+        this_ar.parent_ar = latest_ar
+        this_ar.anon_child = 0
+        this_ar.name_child = 0
+        this_ar.children = {}
+        this_ar.children_time = {}
+        this_ar.clock_start = os.clock()
+        -- Last thing to do on a call is to insert this onto the ar stack...
+        table.insert(self.callstack, this_ar)
+    else
+        local this_ar = latest_ar
+        if this_ar == nil then
+            return -- No point in doing anything if no upper activation record
+        end
+
+        -- Right, calculate the time in this function...
+        this_ar.clock_end = os.clock()
+        this_ar.this_time = this_ar.clock_end - this_ar.clock_start
+
+        -- Now, if we have a parent, update its call info...
+        if this_ar.parent_ar then
+            this_ar.parent_ar.children[caller_info.func] = (this_ar.parent_ar.children[caller_info.func] or 0) + 1
+            this_ar.parent_ar.children_time[caller_info.func] = (this_ar.parent_ar.children_time[caller_info.func] or 0) +
+                    this_ar.this_time
+            if caller_info.name == nil then
+                this_ar.parent_ar.anon_child = this_ar.parent_ar.anon_child + this_ar.this_time
+            else
+                this_ar.parent_ar.name_child = this_ar.parent_ar.name_child + this_ar.this_time
+            end
+        end
+        -- Now if we're meant to record information about ourselves, do so...
+        if this_ar.should_not_profile == 0 then
+            local inforec = self:_get_func_rec(caller_info.func, 1)
+            inforec.count = inforec.count + 1
+            inforec.time = inforec.time + this_ar.this_time
+            inforec.anon_child_time = inforec.anon_child_time + this_ar.anon_child
+            inforec.name_child_time = inforec.name_child_time + this_ar.name_child
+            inforec.func_info = caller_info
+            for k, v in pairs(this_ar.children) do
+                inforec.children[k] = (inforec.children[k] or 0) + v
+                inforec.children_time[k] = (inforec.children_time[k] or 0) + this_ar.children_time[k]
+            end
+        end
+
+        -- Last thing to do on return is to drop the last activation record...
+        table.remove(self.callstack, table.getn(self.callstack))
+    end
 end
 
 
@@ -295,39 +289,39 @@ end
 -- This is the main by-time internal function of the profiler and should not
 -- be called except by the hook wrapper
 --
-function _profiler._internal_profile_by_time(self,action)
-  -- we do this first so we add the minimum amount of extra time to this call
-  local timetaken = os.clock() - self.lastclock
+function _profiler._internal_profile_by_time(self, action)
+    -- we do this first so we add the minimum amount of extra time to this call
+    local timetaken = os.clock() - self.lastclock
 
-  local depth = 3
-  local at_top = true
-  local last_caller
-  local caller = debug.getinfo(depth)
-  while caller do
-    if not caller.func then caller.func = "(tail call)" end
-    if self.prevented_functions[caller.func] == nil then
-      local info = self:_get_func_rec(caller.func, 1, caller)
-      info.count = info.count + 1
-      info.time = info.time + timetaken
-      if last_caller then
-        -- we're not the head, so update the "children" times also
-        if last_caller.name then
-          info.name_child_time = info.name_child_time + timetaken
-        else
-          info.anon_child_time = info.anon_child_time + timetaken
+    local depth = 3
+    local at_top = true
+    local last_caller
+    local caller = debug.getinfo(depth)
+    while caller do
+        if not caller.func then
+            caller.func = "(tail call)"
         end
-        info.children[last_caller.func] =
-          (info.children[last_caller.func] or 0) + 1
-        info.children_time[last_caller.func] =
-          (info.children_time[last_caller.func] or 0) + timetaken
-      end
+        if self.prevented_functions[caller.func] == nil then
+            local info = self:_get_func_rec(caller.func, 1, caller)
+            info.count = info.count + 1
+            info.time = info.time + timetaken
+            if last_caller then
+                -- we're not the head, so update the "children" times also
+                if last_caller.name then
+                    info.name_child_time = info.name_child_time + timetaken
+                else
+                    info.anon_child_time = info.anon_child_time + timetaken
+                end
+                info.children[last_caller.func] = (info.children[last_caller.func] or 0) + 1
+                info.children_time[last_caller.func] = (info.children_time[last_caller.func] or 0) + timetaken
+            end
+        end
+        depth = depth + 1
+        last_caller = caller
+        caller = debug.getinfo(depth)
     end
-    depth = depth + 1
-    last_caller = caller
-    caller = debug.getinfo(depth)
-  end
-  
-  self.lastclock = os.clock()
+
+    self.lastclock = os.clock()
 end
 
 
@@ -335,30 +329,30 @@ end
 -- This returns a (possibly empty) function record for 
 -- the specified function. It is for internal profiler use.
 --
-function _profiler._get_func_rec(self,func,force,info)
+function _profiler._get_func_rec(self, func, force, info)
 
-  -- Find the function ref for 'func' (if force and not present, create one)
-  local ret = self.rawstats[func]
-  if ret == nil and force ~= 1 then
-    return nil
-  end
-  if ret == nil then
-    -- Build a new function statistics table
-    ret = {}
-    ret.func = func
-    ret.count = 0
-    ret.time = 0
-    ret.anon_child_time = 0
-    ret.name_child_time = 0
-    ret.children = {}
-    ret.children_time = {}
-    ret.func_info = info
-    self.rawstats[func] = ret
-    --for k,v in pairs(self.rawstats) do print (k,v) end
+    -- Find the function ref for 'func' (if force and not present, create one)
+    local ret = self.rawstats[func]
+    if ret == nil and force ~= 1 then
+        return nil
+    end
+    if ret == nil then
+        -- Build a new function statistics table
+        ret = {}
+        ret.func = func
+        ret.count = 0
+        ret.time = 0
+        ret.anon_child_time = 0
+        ret.name_child_time = 0
+        ret.children = {}
+        ret.children_time = {}
+        ret.func_info = info
+        self.rawstats[func] = ret
+        --for k,v in pairs(self.rawstats) do print (k,v) end
 
-    
-  end
-  return ret
+
+    end
+    return ret
 end
 
 
@@ -367,106 +361,105 @@ end
 -- sort_by_total_time is nil or false the output is sorted by
 -- the function time minus the time in it's children.
 --
-function _profiler.report( self, sort_by_total_time )
+function _profiler.report(self, sort_by_total_time)
 
-  local tmp = {}
-  -- This is pretty awful.
-  local terms = {}
-  if self.variant == "time" then
-    terms.capitalized = "Sample"
-    terms.single = "sample"
-    terms.pastverb = "sampled"
-  elseif self.variant == "call" then
-    terms.capitalized = "Call"
-    terms.single = "call"
-    terms.pastverb = "called"
-  else
-    assert(false)
-  end
-  
-  local total_time = 0
-  local ordering = {}
-  for func,record in pairs(self.rawstats) do
-    table.insert(ordering, func)
-  end
-
-  if sort_by_total_time then
-    table.sort( ordering, 
-      function(a,b) return self.rawstats[a].time > self.rawstats[b].time end
-    )
-  else
-    table.sort( ordering, 
-      function(a,b)
-        local arec = self.rawstats[a] 
-        local brec = self.rawstats[b]
-        local atime = arec.time - (arec.anon_child_time + arec.name_child_time)
-        local btime = brec.time - (brec.anon_child_time + brec.name_child_time)
-        return atime > btime
-      end
-    )
-  end
-
-  for i=1,table.getn(ordering) do
-    local func = ordering[i]
-    local record = self.rawstats[func]
-    local thisfuncname = " " .. self:_pretty_name(func) .. " "
-    if string.len( thisfuncname ) < 42 then
-      thisfuncname =
-        string.rep( "-", (42 - string.len(thisfuncname))/2 ) .. thisfuncname
-      thisfuncname =
-        thisfuncname .. string.rep( "-", 42 - string.len(thisfuncname) )
+    local tmp = {}
+    -- This is pretty awful.
+    local terms = {}
+    if self.variant == "time" then
+        terms.capitalized = "Sample"
+        terms.single = "sample"
+        terms.pastverb = "sampled"
+    elseif self.variant == "call" then
+        terms.capitalized = "Call"
+        terms.single = "call"
+        terms.pastverb = "called"
+    else
+        assert(false)
     end
 
-    total_time = total_time + ( record.time - ( record.anon_child_time +
-      record.name_child_time ) )
-    table.insert(tmp,  string.rep( "-", 19 ) .. thisfuncname ..
-      string.rep( "-", 19 ) .. "\n" )
-    table.insert(tmp,  terms.capitalized.." count:         " ..
-      string.format( "%4d", record.count ) .. "\n" )
-    table.insert(tmp,  "Time spend total:       " ..
-      string.format( "%4.3f", record.time*1000 ) .. "ms\n" )
-    table.insert(tmp,  "Time spent in children: " ..
-      string.format("%4.3f",(record.anon_child_time+record.name_child_time)*1000) ..
-      "ms\n" )
-    local timeinself =
-      record.time - (record.anon_child_time + record.name_child_time)
-    table.insert(tmp,  "Time spent in self:     " ..
-      string.format("%4.3f", timeinself*1000) .. "ms\n" )
-    table.insert(tmp,  "Time spent per " .. terms.single .. ":  " ..
-      string.format("%4.5f", (record.time/record.count)*1000) ..
-      "ms/" .. terms.single .. "\n" )
-    table.insert(tmp,  "Time spent in self per "..terms.single..": " ..
-      string.format( "%4.5f", (timeinself/record.count)*1000 ) .. "ms/" ..
-      terms.single.."\n" )
+    local total_time = 0
+    local ordering = {}
+    for func, record in pairs(self.rawstats) do
+        table.insert(ordering, func)
+    end
 
-    -- Report on each child in the form
-    -- Child  <funcname> called n times and took a.bs
-    local added_blank = 0
-    for k,v in pairs(record.children) do
-      if self.prevented_functions[k] == nil or
-         self.prevented_functions[k] == 0
-      then
-        if added_blank == 0 then
-          table.insert(tmp,  "\n" ) -- extra separation line
-          added_blank = 1
+    if sort_by_total_time then
+        table.sort(ordering,
+                function(a, b)
+                    return self.rawstats[a].time > self.rawstats[b].time
+                end
+        )
+    else
+        table.sort(ordering,
+                function(a, b)
+                    local arec = self.rawstats[a]
+                    local brec = self.rawstats[b]
+                    local atime = arec.time - (arec.anon_child_time + arec.name_child_time)
+                    local btime = brec.time - (brec.anon_child_time + brec.name_child_time)
+                    return atime > btime
+                end
+        )
+    end
+
+    for i = 1, table.getn(ordering) do
+        local func = ordering[i]
+        local record = self.rawstats[func]
+        local thisfuncname = " " .. self:_pretty_name(func) .. " "
+        if string.len(thisfuncname) < 42 then
+            thisfuncname = string.rep("-", (42 - string.len(thisfuncname)) / 2) .. thisfuncname
+            thisfuncname = thisfuncname .. string.rep("-", 42 - string.len(thisfuncname))
         end
-        table.insert(tmp,  "Child " .. self:_pretty_name(k) ..
-          string.rep( " ", 41-string.len(self:_pretty_name(k)) ) .. " " ..
-          terms.pastverb.." " .. string.format("%6d", v) )
-        table.insert(tmp,  " times. Took " ..
-          string.format("%4.2f", record.children_time[k]*1000 ) .. "ms\n" )
-      end
+
+        total_time = total_time + (record.time - (record.anon_child_time +
+                record.name_child_time))
+        table.insert(tmp, string.rep("-", 19) .. thisfuncname ..
+                string.rep("-", 19) .. "\n")
+        table.insert(tmp, terms.capitalized .. " count:         " ..
+                string.format("%4d", record.count) .. "\n")
+        table.insert(tmp, "Time spend total:       " ..
+                string.format("%4.3f", record.time * 1000) .. "ms\n")
+        table.insert(tmp, "Time spent in children: " ..
+                string.format("%4.3f", (record.anon_child_time + record.name_child_time) * 1000) ..
+                "ms\n")
+        local timeinself = record.time - (record.anon_child_time + record.name_child_time)
+        table.insert(tmp, "Time spent in self:     " ..
+                string.format("%4.3f", timeinself * 1000) .. "ms\n")
+        table.insert(tmp, "Time spent per " .. terms.single .. ":  " ..
+                string.format("%4.5f", (record.time / record.count) * 1000) ..
+                "ms/" .. terms.single .. "\n")
+        table.insert(tmp, "Time spent in self per " .. terms.single .. ": " ..
+                string.format("%4.5f", (timeinself / record.count) * 1000) .. "ms/" ..
+                terms.single .. "\n")
+
+        -- Report on each child in the form
+        -- Child  <funcname> called n times and took a.bs
+        local added_blank = 0
+        for k, v in pairs(record.children) do
+            if self.prevented_functions[k] == nil or
+                    self.prevented_functions[k] == 0
+            then
+                if added_blank == 0 then
+                    table.insert(tmp, "\n") -- extra separation line
+                    added_blank = 1
+                end
+                table.insert(tmp, "Child " .. self:_pretty_name(k) ..
+                        string.rep(" ", 41 - string.len(self:_pretty_name(k))) .. " " ..
+                        terms.pastverb .. " " .. string.format("%6d", v))
+                table.insert(tmp, " times. Took " ..
+                        string.format("%4.2f", record.children_time[k] * 1000) .. "ms\n")
+            end
+        end
+
+        table.insert(tmp, "\n") -- extra separation line
+
     end
+    table.insert(tmp, "\n\n")
+    table.insert(tmp, "Total time spent in profiled functions: " ..
+            string.format("%5.3g", total_time * 1000) .. "ms\n")
+    table.insert(tmp, [[END]])
 
-    table.insert(tmp,  "\n" ) -- extra separation line
-
-  end
-  table.insert(tmp,  "\n\n" )
-  table.insert(tmp,  "Total time spent in profiled functions: " ..
-                 string.format("%5.3g",total_time*1000) .. "ms\n" )
-  table.insert(tmp,  [[END]] )
-  
-  return table.concat(tmp, "")
+    return table.concat(tmp, "")
 end
 
 
@@ -474,118 +467,121 @@ end
 -- This writes the profile to the output file object as 
 -- loadable Lua source.
 --
-function _profiler.lua_report(self,tmp)
-  -- Purpose: Write out the entire raw state in a cross-referenceable form.
-  local ordering = {}
-  local functonum = {}
-  for func,record in pairs(self.rawstats) do
-    table.insert(ordering, func)
-    functonum[func] = table.getn(ordering)
-  end
+function _profiler.lua_report(self, tmp)
+    -- Purpose: Write out the entire raw state in a cross-referenceable form.
+    local ordering = {}
+    local functonum = {}
+    for func, record in pairs(self.rawstats) do
+        table.insert(ordering, func)
+        functonum[func] = table.getn(ordering)
+    end
 
-  table.insert(tmp, 
-    "-- Profile generated by profiler.lua Copyright Pepperfish 2002+\n\n" )
-  table.insert(tmp,  "-- Function names\nfuncnames = {}\n" )
-  for i=1,table.getn(ordering) do
-    local thisfunc = ordering[i]
-    table.insert(tmp,  "funcnames[" .. i .. "] = " ..
-      string.format("%q", self:_pretty_name(thisfunc)) .. "\n" )
-  end
-  table.insert(tmp,  "\n" )
-  table.insert(tmp,  "-- Function times\nfunctimes = {}\n" )
-  for i=1,table.getn(ordering) do
-    local thisfunc = ordering[i]
-    local record = self.rawstats[thisfunc]
-    table.insert(tmp,  "functimes[" .. i .. "] = { " )
-    table.insert(tmp,  "tot=" .. record.time .. ", " )
-    table.insert(tmp,  "achild=" .. record.anon_child_time .. ", " )
-    table.insert(tmp,  "nchild=" .. record.name_child_time .. ", " )
-    table.insert(tmp,  "count=" .. record.count .. " }\n" )
-  end
-  table.insert(tmp,  "\n" )
-  table.insert(tmp,  "-- Child links\nchildren = {}\n" )
-  for i=1,table.getn(ordering) do
-    local thisfunc = ordering[i]
-    local record = self.rawstats[thisfunc]
-    table.insert(tmp,  "children[" .. i .. "] = { " )
-    for k,v in pairs(record.children) do
-      if functonum[k] then -- non-recorded functions will be ignored now
-        table.insert(tmp,  functonum[k] .. ", " )
-      end
+    table.insert(tmp,
+            "-- Profile generated by profiler.lua Copyright Pepperfish 2002+\n\n")
+    table.insert(tmp, "-- Function names\nfuncnames = {}\n")
+    for i = 1, table.getn(ordering) do
+        local thisfunc = ordering[i]
+        table.insert(tmp, "funcnames[" .. i .. "] = " ..
+                string.format("%q", self:_pretty_name(thisfunc)) .. "\n")
     end
-    table.insert(tmp,  "}\n" )
-  end
-  table.insert(tmp,  "\n" )
-  table.insert(tmp,  "-- Child call counts\nchildcounts = {}\n" )
-  for i=1,table.getn(ordering) do
-    local thisfunc = ordering[i]
-    local record = self.rawstats[thisfunc]
-    table.insert(tmp,  "children[" .. i .. "] = { " )
-    for k,v in pairs(record.children) do
-      if functonum[k] then -- non-recorded functions will be ignored now
-        table.insert(tmp,  v .. ", " )
-      end
+    table.insert(tmp, "\n")
+    table.insert(tmp, "-- Function times\nfunctimes = {}\n")
+    for i = 1, table.getn(ordering) do
+        local thisfunc = ordering[i]
+        local record = self.rawstats[thisfunc]
+        table.insert(tmp, "functimes[" .. i .. "] = { ")
+        table.insert(tmp, "tot=" .. record.time .. ", ")
+        table.insert(tmp, "achild=" .. record.anon_child_time .. ", ")
+        table.insert(tmp, "nchild=" .. record.name_child_time .. ", ")
+        table.insert(tmp, "count=" .. record.count .. " }\n")
     end
-    table.insert(tmp,  "}\n" )
-  end
-  table.insert(tmp,  "\n" )
-  table.insert(tmp,  "-- Child call time\nchildtimes = {}\n" )
-  for i=1,table.getn(ordering) do
-    local thisfunc = ordering[i]
-    local record = self.rawstats[thisfunc];
-    table.insert(tmp,  "children[" .. i .. "] = { " )
-    for k,v in pairs(record.children) do
-      if functonum[k] then -- non-recorded functions will be ignored now
-        table.insert(tmp,  record.children_time[k] .. ", " )
-      end
+    table.insert(tmp, "\n")
+    table.insert(tmp, "-- Child links\nchildren = {}\n")
+    for i = 1, table.getn(ordering) do
+        local thisfunc = ordering[i]
+        local record = self.rawstats[thisfunc]
+        table.insert(tmp, "children[" .. i .. "] = { ")
+        for k, v in pairs(record.children) do
+            if functonum[k] then
+                -- non-recorded functions will be ignored now
+                table.insert(tmp, functonum[k] .. ", ")
+            end
+        end
+        table.insert(tmp, "}\n")
     end
-    table.insert(tmp,  "}\n" )
-  end
-  table.insert(tmp,  "\n\n-- That is all.\n\n" )
+    table.insert(tmp, "\n")
+    table.insert(tmp, "-- Child call counts\nchildcounts = {}\n")
+    for i = 1, table.getn(ordering) do
+        local thisfunc = ordering[i]
+        local record = self.rawstats[thisfunc]
+        table.insert(tmp, "children[" .. i .. "] = { ")
+        for k, v in pairs(record.children) do
+            if functonum[k] then
+                -- non-recorded functions will be ignored now
+                table.insert(tmp, v .. ", ")
+            end
+        end
+        table.insert(tmp, "}\n")
+    end
+    table.insert(tmp, "\n")
+    table.insert(tmp, "-- Child call time\nchildtimes = {}\n")
+    for i = 1, table.getn(ordering) do
+        local thisfunc = ordering[i]
+        local record = self.rawstats[thisfunc];
+        table.insert(tmp, "children[" .. i .. "] = { ")
+        for k, v in pairs(record.children) do
+            if functonum[k] then
+                -- non-recorded functions will be ignored now
+                table.insert(tmp, record.children_time[k] .. ", ")
+            end
+        end
+        table.insert(tmp, "}\n")
+    end
+    table.insert(tmp, "\n\n-- That is all.\n\n")
 end
 
 -- Internal function to calculate a pretty name for the profile output
-function _profiler._pretty_name(self,func)
+function _profiler._pretty_name(self, func)
 
-  -- Only the data collected during the actual
-  -- run seems to be correct.... why?
-  local info = self.rawstats[ func ].func_info
-  -- local info = debug.getinfo( func )
+    -- Only the data collected during the actual
+    -- run seems to be correct.... why?
+    local info = self.rawstats[func].func_info
+    -- local info = debug.getinfo( func )
 
-  local name = ""
-  if info.what == "Lua" then
-    name = "L:"
-  end
-  if info.what == "C" then
-    name = "C:"
-  end
-  if info.what == "main" then
-    name = " :"
-  end
-  
-  if info.name == nil then
-    name = name .. "<"..tostring(func) .. ">"
-  else
-    name = name .. info.name
-  end
-
-  if info.source then
-    name = name .. "@" .. info.source
-  else
-    if info.what == "C" then
-      name = name .. "@?"
-    else
-      name = name .. "@<string>"
+    local name = ""
+    if info.what == "Lua" then
+        name = "L:"
     end
-  end
-  name = name .. ":"
-  if info.what == "C" then
-    name = name .. "?"
-  else
-    name = name .. info.linedefined
-  end
+    if info.what == "C" then
+        name = "C:"
+    end
+    if info.what == "main" then
+        name = " :"
+    end
 
-  return name
+    if info.name == nil then
+        name = name .. "<" .. tostring(func) .. ">"
+    else
+        name = name .. info.name
+    end
+
+    if info.source then
+        name = name .. "@" .. info.source
+    else
+        if info.what == "C" then
+            name = name .. "@?"
+        else
+            name = name .. "@<string>"
+        end
+    end
+    name = name .. ":"
+    if info.what == "C" then
+        name = name .. "?"
+    else
+        name = name .. info.linedefined
+    end
+
+    return name
 end
 
 
@@ -600,22 +596,21 @@ end
 -- If anyone cares, let me (zorba) know and it can be fixed.
 --
 function _profiler.prevent(self, func, level)
-  self.prevented_functions[func] = (level or 1)
+    self.prevented_functions[func] = (level or 1)
 end
 
-
 _profiler.prevented_functions = {
-  [_profiler.start] = 2,
-  [_profiler.stop] = 2,
-  [_profiler._internal_profile_by_time] = 2,
-  [_profiler._internal_profile_by_call] = 2,
-  [_profiler_hook_wrapper_by_time] = 2,
-  [_profiler_hook_wrapper_by_call] = 2,
-  [_profiler.prevent] = 2,
-  [_profiler._get_func_rec] = 2,
-  [_profiler.report] = 2,
-  [_profiler.lua_report] = 2,
-  [_profiler._pretty_name] = 2
+    [_profiler.start] = 2,
+    [_profiler.stop] = 2,
+    [_profiler._internal_profile_by_time] = 2,
+    [_profiler._internal_profile_by_call] = 2,
+    [_profiler_hook_wrapper_by_time] = 2,
+    [_profiler_hook_wrapper_by_call] = 2,
+    [_profiler.prevent] = 2,
+    [_profiler._get_func_rec] = 2,
+    [_profiler.report] = 2,
+    [_profiler.lua_report] = 2,
+    [_profiler._pretty_name] = 2
 }
 
 

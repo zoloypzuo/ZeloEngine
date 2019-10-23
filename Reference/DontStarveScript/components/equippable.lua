@@ -26,11 +26,11 @@ end
 
 function Equippable:Equip(owner, slot)
     self.isequipped = true
-    
+
     if self.onequipfn then
         self.onequipfn(self.inst, owner)
     end
-    self.inst:PushEvent("equipped", {owner=owner, slot=slot})
+    self.inst:PushEvent("equipped", { owner = owner, slot = slot })
     self.owner = owner
 end
 
@@ -43,17 +43,17 @@ end
 
 function Equippable:Unequip(owner, slot)
     self.isequipped = false
-    
+
     if self.onunequipfn then
         self.onunequipfn(self.inst, owner)
     end
-    
-    self.inst:PushEvent("unequipped", {owner=owner, slot=slot})
+
+    self.inst:PushEvent("unequipped", { owner = owner, slot = slot })
     self.owner = nil
 end
 
 function Equippable:GetWalkSpeedMult()
-	return self.walkspeedmult or 1.0
+    return self.walkspeedmult or 1.0
 end
 
 function Equippable:CollectInventoryActions(doer, actions)

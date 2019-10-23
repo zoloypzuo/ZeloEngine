@@ -1,11 +1,11 @@
 local Fueled = Class(function(self, inst)
     self.inst = inst
     self.consuming = false
-    
+
     self.maxfuel = 0
     self.currentfuel = 0
     self.rate = 1
-    
+
     self.accepting = false
     self.fueltype = "BURNABLE"
     self.sections = 1
@@ -15,16 +15,15 @@ local Fueled = Class(function(self, inst)
     self.depleted = nil
 end)
 
-
 function Fueled:MakeEmpty()
-	if self.currentfuel > 0 then
-		self:DoDelta(-self.currentfuel)
-	end
+    if self.currentfuel > 0 then
+        self:DoDelta(-self.currentfuel)
+    end
 end
 
 function Fueled:OnSave()
     if self.currentfuel ~= self.maxfuel then
-        return {fuel = self.currentfuel}
+        return { fuel = self.currentfuel }
     end
 end
 
@@ -58,19 +57,19 @@ function Fueled:GetCurrentSection()
     if self:IsEmpty() then
         return 0
     else
-        return math.min( math.floor(self:GetPercent()* self.sections)+1, self.sections)
+        return math.min(math.floor(self:GetPercent() * self.sections) + 1, self.sections)
     end
 end
 
 function Fueled:ChangeSection(amount)
     local fuelPerSection = self.maxfuel / self.sections
-    self:DoDelta((amount * fuelPerSection)-1)
+    self:DoDelta((amount * fuelPerSection) - 1)
 end
 
 function Fueled:TakeFuelItem(item)
     if self:CanAcceptFuelItem(item) then
         local oldsection = self:GetCurrentSection()
-    
+
         -- self.currentfuel = self.currentfuel + (item.components.fuel.fuelvalue * self.bonusmult)
         -- if self.currentfuel > self.maxfuel then
         --     self.currentfuel = self.maxfuel
@@ -82,25 +81,24 @@ function Fueled:TakeFuelItem(item)
             item.components.fuel:Taken(self.inst)
         end
         item:Remove()
-        
+
         if self.sections > 1 and self.sectionfn then
-        
+
             local newsection = self:GetCurrentSection()
             if oldsection ~= newsection then
-                self.sectionfn(newsection,oldsection)
+                self.sectionfn(newsection, oldsection)
             end
-            
+
         end
-        
+
         if self.ontakefuelfn then
             self.ontakefuelfn(self.inst)
         end
-        
+
         return true
     end
-    
-end
 
+end
 
 function Fueled:SetUpdateFn(fn)
     self.updatefn = fn
@@ -109,23 +107,22 @@ end
 function Fueled:GetDebugString()
 
     local section = self:GetCurrentSection()
-    
+
     return string.format("%s %2.2f/%2.2f (-%2.2f) : section %d/%d %2.2f", self.consuming and "ON" or "OFF", self.currentfuel, self.maxfuel, self.rate, section, self.sections, self:GetSectionPercent())
 end
 
 function Fueled:AddThreshold(percent, fn)
-    table.insert(self.thresholds, {percent=percent, fn=fn})
+    table.insert(self.thresholds, { percent = percent, fn = fn })
     --table.sort(self.thresholds, function(l,r) return l.percent < r.percent)
 end
 
 function Fueled:GetSectionPercent()
     local section = self:GetCurrentSection()
-    return (self:GetPercent() - (section - 1)/self.sections) / (1/self.sections)
+    return (self:GetPercent() - (section - 1) / self.sections) / (1 / self.sections)
 end
 
-
 function Fueled:GetPercent()
-    if self.maxfuel > 0 then 
+    if self.maxfuel > 0 then
         return math.min(1, self.currentfuel / self.maxfuel)
     else
         return 0
@@ -140,10 +137,11 @@ end
 function Fueled:StartConsuming()
     self.consuming = true
     if self.task == nil then
-        self.task = self.inst:DoPeriodicTask(self.period, function() self:DoUpdate(self.period) end)
+        self.task = self.inst:DoPeriodicTask(self.period, function()
+            self:DoUpdate(self.period)
+        end)
     end
 end
-
 
 function Fueled:InitializeFuelLevel(fuel)
     local oldsection = self:GetCurrentSection()
@@ -151,41 +149,41 @@ function Fueled:InitializeFuelLevel(fuel)
         self.maxfuel = fuel
     end
     self.currentfuel = fuel
-    
+
     local newsection = self:GetCurrentSection()
     if oldsection ~= newsection and self.sectionfn then
-        self.sectionfn(newsection,oldsection)
+        self.sectionfn(newsection, oldsection)
     end
 end
 
 function Fueled:DoDelta(amount)
     local oldsection = self:GetCurrentSection()
-    
-    self.currentfuel = math.max(0, math.min(self.maxfuel, self.currentfuel + amount) )
-    
+
+    self.currentfuel = math.max(0, math.min(self.maxfuel, self.currentfuel + amount))
+
     local newsection = self:GetCurrentSection()
-    
+
     if oldsection ~= newsection then
         if self.sectionfn then
-            self.sectionfn(newsection,oldsection)
+            self.sectionfn(newsection, oldsection)
         end
         if self.currentfuel <= 0 and self.depleted then
             self.depleted(self.inst)
         end
     end
-    
-    self.inst:PushEvent("percentusedchange", {percent = self:GetPercent()})    
+
+    self.inst:PushEvent("percentusedchange", { percent = self:GetPercent() })
 end
 
-function Fueled:DoUpdate( dt )
+function Fueled:DoUpdate(dt)
     if self.consuming then
-        self:DoDelta(-dt*self.rate)
+        self:DoDelta(-dt * self.rate)
     end
-    
+
     if self:IsEmpty() then
         self:StopConsuming()
     end
-    
+
     if self.updatefn then
         self.updatefn(self.inst)
     end
@@ -201,7 +199,7 @@ function Fueled:StopConsuming()
 end
 
 function Fueled:LongUpdate(dt)
-	self:DoUpdate(dt)
+    self:DoUpdate(dt)
 end
 
 return Fueled

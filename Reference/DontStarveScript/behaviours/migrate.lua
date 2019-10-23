@@ -4,7 +4,6 @@ Migrate = Class(BehaviourNode, function(self, inst, homelocation)
     self.inst = inst
 end)
 
-
 function Migrate:Visit()
 
     local MIGRATION_HOME_RADIUS_SQ = 8 * 8
@@ -42,9 +41,9 @@ end
 
 function Migrate:GetDistFromHomeSq()
     local homepos = self:GetHomePos()
-	if not homepos then
-		return nil
-	end
+    if not homepos then
+        return nil
+    end
     local pos = Vector3(self.inst.Transform:GetWorldPosition())
     return distsq(homepos, pos)
 end
