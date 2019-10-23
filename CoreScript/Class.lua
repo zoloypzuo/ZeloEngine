@@ -4,6 +4,11 @@
 --
 -- 这个模块主要是Class函数
 -- Class函数附赠makereadonly，addsetter，removesetter，和一个TrackClassInstances开关
+--
+-- Class函数有两种用法
+-- 没有基类时Class(function(self) self.value = 1 end)
+-- 有基类时Class(base, function(self) self.value = 1 end)
+
 
 local TrackClassInstances = false
 
