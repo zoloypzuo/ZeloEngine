@@ -6,14 +6,13 @@ local Fishable = Class(function(self, inst)
     self.hookedfish = {}
     self.fishrespawntime = nil
     self.respawntask = nil
-	self.frozen = false
+    self.frozen = false
 end)
 
 function Fishable:GetDebugString()
     local str = string.format("fishleft: %d", self.fishleft)
     return str
 end
-
 
 function Fishable:AddFish(prefab)
     self.fish[prefab] = prefab
@@ -75,17 +74,16 @@ function Fishable:RemoveFish(fish)
 end
 
 function Fishable:IsFrozenOver()
-	return self.frozen
+    return self.frozen
 end
 
 function Fishable:Freeze()
-	self.frozen = true
+    self.frozen = true
 end
 
 function Fishable:Unfreeze()
-	self.frozen = false
+    self.frozen = false
 end
-
 
 function Fishable:RefreshFish()
     if self.fishrespawntime then
@@ -94,7 +92,7 @@ function Fishable:RefreshFish()
 end
 
 function Fishable:GetFishPercent()
-    return self.fishleft / self.maxfish 
+    return self.fishleft / self.maxfish
 end
 
 function Fishable:FishedBy(fisherman)
@@ -103,14 +101,14 @@ function Fishable:FishedBy(fisherman)
         local fishprefab = GetRandomKey(self.fish)
         local fish = SpawnPrefab(fishprefab)
         if fish then
-            fish.Transform:SetPosition(spawnPos:Get() )
+            fish.Transform:SetPosition(spawnPos:Get())
         end
     end
 end
 
 function Fishable:OnSave()
     if self.fishleft < self.maxfish then
-        return {fish = self.fishleft}
+        return { fish = self.fishleft }
     end
 end
 

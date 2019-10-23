@@ -1,23 +1,31 @@
 require("stategraphs/commonstates")
 
-local actionhandlers =
-{
+local actionhandlers = {
     ActionHandler(ACTIONS.GOHOME, "action"),
 }
 
-local events=
-{
-    EventHandler("attacked", function(inst) if not inst.components.health:IsDead() and not inst.sg:HasStateTag("attack") then inst.sg:GoToState("hit") end end),
-    EventHandler("death", function(inst) inst.sg:GoToState("death") end),
-    EventHandler("doattack", function(inst, data) if not inst.components.health:IsDead() and (inst.sg:HasStateTag("hit") or not inst.sg:HasStateTag("busy")) then inst.sg:GoToState("attack", data.target) end end),
-    CommonHandlers.OnLocomote(false,true),
+local events = {
+    EventHandler("attacked", function(inst)
+        if not inst.components.health:IsDead() and not inst.sg:HasStateTag("attack") then
+            inst.sg:GoToState("hit")
+        end
+    end),
+    EventHandler("death", function(inst)
+        inst.sg:GoToState("death")
+    end),
+    EventHandler("doattack", function(inst, data)
+        if not inst.components.health:IsDead() and (inst.sg:HasStateTag("hit") or not inst.sg:HasStateTag("busy")) then
+            inst.sg:GoToState("attack", data.target)
+        end
+    end),
+    CommonHandlers.OnLocomote(false, true),
 }
 
 local function GetVolume(inst)
-	if inst.components.transparentonsanity then
-		return inst.components.transparentonsanity:GetPercent()
-	end
-	return 1
+    if inst.components.transparentonsanity then
+        return inst.components.transparentonsanity:GetPercent()
+    end
+    return 1
 end
 
 local function GetSanity(inst)
@@ -29,11 +37,10 @@ local function GetSanity(inst)
     return sanity_level
 end
 
-local states=
-{
-    State{
+local states = {
+    State {
         name = "attack",
-        tags = {"attack", "busy"},
+        tags = { "attack", "busy" },
 
         onenter = function(inst, target)
             inst.sg.statemem.target = target
@@ -44,14 +51,16 @@ local states=
             inst.SoundEmitter:PlaySound(inst.sounds.attack_grunt, nil, GetVolume(inst))
         end,
 
-        timeline=
-        {
-			TimeEvent(14*FRAMES, function(inst) inst.SoundEmitter:PlaySound(inst.sounds.attack, nil, GetVolume(inst)) end),
-            TimeEvent(16*FRAMES, function(inst) inst.components.combat:DoAttack(inst.sg.statemem.target) end),
+        timeline = {
+            TimeEvent(14 * FRAMES, function(inst)
+                inst.SoundEmitter:PlaySound(inst.sounds.attack, nil, GetVolume(inst))
+            end),
+            TimeEvent(16 * FRAMES, function(inst)
+                inst.components.combat:DoAttack(inst.sg.statemem.target)
+            end),
         },
 
-        events=
-        {
+        events = {
             EventHandler("animqueueover", function(inst)
                 if math.random() < .333 then
                     inst.components.combat:SetTarget(nil)
@@ -63,43 +72,42 @@ local states=
         },
     },
 
-	State{
-		name = "hit",
-        tags = {"busy", "hit"},
+    State {
+        name = "hit",
+        tags = { "busy", "hit" },
 
         onenter = function(inst)
             inst.Physics:Stop()
             inst.AnimState:PlayAnimation("disappear")
         end,
 
-        events=
-        {
-			EventHandler("animover", function(inst)
+        events = {
+            EventHandler("animover", function(inst)
                 if GetWorld().Map then
-                
-					local max_tries = 4
-					for k = 1,max_tries do
-						local pos = Vector3(inst.Transform:GetWorldPosition())
-						local offset = 10
-						pos.x = pos.x + (math.random(2*offset)-offset)          
-						pos.z = pos.z + (math.random(2*offset)-offset)
-						if GetWorld().Map:GetTileAtPoint(pos:Get()) ~= GROUND.IMPASSABLE then
-							inst.Transform:SetPosition(pos:Get() )
-							break
-						end
-					end
+
+                    local max_tries = 4
+                    for k = 1, max_tries do
+                        local pos = Vector3(inst.Transform:GetWorldPosition())
+                        local offset = 10
+                        pos.x = pos.x + (math.random(2 * offset) - offset)
+                        pos.z = pos.z + (math.random(2 * offset) - offset)
+                        if GetWorld().Map:GetTileAtPoint(pos:Get()) ~= GROUND.IMPASSABLE then
+                            inst.Transform:SetPosition(pos:Get())
+                            break
+                        end
+                    end
                 end
 
-				inst.sg:GoToState("appear")
-                
-			end),
-			
+                inst.sg:GoToState("appear")
+
+            end),
+
         },
     },
 
-	State{
-		name = "taunt",
-        tags = {"busy"},
+    State {
+        name = "taunt",
+        tags = { "busy" },
 
         onenter = function(inst)
             inst.Physics:Stop()
@@ -107,80 +115,82 @@ local states=
             inst.SoundEmitter:PlaySound(inst.sounds.taunt, nil, GetVolume(inst))
         end,
 
-		--timeline=
+        --timeline=
         --{
-			--TimeEvent(13*FRAMES, function(inst)  end),
+        --TimeEvent(13*FRAMES, function(inst)  end),
         --},
 
-        events=
-        {
-			EventHandler("animover", function(inst) inst.sg:GoToState("idle") end),
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end),
         },
     },
-    
-    State{
+
+    State {
         name = "appear",
-        tags = {"busy"},
-        
+        tags = { "busy" },
+
         onenter = function(inst)
             inst.AnimState:PlayAnimation("appear")
             inst.Physics:Stop()
-            inst.SoundEmitter:PlaySoundWithParams(inst.sounds.appear, {sanity = GetSanity(inst) - 1})
+            inst.SoundEmitter:PlaySoundWithParams(inst.sounds.appear, { sanity = GetSanity(inst) - 1 })
         end,
-        
-        events = 
-        {
-            EventHandler("animover", function(inst) inst.sg:GoToState("idle") end)
+
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end)
         },
     },
 
-    State{
+    State {
         name = "death",
-        tags = {"busy"},
+        tags = { "busy" },
 
         onenter = function(inst)
-			inst.SoundEmitter:PlaySound(inst.sounds.death, nil, GetVolume(inst))
+            inst.SoundEmitter:PlaySound(inst.sounds.death, nil, GetVolume(inst))
             inst.AnimState:PlayAnimation("disappear")
             inst.Physics:Stop()
-            RemovePhysicsColliders(inst)            
-            inst.components.lootdropper:DropLoot(Vector3(inst.Transform:GetWorldPosition()))            
+            RemovePhysicsColliders(inst)
+            inst.components.lootdropper:DropLoot(Vector3(inst.Transform:GetWorldPosition()))
         end,
 
 
     },
-    
-	State{
+
+    State {
         name = "disappear",
-        tags = {"busy"},
+        tags = { "busy" },
 
         onenter = function(inst)
-			inst.persists = false
-			inst.SoundEmitter:PlaySound(inst.sounds.death, nil, GetVolume(inst))
+            inst.persists = false
+            inst.SoundEmitter:PlaySound(inst.sounds.death, nil, GetVolume(inst))
             inst.AnimState:PlayAnimation("disappear")
             inst.Physics:Stop()
         end,
-        
-        events =
-        {
-            EventHandler("animover", function(inst) 
-				inst:Remove()
-			end ),
-        },        
-    },   
 
-    State{
-        
+        events = {
+            EventHandler("animover", function(inst)
+                inst:Remove()
+            end),
+        },
+    },
+
+    State {
+
         name = "action",
         onenter = function(inst, playanim)
             inst.Physics:Stop()
             inst:PerformBufferedAction()
         end,
-        
-        events = 
-        {
-            EventHandler("animover", function(inst) inst.sg:GoToState("idle") end)
+
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end)
         },
-    },  
+    },
 }
 CommonStates.AddWalkStates(states)
 CommonStates.AddIdle(states)

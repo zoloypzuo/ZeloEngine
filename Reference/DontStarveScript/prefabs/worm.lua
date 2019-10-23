@@ -15,14 +15,12 @@
 require "brains/wormbrain"
 require "stategraphs/SGworm"
 
-local assets=
-{
-	Asset("ANIM", "anim/worm.zip"),
+local assets = {
+    Asset("ANIM", "anim/worm.zip"),
     Asset("SOUND", "sound/worm.fsb"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "monstermeat",
     "wormlight",
 }
@@ -34,9 +32,9 @@ local function retargetfn(inst)
         return
     end
 
-    return FindEntity(inst, TUNING.WORM_TARGET_DIST, function(guy) 
+    return FindEntity(inst, TUNING.WORM_TARGET_DIST, function(guy)
         if guy.components.combat and guy.components.health and not guy.components.health:IsDead() then
-            return ( guy:HasTag("character") or guy:HasTag("monster") or guy:HasTag("animal")) and not 
+            return (guy:HasTag("character") or guy:HasTag("monster") or guy:HasTag("animal")) and not
             guy:HasTag("prey") and not (guy.prefab == inst.prefab)
         end
     end)
@@ -49,7 +47,7 @@ local function shouldKeepTarget(inst, target)
     end
 
     local home = inst.components.knownlocations:GetLocation("home")
-    
+
     if target and target:IsValid() and target.components.health and not target.components.health:IsDead() then
         if home then
             return distsq(home, target:GetPosition()) < TUNING.WORM_CHASE_DIST * TUNING.WORM_CHASE_DIST
@@ -86,9 +84,8 @@ local function displaynamefn(inst)
     elseif inst.sg:HasStateTag("dirt") then
         return STRINGS.NAMES.WORM_DIRT
     end
-    return STRINGS.NAMES.WORM 
+    return STRINGS.NAMES.WORM
 end
-
 
 local function getstatus(inst)
     if inst.sg:HasStateTag("lure") then
@@ -98,7 +95,6 @@ local function getstatus(inst)
     end
     return "WORM"
 end
-
 
 function LookForHome(inst)
     if inst.components.knownlocations:GetLocation("home") ~= nil then
@@ -112,15 +108,15 @@ function LookForHome(inst)
 
     local validtile = function(pos)
         local tile_at_point = ground.Map and ground.Map:GetTileAtPoint(pos.x, pos.y, pos.z)
-        return tile_at_point and 
-        tile_at_point ~= GROUND.IMPASSABLE and
-        tile_at_point < GROUND.UNDERGROUND
+        return tile_at_point and
+                tile_at_point ~= GROUND.IMPASSABLE and
+                tile_at_point < GROUND.UNDERGROUND
     end
 
     local areaislush = function(pos)
         local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, 7)
         local num_plants = 0
-        for k,v in pairs(ents) do
+        for k, v in pairs(ents) do
             if v.components.pickable then
                 num_plants = num_plants + 1
             end
@@ -130,7 +126,7 @@ function LookForHome(inst)
 
     local notclaimed = function(pos)
         local ents = TheSim:FindEntities(pos.x, pos.y, pos.z, 30)
-        for k,v in pairs(ents) do
+        for k, v in pairs(ents) do
             if v ~= inst and v.prefab == inst.prefab then
                 return false
             end
@@ -142,13 +138,13 @@ function LookForHome(inst)
     local distancemod = 30
 
     for i = 1, 30 do
-        local s = i/32.0--(num/2) -- 32.0
-        local a = math.sqrt(s*512.0)
+        local s = i / 32.0--(num/2) -- 32.0
+        local a = math.sqrt(s * 512.0)
         local b = math.sqrt(s)
-        table.insert(positions, Vector3(math.sin(a)*b, 0, math.cos(a)*b))
+        table.insert(positions, Vector3(math.sin(a) * b, 0, math.cos(a) * b))
     end
 
-    for k,v in pairs(positions) do
+    for k, v in pairs(positions) do
         local offset = Vector3(v.x * distancemod, 0, v.z * distancemod)
         local pos = offset + pt
         if validtile(pos) and areaislush(pos) and notclaimed(pos) then
@@ -175,31 +171,33 @@ end
 local function onattacked(inst, data)
     if data.attacker then
         inst.components.combat:SetTarget(data.attacker)
-        inst.components.combat:ShareTarget(data.attacker, 40, function(dude) return dude:HasTag("worm") and not dude.components.health:IsDead() end, 3)
+        inst.components.combat:ShareTarget(data.attacker, 40, function(dude)
+            return dude:HasTag("worm") and not dude.components.health:IsDead()
+        end, 3)
     end
 end
 
 local function fn()
-	local inst = CreateEntity()
-	
+    local inst = CreateEntity()
+
     inst.entity:AddTransform()
-	inst.entity:AddAnimState()
- 	inst.entity:AddSoundEmitter()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
     inst.Transform:SetFourFaced()
 
     MakeCharacterPhysics(inst, 1000, .5)
-    
+
     inst.AnimState:SetBank("worm")
     inst.AnimState:SetBuild("worm")
     inst.AnimState:PlayAnimation("idle_loop")
 
-    inst:AddTag("monster")    
+    inst:AddTag("monster")
     inst:AddTag("hostile")
     inst:AddTag("wet")
-    
+
     inst:AddComponent("health")
     inst.components.health:SetMaxHealth(TUNING.WORM_HEALTH)
-        
+
     inst:AddComponent("combat")
     inst.components.combat:SetRange(TUNING.WORM_ATTACK_DIST)
     inst.components.combat:SetDefaultDamage(TUNING.WORM_DAMAGE)
@@ -207,13 +205,13 @@ local function fn()
     inst.components.combat:SetRetargetFunction(GetRandomWithVariance(2, 0.5), retargetfn)
     inst.components.combat:SetKeepTargetFunction(shouldKeepTarget)
     inst.components.combat.canbeattackedfn = canbeattackedfn
-        
+
     inst:AddComponent("sanityaura")
     inst.components.sanityaura.aura = -TUNING.SANITYAURA_SMALL
 
     inst:AddComponent("locomotor")
     inst.components.locomotor.walkspeed = 4
-    inst.components.locomotor:SetSlowMultiplier( 1 )
+    inst.components.locomotor:SetSlowMultiplier(1)
     inst.components.locomotor:SetTriggersCreep(false)
     inst.components.locomotor.pathcaps = { ignorecreep = true }
 
@@ -231,15 +229,19 @@ local function fn()
 
     local light = inst.entity:AddLight()
     inst:AddComponent("lighttweener")
-    inst.components.lighttweener:StartTween(light, 0, 0.8, 0.5, {1,1,1}, 0, function(inst, light) if light then light:Enable(false) end end)
+    inst.components.lighttweener:StartTween(light, 0, 0.8, 0.5, { 1, 1, 1 }, 0, function(inst, light)
+        if light then
+            light:Enable(false)
+        end
+    end)
 
     inst:AddComponent("knownlocations")
     inst:AddComponent("inventory")
     inst:AddComponent("inspectable")
-	inst.components.inspectable.getstatus = getstatus
+    inst.components.inspectable.getstatus = getstatus
 
     inst:AddComponent("lootdropper")
-    inst.components.lootdropper:SetLoot({"monstermeat", "monstermeat", "monstermeat", "monstermeat", "wormlight"})
+    inst.components.lootdropper:SetLoot({ "monstermeat", "monstermeat", "monstermeat", "monstermeat", "wormlight" })
 
     inst.displaynamefn = displaynamefn  --Handles the changing names.
     --Disable this task for worm attacks
@@ -248,11 +250,10 @@ local function fn()
     inst:ListenForEvent("attacked", onattacked)
 
     inst:SetStateGraph("SGworm")
-    local brain = require"brains/wormbrain"
+    local brain = require "brains/wormbrain"
     inst:SetBrain(brain)
-
 
     return inst
 end
 
-return Prefab( "cave/monsters/worm", fn, assets, prefabs) 
+return Prefab("cave/monsters/worm", fn, assets, prefabs)

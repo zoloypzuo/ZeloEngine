@@ -61,5 +61,4 @@ function HerdMember:GetDebugString()
     return string.format("herd: %s", tostring(self.herd))
 end
 
-
 return HerdMember

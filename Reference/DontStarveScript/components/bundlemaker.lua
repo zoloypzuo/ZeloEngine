@@ -21,15 +21,15 @@ function BundleMaker:OnStartBundling(doer)
 end
 
 function BundleMaker:CollectSceneActions(doer, actions, right)
-	if right then
-		table.insert(actions, ACTIONS.BUNDLE)
-	end
+    if right then
+        table.insert(actions, ACTIONS.BUNDLE)
+    end
 end
 
 function BundleMaker:CollectInventoryActions(doer, actions)
-	if not doer.components.inventory:GetActiveItem() then
-		table.insert(actions, ACTIONS.BUNDLE)
-	end
+    if not doer.components.inventory:GetActiveItem() then
+        table.insert(actions, ACTIONS.BUNDLE)
+    end
 end
 
 return BundleMaker

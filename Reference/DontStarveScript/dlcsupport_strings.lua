@@ -14,28 +14,36 @@ USE_PREFIX[STRINGS.NAMES.RABBITHOLE] = true -- Special case using inst.wet_prefi
 local function TryGuaranteeCoverage(item, usePrefix)
     -- Look for item in the STRINGS.NAMES table
     local name = nil
-    for i,v in pairs(STRINGS.NAMES) do
+    for i, v in pairs(STRINGS.NAMES) do
         if item == v then
             -- If we find it, save the key so we can look for that key in the STRINGS.WET_PREFIX table
             name = i
             break
         end
     end
-    if name and STRINGS.WET_PREFIX[name] then USE_PREFIX[STRINGS.WET_PREFIX[name]] = usePrefix end
+    if name and STRINGS.WET_PREFIX[name] then
+        USE_PREFIX[STRINGS.WET_PREFIX[name]] = usePrefix
+    end
 
     -- And vice versa for prefix
     local prefix = nil
-    for i,v in pairs(STRINGS.WET_PREFIX) do
+    for i, v in pairs(STRINGS.WET_PREFIX) do
         if item == v then
             prefix = i
             break
         end
     end
-    if prefix and STRINGS.NAMES[prefix] then USE_PREFIX[STRINGS.NAMES[prefix]] = usePrefix end
+    if prefix and STRINGS.NAMES[prefix] then
+        USE_PREFIX[STRINGS.NAMES[prefix]] = usePrefix
+    end
 
     -- Now check if the value is a key itself in either of the tables. If so, add its value to USES_PREFIX
-    if STRINGS.NAMES[string.upper(item)] then USE_PREFIX[STRINGS.NAMES[string.upper(item)]] = usePrefix end
-    if STRINGS.WET_PREFIX[string.upper(item)] then USE_PREFIX[STRINGS.WET_PREFIX[string.upper(item)]] = usePrefix end
+    if STRINGS.NAMES[string.upper(item)] then
+        USE_PREFIX[STRINGS.NAMES[string.upper(item)]] = usePrefix
+    end
+    if STRINGS.WET_PREFIX[string.upper(item)] then
+        USE_PREFIX[STRINGS.WET_PREFIX[string.upper(item)]] = usePrefix
+    end
 end
 
 -- Check if the item uses a prefix or a suffix
@@ -65,8 +73,8 @@ function MakeAllPrefixes(fn)
     end
 end
 
- -- Use this to specify whether a particular item should use a prefix or a suffix
- -- This can also be used to add a new item to the USE_PREFIX table
+-- Use this to specify whether a particular item should use a prefix or a suffix
+-- This can also be used to add a new item to the USE_PREFIX table
 function SetUsesPrefix(item, usePrefix)
     if type(item) == "string" and usePrefix ~= nil then
         USE_PREFIX[item] = usePrefix
@@ -80,7 +88,7 @@ function ConstructAdjectivedName(inst, name, adjective)
         name = STRINGS.NAMES[string.upper(inst.prefab)]
     end
 
-	name = name or "MISSING NAME"
+    name = name or "MISSING NAME"
 
     -- Adjective is stronger binding: we only want to base it off the name for special cases (in which case the adjective won't be in the table)
     local usePrefix = UsesPrefix(adjective)
@@ -99,6 +107,6 @@ function ConstructAdjectivedName(inst, name, adjective)
 
     -- If we don't have a string yet (either the entry in the table wasn't a function or the function returned a bad value), try the table value directly
     return usePrefix ~= false
-        and (adjective.." "..name)
-        or (name.." "..adjective)
+            and (adjective .. " " .. name)
+            or (name .. " " .. adjective)
 end

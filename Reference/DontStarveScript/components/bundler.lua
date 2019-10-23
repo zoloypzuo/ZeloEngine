@@ -7,21 +7,21 @@ end)
 
 function Bundler:CanStartBundling()
     return self.inst.sg.currentstate.name == "bundle"
-        and self.bundlinginst == nil
-        and self.itemprefab == nil
+            and self.bundlinginst == nil
+            and self.itemprefab == nil
 end
 
 function Bundler:IsBundling(bundlinginst)
     return bundlinginst ~= nil
-        and self.bundlinginst == bundlinginst
-        and self.inst.sg.currentstate.name == "bundling"
+            and self.bundlinginst == bundlinginst
+            and self.inst.sg.currentstate.name == "bundling"
 end
 
 function Bundler:StartBundling(item)
     if item ~= nil and
-        item.components.bundlemaker ~= nil and
-        item.components.bundlemaker.bundlingprefab ~= nil and
-        item.components.bundlemaker.bundledprefab ~= nil then
+            item.components.bundlemaker ~= nil and
+            item.components.bundlemaker.bundlingprefab ~= nil and
+            item.components.bundlemaker.bundledprefab ~= nil then
         self:StopBundling()
         self.bundlinginst = SpawnPrefab(item.components.bundlemaker.bundlingprefab)
         if self.bundlinginst ~= nil then
@@ -90,10 +90,10 @@ end
 
 function Bundler:FinishBundling()
     if self.bundlinginst ~= nil and
-        self.bundlinginst.components.container ~= nil and
-        not self.bundlinginst.components.container:IsEmpty() and
-        self.wrappedprefab ~= nil and
-        self.inst.sg.currentstate.name == "bundling" then
+            self.bundlinginst.components.container ~= nil and
+            not self.bundlinginst.components.container:IsEmpty() and
+            self.wrappedprefab ~= nil and
+            self.inst.sg.currentstate.name == "bundling" then
         self.bundlinginst.components.container:Close()
         self.inst.sg.statemem.bundling = true
         self.inst.sg:GoToState("bundle_pst")
@@ -103,9 +103,9 @@ end
 
 function Bundler:OnFinishBundling()
     if self.bundlinginst ~= nil and
-        self.bundlinginst.components.container ~= nil and
-        not self.bundlinginst.components.container:IsEmpty() and
-        self.wrappedprefab ~= nil then
+            self.bundlinginst.components.container ~= nil and
+            not self.bundlinginst.components.container:IsEmpty() and
+            self.wrappedprefab ~= nil then
         local wrapped = SpawnPrefab(self.wrappedprefab)
         if wrapped ~= nil then
             if wrapped.components.unwrappable ~= nil then
@@ -134,14 +134,13 @@ function Bundler:OnFinishBundling()
 end
 
 function Bundler:OnSave()
-    local data =
-    {
+    local data = {
         item = self.itemprefab,
         wrapped = self.wrappedprefab,
     }
     if self.bundlinginst ~= nil and
-        self.bundlinginst.components.container ~= nil and
-        not self.bundlinginst.components.container:IsEmpty() then
+            self.bundlinginst.components.container ~= nil and
+            not self.bundlinginst.components.container:IsEmpty() then
         data.bundling = self.bundlinginst:GetSaveRecord()
     end
     return next(data) ~= nil and data or nil

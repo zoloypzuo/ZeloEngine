@@ -1,18 +1,17 @@
 local groundtiles = require "worldtiledefs"
 
-local common_prefabs =
-{
+local common_prefabs = {
     "minimap",
-	"evergreen",
+    "evergreen",
     "evergreen_normal",
     "evergreen_short",
     "evergreen_tall",
-	"evergreen_sparse",
+    "evergreen_sparse",
     "evergreen_sparse_normal",
     "evergreen_sparse_short",
     "evergreen_sparse_tall",
-   	"evergreen_burnt",
-   	"evergreen_stump",
+    "evergreen_burnt",
+    "evergreen_stump",
 
     "sapling",
     "berrybush",
@@ -21,7 +20,7 @@ local common_prefabs =
     "rock1",
     "rock2",
     "rock_flintless",
-    
+
     "tallbirdnest",
     "hound",
     "firehound",
@@ -37,11 +36,11 @@ local common_prefabs =
     "rook",
     "bishop",
     "knight",
-    
+
     "goldnugget",
     "crow",
     "robin",
-	"robin_winter",
+    "robin_winter",
     "butterfly",
     "flint",
     "log",
@@ -61,24 +60,24 @@ local common_prefabs =
     "turf_sinkhole",
     "turf_underrock",
     "turf_mud",
-    
+
     "skeleton",
     "boneshard",
-	"insanityrock",
-	"sanityrock",
-	"basalt",
-	"basalt_pillar",
-	"houndmound",
-	"houndbone",
-	"pigtorch",
-	"red_mushroom",
-	"green_mushroom",
-	"blue_mushroom",
-	"mermhouse",
-	"flower_evil",
-	"blueprint",
-	"lockedwes",
-	"wormhole_limited_1",
+    "insanityrock",
+    "sanityrock",
+    "basalt",
+    "basalt_pillar",
+    "houndmound",
+    "houndbone",
+    "pigtorch",
+    "red_mushroom",
+    "green_mushroom",
+    "blue_mushroom",
+    "mermhouse",
+    "flower_evil",
+    "blueprint",
+    "lockedwes",
+    "wormhole_limited_1",
     "diviningrod",
     "diviningrodbase",
     "splash_ocean",
@@ -90,14 +89,13 @@ local common_prefabs =
     "statue_transition",
 }
 
-local assets =
-{
+local assets = {
     Asset("SOUND", "sound/sanity.fsb"),
     Asset("SHADER", "shaders/uifade.ksh"),
 }
 
-for k,v in pairs(groundtiles.assets) do
-	table.insert(assets, v)
+for k, v in pairs(groundtiles.assets) do
+    table.insert(assets, v)
 end
 
 
@@ -121,62 +119,65 @@ function onremove(inst)
 end
 
 local function fn(Sim)
-	local inst = CreateEntity()
-	
-	inst:AddTag( "ground" )
-	inst:AddTag( "NOCLICK" )
+    local inst = CreateEntity()
+
+    inst:AddTag("ground")
+    inst:AddTag("NOCLICK")
     inst.entity:SetCanSleep(false)
     inst.persists = false
 
-	local trans = inst.entity:AddTransform()
-	local map = inst.entity:AddMap()
-	local pathfinder = inst.entity:AddPathfinder()
-	local groundcreep = inst.entity:AddGroundCreep()
-	local sound = inst.entity:AddSoundEmitter()
+    local trans = inst.entity:AddTransform()
+    local map = inst.entity:AddMap()
+    local pathfinder = inst.entity:AddPathfinder()
+    local groundcreep = inst.entity:AddGroundCreep()
+    local sound = inst.entity:AddSoundEmitter()
 
-	for i, data in ipairs( groundtiles.ground ) do
-		local tile_type, props = unpack( data )
-		local layer_name = props.name
-		local handle =
-			MapLayerManager:CreateRenderLayer(
-				tile_type, --embedded map array value
-				resolvefilepath(GroundAtlas( layer_name )),
-				resolvefilepath(GroundImage( layer_name )),
-				resolvefilepath(props.noise_texture)
-			)
+    for i, data in ipairs(groundtiles.ground) do
+        local tile_type, props = unpack(data)
+        local layer_name = props.name
+        local handle = MapLayerManager:CreateRenderLayer(
+                tile_type, --embedded map array value
+                resolvefilepath(GroundAtlas(layer_name)),
+                resolvefilepath(GroundImage(layer_name)),
+                resolvefilepath(props.noise_texture)
+        )
 
-		map:AddRenderLayer( handle )
-		-- TODO: When this object is destroyed, these handles really should be freed. At this time, this is not an
-		-- issue because the map lifetime matches the game lifetime but if this were to ever change, we would have
-		-- to clean up properly or we leak memory
-	end
+        map:AddRenderLayer(handle)
+        -- TODO: When this object is destroyed, these handles really should be freed. At this time, this is not an
+        -- issue because the map lifetime matches the game lifetime but if this were to ever change, we would have
+        -- to clean up properly or we leak memory
+    end
 
-	for i, data in ipairs( groundtiles.creep ) do
-		local tile_type, props = unpack( data )
-		local handle = MapLayerManager:CreateRenderLayer( 
-				tile_type,
-				resolvefilepath(GroundAtlas( props.name )),
-				resolvefilepath(GroundImage( props.name )),
-				resolvefilepath(props.noise_texture ) )
-		groundcreep:AddRenderLayer( handle )
-	end
+    for i, data in ipairs(groundtiles.creep) do
+        local tile_type, props = unpack(data)
+        local handle = MapLayerManager:CreateRenderLayer(
+                tile_type,
+                resolvefilepath(GroundAtlas(props.name)),
+                resolvefilepath(GroundImage(props.name)),
+                resolvefilepath(props.noise_texture))
+        groundcreep:AddRenderLayer(handle)
+    end
 
-	local underground_layer = groundtiles.underground[1][2]
-	local underground_handle = MapLayerManager:CreateRenderLayer( 
-				GROUND.UNDERGROUND,
-				resolvefilepath(GroundAtlas( underground_layer.name )),
-				resolvefilepath(GroundImage( underground_layer.name )),
-				resolvefilepath(underground_layer.noise_texture) )
-	map:SetUndergroundRenderLayer( underground_handle )
-	
-    map:SetImpassableType( GROUND.IMPASSABLE )
+    local underground_layer = groundtiles.underground[1][2]
+    local underground_handle = MapLayerManager:CreateRenderLayer(
+            GROUND.UNDERGROUND,
+            resolvefilepath(GroundAtlas(underground_layer.name)),
+            resolvefilepath(GroundImage(underground_layer.name)),
+            resolvefilepath(underground_layer.noise_texture))
+    map:SetUndergroundRenderLayer(underground_handle)
 
-	--common stuff
-	inst.IsCave = function() return inst:HasTag("cave") end
-	inst.IsRuins = function() return inst:HasTag("cave") and inst:HasTag("ruin") end
-    
+    map:SetImpassableType(GROUND.IMPASSABLE)
+
+    --common stuff
+    inst.IsCave = function()
+        return inst:HasTag("cave")
+    end
+    inst.IsRuins = function()
+        return inst:HasTag("cave") and inst:HasTag("ruin")
+    end
+
     --clock is now added at the sub-prefab level (forest.lua, cave.lua)
-    
+
     inst:AddComponent("groundcreep")
     inst:AddComponent("ambientsoundmixer")
     inst:AddComponent("age")
@@ -185,10 +186,10 @@ local function fn(Sim)
 
     inst.OnRemoveEntity = onremove
 
-	inst:AddComponent("globalcolourmodifier")
+    inst:AddComponent("globalcolourmodifier")
 
     return inst
 end
 
-return Prefab( "world", fn, assets, common_prefabs, true) 
+return Prefab("world", fn, assets, common_prefabs, true)
 

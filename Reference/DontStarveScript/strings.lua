@@ -11,10 +11,8 @@ To add a new language:
 ***************************************************************
 ]]
 
-STRINGS =
-{
-    CHARACTER_NAMES =
-    {
+STRINGS = {
+    CHARACTER_NAMES = {
         wilson = "Wilson P. Higgsbury",
         willow = "Willow",
         wendy = "Wendy",
@@ -25,17 +23,17 @@ STRINGS =
         wes = "Wes",
         waxwell = "Maxwell",
         wagstaff = "Wagstaff",
-        
+
         -- RoG
         wathgrithr = "Wigfrid",
         webber = "Webber",
-        
+
         -- Sw
         walani = "Walani",
         warly = "Warly",
         wilbur = "Wilbur",
         woodlegs = "Woodlegs",
-        
+
         -- Ham
         wilba = "Wilba",
         warbucks = "Warbucks",
@@ -47,12 +45,11 @@ STRINGS =
         hidden = "The Hidden",
     },
 
-    CHARACTER_QUOTES =
-    {
+    CHARACTER_QUOTES = {
         wilson = "\"I will conquer it all with the power of my MIND!\"",
         willow = "\"Things are so much prettier when they burn.\"",
         woodie = "\"That's a nice lookin' tree, eh?\"",
-        wendy ="\"Abigail? Come back! I'm not done playing with you.\"",
+        wendy = "\"Abigail? Come back! I'm not done playing with you.\"",
         wolfgang = "\"I am mighty! No one is mightier!\"",
         wx78 = "\"EMPATHY MODULE NOT RESPONDING\"",
         wickerbottom = "\"Shhhh! No talking!\"",
@@ -65,7 +62,7 @@ STRINGS =
         warly = "\"Nothing worthwhile is ever done on an empty stomach!\"",
         wilbur = "\"Ooo ooa oah ah!\"",
         woodlegs = "\"Don't ye mind th'scurvy. Yarr-harr-harr!\"",
-        
+
         wilba = "\"MAKE KINGDOM PROUD!\"",
         warbucks = "\"I say Ol' chap! This will be a game to remember!\"",
         wormwood = "\"Hello. Friend?\"",
@@ -73,8 +70,7 @@ STRINGS =
         hidden = "\"Don't look at me. I'm not ready yet.\"",
     },
 
-    CHARACTER_TITLES =
-    {
+    CHARACTER_TITLES = {
         wilson = "The Gentleman Scientist",
         willow = "The Firestarter",
         wendy = "The Bereaved",
@@ -91,7 +87,7 @@ STRINGS =
         warly = "The Culinarian",
         wilbur = "The Monkey King",
         woodlegs = "The Pirate Captain",
-        
+
         wilba = "The Royal Adventurer",
         warbucks = "The Affluent Explorer",
         wormwood = "The Lonesome",
@@ -100,8 +96,7 @@ STRINGS =
         hidden = "The Unfinished",
     },
 
-    CHARACTER_DESCRIPTIONS =
-    {
+    CHARACTER_DESCRIPTIONS = {
         wilson = "*Grows a magnificent beard",
         willow = "*Immune to fire damage\n*Has a sweet lighter\n*Lights fires when nervous",
         wendy = "*Is haunted by her twin sister \n*Feels comfortable in the dark \n*Doesn't hit very hard",
@@ -120,7 +115,7 @@ STRINGS =
         warly = "*Has a refined palate\n*Cooks in custom kitchenware\n*Brings a stylish chef pouch",
         wilbur = "*Can't talk\n*Slow as biped, but fast as quadruped\n*Is a monkey",
         woodlegs = "*Can sniff out treasure\n*Captain of the \"*Sea Legs\"\n*Pirate",
-        
+
         wilba = "*Is royalty\n*Carries her father's legacy\n*Is afraid of the dark",
         warbucks = "*Is an explorer\n*Loves his fortune\n*Picky eater",
         wormwood = "*Plants relate to him\n*Has a Green Thumb\n*Food fills his stomach, but not his heart",
@@ -130,42 +125,38 @@ STRINGS =
     },
 
     --ACTION MOUSEOVER TEXT
-    ACTIONS =
-    {
+    ACTIONS = {
         TRAVEL = "Travel",
-		BUNDLE = "Use",
+        BUNDLE = "Use",
         BUNDLESTORE = "Store",
         GNAW = "Gnaw",
         READ = "Read",
         READMAP = "Read",
         MAKEBALLOON = "Inflate",
         SEW = "Sew",
-        GIVE =
-        {
-            GENERIC  = "Give",
+        GIVE = {
+            GENERIC = "Give",
             NOTREADY = "Place",
-            READY    = "Sacrifice",
+            READY = "Sacrifice",
             CURRENCY = "Spend",
-            LOAD     = "Load",
-            PLACE    = "Place",
+            LOAD = "Load",
+            PLACE = "Place",
         },
-        DROP =
-        {
+        DROP = {
             GENERIC = "Drop",
             SETTRAP = "Set Trap",
             SETMINE = "Set Mine",
             PLACELANTERN = "Place",
         },
         BUILD = "Build",
-        PICK =
-        {
+        PICK = {
             GENERIC = "Pick",
             FLIP = "Flip",
             DIGIN = "Dig in",
         },
         REPAIR = "Repair",
         REPAIRBOAT = "Repair",
-        PICKUP = "Pick up",      
+        PICKUP = "Pick up",
         CHOP = "Chop",
         FERTILIZE = "Fertilize",
         BUILD_ROOM = "Build Room",
@@ -176,13 +167,12 @@ STRINGS =
         RANGEDLIGHT = "Light",
         EAT = "Eat",
         BAIT = "Bait",
-        COOK = 
-        {
+        COOK = {
             GENERIC = "Cook",
             SMELT = "Smelt",
         },
-		WRAPBUNDLE = "Wrap",
-		UNWRAP = "Unwrap",
+        WRAPBUNDLE = "Wrap",
+        UNWRAP = "Unwrap",
         ADDFUEL = "Add Fuel",
         ADDWETFUEL = "Add Wet Fuel",
         LIGHT = "Light",
@@ -190,13 +180,11 @@ STRINGS =
         LOOKAT = "Examine",
         TALKTO = "Talk to",
         MINE = "Mine",
-        ATTACK =
-        {
+        ATTACK = {
             GENERIC = "Attack",
             SMASHABLE = "Smash",
         },
-        WALKTO =
-        {
+        WALKTO = {
             GENERIC = "Walk to",
             SAILTO = "Sail to",
             ROWTO = "Row to",
@@ -209,11 +197,10 @@ STRINGS =
         CHECKTRAP = "Check",
         BUILD = "Build",
         CRAFT = "Craft",
-        PLANT =
-        {
+        PLANT = {
             GENERIC = "Plant",
-            STOCK = "Stock",  
-        },      
+            STOCK = "Stock",
+        },
         PLANTONGROWABLE = "Plant",
         HARVEST = "Harvest",
         GOHOME = "Go Home",
@@ -221,38 +208,33 @@ STRINGS =
         SLEEPIN = "Sleep",
         EQUIP = "Equip",
         TERRAFORM = "Dig",
-        UNEQUIP =
-        {
+        UNEQUIP = {
             GENERIC = "Unequip",
             TRAWLNET = "Detach",
         },
         RESEARCH = "Research",
         SHAVE = "Shave",
         DRY = "Dry",
-        STORE =
-        {
+        STORE = {
             GENERIC = "Store",
             COOK = "Cook",
             IMPRISON = "Imprison",
         },
-        RUMMAGE =
-        {
+        RUMMAGE = {
             GENERIC = "Open",
             CLOSE = "Close",
             INSPECT = "Inspect",
             RUMMAGE = "Rummage",
             DONE = "Done",
         },
-        TOGGLE_DEPLOY_MODE =
-        {
+        TOGGLE_DEPLOY_MODE = {
             GENERIC = "Plant",
             GROUNDTILE = "Place Ground",
             WALL = "Build Wall",
             TURRET = "Place",
             PLACE = "Place",
         },
-        DEPLOY =
-        {
+        DEPLOY = {
             GENERIC = "Plant",
             GROUNDTILE = "Place Ground",
             WALL = "Build Wall",
@@ -264,14 +246,12 @@ STRINGS =
         PLAY = "Play",
         NET = "Catch",
         CATCH = "Catch",
-        FISH =
-        {
+        FISH = {
             GENERIC = "Fish",
             RETRIEVE = "Retrieve"
         },
         FISHOCEAN = "Snag",
-        REEL =
-        {
+        REEL = {
             GENERIC = "Hook",
             REEL = "Reel In",
             CANCEL = "Stop Fishing",
@@ -291,27 +271,24 @@ STRINGS =
         JUMPIN = {
             GENERIC = "Jump In",
             ENTER = "Enter",
-			EXIT = "Exit",
+            EXIT = "Exit",
         },
-		USEDOOR = "Enter",
+        USEDOOR = "Enter",
         MURDER = "Murder",
         HEAL = "Heal",
-        UNLOCK =
-        {
+        UNLOCK = {
             GENERIC = "Unlock",
             LOCK = "Lock",
         },
         TEACH = "Learn",
         TURNON = "Turn On",
         TURNOFF = "Turn Off",
-        USEITEM =
-        {
+        USEITEM = {
             GENERIC = "Use",
             OPEN = "Open",
         },
         TAKEITEM = "Take Item",
-        CASTSPELL =
-        {
+        CASTSPELL = {
             GENERIC = "Cast Spell", --"Cast Spell on"
             SCIENCE = "Use Gadget",
         },
@@ -323,29 +300,26 @@ STRINGS =
         FEED = "Feed",
         FAN = "Fan",
         UPGRADE = "Upgrade",
-        MOUNT = 
-        {
-            GENERIC =  "Drive",
+        MOUNT = {
+            GENERIC = "Drive",
             SURF = "Ride",
         },
         SEARCH = "Enter",
-        DISMOUNT = 
-        {
-            GENERIC =  "Exit",
-            DISMOUNT = "Dismount",            
-        },        
+        DISMOUNT = {
+            GENERIC = "Exit",
+            DISMOUNT = "Dismount",
+        },
         HACK = "Hack",
         SHEAR = "Shear",
         INVESTIGATE = "Investigate",
         TOGGLEON = "Turn On",
         TOGGLEOFF = "Turn Off",
         STICK = "Plant Stick",
-        CUREPOISON = 
-        {
+        CUREPOISON = {
             GENERIC = "Quaff",
             GLAND = "Ingest",
         },
-        SHOP = "Purchase",  
+        SHOP = "Purchase",
         SHOP_LONG = "Buy {wantitem}\nfor {qty} {payitem}",
         SHOP_TAKE = "Steal {wantitem}",
         THROW = "Throw At",
@@ -361,8 +335,8 @@ STRINGS =
 
         BRUSH = "Brush",
         SADDLE = "Saddle",
-        UNSADDLE = "Unsaddle",    
-        RIDE_MOUNT = "Mount",    
+        UNSADDLE = "Unsaddle",
+        RIDE_MOUNT = "Mount",
 
         DRAW = "Draw On",
         DRAWITEM = "Draw {item}",
@@ -373,25 +347,25 @@ STRINGS =
         CHARGE_UP = "Charge",
     },
 
-	-- PC controls get hex ranges EE90xx to EE9Fxx
-    LMB              = "\255", --"ÿ",
-    RMB              = "\254", --"þ",
-    A_BTN            = "\253", --"ý",
-    B_BTN            = "\252", --"ü",
-    X_BTN            = "\251", --"û",
-    Y_BTN            = "\250", --"ú",
-    START_BTN        = "\249", --"ù",
-    BACK_BTN         = "\248", --"ø",
-    LEFT_THUMB       = "\247", --"÷",
-    L1_BTN           = "\246", --"ö",`
-    L2_BTN           = "\245", --"õ",
-    RIGHT_THUMB      = "\244", --"ô",
-    R1_BTN           = "\243", --"ó",
-    R2_BTN           = "\242", --"ò",
-    DPAD_DOWN        = "\241", --"ñ",
-    DPAD_LEFT        = "\240", --"ð",
-    DPAD_UP          = "\239", --"ï",
-    DPAD_RIGHT       = "\238", --"î",
+    -- PC controls get hex ranges EE90xx to EE9Fxx
+    LMB = "\255", --"ÿ",
+    RMB = "\254", --"þ",
+    A_BTN = "\253", --"ý",
+    B_BTN = "\252", --"ü",
+    X_BTN = "\251", --"û",
+    Y_BTN = "\250", --"ú",
+    START_BTN = "\249", --"ù",
+    BACK_BTN = "\248", --"ø",
+    LEFT_THUMB = "\247", --"÷",
+    L1_BTN = "\246", --"ö",`
+    L2_BTN = "\245", --"õ",
+    RIGHT_THUMB = "\244", --"ô",
+    R1_BTN = "\243", --"ó",
+    R2_BTN = "\242", --"ò",
+    DPAD_DOWN = "\241", --"ñ",
+    DPAD_LEFT = "\240", --"ð",
+    DPAD_UP = "\239", --"ï",
+    DPAD_RIGHT = "\238", --"î",
 
 
     SELECT = "Select",
@@ -409,8 +383,7 @@ STRINGS =
 
     BLUEPRINT_ITEM = "%s Blueprint",
 
-    WET_PREFIX =
-    {
+    WET_PREFIX = {
         NONE = "",
         GENERIC = "Wet",
         RABBITHOLE = "Collapsed",
@@ -421,8 +394,7 @@ STRINGS =
         WETGOOP = "Very",
     },
 
-    NAMES =
-    {
+    NAMES = {
         DEFAULT = "INVENTORY ITEM",
 
         LUCY = "Lucy the Axe",
@@ -433,9 +405,9 @@ STRINGS =
         BOOK_BRIMSTONE = "The End is Nigh!",
         BOOK_METEOR = "Joy of Volcanology",
 
-        ANCIENT_ALTAR ="Ancient Pseudoscience Station",
-        ANCIENT_ALTAR_BROKEN ="Broken Ancient Pseudoscience Station",
-        ANCIENT_STATUE ="Ancient statue",
+        ANCIENT_ALTAR = "Ancient Pseudoscience Station",
+        ANCIENT_ALTAR_BROKEN = "Broken Ancient Pseudoscience Station",
+        ANCIENT_STATUE = "Ancient statue",
         CHESSJUNK1 = "Broken clockworks",
         CHESSJUNK2 = "Broken clockworks",
         CHESSJUNK3 = "Broken clockworks",
@@ -447,8 +419,8 @@ STRINGS =
         MUSHTREE_TALL = "Blue Mushtree",
         MUSHTREE_MEDIUM = "Red Mushtree",
         MUSHTREE_SMALL = "Green Mushtree",
-        SPIDER_HIDER="Cave Spider",
-        SPIDER_SPITTER="Spitter",
+        SPIDER_HIDER = "Cave Spider",
+        SPIDER_SPITTER = "Spitter",
         SEWING_KIT = "Sewing Kit",
         RED_MUSHROOM = "Red Mushroom",
         RED_CAP = "Red Cap",
@@ -494,7 +466,7 @@ STRINGS =
         ICEPACK = "Insulated Pack",
         BUNDLE = "Bundled Supplies",
         BUNDLEWRAP = "Bundling Wrap",
-        REDGEM ="Red Gem",
+        REDGEM = "Red Gem",
         PURPLEGEM = "Purple Gem",
         GREENGEM = "Green Gem",
         ORANGEGEM = "Orange Gem",
@@ -564,7 +536,7 @@ STRINGS =
         DUG_BERRYBUSH2 = "Berry Bush",
         DUG_MARSH_BUSH = "Spiky Bush",
 
-        FOOTBALLHAT="Football Helmet",
+        FOOTBALLHAT = "Football Helmet",
         PIGSKIN = "Pig Skin",
         AXE = "Axe",
         HAMMER = "Hammer",
@@ -636,7 +608,7 @@ STRINGS =
         FIREPIT = "Fire Pit",
         HEATROCK = "Thermal Stone",
         FLOWER = "Flower",
-        FLOWER_EVIL = "Evil Flower",        
+        FLOWER_EVIL = "Evil Flower",
         FIREFLIES = "Fireflies",
         GHOST = "Ghost",
         GHOST_SAILOR = "Sailor's Ghost",
@@ -649,7 +621,7 @@ STRINGS =
         MAXWELL = "Maxwell",
         MOUND = "Grave",
         PIGHOUSE = "Pig House",
-		PIGHOUSE_DOOR = "House With Door",
+        PIGHOUSE_DOOR = "House With Door",
         PIGMAN = "Pig Man",
         CROP = "Crop",
         POND = "Pond",
@@ -853,7 +825,7 @@ STRINGS =
 
         BUTTERFLYMUFFIN = "Butter Muffin",
         FROGGLEBUNWICH = "Froggle Bunwich",
-        HONEYHAM = "Honey Ham",        
+        HONEYHAM = "Honey Ham",
         DRAGONPIE = "Dragonpie",
         TAFFY = "Taffy",
         PUMPKINCOOKIE = "Pumpkin Cookies",
@@ -865,8 +837,8 @@ STRINGS =
         WETGOOP = "Wet Goop",
         RATATOUILLE = "Ratatouille",
         FRUITMEDLEY = "Fruit Medley",
-        FISHTACOS ="Fish Tacos",
-        WAFFLES ="Waffles",
+        FISHTACOS = "Fish Tacos",
+        WAFFLES = "Waffles",
         TURKEYDINNER = "Turkey Dinner",
         DRUMSTICK = "Drumstick",
         DRUMSTICK_COOKED = "Fried Drumstick",
@@ -946,8 +918,7 @@ STRINGS =
         HOUNDMOUND = "Hound Mound",
         HOUNDBONE = "Bones",
         MERM = "Merm",
-        MERMHOUSE = 
-        {
+        MERMHOUSE = {
             BASE = "Mermhouse",
             SW = "Merm Hut",
         },
@@ -1154,7 +1125,7 @@ STRINGS =
 
         HOUNDFIRE = "Fire",
 
----------------------- Capy DLC Strings------------------
+        ---------------------- Capy DLC Strings------------------
         PRIMEAPE = "Prime Ape",
         PRIMEAPEBARREL = "Prime Ape Hut",
         WILDBOREHOUSE = "Wildbore House",
@@ -1210,7 +1181,7 @@ STRINGS =
         MUSSEL_STICK = "Mussel Stick",
         MUSSEL_FARM = "Mussels",
 
-		MESSAGEBOTTLE = "Message in a Bottle",
+        MESSAGEBOTTLE = "Message in a Bottle",
         MESSAGEBOTTLEEMPTY = "Empty Bottle",
         BURIEDTREASURE = "X Marks the Spot",
         MACHETE = "Machete",
@@ -1265,12 +1236,12 @@ STRINGS =
         BABYOX = "Baby Water Beefalo",
 
         TOUCAN = "Toucan",
-        
+
         SEAGULL = "Seagull",
         SEAGULL_WATER = "Seagull",
 
         CORMORANT = "Cormorant",
-        
+
         PARROT = "Parrot",
 
         TUNACAN = '"Ballphin Free" Tuna',
@@ -1494,7 +1465,7 @@ STRINGS =
         MERMHOUSE_FISHER = "Fishermerm's Hut",
         MOSQUITOSACK_YELLOW = "Yellow Mosquito Sack",
         SHARK_TEETHHAT = "Shark Tooth Crown",
-        BOAT_TORCH ="Boat Torch",
+        BOAT_TORCH = "Boat Torch",
 
         MARSH_PLANT_TROPICAL = "Plant",
         WILDBOREHEAD = "Wildbore Head",
@@ -1552,11 +1523,11 @@ STRINGS =
         TAR_TRAP = "Tar Trap",
 
         SEA_YARD = "Sea Yard",
-        SEA_CHIMINEA = "Buoyant Chiminea",       
+        SEA_CHIMINEA = "Buoyant Chiminea",
 
         ROE = "Roe",
         ROE_COOKED = "Cooked Roe",
-        FISH_FARM = "Fish Farm", 
+        FISH_FARM = "Fish Farm",
 
         FISH3 = "Purple Grouper",
         FISH4 = "Pierrot Fish",
@@ -1564,7 +1535,7 @@ STRINGS =
 
         FISH3_COOKED = "Cooked Purple Grouper",
         FISH4_COOKED = "Cooked Pierrot Fish",
-        FISH5_COOKED = "Cooked Neon Quattro",   
+        FISH5_COOKED = "Cooked Neon Quattro",
 
         TARLAMP = "Tar Lamp",
 
@@ -1591,12 +1562,12 @@ STRINGS =
         PIG_SHOP_HOOFSPA = "Curly Tails\nMud Spa",
         PIG_SHOP_PRODUCE = "Swinesbury Fine Grocer's",
         PIG_SHOP_ANTIQUITIES = "'The Sty' Oddities Emporium",
-        PIG_SHOP_DELI = "The Sterling Trough Deli",        
+        PIG_SHOP_DELI = "The Sterling Trough Deli",
         PIG_SHOP_CITYHALL = "Swinesbury City Hall",
         PIG_SHOP_CITYHALL_PLAYER = "My City Hall",
         PIG_SHOP_BANK = "Swinesbury Mineral Exchange",
 
-        
+
         PIG_SHOP_ARCANE = "The Flying Pig \nArcane Shop",
         PIG_SHOP_WEAPONS = "The Boar's Tusk \nWeapon Shop",
         PIG_SHOP_HATSHOP = "The Sow's Ear \nHat Shop",
@@ -1618,8 +1589,8 @@ STRINGS =
         PIGHOUSE_CITY = "Town House",
         PIGHOUSE_FARM = "Farm House",
         PIGHOUSE_MINE = "Quarry Lodgings",
-        PIG_GUARD_TOWER ="Watch Tower", 
-        PIG_GUARD_TOWER_PALACE ="Watch Tower",        
+        PIG_GUARD_TOWER = "Watch Tower",
+        PIG_GUARD_TOWER_PALACE = "Watch Tower",
         CITY_LAMP = "Lamp Post",
         DUNGBEETLE = "Dung Beetle",
         DUNGBALL = "Dung Ball",
@@ -1643,14 +1614,14 @@ STRINGS =
         PIG_RUINS_EXIT = "Ruinous Entrance",
         PIG_RUINS_ENTRANCE2 = "Ruinous Entrance",
         PIG_RUINS_EXIT2 = "Ruinous Entrance",
-        PIG_RUINS_ENTRANCE3 = "Ruinous Entrance",   
+        PIG_RUINS_ENTRANCE3 = "Ruinous Entrance",
 
-        PIG_RUINS_ENTRANCE4 = "Ruinous Entrance",           
+        PIG_RUINS_ENTRANCE4 = "Ruinous Entrance",
         PIG_RUINS_EXIT4 = "Ruinous Entrance",
 
-        PIG_RUINS_ENTRANCE5 = "Ruinous Entrance",           
+        PIG_RUINS_ENTRANCE5 = "Ruinous Entrance",
 
-        PIG_RUINS_ENTRANCE_SMALL = "Ruinous Entrance",        
+        PIG_RUINS_ENTRANCE_SMALL = "Ruinous Entrance",
 
         GRASS_TALL = "Tall Grass",
         GLOWFLY = "Glowfly",
@@ -1695,29 +1666,29 @@ STRINGS =
 
         GASMASKHAT = "Gas Mask",
         PITHHAT = "Pith Hat",
-        
+
         PROP_DOOR = "Door",
         PHEROMONESTONE = "Pherostone",
         PIKO = "Piko",
         PIKO_ORANGE = "Orange Piko",
-        
+
         RELIC_1 = "Lost Idol",
         RELIC_2 = "Lost Totem",
-        RELIC_3 = "Relic Fragment",   
-        RELIC_4 = "The Blue Sow",   
-        RELIC_5 = "The Jeweled Truffle", 
+        RELIC_3 = "Relic Fragment",
+        RELIC_4 = "The Blue Sow",
+        RELIC_5 = "The Jeweled Truffle",
 
         SHEARS = "Shears",
         MAGNIFYING_GLASS = "Magnifying Glass",
 
         VAMPIREBAT = "Vampire Bat",
-        VAMPIREBATCAVE = "Cave Cleft",  
-        LILYPAD = "Lily Pad",  
-        LOTUS = "Lotus Plant", 
+        VAMPIREBATCAVE = "Cave Cleft",
+        LILYPAD = "Lily Pad",
+        LOTUS = "Lotus Plant",
         REEDS_WATER = "Reeds",
 
-        LOTUS_FLOWER ="Lotus Flower",
-        LOTUS_FLOWER_COOKED ="Cooked Lotus Root",
+        LOTUS_FLOWER = "Lotus Flower",
+        LOTUS_FLOWER_COOKED = "Cooked Lotus Root",
 
         FROGLEGS_POISON = "Poison Dartfrog Legs",
         FROGLEGS_POISON_COOKED = "Cooked Dartfrog Legs",
@@ -1744,8 +1715,8 @@ STRINGS =
         PARROT_BLUE = "Parrot",
         KINGFISHER = "Kingfisher",
 
-        BURR = "Jungle Burr",   
-        BURR_SAPLING = "Rainforest Tree Sapling",     
+        BURR = "Jungle Burr",
+        BURR_SAPLING = "Rainforest Tree Sapling",
 
         DECO_RUINS_BEAM_ROOM = "Unimportant Pillar",
         DECO_RUINS_BEAM_ROOM_BLUE = "Unimportant Pillar",
@@ -1757,10 +1728,10 @@ STRINGS =
 
         HIPPOPOTAMOOSE = "Hippopotamoose",
 
-        PIGGHOST ="Ancient Spirit",
+        PIGGHOST = "Ancient Spirit",
 
         GIANTGRUB = "Giant Grub",
-        ANTCOMBHOME = "Antcomb Home",        
+        ANTCOMBHOME = "Antcomb Home",
         SECURITYCONTRACT = "Security Contract",
 
         TURF_PIGRUINS = "Ancient Stone Turf",
@@ -1772,7 +1743,7 @@ STRINGS =
         TURF_MOSS = "Mossy Turf",
         TURF_FIELDS = "Cultivated Turf",
         TURF_FOUNDATION = "Flat Stone Turf",
-        TURF_COBBLEROAD = "Stone Road Turf", 
+        TURF_COBBLEROAD = "Stone Road Turf",
 
         PIG_SCEPTER = "Regal Scepter",
         HAT_PIGCROWN = "Regal Scepter",
@@ -1792,7 +1763,7 @@ STRINGS =
         INTERIOR_FLOOR_SHEET_METAL = "Sheet Metal Flooring",
         INTERIOR_FLOOR_WOOD = "Wood Flooring",
 
-        INTERIOR_FLOOR_GARDENSTONE = "Garden Stone Flooring",        
+        INTERIOR_FLOOR_GARDENSTONE = "Garden Stone Flooring",
         INTERIOR_FLOOR_GEOMETRICTILES = "Geometric Tiles Flooring",
         INTERIOR_FLOOR_SHAG_CARPET = "Shag Carpet",
         INTERIOR_FLOOR_TRANSITIONAL = "Transitional Flooring",
@@ -1806,7 +1777,7 @@ STRINGS =
         INTERIOR_WALL_CHECKERED = "Checkered Wall Paper",
         INTERIOR_WALL_FLORAL = "Floral Wall Paper",
         INTERIOR_WALL_SUNFLOWER = "Sunflower Wall Paper",
-        INTERIOR_WALL_HARLEQUIN = "Harlequin Wall Paper",   
+        INTERIOR_WALL_HARLEQUIN = "Harlequin Wall Paper",
 
         INTERIOR_WALL_PEAGAWK = "Peagawk Wall Paper",
         INTERIOR_WALL_PLAIN_DS = "Orange Wall Paper",
@@ -1816,7 +1787,7 @@ STRINGS =
         INTERIOR_WALL_MARBLE = "Marble Wall Tiling",
         INTERIOR_WALL_MAYORSOFFICE = "Fine Wall Tiling",
         INTERIOR_WALL_FULLWALL_MOULDING = "Full Wall Moulding",
-        INTERIOR_WALL_UPHOLSTERED = "Upholstered Wall",        
+        INTERIOR_WALL_UPHOLSTERED = "Upholstered Wall",
 
         DECO_CHAISE = "Fancy Chaise",
         DECO_CHAIR_CLASSIC = "Classic Chair",
@@ -1871,8 +1842,8 @@ STRINGS =
         DECO_PLANTHOLDER_PITCHERS = "Pitcher Plantholder",
         DECO_PLANTHOLDER_MARBLE = "Marble Plantholder",
 
-        DECO_PLANTHOLDER_WINTERFEASTTREEOFSADNESS = "\"Character\" Tree",  
-        DECO_PLANTHOLDER_WINTERFEASTTREE = "Festive Tree.",    
+        DECO_PLANTHOLDER_WINTERFEASTTREEOFSADNESS = "\"Character\" Tree",
+        DECO_PLANTHOLDER_WINTERFEASTTREE = "Festive Tree.",
 
         DECO_TABLE_ROUND = "Round Table",
         DECO_TABLE_BANKER = "Hard Wood Desk",
@@ -1902,11 +1873,11 @@ STRINGS =
         WINDOW_GREENHOUSE = "Greenhouse Wall",
         WINDOW_ROUND = "Round Window",
 
-		DECO_WOOD_BASE  = "Wooden Beam",
-        DECO_WOOD       = "Planed Wood Column",
-        DECO_MILLINERY  = "Millinery Column",
-        DECO_ROUND      = "Round Column",
-        DECO_MARBLE     = "Lit Marble Column",
+        DECO_WOOD_BASE = "Wooden Beam",
+        DECO_WOOD = "Planed Wood Column",
+        DECO_MILLINERY = "Millinery Column",
+        DECO_ROUND = "Round Column",
+        DECO_MARBLE = "Lit Marble Column",
 
         SWINGING_LIGHT_FLORAL_BLOOMER = "Floral Shade Hanging Light",
         SWINGING_LIGHT_CHANDALIER_CANDLES = "Chandelier",
@@ -1986,22 +1957,22 @@ STRINGS =
         SLUGBUG_COOKED = "Cooked Gummy Slug",
         ROCK_FLIPPABLE = "Stone Slab",
 
-        PLAYERHOUSE_CITY = "Slanty Shanty",  
+        PLAYERHOUSE_CITY = "Slanty Shanty",
         PLAYERHOUSE_VILLA = "Glorious Villa",
         PLAYERHOUSE_COTTAGE = "Cozy Cottage",
         PLAYERHOUSE_MANOR = "Impressive Manor",
         PLAYERHOUSE_TUDOR = "Tudor Home",
         PLAYERHOUSE_GOTHIC = "Gothic Home",
         PLAYERHOUSE_BRICK = "Brick Home",
-        PLAYERHOUSE_TURRET = "Turreted Home",        
+        PLAYERHOUSE_TURRET = "Turreted Home",
 
         PLAYER_HOUSE_COTTAGE_CRAFT = "Cottage Kit",
-        PLAYER_HOUSE_VILLA_CRAFT = "Villa Kit",  
+        PLAYER_HOUSE_VILLA_CRAFT = "Villa Kit",
         PLAYER_HOUSE_TUDOR_CRAFT = "Tudor Home Kit",
-        PLAYER_HOUSE_MANOR_CRAFT = "Manor Kit",                
-        PLAYER_HOUSE_GOTHIC_CRAFT = "Gothic Home Kit",                
-        PLAYER_HOUSE_BRICK_CRAFT = "Brick Home Kit",   
-        PLAYER_HOUSE_TURRET_CRAFT = "Turreted Home Kit",   
+        PLAYER_HOUSE_MANOR_CRAFT = "Manor Kit",
+        PLAYER_HOUSE_GOTHIC_CRAFT = "Gothic Home Kit",
+        PLAYER_HOUSE_BRICK_CRAFT = "Brick Home Kit",
+        PLAYER_HOUSE_TURRET_CRAFT = "Turreted Home Kit",
 
         CLIPPINGS = "Clippings",
 
@@ -2013,49 +1984,49 @@ STRINGS =
 
         NETTLELOSANGE = "Nettle Rolls",
 
-        DECO_RUINS_FOUNTAIN = "Wishing Well", 
-        PUGALISK = "Pugalisk",       
+        DECO_RUINS_FOUNTAIN = "Wishing Well",
+        PUGALISK = "Pugalisk",
         SNAKE_BONE = "Snake Bone",
-        SNAKEBONESOUP = "Snake Bone Soup", 
+        SNAKEBONESOUP = "Snake Bone Soup",
 
-        BANDITMAP = "Bandit Stash Map", 
-        BANDITTREASURE = "Secret Bandit Camp", 
+        BANDITMAP = "Bandit Stash Map",
+        BANDITTREASURE = "Secret Bandit Camp",
 
-        BLUNDERBUSS = "Blunderbuss", 
+        BLUNDERBUSS = "Blunderbuss",
 
         PUGALISK_FOUNTAIN = "Fountain of Youth",
         PUGALISK_RUINS_PILLAR = "Teetering Pillar",
-        PUGALISK_TRAP_DOOR = "Ominous Carving", 
+        PUGALISK_TRAP_DOOR = "Ominous Carving",
 
-        TEA = "Tea",  
+        TEA = "Tea",
         ICEDTEA = "Iced Tea",
-        TEATREE = "Tea Tree", 
+        TEATREE = "Tea Tree",
         TEATREE_SAPLING = "Tea Tree Sapling",
         TEATREE_NUT = "Seed Pod",
         TEATREE_NUT_COOKED = "Cooked Seed Pod",
 
-        WALL_PIG_RUINS = "Ancient Wall", 
+        WALL_PIG_RUINS = "Ancient Wall",
 
         PIG_RUINS_DART_TRAP = "Striking Carving",
         PIG_RUINS_DART_STATUE = "Striking Statue",
-        PIG_RUINS_SPEAR_TRAP = "Decorative Holes?", 
+        PIG_RUINS_SPEAR_TRAP = "Decorative Holes?",
         PIG_RUINS_SPEAR_TRAP_TRIGGERED = "Nasty Spear Trap",
-        PIG_RUINS_SPEAR_TRAP_BROKEN = "Busted Spear Trap", 
-        PIG_RUINS_PRESSURE_PLATE = "Suspicious Stone",                                          
-        
-        DISARMING_KIT = "Disarming Tools", 
+        PIG_RUINS_SPEAR_TRAP_BROKEN = "Busted Spear Trap",
+        PIG_RUINS_PRESSURE_PLATE = "Suspicious Stone",
 
-        BALLPEIN_HAMMER = "Ball Pein Hammer", 
+        DISARMING_KIT = "Disarming Tools",
+
+        BALLPEIN_HAMMER = "Ball Pein Hammer",
 
         GOLD_DUST = "Gold Dust",
 
-        ALOE = "Aloe", 
-        ALOE_COOKED = "Cooked Aloe", 
+        ALOE = "Aloe",
+        ALOE_COOKED = "Cooked Aloe",
         ALOE_PLANTED = "Aloe",
 
         ASPARAGUS = "Asparagus",
-        ASPARAGUS_COOKED = "Cooked Asparagus", 
-        ASPARAGUS_PLANTED = "Asparagus",         
+        ASPARAGUS_COOKED = "Cooked Asparagus",
+        ASPARAGUS_PLANTED = "Asparagus",
         ASPARAGUSSOUP = "Asparagus Soup",
         SPICYVEGSTINGER = "Spicy Vegetable Stinger",
         FEIJOADA = "Feijoada",
@@ -2063,50 +2034,50 @@ STRINGS =
         GUMMY_CAKE = "Gummy Cake",
         STEAMEDHAMSANDWICH = "Steamed Ham Sandwich",
 
-        RADISH = "Radish", 
+        RADISH = "Radish",
         RADISH_COOKED = "Cooked Radish",
-        RADISH_PLANTED = "Radish", 
+        RADISH_PLANTED = "Radish",
 
-        SNAKE_AMPHIBIOUS = "Viper", 
+        SNAKE_AMPHIBIOUS = "Viper",
 
-        SUNKEN_RELIC = "Sunken Object",  
+        SUNKEN_RELIC = "Sunken Object",
 
-        IRON = "Iron Ore", 
-        
-        CLAWPALMTREE = "Claw Palm Tree",       
-        DUG_NETTLE = "Nettle Plant", 
+        IRON = "Iron Ore",
 
-        THUNDERBIRD = "Thunderbird", 
-        THUNDERBIRDNEST = "Thundernest", 
-        FEATHER_THUNDER = "Thunder Feather", 
-        THUNDERHAT = "Thunderhat", 
+        CLAWPALMTREE = "Claw Palm Tree",
+        DUG_NETTLE = "Nettle Plant",
 
-        WEEVOLE = "Weevole", 
-        WEEVOLE_CARAPACE = "Weevole Carapace", 
+        THUNDERBIRD = "Thunderbird",
+        THUNDERBIRDNEST = "Thundernest",
+        FEATHER_THUNDER = "Thunder Feather",
+        THUNDERHAT = "Thunderhat",
+
+        WEEVOLE = "Weevole",
+        WEEVOLE_CARAPACE = "Weevole Carapace",
         ARMOR_WEEVOLE = "Weevole Mantle",
-        
-        TUBERTREE = "Tuber Tree", 
-        CORK = "Cork", 
+
+        TUBERTREE = "Tuber Tree",
+        CORK = "Cork",
 
         CANDLEHAT = "Cork Candle Hat",
-        CORK_BAT = "Cork Bat", 
+        CORK_BAT = "Cork Bat",
 
         BAT_HIDE = "Pig Skin?",
         VAMPIRE_BAT_WING = "Batilisk Wing?",
 
         ANCIENT_ROBOT_RIBS = "Iron Hulk",
-        ANCIENT_ROBOT_CLAW = "Iron Hulk", 
-        ANCIENT_ROBOT_LEG = "Iron Hulk",         
-        ANCIENT_ROBOT_HEAD = "Iron Hulk", 
-        ANCIENT_ROBOTS_ASSEMBLY = "Large Iron Hulk", 
-        
-        CLAWPALMTREE_SAPLING = "Claw Palm Sapling", 
+        ANCIENT_ROBOT_CLAW = "Iron Hulk",
+        ANCIENT_ROBOT_LEG = "Iron Hulk",
+        ANCIENT_ROBOT_HEAD = "Iron Hulk",
+        ANCIENT_ROBOTS_ASSEMBLY = "Large Iron Hulk",
 
-        CORKBOAT = "Cork Bowl Canoe", 
+        CLAWPALMTREE_SAPLING = "Claw Palm Sapling",
+
+        CORKBOAT = "Cork Bowl Canoe",
         CORKCHEST = "Cork Barrel",
 
-        BANDITHAT = "Swashy Hat", 
-        PIGBANDIT = "Masked Pig", 
+        BANDITHAT = "Swashy Hat",
+        PIGBANDIT = "Masked Pig",
 
         PIG_RUINS_CREEPING_VINES = "Vines",
 
@@ -2116,7 +2087,7 @@ STRINGS =
         PORKLAND_ENTRANCE = "Skyworthy",
         PORKLAND_EXIT = "Skyworthy",
 
-        POG = "Pog", 
+        POG = "Pog",
 
         PANGOLDEN = "Pangolden",
 
@@ -2126,7 +2097,7 @@ STRINGS =
 
         GNATMOUND = "Gnat Mound",
         GNAT = "Gnat Swarm",
-        
+
         PORKLAND_INTRO = "Maxameleon",
 
         ROC_NEST_TREE1 = "Weathered Tree",
@@ -2164,7 +2135,7 @@ STRINGS =
         SMELTER = "Smelter",
 
         BUGREPELLENT = "Bug B'Gone",
-        
+
         HOGUSPORKUSATOR = "Hogus Porkusator",
 
         GASCLOUD = "Noxious Cloud",
@@ -2174,8 +2145,8 @@ STRINGS =
         LIFEPLANT = "Magic Flower",
 
         TRINKET_GIFTSHOP_1 = "Queen Malfalfa",
-        TRINKET_GIFTSHOP_3 = "Post Card of the Royal Palace",        
-        TRINKET_GIFTSHOP_4 = "Can of Silly String",        
+        TRINKET_GIFTSHOP_3 = "Post Card of the Royal Palace",
+        TRINKET_GIFTSHOP_4 = "Can of Silly String",
 
         KEY_TO_CITY = "Key to the City",
 
@@ -2198,9 +2169,9 @@ STRINGS =
         ASPARAGUS_SEEDS = "Asparagus Seeds",
         RADISH_SEEDS = "Radish Seeds",
 
-		ANCIENT_HERALD = "Ancient Herald",
+        ANCIENT_HERALD = "Ancient Herald",
 
- 		CAVE_EXIT_ROC = "Stone Plug",
+        CAVE_EXIT_ROC = "Stone Plug",
 
         PORKLAND_INTRO_BASKET = "Wicker Basket",
         PORKLAND_INTRO_BALLOON = "Deflated Balloon",
@@ -2209,7 +2180,7 @@ STRINGS =
         PORKLAND_INTRO_FLAGS = "Useless Flags",
         PORKLAND_INTRO_SANDBAG = "Bag of Sand",
 
-        TURF_BEARD_HAIR = "Beard Hair Rug", 
+        TURF_BEARD_HAIR = "Beard Hair Rug",
 
         HIPPO_ANTLER = "Hippopotamoose Antler",
         BILL_QUILL = "Platapine Quill",
@@ -2220,16 +2191,16 @@ STRINGS =
 
         BONESTAFF = "Pugalisk Wand",
 
-        CITY_HAMMER = "Executive Hammer", 
+        CITY_HAMMER = "Executive Hammer",
 
-        DECO_RUINS_ENDSWELL = "End's Well",     
+        DECO_RUINS_ENDSWELL = "End's Well",
 
-        BRUSH = "Brush",   
+        BRUSH = "Brush",
         SADDLE_BASIC = "Saddle",
         SADDLE_WAR = "War Saddle",
-        SADDLE_RACE = "Glossamer Saddle", 
+        SADDLE_RACE = "Glossamer Saddle",
         SADDLEHORN = "Saddlehorn",
-        SALTLICK = "Saltlick",         
+        SALTLICK = "Saltlick",
 
         MINISIGN = "Mini Sign",
         MINISIGN_DRAWN = "{item} Sign",
@@ -2243,9 +2214,9 @@ STRINGS =
 
         SPAT = "Ewecus",
         STEELWOOL = "Steel Wool",
-        PHLEGM = "Phlegm",     
-        FIRECRACKERS = "Firecrackers",	
-        COMPOSTWRAP = "Compost Wrap",           	
+        PHLEGM = "Phlegm",
+        FIRECRACKERS = "Firecrackers",
+        COMPOSTWRAP = "Compost Wrap",
         POISONBALM = "Poison Balm",
         ARMOR_BRAMBLE = "Bramble Husk",
         TRAP_BRAMBLE = "Bramble Trap",
@@ -2253,7 +2224,7 @@ STRINGS =
 
         WEREWILBAFUR_HEAD = "Body Hair",
         WEREWILBAFUR_BODY = "Body Hair",
-        WEREWILBAFUR_HANDS = "Body Hair",        
+        WEREWILBAFUR_HANDS = "Body Hair",
 
         SALTLICK = "Salt Lick",
 
@@ -2262,17 +2233,17 @@ STRINGS =
 
         ROOTTRUNK_CHILD = "Root Trunk",
 
-        ARMORVORTEXCLOAK = "Vortex Cloak",    
-        ANCIENT_REMNANT = "Dark Tatters",    
+        ARMORVORTEXCLOAK = "Vortex Cloak",
+        ANCIENT_REMNANT = "Dark Tatters",
 
         GOGGLESNORMALHAT = "Spectoggles",
         GOGGLESHEATHAT = "Infroggles",
         GOGGLESARMORHAT = "Visor",
-        GOGGLESSHOOTHAT = "Fryfocals",     
+        GOGGLESSHOOTHAT = "Fryfocals",
 
         THUMPER = "Thumper",
         TELEBRELLA = "Telebrella",
-        TELIPAD = "Telipad",        
+        TELIPAD = "Telipad",
         ANCIENT_HULK = "Large Iron Hulk",
 
         ROCK_BASALT = "Basalt Eruption",
@@ -2287,15 +2258,15 @@ STRINGS =
         TELEPORTATO_HAMLET_BOX = "Rock Thing",
         TELEPORTATO_HAMLET_CRANK = "Lever Thing",
         TELEPORTATO_HAMLET_POTATO = "Relic Thing",
-        TELEPORTATO_HAMLET_BASE = "Stone Thing",     
+        TELEPORTATO_HAMLET_BASE = "Stone Thing",
 
-        HEDGE_BLOCK_ITEM = "Block Hedge", 
+        HEDGE_BLOCK_ITEM = "Block Hedge",
         HEDGE_BLOCK = "Hedge",
 
-        HEDGE_CONE_ITEM = "Cone Hedge", 
+        HEDGE_CONE_ITEM = "Cone Hedge",
         HEDGE_CONE = "Hedge",
 
-        HEDGE_LAYERED_ITEM = "Layered Hedge", 
+        HEDGE_LAYERED_ITEM = "Layered Hedge",
         HEDGE_LAYERED = "Hedge",
 
         LAWNORNAMENT_1 = "Layer Tree",
@@ -2306,13 +2277,12 @@ STRINGS =
         LAWNORNAMENT_6 = "Flowering Tree",
         LAWNORNAMENT_7 = "Spiral Tree",
 
-        GROUNDED_WILBA = "Wilba",        
-        
+        GROUNDED_WILBA = "Wilba",
+
     },
 
 
-    DIRECTIONS=
-    {
+    DIRECTIONS = {
         N = "North",
         S = "South",
         E = "East",
@@ -2323,8 +2293,7 @@ STRINGS =
         SW = "Southwest",
     },
 
-    RECIPE_DESC=
-    {
+    RECIPE_DESC = {
         BOOK_BIRDS = "1000 species: habits, habitats, and calls.",
         BOOK_TENTACLES = "Let's learn about our subterranean friends!",
         BOOK_GARDENING = "On the care and feeding of plants.",
@@ -2360,7 +2329,7 @@ STRINGS =
         ARMORGRASS = "Provides a small amount of protection.",
         ARMORMARBLE = "It's heavy, but it will protect you.",
         ARMOR_SANITY = "Protects your body, but not your mind.",
-        SPEAR="Use the pointy end.",
+        SPEAR = "Use the pointy end.",
         STRAWHAT = "Helps you stay cool and dry.",
         TOPHAT = "The classiest hat of all.",
         FLOWERHAT = "Something to soothe the nerves.",
@@ -2594,12 +2563,12 @@ STRINGS =
         OXHAT = "Shell out for some poison protection.",
 
         QUACKERINGRAM = "Everybody better get out of your way!",
-        
-        TAR_EXTRACTOR = "This offshore rig knows the drill.",        
-        SEA_YARD = "Keep your boats ship-shape!",
-        SEA_CHIMINEA = "Fire that floats!",   
 
-        FISH_FARM = "Grow your own fishfood with roe!",     
+        TAR_EXTRACTOR = "This offshore rig knows the drill.",
+        SEA_YARD = "Keep your boats ship-shape!",
+        SEA_CHIMINEA = "Fire that floats!",
+
+        FISH_FARM = "Grow your own fishfood with roe!",
 
         TARLAMP = "A light for your hand, or for your boat!",
         TARSUIT = "The slickest way to stay dry.",
@@ -2611,18 +2580,18 @@ STRINGS =
         QUACKENDRILL = "For deep sea quacking.",
 
         --PORKLAND RECIPES START HERE
-        
+
         ANTMASKHAT = "A face only a Mant could love.",
         ANTSUIT = "Walk a mile in a Mant's carapace.",
-        PHEROMONESTONE = "Ancient scratch and sniff technology.",  
+        PHEROMONESTONE = "Ancient scratch and sniff technology.",
 
         GASMASKHAT = "Makes everything smell like bird.",
         PITHHAT = "Keeps your hair easy and breezy.",
-        BATHAT = "Harness the power of sonar.", 
+        BATHAT = "Harness the power of sonar.",
         PEAGAWKFEATHERHAT = "Always watching.",
-        THUNDERHAT = "Don't be shocked.", 
-        ARMOR_METALPLATE = "Strong and sturdy.", 
-        METALPLATEHAT = "Strong, sturdy and classy.", 
+        THUNDERHAT = "Don't be shocked.",
+        ARMOR_METALPLATE = "Strong and sturdy.",
+        METALPLATEHAT = "Strong, sturdy and classy.",
         ARMOR_WEEVOLE = "Kinda gross, but surprisingly strong.",
         GOLDPAN = "Pans gold actually.",
         BALLPEIN_HAMMER = "For when you wanna wreck things gently.",
@@ -2631,20 +2600,20 @@ STRINGS =
 
         TURF_LAWN = "Fully tamed grass.",
         TURF_FIELDS = "A civilized patch of dirt.",
-        TURF_COBBLEROAD = "The life of a thriving village.",      
-        TURF_FOUNDATION = "The foundation of a solid village.",    
+        TURF_COBBLEROAD = "The life of a thriving village.",
+        TURF_FOUNDATION = "The foundation of a solid village.",
 
-        HOUSE_DOOR =   "Room to move.",
-        WOOD_DOOR =    "Crowning achievement in crown molding.",
-        STONE_DOOR =   "The keystone to good living space.",
+        HOUSE_DOOR = "Room to move.",
+        WOOD_DOOR = "Crowning achievement in crown molding.",
+        STONE_DOOR = "The keystone to good living space.",
         ORGANIC_DOOR = "It just grew that way.",
-        IRON_DOOR =    "An ornamental ingress.",
-        PILLAR_DOOR =  "Bats were harmed in the making of this.",
+        IRON_DOOR = "An ornamental ingress.",
+        PILLAR_DOOR = "Bats were harmed in the making of this.",
         CURTAIN_DOOR = "Offers little in sound proofing.",
-        ROUND_DOOR =   "Includes a curtain of teeth.",
-        PLATE_DOOR =   "For the metal lover.",
+        ROUND_DOOR = "Includes a curtain of teeth.",
+        PLATE_DOOR = "For the metal lover.",
 
-        INTERIOR_FLOOR_MARBLE = "Buffed to a mirror polish.",  
+        INTERIOR_FLOOR_MARBLE = "Buffed to a mirror polish.",
         INTERIOR_FLOOR_CHECK = "Hear the echo of quality.",
         INTERIOR_FLOOR_PLAID_TILE = "If it's good enough for city hall...",
         INTERIOR_FLOOR_SHEET_METAL = "What to do with your industrial metal.",
@@ -2654,9 +2623,9 @@ STRINGS =
         INTERIOR_WALL_CHECKERED = "For that Diner chic.",
         INTERIOR_WALL_FLORAL = "Feel the velvet embossing.",
         INTERIOR_WALL_SUNFLOWER = "The fall harvest look.",
-        INTERIOR_WALL_HARLEQUIN = "Edgy and elegant.",      
+        INTERIOR_WALL_HARLEQUIN = "Edgy and elegant.",
 
-        INTERIOR_FLOOR_GARDENSTONE = "A soft mossy feel.",        
+        INTERIOR_FLOOR_GARDENSTONE = "A soft mossy feel.",
         INTERIOR_FLOOR_GEOMETRICTILES = "Like a swimming pool.",
         INTERIOR_FLOOR_SHAG_CARPET = "Fuzzy.",
         INTERIOR_FLOOR_TRANSITIONAL = "When you can't decide.",
@@ -2674,21 +2643,21 @@ STRINGS =
         INTERIOR_WALL_MARBLE = "A solid way to finish.",
         INTERIOR_WALL_MAYORSOFFICE = "Often chosen by pigs in office.",
         INTERIOR_WALL_FULLWALL_MOULDING = "A lot of work, but worth the effort.",
-        INTERIOR_WALL_UPHOLSTERED = "Like a sofa on your wall.",        
+        INTERIOR_WALL_UPHOLSTERED = "Like a sofa on your wall.",
 
         DECO_CHAISE = "Hoity toity place for your bottom.",
         DECO_CHAIR_CLASSIC = "A rosy little chair.",
-        DECO_CHAIR_CORNER = "For side sitting.", 
-        DECO_CHAIR_BENCH = "The ominous look.", 
+        DECO_CHAIR_CORNER = "For side sitting.",
+        DECO_CHAIR_BENCH = "The ominous look.",
         DECO_CHAIR_HORNED = "Grim and comfortable.",
-        DECO_CHAIR_FOOTREST = "Take a load off.", 
-        DECO_CHAIR_LOUNGE = "Molded wood.", 
-        DECO_CHAIR_MASSAGER = "You'll never need another chair.", 
-        DECO_CHAIR_STUFFED = "Bagged.", 
-        DECO_CHAIR_ROCKING = "It rocks.", 
-        DECO_CHAIR_OTTOMAN = "You oughta love it!", 
+        DECO_CHAIR_FOOTREST = "Take a load off.",
+        DECO_CHAIR_LOUNGE = "Molded wood.",
+        DECO_CHAIR_MASSAGER = "You'll never need another chair.",
+        DECO_CHAIR_STUFFED = "Bagged.",
+        DECO_CHAIR_ROCKING = "It rocks.",
+        DECO_CHAIR_OTTOMAN = "You oughta love it!",
 
-        DECO_LAMP_FRINGE = "A fringe benefit.", 
+        DECO_LAMP_FRINGE = "A fringe benefit.",
         DECO_LAMP_STAINGLASS = "No stain on your reputation.",
         DECO_LAMP_DOWNBRIDGE = "Add some color to your light.",
         DECO_LAMP_2EMBROIDERED = "Roses, roses all the way.",
@@ -2700,42 +2669,42 @@ STRINGS =
         DECO_LAMP_GOTHIC = "Street chic.",
         DECO_LAMP_ORB = "Sphere-ious.",
         DECO_LAMP_BELLSHADE = "A gloomier light.",
-        DECO_LAMP_CRYSTALS = "Dire yet luminous.", 
-        DECO_LAMP_UPTURN = "Uplifting.", 
+        DECO_LAMP_CRYSTALS = "Dire yet luminous.",
+        DECO_LAMP_UPTURN = "Uplifting.",
         DECO_LAMP_2UPTURNS = "Double the cones.",
         DECO_LAMP_SPOOL = "A timber table lamp.",
-        DECO_LAMP_EDISON = "Bare bones and bare bulbed.", 
-        DECO_LAMP_ADJUSTABLE = "Accommodating illumination.", 
+        DECO_LAMP_EDISON = "Bare bones and bare bulbed.",
+        DECO_LAMP_ADJUSTABLE = "Accommodating illumination.",
         DECO_LAMP_RIGHTANGLES = "Boxy bulbed.",
         DECO_LAMP_HOOFSPA = "A dash of gold.",
-        
+
         DECO_PLANTHOLDER_MARBLE = "Chiseled elegance.",
-        DECO_PLANTHOLDER_BASIC = "Basic home decor.", 
-        DECO_PLANTHOLDER_WIP = "Ready for unwrapping.", 
-        DECO_PLANTHOLDER_FANCY = "For the fancy horticulturist.",  
-        DECO_PLANTHOLDER_BONSAI = "Add some zen.",  
-        DECO_PLANTHOLDER_DISHGARDEN = "Succulent.",  
-        DECO_PLANTHOLDER_PHILODENDRON = "Green and leafy.",  
-        DECO_PLANTHOLDER_ORCHID = "Fragrant.", 
-        DECO_PLANTHOLDER_DRACEANA = "Draconian.",  
-        DECO_PLANTHOLDER_XEROGRAPHICA = "How's it staying in there?",  
-        DECO_PLANTHOLDER_BIRDCAGE = "Hang in there.",  
-        DECO_PLANTHOLDER_PALM = "Add a little green to your room.", 
-        DECO_PLANTHOLDER_ZZ = "A touch of green.", 
-        DECO_PLANTHOLDER_FERNSTAND = "Fine fernishing.",  
+        DECO_PLANTHOLDER_BASIC = "Basic home decor.",
+        DECO_PLANTHOLDER_WIP = "Ready for unwrapping.",
+        DECO_PLANTHOLDER_FANCY = "For the fancy horticulturist.",
+        DECO_PLANTHOLDER_BONSAI = "Add some zen.",
+        DECO_PLANTHOLDER_DISHGARDEN = "Succulent.",
+        DECO_PLANTHOLDER_PHILODENDRON = "Green and leafy.",
+        DECO_PLANTHOLDER_ORCHID = "Fragrant.",
+        DECO_PLANTHOLDER_DRACEANA = "Draconian.",
+        DECO_PLANTHOLDER_XEROGRAPHICA = "How's it staying in there?",
+        DECO_PLANTHOLDER_BIRDCAGE = "Hang in there.",
+        DECO_PLANTHOLDER_PALM = "Add a little green to your room.",
+        DECO_PLANTHOLDER_ZZ = "A touch of green.",
+        DECO_PLANTHOLDER_FERNSTAND = "Fine fernishing.",
         DECO_PLANTHOLDER_FERN = "A hanging fern.",
-        DECO_PLANTHOLDER_TERRARIUM = "Caged plants.", 
-        DECO_PLANTHOLDER_PLANTPET = "Hardly needs watering.",  
-        DECO_PLANTHOLDER_TRAPS = "Watch your fingers.",  
-        DECO_PLANTHOLDER_PITCHERS = "Eclectic ceilingware.", 
+        DECO_PLANTHOLDER_TERRARIUM = "Caged plants.",
+        DECO_PLANTHOLDER_PLANTPET = "Hardly needs watering.",
+        DECO_PLANTHOLDER_TRAPS = "Watch your fingers.",
+        DECO_PLANTHOLDER_PITCHERS = "Eclectic ceilingware.",
 
-        DECO_PLANTHOLDER_WINTERFEASTTREEOFSADNESS = "It's the thought that counts.",  
-        DECO_PLANTHOLDER_WINTERFEASTTREE = "Pure majesty.",         
+        DECO_PLANTHOLDER_WINTERFEASTTREEOFSADNESS = "It's the thought that counts.",
+        DECO_PLANTHOLDER_WINTERFEASTTREE = "Pure majesty.",
 
-        DECO_WOOD       = "Holds up nicely.",
-        DECO_MILLINERY  = "Moderately refined.",
-        DECO_ROUND      = "Round the bend.",
-        DECO_MARBLE     = "Lighten up the place.", 
+        DECO_WOOD = "Holds up nicely.",
+        DECO_MILLINERY = "Moderately refined.",
+        DECO_ROUND = "Round the bend.",
+        DECO_MARBLE = "Lighten up the place.",
 
         DECO_TABLE_ROUND = "Well rounded.",
         DECO_TABLE_BANKER = "Heavy, so hire movers.",
@@ -2749,24 +2718,24 @@ STRINGS =
 
         DECO_WALLORNAMENT_PHOTO = "Did this picture come with the frame?",
         DECO_WALLORNAMENT_FULLLENGTH_MIRROR = "Get the full picture.",
-        DECO_WALLORNAMENT_EMBROIDERY_HOOP = "Hand-stitched by a Great Aunt.", 
-        DECO_WALLORNAMENT_MOSAIC = "A motley of stones.", 
-        DECO_WALLORNAMENT_WREATH = "Not just for Christmas anymore.", 
+        DECO_WALLORNAMENT_EMBROIDERY_HOOP = "Hand-stitched by a Great Aunt.",
+        DECO_WALLORNAMENT_MOSAIC = "A motley of stones.",
+        DECO_WALLORNAMENT_WREATH = "Not just for Christmas anymore.",
         DECO_WALLORNAMENT_AXE = "Always handy.",
         DECO_WALLORNAMENT_HUNT = "Hunter chic.",
         DECO_WALLORNAMENT_PERIODIC_TABLE = "Senti-elemental.",
         DECO_WALLORNAMENT_GEARS_ART = "Not cog-nizant of its aesthetic effect.",
         DECO_WALLORNAMENT_CAPE = "You can never have too many capes.",
         DECO_WALLORNAMENT_NO_SMOKING = "For health and safety.",
-        DECO_WALLORNAMENT_BLACK_CAT = "Often seen in the Bohemian district.", 
+        DECO_WALLORNAMENT_BLACK_CAT = "Often seen in the Bohemian district.",
 
         WINDOW_ROUND_BURLAP = "Simple natural light.",
-        WINDOW_SMALL_PEAKED = "Hard wood, soft light.",        
+        WINDOW_SMALL_PEAKED = "Hard wood, soft light.",
         WINDOW_LARGE_SQUARE = "Doubles as a tic-tac-toe board.",
 
-        WINDOW_SMALL_PEAKED_CURTAIN = "Frugal and functional.", 
+        WINDOW_SMALL_PEAKED_CURTAIN = "Frugal and functional.",
         WINDOW_TALL = "Well rounded.",
-        WINDOW_LARGE_SQUARE_CURTAIN = "Comes with drapery.", 
+        WINDOW_LARGE_SQUARE_CURTAIN = "Comes with drapery.",
         WINDOW_TALL_CURTAIN = "Fancy.",
         WINDOW_GREENHOUSE = "Sunlight and creepers.",
         WINDOW_ROUND = "Have a look around.",
@@ -2783,9 +2752,9 @@ STRINGS =
         SWINGING_LIGHT_BASIC_METAL = "A sturdy metal design.",
 
         SWINGING_LIGHT_BASIC_BULB = "At least it's wired.",
-        SWINGING_LIGHT_ROPE_2 = "Twice the bleakness.", 
+        SWINGING_LIGHT_ROPE_2 = "Twice the bleakness.",
         SWINGING_LIGHT_FLORAL_SCALLOP = "Floral themed illumination.",
-        SWINGING_LIGHT_FLORAL_BLOOMER = "Brighting your ceiling.", 
+        SWINGING_LIGHT_FLORAL_BLOOMER = "Brighting your ceiling.",
         SWINGING_LIGHT_TOPHAT = "Add some sophistication.",
         SWINGING_LIGHT_DERBY = "Render the hat unusable.",
 
@@ -2801,58 +2770,58 @@ STRINGS =
         RUG_SWIRL = "Hypnotic.",
         RUG_CATCOON = "Rustic.",
         RUG_RUBBERMAT = "Industrial.",
-        RUG_WEB = "Sticky.", 
-        RUG_METAL = "Metallurgic sophistication.", 
-        RUG_WORMHOLE = "Non-active.", 
+        RUG_WEB = "Sticky.",
+        RUG_METAL = "Metallurgic sophistication.",
+        RUG_WORMHOLE = "Non-active.",
         RUG_BRAID = "Homemade.",
         RUG_BEARD = "Recycled from chin shavings.",
-        RUG_NAILBED = "Prove your will power.", 
-        RUG_CRIME = "Don't ask.", 
-        RUG_TILES = "Geometric luxury.", 
-        
+        RUG_NAILBED = "Prove your will power.",
+        RUG_CRIME = "Don't ask.",
+        RUG_TILES = "Geometric luxury.",
+
         SHELVES_WOOD = "A staple for bookworms.",
         SHELVES_BASIC = "A basic bookshelf for basic books.",
         SHELVES_CINDERBLOCKS = "Dormitory approved.",
         SHELVES_MARBLE = "Classic, yet avant-garde.",
         SHELVES_MIDCENTURY = "Elegantly curved.",
 
-        SHELVES_GLASS = "Breakable yet practical.", 
-        SHELVES_LADDER = "Use it to reach the high shelf.", 
+        SHELVES_GLASS = "Breakable yet practical.",
+        SHELVES_LADDER = "Use it to reach the high shelf.",
         SHELVES_HUTCH = "A place for things.",
         SHELVES_INDUSTRIAL = "Practical storage.",
         SHELVES_ADJUSTABLE = "Flexible furnishings.",
         SHELVES_WALLMOUNT = "Nailed it.",
         SHELVES_AFRAME = "A+ shelving.",
-        SHELVES_CRATES = "Wholesale chic.", 
+        SHELVES_CRATES = "Wholesale chic.",
         SHELVES_FRIDGE = "Cool.",
         SHELVES_HOOKS = "Get hooked.",
         SHELVES_FLOATING = "Try a different angle.",
         SHELVES_PIPE = "Plumb the depths of this shelving.",
         SHELVES_HATTREE = "Not actually a tree.",
         SHELVES_PALLET = "Barely palatable.",
-        SHELVES_METAL = "Don't mettle with it.", 
+        SHELVES_METAL = "Don't mettle with it.",
 
-		PLAYER_HOUSE_COTTAGE_CRAFT = "A comfortable cozy facade.",
+        PLAYER_HOUSE_COTTAGE_CRAFT = "A comfortable cozy facade.",
         PLAYER_HOUSE_VILLA_CRAFT = "A towering elegant surface.",
         PLAYER_HOUSE_TUDOR_CRAFT = "The beauty of the middle ages.",
-        PLAYER_HOUSE_MANOR_CRAFT = "Ominously comfortable.",                
-        PLAYER_HOUSE_GOTHIC_CRAFT = "Bats sold seperately.",                
-        PLAYER_HOUSE_BRICK_CRAFT = "Proven better than wood and hay.",                
-        PLAYER_HOUSE_TURRET_CRAFT = "Practical? Maybe. Cool? Probably.",   
+        PLAYER_HOUSE_MANOR_CRAFT = "Ominously comfortable.",
+        PLAYER_HOUSE_GOTHIC_CRAFT = "Bats sold seperately.",
+        PLAYER_HOUSE_BRICK_CRAFT = "Proven better than wood and hay.",
+        PLAYER_HOUSE_TURRET_CRAFT = "Practical? Maybe. Cool? Probably.",
 
         VENOMGLAND = "Freshly squeezed poison.",
-        BLUNDERBUSS = "Loud and messy, but gets the job done.", 
-        DISARMING_KIT = "It's disarming.", 
-        MAGNIFYING_GLASS = "See things from a different perspective.", 
+        BLUNDERBUSS = "Loud and messy, but gets the job done.",
+        DISARMING_KIT = "It's disarming.",
+        MAGNIFYING_GLASS = "See things from a different perspective.",
 
-        CORK_BAT = "Like a wiffle bat filled with pain.", 
-        HALBERD = "Pointy and hurty.", 
+        CORK_BAT = "Like a wiffle bat filled with pain.",
+        HALBERD = "Pointy and hurty.",
         CANDLEHAT = "Hands free spelunking on shoe string.",
-        CLAWPALMTREE_SAPLING = "It's a wonder these things grow at all.", 
+        CLAWPALMTREE_SAPLING = "It's a wonder these things grow at all.",
         CORKCHEST = "Fill and put a cork in it.",
         CORKBOAT = "Good for portage and tough as porridge.",
         SMELTER = "Turn Iron into Alloy",
-        BUGREPELLENT = "In case you don't enjoy the company of bugs.", 
+        BUGREPELLENT = "In case you don't enjoy the company of bugs.",
         HOGUSPORKUSATOR = "Pigs can do tricks too.",
         PORKLAND_ENTRANCE = "Hop on. What could possibly go wrong?",
 
@@ -2868,9 +2837,9 @@ STRINGS =
         PIG_SHOP_ARCANE = "For the magic half of Science and Magic.",
         PIG_SHOP_WEAPONS = "All adventurers need to defend themselves.",
         PIG_SHOP_HATSHOP = "All the best new fashions.",
-        PIG_SHOP_CITYHALL_PLAYER = "You are the Mayor now.",           
-        PIG_SHOP_BANK = "Gold is a solid investment.", 
-        PIG_SHOP_TINKER = "You can't think of everything on your own.",           
+        PIG_SHOP_CITYHALL_PLAYER = "You are the Mayor now.",
+        PIG_SHOP_BANK = "Gold is a solid investment.",
+        PIG_SHOP_TINKER = "You can't think of everything on your own.",
         PIG_GUARD_TOWER = "Protect the citizens.",
         PLAYERHOUSE_CITY = "Home Sweet Home.",
 
@@ -2882,17 +2851,17 @@ STRINGS =
 
         ANTLER = "For calling birds. Did you make it too big?",
         BONESTAFF = "Wield the gaze of the Pugalisk!",
-        
+
         FENCE_ITEM = "Wood fence segments.",
         FENCE_GATE_ITEM = "A gate for wood fencing.",
         SADDLEHORN = "Pry that saddle off.",
         BRUSH = "Relieve beefalo of their hair buildup.",
         SADDLE_BASIC = "Lets you sit on animals. In theory.",
         SADDLE_WAR = "A throne for the boss of the battlefield.",
-        SADDLE_RACE = "Offsets the time spent making it. Maybe.",    
-        
-        FEATHERPENCIL = "Yes, the feather IS necessary.",   
-        MINISIGN_ITEM = "Draw on these with a Feather Pencil.", 
+        SADDLE_RACE = "Offsets the time spent making it. Maybe.",
+
+        FEATHERPENCIL = "Yes, the feather IS necessary.",
+        MINISIGN_ITEM = "Draw on these with a Feather Pencil.",
         --SALTLICK = "Keep your livestock content.",
 
         LIVINGLOG = "Put yourself into your work.",
@@ -2910,20 +2879,20 @@ STRINGS =
         GOGGLESNORMALHAT = "Basic super goggles. Reveal hidden dangers.",
         GOGGLESHEATHAT = "Is everything hot or not.",
         GOGGLESARMORHAT = "Armored lenses.",
-        GOGGLESSHOOTHAT = "Static boom focusing apparatus.",  
+        GOGGLESSHOOTHAT = "Static boom focusing apparatus.",
 
-        THUMPER = "A revolutionary harvester.",       
+        THUMPER = "A revolutionary harvester.",
         TELEBRELLA = "A revolutionary walker.",
         TELIPAD = "A revolutionary platform.",
 
-		ARMORVORTEXCLOAK = "Pockets, dimensions deep.",
+        ARMORVORTEXCLOAK = "Pockets, dimensions deep.",
 
-		GOGGLESNORMALHAT = "Basic super goggles. Reveal hidden dangers.",
+        GOGGLESNORMALHAT = "Basic super goggles. Reveal hidden dangers.",
         GOGGLESHEATHAT = "Is everything hot or not.",
         GOGGLESARMORHAT = "Armored lenses.",
-        GOGGLESSHOOTHAT = "Static boom focusing apparatus.", 
-        THUMPER = "A revolutionary harvester.",       
-        TELEBRELLA = "A revolutionary walker.",    
+        GOGGLESSHOOTHAT = "Static boom focusing apparatus.",
+        THUMPER = "A revolutionary harvester.",
+        TELEBRELLA = "A revolutionary walker.",
 
         LIVING_ARTIFACT = "Lets just mix em and see what happens.",
 
@@ -2937,8 +2906,8 @@ STRINGS =
         LAWNORNAMENT_4 = "A bent little tree.",
         LAWNORNAMENT_5 = "Does not protect you from fun.",
         LAWNORNAMENT_6 = "The pot is plastic.",
-        LAWNORNAMENT_7 = "The tree is plastic.",        
-	},
+        LAWNORNAMENT_7 = "The tree is plastic.",
+    },
 
     -- MAXWELL_TEST = {"Say pal, you don't look so good.", "You better find something to eat before night comes!"},
 
@@ -2954,24 +2923,20 @@ STRINGS =
     --  {"I left you a little something...","I don't think it will help you though.", "You know what I like about nighttime?", "All the spiders."},
     --  },
 
-    MAXWELL_SANDBOXINTROS =
-    {
+    MAXWELL_SANDBOXINTROS = {
         ONE = "Say pal, you don't look so good.",
         TWO = "You'd better find something to eat before night comes!",
     },
 
-    MAXWELL_ADVENTUREINTROS =
-    {
-        LEVEL_1 =
-        {
+    MAXWELL_ADVENTUREINTROS = {
+        LEVEL_1 = {
             ONE = "Oh, you found my portal did you?",
             TWO = "You'd think you would have learned your lesson by now.",
             --THREE = "Strange machinery hasn't exactly been kind to you in the past.",
             THREE = "Hmm. Let's try something a little more challenging, shall we?",
             --FIVE = "Let's see if you're as enthusiastic when it's fourty below.",
         },
-        LEVEL_2 =
-        {
+        LEVEL_2 = {
             ONE = "Well would you look at that, you survived.",
             TWO = "One down, four to go!",
             --TWO = "Now don't get a big head, you aren't the first.",
@@ -2979,45 +2944,38 @@ STRINGS =
             --FOUR = "And by that I mean to say,",
             --FIVE = "I will enjoy inspecting your entrails once the Deerclops is done with you.",
         },
-        LEVEL_3 =
-        {
+        LEVEL_3 = {
             ONE = "What? You're still here?",
             TWO = "Impressive. But you should probably stop while you're ahead.",
             --TWO = "Must I do everything myself?",
             --THREE = "HOUNDS! DISPOSE OF THIS PEST!",
         },
-        LEVEL_4 =
-        {
+        LEVEL_4 = {
             ONE = "Say, pal.",
             TWO = "You're really pushing your luck.",
             THREE = "Turn back now, or I may have to resort to drastic measures.",
         },
-        TWOLANDS =
-        {
+        TWOLANDS = {
             ONE = "Say, pal.",
             TWO = "Let's make a deal. You can stay here. Settle down, even.",
             THREE = "I'll give you food, gold, pigs, whatever you need.",
             FOUR = "All I want in return is a truce.",
         },
-        LEVEL_5 =
-        {
+        LEVEL_5 = {
             ONE = "You insolent, pitiful, insignificant ant!",
             TWO = "Do not arouse the wrath of the Great Maxwell!",
             THREE = "You will regret coming any further...",
         },
-        LEVEL_6 =
-        {
+        LEVEL_6 = {
             ONE = "Well, this is it.",
             TWO = "You found me. Now, what are you going to do?",
             TELEPORTFAIL = "Don't you think I've tried that?",
             TELEPORTFAIL2 = "This is the end of the line. We have no escape.",
-            COMBATFAIL =
-            {
+            COMBATFAIL = {
                 "Where would be the sport in that?",
                 "Who do you think allowed you to make that?",
             },
-            CONVERSATION =
-            {
+            CONVERSATION = {
                 "Is this what you were expecting?",
                 "Forgive me if I don't get up.",
                 "You've been an interesting plaything, but I've grown tired of this game.",
@@ -3046,630 +3004,614 @@ STRINGS =
 
     },
 
-    MAXWELL_ADVENTURE_HEAD =
-    {
-        LEVEL_4 =
-        {
+    MAXWELL_ADVENTURE_HEAD = {
+        LEVEL_4 = {
             ONE = "Fine. Just remember that you chose this.",
         },
-        LEVEL_6 =
-        {
+        LEVEL_6 = {
             ONE = "We're not so different, you and I.",
-            TWO =
-            {
+            TWO = {
                 ONE = "That's why I brought you here.",
                 TWO = "That's why I brought all of them here.",
             },
-            THREE =
-            {
+            THREE = {
                 ONE = "Oh, did you think you were the first?",
                 TWO = "HA!",
             },
-            FOUR =
-            {
+            FOUR = {
                 ONE = "It's just that...",
                 TWO = "I've become accustomed to winning.",
             },
         },
     },
 
-    MAXWELL_ADVENTURETHRONE =
-    {
-        LEVEL_6 =
-        {
-            INTRO =
-            {
+    MAXWELL_ADVENTURETHRONE = {
+        LEVEL_6 = {
+            INTRO = {
                 ONE = "Is this how it ends?",
             },
-            HIT =
-            {
+            HIT = {
                 ONE = "The throne won't allow that. I've tried.",
             },
-            NOUNLOCK =
-            {
+            NOUNLOCK = {
                 ONE = "Ah, I am a fool. I had dared to hope.",
             },
-            PHONOGRAPHON =
-            {
+            PHONOGRAPHON = {
                 ONE = "I guess I deserve that.",
             },
-            PHONOGRAPHOFF =
-            {
+            PHONOGRAPHOFF = {
                 ONE = "Thank you. I have been listening to that song for an eternity.",
             },
         },
     },
 
-    WALLY_SANDBOXINTROS =
-    {
+    WALLY_SANDBOXINTROS = {
         ONE = "Nice sailing.",
         TWO = "Chump.",
     },
 
-    PORKLAND_SANDBOXINTROS =
-    {
+    PORKLAND_SANDBOXINTROS = {
         ONE = "Nice two point landing...",
         TWO = "Out of ten that is.",
     },
-    
-    PORKLAND_SANDBOXINTROS_WORMWOOD =
-    {
+
+    PORKLAND_SANDBOXINTROS_WORMWOOD = {
         ONE = "Get moving, tree.",
         TWO = "Chop, chop!",
-    },    
+    },
 
     --ITEM DESCRIPTIONS
     DESCRIBE_NULL = "IT'S A THING!",
 
     -- For the pig gifting outside of hamlet
-    PIG_TALK_DAILY_GIFTING = {"TAKE THING", "HERE YOU GO", "YOUR MAJESTY"},
-    PIG_TALK_FOLLOWWILSON = {"YOU FRIEND", "I LOVE FRIEND", "YOU IS GOOD", "I FOLLOW!"},
-    PIG_TALK_FIND_LIGHT = {"SCARY", "NO LIKE DARK", "WHERE IS SUN?", "STAY NEAR FIRE", "FIRE IS GOOD"},
-    PIG_TALK_LOOKATWILSON = {"WHO ARE YOU?", "YOU NOT PIG", "UGLY MONKEY MAN", "YOU HAS MEAT?"},
-    PIG_TALK_RUNAWAY_WILSON = {"TOO CLOSE!", "STAY AWAY!", "YOU BACK OFF!", "THAT MY SPACE."},
-    PIG_TALK_FIGHT = {"I KILL NOW!", "YOU GO SMASH!", "RAAAWR!"},
-    PIG_TALK_PROTECT = {"BE GONE!", "AWAY CRETIN!", "CLEAN STREETS!", "STREET URCHIN!",},
-    PIG_TALK_STAYOUT = {"NO COME BACK!", "AND STAY OUT!", "BE GONE VILLAIN!"},
-    PIG_TALK_FLEE = {"VANDAL!", "THE HORROR!", "MY CIVILITY!"},
-    PIG_TALK_RUN_FROM_SPIDER = {"SPIDER BAD!", "NO LIKE SPIDER!", "SCARY SPIDER!"},
-    PIG_TALK_HELP_CHOP_WOOD = {"KILL TREE!", "SMASH MEAN TREE!", "I PUNCH TREE!"},
-    PIG_TALK_ATTEMPT_TRADE = {"WHAT YOU GOT?", "BETTER BE GOOD."},
-    PIG_TALK_PANIC = {"NOOOOO!", "TOO DARK! TOO DARK!", "AAAAAAAAAH!!"},
-    PIG_TALK_PANICFIRE = {"HOT HOT HOT!", "OWWWWW!", "IT BURNS!"},
-    PIG_TALK_FIND_MEAT = {"ME HUNGRY!", "YUM!", "I EAT FOOD!", "TIME FOR FOOD!"},
-    PIG_TALK_EAT_MEAT = {"NOM NOM NOM", "YUM!"},
-    PIG_TALK_GO_HOME = {"HOME TIME!", "HOME! HOME!"},
+    PIG_TALK_DAILY_GIFTING = { "TAKE THING", "HERE YOU GO", "YOUR MAJESTY" },
+    PIG_TALK_FOLLOWWILSON = { "YOU FRIEND", "I LOVE FRIEND", "YOU IS GOOD", "I FOLLOW!" },
+    PIG_TALK_FIND_LIGHT = { "SCARY", "NO LIKE DARK", "WHERE IS SUN?", "STAY NEAR FIRE", "FIRE IS GOOD" },
+    PIG_TALK_LOOKATWILSON = { "WHO ARE YOU?", "YOU NOT PIG", "UGLY MONKEY MAN", "YOU HAS MEAT?" },
+    PIG_TALK_RUNAWAY_WILSON = { "TOO CLOSE!", "STAY AWAY!", "YOU BACK OFF!", "THAT MY SPACE." },
+    PIG_TALK_FIGHT = { "I KILL NOW!", "YOU GO SMASH!", "RAAAWR!" },
+    PIG_TALK_PROTECT = { "BE GONE!", "AWAY CRETIN!", "CLEAN STREETS!", "STREET URCHIN!", },
+    PIG_TALK_STAYOUT = { "NO COME BACK!", "AND STAY OUT!", "BE GONE VILLAIN!" },
+    PIG_TALK_FLEE = { "VANDAL!", "THE HORROR!", "MY CIVILITY!" },
+    PIG_TALK_RUN_FROM_SPIDER = { "SPIDER BAD!", "NO LIKE SPIDER!", "SCARY SPIDER!" },
+    PIG_TALK_HELP_CHOP_WOOD = { "KILL TREE!", "SMASH MEAN TREE!", "I PUNCH TREE!" },
+    PIG_TALK_ATTEMPT_TRADE = { "WHAT YOU GOT?", "BETTER BE GOOD." },
+    PIG_TALK_PANIC = { "NOOOOO!", "TOO DARK! TOO DARK!", "AAAAAAAAAH!!" },
+    PIG_TALK_PANICFIRE = { "HOT HOT HOT!", "OWWWWW!", "IT BURNS!" },
+    PIG_TALK_FIND_MEAT = { "ME HUNGRY!", "YUM!", "I EAT FOOD!", "TIME FOR FOOD!" },
+    PIG_TALK_EAT_MEAT = { "NOM NOM NOM", "YUM!" },
+    PIG_TALK_GO_HOME = { "HOME TIME!", "HOME! HOME!" },
     PIG_TALK_RESCUE = { "I HELP YOU!", "OOH! OOH!", "ME HELP!" },
 
-    PIG_GUARD_TALK_TORCH = {"TORCH GET LOW", "MAKE TORCH BRIGHT", "MORE BURNING"},
-    PIG_GUARD_TALK_FIGHT = {"FOR KING!", "DEFEND!", "SAVE KING!"},
-    PIG_GUARD_TALK_GOHOME = {"MUST DEFEND!", "I PROTECT", "KING! KING!"},
-    PIG_GUARD_TALK_LOOKATWILSON = {"YOU LEAVE NOW", "YOU GO AWAY", "YOU NO STAY"},
+    PIG_GUARD_TALK_TORCH = { "TORCH GET LOW", "MAKE TORCH BRIGHT", "MORE BURNING" },
+    PIG_GUARD_TALK_FIGHT = { "FOR KING!", "DEFEND!", "SAVE KING!" },
+    PIG_GUARD_TALK_GOHOME = { "MUST DEFEND!", "I PROTECT", "KING! KING!" },
+    PIG_GUARD_TALK_LOOKATWILSON = { "YOU LEAVE NOW", "YOU GO AWAY", "YOU NO STAY" },
 
-    BORE_TALK_FOLLOWWILSON = {"YOU OK BY ME", "I LOVE FRIEND", "YOU IS GOOD", "I FOLLOW!"},
-    BORE_TALK_FIND_LIGHT = {"SCARY", "NO LIKE DARK", "WHERE IS SUN?", "STAY NEAR FIRE", "FIRE IS GOOD"},
-    BORE_TALK_LOOKATWILSON = {"WHO ARE YOU?", "YOU NOT BORE.", "UGLY MONKEY MAN", "YOU HAS MEAT?"},
-    BORE_TALK_RUNAWAY_WILSON = {"TOO CLOSE!", "STAY 'WAY!", "YOU BACK OFF!", "THAT MY SPACE."},
-    BORE_TALK_FIGHT = {"I KILL NOW!", "YOU GO SMASH!", "RAAAWR!", "NOW YOU DUN IT!", "GO 'WAY!", "I MAKE YOU LEAVE!",},
-    BORE_TALK_RUN_FROM_SPIDER = {"SPIDER BAD!", "NO LIKE SPIDER!", "SCARY SPIDER!"},
-    BORE_TALK_HELP_CHOP_WOOD = {"KILL TREE!", "SMASH MEAN TREE!", "I PUNCH TREE!"},
-    BORE_TALK_HELP_HACK = {"I HELP GET BUSH!", "I PUNCH BUSH!", "WE PUNCHIN' PLANTS NOW?"},
-    BORE_TALK_ATTEMPT_TRADE = {"WHAT YOU GOT?", "BETTER BE GOOD.", "NO WASTE MY TIME."},
-    BORE_TALK_PANIC = {"NOOOOO!", "TOO DARK! TOO DARK!", "AAAAAAAAAH!!"},
-    BORE_TALK_PANICFIRE = {"HOT HOT HOT!", "OWWWWW!", "IT BURNS!"},
-    BORE_TALK_FIND_MEAT = {"ME HUNGRY!", "YUM!", "I EAT FOOD!", "TIME FOR FOOD!"},
-    BORE_TALK_EAT_MEAT = {"NOM NOM NOM", "YUM!"},
-    BORE_TALK_GO_HOME = {"HOME TIME!", "HOME! HOME!"},
+    BORE_TALK_FOLLOWWILSON = { "YOU OK BY ME", "I LOVE FRIEND", "YOU IS GOOD", "I FOLLOW!" },
+    BORE_TALK_FIND_LIGHT = { "SCARY", "NO LIKE DARK", "WHERE IS SUN?", "STAY NEAR FIRE", "FIRE IS GOOD" },
+    BORE_TALK_LOOKATWILSON = { "WHO ARE YOU?", "YOU NOT BORE.", "UGLY MONKEY MAN", "YOU HAS MEAT?" },
+    BORE_TALK_RUNAWAY_WILSON = { "TOO CLOSE!", "STAY 'WAY!", "YOU BACK OFF!", "THAT MY SPACE." },
+    BORE_TALK_FIGHT = { "I KILL NOW!", "YOU GO SMASH!", "RAAAWR!", "NOW YOU DUN IT!", "GO 'WAY!", "I MAKE YOU LEAVE!", },
+    BORE_TALK_RUN_FROM_SPIDER = { "SPIDER BAD!", "NO LIKE SPIDER!", "SCARY SPIDER!" },
+    BORE_TALK_HELP_CHOP_WOOD = { "KILL TREE!", "SMASH MEAN TREE!", "I PUNCH TREE!" },
+    BORE_TALK_HELP_HACK = { "I HELP GET BUSH!", "I PUNCH BUSH!", "WE PUNCHIN' PLANTS NOW?" },
+    BORE_TALK_ATTEMPT_TRADE = { "WHAT YOU GOT?", "BETTER BE GOOD.", "NO WASTE MY TIME." },
+    BORE_TALK_PANIC = { "NOOOOO!", "TOO DARK! TOO DARK!", "AAAAAAAAAH!!" },
+    BORE_TALK_PANICFIRE = { "HOT HOT HOT!", "OWWWWW!", "IT BURNS!" },
+    BORE_TALK_FIND_MEAT = { "ME HUNGRY!", "YUM!", "I EAT FOOD!", "TIME FOR FOOD!" },
+    BORE_TALK_EAT_MEAT = { "NOM NOM NOM", "YUM!" },
+    BORE_TALK_GO_HOME = { "HOME TIME!", "HOME! HOME!" },
 
-    BALLPHIN_TALK_FOLLOWWILSON = {"EE!! EE!!", "EEEE!", "EEE, EE?", "EE EEE EE"},
-    BALLPHIN_TALK_HOME = {"NEEEEE!!", "Nee! NEe!", "NEE! NEE!"},
-    BALLPHIN_TALK_FIND_LIGHT = {"EEEK! EEEK!", "EEK EEK EEK!"},
-    BALLPHIN_TALK_PANIC = {"EEEEEEEEH!!", "EEEEEEEEE!!"},
-    BALLPHIN_TALK_FIND_MEAT = {"Eee?", "Eee eee ee?", "Ee, ee?"},
-    BALLPHIN_TALK_HELP_MINE_CORAL = {"KEEEEEE!", "KEE! KEE!", "KEEE!"},
+    BALLPHIN_TALK_FOLLOWWILSON = { "EE!! EE!!", "EEEE!", "EEE, EE?", "EE EEE EE" },
+    BALLPHIN_TALK_HOME = { "NEEEEE!!", "Nee! NEe!", "NEE! NEE!" },
+    BALLPHIN_TALK_FIND_LIGHT = { "EEEK! EEEK!", "EEK EEK EEK!" },
+    BALLPHIN_TALK_PANIC = { "EEEEEEEEH!!", "EEEEEEEEE!!" },
+    BALLPHIN_TALK_FIND_MEAT = { "Eee?", "Eee eee ee?", "Ee, ee?" },
+    BALLPHIN_TALK_HELP_MINE_CORAL = { "KEEEEEE!", "KEE! KEE!", "KEEE!" },
 
-    MERM_TALK_FIND_FOOD = {"Flut!", "Glort grolt flut.", "Florty glut."},
-    MERM_TALK_PANIC = {"GLOP GLOP GLOP!", "GLORRRRRP!", "FLOPT! FTHRON!"},
-    MERM_TALK_FIGHT = {"GLIE, FLORPY FLOPPER!", "NO! G'WUT OFF, GLORTER!", "WULT FLROT, FLORPER!"},
-    MERM_TALK_RUNAWAY = {"Florpy glrop glop!", "GLORP! GLOPRPY GLUP!", "Glut glut flrop!"},
-    MERM_TALK_GO_HOME = {"Wort wort flrot.", "Wrut glor gloppy flort."},
-    MERM_TALK_FISH = {"Blut flort.", "Glurtsu gleen.", "Blet blurn."},
+    MERM_TALK_FIND_FOOD = { "Flut!", "Glort grolt flut.", "Florty glut." },
+    MERM_TALK_PANIC = { "GLOP GLOP GLOP!", "GLORRRRRP!", "FLOPT! FTHRON!" },
+    MERM_TALK_FIGHT = { "GLIE, FLORPY FLOPPER!", "NO! G'WUT OFF, GLORTER!", "WULT FLROT, FLORPER!" },
+    MERM_TALK_RUNAWAY = { "Florpy glrop glop!", "GLORP! GLOPRPY GLUP!", "Glut glut flrop!" },
+    MERM_TALK_GO_HOME = { "Wort wort flrot.", "Wrut glor gloppy flort." },
+    MERM_TALK_FISH = { "Blut flort.", "Glurtsu gleen.", "Blet blurn." },
 
-    RABBIT_BATTLECRY = {"HOP!", "KILL!", "DIE!"},
-    RABBIT_MEAT_BATTLECRY = {"MEAT!", "UNCLEAN!", "MURDERER!", "REVENGE!", "MONSTER!"},
-    RABBIT_GIVEUP = {"DONE.", "LATER."},
-    RABBIT_RETREAT = {"AWAY!", "HURT!", "HOME!", "RUN!"},
+    RABBIT_BATTLECRY = { "HOP!", "KILL!", "DIE!" },
+    RABBIT_MEAT_BATTLECRY = { "MEAT!", "UNCLEAN!", "MURDERER!", "REVENGE!", "MONSTER!" },
+    RABBIT_GIVEUP = { "DONE.", "LATER." },
+    RABBIT_RETREAT = { "AWAY!", "HURT!", "HOME!", "RUN!" },
     RABBIT_RESCUE = { "KILL!", "FIGHT!", "BITE!", "PUNCH!" },
 
 
-    ANT_TALK_UNTRANSLATED = {"CHR'IK TIVIK","CR'KIT CR'KIT","KLICK VRR'TIK","K'KRIT","VVR'T C'CHAK","TI'VIK TI'VOK"},
-    ANT_TALK_KEEP_AWAY = {"K-K-KEEP BACK-CK-CK", "WE PROTECT-KT-KT QUEEN!", "GET-TK-TK AWAY",},
-    ANT_TALK_WANT_MEAT = {"I EAT-TK-TK MEAT"},
-    ANT_TALK_WANT_VEGGIE = {"I EAT-TK-TK PLANTS"},
-    ANT_TALK_WANT_SEEDS = {"I EAT-TK-TK SEEDS"},
-    ANT_TALK_WANT_WOOD = {"I EAT-TK-TK TREES"},
+    ANT_TALK_UNTRANSLATED = { "CHR'IK TIVIK", "CR'KIT CR'KIT", "KLICK VRR'TIK", "K'KRIT", "VVR'T C'CHAK", "TI'VIK TI'VOK" },
+    ANT_TALK_KEEP_AWAY = { "K-K-KEEP BACK-CK-CK", "WE PROTECT-KT-KT QUEEN!", "GET-TK-TK AWAY", },
+    ANT_TALK_WANT_MEAT = { "I EAT-TK-TK MEAT" },
+    ANT_TALK_WANT_VEGGIE = { "I EAT-TK-TK PLANTS" },
+    ANT_TALK_WANT_SEEDS = { "I EAT-TK-TK SEEDS" },
+    ANT_TALK_WANT_WOOD = { "I EAT-TK-TK TREES" },
 
-    ANT_TALK_FOLLOWWILSON = {"OBEY ROYAL-TK-TK-TY", "AWAIT INSTRUCT-TK-TK-TIONS", "ASSIST-T-T THE HIVE", "I CK-CK-COMPLY"},
-    ANT_TALK_FIGHT = {"CHK-CHK-CHARGE!", "ATT-TK-TACK!", "HIVE MUST-TK-TK CONTINUE!", "PROTECT-KT-KT THE HIVE!"},
-    ANT_TALK_HELP_CHOP_WOOD = {"TK-TK-TASKS!", "CHK-CHK-CHOP WOOD", "WORK-K-KT TOGETHER!", "ACT-CT-CTIVITY!", "CK-CK-CONSTRUCT!"},
-    ANT_TALK_ATTEMPT_TRADE = {"YOU WORK-K-K TOO?", "ASSIST-TK-TK COLONY?", "CONSTRUCT TK-TK-TOGETHER?",},
-    ANT_TALK_PANIC = {"AAAAACH-CH-CH!!", "RETREAT-TK-TK!", "GET BACK-CK-CK!" },
-    ANT_TALK_PANICFIRE = {"SCORCH-CHK-CHK!", "I COMBUST-TK-TK!", "I SAC-C-CRIFICE!"},
-    ANT_TALK_FIND_MEAT = {"STOCK-CK-CK FOOD!", "COLLECT-TK-TK FOOD!", "C-C-CONSUME!", "STASH MEAT-TK-TK!",},
-    ANT_TALK_RESCUE = {"HELP ROYAL-TK-TK-TY","ASSIST-T-T THE HIVE"},
+    ANT_TALK_FOLLOWWILSON = { "OBEY ROYAL-TK-TK-TY", "AWAIT INSTRUCT-TK-TK-TIONS", "ASSIST-T-T THE HIVE", "I CK-CK-COMPLY" },
+    ANT_TALK_FIGHT = { "CHK-CHK-CHARGE!", "ATT-TK-TACK!", "HIVE MUST-TK-TK CONTINUE!", "PROTECT-KT-KT THE HIVE!" },
+    ANT_TALK_HELP_CHOP_WOOD = { "TK-TK-TASKS!", "CHK-CHK-CHOP WOOD", "WORK-K-KT TOGETHER!", "ACT-CT-CTIVITY!", "CK-CK-CONSTRUCT!" },
+    ANT_TALK_ATTEMPT_TRADE = { "YOU WORK-K-K TOO?", "ASSIST-TK-TK COLONY?", "CONSTRUCT TK-TK-TOGETHER?", },
+    ANT_TALK_PANIC = { "AAAAACH-CH-CH!!", "RETREAT-TK-TK!", "GET BACK-CK-CK!" },
+    ANT_TALK_PANICFIRE = { "SCORCH-CHK-CHK!", "I COMBUST-TK-TK!", "I SAC-C-CRIFICE!" },
+    ANT_TALK_FIND_MEAT = { "STOCK-CK-CK FOOD!", "COLLECT-TK-TK FOOD!", "C-C-CONSUME!", "STASH MEAT-TK-TK!", },
+    ANT_TALK_RESCUE = { "HELP ROYAL-TK-TK-TY", "ASSIST-T-T THE HIVE" },
 
-    MANDRAKEMAN_BATTLECRY = {"ROT!", "SOIL!", "COMPOST!", "MOLD"},
-    MANDRAKEMAN_MANDRAKE_BATTLECRY = {"THIEF!","ROBBER!","CROOK!","CHEAT!"},
-    MANDRAKEMAN_GIVEUP = {"WHAT DOING?", "TIRED", "SLEEPY", "WORN"},
-    MANDRAKEMAN_RETREAT = {"AWAY!", "HURT!", "HOME!", "RUN!"},
+    MANDRAKEMAN_BATTLECRY = { "ROT!", "SOIL!", "COMPOST!", "MOLD" },
+    MANDRAKEMAN_MANDRAKE_BATTLECRY = { "THIEF!", "ROBBER!", "CROOK!", "CHEAT!" },
+    MANDRAKEMAN_GIVEUP = { "WHAT DOING?", "TIRED", "SLEEPY", "WORN" },
+    MANDRAKEMAN_RETREAT = { "AWAY!", "HURT!", "HOME!", "RUN!" },
 
 
--- pigman_collector
--- pigman_banker
--- pigman_beautician
--- pigman_florist
--- pigman_mayor
--- pigman_mechanic
--- pigman_royalguard
--- pigman_royalguard_2
--- pigman_storeowner
--- pigman_farmer
--- pigman_miner
--- pigman_shopkeep
--- pigman_erudite
--- pigman_hatmaker
--- pigman_professor
--- pigman_hunter
+    -- pigman_collector
+    -- pigman_banker
+    -- pigman_beautician
+    -- pigman_florist
+    -- pigman_mayor
+    -- pigman_mechanic
+    -- pigman_royalguard
+    -- pigman_royalguard_2
+    -- pigman_storeowner
+    -- pigman_farmer
+    -- pigman_miner
+    -- pigman_shopkeep
+    -- pigman_erudite
+    -- pigman_hatmaker
+    -- pigman_professor
+    -- pigman_hunter
 
     CITY_PIG_TALK_FOLLOWWILSON = {
-                                    DEFAULT = {"WHEREFORE ART THINE BAD GUYS?", "ONCE MORE UNTO THE BREACH, UNPIG", "TAKE ARMS!", "KILL, KILL, KILL!", "CRY HAVOC!", "THE GAME IS AFOOTS!",},
-                                    pigman_beautician = {"VISIT MINE SHOP FOR MEDICINES", "SELLEST ME THINE FEATHERS", "I HATH NEED OF FEATHERS"},
-                                    pigman_mechanic = {"SELLEST ME THINE REFINED'D THINGS", "IN NEED OF FIXINGS?", "SELLEST ME THINE ROPE", "SELLEST ME THINE BOARDS"},
-                                    pigman_mayor = {"YOU VOTETH?", "GIVE ME THINE GOLD FOR GOOD CAUSE", "ENDORSETH ME?",},
-                                    pigman_collector = {"WANT'ST STRANGE THINGS?", "SELLEST ME THINE WEIRDITIES",},
-                                    pigman_banker = {"ALL THAT GLITTERS WORTH OINCS", "HAST THOU JEWELS?", "I BUY THOU JEWELS"},
-                                    pigman_florist = {"VISIT MINE SHOP FOR SEEDS", "HAST THOU PLOP TO SELL?", "HAST THOU PETALS?"},
-                                    pigman_farmer = {"I HAST FARM", "SELLETH ME THINE GRASS", "STEALEST NAUGHT MINE STUFFS"},
-                                    pigman_miner = {"I WILLST BUY THINE ROCKS", "HAST THOU ROCKS TO SELL?", "STEAL NOT FROM MINE MINE"},
-                                    pigman_shopkeep = {"HAST THOU CLIPPINGS?", "GIVETH ME YON CLIPPINGS FROM YON HEDGE", "TRIMETH YON SHRUBS"},
-                                    pigman_storeowner = {"HAS'T THOU CUTTINGS O' HEDGE?", "YON HEDGES NEED'TH TRIMMING",},
-                                    pigman_erudite = {"NEED'ST THOU MAGICS? COME'ST TO MINE SHOP", "NEED'ST FUEL O' NIGHTMARES", "HAST THOU FUEL O' NIGHTMARES?"},
-                                    pigman_hatmaker = {"NEED'ST HATS? VISIT YON HAT SHOP", "HAST THOU SILK?", "THY HEAD IS'T IN NEED O' COVERINGS"},
-                                    pigman_professor = {"VISIT YON ACADEMY", "HA'ST THOU RELICS?", "HATH THOU STUFFS O' OLDEN'D TIMES?"},
-                                    pigman_hunter = {"NEED'ST THOU WEAPONS? VISIT MINE SHOP", "HAS'T THOU TOOTH O' THE HOUND?", "GET THEE TO YON WEAPONS SHOP"},
-                                },
+        DEFAULT = { "WHEREFORE ART THINE BAD GUYS?", "ONCE MORE UNTO THE BREACH, UNPIG", "TAKE ARMS!", "KILL, KILL, KILL!", "CRY HAVOC!", "THE GAME IS AFOOTS!", },
+        pigman_beautician = { "VISIT MINE SHOP FOR MEDICINES", "SELLEST ME THINE FEATHERS", "I HATH NEED OF FEATHERS" },
+        pigman_mechanic = { "SELLEST ME THINE REFINED'D THINGS", "IN NEED OF FIXINGS?", "SELLEST ME THINE ROPE", "SELLEST ME THINE BOARDS" },
+        pigman_mayor = { "YOU VOTETH?", "GIVE ME THINE GOLD FOR GOOD CAUSE", "ENDORSETH ME?", },
+        pigman_collector = { "WANT'ST STRANGE THINGS?", "SELLEST ME THINE WEIRDITIES", },
+        pigman_banker = { "ALL THAT GLITTERS WORTH OINCS", "HAST THOU JEWELS?", "I BUY THOU JEWELS" },
+        pigman_florist = { "VISIT MINE SHOP FOR SEEDS", "HAST THOU PLOP TO SELL?", "HAST THOU PETALS?" },
+        pigman_farmer = { "I HAST FARM", "SELLETH ME THINE GRASS", "STEALEST NAUGHT MINE STUFFS" },
+        pigman_miner = { "I WILLST BUY THINE ROCKS", "HAST THOU ROCKS TO SELL?", "STEAL NOT FROM MINE MINE" },
+        pigman_shopkeep = { "HAST THOU CLIPPINGS?", "GIVETH ME YON CLIPPINGS FROM YON HEDGE", "TRIMETH YON SHRUBS" },
+        pigman_storeowner = { "HAS'T THOU CUTTINGS O' HEDGE?", "YON HEDGES NEED'TH TRIMMING", },
+        pigman_erudite = { "NEED'ST THOU MAGICS? COME'ST TO MINE SHOP", "NEED'ST FUEL O' NIGHTMARES", "HAST THOU FUEL O' NIGHTMARES?" },
+        pigman_hatmaker = { "NEED'ST HATS? VISIT YON HAT SHOP", "HAST THOU SILK?", "THY HEAD IS'T IN NEED O' COVERINGS" },
+        pigman_professor = { "VISIT YON ACADEMY", "HA'ST THOU RELICS?", "HATH THOU STUFFS O' OLDEN'D TIMES?" },
+        pigman_hunter = { "NEED'ST THOU WEAPONS? VISIT MINE SHOP", "HAS'T THOU TOOTH O' THE HOUND?", "GET THEE TO YON WEAPONS SHOP" },
+    },
     CITY_PIG_TALK_FIND_LIGHT = {
-                                    DEFAULT = {"ONCE MORE UNTO THE LIGHT!", "WHEREFORE ART LIGHT?", "WHEREFORE IS'T SUN?", "FREINDS, PIGGIES, UNPIGGIES, LEND ME YOUR LIGHT"},
-                                    pigman_beautician = {"I AM TOO MUCH I' THE DARK", "'TIS DARK!", "WHEREFORE ART THE LIGHT?"},
-                                    pigman_mechanic = {"IS'T DARK! IS'T SCARY!", "THAT WAY MADNESS LIES!",},
-                                    pigman_mayor = {"FRIENDS, PIGGIES, UNPIGGIES, LEND ME YOUR LIGHT!", "WHEREFORE ART MINE LIGHT?"},
-                                    pigman_royalguard = {"TAKE NAUGHT THE LIGHT!", "TAKE ARMS!", "ONCE MORE UNTO THE LIGHT!"},
-                                    pigman_royalguard = {"TAKE NAUGHT THE LIGHT!", "TAKE ARMS!", "ONCE MORE UNTO THE LIGHT!"},
-                                    pigman_collector = {"WHEREFORE ART THE LIGHT?!", "I NEED'ST LIGHT!",},
-                                    pigman_banker = {"BRINGETH BACK THE LIGHT!", "THIS WAY DARKNESS LIES!"},
-                                    pigman_florist = {"I AM TOO MUCH I' THE DARK!", "THIS WAY DARKNESS LIES!",},
-                                    pigman_storeowner = {"ONCE MORE UNTO THE LIGHT!", "WHEREFORE ART THOU, LIGHT?"},
-                                    pigman_farmer = {"WHEREFORE IS'T SUN?", "NEED'ST LIGHT!",},
-                                    pigman_miner = {"FINDETH LIGHT!", "IS'T TOO MUCH SCARY"},
-                                    pigman_shopkeep = {"PROTECTETH ME!", "TAKETH NAUGHT THE LIGHT!",},
-                                    pigman_erudite = {"'TIS TOO MUCH DARKNESS!", "DARKNESS IS AFOOTS!"},
-                                    pigman_hatmaker = {"THIS WAY DARKNESS LIES!", "I AM TOO MUCH I' THE DARK!"},
-                                    pigman_professor = {"THIS WAY DARKNESS LIES!", "DARKNESS 'TIS NAUGHT GOOD!"},
-                                    pigman_hunter = {"BRING'ST BACK THE LIGHT!", "IS'T DARK! IS'T SCARY!"},
+        DEFAULT = { "ONCE MORE UNTO THE LIGHT!", "WHEREFORE ART LIGHT?", "WHEREFORE IS'T SUN?", "FREINDS, PIGGIES, UNPIGGIES, LEND ME YOUR LIGHT" },
+        pigman_beautician = { "I AM TOO MUCH I' THE DARK", "'TIS DARK!", "WHEREFORE ART THE LIGHT?" },
+        pigman_mechanic = { "IS'T DARK! IS'T SCARY!", "THAT WAY MADNESS LIES!", },
+        pigman_mayor = { "FRIENDS, PIGGIES, UNPIGGIES, LEND ME YOUR LIGHT!", "WHEREFORE ART MINE LIGHT?" },
+        pigman_royalguard = { "TAKE NAUGHT THE LIGHT!", "TAKE ARMS!", "ONCE MORE UNTO THE LIGHT!" },
+        pigman_royalguard = { "TAKE NAUGHT THE LIGHT!", "TAKE ARMS!", "ONCE MORE UNTO THE LIGHT!" },
+        pigman_collector = { "WHEREFORE ART THE LIGHT?!", "I NEED'ST LIGHT!", },
+        pigman_banker = { "BRINGETH BACK THE LIGHT!", "THIS WAY DARKNESS LIES!" },
+        pigman_florist = { "I AM TOO MUCH I' THE DARK!", "THIS WAY DARKNESS LIES!", },
+        pigman_storeowner = { "ONCE MORE UNTO THE LIGHT!", "WHEREFORE ART THOU, LIGHT?" },
+        pigman_farmer = { "WHEREFORE IS'T SUN?", "NEED'ST LIGHT!", },
+        pigman_miner = { "FINDETH LIGHT!", "IS'T TOO MUCH SCARY" },
+        pigman_shopkeep = { "PROTECTETH ME!", "TAKETH NAUGHT THE LIGHT!", },
+        pigman_erudite = { "'TIS TOO MUCH DARKNESS!", "DARKNESS IS AFOOTS!" },
+        pigman_hatmaker = { "THIS WAY DARKNESS LIES!", "I AM TOO MUCH I' THE DARK!" },
+        pigman_professor = { "THIS WAY DARKNESS LIES!", "DARKNESS 'TIS NAUGHT GOOD!" },
+        pigman_hunter = { "BRING'ST BACK THE LIGHT!", "IS'T DARK! IS'T SCARY!" },
 
-                                },
+    },
     CITY_PIG_TALK_LOOKATWILSON_TRADER = {
-                                    pigman_beautician = {"HAS'T THOU FEATHERS?", "VISIT YON SHOP IF THOU HAS'T BOO-BOOS", "SELLEST ME FEATHERS"},
-                                    pigman_mechanic = {"WHATFORE IS YOU?", "HAS'T THOU BOARDS?", "HAS'T THOU ROPE?", "I BUY'ST THINGS REFINED'D"},
-                                    pigman_mayor = {"WANTS THOU HOME IN HAMLET?", "WANTS THOU PIG O' SECURITY?", "VOTE FOR ME ONLY"},
-                                    pigman_collector = {"HAS'T THOU ODD STUFFS?", "I CAN'ST BUY YOUR ODD STUFFS?", "I SELL'ST ODD STUFFS!"},
-                                    pigman_banker = {"HAS'T THOU JEWELS?", "I BUY'ST JEWELS FROM THOU", "WILL-TH THOU SELLEST ME THINE JEWELS?"},
-                                    pigman_florist = {"NEED'ST I STUFFS O' PLANTS", "HAS'T THOU PETALS?"},
-                                    pigman_farmer = {"HAS'T THOU GRASS?", "DON'T TAKETH MINE FARM STUFFS", "CAN'ST THOU SELL ME THINE GRASS?"},
-                                    pigman_miner = {"HAS'T THOU ROCKS?", "TAKETH NAUGHT MINE ROCKS", "I WILL GIVETH THEE OINCS FOR ROCKS"},
-                                    pigman_shopkeep = {"HAS'T THOU CLIPPINGS?", "GET THEE TO A SHRUBBERY", "SELLEST ME THINE CLIPPINGS"},
-                                    pigman_storeowner = {"HAS'T THOU CLIPPINGS?", "GET THEE TO A SHRUBBERY", "SELLEST ME THINE CLIPPINGS"},
-                                    pigman_erudite = {"HAS'T THOU RELICS O' PIGGIES?", "SELLEST ME THINE PIGGY RELICS", "RELIC HATH MUCH WORTH"},
-                                    pigman_hatmaker = {"HAS'T THOU HATS?", "ME HAVE HATS FOR HEADETHS", "ME BUYEST FEATHERS FROM YOU"},
-                                    pigman_professor = {"YOU HAVE RELICS?", "COME TO SHOP, ME HAVE RELICS", "I NEED OLD STUFFS"},
-                                    pigman_hunter = {"YOU NEED SMASH STUFF?", "ME TAKE OINCS FOR WEAPON", "WEAPON MAKE YOU NOT SCARED"},
+        pigman_beautician = { "HAS'T THOU FEATHERS?", "VISIT YON SHOP IF THOU HAS'T BOO-BOOS", "SELLEST ME FEATHERS" },
+        pigman_mechanic = { "WHATFORE IS YOU?", "HAS'T THOU BOARDS?", "HAS'T THOU ROPE?", "I BUY'ST THINGS REFINED'D" },
+        pigman_mayor = { "WANTS THOU HOME IN HAMLET?", "WANTS THOU PIG O' SECURITY?", "VOTE FOR ME ONLY" },
+        pigman_collector = { "HAS'T THOU ODD STUFFS?", "I CAN'ST BUY YOUR ODD STUFFS?", "I SELL'ST ODD STUFFS!" },
+        pigman_banker = { "HAS'T THOU JEWELS?", "I BUY'ST JEWELS FROM THOU", "WILL-TH THOU SELLEST ME THINE JEWELS?" },
+        pigman_florist = { "NEED'ST I STUFFS O' PLANTS", "HAS'T THOU PETALS?" },
+        pigman_farmer = { "HAS'T THOU GRASS?", "DON'T TAKETH MINE FARM STUFFS", "CAN'ST THOU SELL ME THINE GRASS?" },
+        pigman_miner = { "HAS'T THOU ROCKS?", "TAKETH NAUGHT MINE ROCKS", "I WILL GIVETH THEE OINCS FOR ROCKS" },
+        pigman_shopkeep = { "HAS'T THOU CLIPPINGS?", "GET THEE TO A SHRUBBERY", "SELLEST ME THINE CLIPPINGS" },
+        pigman_storeowner = { "HAS'T THOU CLIPPINGS?", "GET THEE TO A SHRUBBERY", "SELLEST ME THINE CLIPPINGS" },
+        pigman_erudite = { "HAS'T THOU RELICS O' PIGGIES?", "SELLEST ME THINE PIGGY RELICS", "RELIC HATH MUCH WORTH" },
+        pigman_hatmaker = { "HAS'T THOU HATS?", "ME HAVE HATS FOR HEADETHS", "ME BUYEST FEATHERS FROM YOU" },
+        pigman_professor = { "YOU HAVE RELICS?", "COME TO SHOP, ME HAVE RELICS", "I NEED OLD STUFFS" },
+        pigman_hunter = { "YOU NEED SMASH STUFF?", "ME TAKE OINCS FOR WEAPON", "WEAPON MAKE YOU NOT SCARED" },
 
-                                    DEFAULT = {"HOW NOW?","HAVE THEE %s?","WELL MET","GOOD FORTUNE, THOSE WHO HAVE %s","MY KINGDOM FOR SOME %s"},
-                                },
+        DEFAULT = { "HOW NOW?", "HAVE THEE %s?", "WELL MET", "GOOD FORTUNE, THOSE WHO HAVE %s", "MY KINGDOM FOR SOME %s" },
+    },
 
-    CITY_PIG_TALK_LOOKATROYALTY_TRADER = { 
-                                    pigman_beautician = {"THOU HAST MOST BEAUTIFUL SNOUT", "YON MAJESTY", "TAKETH THEE A GIFT?"},
-                                    pigman_mechanic = {"HOW NOW, YOUR MAJESTY", "AT-ETH YON SERVICE", "THOU MIGHTY SCEPTER'D BEING"},
-                                    pigman_mayor = {"YON MAJESTY!", "ME HONORED'D!", "AT YON SERVICE"},
-                                    pigman_royalguard = {"MINE SERVICE UNTO YOU", "YON MAJESTY", "LONG LIVE YON MAJESTY!"},
-                                    pigman_royalguard_2 = {"THOU HONOR US LOWLY PIGS", "YON MAJESTY", "THOU MIGHTY SCEPTER'D BEING"},
-                                    pigman_collector = {"AT THINE SERVICE", "THOU DO-EST US AN HONOR", "TAKEST THOU A GIFT?"},
-                                    pigman_banker = {"YON MAJESTY!", "THOU DO-EST ME AN HONOR", "I AM AT-ETH THY SERVICE",},
-                                    pigman_florist = {"TAKEST THINE MINE FLOWERS?", "AT YON SERVICE", "ME HONORED'D AT THINE PRESENCE!"},
-                                    pigman_farmer = {"THINE HUMBL'EST SERVENT", "YOUR MAJESTY", "AT THINE SERVICE"},
-                                    pigman_miner = {"YOU HONOR ME", "TAKE'ST THOU A GIFT", "ACCEPT'ETH MINE GIFT!"},
-                                    pigman_shopkeep = {"HOW NOW, YON MAJESTY?", "LIKETH THY MINE GIFT?", "TAKE'ST THEE A GIFT?",},
-                                    pigman_storeowner = {"AT THINE SERVICE", "LIKEST THY MINE GIFT?", "THOU MIGHTY SCEPTER'D BEING"},
-                                    pigman_erudite = {"ACCEPT MINE HUMBLEST GIFT", "LONG LIVE YON MAJESTY", "WILL'ST THOU ACCEPT A GIFT?"},
-                                    pigman_hatmaker = {"YON MAJESTY", "AT THINE SERVICE", "THOU MIGHTY SCEPTER'D BEING"},
-                                    pigman_professor = {"ACCEPT'ST THOU A GIFT?", "THY HONOR ME?", "I AM THOU MOST HUMBLEST PIGGY SERVANT"},
-                                    pigman_hunter = {"THY HONOR US LOWLY PIGS", "YON MAJESTY", "AT YON SERVICE, YON MAJESTY"},
+    CITY_PIG_TALK_LOOKATROYALTY_TRADER = {
+        pigman_beautician = { "THOU HAST MOST BEAUTIFUL SNOUT", "YON MAJESTY", "TAKETH THEE A GIFT?" },
+        pigman_mechanic = { "HOW NOW, YOUR MAJESTY", "AT-ETH YON SERVICE", "THOU MIGHTY SCEPTER'D BEING" },
+        pigman_mayor = { "YON MAJESTY!", "ME HONORED'D!", "AT YON SERVICE" },
+        pigman_royalguard = { "MINE SERVICE UNTO YOU", "YON MAJESTY", "LONG LIVE YON MAJESTY!" },
+        pigman_royalguard_2 = { "THOU HONOR US LOWLY PIGS", "YON MAJESTY", "THOU MIGHTY SCEPTER'D BEING" },
+        pigman_collector = { "AT THINE SERVICE", "THOU DO-EST US AN HONOR", "TAKEST THOU A GIFT?" },
+        pigman_banker = { "YON MAJESTY!", "THOU DO-EST ME AN HONOR", "I AM AT-ETH THY SERVICE", },
+        pigman_florist = { "TAKEST THINE MINE FLOWERS?", "AT YON SERVICE", "ME HONORED'D AT THINE PRESENCE!" },
+        pigman_farmer = { "THINE HUMBL'EST SERVENT", "YOUR MAJESTY", "AT THINE SERVICE" },
+        pigman_miner = { "YOU HONOR ME", "TAKE'ST THOU A GIFT", "ACCEPT'ETH MINE GIFT!" },
+        pigman_shopkeep = { "HOW NOW, YON MAJESTY?", "LIKETH THY MINE GIFT?", "TAKE'ST THEE A GIFT?", },
+        pigman_storeowner = { "AT THINE SERVICE", "LIKEST THY MINE GIFT?", "THOU MIGHTY SCEPTER'D BEING" },
+        pigman_erudite = { "ACCEPT MINE HUMBLEST GIFT", "LONG LIVE YON MAJESTY", "WILL'ST THOU ACCEPT A GIFT?" },
+        pigman_hatmaker = { "YON MAJESTY", "AT THINE SERVICE", "THOU MIGHTY SCEPTER'D BEING" },
+        pigman_professor = { "ACCEPT'ST THOU A GIFT?", "THY HONOR ME?", "I AM THOU MOST HUMBLEST PIGGY SERVANT" },
+        pigman_hunter = { "THY HONOR US LOWLY PIGS", "YON MAJESTY", "AT YON SERVICE, YON MAJESTY" },
 
-                                    DEFAULT = {"GREETINGS YOUR HIGHNESS","NEED'ST THOU %s?","GOOD DAY","NEED'ST %s. HAV'TH THOU THAT?","I WANT'ST %s. WILL BUY", "YOUR MAJESTY"},
-                                },
+        DEFAULT = { "GREETINGS YOUR HIGHNESS", "NEED'ST THOU %s?", "GOOD DAY", "NEED'ST %s. HAV'TH THOU THAT?", "I WANT'ST %s. WILL BUY", "YOUR MAJESTY" },
+    },
 
 
     CITY_PIG_TALK_LOOKATWILSON = {
-                                    DEFAULT = {"WHAT HO, UNPIG", "HOW NOW, GOOD UNPIG", "WHAT NEWS?", "WELL MET"},
-                                    ROYALTY = {"LONG LIVE THE QUEEN!","HAIL, GOOD NOBLE PIG!", "MINE LIEGE", "HAIL TO YOU, GOOD GENTLEPIGGY",}, 
-                                },
+        DEFAULT = { "WHAT HO, UNPIG", "HOW NOW, GOOD UNPIG", "WHAT NEWS?", "WELL MET" },
+        ROYALTY = { "LONG LIVE THE QUEEN!", "HAIL, GOOD NOBLE PIG!", "MINE LIEGE", "HAIL TO YOU, GOOD GENTLEPIGGY", },
+    },
 
-    CITY_PIG_TALK_APORKALYPSE_SOON = { 
-                                        DEFAULT = { "THE APORKALYPSE APPROACH-ETH", "WOE, DESTRUCTION, RUIN, AND DECAY!", "DOOMSDAY IS NEAR!", "SOMETHING WICKED THIS WAY COMES", "PORKTENTOUS FIGURES!", "FEAR AND PORKTENT!"},
-                                    },
+    CITY_PIG_TALK_APORKALYPSE_SOON = {
+        DEFAULT = { "THE APORKALYPSE APPROACH-ETH", "WOE, DESTRUCTION, RUIN, AND DECAY!", "DOOMSDAY IS NEAR!", "SOMETHING WICKED THIS WAY COMES", "PORKTENTOUS FIGURES!", "FEAR AND PORKTENT!" },
+    },
 
     CITY_TALK_ANNOUNCE_APORKALYPSE = {
-                                        DEFAULT = { "THE APORKALYPSE COMETH!", "THE CRACK OF DOOM!", "DEATH HAVE ITS DAY!", "THEY HATH RETURNED!", "THEY KILL US FOR THEIR SPORT", "A PLAGUE ON ALL OUR HOUSES!", "BE ALL AND END ALL!"},
-                                },
+        DEFAULT = { "THE APORKALYPSE COMETH!", "THE CRACK OF DOOM!", "DEATH HAVE ITS DAY!", "THEY HATH RETURNED!", "THEY KILL US FOR THEIR SPORT", "A PLAGUE ON ALL OUR HOUSES!", "BE ALL AND END ALL!" },
+    },
 
     CITY_PIG_TALK_RUNAWAY_WILSON = {
-                                    DEFAULT = {"THOUST ART NOT KIND!", "STAYEST THOU AWAY!", "GET-ETH THEE AWAY!", "ADIEU YOU!"},
-                                    pigman_beautician = {"GOODNESS!", "EEP! SNORT!", "LEAVETH THOU!!", "THOU HAST THE SMELL OF UNPIG"},
-                                    pigman_mechanic = {"I TRUST THEE NOT!", "STAY'ST THOU BACK", "GET THEE GONE, UNPIG"},
-                                    pigman_mayor = {"GET THEE GONE!", "GO-EST THOU AWAY!", "GUARDS! PROTECT-ETH ME!",},
-                                    pigman_shopkeep = {"TOO CLOSE! THOU TOO CLOSE!", "BACK-ETH THEE OFF!", "GET THEE GONE!"},
-                                    pigman_royalguard = {"STAYEST THOU AWAY!", "GET THEE GONE!", "THOU HAST THE STENCH OF UNPIG!"},
-                                    pigman_royalguard_2 = {"GO'ST THOU AWAY", "BACK-ETH THEE OFF!", "TALK'ST THOU TO ME?"},
-                                    pigman_storeowner = {"THINE CLOSENESS DOST OFFENDETH ME", "TOO CLOSE!", "BACK'ST THOU UP!"},
-                                    pigman_farmer = {"WHATFORE THOU WANT'ETH WITH ME?", "GET'ST BACK!", "BACK-ETH OFF!"},
-                                    pigman_miner = {"LEAVE'ST ME BE!", "SHOO!", "STAYEST THOU AWAY!"},
-                                    pigman_collector = {"TAKETH NAUGHT MINE STUFFS!", "GET THEE GONE", "GO'EST THOU AWAY!"},
-                                    pigman_banker = {"THOU HAST THE SMELL OF UNPIG", "TAKE-ETH OFF!", "GET THEE GONE!"},
-                                    pigman_florist = {"ADIEU!", "THOU ART TOO CLOSE!", "STAND-EST NAUGHT SO CLOSE TO ME!"},
-                                    pigman_erudite = {"LEAVETH ME BE!", "WHYFORE YOU BUG-ETH ME?", "BACK-EST THOU OFF!"},
-                                    pigman_hatmaker = {"GO'ST THOU AWAY!", "WANT THOU TO STEAL'EST MINE STUFFS?", "GET THEE GONE!", "I TRUSTETH THEE NAUGHT!"},
-                                    pigman_professor = {"LEAVETH ME BE!", "GO-EST THOU AWAY", "WHYFORE YOU SO CLOSE?"},
-                                    pigman_hunter = {"BACK-ETH AWAY!", "CROWD-EST ME NAUGHT!", "GET-ETH THEE AWAY!"},
+        DEFAULT = { "THOUST ART NOT KIND!", "STAYEST THOU AWAY!", "GET-ETH THEE AWAY!", "ADIEU YOU!" },
+        pigman_beautician = { "GOODNESS!", "EEP! SNORT!", "LEAVETH THOU!!", "THOU HAST THE SMELL OF UNPIG" },
+        pigman_mechanic = { "I TRUST THEE NOT!", "STAY'ST THOU BACK", "GET THEE GONE, UNPIG" },
+        pigman_mayor = { "GET THEE GONE!", "GO-EST THOU AWAY!", "GUARDS! PROTECT-ETH ME!", },
+        pigman_shopkeep = { "TOO CLOSE! THOU TOO CLOSE!", "BACK-ETH THEE OFF!", "GET THEE GONE!" },
+        pigman_royalguard = { "STAYEST THOU AWAY!", "GET THEE GONE!", "THOU HAST THE STENCH OF UNPIG!" },
+        pigman_royalguard_2 = { "GO'ST THOU AWAY", "BACK-ETH THEE OFF!", "TALK'ST THOU TO ME?" },
+        pigman_storeowner = { "THINE CLOSENESS DOST OFFENDETH ME", "TOO CLOSE!", "BACK'ST THOU UP!" },
+        pigman_farmer = { "WHATFORE THOU WANT'ETH WITH ME?", "GET'ST BACK!", "BACK-ETH OFF!" },
+        pigman_miner = { "LEAVE'ST ME BE!", "SHOO!", "STAYEST THOU AWAY!" },
+        pigman_collector = { "TAKETH NAUGHT MINE STUFFS!", "GET THEE GONE", "GO'EST THOU AWAY!" },
+        pigman_banker = { "THOU HAST THE SMELL OF UNPIG", "TAKE-ETH OFF!", "GET THEE GONE!" },
+        pigman_florist = { "ADIEU!", "THOU ART TOO CLOSE!", "STAND-EST NAUGHT SO CLOSE TO ME!" },
+        pigman_erudite = { "LEAVETH ME BE!", "WHYFORE YOU BUG-ETH ME?", "BACK-EST THOU OFF!" },
+        pigman_hatmaker = { "GO'ST THOU AWAY!", "WANT THOU TO STEAL'EST MINE STUFFS?", "GET THEE GONE!", "I TRUSTETH THEE NAUGHT!" },
+        pigman_professor = { "LEAVETH ME BE!", "GO-EST THOU AWAY", "WHYFORE YOU SO CLOSE?" },
+        pigman_hunter = { "BACK-ETH AWAY!", "CROWD-EST ME NAUGHT!", "GET-ETH THEE AWAY!" },
 
-                                },
+    },
     CITY_PIG_TALK_FIGHT = {
-                                    DEFAULT = {"AVAST!", "TO THINE DEATH!", "RAAAWR!", "I BITE MY HOOF AT THEE!"},
-                                    pigman_beautician = {"DIE-EST NOW!", "ME KILL THEE", "TO THY DEATH!"},
-                                    pigman_mechanic = {"I HAMMER THEE!", "HIT, HAMMER! HIT!", "I DESTROY THEE!"},
-                                    pigman_mayor = {"KILL!", "DIE THOU!", "ME MOST VEXED!", "DESTROY!"},
-                                    pigman_shopkeep = {"I GET THEE!", "THOU NOT NICE!", "I GET THEE!"},
-                                    pigman_storeowner = {"GETEST THEE OUT!", "THY NOT BE WELCOME!", "GET OFF MINE PROPERTY!"},
-                                    pigman_farmer = {"GET THEE BACK!!", "I BURY THINE!", "I GET THEE!"},
-                                    pigman_miner = {"I CRUSHETH YOU!", "THY DYING!", "THOU DONE IT NOW!"},
-                                    pigman_collector = {"THOU ART DONE FOR!", "GET THINE HENCE!", "THY BAD UNPIG!"},
-                                    pigman_banker = {"THY NOT MINE FRIEND!", "I CHOP-ETH THEE!", "DIE! DIE!"},
-                                    pigman_florist = {"THOU ART THE WORST!", "GO AWAY-EST!", "THOU ART A VILLAIN!"},
-                                    pigman_erudite = {"VILLAIN UNPIG! BAD!", "THINE ART THE BADEST!", "AWAY FROM ME!"},
-                                    pigman_hatmaker = {"YOU BE UNDONE!", "I SAY THEE OUT!!", "YOU MOST VEXING!"},
-                                    pigman_professor = {"BE DONE-EST WITH THEE!", "WILL NOT YOU GO?!!", "OUT, DAMNED UNPIG!"},
-                                    pigman_hunter = {"I ATTACK-ETH THEE!", "GET THOU AWAY FROM HERE!", "YOU MOST NOT WELCOME!"},
-                                },
+        DEFAULT = { "AVAST!", "TO THINE DEATH!", "RAAAWR!", "I BITE MY HOOF AT THEE!" },
+        pigman_beautician = { "DIE-EST NOW!", "ME KILL THEE", "TO THY DEATH!" },
+        pigman_mechanic = { "I HAMMER THEE!", "HIT, HAMMER! HIT!", "I DESTROY THEE!" },
+        pigman_mayor = { "KILL!", "DIE THOU!", "ME MOST VEXED!", "DESTROY!" },
+        pigman_shopkeep = { "I GET THEE!", "THOU NOT NICE!", "I GET THEE!" },
+        pigman_storeowner = { "GETEST THEE OUT!", "THY NOT BE WELCOME!", "GET OFF MINE PROPERTY!" },
+        pigman_farmer = { "GET THEE BACK!!", "I BURY THINE!", "I GET THEE!" },
+        pigman_miner = { "I CRUSHETH YOU!", "THY DYING!", "THOU DONE IT NOW!" },
+        pigman_collector = { "THOU ART DONE FOR!", "GET THINE HENCE!", "THY BAD UNPIG!" },
+        pigman_banker = { "THY NOT MINE FRIEND!", "I CHOP-ETH THEE!", "DIE! DIE!" },
+        pigman_florist = { "THOU ART THE WORST!", "GO AWAY-EST!", "THOU ART A VILLAIN!" },
+        pigman_erudite = { "VILLAIN UNPIG! BAD!", "THINE ART THE BADEST!", "AWAY FROM ME!" },
+        pigman_hatmaker = { "YOU BE UNDONE!", "I SAY THEE OUT!!", "YOU MOST VEXING!" },
+        pigman_professor = { "BE DONE-EST WITH THEE!", "WILL NOT YOU GO?!!", "OUT, DAMNED UNPIG!" },
+        pigman_hunter = { "I ATTACK-ETH THEE!", "GET THOU AWAY FROM HERE!", "YOU MOST NOT WELCOME!" },
+    },
 
     CITY_PIG_TALK_DAILYGIFT = {
-                                    DEFAULT = {"WARE FOR ART THOU", "THY HUMBL'ST PIGGY SERVANT", "REMEMBER'ST ME", "GIFT FOR'ST YOU", "WITH MINE HUMBLEST GRATITUDE","TAKEST THEE MINE GIFT, YOUR MAJESTY"}
-                                }, 
+        DEFAULT = { "WARE FOR ART THOU", "THY HUMBL'ST PIGGY SERVANT", "REMEMBER'ST ME", "GIFT FOR'ST YOU", "WITH MINE HUMBLEST GRATITUDE", "TAKEST THEE MINE GIFT, YOUR MAJESTY" }
+    },
 
     CITY_PIG_TALK_POOPTIP = {
-                                    DEFAULT = {"OUT, DAMNED PLOP", "HUMBLE THANKS, KIND UNPIG", "MY THANKS"},
-                                    pigman_beautician = {"TAKEST THEE THY COIN", "HERE BE YOUR OUTRAGEOUS FORTUNE", "THANK YE, UNPIG"},
-                                    pigman_mechanic = {"OUT, DAMNED PLOP!", "FAIR PRICE, FAIR UNPIG?", "LET-EST ME PAY FOR THYST HELP"},
-                                    pigman_mayor = {"IS THAT PLOP I SEE BEFORE THEE?", "HONEST UNPIG", "KINDEST UNPIG"},
-                                    pigman_shopkeep = {"UNPIG IS AN HONORABLE UNPIG", "I GIVE EVERY PLOP MINE OINC", "FAIR TERMS"},
-                                    pigman_storeowner = {"FOR THY PLOP PICKING", "MOST EXCELLENT PICKING", "HONORABLE UNPIG"},
-                                    pigman_farmer = {"FOR THY HONEST MANURING", "TAKEST THOU WHAT THOU'ST OWED", "HONEST OINC FOR UNPIG"},
-                                    pigman_miner = {"'TIS FOUL", "IS A JUST PAYMENT?", "'TIS WORTHY DEED"},
-                                    pigman_collector = {"HERE BE OINC FOR THOUST MANURE", "ALAS POOR UNPIG", "FORTUNE SMILES ONST THEE"},
-                                    pigman_banker = {"AN OINC FOR THY TROUBLE", "A TAX FOR THY PLOP PICKING", "MANY THANKS"},
-                                    pigman_florist = {"WE WILLST PAY FOR THY PLOPPING", "IS POO, UNPIG?", "ME PAYEST FOR PLOP PICKING"},
-                                    pigman_erudite = {"FAIR PRICE FOR FOUL DEED", "THY PLOP-PICKING IS MOST PROFESSIONALS", "FOR PLOP OF PIGGY MAN"},
-                                    pigman_hatmaker = {"I GIVE THE UNPIG ITS DUE", "WHAT PIECE OF WORK IS UNPIG", "YOU'ST PAID FOR PLOP OF PIG"},
-                                    pigman_professor = {"THOUST MILK OF UNPIG KINDNESS", "SUCH STUFF AS PLOP IS MADE ON", "FOR THY TROUBLES"},
-                                    pigman_hunter = {"PLOP AND CIRCUMSTANCE", "FOR POUND OF PLOP", "HAVE OINCS THRUST UPON THEE"}, 
-                                },
+        DEFAULT = { "OUT, DAMNED PLOP", "HUMBLE THANKS, KIND UNPIG", "MY THANKS" },
+        pigman_beautician = { "TAKEST THEE THY COIN", "HERE BE YOUR OUTRAGEOUS FORTUNE", "THANK YE, UNPIG" },
+        pigman_mechanic = { "OUT, DAMNED PLOP!", "FAIR PRICE, FAIR UNPIG?", "LET-EST ME PAY FOR THYST HELP" },
+        pigman_mayor = { "IS THAT PLOP I SEE BEFORE THEE?", "HONEST UNPIG", "KINDEST UNPIG" },
+        pigman_shopkeep = { "UNPIG IS AN HONORABLE UNPIG", "I GIVE EVERY PLOP MINE OINC", "FAIR TERMS" },
+        pigman_storeowner = { "FOR THY PLOP PICKING", "MOST EXCELLENT PICKING", "HONORABLE UNPIG" },
+        pigman_farmer = { "FOR THY HONEST MANURING", "TAKEST THOU WHAT THOU'ST OWED", "HONEST OINC FOR UNPIG" },
+        pigman_miner = { "'TIS FOUL", "IS A JUST PAYMENT?", "'TIS WORTHY DEED" },
+        pigman_collector = { "HERE BE OINC FOR THOUST MANURE", "ALAS POOR UNPIG", "FORTUNE SMILES ONST THEE" },
+        pigman_banker = { "AN OINC FOR THY TROUBLE", "A TAX FOR THY PLOP PICKING", "MANY THANKS" },
+        pigman_florist = { "WE WILLST PAY FOR THY PLOPPING", "IS POO, UNPIG?", "ME PAYEST FOR PLOP PICKING" },
+        pigman_erudite = { "FAIR PRICE FOR FOUL DEED", "THY PLOP-PICKING IS MOST PROFESSIONALS", "FOR PLOP OF PIGGY MAN" },
+        pigman_hatmaker = { "I GIVE THE UNPIG ITS DUE", "WHAT PIECE OF WORK IS UNPIG", "YOU'ST PAID FOR PLOP OF PIG" },
+        pigman_professor = { "THOUST MILK OF UNPIG KINDNESS", "SUCH STUFF AS PLOP IS MADE ON", "FOR THY TROUBLES" },
+        pigman_hunter = { "PLOP AND CIRCUMSTANCE", "FOR POUND OF PLOP", "HAVE OINCS THRUST UPON THEE" },
+    },
 
     CITY_PIG_TALK_ROYAL_POOPTIP = {
-                                    DEFAULT = {"OUT, DAMNED PLOP", "HUMBLE THANKS, YOUR HIGHNESS",},
-                                    pigman_beautician = {"ACCEPTEST THEE MINE COIN?", "HERE BE YOUR OUTRAGEOUS FORTUNE", "HUMBLE THANKS, YOUR MAJESTY"},
-                                    pigman_mechanic = {"OUT, DAMNED PLOP!", "THOU ART THE FINEST OF PLOP PICKERS!", "THOU DO US HONOR"},
-                                    pigman_mayor = {"WE ARE NOT WORTHY OF THINE PLOP", "'TIS A KIND THING YOU DO", "ACCEPTEST THEE MINE COIN?"},
-                                    pigman_shopkeep = {"WE ARE NOT WORTHY OF THINE SERVICE", "I GIVE EVERY PLOP MY OINC", "HUMBLE THANKS, YOUR MAJESTY"},
-                                    pigman_storeowner = {"FOR THY FINE PLOP PICKING", "MOST EXCELLENT PICKING", "HONORABLE PLOP PICKER!"},
-                                    pigman_farmer = {"FOR THY HONEST MANURING", "FOR THY ROYAL PLOP PICKING", "THOU DO US'T HONOR"},
-                                    pigman_miner = {"OUT, DAMNED PLOP!", "FOR THY ROYAL PLOP PICKING", "HUMBLEST OF THANKS, YOUR MAJESTY"},
-                                    pigman_collector = {"HERE BE OINC FOR THOUST ROYAL MANURE", "FOR THY ROYAL PLOP PICKING", "THOU ART THE FINEST OF PLOP PICKERS"},
-                                    pigman_banker = {"AN OINC FOR THY TROUBLE", "'TIS A KIND THING YOU DO", "THOU DO US HONOR"},
-                                    pigman_florist = {"THOU ART THE FINEST OF PLOP PICKERS!", "HUMBLE THANKS, YOUR MAJESTY", "ACCEPTEST THEE MINE COIN?"},
-                                    pigman_erudite = {"FAIR PRICE FOR FOUL DEED", "THY PLOP-PICKING IS MOST EXCELLENTEST", "THOU DO'ST US HONOR"},
-                                    pigman_hatmaker = {"ACCEPTEST THEE MINE COIN?", "OUT, DAMNED PLOP", "THOU ARE THE MOST EXCELLENTEST OF PLOP PICKERS"},
-                                    pigman_professor = {"THOUST MILK OF PIGGY KINDNESS", "SUCH STUFF AS PLOP IS MADE ON", "FOR THY TROUBLES"},
-                                    pigman_hunter = {"PLOP AND CIRCUMSTANCE", "FOR POUND OF PLOP", "MOST EXCELLENT PICKINGS"}, 
-                                },
+        DEFAULT = { "OUT, DAMNED PLOP", "HUMBLE THANKS, YOUR HIGHNESS", },
+        pigman_beautician = { "ACCEPTEST THEE MINE COIN?", "HERE BE YOUR OUTRAGEOUS FORTUNE", "HUMBLE THANKS, YOUR MAJESTY" },
+        pigman_mechanic = { "OUT, DAMNED PLOP!", "THOU ART THE FINEST OF PLOP PICKERS!", "THOU DO US HONOR" },
+        pigman_mayor = { "WE ARE NOT WORTHY OF THINE PLOP", "'TIS A KIND THING YOU DO", "ACCEPTEST THEE MINE COIN?" },
+        pigman_shopkeep = { "WE ARE NOT WORTHY OF THINE SERVICE", "I GIVE EVERY PLOP MY OINC", "HUMBLE THANKS, YOUR MAJESTY" },
+        pigman_storeowner = { "FOR THY FINE PLOP PICKING", "MOST EXCELLENT PICKING", "HONORABLE PLOP PICKER!" },
+        pigman_farmer = { "FOR THY HONEST MANURING", "FOR THY ROYAL PLOP PICKING", "THOU DO US'T HONOR" },
+        pigman_miner = { "OUT, DAMNED PLOP!", "FOR THY ROYAL PLOP PICKING", "HUMBLEST OF THANKS, YOUR MAJESTY" },
+        pigman_collector = { "HERE BE OINC FOR THOUST ROYAL MANURE", "FOR THY ROYAL PLOP PICKING", "THOU ART THE FINEST OF PLOP PICKERS" },
+        pigman_banker = { "AN OINC FOR THY TROUBLE", "'TIS A KIND THING YOU DO", "THOU DO US HONOR" },
+        pigman_florist = { "THOU ART THE FINEST OF PLOP PICKERS!", "HUMBLE THANKS, YOUR MAJESTY", "ACCEPTEST THEE MINE COIN?" },
+        pigman_erudite = { "FAIR PRICE FOR FOUL DEED", "THY PLOP-PICKING IS MOST EXCELLENTEST", "THOU DO'ST US HONOR" },
+        pigman_hatmaker = { "ACCEPTEST THEE MINE COIN?", "OUT, DAMNED PLOP", "THOU ARE THE MOST EXCELLENTEST OF PLOP PICKERS" },
+        pigman_professor = { "THOUST MILK OF PIGGY KINDNESS", "SUCH STUFF AS PLOP IS MADE ON", "FOR THY TROUBLES" },
+        pigman_hunter = { "PLOP AND CIRCUMSTANCE", "FOR POUND OF PLOP", "MOST EXCELLENT PICKINGS" },
+    },
 
     CITY_PIG_TALK_PAYTAX = {
-                                    DEFAULT = {"TAKETH THINE TAX","NEED'ST THOU MINE TAX", "TAKEST THOU MINE TAX", "MANY THANKS UNTO YOU"},
-                                },
+        DEFAULT = { "TAKETH THINE TAX", "NEED'ST THOU MINE TAX", "TAKEST THOU MINE TAX", "MANY THANKS UNTO YOU" },
+    },
 
     CITY_PIG_TALK_PROTECT = {
-                                    DEFAULT = {"MOST FOUL! MOST FOUL!", "TAKE ARMS! TAKE ARMS!", "THOU WRETCH", "THOU COWARD!"},
-                                },
+        DEFAULT = { "MOST FOUL! MOST FOUL!", "TAKE ARMS! TAKE ARMS!", "THOU WRETCH", "THOU COWARD!" },
+    },
     CITY_PIG_TALK_EXTINGUISH = {
-                                    DEFAULT = {"OUT OUT, BRIEF FIRES!", "FIRE IS'T BAD!", "YON FIRE BE OUT!"},
-                                },                                
+        DEFAULT = { "OUT OUT, BRIEF FIRES!", "FIRE IS'T BAD!", "YON FIRE BE OUT!" },
+    },
     CITY_PIG_TALK_STAYOUT = {
-                                    DEFAULT = {"MOST UNWELCOME", "AWAY, YOU CUR!", "BE'ST THEE GONE!", "FIE ON THEE, VILLAIN!"},
-                                },
+        DEFAULT = { "MOST UNWELCOME", "AWAY, YOU CUR!", "BE'ST THEE GONE!", "FIE ON THEE, VILLAIN!" },
+    },
     CITY_PIG_TALK_FLEE = {
-                                    DEFAULT = {"ROGUE!", "PEASANT SLAVE!", "O HORRIBLE!", "O STRANGE"},
-                                    pigman_beautician = {"O HORRIBLE!", "O STRANGE!", "MOST HORRIBLE"},
-                                    pigman_mechanic = {"MOST NOTABLE COWARD", "FLEE!", "AVAST!"},
-                                    pigman_mayor = {"THAT WAY MADNESS LIES!", "NO MORE OF THAT!", "CRY MERCY"},
-                                    pigman_royalguard = {"KILL, KILL, KILL, KILL", "FARE THEE WELL!", "ONCE MORE UNTO THE BREACH!"},
-                                    pigman_royalguard_2 = {"TO ARMS!", "I DASH YOU TO PIECES!", "THE GAME IS UP!"},
-                                    pigman_shopkeep = {"FOUL!", "LESS THAN FAIR!", "WOE IS ME!"},
-                                    pigman_storeowner = {"PIGS BE UP IN ARMS", "'TIS A WILD PIG CHASE", "WHAT A PIECE OF WORK!"},
-                                    pigman_farmer = {"THOU LILY-LIVERED UNPIG!", "LIE LOW!", "O MISERY!"},
-                                    pigman_miner = {"IF YOU PRICK US, WE BLEED!", "'TIS RUIN'D!", "A POX ON'T!"},
-                                    pigman_collector = {"I AM TOO MUCH ON THE RUN!", "FLEE, FIE, FO, FUM!", "SOMETHING ROTTEN!"},
-                                    pigman_banker = {"ADIEU, ADIEU!", "REMEMBER ME!", "FIE ON THEE!"},
-                                    pigman_florist = {"S'WOUNDS!", "ZOUNDS!", "COWARD!"},
-                                    pigman_erudite = {"A PLAGUE ON YOUR HOUSES!", "THOU'RT MAD!", "AWAY FROM ME!"},
-                                    pigman_hatmaker = {"RUINOUS!", "HARK! NO MORE!", "CUR!"},
-                                    pigman_professor = {"MOST FOUL!", "NOT FAIR!", "LEAVE ME!"},
-                                    pigman_hunter = {"TAKETH THEM AWAY!", "FIE ON THEE!", "TOIL AND TROUBLE!"},
-                                },
+        DEFAULT = { "ROGUE!", "PEASANT SLAVE!", "O HORRIBLE!", "O STRANGE" },
+        pigman_beautician = { "O HORRIBLE!", "O STRANGE!", "MOST HORRIBLE" },
+        pigman_mechanic = { "MOST NOTABLE COWARD", "FLEE!", "AVAST!" },
+        pigman_mayor = { "THAT WAY MADNESS LIES!", "NO MORE OF THAT!", "CRY MERCY" },
+        pigman_royalguard = { "KILL, KILL, KILL, KILL", "FARE THEE WELL!", "ONCE MORE UNTO THE BREACH!" },
+        pigman_royalguard_2 = { "TO ARMS!", "I DASH YOU TO PIECES!", "THE GAME IS UP!" },
+        pigman_shopkeep = { "FOUL!", "LESS THAN FAIR!", "WOE IS ME!" },
+        pigman_storeowner = { "PIGS BE UP IN ARMS", "'TIS A WILD PIG CHASE", "WHAT A PIECE OF WORK!" },
+        pigman_farmer = { "THOU LILY-LIVERED UNPIG!", "LIE LOW!", "O MISERY!" },
+        pigman_miner = { "IF YOU PRICK US, WE BLEED!", "'TIS RUIN'D!", "A POX ON'T!" },
+        pigman_collector = { "I AM TOO MUCH ON THE RUN!", "FLEE, FIE, FO, FUM!", "SOMETHING ROTTEN!" },
+        pigman_banker = { "ADIEU, ADIEU!", "REMEMBER ME!", "FIE ON THEE!" },
+        pigman_florist = { "S'WOUNDS!", "ZOUNDS!", "COWARD!" },
+        pigman_erudite = { "A PLAGUE ON YOUR HOUSES!", "THOU'RT MAD!", "AWAY FROM ME!" },
+        pigman_hatmaker = { "RUINOUS!", "HARK! NO MORE!", "CUR!" },
+        pigman_professor = { "MOST FOUL!", "NOT FAIR!", "LEAVE ME!" },
+        pigman_hunter = { "TAKETH THEM AWAY!", "FIE ON THEE!", "TOIL AND TROUBLE!" },
+    },
     CITY_PIG_TALK_RUN_FROM_SPIDER = {
-                                    DEFAULT = {"SPIDER IS'T BAD!", "LIKETH NAUGHT YON SPIDER!", "GO'ST THOU AWAY!"},
-                                    pigman_beautician = {"O MONSTROUS!", "O HORRIBLE!", "MOST VEXING!"},
-                                    pigman_mayor = {"GET-ETH THEE AWAY!", "ALAS!! ALACK!", "I HATE-ETH THEE, SPIDERS!"},
-                                    pigman_mechanic = {"O MONSTROUS THING!", "WRECK-ETH NAUGHT OUR STUFFS", "GO'ST THOU AWAY!"},
-                                    pigman_royalguard = {"PROTECT-ETH THE CITY!", "SPIDERS NAUGHT WELCOME!", "GET THEE GONE!"},
-                                    pigman_royalguard_2 = {"PROTECT-ETH THE CITY", "SQUASH-ETH THE SPIDERS!", "GET THEE GONE!"},
-                                    pigman_shopkeep = {"PROTECT-ETH MINE STORE!", "GET-ETH THEE GONE!", "GO-EST AWAY!"},
-                                    pigman_storeowner = {"EEK! SNORT! AVAST!", "MOST VEXING!", "O HORRIBLE!"},
-                                    pigman_farmer = {"O MONSTROUS THING!", "SPIDERS NAUGHT WELCOME!", "MOST VEXING!"},
-                                    pigman_miner = {"GO-ETH THOU AWAY!", "GET THEE GONE!", "THOU AREN'ST WELCOME HENCE"},
-                                    pigman_collector = {"GET THEE GONE!", "THOU ART BAD GUY!!", "MOST VEXING!"},
-                                    pigman_banker = {"FOUL! FOUL! MOST FOUL!", "MONSTROUS THING!", "GET THEE GONE!!"},
-                                    pigman_florist = {"SPIDER IS'T BAD!", "O MONSTROUS!!", "O HORROR!"},
-                                    pigman_erudite = {"GET THEE GONE!", "AWAY! AWAY!!", "EEK!"},
-                                    pigman_hatmaker = {"CREEP NAUGHT HENCH!", "GO'ST THOU AWAY!", "GUARD!"},
-                                    pigman_professor = {"GET-ETH THEE AWAY!", "ALAS! ALACK!", "GET THEE GONE!"},
-                                    pigman_hunter = {"I HATE-ETH THEE!", "LIKE-ETH THEE NAUGHT!", "EEK! SNORT! AVAST!!"},
+        DEFAULT = { "SPIDER IS'T BAD!", "LIKETH NAUGHT YON SPIDER!", "GO'ST THOU AWAY!" },
+        pigman_beautician = { "O MONSTROUS!", "O HORRIBLE!", "MOST VEXING!" },
+        pigman_mayor = { "GET-ETH THEE AWAY!", "ALAS!! ALACK!", "I HATE-ETH THEE, SPIDERS!" },
+        pigman_mechanic = { "O MONSTROUS THING!", "WRECK-ETH NAUGHT OUR STUFFS", "GO'ST THOU AWAY!" },
+        pigman_royalguard = { "PROTECT-ETH THE CITY!", "SPIDERS NAUGHT WELCOME!", "GET THEE GONE!" },
+        pigman_royalguard_2 = { "PROTECT-ETH THE CITY", "SQUASH-ETH THE SPIDERS!", "GET THEE GONE!" },
+        pigman_shopkeep = { "PROTECT-ETH MINE STORE!", "GET-ETH THEE GONE!", "GO-EST AWAY!" },
+        pigman_storeowner = { "EEK! SNORT! AVAST!", "MOST VEXING!", "O HORRIBLE!" },
+        pigman_farmer = { "O MONSTROUS THING!", "SPIDERS NAUGHT WELCOME!", "MOST VEXING!" },
+        pigman_miner = { "GO-ETH THOU AWAY!", "GET THEE GONE!", "THOU AREN'ST WELCOME HENCE" },
+        pigman_collector = { "GET THEE GONE!", "THOU ART BAD GUY!!", "MOST VEXING!" },
+        pigman_banker = { "FOUL! FOUL! MOST FOUL!", "MONSTROUS THING!", "GET THEE GONE!!" },
+        pigman_florist = { "SPIDER IS'T BAD!", "O MONSTROUS!!", "O HORROR!" },
+        pigman_erudite = { "GET THEE GONE!", "AWAY! AWAY!!", "EEK!" },
+        pigman_hatmaker = { "CREEP NAUGHT HENCH!", "GO'ST THOU AWAY!", "GUARD!" },
+        pigman_professor = { "GET-ETH THEE AWAY!", "ALAS! ALACK!", "GET THEE GONE!" },
+        pigman_hunter = { "I HATE-ETH THEE!", "LIKE-ETH THEE NAUGHT!", "EEK! SNORT! AVAST!!" },
 
-                                },
+    },
     CITY_PIG_TALK_HELP_CHOP_WOOD = {
-                                    DEFAULT = {"TAKETH THAT TREE!", "I SMASH-ETH YON TREE!", "I PUNCH-ETH TREE!"},
-                                    pigman_beautician = {"I SHALL CHOP-ETH!", "YON TREE NEEDS CHOPPIN'!",},
-                                    pigman_mechanic = {"SHALL I COMPARE TREE TO SUMMER'S DAY?", "WORK-ETH, WORK-ETH, WORK-ETH",},
-                                    pigman_mayor = {"WHAT PIECE OF WORK IS CHOPPING", "FALL, TREE!",},
-                                    pigman_royalguard = {"I TAKETH DOWN YON TREE", "I CHOPTING", "I GOOD FRIEND, I CHOPT TREE"},
-                                    pigman_royalguard_2 = {"CHOP'T CHOP'T", "I AXE THEE!", "FAIR TREE SHALT FALL!"},
-                                    pigman_shopkeep = {"'TIS HARD WORK", "I SMASH-ETH", "I SMASH THEE"},
-                                    pigman_storeowner = {"SMASH-ETH! SMASH-ETH", "DOTH HARD WORK!", "HAVE AT THEE TREE!"},
-                                    pigman_farmer = {"THIS TREE DOTH CHOP'T", "I TOIL", "CHOP'T CHOP'T!"},
-                                    pigman_miner = {"YON TREE IS'T CHOP'T", "'TIS EASIER THAN MINING", "YON TREE IS'T DONE FOR!"},
-                                    pigman_collector = {"'TIS HARD WORK", "WHAT A PIECE OF WORK IS CHOPPING",},
-                                    pigman_banker = {"MINE HOOVES GET-ETH DIRTY", "FALL, TREE!",},
-                                    pigman_florist = {"CHOP'T, CHOP'T", "SMASHINGS!", "TOIL, TOIL"},
-                                    pigman_erudite = {"I HELP-ETH", "FALL, TREE!", "I AXE THEE!"},
-                                    pigman_hatmaker = {"YON TREE SHALL FALL!", "THUS FALL-ETH THY TREE",},
-                                    pigman_professor = {"WITH MINE LAST BREATH I CHOP AT THEE!", "CHOP'T CHOP'T", "HAVE AT THEE TREE"},
-                                    pigman_hunter = {"THUS FALL THE TREE", "I BID THEE FALL!", "I WIN!"},
-                                },
+        DEFAULT = { "TAKETH THAT TREE!", "I SMASH-ETH YON TREE!", "I PUNCH-ETH TREE!" },
+        pigman_beautician = { "I SHALL CHOP-ETH!", "YON TREE NEEDS CHOPPIN'!", },
+        pigman_mechanic = { "SHALL I COMPARE TREE TO SUMMER'S DAY?", "WORK-ETH, WORK-ETH, WORK-ETH", },
+        pigman_mayor = { "WHAT PIECE OF WORK IS CHOPPING", "FALL, TREE!", },
+        pigman_royalguard = { "I TAKETH DOWN YON TREE", "I CHOPTING", "I GOOD FRIEND, I CHOPT TREE" },
+        pigman_royalguard_2 = { "CHOP'T CHOP'T", "I AXE THEE!", "FAIR TREE SHALT FALL!" },
+        pigman_shopkeep = { "'TIS HARD WORK", "I SMASH-ETH", "I SMASH THEE" },
+        pigman_storeowner = { "SMASH-ETH! SMASH-ETH", "DOTH HARD WORK!", "HAVE AT THEE TREE!" },
+        pigman_farmer = { "THIS TREE DOTH CHOP'T", "I TOIL", "CHOP'T CHOP'T!" },
+        pigman_miner = { "YON TREE IS'T CHOP'T", "'TIS EASIER THAN MINING", "YON TREE IS'T DONE FOR!" },
+        pigman_collector = { "'TIS HARD WORK", "WHAT A PIECE OF WORK IS CHOPPING", },
+        pigman_banker = { "MINE HOOVES GET-ETH DIRTY", "FALL, TREE!", },
+        pigman_florist = { "CHOP'T, CHOP'T", "SMASHINGS!", "TOIL, TOIL" },
+        pigman_erudite = { "I HELP-ETH", "FALL, TREE!", "I AXE THEE!" },
+        pigman_hatmaker = { "YON TREE SHALL FALL!", "THUS FALL-ETH THY TREE", },
+        pigman_professor = { "WITH MINE LAST BREATH I CHOP AT THEE!", "CHOP'T CHOP'T", "HAVE AT THEE TREE" },
+        pigman_hunter = { "THUS FALL THE TREE", "I BID THEE FALL!", "I WIN!" },
+    },
     CITY_PIG_TALK_ATTEMPT_TRADE = {
-                                    DEFAULT = {"WHAT HAS'T THEE?", "NEED'ST THEE WARES?"},
-                                    pigman_beautician = {"THEE HAS'T FEATHERS?", "THEE HAS'T BIRDY FEATHERS?", "HAS'T THEE PRETTY FEATHERS?"},
-                                    pigman_mechanic = {"THINE NEED'ST REPAIRS?", "BRING FORTH YON REPAIRS", "THEE HAS'T REFINED GOODS?"},
-                                    pigman_mayor = {"NEED'ST THOU A HOME?", "DEEDS BE IN YON CITY HALL", "THY WANT'ST HOME IN HAMLET?"},
-                                    pigman_shopkeep = {"GET THEE TO SOME SHRUBBERY!", "HAS'T THEE CLIPPINGS?", "HAS'T THEE SHRUB STUFFS?"},
-                                    pigman_storeowner = {"GET THEE TO SOME SHRUBBERY!", "HAS'T THEE CLIPPINGS?", "HAS'T THEE SHRUB STUFFS?"},
-                                    pigman_farmer = {"HAS'T THOU GRASS?", "SELL'ST ME THINE GRASS PARTS", "ME WANT'ST GRASS STUFFS"},
-                                    pigman_miner = {"HAS'T THOU A ROCK?", "ME PAY'ST FOR ROCKS", "I GIVETH OINC FOR THY ROCK"},
-                                    pigman_collector = {"HAS'T THOU STRANGE THINGS?", "I BUYEST THING O' STRANGENESS", "SELLEST ME THINE WANT WEIRD STUFF?"},
-                                    pigman_banker = {"HAST THOU JEWELS?", "I WILL'ST BUYEST JEWELS FROM THEE", "I PAYST OINCS FOR JEWELS"},
-                                    pigman_florist = {"HAS'T THOU PLOP?", "PETALS FOR MINE SHOP?", "ME LIKE'ST PRETTY FLOWER", "ME LIKE'ST SMELLY PLOP"},
-                                    pigman_erudite = {"HAS'T THOU DARK MAGICS?", "HAS'T THOU FUEL O' NIGHTMARE?", "SELL'ST ME THY DARK MAGICS STUFFS"},
-                                    pigman_hatmaker = {"HAST THOU SILK?", "I NEED'TH SILK", "SELLEST ME THINE SILK"},
-                                    pigman_professor = {"RELICS?", "HAS'T THOU RELICS?", "PAY'ST THOU OINCS FOR RELICS"},
-                                    pigman_hunter = {"HAS'T THOU HOUNDS TOOTH?", "SELLETH THEE HOUNDS TOOTH?", "I BUY'ST TOOTH O' THE HOUNDS"},                               
+        DEFAULT = { "WHAT HAS'T THEE?", "NEED'ST THEE WARES?" },
+        pigman_beautician = { "THEE HAS'T FEATHERS?", "THEE HAS'T BIRDY FEATHERS?", "HAS'T THEE PRETTY FEATHERS?" },
+        pigman_mechanic = { "THINE NEED'ST REPAIRS?", "BRING FORTH YON REPAIRS", "THEE HAS'T REFINED GOODS?" },
+        pigman_mayor = { "NEED'ST THOU A HOME?", "DEEDS BE IN YON CITY HALL", "THY WANT'ST HOME IN HAMLET?" },
+        pigman_shopkeep = { "GET THEE TO SOME SHRUBBERY!", "HAS'T THEE CLIPPINGS?", "HAS'T THEE SHRUB STUFFS?" },
+        pigman_storeowner = { "GET THEE TO SOME SHRUBBERY!", "HAS'T THEE CLIPPINGS?", "HAS'T THEE SHRUB STUFFS?" },
+        pigman_farmer = { "HAS'T THOU GRASS?", "SELL'ST ME THINE GRASS PARTS", "ME WANT'ST GRASS STUFFS" },
+        pigman_miner = { "HAS'T THOU A ROCK?", "ME PAY'ST FOR ROCKS", "I GIVETH OINC FOR THY ROCK" },
+        pigman_collector = { "HAS'T THOU STRANGE THINGS?", "I BUYEST THING O' STRANGENESS", "SELLEST ME THINE WANT WEIRD STUFF?" },
+        pigman_banker = { "HAST THOU JEWELS?", "I WILL'ST BUYEST JEWELS FROM THEE", "I PAYST OINCS FOR JEWELS" },
+        pigman_florist = { "HAS'T THOU PLOP?", "PETALS FOR MINE SHOP?", "ME LIKE'ST PRETTY FLOWER", "ME LIKE'ST SMELLY PLOP" },
+        pigman_erudite = { "HAS'T THOU DARK MAGICS?", "HAS'T THOU FUEL O' NIGHTMARE?", "SELL'ST ME THY DARK MAGICS STUFFS" },
+        pigman_hatmaker = { "HAST THOU SILK?", "I NEED'TH SILK", "SELLEST ME THINE SILK" },
+        pigman_professor = { "RELICS?", "HAS'T THOU RELICS?", "PAY'ST THOU OINCS FOR RELICS" },
+        pigman_hunter = { "HAS'T THOU HOUNDS TOOTH?", "SELLETH THEE HOUNDS TOOTH?", "I BUY'ST TOOTH O' THE HOUNDS" },
 
-                                },
+    },
     CITY_PIG_TALK_PANIC = {
-                                    DEFAULT = {"O HORRIBLE", "AAAAAAAAAH!!", "AVAST!", "NO LIKETH", "HURLEYBURLY!"},
-                                    pigman_beautician = {"EVIL 'TIS AFOOT", "SOMETHING WICKED THIS WAY COMES!", "O HORRORS"},
-                                    pigman_mechanic = {"ADIEU!", "I AM TOO MUCH IN THE FEAR", "MOST FOUL! MOST FOUL!"},
-                                    pigman_mayor = {"MOST HORRIBLE", "O' CURSED SPITE", "THIS BE MADNESS"},
-                                    pigman_royalguard = {"ONCE MORE INTO THE BREACH!", "GUARDS PROTECT THEE!", "AVAST! AVAIL!"},
-                                    pigman_royalguard_2 = {"ONCE MORE INTO THE BREACH!", "GUARDS PROTECT THEE!", "AVAST! AVAIL!"},
-                                    pigman_shopkeep = {"O HORROR! O HORROR! O HORROR!", "O SLINGS AND ARROWS!", "O OUTRAGEOUS FORTUNE!"},
-                                    pigman_storeowner = {"HEIGH, MY HEARTS!", "A PLAGUE UPON IT!", "ALL LOST!"},
-                                    pigman_farmer = {"ALL IS'T LOST!", "ADIEU! ADIEU!", "I EXEUNT!"},
-                                    pigman_miner = {"I GET ME GONE!", "O, WOE THE DAY!", "'TIS THE END!"},
-                                    pigman_collector = {"BAD THINGS ARE NIGH!", "ME PROTEST SO MUCH!", "I WANT'ST NOT TO DIE!"},
-                                    pigman_banker = {"O MONSTROUS!", "O STRANGE!", "HELP'TH ME!"},
-                                    pigman_florist = {"OUT! OUT!", "TAKE ARMS!", "SOMETHING WICKED THIS WAY COMES!"}, 
-                                    pigman_erudite = {"O CURSE'D SPITE!", "GO AWAY'TH!", "MOST UNKIND!"},
-                                    pigman_hatmaker = {"OUT! OUT!", "SAVETH ME!", "MOST HORRIBLE! MOST STRANGE!"},
-                                    pigman_professor = {"CRY YOU MERCY!", "MOST HORRIBLE! MOST STRANGE!", "IT COMETH FOR US!"},
-                                    pigman_hunter = {"SOUND AND FURY!", "HOWL, HOWL, HOWL, HOWL!", "ALL IS'T LOST!"},
-                                },
+        DEFAULT = { "O HORRIBLE", "AAAAAAAAAH!!", "AVAST!", "NO LIKETH", "HURLEYBURLY!" },
+        pigman_beautician = { "EVIL 'TIS AFOOT", "SOMETHING WICKED THIS WAY COMES!", "O HORRORS" },
+        pigman_mechanic = { "ADIEU!", "I AM TOO MUCH IN THE FEAR", "MOST FOUL! MOST FOUL!" },
+        pigman_mayor = { "MOST HORRIBLE", "O' CURSED SPITE", "THIS BE MADNESS" },
+        pigman_royalguard = { "ONCE MORE INTO THE BREACH!", "GUARDS PROTECT THEE!", "AVAST! AVAIL!" },
+        pigman_royalguard_2 = { "ONCE MORE INTO THE BREACH!", "GUARDS PROTECT THEE!", "AVAST! AVAIL!" },
+        pigman_shopkeep = { "O HORROR! O HORROR! O HORROR!", "O SLINGS AND ARROWS!", "O OUTRAGEOUS FORTUNE!" },
+        pigman_storeowner = { "HEIGH, MY HEARTS!", "A PLAGUE UPON IT!", "ALL LOST!" },
+        pigman_farmer = { "ALL IS'T LOST!", "ADIEU! ADIEU!", "I EXEUNT!" },
+        pigman_miner = { "I GET ME GONE!", "O, WOE THE DAY!", "'TIS THE END!" },
+        pigman_collector = { "BAD THINGS ARE NIGH!", "ME PROTEST SO MUCH!", "I WANT'ST NOT TO DIE!" },
+        pigman_banker = { "O MONSTROUS!", "O STRANGE!", "HELP'TH ME!" },
+        pigman_florist = { "OUT! OUT!", "TAKE ARMS!", "SOMETHING WICKED THIS WAY COMES!" },
+        pigman_erudite = { "O CURSE'D SPITE!", "GO AWAY'TH!", "MOST UNKIND!" },
+        pigman_hatmaker = { "OUT! OUT!", "SAVETH ME!", "MOST HORRIBLE! MOST STRANGE!" },
+        pigman_professor = { "CRY YOU MERCY!", "MOST HORRIBLE! MOST STRANGE!", "IT COMETH FOR US!" },
+        pigman_hunter = { "SOUND AND FURY!", "HOWL, HOWL, HOWL, HOWL!", "ALL IS'T LOST!" },
+    },
     CITY_PIG_TALK_PANICFIRE = {
-                                    DEFAULT = {"IT BURN-ETH!", "FIRE BURN AND PIGGY BUBBLES", "FIGHT FIRE WITH WATER!", "SOMETHING FIREY THIS WAY COMES!", "FIRE FIRE FIRE"},
-                                },
+        DEFAULT = { "IT BURN-ETH!", "FIRE BURN AND PIGGY BUBBLES", "FIGHT FIRE WITH WATER!", "SOMETHING FIREY THIS WAY COMES!", "FIRE FIRE FIRE" },
+    },
     CITY_PIG_TALK_FIND_MEAT = {
-                                    DEFAULT = {"IS'T MEAT!", "'TIS MEAT I SEE BEFORE ME?!", "I EAT'TH!", "FOOD TIME IS NIGH!"},
-                                    pigman_beautician = {"MEAT BE THE FOOD OF LOVE", "I HATH STOMACH FOR IT", "VERILY I EAT",},
-                                    pigman_mechanic = {"THIS MEAT I SEE BEFORE ME?", "WELL SERVED", "SOMETHING YUMMY THIS WAY COMES"},
-                                    pigman_mayor = {"'TIS A DISH FIT FOR PIGS", "GIVE'ST MAYOR MINE DUE"},
-                                    pigman_royalguard = {"EAT OR NOT TO EAT, THERE BE NO QUESTION", "MEATS FOR'ST PIGGY"},
-                                    pigman_royalguard_2 = {"TO MINE OWN BELLY BE TRUE!", "'TIS MEAT! 'TIS FOOD!", "HUZZA!"},
-                                    pigman_shopkeep = {"TO MINE OWN BELLY BE TRUE", "ALLS WELL THAT ENDS IN BELLY",},
-                                    pigman_storeowner = {"'TIS EATS!", "I EATS!", "SOMETHING YUMMY THIS WAY COMES"},
-                                    pigman_farmer = {"MMMM...MEAT MOST FOUL!", "FOR MINE FAT PAUNCH!", "BELLY BURN, AND MEAT BUBBLE"},
-                                    pigman_miner = {"MEAT BE THE SOUL OF FOOD", "WOULD IT WERE IN MY BELLY", "MARRY THOUGH I LOVETH FOODS!"},
-                                    pigman_collector = {"'TIS SLOP! 'TIS FOOD!", "WHENCE COME THIS FOOD?", "PRITHEE, LET ME EAT!"},
-                                    pigman_banker = {"THE FOOD'S THE THING", "ZOUNDS, FOR MINE FAT PAUNCH!", "WHENCE COMES THIS FOOD?!"},
-                                    pigman_florist = {"MARRY, 'TIS MEAT!", "ALACK THE DAY,'TIS MEAT!"},
-                                    pigman_erudite = {"AY, THERE'S THE GRUB!", "INTO THE BOWELS OF MY BELLY", "MEAT GOETH IN MINE BELLY!"},
-                                    pigman_hatmaker = {"MINE BELLY NOT PROTEST TOO MUCH", "SIRRAH! MY FOOD!", "NOT SALAD DAYS!"},
-                                    pigman_professor = {"MMM... MEAT THRUST UPON ME", "WHYFORE ART THERE GROUND MEAT?"},
-                                    pigman_hunter = {"A POUND OF FLESH!", "'TIS GOOD, 'TIS GOOD INDEED!", "MUCH ADO ABOUT MEAT!"},
-                                },
-    CITY_PIG_TALK_FIND_MONEY = {    
-                                    DEFAULT = {"'TIS SHINY THING!", "ALL THAT GLITTERS IS GOLD!", "YEA, THO I HAST SHINY THING!", "I GO FORTH AND BUY'ST THINGS"},
-                                    pigman_beautician = {"OINC HAST PRETTYNESS!", "'TIS PRETTIES", "OINC HATH WORTH"},
-                                    pigman_mechanic = {"LIKEST OINCS!", "PUT'ST OINC IN MINE POCKET", "CAN'ST ME BUY'ST STUFFS"},
-                                    pigman_mayor = {"MINE-ETH!", "IS'T BUY'ST VOTES", "GIVE MAYOR MINE DUE"},
-                                    pigman_royalguard = {"OUTRAGEOUS FORTUNE!", "ME KEEP'TH", "PUT MONEY IN MINE PURSE!"},
-                                    pigman_royalguard_2 = {"MINE OINC BE TRUE!", "FORTUNE SMILE 'PON ME"},
-                                    pigman_shopkeep = {"IT SUFFICETH", "ME TAKETH!", "SOMETHING SHINY THIS WAY COMES"},
-                                    pigman_storeowner = {"MARRY!", "ME LIKETH", "WILL SCREW THIS TO STICKING-PLACE", "ME TAKE'ST!"},
-                                    pigman_farmer = {"MOST EXCELLENT FANCY", "'TIS FOR HONEST DAYS WORK", "WHATFORE ART THIS?"},
-                                    pigman_miner = {"MINE'ST!", "A POUND OF OINC", "'TIS MINE"},
-                                    pigman_collector = {"YEA, THO I HAST SHINY THING!", "MINE OWN PURSE BE TRUE",},
-                                    pigman_banker = {"A POUND OF OINC!", "MARRY, 'TIS COIN!", "'TIS LOST OINC FOR MINE PURSE"},
-                                    pigman_florist = {"HATH LOVELINESS", "'TIS PRETTY!", "ALL THAT GLITTERS IS GOLD"},
-                                    pigman_erudite = {"CATCHETH MINE EYE", "HAST VALUE", "'TIS SHININESS"},
-                                    pigman_hatmaker = {"ME LIKETH!", "PUT MONEY IN MINE PURSE", "WHATFORE ART THIS?"},
-                                    pigman_professor = {"OUTRAGEOUS FORTUNE!", "WANT MONEYS", "CATCHETH MINE EYE"},
-                                    pigman_hunter = {"'TIS MINE!", "FORTUNE SMILE 'PON ME!"},
-                                },
-    
-    CITY_PIG_TALK_FORGIVE_PLAYER = {    
-                                    DEFAULT = {"I SHOW QUALITY OF MERCY", "ALL IS'T FORGIVEN", "HEARTILY I FORGIVEST THEE", "A POUND OF OINCS HATH SUFFICETH"},
-                                },
+        DEFAULT = { "IS'T MEAT!", "'TIS MEAT I SEE BEFORE ME?!", "I EAT'TH!", "FOOD TIME IS NIGH!" },
+        pigman_beautician = { "MEAT BE THE FOOD OF LOVE", "I HATH STOMACH FOR IT", "VERILY I EAT", },
+        pigman_mechanic = { "THIS MEAT I SEE BEFORE ME?", "WELL SERVED", "SOMETHING YUMMY THIS WAY COMES" },
+        pigman_mayor = { "'TIS A DISH FIT FOR PIGS", "GIVE'ST MAYOR MINE DUE" },
+        pigman_royalguard = { "EAT OR NOT TO EAT, THERE BE NO QUESTION", "MEATS FOR'ST PIGGY" },
+        pigman_royalguard_2 = { "TO MINE OWN BELLY BE TRUE!", "'TIS MEAT! 'TIS FOOD!", "HUZZA!" },
+        pigman_shopkeep = { "TO MINE OWN BELLY BE TRUE", "ALLS WELL THAT ENDS IN BELLY", },
+        pigman_storeowner = { "'TIS EATS!", "I EATS!", "SOMETHING YUMMY THIS WAY COMES" },
+        pigman_farmer = { "MMMM...MEAT MOST FOUL!", "FOR MINE FAT PAUNCH!", "BELLY BURN, AND MEAT BUBBLE" },
+        pigman_miner = { "MEAT BE THE SOUL OF FOOD", "WOULD IT WERE IN MY BELLY", "MARRY THOUGH I LOVETH FOODS!" },
+        pigman_collector = { "'TIS SLOP! 'TIS FOOD!", "WHENCE COME THIS FOOD?", "PRITHEE, LET ME EAT!" },
+        pigman_banker = { "THE FOOD'S THE THING", "ZOUNDS, FOR MINE FAT PAUNCH!", "WHENCE COMES THIS FOOD?!" },
+        pigman_florist = { "MARRY, 'TIS MEAT!", "ALACK THE DAY,'TIS MEAT!" },
+        pigman_erudite = { "AY, THERE'S THE GRUB!", "INTO THE BOWELS OF MY BELLY", "MEAT GOETH IN MINE BELLY!" },
+        pigman_hatmaker = { "MINE BELLY NOT PROTEST TOO MUCH", "SIRRAH! MY FOOD!", "NOT SALAD DAYS!" },
+        pigman_professor = { "MMM... MEAT THRUST UPON ME", "WHYFORE ART THERE GROUND MEAT?" },
+        pigman_hunter = { "A POUND OF FLESH!", "'TIS GOOD, 'TIS GOOD INDEED!", "MUCH ADO ABOUT MEAT!" },
+    },
+    CITY_PIG_TALK_FIND_MONEY = {
+        DEFAULT = { "'TIS SHINY THING!", "ALL THAT GLITTERS IS GOLD!", "YEA, THO I HAST SHINY THING!", "I GO FORTH AND BUY'ST THINGS" },
+        pigman_beautician = { "OINC HAST PRETTYNESS!", "'TIS PRETTIES", "OINC HATH WORTH" },
+        pigman_mechanic = { "LIKEST OINCS!", "PUT'ST OINC IN MINE POCKET", "CAN'ST ME BUY'ST STUFFS" },
+        pigman_mayor = { "MINE-ETH!", "IS'T BUY'ST VOTES", "GIVE MAYOR MINE DUE" },
+        pigman_royalguard = { "OUTRAGEOUS FORTUNE!", "ME KEEP'TH", "PUT MONEY IN MINE PURSE!" },
+        pigman_royalguard_2 = { "MINE OINC BE TRUE!", "FORTUNE SMILE 'PON ME" },
+        pigman_shopkeep = { "IT SUFFICETH", "ME TAKETH!", "SOMETHING SHINY THIS WAY COMES" },
+        pigman_storeowner = { "MARRY!", "ME LIKETH", "WILL SCREW THIS TO STICKING-PLACE", "ME TAKE'ST!" },
+        pigman_farmer = { "MOST EXCELLENT FANCY", "'TIS FOR HONEST DAYS WORK", "WHATFORE ART THIS?" },
+        pigman_miner = { "MINE'ST!", "A POUND OF OINC", "'TIS MINE" },
+        pigman_collector = { "YEA, THO I HAST SHINY THING!", "MINE OWN PURSE BE TRUE", },
+        pigman_banker = { "A POUND OF OINC!", "MARRY, 'TIS COIN!", "'TIS LOST OINC FOR MINE PURSE" },
+        pigman_florist = { "HATH LOVELINESS", "'TIS PRETTY!", "ALL THAT GLITTERS IS GOLD" },
+        pigman_erudite = { "CATCHETH MINE EYE", "HAST VALUE", "'TIS SHININESS" },
+        pigman_hatmaker = { "ME LIKETH!", "PUT MONEY IN MINE PURSE", "WHATFORE ART THIS?" },
+        pigman_professor = { "OUTRAGEOUS FORTUNE!", "WANT MONEYS", "CATCHETH MINE EYE" },
+        pigman_hunter = { "'TIS MINE!", "FORTUNE SMILE 'PON ME!" },
+    },
+
+    CITY_PIG_TALK_FORGIVE_PLAYER = {
+        DEFAULT = { "I SHOW QUALITY OF MERCY", "ALL IS'T FORGIVEN", "HEARTILY I FORGIVEST THEE", "A POUND OF OINCS HATH SUFFICETH" },
+    },
     CITY_PIG_TALK_NOT_ENOUGH = {
-                                    DEFAULT = {"I WANT-ETH MORE", "DOTH NOT SUFFICETH", "I REQUIRETH MORE", "NEEDETH MORE"}, -- NEW
-                                },
+        DEFAULT = { "I WANT-ETH MORE", "DOTH NOT SUFFICETH", "I REQUIRETH MORE", "NEEDETH MORE" }, -- NEW
+    },
 
     CITY_PIG_TALK_EAT_MEAT = {
-                                    DEFAULT = {"NOM-ETH NOM-ETH, NOM-ETH", "O FOOD! O SLOP!", "MUNCH'D, AND MUNCH'D, AND MUNCH'D"},
-                                  
-                                },
-    CITY_PIG_TALK_GO_HOME = {
-                                    DEFAULT = {"ANON! ADIEU!", "I GET ME TO BED!"},
-                                    pigman_beautician = {"MOST HUMBLY I LEAVES", "I SLEEP", "PERCHANCE I DREAMS"},
-                                    pigman_mechanic = {"FARES'T THEE WELL", "MY KINGDOM FOR SOME JAMMIES", "GOOD EVENTIME"},
-                                    pigman_mayor = {"FAIR ME WELL", "I MAKE ME BEDFELLOWS", "MY DREAMS MAY COME"},
-                                    pigman_shopkeep = {"GET ME TO A BEDDY-BYES", "I GO MY CHAMBERS", "NIGHTY NIGHTS, SWEET UNPIGS"},
-                                    pigman_storeowner = {"I SEE WHAT DREAMS MAY COME", "ADIEU ADIEU", "REMEMBER ME"},
-                                    pigman_farmer = {"GOODETH NIGHT NIGHT", "PARTING SUCH SWEET SORROW", "TIL IT BE MORROW"},
-                                    pigman_miner = {"TIL TOMORROW AND TOMORROW AND TOMORROW", "I SLUMBER'DING", "TO SLEEP OR NOT TO SLEEP?"},
-                                    pigman_collector = {"GOOD NIGHT UNTO YOU ALL", "SWEET GOOD NIGHT!", "I BID ADIEU TO YOUS"},
-                                    pigman_banker = {"ADIEU, ADIEU REMEMBERS ME", "FARE THEE WELL", "GOOD PIGS, LET'S RETIRE"},
-                                    pigman_florist = {"GENTLE NIGHTY-NIGHTS", "ONCE MORE UNTO MY JAMMIES", "ANON, GOOD NIGHT"},
-                                    pigman_erudite = {"NOW IS NIGHTTIMES OF OUR DISCONTENT", "I BID ADIEUS", "UNTIL THE MORROW"},
-                                    pigman_hatmaker = {"WHEREFORE ART MY JAMMIES?", "ALAS, I DEPART", "I BID THEE NIGHTY NIGHTS"},
-                                    pigman_professor = {"LIGHT THROUGH MY WINDOW BREAKS", "TIS WITCHING TIME OF NIGHT", "I TAKING MY LEAVE"},
-                                    pigman_hunter = {"ME DREAM A DREAM TONIGHT", "MY TOO TIRED FLESH GOES SLEEPIES", "SEE YOU ON THE MORROW"},
-                                },
-    CITY_PIG_TALK_FIX = {
-                                    DEFAULT = {"ALL FIX'D!", "I DO'ST GOOD FIXINGS!"},
-                                    pigman_beautician = {"I FIXETH NOT", "GET THEE TO A MECHANIC"},
-                                    pigman_mechanic = {"I MAKETH NICE NICE", "BUILD, BUILD", "I USETH MINE HAMMER GOOD"},
-                                    pigman_mayor = {"MAYOR SHALL NOT FIXETH","I FIXETH NOT", "GET THEE TO A MECHANIC"},
-                                    
-                                },
-    CITY_PIG_GUARD_TALK_TORCH = {
-                                    DEFAULT = {"BURN BRIGHT THE TORCHES!", "LIGHT THE TORCHES!", "BURN, TORCHES, CLEAR AND BRIGHT!"},
-                                },
-    CITY_PIG_GUARD_TALK_FIGHT = {
-                                    DEFAULT = {"I STAB AT THEE!", "HAVE AT THEE!", "AWAY, CUR! AWAY!"},
-                                },
-    CITY_PIG_GUARD_TALK_GOHOME = {
-                                    DEFAULT = {"STAND HO!", "WHOFORE IS THAT?", "WHATFORE THAT?", "WHAT HO!"},
-                                },
-    CITY_PIG_GUARD_TALK_LOOKATWILSON = {
-                                    DEFAULT = {"MAKE NOT TROUBLES", "WHOFORE GO'ST THERE?", "TRESPASS NOT!",},
-                                },
-    CITY_PIG_GUARD_LIGHT_TORCH = {
-                                    DEFAULT = {"ME LIGHT A FIERY TORCH", "TORCHES, TORCHES!", "CURFEW'S RUNGETH"},
-                                },
-    CITY_PIG_TALK_REFUSE_GIFT = {
-                                    DEFAULT = {"HAVE THEE %s? WILL PAY"},                                   
-                                },                                
-    CITY_PIG_TALK_REFUSE_GIFT_DELAY = {
-                                    DEFAULT = {"COMES'T BACK IN %s DAYS"},                                   
-                                },                                
-    CITY_PIG_TALK_REFUSE_GIFT_DELAY_TOMORROW = {
-                                    DEFAULT = {"COME'ST BACK ON THE MORROW"},                                   
-                                },
-    CITY_PIG_TALK_REFUSE_PURPLEGEM = {
-                                    DEFAULT = {"NAY! HAST THE SCARY BAD MAGICS!", "TAKETH IT AWAY!"},                                   
-                                },                                                                                                
-    CITY_PIG_TALK_RELIC_GIFT = {
-                                    DEFAULT = {"TAKEST TO YON MUSEUM", "THE ACADEMY BE THE PLACE FOR IT"},            -- \"THE STY\" 
-                                },
-    CITY_PIG_TALK_TAKE_GIFT = {
-                                    DEFAULT = {"MANY THANKS, GIVES'T THOU MORE %s PLEASE"},                                   
-                                },
-    CITY_PIG_TALK_GIVE_REWARD = {
-                                    DEFAULT = {"A WORTHY JOB. TAKE THEE REWARD", "'TIS NOBLE JOB THEE DO", "A FINE JOB"},                                   
-                                },
-    CITY_PIG_TALK_GIVE_TRINKET_REWARD = {
-                                    DEFAULT = {"OH, HOW LOVELY! TAKE THIS GIFT"},                                   
-                                },     
-    CITY_PIG_TALK_REFUSE_TRINKET_GIFT = {
-                                    DEFAULT = {"NO MORE JUNK, THANK YOU"},                                   
-                                },                             
-    CITY_PIG_TALK_REFUSE_PRICELESS_GIFT = {
-                                    DEFAULT = {"NO 'TIS PRICELESS!","IT IS FOUND! MUST FIND QUEEN","I CANNOT TAKE, BELONG TO ROYALTY"},                                   
-                                },                                                        
-    CITY_PIG_TALK_GIVE_RELIC_REWARD = {
-                                    DEFAULT = {"MOST EXCELLENT!", "IS'T TREASURE!", "FROM YON OLDEN TIMES!"},                                   
-                                },                                
-    CITY_PIG_GUARD_TALK_ANGRY_PLAYER = {
-                                    DEFAULT = {"HAS'T THEE RETURNED?!", "CUR! VILLAIN!", "OUT! FLEE!", "YOU A SEA OF TROUBLES!"},
-                                },
-    CITY_PIG_GUARD_TALK_RESCUE = {
-                                    DEFAULT = { "I HELPEST THOU!", "O! THOU STUCK’DED", "NEED’ST HELP?" },
-                                },
-    CITY_PIG_TALK_ATTEMPT_TRADE = {
-                                    DEFAULT = {"WHAT HATH THEE?", "THY WANTS'T TRADES?", "MAKE'ST THEE DEALS?"},
-                                },
+        DEFAULT = { "NOM-ETH NOM-ETH, NOM-ETH", "O FOOD! O SLOP!", "MUNCH'D, AND MUNCH'D, AND MUNCH'D" },
 
-    CITY_PIG_SHOPKEEPER_NOT_ENOUGH = {"THY LACKETH THE OINCS", "GET THEE MORE OINCS"},
-    CITY_PIG_SHOPKEEPER_DONT_HAVE = {"BRINGETH THEE ITEM", "THOU NEED'ST ITEM", "OINCS NOT SUFFICETH, ONLY ITEM"},
-    CITY_PIG_SHOPKEEPER_SALE = {"MY THANKS", "A FINE EXCHANGE", "MANY THANKS", "'TIS GOOD STUFF"},
-    
-    CITY_PIG_SHOPKEEPER_ROBBED = {"WHOFORE HAST DONE THIS?!", "ROBBED! ROBBED! ROBBED!","OH THE PIGANITY!", "REVENGE!"},
-    
+    },
+    CITY_PIG_TALK_GO_HOME = {
+        DEFAULT = { "ANON! ADIEU!", "I GET ME TO BED!" },
+        pigman_beautician = { "MOST HUMBLY I LEAVES", "I SLEEP", "PERCHANCE I DREAMS" },
+        pigman_mechanic = { "FARES'T THEE WELL", "MY KINGDOM FOR SOME JAMMIES", "GOOD EVENTIME" },
+        pigman_mayor = { "FAIR ME WELL", "I MAKE ME BEDFELLOWS", "MY DREAMS MAY COME" },
+        pigman_shopkeep = { "GET ME TO A BEDDY-BYES", "I GO MY CHAMBERS", "NIGHTY NIGHTS, SWEET UNPIGS" },
+        pigman_storeowner = { "I SEE WHAT DREAMS MAY COME", "ADIEU ADIEU", "REMEMBER ME" },
+        pigman_farmer = { "GOODETH NIGHT NIGHT", "PARTING SUCH SWEET SORROW", "TIL IT BE MORROW" },
+        pigman_miner = { "TIL TOMORROW AND TOMORROW AND TOMORROW", "I SLUMBER'DING", "TO SLEEP OR NOT TO SLEEP?" },
+        pigman_collector = { "GOOD NIGHT UNTO YOU ALL", "SWEET GOOD NIGHT!", "I BID ADIEU TO YOUS" },
+        pigman_banker = { "ADIEU, ADIEU REMEMBERS ME", "FARE THEE WELL", "GOOD PIGS, LET'S RETIRE" },
+        pigman_florist = { "GENTLE NIGHTY-NIGHTS", "ONCE MORE UNTO MY JAMMIES", "ANON, GOOD NIGHT" },
+        pigman_erudite = { "NOW IS NIGHTTIMES OF OUR DISCONTENT", "I BID ADIEUS", "UNTIL THE MORROW" },
+        pigman_hatmaker = { "WHEREFORE ART MY JAMMIES?", "ALAS, I DEPART", "I BID THEE NIGHTY NIGHTS" },
+        pigman_professor = { "LIGHT THROUGH MY WINDOW BREAKS", "TIS WITCHING TIME OF NIGHT", "I TAKING MY LEAVE" },
+        pigman_hunter = { "ME DREAM A DREAM TONIGHT", "MY TOO TIRED FLESH GOES SLEEPIES", "SEE YOU ON THE MORROW" },
+    },
+    CITY_PIG_TALK_FIX = {
+        DEFAULT = { "ALL FIX'D!", "I DO'ST GOOD FIXINGS!" },
+        pigman_beautician = { "I FIXETH NOT", "GET THEE TO A MECHANIC" },
+        pigman_mechanic = { "I MAKETH NICE NICE", "BUILD, BUILD", "I USETH MINE HAMMER GOOD" },
+        pigman_mayor = { "MAYOR SHALL NOT FIXETH", "I FIXETH NOT", "GET THEE TO A MECHANIC" },
+
+    },
+    CITY_PIG_GUARD_TALK_TORCH = {
+        DEFAULT = { "BURN BRIGHT THE TORCHES!", "LIGHT THE TORCHES!", "BURN, TORCHES, CLEAR AND BRIGHT!" },
+    },
+    CITY_PIG_GUARD_TALK_FIGHT = {
+        DEFAULT = { "I STAB AT THEE!", "HAVE AT THEE!", "AWAY, CUR! AWAY!" },
+    },
+    CITY_PIG_GUARD_TALK_GOHOME = {
+        DEFAULT = { "STAND HO!", "WHOFORE IS THAT?", "WHATFORE THAT?", "WHAT HO!" },
+    },
+    CITY_PIG_GUARD_TALK_LOOKATWILSON = {
+        DEFAULT = { "MAKE NOT TROUBLES", "WHOFORE GO'ST THERE?", "TRESPASS NOT!", },
+    },
+    CITY_PIG_GUARD_LIGHT_TORCH = {
+        DEFAULT = { "ME LIGHT A FIERY TORCH", "TORCHES, TORCHES!", "CURFEW'S RUNGETH" },
+    },
+    CITY_PIG_TALK_REFUSE_GIFT = {
+        DEFAULT = { "HAVE THEE %s? WILL PAY" },
+    },
+    CITY_PIG_TALK_REFUSE_GIFT_DELAY = {
+        DEFAULT = { "COMES'T BACK IN %s DAYS" },
+    },
+    CITY_PIG_TALK_REFUSE_GIFT_DELAY_TOMORROW = {
+        DEFAULT = { "COME'ST BACK ON THE MORROW" },
+    },
+    CITY_PIG_TALK_REFUSE_PURPLEGEM = {
+        DEFAULT = { "NAY! HAST THE SCARY BAD MAGICS!", "TAKETH IT AWAY!" },
+    },
+    CITY_PIG_TALK_RELIC_GIFT = {
+        DEFAULT = { "TAKEST TO YON MUSEUM", "THE ACADEMY BE THE PLACE FOR IT" }, -- \"THE STY\"
+    },
+    CITY_PIG_TALK_TAKE_GIFT = {
+        DEFAULT = { "MANY THANKS, GIVES'T THOU MORE %s PLEASE" },
+    },
+    CITY_PIG_TALK_GIVE_REWARD = {
+        DEFAULT = { "A WORTHY JOB. TAKE THEE REWARD", "'TIS NOBLE JOB THEE DO", "A FINE JOB" },
+    },
+    CITY_PIG_TALK_GIVE_TRINKET_REWARD = {
+        DEFAULT = { "OH, HOW LOVELY! TAKE THIS GIFT" },
+    },
+    CITY_PIG_TALK_REFUSE_TRINKET_GIFT = {
+        DEFAULT = { "NO MORE JUNK, THANK YOU" },
+    },
+    CITY_PIG_TALK_REFUSE_PRICELESS_GIFT = {
+        DEFAULT = { "NO 'TIS PRICELESS!", "IT IS FOUND! MUST FIND QUEEN", "I CANNOT TAKE, BELONG TO ROYALTY" },
+    },
+    CITY_PIG_TALK_GIVE_RELIC_REWARD = {
+        DEFAULT = { "MOST EXCELLENT!", "IS'T TREASURE!", "FROM YON OLDEN TIMES!" },
+    },
+    CITY_PIG_GUARD_TALK_ANGRY_PLAYER = {
+        DEFAULT = { "HAS'T THEE RETURNED?!", "CUR! VILLAIN!", "OUT! FLEE!", "YOU A SEA OF TROUBLES!" },
+    },
+    CITY_PIG_GUARD_TALK_RESCUE = {
+        DEFAULT = { "I HELPEST THOU!", "O! THOU STUCK’DED", "NEED’ST HELP?" },
+    },
+    CITY_PIG_TALK_ATTEMPT_TRADE = {
+        DEFAULT = { "WHAT HATH THEE?", "THY WANTS'T TRADES?", "MAKE'ST THEE DEALS?" },
+    },
+
+    CITY_PIG_SHOPKEEPER_NOT_ENOUGH = { "THY LACKETH THE OINCS", "GET THEE MORE OINCS" },
+    CITY_PIG_SHOPKEEPER_DONT_HAVE = { "BRINGETH THEE ITEM", "THOU NEED'ST ITEM", "OINCS NOT SUFFICETH, ONLY ITEM" },
+    CITY_PIG_SHOPKEEPER_SALE = { "MY THANKS", "A FINE EXCHANGE", "MANY THANKS", "'TIS GOOD STUFF" },
+
+    CITY_PIG_SHOPKEEPER_ROBBED = { "WHOFORE HAST DONE THIS?!", "ROBBED! ROBBED! ROBBED!", "OH THE PIGANITY!", "REVENGE!" },
+
     CITY_PIG_SHOPKEEPER_GREETING = {
-                                    DEFAULT = {"WHAT SAY THOUST?","THOU LOOK'ST FOR THINGS?","I HATH THEE WARES","BUY'ST THOU STUFFS TODAY?"},
-                                    pigman_mayor_shopkeep = {"NEED'ST THOU A HOUSE?", "NEED'ST GUARD?", "WANT'ST THOU TO DWELL'ETH HERE?",},
-                                    pigman_beautician = {"LOOKETH AT MINE MEDICINES", "THOU NEED'ST MEDICINES?", "NEED'ST THINGS FOR BOO-BOOS?"},
-                                    pigman_mechanic = {"HAS'T THOU THINGS TO FIX?", "I FIXETH", "I FIXETH BROKEN THING", "YOU NEEDETH FIXINGS?"},
-                                    pigman_miner = {"SELLETH ROCKS?", "I LIKETH ROCKS", "SELLEST ME THINE ROCKS",},
-                                    pigman_collector = {"HAST THOU STRANGE THINGS?", "I DEALETH WITH THINGS O' STRANGENESS", "WANTS THOU STRANGE THINGS?"},
-                                    pigman_banker = {"HAST THOU JEWELS?", "ME GIVETH OINCS FOR JEWELS", "ME LIKETH SPARKLY JEWELS"},
-                                    pigman_florist = {"THOU NEEDS OF SEEDS?", "NEEDETH STUFFS FOR PLANTINGS?", "HAST THOU PLOP?", "HAST THOU PETALS?"},
-                                    pigman_erudite = {"NEEDETH MAGIC THINGS?", "I SELL MAGIC THINGS?", "I SELLEST THINGS BAD DREAMS ARE MADE ON"},
-                                    pigman_hatmaker = {"HATS? NEED'ST THOU HATS?", "NEEDST THING TO COVER THINE HEAD?", "BUY'ST THY HATS FROM ME"},
-                                    pigman_professor = {"IN NEED'ST OF OLD THINGS?", "I LIKETH RELICS FROM YON TEMPLES", "NEED'ST THOU RELICS?",},
-                                    pigman_hunter = {"IN NEED O' WEAPONS", "I SELL'ST SMASHY THINGS", "NEEDST THOU MURDERING THINGS?"},
-                                }, 
+        DEFAULT = { "WHAT SAY THOUST?", "THOU LOOK'ST FOR THINGS?", "I HATH THEE WARES", "BUY'ST THOU STUFFS TODAY?" },
+        pigman_mayor_shopkeep = { "NEED'ST THOU A HOUSE?", "NEED'ST GUARD?", "WANT'ST THOU TO DWELL'ETH HERE?", },
+        pigman_beautician = { "LOOKETH AT MINE MEDICINES", "THOU NEED'ST MEDICINES?", "NEED'ST THINGS FOR BOO-BOOS?" },
+        pigman_mechanic = { "HAS'T THOU THINGS TO FIX?", "I FIXETH", "I FIXETH BROKEN THING", "YOU NEEDETH FIXINGS?" },
+        pigman_miner = { "SELLETH ROCKS?", "I LIKETH ROCKS", "SELLEST ME THINE ROCKS", },
+        pigman_collector = { "HAST THOU STRANGE THINGS?", "I DEALETH WITH THINGS O' STRANGENESS", "WANTS THOU STRANGE THINGS?" },
+        pigman_banker = { "HAST THOU JEWELS?", "ME GIVETH OINCS FOR JEWELS", "ME LIKETH SPARKLY JEWELS" },
+        pigman_florist = { "THOU NEEDS OF SEEDS?", "NEEDETH STUFFS FOR PLANTINGS?", "HAST THOU PLOP?", "HAST THOU PETALS?" },
+        pigman_erudite = { "NEEDETH MAGIC THINGS?", "I SELL MAGIC THINGS?", "I SELLEST THINGS BAD DREAMS ARE MADE ON" },
+        pigman_hatmaker = { "HATS? NEED'ST THOU HATS?", "NEEDST THING TO COVER THINE HEAD?", "BUY'ST THY HATS FROM ME" },
+        pigman_professor = { "IN NEED'ST OF OLD THINGS?", "I LIKETH RELICS FROM YON TEMPLES", "NEED'ST THOU RELICS?", },
+        pigman_hunter = { "IN NEED O' WEAPONS", "I SELL'ST SMASHY THINGS", "NEEDST THOU MURDERING THINGS?" },
+    },
 
 
     CITY_PIG_TALK_FIESTA = {
-                                    DEFAULT = {"HUZZAH! HOORAY","'TIS SWINE FIESTA DAYS!","BAD GUYS GO-ETH AWAY","PIGGIES COME OUT-ETH TO PLAY!"},
-                                },
+        DEFAULT = { "HUZZAH! HOORAY", "'TIS SWINE FIESTA DAYS!", "BAD GUYS GO-ETH AWAY", "PIGGIES COME OUT-ETH TO PLAY!" },
+    },
     CITY_PIG_TALK_APORKALYPSE_REWARD = {
-                                    DEFAULT = {"THOU SAVETH US!","TAKEST THOU REWARD!","THOU IS'T GOOD!","APORKALYPSE 'TIS DONE!"},
-                                },                                
+        DEFAULT = { "THOU SAVETH US!", "TAKEST THOU REWARD!", "THOU IS'T GOOD!", "APORKALYPSE 'TIS DONE!" },
+    },
 
-    GROUNDED_WILBA_TALK = { "WILBA LOST'DED MAMA'S CROWN", "MAMA PUNISH'DED WILBA", "MAMA WANT'TH HER CROWN BACK'DED", "FINDETH YON CROWN?"},
-    GROUNDED_WILBA_THANKS = { "MANY THANKS, UNPIG", "WILBA SHALT TAKETH YON GIFT", "GIVE'ST THOU TO ME?", "WILBA DESERV'DETH THIS"},
-    GROUNDED_WILBA_REFUSE = { "'TIS NAUGHT WILBA'S", "GIVE'ST THEE TO MAMA", "THOU FIND'DED YON CROWN O' MAMA'S!!"},
-    WEREWILBA_SPEECH = {"GRRRR", "ARRROOOO!", "GROWRR", "BARK! BARK!", "WOOF"},
+    GROUNDED_WILBA_TALK = { "WILBA LOST'DED MAMA'S CROWN", "MAMA PUNISH'DED WILBA", "MAMA WANT'TH HER CROWN BACK'DED", "FINDETH YON CROWN?" },
+    GROUNDED_WILBA_THANKS = { "MANY THANKS, UNPIG", "WILBA SHALT TAKETH YON GIFT", "GIVE'ST THOU TO ME?", "WILBA DESERV'DETH THIS" },
+    GROUNDED_WILBA_REFUSE = { "'TIS NAUGHT WILBA'S", "GIVE'ST THEE TO MAMA", "THOU FIND'DED YON CROWN O' MAMA'S!!" },
+    WEREWILBA_SPEECH = { "GRRRR", "ARRROOOO!", "GROWRR", "BARK! BARK!", "WOOF" },
 
     --"WELCOME","LOOKING FOR THING?","I HAVE WARES","YOU BUY TODAY?"},
 
-    CITY_PIG_SHOPKEEPER_CLOSING = {"IS'T THE TIME O' CLOSINGS","COME BACK ON THE 'MORROW","ME CLOSETH SHOP", "ADIEU, ADIEU, REMEMBERS ME", "ME EXEUNT"},
+    CITY_PIG_SHOPKEEPER_CLOSING = { "IS'T THE TIME O' CLOSINGS", "COME BACK ON THE 'MORROW", "ME CLOSETH SHOP", "ADIEU, ADIEU, REMEMBERS ME", "ME EXEUNT" },
 
     CITY_PIG_COLLECTOR_TRADE = "ODDITIES",
     CITY_PIG_BANKER_TRADE = "JEWELS",
@@ -3687,15 +3629,14 @@ STRINGS =
     CITY_PIG_FARMER_TRADE = "GRASS",
     CITY_PIG_MINER_TRADE = "ROCKS",
     CITY_PIG_SHOPKEEP_TRADE = "GOODS",
-    CITY_PIG_USHER_TRADE = "BERRIES",    
+    CITY_PIG_USHER_TRADE = "BERRIES",
 
-    BANDIT_TALK_FIGHT = {"HAVE AT THEE","TAKE FROM THE RICH!","ENGUARD!"},
+    BANDIT_TALK_FIGHT = { "HAVE AT THEE", "TAKE FROM THE RICH!", "ENGUARD!" },
 
-    SUNKEN_BOAT_SQUAWKS = {"Squaak!", "Raaawk!"},
-    SUNKEN_BOAT_REFUSE_TRADE = {"Sqwaak! Useless junk!", "Go away! Sqwaak!", "Wolly does NOT want THAT.", "Land lubber!"},
-    SUNKEN_BOAT_ACCEPT_TRADE = {"Thanks, matey!", "A fair trade!", "Yaarr. Thanks buddy."},
-    SUNKEN_BOAT_IDLE = 
-    {
+    SUNKEN_BOAT_SQUAWKS = { "Squaak!", "Raaawk!" },
+    SUNKEN_BOAT_REFUSE_TRADE = { "Sqwaak! Useless junk!", "Go away! Sqwaak!", "Wolly does NOT want THAT.", "Land lubber!" },
+    SUNKEN_BOAT_ACCEPT_TRADE = { "Thanks, matey!", "A fair trade!", "Yaarr. Thanks buddy." },
+    SUNKEN_BOAT_IDLE = {
         "Sqwaaaak!",
         "Where's me treasures?",
         "Wolly wants a cracker.",
@@ -3706,9 +3647,8 @@ STRINGS =
         "The treasure's going down!",
     },
 
-    EPITAPHS =
-    {
-       "It says \"Come on in.\"",
+    EPITAPHS = {
+        "It says \"Come on in.\"",
         "\"Here lies some guy.\"",
         "\"Here lies some gal.\"",
         "\"Here lies some person.\"",
@@ -3766,8 +3706,7 @@ STRINGS =
         "\"And don't come back.\"",
     },
 
-    TABS =
-    {
+    TABS = {
         TOOLS = "Tools",
         LIGHT = "Light",
         FARM = "Food",
@@ -3789,28 +3728,27 @@ STRINGS =
         NATURE = "Green Thumb",
         TINKER = "Tinkering",
 
-		CRAFTINGSTATIONS = "", -- purposely left empty
+        CRAFTINGSTATIONS = "", -- purposely left empty
         RENO_TAB_DOORS = "Doors",
-		RENO_TAB_FLOORS = "Floors",
-		RENO_TAB_SHELVES = "Shelves",
-		RENO_TAB_PLANTHOLDERS = "Plantholders",
-		RENO_TAB_COLUMNS = "Columns",
-		RENO_TAB_WALLPAPER = "Wallpaper",
-		RENO_TAB_HANGINGLAMPS = "Hanging Lamps",
-		RENO_TAB_CHAIRS = "Chairs",
-		RENO_TAB_HOMEKITS = "Home Kits",
-		RENO_TAB_WINDOWS = "Windows",
-		RENO_TAB_RUGS = "Rugs",
-		RENO_TAB_LAMPS = "Lamps",
-		RENO_TAB_TABLES = "Tables",
-		RENO_TAB_ORNAMENTS = "Ornaments",
+        RENO_TAB_FLOORS = "Floors",
+        RENO_TAB_SHELVES = "Shelves",
+        RENO_TAB_PLANTHOLDERS = "Plantholders",
+        RENO_TAB_COLUMNS = "Columns",
+        RENO_TAB_WALLPAPER = "Wallpaper",
+        RENO_TAB_HANGINGLAMPS = "Hanging Lamps",
+        RENO_TAB_CHAIRS = "Chairs",
+        RENO_TAB_HOMEKITS = "Home Kits",
+        RENO_TAB_WINDOWS = "Windows",
+        RENO_TAB_RUGS = "Rugs",
+        RENO_TAB_LAMPS = "Lamps",
+        RENO_TAB_TABLES = "Tables",
+        RENO_TAB_ORNAMENTS = "Ornaments",
     },
 
     GREENAMULET_TOOLTIP = "Reduced Material Cost",
 }
 
-STRINGS.BUNNYMANNAMES =
-{
+STRINGS.BUNNYMANNAMES = {
     "Brassica",
     "Bunium",
     "Burdock",
@@ -3884,8 +3822,7 @@ STRINGS.BUNNYMANNAMES =
     "Lutetium",
 }
 
-STRINGS.PIGNAMES=
-{
+STRINGS.PIGNAMES = {
     --emperors
     "Augustus",
     "Tiberius",
@@ -4036,16 +3973,14 @@ STRINGS.PIGNAMES=
     "Wiggles",
     "Jerky",
     "Smelly",
-    "Salty",    
+    "Salty",
 }
 
-STRINGS.QUEENPIGNAMES=
-{
+STRINGS.QUEENPIGNAMES = {
     "Queen Malfalfa",
 }
 
-STRINGS.CITYPIGNAMES=
-{
+STRINGS.CITYPIGNAMES = {
     UNISEX = {
         "Melbourne",
         "Peel",
@@ -4065,8 +4000,7 @@ STRINGS.CITYPIGNAMES=
         "Darlington",
     },
 
-    FEMALE =
-    {
+    FEMALE = {
         "Elizabeth",
         "Alexandrina",
         "Alice",
@@ -4092,8 +4026,7 @@ STRINGS.CITYPIGNAMES=
         "Ophelia",
         "Sophronia",
     },
-    MALE = 
-    {
+    MALE = {
         "William",
         "Clarence",
         "Frederick",
@@ -4118,12 +4051,11 @@ STRINGS.CITYPIGNAMES=
         "Tesla",
         "Thaddeus",
         "Wellington",
-        "Gulliver", 
+        "Gulliver",
     },
 }
 
-STRINGS.MANDRAKEMANNAMES =
-{
+STRINGS.MANDRAKEMANNAMES = {
     "Bambuseae",
     "Fabaceae",
     "Betula",
@@ -4144,8 +4076,7 @@ STRINGS.MANDRAKEMANNAMES =
 }
 
 --- CAPY DLC ---
-STRINGS.PARROTNAMES =
-{
+STRINGS.PARROTNAMES = {
     "Danjaya",
     "Jean Claud Van Dan",
     "Donny Jepp",
@@ -4189,8 +4120,7 @@ STRINGS.PARROTNAMES =
     "Barrett"
 }
 
-STRINGS.MERMNAMES =
-{
+STRINGS.MERMNAMES = {
     "Glorpy",
     "Gloppy",
     "Blupper",
@@ -4226,8 +4156,7 @@ STRINGS.MERMNAMES =
     "Vic",
 }
 
-STRINGS.SHIPNAMES =
-{
+STRINGS.SHIPNAMES = {
     "Nautilus",
     "Mackay-Bennett",
     "Mary Celeste",
@@ -4262,8 +4191,7 @@ STRINGS.SHIPNAMES =
     "Resolution"
 }
 
-STRINGS.BALLPHINNAMES=
-{
+STRINGS.BALLPHINNAMES = {
     "Miah",
     "Marius",
     "Brian",
@@ -4292,30 +4220,26 @@ STRINGS.BALLPHINNAMES=
     "Fishi"
 }--- END CAPY DLC ---
 
-STRINGS.ANTNAMES={}
-for i=1, 100 do
-    table.insert(STRINGS.ANTNAMES,"Drone #"..math.random(1,1000000))
+STRINGS.ANTNAMES = {}
+for i = 1, 100 do
+    table.insert(STRINGS.ANTNAMES, "Drone #" .. math.random(1, 1000000))
 end
 
 STRINGS.ANTWARRIORNAMES = {}
-for i=1, 100 do
-    table.insert(STRINGS.ANTWARRIORNAMES,"Warrior #"..math.random(1,1000000))
+for i = 1, 100 do
+    table.insert(STRINGS.ANTWARRIORNAMES, "Warrior #" .. math.random(1, 1000000))
 end
 
-STRINGS.UI =
-{
-	NOTIFICATION = 
-	{
-		LOADING = "Loading",
-	},
+STRINGS.UI = {
+    NOTIFICATION = {
+        LOADING = "Loading",
+    },
 
-    WATERMARK = 
-    {
+    WATERMARK = {
         PRERELEASE = "HAMLET EARLY ACCESS - BETA BRANCH - IN DEVELOPMENT",
     },
 
-    HELP =
-    {
+    HELP = {
         SCROLLBACK = "Previous Page",
         SCROLLFWD = "Next Page",
         PREVVALUE = "Previous Value",
@@ -4336,15 +4260,13 @@ STRINGS.UI =
         CONFIGUREMOD = "Configure Mod",
         SAVEPRESET = "Save Preset",
     },
-    CHARACTERSELECT=
-    {
+    CHARACTERSELECT = {
         SELECT = "Select",
         APPLY = "Apply",
         CANCEL = "Cancel",
     },
 
-    CRAFTING=
-    {
+    CRAFTING = {
         PLACE = "Place",
         BUILD = "Build",
         PROTOTYPE = "Prototype",
@@ -4355,15 +4277,14 @@ STRINGS.UI =
         NEEDALCHEMYENGINE = "Use an alchemy engine to build a prototype!",
         NEEDSHADOWMANIPULATOR = "Use a shadow manipulator to build a prototype!",
         NEEDPRESTIHATITATOR = "Use a Prestihatitator to build a prototype!",
-        NEEDHOUGSPORKUSATOR = "Use a Hogus Porkusator to build a prototype!",        
-		NEEDPIRATIHATITATOR = "Use a Piratihatitator to build a prototype!",
+        NEEDHOUGSPORKUSATOR = "Use a Hogus Porkusator to build a prototype!",
+        NEEDPIRATIHATITATOR = "Use a Piratihatitator to build a prototype!",
         NEEDSANCIENT_FOUR = "It seems that this altar is not fully functional!",
         NEEDSEALAB = "Use an Alchemy Engine or Sea Lab to build a prototype!",
         CANTRESEARCH = "Some things are unknowable",
     },
 
-    DEATHSCREEN=
-    {
+    DEATHSCREEN = {
         MAINMENU = "Main Menu",
         RETRY = "Retry",
         CONTINUE = "Continue",
@@ -4377,11 +4298,9 @@ STRINGS.UI =
         ATCAP = "At Cap!",
     },
 
-    CREDITS=
-    {
+    CREDITS = {
         TITLE = "CREDITS",
-        NAMES=
-        {
+        NAMES = {
             "Kevin Forbes",
             "Ju-Lian Kwan",
             "Jamie Cheng",
@@ -4431,22 +4350,18 @@ STRINGS.UI =
             "Scott Hansen",
         },
 
-        ALTGAMES =
-        {
+        ALTGAMES = {
             TITLE = "Linux and OSX ports by Alternative Games",
-            NAMES =
-            {
+            NAMES = {
                 "Turo Lamminen",
                 "Tuomas Narvainen",
                 "Tapio Honkonen",
             },
         },
 
-        CAPY =
-        {
+        CAPY = {
             TITLE = "CAPY",
-            NAMES = 
-            {
+            NAMES = {
                 "Christian Meyer",
                 "Dan Vader",
                 "Drew Grainge",
@@ -4463,19 +4378,16 @@ STRINGS.UI =
         EXTRA_THANKS_2 = "Pieter Wycoff\nMatthew Nickerson\nAnna Sweet",
         SONY_THANKS = "Shane Bettenhausen\nAdam Boyes\nBrian Silva\nNick Suttner",
 
-        BABEL =
-        {
+        BABEL = {
             TITLE = "Babel",
-            NAMES1 =
-            {
+            NAMES1 = {
                 "Guillaume Langlois",
                 "Danny Labrie",
                 "Dominic Knowles",
                 "Marc Kent",
                 "Jeff LeGresley",
             },
-            NAMES2=
-            {
+            NAMES2 = {
                 "Jon Morrell",
                 "JP Bergevin",
                 "Mike Holdaway",
@@ -4491,15 +4403,13 @@ STRINGS.UI =
         TWITTER = "The Twitters",
     },
 
-    WORLDGEN=
-    {
+    WORLDGEN = {
         TITLE = "GENERATING WORLD",
         CAVETITLE = "CARVING OUT CAVE",
         SHIPWRECKEDTITLE = "GENERATING ISLANDS",
         VOLCANOTITLE = "BOILING MAGMA",
         PORKLANDTITTLE = "GENERATING PLATEAU",
-        VERBS =
-        {
+        VERBS = {
             "Wrangling",
             "Generating",
             "Herding",
@@ -4510,10 +4420,8 @@ STRINGS.UI =
             "Inserting",
             "Framing",
         },
-        NOUNS=
-        {
-            BASE_GAME =
-            {
+        NOUNS = {
+            BASE_GAME = {
                 "trees...",
                 "pathos...",
                 "pines...",
@@ -4527,8 +4435,7 @@ STRINGS.UI =
                 "nyctophobia...",
             },
 
-            SHIPWRECKED =
-            {
+            SHIPWRECKED = {
                 "jungle...",
                 "deep, dark waters...",
                 "palms...",
@@ -4544,9 +4451,8 @@ STRINGS.UI =
                 "flotsam...",
                 "jetsam...",
             },
-            
-            PORKLAND =
-            {
+
+            PORKLAND = {
                 "rainforest...",
                 "dense foliage...",
                 "insects...",
@@ -4561,7 +4467,7 @@ STRINGS.UI =
                 "civilization...",
                 "economy...",
                 "royalty...",
-            },            
+            },
         }
     },
 
@@ -4599,18 +4505,17 @@ STRINGS.UI =
         PLEASE_ENTER_BUG_DESCRIPTION = "Please enter a description....",
     },
 
-    EMAILSCREEN=
-    {
-        SIGNUPSUBMITTITLE="Sending...",
-        SIGNUPSUBMIT="Please wait a moment while we sign you up.",
-        SIGNUPSUCCESSTITLE="Success!",
-        SIGNUPSUCCESS="Thanks for signing up! You should receive a confirmation email in your inbox.",
-        SIGNUPFAILTITLE="Something Went Wrong",
-        SIGNUPFAIL="Looks like we had some trouble signing you up. Please try again later if you don't receive a confirmation email.",
-        INVALIDEMAILTITLE= "Invalid Email",
-        INVALIDEMAIL= "We aren't psychic! If you don't enter your email address, we won't be able to tell you about new stuff!",
-        INVALIDDATETITLE= "Invalid Date",
-        INVALIDDATE= "We need your birthdate or ratings people might get mad at us for emailing you content not appropriate for your age.",
+    EMAILSCREEN = {
+        SIGNUPSUBMITTITLE = "Sending...",
+        SIGNUPSUBMIT = "Please wait a moment while we sign you up.",
+        SIGNUPSUCCESSTITLE = "Success!",
+        SIGNUPSUCCESS = "Thanks for signing up! You should receive a confirmation email in your inbox.",
+        SIGNUPFAILTITLE = "Something Went Wrong",
+        SIGNUPFAIL = "Looks like we had some trouble signing you up. Please try again later if you don't receive a confirmation email.",
+        INVALIDEMAILTITLE = "Invalid Email",
+        INVALIDEMAIL = "We aren't psychic! If you don't enter your email address, we won't be able to tell you about new stuff!",
+        INVALIDDATETITLE = "Invalid Date",
+        INVALIDDATE = "We need your birthdate or ratings people might get mad at us for emailing you content not appropriate for your age.",
         OK = "OK",
         SUBSCRIBE = "Subscribe",
         CANCEL = "Cancel",
@@ -4618,25 +4523,24 @@ STRINGS.UI =
         EMAIL = "Email:",
         BIRTHDAY = "Birthdate:",
         BIRTHDAYREASON = "We need to know your birthdate in order to send you age appropriate updates!\r\nDon't worry, we won't spam you or sell your information.",
-        JAN="Jan",
-        FEB="Feb",
-        MAR="Mar",
-        APR="Apr",
-        MAY="May",
-        JUN="Jun",
-        JUL="Jul",
-        AUG="Aug",
-        SEP="Sep",
-        OCT="Oct",
-        NOV="Nov",
-        DEC="Dec",
+        JAN = "Jan",
+        FEB = "Feb",
+        MAR = "Mar",
+        APR = "Apr",
+        MAY = "May",
+        JUN = "Jun",
+        JUL = "Jul",
+        AUG = "Aug",
+        SEP = "Sep",
+        OCT = "Oct",
+        NOV = "Nov",
+        DEC = "Dec",
         MONTH = "M",
         DAY = "D",
         YEAR = "YYYY",
     },
 
-    MAINSCREEN =
-    {
+    MAINSCREEN = {
         NOTIFY = "Newsletter",
         FORUM = "Forum",
         BUYNOW = "Buy Now",
@@ -4726,14 +4630,14 @@ STRINGS.UI =
         MOTDTITLE = "Klei Store",
         MOTD = "Check out the latest items in the Klei Store!",
         MOTDBUTTON = "Klei Store",
-        
+
         EXIT = "Exit",
         LOGOUT = "Log Out",
         CREDITS = "Credits",
         UPDATENAME = "All's Well That Maxwell",
         DLC_UPDATENAME = "Where There's a Wilson...",
         SHIPWRECKED_UPDATENAME = "Home Sea Home.",
-        PORKLAND_UPDATENAME = "Death Defining Adventure.",        
+        PORKLAND_UPDATENAME = "Death Defining Adventure.",
         CONTROLS = "Controls",
 
         PLAY_ON_STEAM = "PLAY ON STEAM TEXT",
@@ -4777,14 +4681,13 @@ STRINGS.UI =
         MIGRATION_SUCCESSFUL = "Migration successful",
         MIGRATION_FAIL = "We could not complete the migration because there are not enough save slots. There needs to be at least %s save slots. Please delete save(s) and run the tool again in order to migrate the saves",
         WARNING = "WARNING",
-		MIGRATION_DIALOG_INFO = "Are you sure you want to migrate the save files from the %s version to the current version?",
+        MIGRATION_DIALOG_INFO = "Are you sure you want to migrate the save files from the %s version to the current version?",
 
         LANGUAGES = "Languages",
         SAVEDATA = "SaveData",
     },
 
-    HUD =
-    {
+    HUD = {
         MAP = "Show Map\n(TAB)",
         BUYNOW = "Buy Now",
         READYTITLE = "Ready to play!",
@@ -4822,11 +4725,10 @@ STRINGS.UI =
         STARVING = "Starving",
         FLIP = "Rotate (Q) and (E)",
         FLIP_CONTROLLER = "Rotate",
-		CLOSE = "Close",
+        CLOSE = "Close",
     },
 
-    BROADCASTING=
-    {
+    BROADCASTING = {
         YES = "Yes",
         NO = "No",
         ACCEPT = "Accept",
@@ -4854,15 +4756,14 @@ STRINGS.UI =
         LOGIN = "Login",
         LOGOUT = "Logout",
         SIGNUP = "Sign Up",
-        FORGET= "Forget Account",
-        VIEWSTREAM= "View Stream",
-        STARTSTREAM= "Start Stream",
-        STOPSTREAM= "Stop Stream",
-        HELP= "Help",
+        FORGET = "Forget Account",
+        VIEWSTREAM = "View Stream",
+        STARTSTREAM = "Start Stream",
+        STOPSTREAM = "Stop Stream",
+        HELP = "Help",
     },
 
-    OPTIONS=
-    {
+    OPTIONS = {
         YES = "Yes",
         NO = "No",
         BACKTITLE = "Revert Changes?",
@@ -4900,27 +4801,25 @@ STRINGS.UI =
         AUTOSAVE = "Auto-save",
         SENDSTATSPOPUP_TITLE = "Data Collection",
         SENDSTATSPOPUP_BODY = "We require the collection of user data to assist in improving game operations. Players who opt out of data collection will no longer send crash reports and user data to the game team. \n\n For more details on our privacy policy and how we use the data we collect, please see our official privacy policy.",
-        PRIVACY_CENTER = "VIEW",      
-		HAMLET = "Hamlet",	
-		RENDERJUNGLECANOPY = "Render Jungle Canopy",
-		RENDERJUNGLEVINES = "Render Jungle Vines",	
-		PERFORMANCE = "Performance",	
-		GENERAL = "General Settings",	
-		DYNAMIC_LOADING = "Dynamic Asset Loading",
-		MINIMAL = "Some",
-		MAXIMAL = "All",
-		RESTART_TITLE = "Restart Required",
-		RESTART_DYNAMIC_LOADING_BODY = "For Dynamic Asset Loading changes to take effect, you will have to exit and restart the game.", 
-		OK = "Ok",
+        PRIVACY_CENTER = "VIEW",
+        HAMLET = "Hamlet",
+        RENDERJUNGLECANOPY = "Render Jungle Canopy",
+        RENDERJUNGLEVINES = "Render Jungle Vines",
+        PERFORMANCE = "Performance",
+        GENERAL = "General Settings",
+        DYNAMIC_LOADING = "Dynamic Asset Loading",
+        MINIMAL = "Some",
+        MAXIMAL = "All",
+        RESTART_TITLE = "Restart Required",
+        RESTART_DYNAMIC_LOADING_BODY = "For Dynamic Asset Loading changes to take effect, you will have to exit and restart the game.",
+        OK = "Ok",
     },
 
-    LANGUAGE_OPTIONS_SCREEN = 
-    {
+    LANGUAGE_OPTIONS_SCREEN = {
         LANGUAGE_OPTIONS = "Language Options",
     },
 
-    PAUSEMENU =
-    {
+    PAUSEMENU = {
         TITLE = "Paused",
         SAVEANDQUITTITLE = "Save and return to main menu?",
         SAVEANDQUITBODY = "Don't worry - we'll be waiting for you.",
@@ -4938,8 +4837,7 @@ STRINGS.UI =
         SURVIVED_DAYS = "You have survived a total of\n%s days",
     },
 
-    MODSSCREEN = 
-    {
+    MODSSCREEN = {
         APPLY = "Apply",
         CANCEL = "Cancel",
         RESETDEFAULT = "Reset",
@@ -4974,8 +4872,7 @@ STRINGS.UI =
         DISABLED_MANUAL = "This mod has been disabled.",
         DISABLED_ERROR = "Crashed on last start, automatically disabled.",
         DISABLED_OLD = "Mod out-of-date, might have issues. Disabled.",
-        STATUS = 
-        {
+        STATUS = {
             WORKING_NORMALLY = "Enabled",
             WILL_ENABLE = "To Be Enabled",
             WILL_DISABLE = "To Be Disabled",
@@ -4985,8 +4882,7 @@ STRINGS.UI =
         },
         NO_MODS = "You don't have any mods installed, but you can download some from the Klei forums.",
         NO_MODS_LINK = "Take me to the mods!",
-        WORKSHOP = 
-        {
+        WORKSHOP = {
             UPDATE_TITLE = "Steam Workshop",
             UPDATE_TITLE_RAIL = "WeGame Workshop",
             STATE_LIST = "Checking Workshop subscriptions...",
@@ -5001,23 +4897,21 @@ STRINGS.UI =
         RESTART_TITLE = "Restart Required",
         RESTART_REQUIRED = "To enable or disable this mod, you will have to exit and restart the game.",
         RESTART = "Exit Now",
-		MODLINK_NOLINK = "No mod info page",
+        MODLINK_NOLINK = "No mod info page",
     },
 
-    EARLYACCESS = 
-    {
+    EARLYACCESS = {
         EA_TITLE = "HAMLET EARLY ACCESS",
-        EA_BODY = "Welcome to the Hamlet Early Access! This game is currently in development.\n\nWhile most of the features we have planned have already been implemented, it is likely that some will still receive tweaks or rebalances. Please expect some changes to the way things function.\nAlso, you may encounter bugs as new things are added or altered in the game. You can report these bugs on our forum, as well as share any other feedback you may have for us there.\n\nEnjoy!",        
+        EA_BODY = "Welcome to the Hamlet Early Access! This game is currently in development.\n\nWhile most of the features we have planned have already been implemented, it is likely that some will still receive tweaks or rebalances. Please expect some changes to the way things function.\nAlso, you may encounter bugs as new things are added or altered in the game. You can report these bugs on our forum, as well as share any other feedback you may have for us there.\n\nEnjoy!",
         CLOSE = "Close",
         OPEN_FORUMS = "Open Forum",
     },
 
-    BLACKROOM_BUG =
-    {
-        BLACKROOM_TITLE = "Uh, oh...", 
-        BLACKROOM_BODY  = "It seems you hit the 'black room' bug.\nYou can probably still exit the room using the space bar.\nIf you upload your log to our forum, it may give us valuable insight.\nThe game will pause while you do.",
+    BLACKROOM_BUG = {
+        BLACKROOM_TITLE = "Uh, oh...",
+        BLACKROOM_BODY = "It seems you hit the 'black room' bug.\nYou can probably still exit the room using the space bar.\nIf you upload your log to our forum, it may give us valuable insight.\nThe game will pause while you do.",
 
-    	OPEN_FORUMS = "Open Forum", 
+        OPEN_FORUMS = "Open Forum",
         THANKS = "Thanks!",
         OK = "Ok",
         CANCEL = "Cancel",
@@ -5025,8 +4919,7 @@ STRINGS.UI =
         HESITANT_OK = "Okay...",
     },
 
-    CUSTOMIZATIONSCREEN =
-    {
+    CUSTOMIZATIONSCREEN = {
         APPLY = "Apply",
         SAVEPRESET = "Save As Preset",
         CANCEL = "Cancel",
@@ -5044,21 +4937,19 @@ STRINGS.UI =
         INVALIDSEASONCOMBO_BODY = "You have set all of the seasons to the \"None\" option.\nTurn on at least one season to continue.\nDid you really expect that to work?",
         OKAY = "Okay",
 
-        PRESETLEVELS = 
-            {
-                "Default",
-                "Default Plus",             -- Bootstrap the start
-                "Lights Out",
-                "Soggy",                    -- Too much water - swamp etc
-                "Eternal Summer",           -- Less water, no swamp etc
-                "Winter you'll do next?",   -- Winter focus
-                "Island you an axe",        -- Island hopping
-                "Crazy Eddie",              -- Focus on sanity play
-                "Nighttime Antics",         -- Focus on nighttime play
-                },
+        PRESETLEVELS = {
+            "Default",
+            "Default Plus", -- Bootstrap the start
+            "Lights Out",
+            "Soggy", -- Too much water - swamp etc
+            "Eternal Summer", -- Less water, no swamp etc
+            "Winter you'll do next?", -- Winter focus
+            "Island you an axe", -- Island hopping
+            "Crazy Eddie", -- Focus on sanity play
+            "Nighttime Antics", -- Focus on nighttime play
+        },
 
-        PRESETLEVELDESC = 
-            {
+        PRESETLEVELDESC = {
             "The standard Don't Starve experience",
             "A quicker start in a harsher world.",
             "A dark twist on the standard Don't Starve experience.",
@@ -5071,13 +4962,11 @@ STRINGS.UI =
             "The standard Don't Starve Experience 10",
         },
 
-        SHIPWRECKEDLEVELS = 
-        {
+        SHIPWRECKEDLEVELS = {
             "Shipwrecked"
         },
 
-        SHIPWRECKEDLEVELDESC = 
-        {
+        SHIPWRECKEDLEVELDESC = {
             "A tropical paradise?"
         },
 
@@ -5088,8 +4977,7 @@ STRINGS.UI =
         MAX_PRESETS_EXCEEDED_BODYSPACING = "\n\n\n\n ",
         OVERWRITE = "Overwrite",
 
-        NAMES = 
-        {
+        NAMES = {
             WORLD_SIZE = "World Size",
             MILD_SEASON = "Mild",
             WET_SEASON = "Hurricane",
@@ -5122,7 +5010,7 @@ STRINGS.UI =
             OCEANWAVES = "Waves",
             GLOWFLYCYCLE = "Glowfly Cycle",
             GRASS_BUNCHES = "Tall Grass Fields",
-            FLOWERS_RAINFOREST = "Tropical Flowers",                    
+            FLOWERS_RAINFOREST = "Tropical Flowers",
             DEEP_JUNGLE_FERN_NOISE = "Jungle Floor Ferns",
             JUNGLE_BORDER_VINE = "Jungle Canopy Vines",
             LOST_RELICS = "Lost Relics",
@@ -5135,31 +5023,30 @@ STRINGS.UI =
             ANTMAN = "Mants",
             FOG = "Fog",
             HAYFEVER = "Hayfever",
-            BRAMBLES = "Brambles",            
+            BRAMBLES = "Brambles",
         }
 
     },
 
-    SAVEINTEGRATION = 
-    {
-        OK= "OK",
+    SAVEINTEGRATION = {
+        OK = "OK",
         YES = "Yes",
         NO = "No",
 
         WARNING = "WARNING",
         EARLY_ACCESS = "You are about to journey into another world!\nYou might not be able to come back for a while.\n Are you sure you want to continue?",
         MERGE_MOD_WARNING = "Only %s compatible mods will function after the merge.",
-        
+
         SHIPWRECKED = "Shipwrecked",
         TRAVEL_SHIPWRECKED = "Travel to a tropical \"paradise\"?",
 
-		SURVIVAL = "Survival",
+        SURVIVAL = "Survival",
         TRAVEL_SURVIVAL = "Travel to some bleak, desolate forest?",
 
         PORKLAND = "Hamlet",
         TRAVEL_PORKLAND = "Travel to a deeply dangerous jungle?",
 
-        CHOOSE_DEST_TITLE = "Travel to another world?", 
+        CHOOSE_DEST_TITLE = "Travel to another world?",
         CHOOSE_DEST_BODY = "Where would you like to travel to?",
 
         RESTORE_BUTTON = "Restore backup",
@@ -5187,8 +5074,7 @@ STRINGS.UI =
 
     },
 
-    NEWGAMESCREEN =
-    {
+    NEWGAMESCREEN = {
         TITLE = "New Game",
         CANCEL = "Cancel",
         CHANGECHARACTER = "Character",
@@ -5201,18 +5087,17 @@ STRINGS.UI =
         YES = "Yes",
         NO = "No",
 
-		DLCROG = "ROG",
-		DLCSW = "SW",
-		DLCHAMLET = "HAM",
-		DLCNONE = "DS",
+        DLCROG = "ROG",
+        DLCSW = "SW",
+        DLCHAMLET = "HAM",
+        DLCNONE = "DS",
 
         CLOSE = "Close",
         HAMLET_WARNING_TITLE = "FIRST TIME PLAYING?",
         HAMLET_WARNING_BODY = "Don't Starve: Hamlet is more challenging than the other versions of Don't Starve.\n\nIf this is your first time playing the game, we'd recommend starting off on a different world.",
     },
 
-    SLOTDETAILSSCREEN =
-    {
+    SLOTDETAILSSCREEN = {
         TITLE = "Slot",
         CANCEL = "Cancel",
         CONTINUE = "Continue",
@@ -5226,8 +5111,7 @@ STRINGS.UI =
         MODSDISABLEDWARNINGBODY_TRUNCATEDLIST = "... (list truncated)",
     },
 
-    LOADGAMESCREEN=
-    {
+    LOADGAMESCREEN = {
         CANCEL = "Cancel",
         TITLE = "Choose A Slot",
         NEWGAME = "New Game",
@@ -5243,8 +5127,7 @@ STRINGS.UI =
         PORKLAND = "Hamlet"
     },
 
-    MORGUESCREEN=
-    {
+    MORGUESCREEN = {
         MORGUE = "Morgue",
         TITLE = "Obituaries",
         OK = "OK",
@@ -5262,17 +5145,15 @@ STRINGS.UI =
             "Volcano",
             "Shipwrecked",
             "Hamlet",
-         },
+        },
     },
 
-    COMINGSOONSCREEN=
-    {
+    COMINGSOONSCREEN = {
         TITLE = "Coming Soon",
         OK = "OK"
     },
 
-    CONTROLSSCREEN=
-    {
+    CONTROLSSCREEN = {
         -- Must match the Control enum in DontStarveInputHandler.h
         -- Must match constants.lua CONTROLS_*
         CONTROLS = {
@@ -5363,7 +5244,7 @@ STRINGS.UI =
             [5] = "Generic Controller",
             [6] = "Touch Input",
             [7] = "Unknown",
-            },
+        },
 
         INPUTS = {
             -- KeyBoardMouse
@@ -5525,34 +5406,34 @@ STRINGS.UI =
             },
             -- Xbox360
             [2] = {
-                "\142",--"DPad Up"
-                "\139",--"DPad Down"
-                "\140",--"DPad Left",
-                "\141",--"DPad Right"
-                "\131",--"Start",
-                "\132",--"Back",
-                "\133",--"Left Stick"
-                "\136",--"Right Stick"
-                "\134",--"Left Bumper",
-                "\137",--"Right Bumper"
-                "\127",--Button A",
-                "\128",--"Button B",
-                "\129",--"Button X",
-                "\130",--"Button Y",
+                "\142", --"DPad Up"
+                "\139", --"DPad Down"
+                "\140", --"DPad Left",
+                "\141", --"DPad Right"
+                "\131", --"Start",
+                "\132", --"Back",
+                "\133", --"Left Stick"
+                "\136", --"Right Stick"
+                "\134", --"Left Bumper",
+                "\137", --"Right Bumper"
+                "\127", --Button A",
+                "\128", --"Button B",
+                "\129", --"Button X",
+                "\130", --"Button Y",
 
                 -- Analog
-                "\145",--"Left Thumb Left",
-                "\146",--"Left Thumb Right",
-                "\144",--"Left Thumb Down",
-                "\143",--"Left Thumb Up",
-                "\149",--"Right Thumb Left",
-                "\150",--"Right Thumb Right",
-                "\148",--"Right Thumb Down",
-                "\147",--"Right Thumb Up",
-                "\135",--"Left Trigger",
-                "\135",--"Left Trigger",
-                "\138",--"Right Trigger",
-                "\138",--"Right Trigger",
+                "\145", --"Left Thumb Left",
+                "\146", --"Left Thumb Right",
+                "\144", --"Left Thumb Down",
+                "\143", --"Left Thumb Up",
+                "\149", --"Right Thumb Left",
+                "\150", --"Right Thumb Right",
+                "\148", --"Right Thumb Down",
+                "\147", --"Right Thumb Up",
+                "\135", --"Left Trigger",
+                "\135", --"Left Trigger",
+                "\138", --"Right Trigger",
+                "\138", --"Right Trigger",
             },
             -- Generic
             [3] = {
@@ -5586,66 +5467,66 @@ STRINGS.UI =
             -- PS4
             [4] = {
                 -- Digital
-                "\224\162\188",--"DPad Up"	--238
-                "\224\162\191",--"DPad Down"	-- 241
-                "\224\162\190",--"DPad Left",  --240
-                "\224\162\189",--"DPad Right" --239
-                "\224\163\199",--"Start",	--249
-                "\224\163\198",--"Back",	--248
-                "\224\163\197",--"Left Stick" --247
-                "\224\163\194",--"Right Stick" --244
-                "\224\163\196",--"Left Bumper", --246
-                "\224\163\193",--"Right Bumper" --243
-                "\224\163\203",--Button A", --253
-                "\224\163\202",--"Button B", --252
-                "\224\163\201",--"Button X", --251
-                "\224\163\200",--"Button Y",    --250
+                "\224\162\188", --"DPad Up"	--238
+                "\224\162\191", --"DPad Down"	-- 241
+                "\224\162\190", --"DPad Left",  --240
+                "\224\162\189", --"DPad Right" --239
+                "\224\163\199", --"Start",	--249
+                "\224\163\198", --"Back",	--248
+                "\224\163\197", --"Left Stick" --247
+                "\224\163\194", --"Right Stick" --244
+                "\224\163\196", --"Left Bumper", --246
+                "\224\163\193", --"Right Bumper" --243
+                "\224\163\203", --Button A", --253
+                "\224\163\202", --"Button B", --252
+                "\224\163\201", --"Button X", --251
+                "\224\163\200", --"Button Y",    --250
 
                 -- Analog
-                "\224\162\185",--"Left Thumb Left", --235
-                "\224\162\184",--"Left Thumb Right", --234
-                "\224\162\186",--"Left Thumb Down", --236
-                "\224\162\187",--"Left Thumb Up", --237
-                "\224\162\181",--"Right Thumb Left", --231
-                "\224\162\180",--"Right Thumb Right",--230
-                "\224\162\182",--"Right Thumb Down",--232
-                "\224\162\183",--"Right Thumb Up", --233
-                "\224\163\195",--"Left Trigger",   --245
-                "\224\163\195",--"Left Trigger",
-                "\224\163\192",--"Right Trigger",   --242
-                "\224\163\192",--"Right Trigger",   --242
+                "\224\162\185", --"Left Thumb Left", --235
+                "\224\162\184", --"Left Thumb Right", --234
+                "\224\162\186", --"Left Thumb Down", --236
+                "\224\162\187", --"Left Thumb Up", --237
+                "\224\162\181", --"Right Thumb Left", --231
+                "\224\162\180", --"Right Thumb Right",--230
+                "\224\162\182", --"Right Thumb Down",--232
+                "\224\162\183", --"Right Thumb Up", --233
+                "\224\163\195", --"Left Trigger",   --245
+                "\224\163\195", --"Left Trigger",
+                "\224\163\192", --"Right Trigger",   --242
+                "\224\163\192", --"Right Trigger",   --242
             },
             -- Vita Remote Play
             [5] = {
                 -- Digital
-                "\224\162\188",--"DPad Up"
-                "\224\162\191",--"DPad Down"
-                "\224\162\190",--"DPad Left",
-                "\224\162\189",--"DPad Right"
-                "\224\163\199",--"Start",
-                "\224\163\198",--"Back",
-                "\224\163\197",--"Left Stick"
-                "\224\163\194",--"Right Stick"
-                "\224\162\179",--"L",
-                "\224\162\178",--"R"
-                "\224\163\203",--Button A",
-                "\224\163\202",--"Button B",
-                "\224\163\201",--"Button X",
-                "\224\163\200",--"Button Y",
+                "\224\162\188", --"DPad Up"
+                "\224\162\191", --"DPad Down"
+                "\224\162\190", --"DPad Left",
+                "\224\162\189", --"DPad Right"
+                "\224\163\199", --"Start",
+                "\224\163\198", --"Back",
+                "\224\163\197", --"Left Stick"
+                "\224\163\194", --"Right Stick"
+                "\224\162\179", --"L",
+                "\224\162\178", --"R"
+                "\224\163\203", --Button A",
+                "\224\163\202", --"Button B",
+                "\224\163\201", --"Button X",
+                "\224\163\200", --"Button Y",
 
                 -- Analog
-                "\224\162\185",--"Left Thumb Left",
-                "\224\162\184",--"Left Thumb Right",
-                "\224\162\186",--"Left Thumb Down",
-                "\224\162\187",--"Left Thumb Up",
-                "\224\162\181",--"Right Thumb Left",
-                "\224\162\180",--"Right Thumb Right",
-                "\224\162\182",--"Right Thumb Down",
-                "\224\162\183",--"Right Thumb Up",
-                "\224\162\177",--"Left Trigger",
-                "\224\162\177",--"Left Trigger",
-                "\224\162\176",--"Right Trigger",
-                "\224\162\176",--"Right Trigger",
+                "\224\162\185", --"Left Thumb Left",
+                "\224\162\184", --"Left Thumb Right",
+                "\224\162\186", --"Left Thumb Down",
+                "\224\162\187", --"Left Thumb Up",
+                "\224\162\181", --"Right Thumb Left",
+                "\224\162\180", --"Right Thumb Right",
+                "\224\162\182", --"Right Thumb Down",
+                "\224\162\183", --"Right Thumb Up",
+                "\224\162\177", --"Left Trigger",
+                "\224\162\177", --"Left Trigger",
+                "\224\162\176", --"Right Trigger",
+                "\224\162\176", --"Right Trigger",
             },
             --Unknown
             [6] = {
@@ -5679,71 +5560,61 @@ STRINGS.UI =
         },
     },
 
-    UNLOCKMAXWELL=
-    {
+    UNLOCKMAXWELL = {
         TITLE = "Take pity?",
         BODY1 = "The key looks like it will fit. You can free ",
-        BODY2 =", but I doubt %s captors will be pleased...",
+        BODY2 = ", but I doubt %s captors will be pleased...",
         YES = "Yes",
         NO = "No",
         THEM = "them",
         THEIR = "Their",
     },
 
-    RESETCAVE=
-    {
-        TITLE="Regen this cave?",
-        BODY="Are you sure you want to make a new cave here?",
-        YES="Yes",
-        NO="No",
+    RESETCAVE = {
+        TITLE = "Regen this cave?",
+        BODY = "Are you sure you want to make a new cave here?",
+        YES = "Yes",
+        NO = "No",
     },
 
-    STARTADVENTURE=
-    {
-        TITLE="Doorway to Adventure!",
-        BODY="You're about to step into a long, arduous journey to find Maxwell. You will need to survive 5 worlds, each randomly generated to present a new challenge.\n\nShould you die, you will start back at this portal, but lose all your progress on the journey.",
-        BODY_TEST="If you die during adventure mode, you will return back to this portal where you may restart the adventure.\n\nYou're about to step into a long, arduous journey to find Maxwell. You will need to survive 5 worlds, each randomly generated to present a new challenge.",
-        YES="Let's Go!",
-        NO="Not Yet",
+    STARTADVENTURE = {
+        TITLE = "Doorway to Adventure!",
+        BODY = "You're about to step into a long, arduous journey to find Maxwell. You will need to survive 5 worlds, each randomly generated to present a new challenge.\n\nShould you die, you will start back at this portal, but lose all your progress on the journey.",
+        BODY_TEST = "If you die during adventure mode, you will return back to this portal where you may restart the adventure.\n\nYou're about to step into a long, arduous journey to find Maxwell. You will need to survive 5 worlds, each randomly generated to present a new challenge.",
+        YES = "Let's Go!",
+        NO = "Not Yet",
     },
 
-    STARTVOLCANO =
-    {
-        TITLE="Path to Volcano",
-        BODY="Climb the volcano that might erupt at any moment?",
-        YES="Let's Go!",
-        NO="Stay Here",
+    STARTVOLCANO = {
+        TITLE = "Path to Volcano",
+        BODY = "Climb the volcano that might erupt at any moment?",
+        YES = "Let's Go!",
+        NO = "Stay Here",
     },
 
-    ENDGAME=
-    {
-        TITLE="The End.",
+    ENDGAME = {
+        TITLE = "The End.",
         BODY1 = "And so the cycle continues. Will ",
         BODY2 = " ever escape?\n Perhaps %s too will tire of this wretched place, and use %s new powers to tempt the unsuspecting.\n\nThe mysterious beings that control this place still lurk in the shadows, and new challenges will soon be revealed.\n\nUntil then,\n- The Don't Starve Team -",
-        YES= "For Science!",
+        YES = "For Science!",
     },
 
-    GENDERSTRINGS =
-    {
-        MALE =
-        {
+    GENDERSTRINGS = {
+        MALE = {
             ONE = "he",
             TWO = "his",
         },
-        FEMALE =
-        {
+        FEMALE = {
             ONE = "she",
             TWO = "her",
         },
-        ROBOT =
-        {
+        ROBOT = {
             ONE = "they",
             TWO = "their",
         },
     },
 
-    SANDBOXMENU =
-    {
+    SANDBOXMENU = {
         TITLE = "World Customization",
         TITLEDETAIL = "",
 
@@ -5757,7 +5628,7 @@ STRINGS.UI =
         CHOICEMONSTERS = "Monsters",
         CHOICEANIMALS = "Animals",
         CHOICERESOURCES = "Resources",
-        CHOICEFOOD =    "Food",
+        CHOICEFOOD = "Food",
         CHOICECOOKED = "Prepared Food",
         CHOICEAMTDAY = "Amount of Day",
         CHOICEMISC = "World",
@@ -5829,33 +5700,32 @@ STRINGS.UI =
 
         USEPRESET = "Preset",
         CHAPTERS = {
-                "Chapter 1 of 5",
-                "Chapter 2 of 5",
-                "Chapter 3 of 5",
-                "Chapter 4 of 5",
-                "Chapter 5 of 5",
-                "Epilogue",
+            "Chapter 1 of 5",
+            "Chapter 2 of 5",
+            "Chapter 3 of 5",
+            "Chapter 4 of 5",
+            "Chapter 5 of 5",
+            "Epilogue",
         },
         ADVENTURELEVELS = {
-                "A Cold Reception",
-                "The King of Winter",
-                "The Game is Afoot",
-                "Archipelago",
-                "Two Worlds",
-                "Darkness",
+            "A Cold Reception",
+            "The King of Winter",
+            "The Game is Afoot",
+            "Archipelago",
+            "Two Worlds",
+            "Darkness",
 
-                "Checkmate",
-                },
+            "Checkmate",
+        },
         NONE = "None",
         NONEAVAILABLE = "None Available",
         MODIFYTASKS = "Modify Tasks",
 
-        YES ="Yes",
+        YES = "Yes",
         NO = "No",
     },
 
-    SAVELOAD =
-    {
+    SAVELOAD = {
         SAVE_FAILED = "An error occurred while saving your data.",
         LOAD_FAILED = "An error occurred while loading your data.",
         DELETE_FAILED = "An error occurred while deleting your data.",
@@ -5880,8 +5750,7 @@ STRINGS.UI =
 }
 
 --these are broken out into their own files for ease of editing
-STRINGS.CHARACTERS =
-{
+STRINGS.CHARACTERS = {
     GENERIC = require "speech_wilson",
     WAXWELL = require "speech_maxwell",
     WOLFGANG = require "speech_wolfgang",
@@ -5898,8 +5767,8 @@ STRINGS.CHARACTERS =
     WARLY = require "speech_warly",
     WILBUR = require "speech_wilbur",
     WOODLEGS = require "speech_woodlegs",
-    
-    WARBUCKS = require "speech_warbucks",    
+
+    WARBUCKS = require "speech_warbucks",
     WILBA = require "speech_wilba",
 
     WORMWOOD = require "speech_wormwood",
@@ -5907,10 +5776,8 @@ STRINGS.CHARACTERS =
     WHEELER = require "speech_wheeler",
 }
 
-STRINGS.LUCY =
-{
-    equipped=
-    {
+STRINGS.LUCY = {
+    equipped = {
         "Let's chop some trees!",
         "Nice day for a walk!",
         "We make a good team!",
@@ -5926,8 +5793,7 @@ STRINGS.LUCY =
         "Hey! Chop some trees!",
     },
 
-    on_ground =
-    {
+    on_ground = {
         "Come back! Take we with you!",
         "Where did you go?",
         "Take me with you!",
@@ -5944,8 +5810,7 @@ STRINGS.LUCY =
         "What if I get stolen?!",
     },
 
-    in_container =
-    {
+    in_container = {
         "It's dark in here!",
         "I'm scared!",
         "Help! Get me out!",
@@ -5961,8 +5826,7 @@ STRINGS.LUCY =
         "What did I ever do to you?",
     },
 
-    other_owner =
-    {
+    other_owner = {
         "You're not Woodie!",
         "Put me down!",
         "Hey! Fresh!",
@@ -5982,8 +5846,7 @@ STRINGS.LUCY =
         "I don't know you.",
     },
 
-    on_pickedup=
-    {
+    on_pickedup = {
         "You came back!",
         "I missed you so much!",
         "Did you miss me?",
@@ -5997,8 +5860,7 @@ STRINGS.LUCY =
         "From now on we'll be inseparable.",
     },
 
-    on_dropped=
-    {
+    on_dropped = {
         "You'll come back, right?",
         "What did I say?",
         "Oh, that's low.",
@@ -6018,8 +5880,7 @@ STRINGS.LUCY =
         "Ouch!",
     },
 
-    on_chopped=
-    {
+    on_chopped = {
         "Woooooo!",
         "Yeah!",
         "Stupid tree!",
@@ -6041,29 +5902,25 @@ STRINGS.LUCY =
         "Nice swing!",
         "Too easy!",
     },
-    beaver_up_early=
-    {
+    beaver_up_early = {
         "Are you okay?",
         "You look distracted, Woodie.",
         "It's just a tree! Calm down!",
     },
-    beaver_up_mid=
-    {
+    beaver_up_mid = {
         "Woodie? Can you hear me?",
         "You might want to slow down a bit.",
         "Careful, you're getting yourself worked up!",
         "Don't chop too fast. You know what will happen!",
     },
-    beaver_up_late=
-    {
+    beaver_up_late = {
         "Woodie! Be careful!",
         "It's starting!",
         "You're not looking so good!",
         "Your teeth are growing!",
         "Watch out! You're going to turn!",
     },
-    beaver_down_washigh=
-    {
+    beaver_down_washigh = {
         "That was a close one!",
         "I think we'll be alright.",
         "You're looking much better now.",
@@ -6071,8 +5928,7 @@ STRINGS.LUCY =
         "It's back in the lodge. Phew!",
     },
 
-    transform_beaver=
-    {
+    transform_beaver = {
         "Oh no!",
         "You have to fight it!",
         "No! Fight it!",
@@ -6084,8 +5940,7 @@ STRINGS.LUCY =
         "I warned you!",
         "Woodie!",
     },
-    transform_woodie=
-    {
+    transform_woodie = {
         "You're back!",
         "Quick! Pick me up!",
         "Are you okay?",
@@ -6104,78 +5959,64 @@ STRINGS.LUCY =
 
 }
 
-STRINGS.RAWLING =
-{
-    in_inventory =
-    {
+STRINGS.RAWLING = {
+    in_inventory = {
         "Let's cut the bottom out of the basket.",
     },
 
-    equipped =
-    {
+    equipped = {
         "You can carry me. For a couple of steps.",
         "Is this some kind of Canadian joke?",
         "Feel \"free\" to throw me.",
     },
 
-    on_thrown =
-    {
+    on_thrown = {
         "To the peach basket!",
         "Shoot!",
         "You miss 100% of the shots you don't take!",
         "I believe I can fly!",
     },
 
-    on_ground =
-    {
+    on_ground = {
         "I could use a little pick me up.",
     },
 
-    in_container =
-    {
+    in_container = {
         "This isn't a peach basket...",
     },
 
-    on_pickedup=
-    {
+    on_pickedup = {
         "Is that you, James?",
         "You're MY MVP!",
     },
 
-    on_dropped=
-    {
+    on_dropped = {
         "Dribble me!",
     },
 
-    on_ignite =
-    {
+    on_ignite = {
         "I'm on fire!",
         "Ow ow ow ow ow!",
     },
 
-    on_extinguish =
-    {
+    on_extinguish = {
         "Saved!",
     },
 
-    on_bounced =
-    {
+    on_bounced = {
         "Ouch!",
         "Nothin' but peaches!",
         "Splish!",
         "Rejected!",
     },
-    
-    on_hit_water =
-    {
+
+    on_hit_water = {
         "Swish!",
     },
 }
 
-STRINGS.TALKINGBIRD =
-{
-    in_inventory =
-    {
+STRINGS.TALKINGBIRD = {
+    in_inventory = {
         "Adventure!",
         "You stink!",
         "SQUAAAWK!",
@@ -6187,8 +6028,7 @@ STRINGS.TALKINGBIRD =
         "Cracker!",
     },
 
-    in_container =
-    {
+    in_container = {
         "Don't bury me!",
         "Out, out!",
         "Sunk!",
@@ -6196,16 +6036,14 @@ STRINGS.TALKINGBIRD =
         "Too dark!",
     },
 
-    on_ground =
-    {
+    on_ground = {
         "Nice one!",
         "Chump!",
         "Big head!",
         "You stink!",
     },
 
-    on_pickedup =
-    {
+    on_pickedup = {
         "Chump!",
         "Hello!",
         "Feed me!",
@@ -6213,30 +6051,26 @@ STRINGS.TALKINGBIRD =
         "Ouch!",
     },
 
-    on_dropped =
-    {
+    on_dropped = {
         "Chump!",
         "Bye now!",
         "See ya chump!",
         "Goodbye!",
     },
 
-    on_mounted =
-    {
+    on_mounted = {
         "Onward!",
         "Uh-oh!",
         "Are you sure about this?",
     },
 
-    on_dismounted =
-    {
+    on_dismounted = {
         "Land!",
         "Solid ground!",
         "We made it!",
     },
 
-    other_owner =
-    {
+    other_owner = {
         "Help!",
         "Ack!",
         "Scurvy!",

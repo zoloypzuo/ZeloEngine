@@ -56,13 +56,12 @@ function Harvestable:OnLoad(data)
     end
 end
 
-
 function Harvestable:GetDebugString()
-    local str = string.format("%d "..self.product.." grown", self.produce)
+    local str = string.format("%d " .. self.product .. " grown", self.produce)
     if self.targettime then
-        str = str.." ("..tostring(self.targettime - GetTime())..")"
+        str = str .. " (" .. tostring(self.targettime - GetTime()) .. ")"
     end
-	return str
+    return str
 end
 
 function Harvestable:Grow()
@@ -83,30 +82,32 @@ function Harvestable:StartGrowing(time)
     self:StopGrowing()
     local growtime = time or self.growtime
     if growtime then
-		self.task = self.inst:DoTaskInTime(growtime, function() self:Grow() end, "grow")
-		self.targettime = GetTime() + growtime
-	end
+        self.task = self.inst:DoTaskInTime(growtime, function()
+            self:Grow()
+        end, "grow")
+        self.targettime = GetTime() + growtime
+    end
 end
 
 function Harvestable:StopGrowing()
     if self.task then
-		self.task:Cancel()
-		self.task = nil
-		self.targettime = nil
-	end
+        self.task:Cancel()
+        self.task = nil
+        self.targettime = nil
+    end
 end
 
 function Harvestable:Harvest(picker)
     if self:CanBeHarvested() then
         local produce = self.produce
         self.produce = 0
-        
+
         if self.onharvestfn then
             self.onharvestfn(self.inst, picker, produce)
         end
-        
+
         if picker.components.inventory and self.product then
-	        picker:PushEvent("harvestsomething", {object = self.inst})
+            picker:PushEvent("harvestsomething", { object = self.inst })
             for i = 1, produce, 1 do
                 local loot = SpawnPrefab(self.product)
                 if loot then
@@ -118,7 +119,6 @@ function Harvestable:Harvest(picker)
         return true
     end
 end
-
 
 function Harvestable:CollectSceneActions(doer, actions)
     if self:CanBeHarvested() then

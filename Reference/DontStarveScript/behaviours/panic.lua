@@ -17,6 +17,6 @@ function Panic:Visit()
 end
 
 function Panic:PickNewDirection()
-    self.inst.components.locomotor:RunInDirection(math.random()*360)
-    self.waittime = GetTime() + 0.25 + math.random()*0.25
+    self.inst.components.locomotor:RunInDirection(math.random() * 360)
+    self.waittime = GetTime() + 0.25 + math.random() * 0.25
 end

@@ -41,36 +41,34 @@ function Catcher:ReadyToCatch()
 end
 
 function Catcher:CollectSceneActions(doer, actions)
-	if self:CanCatch() then
-		table.insert(actions, ACTIONS.CATCH)
-	end
+    if self:CanCatch() then
+        table.insert(actions, ACTIONS.CATCH)
+    end
 end
-
 
 function Catcher:OnUpdate()
     if not self.inst:IsValid() then
         return
     end
-    
+
     local canact = false
-    for k,v in pairs(self.watchlist) do
+    for k, v in pairs(self.watchlist) do
         if k and k:IsValid() and k.components.projectile and k.components.projectile:IsThrown() then
             local distsq = k:GetDistanceSqToInst(self.inst)
-            if distsq <= self.catchdistance*self.catchdistance then
+            if distsq <= self.catchdistance * self.catchdistance then
                 if self:ReadyToCatch() then
-                    self.inst:PushEvent("catch", {projectile = k})
-                    k:PushEvent("caught", {catcher = self.inst})
+                    self.inst:PushEvent("catch", { projectile = k })
+                    k:PushEvent("caught", { catcher = self.inst })
                     k.components.projectile:Catch(self.inst)
                     self:StopWatching(k)
                 end
             end
-            canact = canact or distsq < self.actiondistance*self.actiondistance
+            canact = canact or distsq < self.actiondistance * self.actiondistance
         else
             self:StopWatching(k)
         end
     end
     self.canact = canact
 end
-
 
 return Catcher

@@ -10,9 +10,9 @@ local DLCUpgrade = Class(Widget, function(self, owner)
         self.button = self:AddChild(ImageButton("images/upgradepanels.xml", "DLC_all_promo_button.tex", "DLC_all_promo_button_rollover.tex"))
     else
         if APP_REGION == "SCEE" then
-           self.button = self:AddChild(ImageButton("images/fepanels_ps4.xml", "DLC_all_promo_PS4_button2.tex", "DLC_all_promo_PS4_button2.tex"))
+            self.button = self:AddChild(ImageButton("images/fepanels_ps4.xml", "DLC_all_promo_PS4_button2.tex", "DLC_all_promo_PS4_button2.tex"))
         else
-           self.button = self:AddChild(ImageButton("images/fepanels_ps4.xml", "DLC_all_promo_PS4_button.tex", "DLC_all_promo_PS4_button.tex"))
+            self.button = self:AddChild(ImageButton("images/fepanels_ps4.xml", "DLC_all_promo_PS4_button.tex", "DLC_all_promo_PS4_button.tex"))
         end
     end
 

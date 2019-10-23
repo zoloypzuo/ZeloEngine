@@ -12,11 +12,18 @@ local Sleeper = Class(function(self, inst)
     self.wearofftime = 10
     self.hibernate = false
     self.nocturnal = false
-    
-    self.inst:ListenForEvent("onignite", function(inst, data) self:WakeUp() end)
-    self.inst:ListenForEvent("attacked", function(inst, data) self:WakeUp() end)
+
+    self.inst:ListenForEvent("onignite", function(inst, data)
+        self:WakeUp()
+    end)
+    self.inst:ListenForEvent("attacked", function(inst, data)
+        self:WakeUp()
+    end)
     self.inst:ListenForEvent("newcombattarget", function(inst, data)
-        if data.target then self:StartTesting() end end)
+        if data.target then
+            self:StartTesting()
+        end
+    end)
 end)
 
 function Sleeper:SetDefaultTests()
@@ -27,60 +34,57 @@ end
 function Sleeper:StopTesting()
     if self.testtask then
         self.testtask:Cancel()
-    end    
+    end
     self.testtask = nil
 end
 
-
 function DefaultSleepTest(inst)
 
-	local near_home_dist = 40
-	local has_home_near = inst.components.homeseeker and 
-					 inst.components.homeseeker.home and 
-					 inst.components.homeseeker.home:IsValid() and
-					 inst:GetDistanceSqToInst(inst.components.homeseeker.home) < near_home_dist*near_home_dist
-
+    local near_home_dist = 40
+    local has_home_near = inst.components.homeseeker and
+            inst.components.homeseeker.home and
+            inst.components.homeseeker.home:IsValid() and
+            inst:GetDistanceSqToInst(inst.components.homeseeker.home) < near_home_dist * near_home_dist
 
     if not inst.components.sleeper.nocturnal then
         return GetClock():IsNight()
-        and not (inst.components.combat and inst.components.combat.target)
-        and not (inst.components.burnable and inst.components.burnable:IsBurning() )
-       and not (inst.components.freezable and inst.components.freezable:IsFrozen() )
-       and not (inst.components.teamattacker and inst.components.teamattacker.inteam)
-       and not has_home_near
-   else
+                and not (inst.components.combat and inst.components.combat.target)
+                and not (inst.components.burnable and inst.components.burnable:IsBurning())
+                and not (inst.components.freezable and inst.components.freezable:IsFrozen())
+                and not (inst.components.teamattacker and inst.components.teamattacker.inteam)
+                and not has_home_near
+    else
         return GetClock():IsDay()
-        and not (inst.components.combat and inst.components.combat.target)
-        and not (inst.components.burnable and inst.components.burnable:IsBurning() )
-       and not (inst.components.freezable and inst.components.freezable:IsFrozen() )
-       and not (inst.components.teamattacker and inst.components.teamattacker.inteam)
-       and not has_home_near
-   end
+                and not (inst.components.combat and inst.components.combat.target)
+                and not (inst.components.burnable and inst.components.burnable:IsBurning())
+                and not (inst.components.freezable and inst.components.freezable:IsFrozen())
+                and not (inst.components.teamattacker and inst.components.teamattacker.inteam)
+                and not has_home_near
+    end
 end
 
 function DefaultWakeTest(inst)
     if not inst.components.sleeper.nocturnal then
         return GetClock():IsDay()
-        or (inst.components.combat and inst.components.combat.target)
-        or (inst.components.burnable and inst.components.burnable:IsBurning() )
-        or (inst.components.freezable and inst.components.freezable:IsFrozen() )
-        or (inst.components.teamattacker and inst.components.teamattacker.inteam)
-        or (inst.components.health and inst.components.health.takingfiredamage)
+                or (inst.components.combat and inst.components.combat.target)
+                or (inst.components.burnable and inst.components.burnable:IsBurning())
+                or (inst.components.freezable and inst.components.freezable:IsFrozen())
+                or (inst.components.teamattacker and inst.components.teamattacker.inteam)
+                or (inst.components.health and inst.components.health.takingfiredamage)
     else
         return GetClock():IsDusk() or GetClock():IsNight()
-        or (inst.components.combat and inst.components.combat.target)
-        or (inst.components.burnable and inst.components.burnable:IsBurning() )
-        or (inst.components.freezable and inst.components.freezable:IsFrozen() )
-        or (inst.components.teamattacker and inst.components.teamattacker.inteam)
-        or (inst.components.health and inst.components.health.takingfiredamage)
-        
+                or (inst.components.combat and inst.components.combat.target)
+                or (inst.components.burnable and inst.components.burnable:IsBurning())
+                or (inst.components.freezable and inst.components.freezable:IsFrozen())
+                or (inst.components.teamattacker and inst.components.teamattacker.inteam)
+                or (inst.components.health and inst.components.health.takingfiredamage)
+
     end
 end
 
 function Sleeper:SetNocturnal(b)
     self.nocturnal = b or true
 end
-
 
 local function ShouldSleep(inst)
     local sleeper = inst.components.sleeper
@@ -93,7 +97,7 @@ local function ShouldSleep(inst)
 end
 
 local function ShouldWakeUp(inst)
-    local sleeper = inst.components.sleeper    
+    local sleeper = inst.components.sleeper
     if sleeper and sleeper.hibernate then
         sleeper:StopTesting()
         return
@@ -135,18 +139,16 @@ function Sleeper:SetSleepTest(fn)
 end
 
 function Sleeper:OnEntitySleep()
-	self:StopTesting()
+    self:StopTesting()
 end
 
 function Sleeper:OnEntityWake()
-	self:StartTesting()
+    self:StartTesting()
 end
 
 function Sleeper:SetResistance(resist)
     self.resistance = resist
 end
-
-
 
 function Sleeper:StartTesting(time)
     if self.isasleep then
@@ -156,10 +158,10 @@ function Sleeper:StartTesting(time)
     end
 end
 
-function Sleeper:IsAsleep( )
+function Sleeper:IsAsleep()
     return self.isasleep
 end
-function Sleeper:IsHibernating( )
+function Sleeper:IsHibernating()
     return self.hibernate
 end
 
@@ -198,7 +200,9 @@ function Sleeper:AddSleepiness(sleepiness, sleeptime)
     if self.sleepiness > self.resistance or self.isasleep then
         self:GoToSleep(sleeptime)
     elseif self.sleepiness == self.resistance then
-        self.inst:DoTaskInTime(self.resistance, function() self:GoToSleep(sleeptime) end )
+        self.inst:DoTaskInTime(self.resistance, function()
+            self:GoToSleep(sleeptime)
+        end)
     else
         if not self.wearofftask then
             self.wearofftask = self.inst:DoPeriodicTask(self.wearofftime, WearOff)
@@ -215,15 +219,15 @@ function Sleeper:GoToSleep(sleeptime)
             self.wearofftask:Cancel()
             self.wearofftask = nil
         end
-            
+
         if self.inst.brain then
             self.inst.brain:Stop()
         end
-        
+
         if self.inst.components.combat then
             self.inst.components.combat:SetTarget(nil)
         end
-        
+
         if self.inst.components.locomotor then
             self.inst.components.locomotor:Stop()
         end
@@ -231,7 +235,7 @@ function Sleeper:GoToSleep(sleeptime)
         if not wasasleep then
             self.inst:PushEvent("gotosleep")
         end
-        
+
         self:SetWakeTest(self.waketestfn, sleeptime)
     end
 end
@@ -240,14 +244,14 @@ function Sleeper:SetTest(fn, time)
     if self.testtask then
         self.testtask:Cancel()
     end
-    
+
     self.testtask = nil
-        
+
     if fn and self.inst:IsValid() then
-        self.testtime = math.max(0, self.testperiod + (math.random()-0.5) )    --some randomness on testing times
+        self.testtime = math.max(0, self.testperiod + (math.random() - 0.5))    --some randomness on testing times
         self.testtask = self.inst:DoPeriodicTask(self.testtime, fn, time)
     end
-        
+
 end
 
 function Sleeper:WakeUp()
@@ -257,18 +261,17 @@ function Sleeper:WakeUp()
         self.lasttransitiontime = GetTime()
         self.isasleep = false
         self.sleepiness = 0
-        
+
         if self.inst.brain then
             self.inst.brain:Start()
         end
-        
+
         self.inst:PushEvent("onwakeup")
         self:SetSleepTest(self.sleeptestfn)
 
     end
-    
 
-end    
 
+end
 
 return Sleeper

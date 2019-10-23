@@ -43,34 +43,35 @@ local LOITER_ANCHOR_HERD_DIST = 40
 
 local function GetFaceTargetFn(inst)
     if not (inst.components.domesticatable ~= nil and inst.components.domesticatable:IsDomesticated()) and
-        not BrainCommon.ShouldSeekSalt(inst) then
-        local target = GetClosestInstWithTag("player",inst, START_FACE_DIST, true)
+            not BrainCommon.ShouldSeekSalt(inst) then
+        local target = GetClosestInstWithTag("player", inst, START_FACE_DIST, true)
         return target ~= nil and not target:HasTag("notarget") and target or nil
     end
 end
 
 local function KeepFaceTargetFn(inst, target)
     return inst ~= nil
-        and target ~= nil
-        and inst:IsValid()
-        and target:IsValid()
-        and not (target:HasTag("notarget") or
-                target:HasTag("playerghost"))
-        and inst:IsNear(target, KEEP_FACE_DIST)
-        and not BrainCommon.ShouldSeekSalt(inst
-)end
+            and target ~= nil
+            and inst:IsValid()
+            and target:IsValid()
+            and not (target:HasTag("notarget") or
+            target:HasTag("playerghost"))
+            and inst:IsNear(target, KEEP_FACE_DIST)
+            and not BrainCommon.ShouldSeekSalt(inst
+    )
+end
 
 local function GetWanderDistFn(inst)
-    
+
     return GetClock():IsDay() and WANDER_DIST_DAY or WANDER_DIST_NIGHT
 end
 
 local function GetLoiterTarget(inst)
-    return GetClosestInstWithTag("player",inst, LOITER_SEARCH_RADIUS, true)
+    return GetClosestInstWithTag("player", inst, LOITER_SEARCH_RADIUS, true)
 end
 
 local function GetGreetTarget(inst)
-    return GetClosestInstWithTag("player",inst, GREET_SEARCH_RADIUS, true)
+    return GetClosestInstWithTag("player", inst, GREET_SEARCH_RADIUS, true)
 end
 
 local function GetGreetTargetPosition(inst)
@@ -82,10 +83,10 @@ local function GetLoiterAnchor(inst)
     if inst.components.knownlocations:GetLocation("loiteranchor") == nil then
         inst.components.knownlocations:RememberLocation("loiteranchor", inst:GetPosition())
 
-    elseif inst.components.knownlocations:GetLocation("herd") ~= nil and inst:GetDistanceSqToPoint(inst.components.knownlocations:GetLocation("herd")) < LOITER_ANCHOR_HERD_DIST*LOITER_ANCHOR_HERD_DIST then
+    elseif inst.components.knownlocations:GetLocation("herd") ~= nil and inst:GetDistanceSqToPoint(inst.components.knownlocations:GetLocation("herd")) < LOITER_ANCHOR_HERD_DIST * LOITER_ANCHOR_HERD_DIST then
         inst.components.knownlocations:RememberLocation("loiteranchor", inst.components.knownlocations:GetLocation("herd"))
 
-    elseif inst:GetDistanceSqToPoint(inst.components.knownlocations:GetLocation("loiteranchor")) > LOITER_ANCHOR_RESET_DIST*LOITER_ANCHOR_RESET_DIST then
+    elseif inst:GetDistanceSqToPoint(inst.components.knownlocations:GetLocation("loiteranchor")) > LOITER_ANCHOR_RESET_DIST * LOITER_ANCHOR_RESET_DIST then
         inst.components.knownlocations:RememberLocation("loiteranchor", inst:GetPosition())
     end
 
@@ -95,7 +96,7 @@ end
 local function TryBeginLoiterState(inst)
     local herd = inst.components.herdmember and inst.components.herdmember:GetHerd()
     if (herd and herd.components.mood and herd.components.mood:IsInMood())
-        or (inst.components.mood and inst.components.mood:IsInMood()) then
+            or (inst.components.mood and inst.components.mood:IsInMood()) then
         return false
     end
 
@@ -109,13 +110,13 @@ end
 local function TryBeginGreetingState(inst)
     local herd = inst.components.herdmember and inst.components.herdmember:GetHerd()
     if (herd and herd.components.mood and herd.components.mood:IsInMood())
-        or (inst.components.mood and inst.components.mood:IsInMood()) then
+            or (inst.components.mood and inst.components.mood:IsInMood()) then
         return false
     end
 
     if inst.components.domesticatable ~= nil
-        and inst.components.domesticatable:GetDomestication() > 0.0
-        and GetGreetTarget(inst) ~= nil then
+            and inst.components.domesticatable:GetDomestication() > 0.0
+            and GetGreetTarget(inst) ~= nil then
 
         inst._startgreettime = GetTime()
         return true
@@ -143,41 +144,63 @@ end)
 
 function BeefaloBrain:OnStart()
     local root = PriorityNode(
-    {
-        WhileNode( function() return self.inst.components.health.takingfiredamage end, "OnFire", Panic(self.inst)),
-		IfNode( function() return self.inst.components.combat.target ~= nil end, "hastarget", AttackWall(self.inst)),
-        ChaseAndAttack(self.inst, MAX_CHASE_TIME),
-        Follow(self.inst, function() return self.inst.components.follower and self.inst.components.follower.leader end, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST, false),
-        FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
+            {
+                WhileNode(function()
+                    return self.inst.components.health.takingfiredamage
+                end, "OnFire", Panic(self.inst)),
+                IfNode(function()
+                    return self.inst.components.combat.target ~= nil
+                end, "hastarget", AttackWall(self.inst)),
+                ChaseAndAttack(self.inst, MAX_CHASE_TIME),
+                Follow(self.inst, function()
+                    return self.inst.components.follower and self.inst.components.follower.leader
+                end, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST, false),
+                FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
 
-        -- hanging around herd
-        ConditionNode(function() return InState(self.inst, WANDERING) and TryBeginGreetingState(self.inst) end, "Wandering"),
+                -- hanging around herd
+                ConditionNode(function()
+                    return InState(self.inst, WANDERING) and TryBeginGreetingState(self.inst)
+                end, "Wandering"),
 
-        -- wants to greet feeder
-        WhileNode(function() return InState(self.inst, GREETING) end, "Greeting", PriorityNode{
-            Follow(self.inst, GetGreetTarget, MIN_GREET_DIST, TARGET_GREET_DIST, MAX_GREET_DIST, true),
-            ActionNode(function() TryBeginLoiterState(self.inst) end, "Finish greeting")
-        }),
+                -- wants to greet feeder
+                WhileNode(function()
+                    return InState(self.inst, GREETING)
+                end, "Greeting", PriorityNode {
+                    Follow(self.inst, GetGreetTarget, MIN_GREET_DIST, TARGET_GREET_DIST, MAX_GREET_DIST, true),
+                    ActionNode(function()
+                        TryBeginLoiterState(self.inst)
+                    end, "Finish greeting")
+                }),
 
-        -- anchor to nearest saltlick
-        BrainCommon.AnchorToSaltlick(self.inst),
+                -- anchor to nearest saltlick
+                BrainCommon.AnchorToSaltlick(self.inst),
 
-        -- waiting for feeder
-        WhileNode(function() return InState(self.inst, LOITERING) end, "Loitering", PriorityNode{
-            WhileNode(function() return GetLoiterTarget(self.inst) ~= nil end, "Anyone nearby?", PriorityNode{
-             --   FailIfSuccessDecorator(ActionNode(function() TryBeginLoiterState(self.inst) end, "Reset Loiter Time")),            
-                Follow(self.inst, GetGreetTarget, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST, false),
-                Wander(self.inst, function() return GetGreetTargetPosition(self.inst) end, TARGET_LOITER_DIST)
-            }),
-            Wander(self.inst, function() return GetLoiterAnchor(self.inst) end, GetWanderDistFn),
-        }),
+                -- waiting for feeder
+                WhileNode(function()
+                    return InState(self.inst, LOITERING)
+                end, "Loitering", PriorityNode {
+                    WhileNode(function()
+                        return GetLoiterTarget(self.inst) ~= nil
+                    end, "Anyone nearby?", PriorityNode {
+                        --   FailIfSuccessDecorator(ActionNode(function() TryBeginLoiterState(self.inst) end, "Reset Loiter Time")),
+                        Follow(self.inst, GetGreetTarget, MIN_FOLLOW_DIST, TARGET_FOLLOW_DIST, MAX_FOLLOW_DIST, false),
+                        Wander(self.inst, function()
+                            return GetGreetTargetPosition(self.inst)
+                        end, TARGET_LOITER_DIST)
+                    }),
+                    Wander(self.inst, function()
+                        return GetLoiterAnchor(self.inst)
+                    end, GetWanderDistFn),
+                }),
 
 
-        Wander(self.inst, function() return self.inst.components.knownlocations:GetLocation("herd") end, GetWanderDistFn)
-    }, .25)
-    
+                Wander(self.inst, function()
+                    return self.inst.components.knownlocations:GetLocation("herd")
+                end, GetWanderDistFn)
+            }, .25)
+
     self.bt = BT(self.inst, root)
-    
+
 end
 
 return BeefaloBrain

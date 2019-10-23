@@ -16,18 +16,20 @@ local SEE_DIST = 30
 
 local MIN_FOLLOW_LEADER = 2
 local MAX_FOLLOW_LEADER = 6
-local TARGET_FOLLOW_LEADER = (MAX_FOLLOW_LEADER+MIN_FOLLOW_LEADER)/2
+local TARGET_FOLLOW_LEADER = (MAX_FOLLOW_LEADER + MIN_FOLLOW_LEADER) / 2
 
 local LEASH_RETURN_DIST = 10
 local LEASH_MAX_DIST = 40
 
 local HOUSE_MAX_DIST = 40
-local HOUSE_RETURN_DIST = 50 
+local HOUSE_RETURN_DIST = 50
 
 local SIT_BOY_DIST = 10
 
 local function EatFoodAction(inst)
-    local target = FindEntity(inst, SEE_DIST, function(item) return inst.components.eater:CanEat(item) and item:IsOnValidGround() end)
+    local target = FindEntity(inst, SEE_DIST, function(item)
+        return inst.components.eater:CanEat(item) and item:IsOnValidGround()
+    end)
     if target then
         return BufferedAction(inst, target, ACTIONS.EAT)
     end
@@ -58,7 +60,7 @@ local function GetWanderPoint(inst)
 
     if target then
         return target:GetPosition()
-    end 
+    end
 end
 
 local function ShouldStandStill(inst)
@@ -66,30 +68,42 @@ local function ShouldStandStill(inst)
 end
 
 function HoundBrain:OnStart()
-    
+
     local root = PriorityNode(
-    {
-        WhileNode(function() return self.inst.components.health.takingfiredamage end, "OnFire", Panic(self.inst) ),
-        WhileNode(function() return not GetLeader(self.inst) end, "NoLeader", AttackWall(self.inst) ),
+            {
+                WhileNode(function()
+                    return self.inst.components.health.takingfiredamage
+                end, "OnFire", Panic(self.inst)),
+                WhileNode(function()
+                    return not GetLeader(self.inst)
+                end, "NoLeader", AttackWall(self.inst)),
 
-        WhileNode(function() return self.inst:HasTag("pet_hound") end, "Is Pet", ChaseAndAttack(self.inst, 10)),
-        WhileNode(function() return not self.inst:HasTag("pet_hound") and GetHome(self.inst) end, "No Pet Has Home", ChaseAndAttack(self.inst, 10, 20)),
-        WhileNode(function() return not self.inst:HasTag("pet_hound") and not GetHome(self.inst) end, "Not Pet", ChaseAndAttack(self.inst, 100)),
-        
-        Leash(self.inst, GetNoLeaderLeashPos, HOUSE_MAX_DIST, HOUSE_RETURN_DIST),
+                WhileNode(function()
+                    return self.inst:HasTag("pet_hound")
+                end, "Is Pet", ChaseAndAttack(self.inst, 10)),
+                WhileNode(function()
+                    return not self.inst:HasTag("pet_hound") and GetHome(self.inst)
+                end, "No Pet Has Home", ChaseAndAttack(self.inst, 10, 20)),
+                WhileNode(function()
+                    return not self.inst:HasTag("pet_hound") and not GetHome(self.inst)
+                end, "Not Pet", ChaseAndAttack(self.inst, 100)),
 
-        DoAction(self.inst, EatFoodAction, "eat food", true ),
-        Follow(self.inst, GetLeader, MIN_FOLLOW_LEADER, TARGET_FOLLOW_LEADER, MAX_FOLLOW_LEADER),
-        FaceEntity(self.inst, GetLeader, GetLeader),
+                Leash(self.inst, GetNoLeaderLeashPos, HOUSE_MAX_DIST, HOUSE_RETURN_DIST),
 
-        StandStill(self.inst, ShouldStandStill),
+                DoAction(self.inst, EatFoodAction, "eat food", true),
+                Follow(self.inst, GetLeader, MIN_FOLLOW_LEADER, TARGET_FOLLOW_LEADER, MAX_FOLLOW_LEADER),
+                FaceEntity(self.inst, GetLeader, GetLeader),
 
-        WhileNode(function() return GetHome(self.inst) end, "HasHome", Wander(self.inst, GetHomePos, 8) ),
-        Wander(self.inst, GetWanderPoint, 20),
-    }, .25)
-    
+                StandStill(self.inst, ShouldStandStill),
+
+                WhileNode(function()
+                    return GetHome(self.inst)
+                end, "HasHome", Wander(self.inst, GetHomePos, 8)),
+                Wander(self.inst, GetWanderPoint, 20),
+            }, .25)
+
     self.bt = BT(self.inst, root)
-    
+
 end
 
 return HoundBrain

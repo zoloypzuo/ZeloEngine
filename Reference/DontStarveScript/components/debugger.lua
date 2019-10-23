@@ -4,8 +4,7 @@ local Debugger = Class(function(self, inst)
 
     self.z = 0.5
 
-    self.debuggerdraws = 
-    {
+    self.debuggerdraws = {
         -- key = 
         -- {   
         --     c = {r = 0, g = 1, b = 0, a = 1},
@@ -23,21 +22,21 @@ function Debugger:SetOrigin(key, x, y)
     if not self.debuggerdraws[key] then
         self.debuggerdraws[key] = {}
     end
-    self.debuggerdraws[key].p1 = {x = x, y = y}
+    self.debuggerdraws[key].p1 = { x = x, y = y }
 end
 
 function Debugger:SetTarget(key, x, y)
     if not self.debuggerdraws[key] then
         self.debuggerdraws[key] = {}
     end
-    self.debuggerdraws[key].p2 = {x = x, y = y}
+    self.debuggerdraws[key].p2 = { x = x, y = y }
 end
 
 function Debugger:SetColour(key, r, g, b, a)
     if not self.debuggerdraws[key] then
         self.debuggerdraws[key] = {}
     end
-    self.debuggerdraws[key].c = {r = r, g = g, b = b, a = a}
+    self.debuggerdraws[key].c = { r = r, g = g, b = b, a = a }
 end
 
 function Debugger:SetAll(key, origin, tar, colour)
@@ -68,11 +67,11 @@ end
 
 function Debugger:OnUpdate()
     self.debugger:Flush()
-    for k,v in pairs(self.debuggerdraws) do   
+    for k, v in pairs(self.debuggerdraws) do
 
-        local colour = v.c or {r = 0, g = 1, b = 0, a = 1}
-        local p1 = v.p1 or {x = 0, y = 0}
-        local p2 = v.p2 or {x = 100, y = 100}
+        local colour = v.c or { r = 0, g = 1, b = 0, a = 1 }
+        local p1 = v.p1 or { x = 0, y = 0 }
+        local p2 = v.p2 or { x = 100, y = 100 }
         if p1 ~= nil and p2 ~= nil then
             self.debugger:Line(p1.x, p1.y, p2.x, p2.y, colour.r, colour.g, colour.b, colour.a)
         end

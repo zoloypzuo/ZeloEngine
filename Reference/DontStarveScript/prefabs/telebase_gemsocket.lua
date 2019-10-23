@@ -1,5 +1,4 @@
-local assets = 
-{
+local assets = {
     Asset("ANIM", "anim/staff_purple_base.zip"),
 }
 
@@ -11,8 +10,8 @@ local function ItemTradeTest(inst, item)
 end
 
 local function OnGemGiven(inst, giver, item)
---Disable trading, enable picking.
-    
+    --Disable trading, enable picking.
+
     inst.SoundEmitter:PlaySound("dontstarve/common/telebase_hum", "hover_loop")
     inst.SoundEmitter:PlaySound("dontstarve/common/telebase_gemplace")
     inst.components.trader:Disable()
@@ -36,7 +35,7 @@ local function DestroyGem(inst)
 
     inst.components.trader:Enable()
     inst.components.pickable.caninteractwith = false
-    inst:DoTaskInTime(math.random() * 0.5, function() 
+    inst:DoTaskInTime(math.random() * 0.5, function()
         inst.SoundEmitter:KillSound("hover_loop")
         inst.AnimState:ClearBloomEffectHandle()
         inst.AnimState:PlayAnimation("shatter")
@@ -48,7 +47,7 @@ end
 
 local function OnLoad(inst, data)
     if not inst.components.pickable.caninteractwith then
-        OnGemTaken(inst)  
+        OnGemTaken(inst)
     else
         OnGemGiven(inst)
     end
@@ -70,7 +69,7 @@ local function fn()
     anim:SetBank("staff_purple_base")
     anim:SetBuild("staff_purple_base")
     anim:PlayAnimation("idle_empty")
-    
+
     inst:AddComponent("inspectable")
     inst.components.inspectable.getstatus = getstatus
 
@@ -87,8 +86,8 @@ local function fn()
     inst.OnLoad = OnLoad
 
     return inst
-end  
+end
 
-return Prefab( "forest/objects/telebase/gemsocket", fn, assets)
+return Prefab("forest/objects/telebase/gemsocket", fn, assets)
 
 

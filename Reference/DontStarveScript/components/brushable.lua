@@ -18,13 +18,13 @@ local Brushable = Class(function(self, inst)
 
     self:SetBrushable(self.brushable)
 end,
-nil,
-{
-    brushable = onbrushable
-})
+        nil,
+        {
+            brushable = onbrushable
+        })
 
 function Brushable:SetBrushable(brushable, reset)
-    self.brushable = brushable   
+    self.brushable = brushable
     if reset == true then
         self.lastbrushcycle = GetClock().numcycles
     end
@@ -36,7 +36,7 @@ end
 
 function Brushable:CalculateNumPrizes()
     local elapsed = GetClock().numcycles - self.lastbrushcycle
-    return elapsed <= 0 and 0 or math.min( math.floor(elapsed/self.cyclesperprize), self.max )
+    return elapsed <= 0 and 0 or math.min(math.floor(elapsed / self.cyclesperprize), self.max)
 end
 
 function Brushable:Brush(doer, brush)
@@ -45,7 +45,7 @@ function Brushable:Brush(doer, brush)
         numprizes = self:CalculateNumPrizes()
         self.lastbrushcycle = GetClock().numcycles
 
-        for i=1,numprizes do
+        for i = 1, numprizes do
             local prize = SpawnPrefab(self.prize)
             if doer.components.inventory then
                 doer.components.inventory:GiveItem(prize, nil, self.inst:GetPosition())
@@ -56,7 +56,7 @@ function Brushable:Brush(doer, brush)
     end
 
     -- no callback, I'm just using the event...
-    self.inst:PushEvent("brushed", {doer = doer, numprizes = numprizes})
+    self.inst:PushEvent("brushed", { doer = doer, numprizes = numprizes })
     if self.onbrushfn ~= nil then
         self.onbrushfn(self.inst, doer, numprizes)
     end

@@ -17,15 +17,14 @@ local ImageButton = Class(Button, function(self, atlas, normal, focus, disabled)
     self.image:MoveToBack()
 
     self.atlas = atlas
-	self.image_normal = normal
+    self.image_normal = normal
     self.image_focus = focus or normal
     self.image_disabled = disabled or normal
-    
+
     self.image:SetTexture(self.atlas, self.image_normal)
 end)
 
-
-function ImageButton:SetTextures(atlas, normal, focus, disabled )
+function ImageButton:SetTextures(atlas, normal, focus, disabled)
     local default_textures = false
     if not atlas then
         atlas = atlas or "images/frontend.xml"
@@ -34,13 +33,13 @@ function ImageButton:SetTextures(atlas, normal, focus, disabled )
         disabled = disabled or "button_long_disabled.tex"
         default_textures = true
     end
-    
+
     self.atlas = atlas
-	self.image_normal = normal
+    self.image_normal = normal
     self.image_focus = focus or normal
     self.image_disabled = disabled or normal
 
-	if self:IsEnabled() then
+    if self:IsEnabled() then
         if self.focus then
             self:OnGainFocus()
         else
@@ -52,46 +51,45 @@ function ImageButton:SetTextures(atlas, normal, focus, disabled )
 end
 
 function ImageButton:OnGainFocus()
-	ImageButton._base.OnGainFocus(self)
+    ImageButton._base.OnGainFocus(self)
     if self:IsEnabled() then
-    	self.image:SetTexture(self.atlas, self.image_focus)
-	end
+        self.image:SetTexture(self.atlas, self.image_focus)
+    end
 
     if self.image_focus == self.image_normal then
-        self.image:SetScale(1.2,1.2,1.2)
+        self.image:SetScale(1.2, 1.2, 1.2)
     end
 
 end
 
 function ImageButton:OnLoseFocus()
-	ImageButton._base.OnLoseFocus(self)
+    ImageButton._base.OnLoseFocus(self)
     if self:IsEnabled() then
-    	self.image:SetTexture(self.atlas, self.image_normal)
-	end
+        self.image:SetTexture(self.atlas, self.image_normal)
+    end
 
     if self.image_focus == self.image_normal then
-        self.image:SetScale(1,1,1)
+        self.image:SetScale(1, 1, 1)
     end
 end
 
-
 function ImageButton:Enable()
-	ImageButton._base.Enable(self)
+    ImageButton._base.Enable(self)
     self.image:SetTexture(self.atlas, self.focus and self.image_focus or self.image_normal)
 
     if self.image_focus == self.image_normal then
-        if self.focus then 
-            self.image:SetScale(1.2,1.2,1.2)
+        if self.focus then
+            self.image:SetScale(1.2, 1.2, 1.2)
         else
-            self.image:SetScale(1,1,1)
+            self.image:SetScale(1, 1, 1)
         end
     end
 
 end
 
 function ImageButton:Disable()
-	ImageButton._base.Disable(self)
-	self.image:SetTexture(self.atlas, self.image_disabled)
+    ImageButton._base.Disable(self)
+    self.image:SetTexture(self.atlas, self.image_disabled)
 end
 
 function ImageButton:GetSize()

@@ -16,17 +16,17 @@ local function GetFaceTargetFn(inst)
 end
 
 local function KeepFaceTargetFn(inst, target)
-    return inst:GetDistanceSqToInst(target) <= KEEP_FACE_DIST*KEEP_FACE_DIST and not target:HasTag("notarget")
+    return inst:GetDistanceSqToInst(target) <= KEEP_FACE_DIST * KEEP_FACE_DIST and not target:HasTag("notarget")
 end
 
 function EyeTurretBrain:OnStart()
     local root = PriorityNode(
-    {
-        StandAndAttack(self.inst),
-        FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
+            {
+                StandAndAttack(self.inst),
+                FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
 
-    }, .25)
-    
+            }, .25)
+
     self.bt = BT(self.inst, root)
 end
 

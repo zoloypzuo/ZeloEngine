@@ -1,11 +1,9 @@
-local assets =
-{
-	Asset("ANIM", "anim/book_maxwell.zip"),
+local assets = {
+    Asset("ANIM", "anim/book_maxwell.zip"),
 }
 
-local prefabs =
-{
-	"shadowwaxwell",
+local prefabs = {
+    "shadowwaxwell",
     "waxwell_book_fx"
 }
 
@@ -21,7 +19,7 @@ end
 local function onread(inst, reader)
 
     --Check sanity
-    if not canread(reader) then 
+    if not canread(reader) then
         if reader.components.talker then
             reader.components.talker:Say(GetString(reader.prefab, "ANNOUNCE_NOSANITY"))
             return true
@@ -56,22 +54,19 @@ local function onread(inst, reader)
     end
 end
 
-
-
 local function fn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
     local sound = inst.entity:AddSoundEmitter()
-    
+
     anim:SetBank("book_maxwell")
     anim:SetBuild("book_maxwell")
     anim:PlayAnimation("idle")
 
     MakeInventoryPhysics(inst)
-    
-    inst:AddComponent("inventoryitem")
 
+    inst:AddComponent("inventoryitem")
 
     inst:AddComponent("characterspecific")
     inst.components.characterspecific:SetOwner("waxwell")

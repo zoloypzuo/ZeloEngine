@@ -1,6 +1,5 @@
 chestfunctions = require("scenarios/chestfunctions")
-loot =
-{
+loot = {
     {
         item = "spoiled_food",
         count = 10
@@ -12,9 +11,9 @@ loot =
 }
 
 local function triggertrap(inst, scenariorunner)
-	--spawn poop cloud around area
+    --spawn poop cloud around area
     local perishamount = 0.5
-    local player = GetPlayer()    
+    local player = GetPlayer()
     local inv = player.components.inventory
     if inv then
 
@@ -52,18 +51,16 @@ local function triggertrap(inst, scenariorunner)
 end
 
 local function OnCreate(inst, scenariorunner)
-	chestfunctions.AddChestItems(inst, loot)
+    chestfunctions.AddChestItems(inst, loot)
 end
 
-
-local function OnLoad(inst, scenariorunner) 
+local function OnLoad(inst, scenariorunner)
     chestfunctions.InitializeChestTrap(inst, scenariorunner, triggertrap)
 end
 
 local function OnDestroy(inst)
     chestfunctions.OnDestroy(inst)
 end
-
 
 return
 {

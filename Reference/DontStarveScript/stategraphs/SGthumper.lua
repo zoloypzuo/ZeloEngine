@@ -4,65 +4,63 @@ local actionhandlers = {}
 
 local events = {}
 
-local states =
-{
+local states = {
 
-    State
-    {
+    State {
         name = "idle",
-        tags = {"idle"},
+        tags = { "idle" },
 
         onenter = function(inst)
             inst.AnimState:PlayAnimation("idle")
         end,
 
-        events =
-        {
-            EventHandler("animover", function(inst) inst.sg:GoToState("idle") end),
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end),
         }
     },
 
-    State
-    {
+    State {
         name = "raise",
-        tags = {"busy"},
+        tags = { "busy" },
 
         onenter = function(inst)
             inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/reset")
             inst.AnimState:PlayAnimation("reset")
         end,
 
-        timeline = {    
-            TimeEvent(2 * FRAMES, function(inst)                
+        timeline = {
+            TimeEvent(2 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/steam")
             end),
-            TimeEvent(6 * FRAMES, function(inst)                
+            TimeEvent(6 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/steam")
             end),
-            TimeEvent(17 * FRAMES, function(inst)                
+            TimeEvent(17 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/steam")
             end),
-            TimeEvent(28 * FRAMES, function(inst)                
+            TimeEvent(28 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/steam")
             end),
-            TimeEvent(34 * FRAMES, function(inst)                
+            TimeEvent(34 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/steam")
             end),
-            TimeEvent(51 * FRAMES, function(inst)    
+            TimeEvent(51 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/hit")
             end),
         },
 
-        events =
-        {
-            EventHandler("animover", function(inst) inst.sg:GoToState("smash") end),
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("smash")
+            end),
         }
     },
 
-    State
-    {
+    State {
         name = "smash",
-        tags = {"busy"},
+        tags = { "busy" },
 
         onenter = function(inst)
             inst.AnimState:PlayAnimation("smash")
@@ -72,41 +70,41 @@ local states =
             inst.components.machine:TurnOff()
         end,
 
-        timeline = {    
-            TimeEvent(7 * FRAMES, function(inst)                
+        timeline = {
+            TimeEvent(7 * FRAMES, function(inst)
                 inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/thump")
                 inst.components.groundpounder:GroundPound()
                 GetPlayer().components.playercontroller:ShakeCamera(inst, "FULL", 0.7, 0.02, 2, 40)
             end),
         },
 
-        events =
-        {
-            EventHandler("animover", function(inst) inst.sg:GoToState("idle") end),
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end),
         }
     },
 
-    State
-    {
+    State {
         name = "hit_low",
-        tags = {"idle"},
+        tags = { "idle" },
 
         onenter = function(inst)
             --Stop some loop sound            
             inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/hit")
             inst.AnimState:PlayAnimation("hit_low")
         end,
-        
-        events =
-        {
-            EventHandler("animover", function(inst) inst.sg:GoToState("idle") end),
-        }        
+
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end),
+        }
     },
 
-    State
-    {  
+    State {
         name = "place",
-        tags = {"busy"},
+        tags = { "busy" },
 
         onenter = function(inst, data)
             inst.SoundEmitter:PlaySound("dontstarve_wagstaff/characters/wagstaff/thumper/place")
@@ -117,19 +115,19 @@ local states =
 
         timeline = {},
 
-        events =
-        {
-            EventHandler("animover", function(inst) inst.sg:GoToState("idle") end)
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
+            end)
         },
     },
 
-    State
-    {  
+    State {
         name = "hit",
-        tags = {"busy"},
+        tags = { "busy" },
 
         onenter = function(inst, data)
-            if inst.on then 
+            if inst.on then
                 inst.AnimState:PlayAnimation("hit_on")
             else
                 inst.AnimState:PlayAnimation("hit_off")
@@ -139,10 +137,9 @@ local states =
 
         timeline = {},
 
-        events =
-        {
-            EventHandler("animover", function(inst) 
-               inst.sg:GoToState("idle")
+        events = {
+            EventHandler("animover", function(inst)
+                inst.sg:GoToState("idle")
             end)
         },
     },
