@@ -16,10 +16,10 @@ require "widgets/widgetutil"
 local CraftSlot = Class(Widget, function(self, atlas, bgim, owner)
     Widget._ctor(self, "Craftslot")
     self.owner = owner
-    
+
     self.atlas = atlas
     self.bgimage = self:AddChild(Image(atlas, bgim))
-    
+
     self.tile = self:AddChild(RecipeTile())
     self.fgimage = self:AddChild(Image("images/hud.xml", "craft_slot_locked.tex"))
     self.fgimage:Hide()
@@ -41,16 +41,17 @@ function CraftSlot:OnGainFocus()
     self:Open()
 end
 
-
 function CraftSlot:OnControl(control, down)
-    if CraftSlot._base.OnControl(self, control, down) then return true end
+    if CraftSlot._base.OnControl(self, control, down) then
+        return true
+    end
 
     if not down and control == CONTROL_ACCEPT then
         if self.owner and self.recipe then
-            if self.recipepopup and not self.recipepopup.focus then 
+            if self.recipepopup and not self.recipepopup.focus then
                 TheFrontEnd:GetSound():PlaySound("dontstarve/HUD/click_move")
-                if not DoRecipeClick(self.owner, self.recipe) then 
-                    self:Close() 
+                if not DoRecipeClick(self.owner, self.recipe) then
+                    self:Close()
                 end
                 return true
             end
@@ -58,32 +59,30 @@ function CraftSlot:OnControl(control, down)
     end
 end
 
-
 function CraftSlot:OnLoseFocus()
     CraftSlot._base.OnLoseFocus(self)
     self:Close()
 end
 
-
 function CraftSlot:Clear()
     self.recipename = nil
     self.recipe = nil
     self.canbuild = false
-    
+
     if self.tile then
         self.tile:Hide()
     end
-    
+
     self.fgimage:Hide()
     self.bgimage:SetTexture(self.atlas, "craft_slot.tex")
     --self:HideRecipe()
 end
 
 function CraftSlot:LockOpen()
-	self:Open()
-	self.locked = true
+    self:Open()
+    self.locked = true
     if self.recipepopup then
-	   self.recipepopup:SetPosition(-300, -300, 0)
+        self.recipepopup:SetPosition(-300, -300, 0)
     end
 end
 
@@ -115,29 +114,27 @@ function CraftSlot:HideRecipe()
     end
 end
 
-
 function CraftSlot:Refresh(recipename)
-	recipename = recipename or self.recipename
+    recipename = recipename or self.recipename
     local recipe = GetRecipe(recipename)
-    
-	
+
     local canbuild = self.owner.components.builder:CanBuild(recipename)
     local knows = self.owner.components.builder:KnowsRecipe(recipename)
     local buffered = self.owner.components.builder:IsBuildBuffered(recipename)
-    
+
     local do_pulse = self.recipename == recipename and not self.canbuild and canbuild
     self.recipename = recipename
     self.recipe = recipe
-    
+
     if self.recipe then
         self.canbuild = canbuild
 
         local image = self.recipe.image
         local imagename = string.gsub(image, ".tex", "")
-        
+
         if SaveGameIndex:IsModePorkland() and PORK_ICONS[imagename] ~= nil then
             image = PORK_ICONS[imagename] .. ".tex"
-        end   
+        end
 
         self.tile:SetVisual(self.recipe.atlas, image)
         self.tile:Show()
@@ -154,11 +151,11 @@ function CraftSlot:Refresh(recipename)
                 local right_level = CanPrototypeRecipe(self.recipe.level, self.owner.components.builder.accessible_tech_trees)-- self.owner.components.builder.current_tech_level >= self.recipe.level
                 --print("Right_Level for: ", recipename, " ", right_level)
                 local show_highlight = false
-                
+
                 show_highlight = canbuild and right_level
-                
-                local hud_atlas = resolvefilepath( "images/hud.xml" )
-                
+
+                local hud_atlas = resolvefilepath("images/hud.xml")
+
                 if not right_level then
                     self.fgimage:SetTexture(hud_atlas, "craft_slot_locked_nextlevel.tex")
                 elseif show_highlight then
@@ -166,9 +163,11 @@ function CraftSlot:Refresh(recipename)
                 else
                     self.fgimage:SetTexture(hud_atlas, "craft_slot_locked.tex")
                 end
-                
+
                 self.fgimage:Show()
-                if not buffered then self.bgimage:SetTexture(self.atlas, "craft_slot.tex") end -- Make sure we clear out the place bg if it's a new tab
+                if not buffered then
+                    self.bgimage:SetTexture(self.atlas, "craft_slot.tex")
+                end -- Make sure we clear out the place bg if it's a new tab
             end
         end
 
@@ -177,15 +176,14 @@ function CraftSlot:Refresh(recipename)
         if self.recipepopup then
             self.recipepopup:SetRecipe(self.recipe, self.owner)
         end
-        
+
         --self:HideRecipe()
     end
 end
 
 function CraftSlot:SetRecipe(recipename)
     self:Show()
-	self:Refresh(recipename)
+    self:Refresh(recipename)
 end
-
 
 return CraftSlot

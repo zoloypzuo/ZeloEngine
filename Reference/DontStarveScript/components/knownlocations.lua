@@ -5,22 +5,22 @@ end)
 
 function KnownLocations:GetDebugString()
     local str = ""
-    for k,v in pairs(self.locations) do
-        str = str..string.format("%s: %s ", k, tostring(v))
+    for k, v in pairs(self.locations) do
+        str = str .. string.format("%s: %s ", k, tostring(v))
     end
     return str
 end
 
 function KnownLocations:SerializeLocations()
     local locs = {}
-        for k,v in pairs(self.locations) do
-            table.insert(locs, {name = k, x = v.x, y = v.y, z = v.z})
-        end
+    for k, v in pairs(self.locations) do
+        table.insert(locs, { name = k, x = v.x, y = v.y, z = v.z })
+    end
     return locs
 end
 
 function KnownLocations:DeserializeLocations(data)
-    for k,v in pairs(data) do
+    for k, v in pairs(data) do
         self:RememberLocation(v.name, Vector3(v.x, v.y, v.z))
     end
 end
@@ -48,7 +48,7 @@ function KnownLocations:RememberLocation(name, pos, dont_overwrite)
 end
 
 function KnownLocations:GetLocation(name)
-    return self.locations[name] 
+    return self.locations[name]
 end
 
 function KnownLocations:ForgetLocation(name)

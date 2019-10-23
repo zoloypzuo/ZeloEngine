@@ -7,16 +7,16 @@ Input = Class(function(self)
     self.onkeydown = EventProcessor() -- specific key down, no parameters
     self.onmouseup = EventProcessor()
     self.onmousedown = EventProcessor()
-    
+
     self.position = EventProcessor()
     self.oncontrol = EventProcessor()
     self.ontextinput = EventProcessor()
     self.ongesture = EventProcessor()
-    
+
     self.hoverinst = nil
     self.enabledebugtoggle = true
 
-	if PLATFORM == "PS4" then     
+    if PLATFORM == "PS4" then
         self.mouse_enabled = false
     else
         self.mouse_enabled = true
@@ -26,7 +26,7 @@ Input = Class(function(self)
 end)
 
 function Input:DisableAllControllers()
-    for i = 1, TheInputProxy:GetInputDeviceCount() -1 do
+    for i = 1, TheInputProxy:GetInputDeviceCount() - 1 do
         if TheInputProxy:IsInputDeviceEnabled(i) and TheInputProxy:IsInputDeviceConnected(i) then
             TheInputProxy:EnableInputDevice(i, false)
         end
@@ -34,7 +34,7 @@ function Input:DisableAllControllers()
 end
 
 function Input:EnableAllControllers()
-    for i = 1, TheInputProxy:GetInputDeviceCount() -1 do
+    for i = 1, TheInputProxy:GetInputDeviceCount() - 1 do
         if TheInputProxy:IsInputDeviceConnected(i) then
             TheInputProxy:EnableInputDevice(i, true)
         end
@@ -47,7 +47,7 @@ end
 
 function Input:GetControllerID()
     local device_id = 0
-    for i = 1, TheInputProxy:GetInputDeviceCount() -1 do
+    for i = 1, TheInputProxy:GetInputDeviceCount() - 1 do
         if TheInputProxy:IsInputDeviceEnabled(i) and TheInputProxy:IsInputDeviceConnected(i) then
             device_id = i
         end
@@ -57,37 +57,37 @@ function Input:GetControllerID()
 end
 
 function Input:ControllerAttached()
-	if PLATFORM == "PS4" then
-		return true	
-	elseif PLATFORM == "NACL" then
-		return false
-	else
-		--need to take enabled into account
-        for i = 1, TheInputProxy:GetInputDeviceCount() -1 do
+    if PLATFORM == "PS4" then
+        return true
+    elseif PLATFORM == "NACL" then
+        return false
+    else
+        --need to take enabled into account
+        for i = 1, TheInputProxy:GetInputDeviceCount() - 1 do
             if i > 0 and TheInputProxy:IsInputDeviceEnabled(i) and TheInputProxy:IsInputDeviceConnected(i) then
                 --print ("DEVICE", i, "of", TheInputProxy:GetInputDeviceCount(), "IS ENABLED")
                 return true
             end
         end
         return false
-	end
+    end
 end
 
 function Input:ControllerConnected()
-	if PLATFORM == "PS4" then
-		return true	
-	elseif PLATFORM == "NACL" then
-		return false
-	else
-		--need to take enabled into account
-        for i = 1, TheInputProxy:GetInputDeviceCount() -1 do
+    if PLATFORM == "PS4" then
+        return true
+    elseif PLATFORM == "NACL" then
+        return false
+    else
+        --need to take enabled into account
+        for i = 1, TheInputProxy:GetInputDeviceCount() - 1 do
             if i > 0 and TheInputProxy:IsInputDeviceConnected(i) then
                 --print ("DEVICE", i, "of", TheInputProxy:GetInputDeviceCount(), "IS CONNECTED")
                 return true
             end
         end
         return false
-	end
+    end
 end
 
 
@@ -98,30 +98,29 @@ function Input:GetInputDevices()
     for i = 0, numDevices - 1 do
         if TheInputProxy:IsInputDeviceConnected(i) then
             local device_type = TheInputProxy:GetInputDeviceType(i)
-            table.insert(devices, {text=STRINGS.UI.CONTROLSSCREEN.INPUT_NAMES[device_type+1], data=i})
+            table.insert(devices, { text = STRINGS.UI.CONTROLSSCREEN.INPUT_NAMES[device_type + 1], data = i })
         end
     end
     return devices
 end
 
-
-function Input:AddTextInputHandler( fn )
+function Input:AddTextInputHandler(fn)
     return self.ontextinput:AddEventHandler("text", fn)
 end
 
-function Input:AddKeyUpHandler( key, fn )
+function Input:AddKeyUpHandler(key, fn)
     return self.onkeyup:AddEventHandler(key, fn)
 end
 
-function Input:AddKeyDownHandler( key, fn )
+function Input:AddKeyDownHandler(key, fn)
     return self.onkeydown:AddEventHandler(key, fn)
 end
 
-function Input:AddKeyHandler( fn )
+function Input:AddKeyHandler(fn)
     return self.onkey:AddEventHandler("onkey", fn)
 end
 
-function Input:AddMouseButtonHandler( button, down, fn)
+function Input:AddMouseButtonHandler(button, down, fn)
     if down then
         return self.onmousedown:AddEventHandler(button, fn)
     else
@@ -129,7 +128,7 @@ function Input:AddMouseButtonHandler( button, down, fn)
     end
 end
 
-function Input:AddMoveHandler( fn )
+function Input:AddMoveHandler(fn)
     return self.position:AddEventHandler("move", fn)
 end
 
@@ -145,56 +144,58 @@ function Input:AddControlMappingHandler(fn)
     return self.oncontrol:AddEventHandler("onmap", fn)
 end
 
-function Input:AddGestureHandler( gesture, fn )
+function Input:AddGestureHandler(gesture, fn)
     return self.ongesture:AddEventHandler(gesture, fn)
 end
 
-function Input:UpdatePosition(x,y)
+function Input:UpdatePosition(x, y)
     --print("Input:UpdatePosition", x, y)
     if self.mouse_enabled then
-		self.position:HandleEvent("move", x, y)
-	end
+        self.position:HandleEvent("move", x, y)
+    end
 end
 
 function Input:OnControl(control, digitalvalue, analogvalue)
-    
-    if (control == CONTROL_PRIMARY or control == CONTROL_SECONDARY) and not self.mouse_enabled then return end
-    
+
+    if (control == CONTROL_PRIMARY or control == CONTROL_SECONDARY) and not self.mouse_enabled then
+        return
+    end
+
     if not TheFrontEnd:OnControl(control, digitalvalue) then
         self.oncontrol:HandleEvent(control, digitalvalue, analogvalue)
         self.oncontrol:HandleEvent("oncontrol", control, digitalvalue, analogvalue)
     end
 end
 
-function Input:OnMouseMove(x,y)
-	if self.mouse_enabled then
-		TheFrontEnd:OnMouseMove(x,y)
-	end
+function Input:OnMouseMove(x, y)
+    if self.mouse_enabled then
+        TheFrontEnd:OnMouseMove(x, y)
+    end
 end
 
-function Input:OnMouseButton(button, down, x,y)
-	if self.mouse_enabled then
-		TheFrontEnd:OnMouseButton(button, down, x,y)
-	end
+function Input:OnMouseButton(button, down, x, y)
+    if self.mouse_enabled then
+        TheFrontEnd:OnMouseButton(button, down, x, y)
+    end
 end
 
 function Input:OnRawKey(key, down)
-	self.onkey:HandleEvent("onkey", key, down)
+    self.onkey:HandleEvent("onkey", key, down)
 
-	if down then
-		self.onkeydown:HandleEvent(key)
-	else
-		self.onkeyup:HandleEvent(key)
-	end
+    if down then
+        self.onkeydown:HandleEvent(key)
+    else
+        self.onkeyup:HandleEvent(key)
+    end
 end
 
 function Input:OnText(text)
-	--print("Input:OnText", text)
-	self.ontextinput:HandleEvent("text", text)
+    --print("Input:OnText", text)
+    self.ontextinput:HandleEvent("text", text)
 end
 
 function Input:OnGesture(gesture)
-	self.ongesture:HandleEvent(gesture)
+    self.ongesture:HandleEvent(gesture)
 end
 
 function Input:OnControlMapped(deviceId, controlId, inputId, hasChanged)
@@ -208,31 +209,30 @@ end
 
 function Input:GetScreenPosition()
     local x, y = TheSim:GetPosition()
-    return Vector3(x,y,0)
+    return Vector3(x, y, 0)
 end
 
 function Input:GetWorldPosition()
-    local x,y,z = TheSim:ProjectScreenPos(TheSim:GetPosition())
+    local x, y, z = TheSim:ProjectScreenPos(TheSim:GetPosition())
     if x and y and z then
-        return Vector3(x,y,z)
+        return Vector3(x, y, z)
     end
 end
 
 function Input:GetAllEntitiesUnderMouse()
-    if self.mouse_enabled then 
-		return self.entitiesundermouse or {}
-	end
-	return {}
+    if self.mouse_enabled then
+        return self.entitiesundermouse or {}
+    end
+    return {}
 end
 
 function Input:GetWorldEntityUnderMouse()
     if self.mouse_enabled then
-		if self.hoverinst and self.hoverinst.Transform then
-	        return self.hoverinst 
-	    end
-	end
+        if self.hoverinst and self.hoverinst.Transform then
+            return self.hoverinst
+        end
+    end
 end
-
 
 function Input:EnableDebugToggle(enable)
     self.enabledebugtoggle = enable
@@ -243,11 +243,11 @@ function Input:IsDebugToggleEnabled()
 end
 
 function Input:GetHUDEntityUnderMouse()
-	if self.mouse_enabled then
-		if self.hoverinst and not self.hoverinst.Transform then
-	        return self.hoverinst 
-	    end
-	end
+    if self.mouse_enabled then
+        if self.hoverinst and not self.hoverinst.Transform then
+            return self.hoverinst
+        end
+    end
 end
 
 function Input:IsMouseDown(button)
@@ -267,35 +267,36 @@ function Input:GetAnalogControlValue(control)
 end
 
 function Input:OnUpdate()
-	if PLATFORM == "PS4" then return end
+    if PLATFORM == "PS4" then
+        return
+    end
 
-	if self.mouse_enabled then
-		self.entitiesundermouse = TheSim:GetEntitiesAtScreenPoint(TheSim:GetPosition())
-	    
-		local inst = self.entitiesundermouse[1]
-		if inst ~= self.hoverinst then
-	        
-			if inst and inst.Transform then
-				inst:PushEvent("mouseover")
-			end
+    if self.mouse_enabled then
+        self.entitiesundermouse = TheSim:GetEntitiesAtScreenPoint(TheSim:GetPosition())
 
-			if self.hoverinst and self.hoverinst.Transform then
-				self.hoverinst:PushEvent("mouseout")
-			end
-	        
-			self.hoverinst = inst
-		end
-	end
+        local inst = self.entitiesundermouse[1]
+        if inst ~= self.hoverinst then
+
+            if inst and inst.Transform then
+                inst:PushEvent("mouseover")
+            end
+
+            if self.hoverinst and self.hoverinst.Transform then
+                self.hoverinst:PushEvent("mouseout")
+            end
+
+            self.hoverinst = inst
+        end
+    end
 end
 
-
 function Input:GetLocalizedControl(deviceId, controlId, use_default_mapping)
-    
+
     if nil == use_default_mapping then
         -- default mapping not specified so don't use it
         use_default_mapping = false
     end
-    
+
     local device, numInputs, input1, input2, input3, input4, intParam = TheInputProxy:GetLocalizedControl(deviceId, controlId, use_default_mapping)
     local inputs = {
         [1] = input1,
@@ -315,7 +316,7 @@ function Input:GetLocalizedControl(deviceId, controlId, use_default_mapping)
                 text = text .. " + "
             end
         end
-        
+
         -- process string format params if there are any
         if not (nil == intParam) then
             text = string.format(text, intParam)
@@ -339,7 +340,7 @@ end
 TheInput = Input()
 
 function OnPosition(x, y)
-    TheInput:UpdatePosition(x,y)
+    TheInput:UpdatePosition(x, y)
 end
 
 function OnControl(control, digitalvalue, analogvalue)
@@ -347,7 +348,7 @@ function OnControl(control, digitalvalue, analogvalue)
 end
 
 function OnMouseButton(button, is_up, x, y)
-    TheInput:OnMouseButton(button, is_up, x,y)
+    TheInput:OnMouseButton(button, is_up, x, y)
 end
 
 function OnMouseMove(x, y)
@@ -359,16 +360,15 @@ function OnInputKey(key, is_up)
 end
 
 function OnInputText(text)
-	TheInput:OnText(text)
+    TheInput:OnText(text)
 end
 
 function OnGesture(gesture)
-	TheInput:OnGesture(gesture)
+    TheInput:OnGesture(gesture)
 end
 
 function OnControlMapped(deviceId, controlId, inputId, hasChanged)
     TheInput:OnControlMapped(deviceId, controlId, inputId, hasChanged)
 end
-
 
 return Input

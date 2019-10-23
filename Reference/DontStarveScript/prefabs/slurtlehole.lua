@@ -1,15 +1,13 @@
-local assets =
-{
-	Asset("ANIM", "anim/slurtle_mound.zip"),
+local assets = {
+    Asset("ANIM", "anim/slurtle_mound.zip"),
     Asset("MINIMAP_IMAGE", "slurtle_den"),
 }
 
-local prefabs =
-{
-	"slurtle",
-	"snurtle",
-	"slurtleslime",
-	"slurtle_shellpieces",
+local prefabs = {
+    "slurtle",
+    "snurtle",
+    "slurtleslime",
+    "slurtle_shellpieces",
     "explode_small"
 }
 
@@ -22,12 +20,12 @@ local function OnEntitySleep(inst)
 end
 
 local function ReturnChildren(inst)
-	for k,child in pairs(inst.components.childspawner.childrenoutside) do
-		if child.components.homeseeker then
-			child.components.homeseeker:GoHome()
-		end
-		child:PushEvent("gohome")
-	end
+    for k, child in pairs(inst.components.childspawner.childrenoutside) do
+        if child.components.homeseeker then
+            child.components.homeseeker:GoHome()
+        end
+        child:PushEvent("gohome")
+    end
 end
 
 local function OnKilled(inst)
@@ -37,12 +35,12 @@ local function OnKilled(inst)
     inst.Physics:ClearCollisionMask()
     inst:DoTaskInTime(0.66, function()
         inst.components.lootdropper:DropLoot(Vector3(inst.Transform:GetWorldPosition()))
-        inst.SoundEmitter:PlaySound("dontstarve/creatures/slurtle/mound_explode") 
+        inst.SoundEmitter:PlaySound("dontstarve/creatures/slurtle/mound_explode")
     end)
 end
 
 local function OnIgniteFn(inst)
-	inst.AnimState:PlayAnimation("shake", true)
+    inst.AnimState:PlayAnimation("shake", true)
     inst.SoundEmitter:PlaySound("dontstarve/common/blackpowder_fuse_LP", "hiss")
     if inst.components.childspawner then
         inst.components.childspawner:ReleaseAllChildren()
@@ -57,16 +55,16 @@ local function OnExplodeFn(inst)
     local explode = SpawnPrefab("explode_small")
     local pos = inst:GetPosition()
     explode.Transform:SetPosition(pos.x, pos.y, pos.z)
-    explode.AnimState:SetBloomEffectHandle( "shaders/anim.ksh" )
+    explode.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
     explode.AnimState:SetLightOverride(1)
 end
 
 local function fn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
     inst.entity:AddSoundEmitter()
-    MakeObstaclePhysics( inst, 2)
+    MakeObstaclePhysics(inst, 2)
 
     local minimap = inst.entity:AddMiniMapEntity()
     minimap:SetIcon("slurtle_den.png")
@@ -76,47 +74,47 @@ local function fn()
     anim:PlayAnimation("idle", true)
     inst:AddTag("hostile")
 
-	inst:AddComponent( "childspawner" )
-	inst.components.childspawner:SetRegenPeriod(120)
-	inst.components.childspawner:SetSpawnPeriod(3)
-	inst.components.childspawner:SetMaxChildren(math.random(1,2))
-	inst.components.childspawner:StartRegen()
-	inst.components.childspawner.childname = "slurtle"
-	inst.components.childspawner:SetRareChild("snurtle", 0.1)
+    inst:AddComponent("childspawner")
+    inst.components.childspawner:SetRegenPeriod(120)
+    inst.components.childspawner:SetSpawnPeriod(3)
+    inst.components.childspawner:SetMaxChildren(math.random(1, 2))
+    inst.components.childspawner:StartRegen()
+    inst.components.childspawner.childname = "slurtle"
+    inst.components.childspawner:SetRareChild("snurtle", 0.1)
 
-	inst:AddComponent("lootdropper")
-	inst.components.lootdropper:SetLoot({"slurtleslime","slurtleslime","slurtleslime","slurtle_shellpieces"})
+    inst:AddComponent("lootdropper")
+    inst.components.lootdropper:SetLoot({ "slurtleslime", "slurtleslime", "slurtleslime", "slurtle_shellpieces" })
 
-	inst:AddComponent("health")
+    inst:AddComponent("health")
     inst.components.health:SetMaxHealth(350)
 
-	inst:AddComponent("combat")
+    inst:AddComponent("combat")
     inst.components.combat:SetOnHit(
-    function(inst, attacker, damage) 
-        if inst.components.childspawner then
-            inst.components.childspawner:SpawnChild(attacker)
-        end
-        if not inst.components.health:IsDead() then
-            --inst.SoundEmitter:PlaySound("dontstarve/bee/beehive_hit")
-            inst.AnimState:PlayAnimation("hit")
-            inst.AnimState:PushAnimation("idle", true)
-        end
-    end)
+            function(inst, attacker, damage)
+                if inst.components.childspawner then
+                    inst.components.childspawner:SpawnChild(attacker)
+                end
+                if not inst.components.health:IsDead() then
+                    --inst.SoundEmitter:PlaySound("dontstarve/bee/beehive_hit")
+                    inst.AnimState:PlayAnimation("hit")
+                    inst.AnimState:PushAnimation("idle", true)
+                end
+            end)
 
     inst:ListenForEvent("death", OnKilled)
 
-	--inst:ListenForEvent("startquake", function()  end, GetWorld())
-	inst:ListenForEvent("endquake", function() 
+    --inst:ListenForEvent("startquake", function()  end, GetWorld())
+    inst:ListenForEvent("endquake", function()
         if inst.components.childspawner then
-    		inst.components.childspawner:StartSpawning()
-    		inst:DoTaskInTime(15, 
-    			function()
-					if inst.components.childspawner then
-    					inst.components.childspawner:StopSpawning()
-    				end
-    			end)
-		end 
-        end, GetWorld())
+            inst.components.childspawner:StartSpawning()
+            inst:DoTaskInTime(15,
+                    function()
+                        if inst.components.childspawner then
+                            inst.components.childspawner:StopSpawning()
+                        end
+                    end)
+        end
+    end, GetWorld())
 
     inst:AddComponent("inspectable")
 
@@ -132,7 +130,7 @@ local function fn()
     inst.OnEntitySleep = OnEntitySleep
     inst.OnEntityWake = OnEntityWake
 
-	return inst
+    return inst
 end
 
-return Prefab( "cave/objects/slurtlehole", fn, assets, prefabs) 
+return Prefab("cave/objects/slurtlehole", fn, assets, prefabs)

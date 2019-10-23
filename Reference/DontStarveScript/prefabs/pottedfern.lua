@@ -1,22 +1,20 @@
 require "prefabutil"
 
-local assets=
-{
-	Asset("ANIM", "anim/cave_ferns_potted.zip"),
+local assets = {
+    Asset("ANIM", "anim/cave_ferns_potted.zip"),
 }
-local names = {"f1","f2","f3","f4","f5","f6","f7","f8","f9","f10"}
+local names = { "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10" }
 
 local function onsave(inst, data)
-	data.anim = inst.animname
+    data.anim = inst.animname
 end
 
 local function onload(inst, data)
     if data and data.anim then
         inst.animname = data.anim
-	    inst.AnimState:PlayAnimation(inst.animname)
-	end
+        inst.AnimState:PlayAnimation(inst.animname)
+    end
 end
-
 
 local function onhammered(inst, worker)
     SpawnPrefab("collapse_small").Transform:SetPosition(inst.Transform:GetWorldPosition())
@@ -26,20 +24,20 @@ local function onhammered(inst, worker)
 end
 
 local function fn(Sim)
-	local inst = CreateEntity()
-	inst.entity:AddTransform()
-	inst.entity:AddSoundEmitter()
-	inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddSoundEmitter()
+    inst.entity:AddAnimState()
     inst.AnimState:SetBank("ferns_potted")
 
     inst.animname = names[math.random(#names)]
     inst.AnimState:SetBuild("cave_ferns_potted")
     inst.AnimState:PlayAnimation(inst.animname)
-    inst.AnimState:SetRayTestOnBB(true);    
-  
+    inst.AnimState:SetRayTestOnBB(true);
+
     inst:AddComponent("inspectable")
-  
-	MakeSmallBurnable(inst)
+
+    MakeSmallBurnable(inst)
     MakeSmallPropagator(inst)
 
     inst:AddComponent("workable")
@@ -50,11 +48,11 @@ local function fn(Sim)
     inst:AddComponent("lootdropper")
 
     --------SaveLoad
-    inst.OnSave = onsave 
-    inst.OnLoad = onload 
-    
+    inst.OnSave = onsave
+    inst.OnLoad = onload
+
     return inst
 end
 
-return Prefab( "cave/objects/pottedfern", fn, assets),
-    MakePlacer( "common/pottedfern_placer", "ferns_potted", "cave_ferns_potted", "f1")
+return Prefab("cave/objects/pottedfern", fn, assets),
+MakePlacer("common/pottedfern_placer", "ferns_potted", "cave_ferns_potted", "f1")

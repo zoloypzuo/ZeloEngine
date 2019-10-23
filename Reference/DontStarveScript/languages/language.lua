@@ -7,7 +7,7 @@ require "translator"
 --LanguageTranslator:LoadPOFile("scripts/languages/french.po", "fr")
 
 if APP_REGION == "SCEJ" then
-	LanguageTranslator:LoadPOFile("scripts/languages/japanese.po", "jp")
+    LanguageTranslator:LoadPOFile("scripts/languages/japanese.po", "jp")
 end
 
 local USE_LONGEST_LOCS = false
@@ -17,10 +17,10 @@ function GetCurrentLocale()
     local locale = nil
     if IsRail() then
         local lang_id = LANGUAGE.CHINESE_S_RAIL
-        locale =  LOC.GetLocale(lang_id)
+        locale = LOC.GetLocale(lang_id)
     else
         local lang_id = Profile:GetLanguageID()
-        locale =  LOC.GetLocale(lang_id)
+        locale = LOC.GetLocale(lang_id)
     end
 
     return locale
@@ -29,21 +29,21 @@ end
 LOC.SetCurrentLocale(GetCurrentLocale())
 
 if USE_LONGEST_LOCS then
-	for _, id in pairs(LOC.GetLanguages()) do
-		local file = LOC.GetStringFile(id)
-		local code = LOC.GetLocaleCode(id)
-		if file and code then
-			LanguageTranslator:LoadPOFile(file, code)
-			TheSim:SetUseUnicode(LOC:GetUseUnicode())
-		end
-	end
+    for _, id in pairs(LOC.GetLanguages()) do
+        local file = LOC.GetStringFile(id)
+        local code = LOC.GetLocaleCode(id)
+        if file and code then
+            LanguageTranslator:LoadPOFile(file, code)
+            TheSim:SetUseUnicode(LOC:GetUseUnicode())
+        end
+    end
 else
-	local currentLocale = LOC.GetLocale()
+    local currentLocale = LOC.GetLocale()
     if nil ~= currentLocale then
-		local file = LOC.GetStringFile(currentLocale.id)
-		if file then
-			LanguageTranslator:LoadPOFile(file, currentLocale.code)    
-			TheSim:SetUseUnicode(LOC:GetUseUnicode())
-		end
+        local file = LOC.GetStringFile(currentLocale.id)
+        if file then
+            LanguageTranslator:LoadPOFile(file, currentLocale.code)
+            TheSim:SetUseUnicode(LOC:GetUseUnicode())
+        end
     end
 end

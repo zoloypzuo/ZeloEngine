@@ -1,7 +1,7 @@
 local Inspectable = Class(function(self, inst)
     self.inst = inst
     self.description = nil
-    self.nearsited_ok = true    
+    self.nearsited_ok = true
 end)
 
 
@@ -37,8 +37,8 @@ function Inspectable:GetStatus(viewer)
             status = "SLEEPING"
         elseif self.inst.components.burnable and self.inst.components.burnable:IsBurning() then
             status = "BURNING"
-		elseif self.inst.components.pickable and self.inst.components.pickable:IsBarren() then
-			return "BARREN"
+        elseif self.inst.components.pickable and self.inst.components.pickable:IsBarren() then
+            return "BARREN"
         elseif self.inst.components.pickable and not self.inst.components.pickable:CanBePicked() then
             status = "PICKED"
         elseif self.inst.components.inventoryitem and self.inst.components.inventoryitem:IsHeld() then
@@ -55,14 +55,14 @@ function Inspectable:GetStatus(viewer)
 end
 
 function Inspectable:GetDescription(viewer)
-    local desc =  nil
+    local desc = nil
 
     if type(self.description) == "function" then
         desc = self.description(self.inst, viewer)
     else
         desc = self.description
     end
-    
+
     if desc == nil then
         desc = GetDescription(string.upper(viewer.prefab), self.inst, self:GetStatus(viewer))
     end
@@ -70,15 +70,12 @@ function Inspectable:GetDescription(viewer)
     if TheSim:GetLightAtPoint(self.inst.Transform:GetWorldPosition()) < TUNING.DARK_CUTOFF then
         desc = GetString(viewer.prefab, "DESCRIBE_TOODARK")
     end
-       
+
     if viewer.components.vision and not viewer.components.vision.focused and not viewer.components.vision:testsight(self.inst) then
         desc = GetString(viewer.prefab, "DESCRIBE_NEARSIGHTED")
     end
-            
+
     return desc
 end
-
-
-
 
 return Inspectable

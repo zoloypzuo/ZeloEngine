@@ -1,26 +1,25 @@
 require("periodicthreats")
 
-local cave_prefabs =
-{
-	"world",
-	"cave_exit",
-	"slurtle",
-	"snurtle",
-	"slurtlehole",
-	"warningshadow",
-	"cavelight",
-	"flower_cave",
+local cave_prefabs = {
+    "world",
+    "cave_exit",
+    "slurtle",
+    "snurtle",
+    "slurtlehole",
+    "warningshadow",
+    "cavelight",
+    "flower_cave",
     "ancient_altar",
     "ancient_altar_broken",
-	"stalagmite",
-	"stalagmite_tall",
-	"bat",
-	"mushtree_tall",
-	"mushtree_medium",
-	"mushtree_small",
-	"cave_banana_tree",
-	"spiderhole",
-	"ground_chunks_breaking",
+    "stalagmite",
+    "stalagmite_tall",
+    "bat",
+    "mushtree_tall",
+    "mushtree_medium",
+    "mushtree_small",
+    "cave_banana_tree",
+    "spiderhole",
+    "ground_chunks_breaking",
     "tentacle_pillar",
     "tentacle_pillar_arm",
     "batcave",
@@ -62,8 +61,7 @@ local cave_prefabs =
 
 }
 
-local assets =
-{
+local assets = {
     Asset("SOUND", "sound/cave_AMB.fsb"),
     Asset("SOUND", "sound/cave_mem.fsb"),
     Asset("IMAGE", "images/colour_cubes/caves_default.tex"),
@@ -72,30 +70,30 @@ local assets =
     Asset("IMAGE", "images/colour_cubes/ruins_dim_cc.tex"),
     Asset("IMAGE", "images/colour_cubes/ruins_dark_cc.tex"),
 
-	Asset("IMAGE", "images/colour_cubes/fungus_cc.tex"),
-	Asset("IMAGE", "images/colour_cubes/sinkhole_cc.tex"),
+    Asset("IMAGE", "images/colour_cubes/fungus_cc.tex"),
+    Asset("IMAGE", "images/colour_cubes/sinkhole_cc.tex"),
 }
 
 local function fn(Sim)
-	local inst = SpawnPrefab("world")
-	inst:AddTag("cave")
+    local inst = SpawnPrefab("world")
+    inst:AddTag("cave")
 
-	inst.prefab = "cave"
-	--cave specifics
+    inst.prefab = "cave"
+    --cave specifics
     inst:AddComponent("clock")
     inst:AddComponent("quaker")
-	inst:AddComponent("seasonmanager")
-	inst.components.seasonmanager:SetCaves()
-	inst:AddComponent("colourcubemanager")
+    inst:AddComponent("seasonmanager")
+    inst.components.seasonmanager:SetCaves()
+    inst:AddComponent("colourcubemanager")
 
-	inst:AddComponent("periodicthreat")
-	local threats = require("periodicthreats")
-	inst.components.periodicthreat:AddThreat("WORM", threats["WORM"])
-	
-	inst.components.ambientsoundmixer:SetReverbPreset("cave")
+    inst:AddComponent("periodicthreat")
+    local threats = require("periodicthreats")
+    inst.components.periodicthreat:AddThreat("WORM", threats["WORM"])
+
+    inst.components.ambientsoundmixer:SetReverbPreset("cave")
 
     return inst
 end
 
-return Prefab( "cave", fn, assets, cave_prefabs) 
+return Prefab("cave", fn, assets, cave_prefabs)
 

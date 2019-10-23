@@ -1,26 +1,26 @@
 require("stategraphs/commonstates")
 
-local events=
-{
-    EventHandler("attacked", function(inst) end),
-    EventHandler("death", function(inst) end),
+local events = {
+    EventHandler("attacked", function(inst)
+    end),
+    EventHandler("death", function(inst)
+    end),
 }
 
-local states=
-{
-    State{
+local states = {
+    State {
         name = "idle_off",
-        tags = {"idle"},
+        tags = { "idle" },
         onenter = function(inst)
 
         end,
         onexit = function(inst)
 
         end,
-    }, 
-        State{
+    },
+    State {
         name = "idle_turnoff",
-        tags = {"idle"},
+        tags = { "idle" },
         onenter = function(inst)
             inst.sg:SetTimeout(4)
             inst.turnoff(inst)
@@ -28,21 +28,21 @@ local states=
         ontimeout = function(inst)
             inst.sg:GoToState("idle_off")
         end,
-    },    
+    },
 
-    State{
+    State {
         name = "idle_on",
-        tags = {"idle"},
+        tags = { "idle" },
         onenter = function(inst)
-        
+
         end,
         onexit = function(inst)
 
         end,
     },
-        State{
+    State {
         name = "idle_turnon",
-        tags = {"idle"},
+        tags = { "idle" },
         onenter = function(inst)
             inst.sg:SetTimeout(4)
             inst.turnon(inst)
@@ -50,8 +50,8 @@ local states=
         ontimeout = function(inst)
             inst.sg:GoToState("idle_on")
         end,
-    },    
+    },
 }
-    
+
 return StateGraph("fissure", states, events, "idle")
 

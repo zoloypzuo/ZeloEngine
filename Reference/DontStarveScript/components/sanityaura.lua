@@ -6,10 +6,10 @@ local SanityAura = Class(function(self, inst)
 end)
 
 function SanityAura:GetAura(observer)
-	if self.aurafn then
-		return self.aurafn(self.inst, observer)
-	end
-	return self.aura
+    if self.aurafn then
+        return self.aurafn(self.inst, observer)
+    end
+    return self.aura
 end
 
 return SanityAura

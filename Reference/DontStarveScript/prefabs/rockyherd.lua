@@ -1,16 +1,14 @@
-local assets =
-{
+local assets = {
     --Asset("ANIM", "anim/arrow_indicator.zip"),
 }
 
-local prefabs = 
-{
+local prefabs = {
     "rocky",
 }
 
 local function CanSpawn(inst)
     -- Note that there are other conditions inside periodic spawner governing this as well.
-    
+
     if not inst.components.herd then
         return false
     end
@@ -19,8 +17,8 @@ local function CanSpawn(inst)
         return false
     end
 
-    local x,y,z = inst.Transform:GetWorldPosition()
-    local ents = TheSim:FindEntities(x,y,z, inst.components.herd.gatherrange, inst.components.herd.membertag and {inst.components.herd.membertag} or nil )
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local ents = TheSim:FindEntities(x, y, z, inst.components.herd.gatherrange, inst.components.herd.membertag and { inst.components.herd.membertag } or nil)
     return #ents < TUNING.ROCKYHERD_MAX_IN_RANGE
 end
 
@@ -38,7 +36,7 @@ end
 local function OnFull(inst)
     --TODO: mark some beefalo for death
 end
-   
+
 local function fn(Sim)
     local inst = CreateEntity()
     local trans = inst.entity:AddTransform()
@@ -52,7 +50,7 @@ local function fn(Sim)
     inst.components.herd:SetOnEmptyFn(OnEmpty)
     inst.components.herd:SetOnFullFn(OnFull)
     inst.components.herd.maxsize = 6
-    
+
     inst:AddComponent("periodicspawner")
     inst.components.periodicspawner:SetRandomTimes(TUNING.ROCKY_SPAWN_DELAY, TUNING.ROCKY_SPAWN_VAR)
     inst.components.periodicspawner:SetPrefab("rocky")
@@ -61,8 +59,8 @@ local function fn(Sim)
     inst.components.periodicspawner:SetDensityInRange(20, 6)
     inst.components.periodicspawner:Start()
     inst.components.periodicspawner:SetOnlySpawnOffscreen(true)
-    
+
     return inst
 end
 
-return Prefab( "cave/rockyherd", fn, assets, prefabs) 
+return Prefab("cave/rockyherd", fn, assets, prefabs)

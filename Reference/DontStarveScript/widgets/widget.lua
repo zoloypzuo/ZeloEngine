@@ -4,15 +4,15 @@ local Widget = Class(function(self, name)
     self.name = name or "widget"
     self.inst = CreateEntity()
     self.inst.widget = self
-    
+
     self.inst:AddTag("widget")
     self.inst:AddTag("UI")
     self.inst.entity:SetName(name)
     self.inst.entity:AddUITransform()
-	self.inst.entity:CallPrefabConstructionComplete()
-    
+    self.inst.entity:CallPrefabConstructionComplete()
+
     self.inst:AddComponent("uianim")
-    
+
     self.enabled = true
     self.shown = true
     self.focus = false
@@ -22,11 +22,12 @@ local Widget = Class(function(self, name)
     self.focus_flow_args = {}
 end)
 
-
 function Widget:IsDeepestFocus()
     if self.focus then
-        for k,v in pairs(self.children) do
-            if v.focus then return false end
+        for k, v in pairs(self.children) do
+            if v.focus then
+                return false
+            end
         end
     end
 
@@ -34,14 +35,17 @@ function Widget:IsDeepestFocus()
 end
 
 function Widget:OnMouseButton(button, down, x, y)
-    if not self.focus then return false end
+    if not self.focus then
+        return false
+    end
 
-    for k,v in pairs (self.children) do
-        if v.focus and v:OnMouseButton(button, down, x, y) then return true end
-    end 
+    for k, v in pairs(self.children) do
+        if v.focus and v:OnMouseButton(button, down, x, y) then
+            return true
+        end
+    end
 
 end
-
 
 function Widget:MoveToBack()
     self.inst.entity:MoveToBack()
@@ -52,25 +56,31 @@ function Widget:MoveToFront()
 end
 
 function Widget:OnFocusMove(dir, down)
-	--print ("OnFocusMove", self.name or "?", self.focus, dir, down)
-    if not self.focus then return false end
+    --print ("OnFocusMove", self.name or "?", self.focus, dir, down)
+    if not self.focus then
+        return false
+    end
 
-    for k,v in pairs (self.children) do
-        if v.focus and v:OnFocusMove(dir, down) then return true end
-    end 
+    for k, v in pairs(self.children) do
+        if v.focus and v:OnFocusMove(dir, down) then
+            return true
+        end
+    end
 
     if down and self.focus_flow[dir] then
-		
-		local dest = self.focus_flow[dir]
-        if dest and type(dest) == "function" then dest = dest() end
-        
+
+        local dest = self.focus_flow[dir]
+        if dest and type(dest) == "function" then
+            dest = dest()
+        end
+
         -- Can we pass the focus down the chain if we are disabled/hidden?
         if dest and dest:IsVisible() and dest.enabled then
-			if self.focus_flow_args[dir] then
-				dest:SetFocus(unpack(self.focus_flow_args[dir]))
-			else
-				dest:SetFocus()
-			end
+            if self.focus_flow_args[dir] then
+                dest:SetFocus(unpack(self.focus_flow_args[dir]))
+            else
+                dest:SetFocus()
+            end
             return true
         end
     end
@@ -79,38 +89,52 @@ function Widget:OnFocusMove(dir, down)
 end
 
 function Widget:IsVisible()
-	if not self.shown then return false end
+    if not self.shown then
+        return false
+    end
 
-	if self.parent then
-		return self.parent:IsVisible()
-	end
+    if self.parent then
+        return self.parent:IsVisible()
+    end
 
-	return true	
+    return true
 end
 
 function Widget:OnRawKey(key, down)
-    if not self.focus then return false end
-    for k,v in pairs (self.children) do
-        if v.focus and v:OnRawKey(key, down) then return true end
-    end 
+    if not self.focus then
+        return false
+    end
+    for k, v in pairs(self.children) do
+        if v.focus and v:OnRawKey(key, down) then
+            return true
+        end
+    end
 end
 
 function Widget:OnTextInput(text)
-	--print ("text", self, text)
-    if not self.focus then return false end
-    for k,v in pairs (self.children) do
-        if v.focus and v:OnTextInput(text) then return true end
-    end 
+    --print ("text", self, text)
+    if not self.focus then
+        return false
+    end
+    for k, v in pairs(self.children) do
+        if v.focus and v:OnTextInput(text) then
+            return true
+        end
+    end
 end
 
 function Widget:OnControl(control, down)
---    print("oncontrol", self, control, down, self.focus)
+    --    print("oncontrol", self, control, down, self.focus)
 
-    if not self.focus then return false end
+    if not self.focus then
+        return false
+    end
 
-    for k,v in pairs (self.children) do
-        if v.focus and v:OnControl(control, down) then return true end
-    end 
+    for k, v in pairs(self.children) do
+        if v.focus and v:OnControl(control, down) then
+            return true
+        end
+    end
 
     return false
 end
@@ -123,7 +147,7 @@ function Widget:Shake(duration, speed, scale)
 end
 
 function Widget:ScaleTo(from, to, time, fn)
-    
+
     if not self.inst.components.uianim then
         self.inst:AddComponent("uianim")
     end
@@ -152,7 +176,9 @@ function Widget:ForceStopWallUpdating()
 end
 
 function Widget:IsEnabled()
-    if not self.enabled then return false end
+    if not self.enabled then
+        return false
+    end
 
     if self.parent then
         return self.parent:IsEnabled()
@@ -169,7 +195,6 @@ function Widget:GetChildren()
     return self.children
 end
 
-
 function Widget:SetEnabled(enabled)
     if enabled then
         self:Enable()
@@ -180,12 +205,12 @@ end
 
 function Widget:Enable()
     self.enabled = true
-	self:OnEnable()
+    self:OnEnable()
 end
 
 function Widget:Disable()
     self.enabled = false
-	self:OnDisable()
+    self:OnDisable()
 end
 
 function Widget:OnEnable()
@@ -204,12 +229,11 @@ function Widget:RemoveChild(child)
 end
 
 function Widget:KillAllChildren()
-    for k,v in pairs(self.children) do
+    for k, v in pairs(self.children) do
         self:RemoveChild(k)
         k:Kill()
     end
 end
-
 
 function Widget:AddChild(child)
     if child.parent then
@@ -225,18 +249,18 @@ end
 function Widget:Hide()
     self.inst.entity:Hide(false)
     self.shown = false
-	self:OnHide()
+    self:OnHide()
 end
 
 function Widget:Show()
     self.inst.entity:Show(false)
     self.shown = true
-	self:OnShow()
+    self:OnShow()
 end
 
 function Widget:Kill()
-	self:StopUpdating()	
-	self:KillAllChildren()
+    self:StopUpdating()
+    self:KillAllChildren()
     if self.parent then
         self.parent.children[self] = nil
     end
@@ -265,12 +289,12 @@ end
 
 function Widget:SetPosition(pos, y, z)
     if type(pos) == "number" then
-        self.inst.UITransform:SetPosition(pos,y,z or 0)
+        self.inst.UITransform:SetPosition(pos, y, z or 0)
     else
         if not self.inst:IsValid() then
-			print (debugstack())
+            print(debugstack())
         end
-        self.inst.UITransform:SetPosition(pos.x,pos.y,pos.z)
+        self.inst.UITransform:SetPosition(pos.x, pos.y, pos.z)
     end
 end
 
@@ -278,20 +302,19 @@ function Widget:SetRotation(angle)
     self.inst.UITransform:SetRotation(angle)
 end
 
-	
 function Widget:SetMaxPropUpscale(val)
-	self.inst.UITransform:SetMaxPropUpscale(val)
+    self.inst.UITransform:SetMaxPropUpscale(val)
 end
 
 function Widget:SetScaleMode(mode)
-	self.inst.UITransform:SetScaleMode(mode)
+    self.inst.UITransform:SetScaleMode(mode)
 end
 
 function Widget:SetScale(pos, y, z)
     if type(pos) == "number" then
         self.inst.UITransform:SetScale(pos, y or pos, z or pos)
     else
-        self.inst.UITransform:SetScale(pos.x,pos.y,pos.z)
+        self.inst.UITransform:SetScale(pos.x, pos.y, pos.z)
     end
 end
 
@@ -321,13 +344,13 @@ function Widget:SetTooltip(str)
     self.tooltip = str
 end
 
-function Widget:SetTooltipColour(r,g,b,a)
-    self.tooltipcolour = {r, g, b, a}
+function Widget:SetTooltipColour(r, g, b, a)
+    self.tooltipcolour = { r, g, b, a }
 end
 
 function Widget:GetTooltipColour()
     if self.focus then
-        for k,v in pairs(self.children) do
+        for k, v in pairs(self.children) do
             local col = k:GetTooltipColour()
             if col then
                 return col
@@ -339,7 +362,7 @@ end
 
 function Widget:GetTooltip()
     if self.focus then
-        for k,v in pairs(self.children) do
+        for k, v in pairs(self.children) do
             local str = k:GetTooltip()
             if str then
                 return str
@@ -350,11 +373,11 @@ function Widget:GetTooltip()
 end
 
 function Widget:StartUpdating()
-	TheFrontEnd:StartUpdatingWidget(self)
+    TheFrontEnd:StartUpdatingWidget(self)
 end
 
 function Widget:StopUpdating()
-	TheFrontEnd:StopUpdatingWidget(self)
+    TheFrontEnd:StopUpdatingWidget(self)
 end
 
 --[[function Widget:Update(dt)
@@ -375,13 +398,15 @@ function Widget:SetClickable(val)
     self.inst.entity:SetClickable(val)
 end
 
-function Widget:UpdatePosition(x,y)
-    self:SetPosition(x,y,0)
+function Widget:UpdatePosition(x, y)
+    self:SetPosition(x, y, 0)
 end
 
 function Widget:FollowMouse()
     if not self.followhandler then
-        self.followhandler = TheInput:AddMoveHandler(function(x,y) self:UpdatePosition(x,y) end)
+        self.followhandler = TheInput:AddMoveHandler(function(x, y)
+            self:UpdatePosition(x, y)
+        end)
         self:SetPosition(TheInput:GetScreenPosition())
     end
 end
@@ -393,19 +418,18 @@ function Widget:StopFollowMouse()
     self.followhandler = nil
 end
 
-
 function Widget:GetScale()
 
-	local sx, sy, sz = self.inst.UITransform:GetScale()
+    local sx, sy, sz = self.inst.UITransform:GetScale()
 
-	if self.parent then
-		local scale = self.parent:GetScale()
-		sx = sx*scale.x
-		sy = sy*scale.y
-		sz = sz*scale.z
-	end
-	
-	return Vector3(sx,sy,sz)
+    if self.parent then
+        local scale = self.parent:GetScale()
+        sx = sx * scale.x
+        sy = sy * scale.y
+        sz = sz * scale.z
+    end
+
+    return Vector3(sx, sy, sz)
 end
 
 
@@ -423,21 +447,21 @@ function Widget:ClearFocusDirs()
 end
 
 function Widget:SetFocusChangeDir(dir, widget, ...)
-    
+
     if not next(self.focus_flow) then
         self.next_in_tab_order = widget
     end
 
     self.focus_flow[dir] = widget
-    
+
     if ... then
-		self.focus_flow_args[dir] = {...}
-	end
+        self.focus_flow_args[dir] = { ... }
+    end
 end
 
 function Widget:GetDeepestFocus()
     if self.focus then
-        for k,v in pairs(self.children) do
+        for k, v in pairs(self.children) do
             if v.focus then
                 return v:GetDeepestFocus()
             end
@@ -453,16 +477,16 @@ function Widget:ClearFocus()
         if self.OnLoseFocus then
             self:OnLoseFocus()
         end
-    for k,v in pairs(self.children) do
-            if v.focus then 
+        for k, v in pairs(self.children) do
+            if v.focus then
                 v:ClearFocus()
             end
         end
-    end    
+    end
 end
 
 function Widget:SetFocusFromChild(from_child)
-    for k,v in pairs(self.children) do
+    for k, v in pairs(self.children) do
         if v ~= from_child and v.focus then
             v:ClearFocus()
         end
@@ -499,7 +523,7 @@ function Widget:SetFocus()
         end
     end
 
-    for k,v in pairs(self.children) do
+    for k, v in pairs(self.children) do
         v:ClearFocus()
     end
 
@@ -507,16 +531,14 @@ function Widget:SetFocus()
 
 end
 
-
-
 function Widget:GetStr(indent)
     indent = indent or 0
-    local indent_str = string.rep("\t",indent)
+    local indent_str = string.rep("\t", indent)
 
     local str = {}
-    table.insert(str, string.format("%s%s%s%s\n", indent_str, tostring(self), self.focus and " (FOCUS) " or "", self.enable and " (ENABLE) " or "" ))
-    
-    for k,v in pairs(self.children) do
+    table.insert(str, string.format("%s%s%s%s\n", indent_str, tostring(self), self.focus and " (FOCUS) " or "", self.enable and " (ENABLE) " or ""))
+
+    for k, v in pairs(self.children) do
         table.insert(str, v:GetStr(indent + 1))
     end
 

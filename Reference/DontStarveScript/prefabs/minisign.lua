@@ -1,28 +1,25 @@
 require "prefabutil"
 
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/sign_mini.zip"),
     Asset("ATLAS_BUILD", "images/inventoryimages.xml", 256),
 }
 
-local assets_item =
-{
+local assets_item = {
     Asset("ANIM", "anim/sign_mini.zip"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "minisign_item",
     "minisign_drawn",
 }
 
-local prefabs_item =
-{
+local prefabs_item = {
     "minisign",
 }
 
-local function ondeploy(inst, pt)--, deployer)
+local function ondeploy(inst, pt)
+    --, deployer)
     local ent = SpawnPrefab("minisign")
 
     if inst.components.stackable ~= nil then
@@ -37,11 +34,12 @@ local function ondeploy(inst, pt)--, deployer)
     ent.SoundEmitter:PlaySound("dontstarve/common/craftable/sign/place")
 end
 
-local function dig_up(inst)--, worker)
+local function dig_up(inst)
+    --, worker)
     local image = inst.components.drawable:GetImage()
     if image then
         local item = inst.components.lootdropper:SpawnLootPrefab("minisign_drawn")
-        item.components.drawable:OnDrawn(image)       
+        item.components.drawable:OnDrawn(image)
         item._imagename = inst._imagename
     else
         inst.components.lootdropper:SpawnLootPrefab("minisign_item")
@@ -63,7 +61,7 @@ end
 
 local function OnDrawnFn(inst, image, src)
     if image ~= nil then
-        inst.AnimState:OverrideSymbol("SWAP_SIGN", src and src.components.inventoryitem and src.components.inventoryitem:GetAtlas() or "images/inventoryimages.xml", image..".tex")
+        inst.AnimState:OverrideSymbol("SWAP_SIGN", src and src.components.inventoryitem and src.components.inventoryitem:GetAtlas() or "images/inventoryimages.xml", image .. ".tex")
         if inst:HasTag("sign") then
             inst.components.drawable:SetCanDraw(false)
             inst._imagename = src and src.name or nil
@@ -84,30 +82,30 @@ end
 
 local function getstatus(inst)
     return inst.components.drawable:GetImage() == nil
-        and "UNDRAWN"
-        or nil
+            and "UNDRAWN"
+            or nil
 end
 
 local function IsLowPriorityAction(act, force_inspect)
     return act == nil
-        or act.action == ACTIONS.WALKTO
-        or (act.action == ACTIONS.LOOKAT and not force_inspect)
+            or act.action == ACTIONS.WALKTO
+            or (act.action == ACTIONS.LOOKAT and not force_inspect)
 end
 
 local function displaynamefn(inst)
     if inst._imagename then
-        return subfmt(STRINGS.NAMES.MINISIGN_DRAWN, { item = inst._imagename })        
+        return subfmt(STRINGS.NAMES.MINISIGN_DRAWN, { item = inst._imagename })
     end
 end
 
 local function OnSave(inst, data)
-    data.imagename = inst._imagename        
+    data.imagename = inst._imagename
 end
 
 local function OnLoad(inst, data)
     if data and data.imagename then
         inst._imagename = data.imagename
-    end        
+    end
 end
 
 local function fn()
@@ -200,7 +198,6 @@ local function MakeItem(name, drawn)
         inst:AddComponent("fuel")
         inst.components.fuel.fuelvalue = TUNING.MED_FUEL
 
-
         return inst
     end
 
@@ -208,7 +205,7 @@ local function MakeItem(name, drawn)
 end
 
 return Prefab("minisign", fn, assets, prefabs),
-    MakeItem("minisign_item", false),
-    MakeItem("minisign_drawn", true),
-    MakePlacer("minisign_item_placer", "sign_mini", "sign_mini", "idle"),
-    MakePlacer("minisign_drawn_placer", "sign_mini", "sign_mini", "idle")
+MakeItem("minisign_item", false),
+MakeItem("minisign_drawn", true),
+MakePlacer("minisign_item_placer", "sign_mini", "sign_mini", "idle"),
+MakePlacer("minisign_drawn_placer", "sign_mini", "sign_mini", "idle")

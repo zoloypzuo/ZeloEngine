@@ -1,6 +1,4 @@
-
-local prefabs =
-{
+local prefabs = {
     "thulecite",
     "rocks",
     "cutstone",
@@ -10,18 +8,18 @@ local prefabs =
     "greengem",
     "orangegem",
     "yellowgem",
-}    
+}
 
-SetSharedLootTable( 'smashables',
-{
-    {'rocks',      0.80},
-    {'cutstone',   0.10},
-    {'trinket_6',  0.05}, -- frayed wires
-})
+SetSharedLootTable('smashables',
+        {
+            { 'rocks', 0.80 },
+            { 'cutstone', 0.10 },
+            { 'trinket_6', 0.05 }, -- frayed wires
+        })
 
 local function makeassetlist(buildname)
     return {
-        Asset("ANIM", "anim/"..buildname..".zip"),
+        Asset("ANIM", "anim/" .. buildname .. ".zip"),
         Asset("MINIMAP_IMAGE", "relic"),
     }
 end
@@ -33,7 +31,7 @@ local function OnDeath(inst)
     inst.AnimState:PlayAnimation("broken")
     inst.components.lootdropper:DropLoot()
     inst:Remove()
-    
+
 end
 
 local function OnRepaired(inst)
@@ -48,7 +46,7 @@ local function OnRepaired(inst)
         inst.rubble = false
         inst.SoundEmitter:PlaySound("dontstarve/common/fixed_stonefurniture")
     else
-        inst.SoundEmitter:PlaySound("dontstarve/common/repair_stonefurniture")        
+        inst.SoundEmitter:PlaySound("dontstarve/common/repair_stonefurniture")
         inst.AnimState:PlayAnimation("repair")
         inst.AnimState:PushAnimation("broken")
     end
@@ -70,8 +68,8 @@ local function OnLoad(inst, data)
     if not data then
         return
     end
-	inst.rubble = data.rubble
-	if not inst.rubble then
+    inst.rubble = data.rubble
+    if not inst.rubble then
         inst.components.inspectable.nameoverride = "relic"
         inst.components.named:SetName(STRINGS.NAMES["RELIC"])
         if inst.components.health:GetPercent() >= .5 then
@@ -82,13 +80,13 @@ local function OnLoad(inst, data)
         if inst.components.repairable then
             inst:RemoveComponent("repairable")
         end
-	end
+    end
 end
 
 local function OnSave(inst, data)
-	if inst.rubble then
-		data.rubble = inst.rubble
-	end
+    if inst.rubble then
+        data.rubble = inst.rubble
+    end
 end
 
 local function makefn(name, asset, smashsound, rubble, tag)
@@ -97,11 +95,11 @@ local function makefn(name, asset, smashsound, rubble, tag)
         local trans = inst.entity:AddTransform()
         local anim = inst.entity:AddAnimState()
         inst.entity:AddSoundEmitter()
-        
+
         local minimap = inst.entity:AddMiniMapEntity()
         minimap:SetIcon("relic.png")
 
-        MakeObstaclePhysics(inst, .25)   
+        MakeObstaclePhysics(inst, .25)
 
         anim:SetBank(asset)
         anim:SetBuild(asset)
@@ -119,7 +117,7 @@ local function makefn(name, asset, smashsound, rubble, tag)
         inst.OnSave = OnSave
 
         inst:AddComponent("combat")
-		inst.components.combat.onhitfn = OnHit
+        inst.components.combat.onhitfn = OnHit
 
         inst:AddComponent("health")
         inst.components.health.canmurder = false
@@ -128,7 +126,7 @@ local function makefn(name, asset, smashsound, rubble, tag)
 
         inst:ListenForEvent("death", OnDeath)
 
-        inst.components.health:SetMaxHealth(GetRandomWithVariance(90,20))
+        inst.components.health:SetMaxHealth(GetRandomWithVariance(90, 20))
 
         inst:AddTag("smashable")
         inst:AddTag("object")
@@ -139,38 +137,40 @@ local function makefn(name, asset, smashsound, rubble, tag)
         -- inst:ListenForEvent("death", OnDeath)
 
         inst:AddComponent("lootdropper")
-        if not string.find(name,"bowl") and not string.find(name,"plate") then
-            if string.find(name,"vase") then
-                local trinket = GetRandomItem({"tinket_1","trinket_3","trinket_9","tinket_12","tinket_6"})
-                inst.components.lootdropper:AddChanceLoot(trinket          , 0.10)
+        if not string.find(name, "bowl") and not string.find(name, "plate") then
+            if string.find(name, "vase") then
+                local trinket = GetRandomItem({ "tinket_1", "trinket_3", "trinket_9", "tinket_12", "tinket_6" })
+                inst.components.lootdropper:AddChanceLoot(trinket, 0.10)
 
                 inst.components.lootdropper.numrandomloot = 1
                 inst.components.lootdropper.chancerandomloot = 0.05  -- drop some random item X% of the time
-                inst.components.lootdropper:AddRandomLoot("silk"           , 0.1) -- Weighted average
-                inst.components.lootdropper:AddRandomLoot(trinket          , 0.1)
-                inst.components.lootdropper:AddRandomLoot("thulecite"      , 0.1)
-                inst.components.lootdropper:AddRandomLoot("sewing_kit"     , 0.1)
-                inst.components.lootdropper:AddRandomLoot("spider_hider"   , 0.05)
-                inst.components.lootdropper:AddRandomLoot("spider_spitter" , 0.05)
-                inst.components.lootdropper:AddRandomLoot("monkey"         , 0.05)
-                if GetWorld() and GetWorld():IsCave() and GetWorld().topology.level_number == 2 then  -- ruins
-                    inst.components.lootdropper:AddChanceLoot("thulecite"  , 0.05)
+                inst.components.lootdropper:AddRandomLoot("silk", 0.1) -- Weighted average
+                inst.components.lootdropper:AddRandomLoot(trinket, 0.1)
+                inst.components.lootdropper:AddRandomLoot("thulecite", 0.1)
+                inst.components.lootdropper:AddRandomLoot("sewing_kit", 0.1)
+                inst.components.lootdropper:AddRandomLoot("spider_hider", 0.05)
+                inst.components.lootdropper:AddRandomLoot("spider_spitter", 0.05)
+                inst.components.lootdropper:AddRandomLoot("monkey", 0.05)
+                if GetWorld() and GetWorld():IsCave() and GetWorld().topology.level_number == 2 then
+                    -- ruins
+                    inst.components.lootdropper:AddChanceLoot("thulecite", 0.05)
                 end
             else
                 inst.components.lootdropper:SetChanceLootTable('smashables')
                 inst.components.lootdropper.numrandomloot = 1
                 inst.components.lootdropper.chancerandomloot = 0.01  -- drop some random item 1% of the time
-                inst.components.lootdropper:AddRandomLoot("gears"         , 0.01)
-                inst.components.lootdropper:AddRandomLoot("greengem"      , 0.01)
-                inst.components.lootdropper:AddRandomLoot("yellowgem"     , 0.01)
-                inst.components.lootdropper:AddRandomLoot("orangegem"     , 0.01)
-                inst.components.lootdropper:AddRandomLoot("nightmarefuel" , 0.01)
-                if GetWorld() and GetWorld():IsCave() and GetWorld().topology.level_number == 2 then  -- ruins
-                    inst.components.lootdropper:AddRandomLoot("thulecite" , 0.02)
+                inst.components.lootdropper:AddRandomLoot("gears", 0.01)
+                inst.components.lootdropper:AddRandomLoot("greengem", 0.01)
+                inst.components.lootdropper:AddRandomLoot("yellowgem", 0.01)
+                inst.components.lootdropper:AddRandomLoot("orangegem", 0.01)
+                inst.components.lootdropper:AddRandomLoot("nightmarefuel", 0.01)
+                if GetWorld() and GetWorld():IsCave() and GetWorld().topology.level_number == 2 then
+                    -- ruins
+                    inst.components.lootdropper:AddRandomLoot("thulecite", 0.02)
                 end
             end
         end
-	
+
         inst:AddComponent("inspectable")
         inst:AddComponent("named")
 
@@ -179,7 +179,7 @@ local function makefn(name, asset, smashsound, rubble, tag)
             inst.components.inspectable.nameoverride = "ruins_rubble"
             inst.components.named:SetName(STRINGS.NAMES["RUINS_RUBBLE"])
 
-		    inst:AddComponent("repairable")
+            inst:AddComponent("repairable")
             inst.components.repairable.repairmaterial = "stone"
             inst.components.repairable.onrepaired = OnRepaired
         else
@@ -192,8 +192,8 @@ local function makefn(name, asset, smashsound, rubble, tag)
         inst.components.workable:SetWorkLeft(3)
         inst.components.workable.savestate = true
         inst.components.workable:SetOnFinishCallback(OnDeath)
-	    inst.components.workable:SetWorkAction(ACTIONS.MINE)
-		inst.components.workable:SetOnWorkCallback(OnHit) 
+        inst.components.workable:SetWorkAction(ACTIONS.MINE)
+        inst.components.workable:SetOnWorkCallback(OnHit)
 
         if smashsound then
             inst.smashsound = smashsound
@@ -201,22 +201,22 @@ local function makefn(name, asset, smashsound, rubble, tag)
         return inst
     end
     return fn
-end    
+end
 
 local function item(name, sound)
-    return Prefab( "cave/objects/smashables/"..name, makefn(name, name, sound, false), makeassetlist(name), prefabs )
+    return Prefab("cave/objects/smashables/" .. name, makefn(name, name, sound, false), makeassetlist(name), prefabs)
 end
 local function rubble(name, assetname, sound, rubble)
-    return Prefab( "cave/objects/smashables/"..name, makefn(name, assetname, sound, rubble), makeassetlist(assetname), prefabs )
+    return Prefab("cave/objects/smashables/" .. name, makefn(name, assetname, sound, rubble), makeassetlist(assetname), prefabs)
 end
-    
-return  item("ruins_plate"),
-        item("ruins_bowl"),
-        item("ruins_chair", "dontstarve/wilson/rock_break"),
-        item("ruins_chipbowl"),
-        item("ruins_vase"),
-        item("ruins_table", "dontstarve/wilson/rock_break"),
-        rubble("ruins_rubble_table", "ruins_table", "dontstarve/wilson/rock_break", true, "stone"),
-        rubble("ruins_rubble_chair", "ruins_chair", "dontstarve/wilson/rock_break", true, "stone"),
-        rubble("ruins_rubble_vase",  "ruins_vase",  nil, true, "stone")
+
+return item("ruins_plate"),
+item("ruins_bowl"),
+item("ruins_chair", "dontstarve/wilson/rock_break"),
+item("ruins_chipbowl"),
+item("ruins_vase"),
+item("ruins_table", "dontstarve/wilson/rock_break"),
+rubble("ruins_rubble_table", "ruins_table", "dontstarve/wilson/rock_break", true, "stone"),
+rubble("ruins_rubble_chair", "ruins_chair", "dontstarve/wilson/rock_break", true, "stone"),
+rubble("ruins_rubble_vase", "ruins_vase", nil, true, "stone")
 

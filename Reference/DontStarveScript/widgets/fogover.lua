@@ -32,15 +32,14 @@ function FogOver:StartFog()
     end
 end
 
-
 function FogOver:SetFog(off)
     if off and self.foggy then
-            self.time = 0
-            self.alphagoal = 0
-            self.foggy = false
-            self.alpha = 0
-            self:StopUpdating()
-            self:Hide()
+        self.time = 0
+        self.alphagoal = 0
+        self.foggy = false
+        self.alpha = 0
+        self:StopUpdating()
+        self:Hide()
     else
         if not self.foggy then
             self.time = 0

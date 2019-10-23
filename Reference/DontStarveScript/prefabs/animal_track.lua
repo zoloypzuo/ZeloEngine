@@ -1,7 +1,7 @@
-local trace = function() end
+local trace = function()
+end
 
-local assets=
-{
+local assets = {
     Asset("ANIM", "anim/koalefant_tracks.zip"),
 }
 
@@ -11,7 +11,7 @@ local function OnSave(inst, data)
     data.direction = inst.Transform:GetRotation()
     trace("    direction", data.direction)
 end
-        
+
 local function OnLoad(inst, data)
     trace("animal_track - OnLoad")
 
@@ -25,15 +25,15 @@ local function create(sim)
     trace("animal_track - create")
     local inst = CreateEntity()
     inst.entity:AddTransform()
-    
+
     inst:AddTag("track")
-    
+
     inst.entity:AddAnimState()
     inst.AnimState:SetBank("track")
     inst.AnimState:SetBuild("koalefant_tracks")
-    inst.AnimState:SetOrientation( ANIM_ORIENTATION.OnGround )
-    inst.AnimState:SetLayer( LAYER_BACKGROUND )
-    inst.AnimState:SetSortOrder( 3 )
+    inst.AnimState:SetOrientation(ANIM_ORIENTATION.OnGround)
+    inst.AnimState:SetLayer(LAYER_BACKGROUND)
+    inst.AnimState:SetSortOrder(3)
     inst.AnimState:SetRayTestOnBB(true)
     inst.AnimState:PlayAnimation("idle")
 
@@ -41,15 +41,15 @@ local function create(sim)
     MakeInventoryPhysics(inst)
 
     --inst.Transform:SetRotation(math.random(360))
-    
+
     inst:AddComponent("inspectable")
 
     inst:StartThread(
-        function ()
-            Sleep(30)
-            fadeout( inst, 15) 
-            inst:Remove() 
-        end 
+            function()
+                Sleep(30)
+                fadeout(inst, 15)
+                inst:Remove()
+            end
     )
 
     inst.OnLoad = OnLoad
@@ -62,4 +62,4 @@ local function create(sim)
     return inst
 end
 
-return Prefab( "forest/objects/animal_track", create, assets) 
+return Prefab("forest/objects/animal_track", create, assets)

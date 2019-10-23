@@ -23,7 +23,6 @@ function Saddler:CollectUseActions(doer, target, actions, right)
         table.insert(actions, ACTIONS.SADDLE)
     end
 end
-    
 
 function Saddler:SetSwaps(build, symbol)
     self.swapbuild = build

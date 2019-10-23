@@ -11,7 +11,7 @@ local Eater = Class(function(self, inst)
 
     self.healthabsorption = 1
     self.hungerabsorption = 1
-    self.sanityabsorption = 1     
+    self.sanityabsorption = 1
 end)
 
 function Eater:SetAbsorptionModifiers(health, hunger, sanity)
@@ -21,7 +21,7 @@ function Eater:SetAbsorptionModifiers(health, hunger, sanity)
 end
 
 function Eater:SetVegetarian()
-    self.foodprefs = { "VEGGIE","ROUGHAGE" }
+    self.foodprefs = { "VEGGIE", "ROUGHAGE" }
 end
 
 function Eater:SetCarnivore()
@@ -33,26 +33,26 @@ function Eater:SetInsectivore()
 end
 
 function Eater:SetBird()
-    self.foodprefs = {"SEEDS"}
+    self.foodprefs = { "SEEDS" }
 end
 
 function Eater:SetBeaver()
-    self.foodprefs = {"WOOD","ROUGHAGE"}
+    self.foodprefs = { "WOOD", "ROUGHAGE" }
 end
 
 function Eater:SetElemental()
-    self.foodprefs = {"ELEMENTAL"}
+    self.foodprefs = { "ELEMENTAL" }
 end
 
 function Eater:TimeSinceLastEating()
-	if self.lasteattime then
-		return GetTime() - self.lasteattime
-	end
+    if self.lasteattime then
+        return GetTime() - self.lasteattime
+    end
 end
 
 function Eater:OnSave()
     if self.lasteattime then
-        return {time_since_eat = self:TimeSinceLastEating()}
+        return { time_since_eat = self:TimeSinceLastEating() }
     end
 end
 
@@ -63,7 +63,7 @@ function Eater:OnLoad(data)
 end
 
 function Eater:SetCanEatHorrible()
-	table.insert(self.foodprefs, "HORRIBLE")
+    table.insert(self.foodprefs, "HORRIBLE")
 end
 
 function Eater:SetOmnivore()
@@ -78,7 +78,7 @@ function Eater:SetCanEatTestFn(fn)
     self.caneattest = fn
 end
 
-function Eater:Eat( food )
+function Eater:Eat(food)
     if self:CanEat(food) then
         local stack_mult = self.eatwholestack and food.components.stackable ~= nil and food.components.stackable:StackSize() or 1
 
@@ -91,41 +91,41 @@ function Eater:Eat( food )
         if self.inst.components.hunger then
             self.inst.components.hunger:DoDelta(food.components.edible:GetHunger(self.inst))
         end
-        
+
         if self.inst.components.sanity then
             self.inst.components.sanity:DoDelta(food.components.edible:GetSanity(self.inst))
         end
-        
-        self.inst:PushEvent("oneat", {food = food})
+
+        self.inst:PushEvent("oneat", { food = food })
         if self.oneatfn then
             self.oneatfn(self.inst, food)
         end
-        
+
         if food.components.edible then
             food.components.edible:OnEaten(self.inst)
         end
-        
+
         if food.components.stackable and food.components.stackable.stacksize > 1 and not self.eatwholestack then
             food.components.stackable:Get():Remove()
         else
             food:Remove()
         end
-        
+
         self.lasteattime = GetTime()
-        
-        self.inst:PushEvent("oneatsomething", {food = food})
-        
+
+        self.inst:PushEvent("oneatsomething", { food = food })
+
         return true
     end
 end
 
 function Eater:CanEat(inst)
     if inst and inst.components.edible then
-        for k,v in pairs(self.foodprefs) do
+        for k, v in pairs(self.foodprefs) do
             if v == inst.components.edible.foodtype then
-				if self.caneattest then
-					return self.caneattest(self.inst, inst)
-				end
+                if self.caneattest then
+                    return self.caneattest(self.inst, inst)
+                end
                 return true
             end
         end

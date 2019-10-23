@@ -19,7 +19,7 @@ end
 
 function WallUpdater:OnWallUpdate(dt)
     if self.wallupdatefunc then
-    	self.wallupdatefunc(self, dt)
+        self.wallupdatefunc(self, dt)
     end
 end
 

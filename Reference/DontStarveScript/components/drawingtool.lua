@@ -30,10 +30,10 @@ function DrawingTool:GetImageToDraw(target)
     local ent = FindEntityToDraw(target, self.inst)
     return ent ~= nil and (
             #(ent.components.inventoryitem.imagename or "") > 0 and
-            ent.components.inventoryitem.imagename or
-            ent.prefab
-        ) or nil,
-        ent
+                    ent.components.inventoryitem.imagename or
+                    ent.prefab
+    ) or nil,
+    ent
 end
 
 function DrawingTool:Draw(target, image, src)

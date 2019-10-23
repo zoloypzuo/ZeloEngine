@@ -9,22 +9,21 @@ local TabGroup = require "widgets/tabgroup"
 local UIAnim = require "widgets/uianim"
 local Text = require "widgets/text"
 
-
 local IngredientUI = Class(Widget, function(self, atlas, image, quantity, on_hand, has_enough, name, owner)
     Widget._ctor(self, "IngredientUI")
-    
+
     --self:SetClickable(false)
-    
-    local hud_atlas = resolvefilepath( "images/hud.xml" )
-    
+
+    local hud_atlas = resolvefilepath("images/hud.xml")
+
     if has_enough then
         self.bg = self:AddChild(Image(hud_atlas, "inv_slot.tex"))
     else
         self.bg = self:AddChild(Image(hud_atlas, "resource_needed.tex"))
     end
-    
+
     self:SetTooltip(name)
-    
+
     self.ing = self:AddChild(Image(atlas, image))
     if quantity then
 
@@ -37,10 +36,10 @@ local IngredientUI = Class(Widget, function(self, atlas, image, quantity, on_han
         else
             self.quant = self:AddChild(Text(SMALLNUMBERFONT, 24))
         end
-        self.quant:SetPosition(7,-32, 0)
-        self.quant:SetString(string.format("%d/%d", on_hand,quantity))
+        self.quant:SetPosition(7, -32, 0)
+        self.quant:SetString(string.format("%d/%d", on_hand, quantity))
         if not has_enough then
-            self.quant:SetColour(255/255,155/255,155/255,1)
+            self.quant:SetColour(255 / 255, 155 / 255, 155 / 255, 1)
         end
     end
 end)

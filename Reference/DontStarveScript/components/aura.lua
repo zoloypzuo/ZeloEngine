@@ -8,12 +8,12 @@ local Aura = Class(function(self, inst)
 end)
 
 function Aura:GetDebugString()
-    
-    local str = string.format("radius:%2.2f, enabled:%s", self.radius, tostring(self.active) )
+
+    local str = string.format("radius:%2.2f, enabled:%s", self.radius, tostring(self.active))
     if self.active then
         str = str .. string.format(" %2.2fs applying:%s", self.tickperiod, tostring(self.applying))
     end
-    
+
     return str
 end
 
@@ -21,7 +21,9 @@ function Aura:Enable(val)
     if self.active ~= val then
         self.active = val
         if self.active then
-            self.task = self.inst:DoPeriodicTask(self.tickperiod, function() self:OnTick() end)
+            self.task = self.inst:DoPeriodicTask(self.tickperiod, function()
+                self:OnTick()
+            end)
         else
             if self.task then
                 self.task:Cancel()
@@ -40,19 +42,20 @@ function Aura:OnTick()
     local applied = false
 
     if self.inst.components.combat then
-        local hits = self.inst.components.combat:DoAreaAttack(self.inst, self.radius, nil, 
-            function(target) 
-                if target:HasTag("noauradamage") then return false end
-
-                if self.auratestfn then
-                    if not self.auratestfn(self.inst, target) then
+        local hits = self.inst.components.combat:DoAreaAttack(self.inst, self.radius, nil,
+                function(target)
+                    if target:HasTag("noauradamage") then
                         return false
                     end
-                end
 
+                    if self.auratestfn then
+                        if not self.auratestfn(self.inst, target) then
+                            return false
+                        end
+                    end
 
-                return true
-            end)
+                    return true
+                end)
         --print("Aura:OnTick", hits)
         applied = hits > 0
     end
@@ -63,7 +66,7 @@ function Aura:OnTick()
         else
             self.inst:PushEvent("stopaura")
         end
-    
+
         self.applying = applied
     end
 end

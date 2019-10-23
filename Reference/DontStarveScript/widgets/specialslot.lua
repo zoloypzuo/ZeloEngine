@@ -24,7 +24,7 @@ function SpecialSlot:OnControl(control, down)
     if self.oncontrolfn then
         self.oncontrolfn(self, control, down)
     else
-        print ("NO CONTROLFN FOUND ON SPECIAL SLOT")
+        print("NO CONTROLFN FOUND ON SPECIAL SLOT")
     end
 end
 

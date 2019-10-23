@@ -16,10 +16,10 @@ local Drawable = Class(function(self, inst)
     --V2C: Recommended to explicitly add tags to prefab pristine state
     --On construciton, "drawable" tag is added by default
 end,
-nil,
-{
-    candraw = oncandraw,
-})
+        nil,
+        {
+            candraw = oncandraw,
+        })
 
 function Drawable:OnRemoveFromEntity()
     self.inst:RemoveTag("drawable")
@@ -55,8 +55,8 @@ end
 
 function Drawable:OnSave()
     return self.imagename ~= nil
-        and { image = self.imagename }
-        or nil
+            and { image = self.imagename }
+            or nil
 end
 
 function Drawable:OnLoad(data)

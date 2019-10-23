@@ -11,7 +11,7 @@ end
 function Unsaddler:CollectEquippedActions(doer, target, actions, right)
     if target:HasTag("saddled") and not right then
         table.insert(actions, ACTIONS.UNSADDLE)
-    end	
+    end
 end
 
 return Unsaddler

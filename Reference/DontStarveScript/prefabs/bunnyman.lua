@@ -1,76 +1,72 @@
 require "brains/bunnymanbrain"
 require "stategraphs/SGbunnyman"
 
-local assets =
-{
-	Asset("ANIM", "anim/manrabbit_basic.zip"),
-	Asset("ANIM", "anim/manrabbit_actions.zip"),
-	Asset("ANIM", "anim/manrabbit_attacks.zip"),
-	Asset("ANIM", "anim/manrabbit_build.zip"),
-	
-	Asset("ANIM", "anim/manrabbit_beard_build.zip"),
-	Asset("ANIM", "anim/manrabbit_beard_basic.zip"),
-	Asset("ANIM", "anim/manrabbit_beard_actions.zip"),
-	Asset("SOUND", "sound/bunnyman.fsb"),
+local assets = {
+    Asset("ANIM", "anim/manrabbit_basic.zip"),
+    Asset("ANIM", "anim/manrabbit_actions.zip"),
+    Asset("ANIM", "anim/manrabbit_attacks.zip"),
+    Asset("ANIM", "anim/manrabbit_build.zip"),
+
+    Asset("ANIM", "anim/manrabbit_beard_build.zip"),
+    Asset("ANIM", "anim/manrabbit_beard_basic.zip"),
+    Asset("ANIM", "anim/manrabbit_beard_actions.zip"),
+    Asset("SOUND", "sound/bunnyman.fsb"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "meat",
     "monstermeat",
     "beardhair",
     "manrabbit_tail",
 }
 
-
 local MAX_TARGET_SHARES = 5
 local SHARE_TARGET_DIST = 30
 
 local function ontalk(inst, script)
-	inst.SoundEmitter:PlaySound("dontstarve/creatures/bunnyman/idle_med")
-	--inst.SoundEmitter:PlaySound("dontstarve/pig/grunt")
+    inst.SoundEmitter:PlaySound("dontstarve/creatures/bunnyman/idle_med")
+    --inst.SoundEmitter:PlaySound("dontstarve/pig/grunt")
 end
 
 local function CalcSanityAura(inst, observer)
 
-	if inst.beardlord then
+    if inst.beardlord then
         return -TUNING.SANITYAURA_MED
     end
-    
-    if inst.components.follower and inst.components.follower.leader == observer then
-		return TUNING.SANITYAURA_SMALL
-	end
-	
-	return 0
-end
 
+    if inst.components.follower and inst.components.follower.leader == observer then
+        return TUNING.SANITYAURA_SMALL
+    end
+
+    return 0
+end
 
 local function ShouldAcceptItem(inst, item)
     if item.components.equippable and item.components.equippable.equipslot == EQUIPSLOTS.HEAD then
         return true
     end
     if item.components.edible then
-        
+
         if (item.prefab == "carrot" or item.prefab == "carrot_cooked")
-           and inst.components.follower.leader
-           and inst.components.follower:GetLoyaltyPercent() > 0.9 then
+                and inst.components.follower.leader
+                and inst.components.follower:GetLoyaltyPercent() > 0.9 then
             return false
         end
-        
+
         return true
     end
 end
 
 local function OnGetItemFromPlayer(inst, giver, item)
-    
+
     --I eat food
     if item.components.edible then
         if (item.prefab == "carrot" or item.prefab == "carrot_cooked") then
             if inst.components.combat.target and inst.components.combat.target == giver then
                 inst.components.combat:SetTarget(nil)
             elseif giver.components.leader then
-				inst.SoundEmitter:PlaySound("dontstarve/common/makeFriend")
-				giver.components.leader:AddFollower(inst)
+                inst.SoundEmitter:PlaySound("dontstarve/common/makeFriend")
+                giver.components.leader:AddFollower(inst)
                 inst.components.follower:AddLoyaltyTime(TUNING.RABBIT_CARROT_LOYALTY)
             end
         end
@@ -80,14 +76,14 @@ local function OnGetItemFromPlayer(inst, giver, item)
         end
     end
 
-    
+
     --I wear hats
     if item.components.equippable and item.components.equippable.equipslot == EQUIPSLOTS.HEAD then
         local current = inst.components.inventory:GetEquippedItem(EQUIPSLOTS.HEAD)
         if current then
             inst.components.inventory:DropItem(current)
         end
-        
+
         inst.components.inventory:Equip(item)
         inst.AnimState:Show("hat")
     end
@@ -100,51 +96,58 @@ local function OnRefuseItem(inst, item)
     end
 end
 
-
 local function OnAttacked(inst, data)
     --print(inst, "OnAttacked")
     local attacker = data.attacker
     inst.components.combat:SetTarget(attacker)
-    inst.components.combat:ShareTarget(attacker, SHARE_TARGET_DIST, function(dude) return dude.prefab == inst.prefab end, MAX_TARGET_SHARES)
+    inst.components.combat:ShareTarget(attacker, SHARE_TARGET_DIST, function(dude)
+        return dude.prefab == inst.prefab
+    end, MAX_TARGET_SHARES)
 end
 
 local function OnNewTarget(inst, data)
-    inst.components.combat:ShareTarget(data.target, SHARE_TARGET_DIST, function(dude) return dude.prefab == inst.prefab end, MAX_TARGET_SHARES)
+    inst.components.combat:ShareTarget(data.target, SHARE_TARGET_DIST, function(dude)
+        return dude.prefab == inst.prefab
+    end, MAX_TARGET_SHARES)
 end
 
 local function is_meat(item)
-	return item.components.edible and item.components.edible.foodtype == "MEAT" 
+    return item.components.edible and item.components.edible.foodtype == "MEAT"
 end
 
 local function NormalRetargetFn(inst)
-    
+
     return FindEntity(inst, TUNING.PIG_TARGET_DIST,
-        function(guy)
-            
-            if guy.components.health and not guy.components.health:IsDead() and inst.components.combat:CanTarget(guy) then
-                if guy:HasTag("monster") then return guy end
-                if guy:HasTag("player") and guy.components.inventory and guy:GetDistanceSqToInst(inst) < TUNING.BUNNYMAN_SEE_MEAT_DIST*TUNING.BUNNYMAN_SEE_MEAT_DIST and guy.components.inventory:FindItem(is_meat ) then return guy end
-            end
-        end)
+            function(guy)
+
+                if guy.components.health and not guy.components.health:IsDead() and inst.components.combat:CanTarget(guy) then
+                    if guy:HasTag("monster") then
+                        return guy
+                    end
+                    if guy:HasTag("player") and guy.components.inventory and guy:GetDistanceSqToInst(inst) < TUNING.BUNNYMAN_SEE_MEAT_DIST * TUNING.BUNNYMAN_SEE_MEAT_DIST and guy.components.inventory:FindItem(is_meat) then
+                        return guy
+                    end
+                end
+            end)
 end
 
 local function NormalKeepTargetFn(inst, target)
-    
-    return inst.components.combat:CanTarget(target) and not (target.sg and target.sg:HasStateTag("hiding")) 
-end
 
+    return inst.components.combat:CanTarget(target) and not (target.sg and target.sg:HasStateTag("hiding"))
+end
 
 local function giveupstring(combatcmp, target)
     return STRINGS.RABBIT_GIVEUP[math.random(#STRINGS.RABBIT_GIVEUP)]
 end
 
-
 local function battlecry(combatcmp, target)
-    
-    if target and target.components.inventory then
-    
 
-        local item = target.components.inventory:FindItem(function(item) return item.components.edible and item.components.edible.foodtype == "MEAT" end )    
+    if target and target.components.inventory then
+
+
+        local item = target.components.inventory:FindItem(function(item)
+            return item.components.edible and item.components.edible.foodtype == "MEAT"
+        end)
         if item then
             return STRINGS.RABBIT_MEAT_BATTLECRY[math.random(#STRINGS.RABBIT_MEAT_BATTLECRY)]
         end
@@ -152,71 +155,72 @@ local function battlecry(combatcmp, target)
     return STRINGS.RABBIT_BATTLECRY[math.random(#STRINGS.RABBIT_BATTLECRY)]
 end
 
-
 local function SetBeardlord(inst)
-	if not inst.beardlord then
-		inst.AnimState:SetBuild("manrabbit_beard_build")    
-		inst.beardlord = true
+    if not inst.beardlord then
+        inst.AnimState:SetBuild("manrabbit_beard_build")
+        inst.beardlord = true
         inst.components.combat:SetDefaultDamage(TUNING.BEARDLORD_DAMAGE)
         inst.components.combat:SetAttackPeriod(TUNING.BEARDLORD_ATTACK_PERIOD)
         inst.components.combat.panic_thresh = TUNING.BEARDLORD_PANIC_THRESH
-        inst.components.lootdropper:SetLoot({"beardhair", "beardhair", "monstermeat"})
-        inst.components.sleeper:SetSleepTest(function() return false end)
-        inst.components.sleeper:SetWakeTest(function() return true end)
-	end
+        inst.components.lootdropper:SetLoot({ "beardhair", "beardhair", "monstermeat" })
+        inst.components.sleeper:SetSleepTest(function()
+            return false
+        end)
+        inst.components.sleeper:SetWakeTest(function()
+            return true
+        end)
+    end
 end
 
 local function SetNormalRabbit(inst)
-	if inst.beardlord or inst.beardlord == nil then
-		inst.beardlord = false
-		inst.AnimState:SetBuild("manrabbit_build")    
+    if inst.beardlord or inst.beardlord == nil then
+        inst.beardlord = false
+        inst.AnimState:SetBuild("manrabbit_build")
         inst.components.combat:SetDefaultDamage(TUNING.BUNNYMAN_DAMAGE)
         inst.components.combat:SetAttackPeriod(TUNING.BUNNYMAN_ATTACK_PERIOD)
         inst.components.combat.panic_thresh = TUNING.BUNNYMAN_PANIC_THRESH
 
-        inst.components.lootdropper:SetLoot({"carrot","carrot"})
-        inst.components.lootdropper:AddRandomLoot("meat",3)
-        inst.components.lootdropper:AddRandomLoot("manrabbit_tail",1)
+        inst.components.lootdropper:SetLoot({ "carrot", "carrot" })
+        inst.components.lootdropper:AddRandomLoot("meat", 3)
+        inst.components.lootdropper:AddRandomLoot("manrabbit_tail", 1)
         inst.components.lootdropper.numrandomloot = 1
         inst.components.sleeper:SetDefaultTests()
-	end
-	
+    end
+
 end
 
-
 local function CheckTransformState(inst)
-	if not inst.components.health:IsDead() then
-		if GetPlayer().components.sanity:GetPercent() > TUNING.BEARDLING_SANITY then
-			SetNormalRabbit(inst)
-		else
-			SetBeardlord(inst)			
-		end
-	end
+    if not inst.components.health:IsDead() then
+        if GetPlayer().components.sanity:GetPercent() > TUNING.BEARDLING_SANITY then
+            SetNormalRabbit(inst)
+        else
+            SetBeardlord(inst)
+        end
+    end
 end
 
 local function OnWake(inst)
-	CheckTransformState(inst)
-	inst.checktask = inst:DoPeriodicTask(10, CheckTransformState)
+    CheckTransformState(inst)
+    inst.checktask = inst:DoPeriodicTask(10, CheckTransformState)
 end
 
 local function OnSleep(inst)
-	 if inst.checktask then
-	 	inst.checktask:Cancel()
-	 	inst.checktask = nil
-	 end
+    if inst.checktask then
+        inst.checktask:Cancel()
+        inst.checktask = nil
+    end
 end
 
-
 local function fn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
-	local sound = inst.entity:AddSoundEmitter()
-	local shadow = inst.entity:AddDynamicShadow()
-	shadow:SetSize( 1.5, .75 )
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
+    local sound = inst.entity:AddSoundEmitter()
+    local shadow = inst.entity:AddDynamicShadow()
+    shadow:SetSize(1.5, .75)
     inst.Transform:SetFourFaced()
     local s = 1.25
-    inst.Transform:SetScale(s,s,s)
+    inst.Transform:SetScale(s, s, s)
 
     inst.entity:AddLightWatcher()
 
@@ -234,7 +238,6 @@ local function fn()
     anim:PlayAnimation("idle_loop")
     anim:Hide("hat")
 
-
     inst.CheckTransformState = CheckTransformState --used for purpleamulet
 
     ------------------------------------------
@@ -249,13 +252,12 @@ local function fn()
     inst.components.combat.GetBattleCryString = battlecry
     inst.components.combat.GetGiveUpString = giveupstring
 
-
     MakeMediumBurnableCharacter(inst, "manrabbit_torso")
 
     inst:AddComponent("named")
     inst.components.named.possiblenames = STRINGS.BUNNYMANNAMES
     inst.components.named:PickNewName()
-    
+
     ------------------------------------------
     inst:AddComponent("follower")
     inst.components.follower.maxfollowtime = TUNING.PIG_LOYALTY_MAXTIME
@@ -266,13 +268,13 @@ local function fn()
     ------------------------------------------
 
     inst:AddComponent("inventory")
-    
+
     ------------------------------------------
 
     inst:AddComponent("lootdropper")
-    inst.components.lootdropper:SetLoot({"carrot","carrot"})
-    inst.components.lootdropper:AddRandomLoot("meat",3)
-    inst.components.lootdropper:AddRandomLoot("manrabbit_tail",1)
+    inst.components.lootdropper:SetLoot({ "carrot", "carrot" })
+    inst.components.lootdropper:AddRandomLoot("meat", 3)
+    inst.components.lootdropper:AddRandomLoot("manrabbit_tail", 1)
     inst.components.lootdropper.numrandomloot = 1
 
     ------------------------------------------
@@ -282,7 +284,7 @@ local function fn()
     inst.components.talker.ontalk = ontalk
     inst.components.talker.fontsize = 24
     inst.components.talker.font = TALKINGFONT
-    inst.components.talker.offset = Vector3(0,-500,0)
+    inst.components.talker.offset = Vector3(0, -500, 0)
 
     ------------------------------------------
 
@@ -290,7 +292,7 @@ local function fn()
     inst.components.trader:SetAcceptTest(ShouldAcceptItem)
     inst.components.trader.onaccept = OnGetItemFromPlayer
     inst.components.trader.onrefuse = OnRefuseItem
-    
+
     ------------------------------------------
 
     inst:AddComponent("sanityaura")
@@ -300,10 +302,10 @@ local function fn()
     ------------------------------------------
 
     inst:AddComponent("sleeper")
-    
+
     ------------------------------------------
     MakeMediumFreezableCharacter(inst, "pig_torso")
-    
+
     ------------------------------------------
 
 
@@ -314,20 +316,19 @@ local function fn()
         end
     end
     ------------------------------------------
-    
-    inst:ListenForEvent("attacked", OnAttacked)    
+
+    inst:ListenForEvent("attacked", OnAttacked)
     inst:ListenForEvent("newcombattarget", OnNewTarget)
-    
-    
-	
-	--inst.components.werebeast:SetOnWereFn(SetBeardlord)
-	--inst.components.werebeast:SetOnNormaleFn(SetNormalRabbit)
+
+
+
+    --inst.components.werebeast:SetOnWereFn(SetBeardlord)
+    --inst.components.werebeast:SetOnNormaleFn(SetNormalRabbit)
 
     CheckTransformState(inst)
-	inst.OnEntityWake = OnWake
-	inst.OnEntitySleep = OnSleep    
-    
-    
+    inst.OnEntityWake = OnWake
+    inst.OnEntitySleep = OnSleep
+
     inst.components.sleeper:SetResistance(2)
     inst.components.sleeper.nocturnal = true
 
@@ -339,10 +340,8 @@ local function fn()
     inst.components.locomotor.runspeed = TUNING.BUNNYMAN_RUN_SPEED
     inst.components.locomotor.walkspeed = TUNING.BUNNYMAN_WALK_SPEED
 
-
     inst.components.health:SetMaxHealth(TUNING.BUNNYMAN_HEALTH)
 
-    
     inst.components.trader:Enable()
     --inst.Label:Enable(true)
     --inst.components.talker:StopIgnoringAll()
@@ -352,9 +351,7 @@ local function fn()
     inst:SetBrain(brain)
     inst:SetStateGraph("SGbunnyman")
 
-
     return inst
 end
 
-
-return Prefab( "common/characters/bunnyman", fn, assets, prefabs) 
+return Prefab("common/characters/bunnyman", fn, assets, prefabs)

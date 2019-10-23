@@ -6,17 +6,17 @@ local GroundCreep = Class(function(self, inst)
 end)
 
 function GroundCreep:OnSave()
-	local data = nil
-	if self.inst.GroundCreep then
-		data = self.inst.GroundCreep:GetAsString()
-	end
-	return data
+    local data = nil
+    if self.inst.GroundCreep then
+        data = self.inst.GroundCreep:GetAsString()
+    end
+    return data
 end
 
 function GroundCreep:OnLoad(data)
-	if data ~= nil and self.inst.GroundCreep then
-		self.inst.GroundCreep:SetFromString(data)
-	end
+    if data ~= nil and self.inst.GroundCreep then
+        self.inst.GroundCreep:SetFromString(data)
+    end
 end
 
 return GroundCreep

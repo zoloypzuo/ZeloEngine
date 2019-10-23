@@ -1,28 +1,26 @@
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/tree_marsh.zip"),
     Asset("MINIMAP_IMAGE", "marshtree"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "log",
     "twigs",
     "charcoal",
 }
 
-SetSharedLootTable( 'marsh_tree',
-{
-    {'twigs',  1.0},
-    {'log',    0.2},
-})
+SetSharedLootTable('marsh_tree',
+        {
+            { 'twigs', 1.0 },
+            { 'log', 0.2 },
+        })
 
 local function sway(inst)
-    inst.AnimState:PushAnimation("sway"..math.random(4).."_loop", true)
+    inst.AnimState:PushAnimation("sway" .. math.random(4) .. "_loop", true)
 end
 
 local function chop_tree(inst, chopper, chops)
-    inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")          
+    inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")
     inst.AnimState:PlayAnimation("chop")
     sway(inst)
 end
@@ -40,15 +38,14 @@ local function dig_up_stump(inst, chopper)
     inst.components.lootdropper:SpawnLootPrefab("log")
 end
 
-
 local function chop_down_tree(inst, chopper)
-    inst.SoundEmitter:PlaySound("dontstarve/forest/treeCrumble")          
+    inst.SoundEmitter:PlaySound("dontstarve/forest/treeCrumble")
     inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")
     inst.AnimState:PlayAnimation("fall")
     inst.AnimState:PushAnimation("stump", false)
     set_stump(inst)
     inst.components.lootdropper:DropLoot()
-    
+
     inst:AddComponent("workable")
     inst.components.workable:SetWorkAction(ACTIONS.DIG)
     inst.components.workable:SetOnFinishCallback(dig_up_stump)
@@ -56,22 +53,23 @@ local function chop_down_tree(inst, chopper)
 end
 
 local function chop_down_burnt_tree(inst, chopper)
-    inst.SoundEmitter:PlaySound("dontstarve/forest/treeCrumble")          
-    inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")          
+    inst.SoundEmitter:PlaySound("dontstarve/forest/treeCrumble")
+    inst.SoundEmitter:PlaySound("dontstarve/wilson/use_axe_tree")
     inst.AnimState:PlayAnimation("burnt_chop")
     set_stump(inst)
     inst.Physics:ClearCollisionMask()
-    inst:ListenForEvent("animover", function() inst:Remove() end)
+    inst:ListenForEvent("animover", function()
+        inst:Remove()
+    end)
     inst.components.lootdropper:DropLoot()
 end
-
 
 local function OnBurnt(inst)
     inst:RemoveComponent("burnable")
     inst:RemoveComponent("propagator")
-    
-    inst.components.lootdropper:SetLoot({"charcoal"})
-    
+
+    inst.components.lootdropper:SetLoot({ "charcoal" })
+
     inst.components.workable:SetWorkLeft(1)
     inst.components.workable:SetOnWorkCallback(nil)
     inst.components.workable:SetOnFinishCallback(chop_down_burnt_tree)
@@ -101,7 +99,7 @@ local function onsave(inst, data)
         data.stump = true
     end
 end
-        
+
 local function onload(inst, data)
     if data then
         if data.burnt then
@@ -114,14 +112,14 @@ local function onload(inst, data)
             RemovePhysicsColliders(inst)
             inst.AnimState:PlayAnimation("stump", false)
             inst:AddTag("stump")
-            
+
             inst:AddComponent("workable")
             inst.components.workable:SetWorkAction(ACTIONS.DIG)
             inst.components.workable:SetOnFinishCallback(dig_up_stump)
             inst.components.workable:SetWorkLeft(1)
         end
     end
-end   
+end
 
 local function fn(Sim)
     local inst = CreateEntity()
@@ -131,19 +129,19 @@ local function fn(Sim)
     local sound = inst.entity:AddSoundEmitter()
 
     local minimap = inst.entity:AddMiniMapEntity()
-    minimap:SetIcon( "marshtree.png" )
+    minimap:SetIcon("marshtree.png")
     minimap:SetPriority(-1)
 
-    MakeObstaclePhysics(inst, .25)   
+    MakeObstaclePhysics(inst, .25)
     inst:AddTag("tree")
 
     MakeLargeBurnable(inst)
     inst.components.burnable:SetOnBurntFn(tree_burnt)
     MakeSmallPropagator(inst)
-    
-    inst:AddComponent("lootdropper") 
+
+    inst:AddComponent("lootdropper")
     inst.components.lootdropper:SetChanceLootTable('marsh_tree')
-    
+
     inst:AddComponent("workable")
     inst.components.workable:SetWorkAction(ACTIONS.CHOP)
     inst.components.workable:SetWorkLeft(10)
@@ -155,15 +153,15 @@ local function fn(Sim)
     local color = 0.5 + math.random() * 0.5
     anim:SetMultColour(color, color, color, 1)
     sway(inst)
-    anim:SetTime(math.random()*2)
-    
+    anim:SetTime(math.random() * 2)
+
     inst:AddComponent("inspectable")
     inst.components.inspectable.getstatus = inspect_tree
-    
+
     inst.OnSave = onsave
     inst.OnLoad = onload
     MakeSnowCovered(inst, .01)
     return inst
 end
 
-return Prefab( "marsh/objects/marsh_tree", fn, assets) 
+return Prefab("marsh/objects/marsh_tree", fn, assets)

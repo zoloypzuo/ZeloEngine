@@ -19,10 +19,10 @@ local RunningProfilePopup = Class(Screen, function(self, duration, cb)
     self.proot = self:AddChild(Widget("ROOT"))
     self.proot:SetVAnchor(ANCHOR_TOP)
     self.proot:SetHAnchor(ANCHOR_MIDDLE)
-    self.proot:SetPosition(0,0,0)
+    self.proot:SetPosition(0, 0, 0)
     self.proot:SetScaleMode(SCALEMODE_PROPORTIONAL)
 
-	self.frames = 0 -- need to delay a couple frames so the save can complete before DT starts ticking down.
+    self.frames = 0 -- need to delay a couple frames so the save can complete before DT starts ticking down.
     self.time = duration
 
     --text
@@ -32,27 +32,27 @@ local RunningProfilePopup = Class(Screen, function(self, duration, cb)
     self.text:SetString(string.format(STRINGS.UI.BUGREPORTSCREEN.RUNNING_PROFILE, math.ceil(self.time)))
     -- self.text:SetRegionSize(140, 100)
     self.text:SetHAlign(ANCHOR_MIDDLE)
-    self.text:SetColour(1,1,1,1)
+    self.text:SetColour(1, 1, 1, 1)
 
     self.cb = cb
 end)
 
-function RunningProfilePopup:OnUpdate( dt )
-	if self.frames < 10 then
-		--nothing
-	elseif self.frames == 10 then
-		TheSim:ToggleFrameProfiler(true)
-	else
-		self.time = self.time - dt
-		self.text:SetString(string.format(STRINGS.UI.BUGREPORTSCREEN.RUNNING_PROFILE, math.ceil(self.time)))
+function RunningProfilePopup:OnUpdate(dt)
+    if self.frames < 10 then
+        --nothing
+    elseif self.frames == 10 then
+        TheSim:ToggleFrameProfiler(true)
+    else
+        self.time = self.time - dt
+        self.text:SetString(string.format(STRINGS.UI.BUGREPORTSCREEN.RUNNING_PROFILE, math.ceil(self.time)))
 
-		if self.time <= 0 then
-			TheSim:ToggleFrameProfiler(false)
-			TheFrontEnd:PopScreen()
-			self.cb()
-		end
-	end
-	self.frames = self.frames + 1
+        if self.time <= 0 then
+            TheSim:ToggleFrameProfiler(false)
+            TheFrontEnd:PopScreen()
+            self.cb()
+        end
+    end
+    self.frames = self.frames + 1
 end
 
 return RunningProfilePopup

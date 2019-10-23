@@ -15,13 +15,17 @@ function DoAction:OnSucceed()
 end
 
 function DoAction:Visit()
-    
+
     if self.status == READY then
         local action = self.getactionfn(self.inst)
-        
+
         if action then
-            action:AddFailAction(function() self:OnFail() end)
-            action:AddSuccessAction(function() self:OnSucceed() end)
+            action:AddFailAction(function()
+                self:OnFail()
+            end)
+            action:AddSuccessAction(function()
+                self:OnSucceed()
+            end)
             self.pendingstatus = nil
             self.inst.components.locomotor:PushAction(action, self.shouldrun)
             self.action = action;
@@ -30,7 +34,7 @@ function DoAction:Visit()
             self.status = FAILED
         end
     end
-    
+
     if self.status == RUNNING then
         if self.pendingstatus then
             self.status = self.pendingstatus

@@ -1,5 +1,4 @@
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/steel_wool.zip"),
 }
 
@@ -25,7 +24,6 @@ local function fn()
 
     MakeSmallBurnable(inst, TUNING.MED_BURNTIME)
     MakeSmallPropagator(inst)
-
 
     return inst
 end

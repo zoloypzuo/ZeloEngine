@@ -1,18 +1,17 @@
-local assets = 
-{
-	Asset("ANIM", "anim/bone_shards.zip")
+local assets = {
+    Asset("ANIM", "anim/bone_shards.zip")
 }
 
 local function fn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
 
     MakeInventoryPhysics(inst)
 
     anim:SetBank("bone_shards")
     anim:SetBuild("bone_shards")
-    anim:PlayAnimation("idle",false)
+    anim:PlayAnimation("idle", false)
 
     inst:AddComponent("inspectable")
     inst:AddComponent("inventoryitem")
@@ -20,7 +19,7 @@ local function fn()
 
     inst:AddComponent("stackable")
 
-	return inst
+    return inst
 end
 
 return Prefab("common/inventory/boneshard", fn, assets)

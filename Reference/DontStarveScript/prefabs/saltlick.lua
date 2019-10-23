@@ -1,14 +1,13 @@
 require "prefabutil"
 
-local assets =
-{
+local assets = {
     Asset("ANIM", "anim/salt_lick.zip"),
 }
 
 local function AlertNearbyCritters(inst)
-    local x,y,z = inst.Transform:GetWorldPosition()
-    local ents = TheSim:FindEntities(x,y,z, TUNING.SALTLICK_CHECK_DIST, { "saltlicker" }, { "INLIMBO" })
-    for i,ent in ipairs(ents) do
+    local x, y, z = inst.Transform:GetWorldPosition()
+    local ents = TheSim:FindEntities(x, y, z, TUNING.SALTLICK_CHECK_DIST, { "saltlicker" }, { "INLIMBO" })
+    for i, ent in ipairs(ents) do
         ent:PushEvent("saltlick_placed", { inst = inst })
     end
 end
@@ -27,9 +26,9 @@ local function PlayIdle(inst, push)
     end
 
     if push then
-        inst.AnimState:PushAnimation("idle"..getimagenum(inst, inst.components.finiteuses:GetPercent()), true)
+        inst.AnimState:PushAnimation("idle" .. getimagenum(inst, inst.components.finiteuses:GetPercent()), true)
     else
-        inst.AnimState:PlayAnimation("idle"..getimagenum(inst, inst.components.finiteuses:GetPercent()), true)
+        inst.AnimState:PlayAnimation("idle" .. getimagenum(inst, inst.components.finiteuses:GetPercent()), true)
     end
 end
 
@@ -64,7 +63,7 @@ end
 local function OnHit(inst)
     if not inst:HasTag("burnt") then
         inst.SoundEmitter:PlaySound("dontstarve/common/salt_lick_hit")
-        inst.AnimState:PlayAnimation("hit"..getimagenum(inst, inst.components.finiteuses:GetPercent()))
+        inst.AnimState:PlayAnimation("hit" .. getimagenum(inst, inst.components.finiteuses:GetPercent()))
         PlayIdle(inst, true)
     end
 end
@@ -135,4 +134,4 @@ local function fn()
 end
 
 return Prefab("saltlick", fn, assets),
-    MakePlacer("saltlick_placer", "salt_lick", "salt_lick", "idle1")
+MakePlacer("saltlick_placer", "salt_lick", "salt_lick", "idle1")

@@ -6,11 +6,11 @@ local function DoTest(inst)
             local close = nil
             local distsq = player:GetDistanceSqToInst(inst)
             if playerprox.isclose then
-                close = distsq < playerprox.far*playerprox.far
+                close = distsq < playerprox.far * playerprox.far
             else
-                close = distsq < playerprox.near*playerprox.near
+                close = distsq < playerprox.near * playerprox.near
             end
-            
+
             if playerprox.isclose ~= close then
                 playerprox.isclose = close
                 if playerprox.isclose and playerprox.onnear then
@@ -20,7 +20,7 @@ local function DoTest(inst)
                 if not playerprox.isclose and playerprox.onfar then
                     playerprox.onfar(inst)
                 end
-                
+
             end
         end
     end
@@ -34,9 +34,9 @@ local PlayerProx = Class(function(self, inst)
     self.onnear = nil
     self.onfar = nil
     self.isclose = nil
-    
+
     self.task = nil
-        
+
     self:Schedule()
 end)
 
@@ -53,7 +53,7 @@ function PlayerProx:SetOnPlayerFar(fn)
 end
 
 function PlayerProx:IsPlayerClose()
-	return self.isclose
+    return self.isclose
 end
 
 function PlayerProx:SetDist(near, far)
@@ -66,13 +66,13 @@ function PlayerProx:Schedule()
         self.task:Cancel()
         self.task = nil
     end
-	if not self.inst:IsAsleep() then
-	    self.task = self.inst:DoPeriodicTask(self.period, DoTest, math.random() * self.period)
-	end
+    if not self.inst:IsAsleep() then
+        self.task = self.inst:DoPeriodicTask(self.period, DoTest, math.random() * self.period)
+    end
 end
 
 function PlayerProx:OnEntitySleep()
-    
+
     if self.onfar then
         self.onfar(self.inst)
     end
