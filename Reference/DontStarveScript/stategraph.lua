@@ -238,6 +238,11 @@ function State:HandleEvent(sg, eventname, data)
     return false
 end
 
+-- 	1. 名字
+--	2. 状态s
+--	3. 事件s
+--	4. 初始状态
+--  5. 动作处理s
 StateGraph = Class(function(self, name, states, events, defaultstate, actionhandlers)
     assert(name and type(name) == "string", "You must specify a name for this stategraph")
     local info = debug.getinfo(3, "Sl")
