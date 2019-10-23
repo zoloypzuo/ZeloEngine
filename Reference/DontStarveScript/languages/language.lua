@@ -1,5 +1,5 @@
---Here is where you can select a language file to override the default english strings
---The game currently only supports ASCII (sadly), so not all languages can be supported at this time.
+--Here is where you can select a language file to override the default english strings（这里是你可以选择语言文件的地方）
+--The game currently only supports ASCII (sadly), so not all languages can be supported at this time.（目前游戏不支持所有语言编码，只是支持ASCII）
 
 require "translator"
 
