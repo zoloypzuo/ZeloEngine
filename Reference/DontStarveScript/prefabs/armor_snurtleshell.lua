@@ -1,10 +1,9 @@
-local assets =
-{
-	Asset("ANIM", "anim/armor_slurtleshell.zip"),
+local assets = {
+    Asset("ANIM", "anim/armor_slurtleshell.zip"),
     Asset("INV_IMAGE", "armorsnurtleshell"),
 }
 
-local function OnBlocked(owner) 
+local function OnBlocked(owner)
     owner.SoundEmitter:PlaySound("dontstarve/wilson/hit_armour")
 end
 
@@ -34,13 +33,13 @@ local function droptargets(inst)
     local pt = inst:GetPosition()
     local ents = TheSim:FindEntities(pt.x, pt.y, pt.z, 20)
 
-    for k,v in pairs(ents) do
+    for k, v in pairs(ents) do
         if v.components.combat and v.components.combat.target and v.components.combat.target == inst then
             v.components.combat:SetTarget(nil)
         end
     end
 
-   if inst.task then
+    if inst.task then
         inst.task:Cancel()
         inst.task = nil
     end
@@ -50,14 +49,16 @@ local function onuse(inst)
     local owner = inst.components.inventoryitem.owner
     if owner then
         owner.sg:GoToState("shell_enter")
-        inst.task = inst:DoTaskInTime(5, function() droptargets(inst) end)
+        inst.task = inst:DoTaskInTime(5, function()
+            droptargets(inst)
+        end)
     end
 end
 
-local function onequip(inst, owner) 
+local function onequip(inst, owner)
     owner.AnimState:OverrideSymbol("swap_body", "armor_slurtleshell", "swap_body")
     inst:ListenForEvent("blocked", OnBlocked, owner)
-    inst:ListenForEvent("newstate", ProtectionLevels, owner) 
+    inst:ListenForEvent("newstate", ProtectionLevels, owner)
 end
 
 local function onunequip(inst, owner)
@@ -67,13 +68,11 @@ local function onunequip(inst, owner)
 
 end
 
-
-
 local function fn()
-	local inst = CreateEntity()
+    local inst = CreateEntity()
 
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
     MakeInventoryPhysics(inst)
 
     inst.AnimState:SetBank("armor_slurtleshell")
@@ -92,15 +91,13 @@ local function fn()
     inst:AddComponent("equippable")
     inst.components.equippable.equipslot = EQUIPSLOTS.BODY
 
-    inst.components.equippable:SetOnEquip( onequip )
-    inst.components.equippable:SetOnUnequip( onunequip )
+    inst.components.equippable:SetOnEquip(onequip)
+    inst.components.equippable:SetOnUnequip(onunequip)
 
     inst:AddComponent("useableitem")
     inst.components.useableitem:SetOnUseFn(onuse)
 
-
-
-	return inst
+    return inst
 end
 
 return Prefab("common/inventory/armorsnurtleshell", fn, assets) 

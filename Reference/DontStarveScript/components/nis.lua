@@ -5,21 +5,31 @@ local NIS = Class(function(self, inst)
     self.data = {}
     self.name = ""
     self.inputhandlers = {}
-    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_PRIMARY, function() self:OnClick() end))    
-    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_SECONDARY, function() self:OnClick() end))
-    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_ATTACK, function() self:OnClick() end))
-    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_INSPECT, function() self:OnClick() end))
-    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_ACTION, function() self:OnClick() end))    
-    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_CONTROLLER_ACTION, function() self:OnClick() end))    
+    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_PRIMARY, function()
+        self:OnClick()
+    end))
+    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_SECONDARY, function()
+        self:OnClick()
+    end))
+    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_ATTACK, function()
+        self:OnClick()
+    end))
+    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_INSPECT, function()
+        self:OnClick()
+    end))
+    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_ACTION, function()
+        self:OnClick()
+    end))
+    table.insert(self.inputhandlers, TheInput:AddControlHandler(CONTROL_CONTROLLER_ACTION, function()
+        self:OnClick()
+    end))
 end)
 
-
 function NIS:OnRemoveEntity()
-    for k,v in pairs(self.inputhandlers) do
+    for k, v in pairs(self.inputhandlers) do
         v:Remove()
     end
 end
-
 
 function NIS:SetName(name)
     self.name = name
@@ -54,7 +64,7 @@ function NIS:Cancel()
     if self.cancel then
         self.cancel(self.data)
     end
-    
+
     self:OnFinish()
 end
 
@@ -69,18 +79,18 @@ function NIS:Play(lines)
     if self.init then
         self.init(self.data)
     end
-    
+
     if self.script then
-        self.task = self.inst:StartThread( 
-            function() 
-                self.script(self, self.data, lines)
-                self:OnFinish()
-            end)
-        
+        self.task = self.inst:StartThread(
+                function()
+                    self.script(self, self.data, lines)
+                    self:OnFinish()
+                end)
+
     else
         self:OnFinish()
     end
-    
+
 end
 
 return NIS

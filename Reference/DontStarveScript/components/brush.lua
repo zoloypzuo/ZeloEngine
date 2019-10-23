@@ -5,13 +5,13 @@ end)
 function Brush:CollectUseActions(doer, target, actions, right)
     if not right and target:HasTag("brushable") then
         table.insert(actions, ACTIONS.BRUSH)
-    end	    
+    end
 end
 
 function Brush:CollectEquippedActions(doer, target, actions)
     if target:HasTag("brushable") then
         table.insert(actions, ACTIONS.BRUSH)
-    end	    	
+    end
 end
 
 return Brush

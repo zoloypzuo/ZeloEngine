@@ -12,7 +12,7 @@ local CraftSlot = require "widgets/craftslot"
 
 local CraftSlots = Class(Widget, function(self, num, owner)
     Widget._ctor(self, "CraftSlots")
-    
+
     self.slots = {}
     for k = 1, num do
         local slot = CraftSlot(HUD_ATLAS, "craft_slot.tex", owner)
@@ -29,40 +29,39 @@ function CraftSlots:AddSlot(slot)
 end
 
 function CraftSlots:EnablePopups()
-    for k,v in ipairs(self.slots) do
+    for k, v in ipairs(self.slots) do
         v:EnablePopup()
     end
 end
 
 function CraftSlots:Refresh()
-	for k,v in pairs(self.slots) do
-		v:Refresh()
-	end
+    for k, v in pairs(self.slots) do
+        v:Refresh()
+    end
 end
 
 function CraftSlots:Open(idx)
-	if idx > 0 and idx <= #self.slots then	
-		self.slots[idx]:Open()
-	end
+    if idx > 0 and idx <= #self.slots then
+        self.slots[idx]:Open()
+    end
 end
 
 function CraftSlots:LockOpen(idx)
-	if idx > 0 and idx <= #self.slots then	
-		self.slots[idx]:LockOpen()
-	end
+    if idx > 0 and idx <= #self.slots then
+        self.slots[idx]:LockOpen()
+    end
 end
 
 function CraftSlots:Clear()
-    for k,v in ipairs(self.slots) do
+    for k, v in ipairs(self.slots) do
         v:Clear()
     end
 end
 
 function CraftSlots:CloseAll()
-    for k,v in ipairs(self.slots) do
+    for k, v in ipairs(self.slots) do
         v:Close()
     end
 end
-
 
 return CraftSlots

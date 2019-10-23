@@ -13,7 +13,6 @@ function Dist2dSq(p1, p2)
     return dx * dx + dy * dy
 end
 
-
 function DistPointToSegment2dSq(p, v1, v2)
     local l2 = Dist2dSq(v1, v2)
     if (l2 == 0) then
@@ -28,7 +27,6 @@ function DistPointToSegment2dSq(p, v1, v2)
     end
     return Dist2dSq(p, { x = v1.x + t * (v2.x - v1.x), y = v1.y + t * (v2.y - v1.y) });
 end
-
 
 function DumpTableXML(t, name)
     name = name or ""

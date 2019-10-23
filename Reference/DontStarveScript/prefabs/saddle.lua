@@ -1,4 +1,3 @@
-
 local function ondiscarded(inst)
     inst.components.finiteuses:Use()
 end
@@ -10,7 +9,7 @@ end
 
 local function MakeSaddle(name, data)
     local assets = {
-        Asset("ANIM", "anim/"..name..".zip"),
+        Asset("ANIM", "anim/" .. name .. ".zip"),
     }
 
     local function fn()
@@ -24,7 +23,7 @@ local function MakeSaddle(name, data)
         inst.AnimState:SetBuild(name)
         inst.AnimState:PlayAnimation("idle")
 
-        inst.mounted_foleysound = "dontstarve/beefalo/saddle/"..data.foley
+        inst.mounted_foleysound = "dontstarve/beefalo/saddle/" .. data.foley
 
         inst:AddComponent("inspectable")
         inst:AddComponent("inventoryitem")
@@ -67,6 +66,6 @@ local data = {
     },
 }
 
-return  MakeSaddle("saddle_basic", data.basic),
-        MakeSaddle("saddle_war", data.war),
-        MakeSaddle("saddle_race", data.race)
+return MakeSaddle("saddle_basic", data.basic),
+MakeSaddle("saddle_war", data.war),
+MakeSaddle("saddle_race", data.race)

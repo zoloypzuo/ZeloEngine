@@ -1,10 +1,8 @@
-local assets =
-{
-	--Asset("ANIM", "anim/arrow_indicator.zip"),
+local assets = {
+    --Asset("ANIM", "anim/arrow_indicator.zip"),
 }
 
-local prefabs = 
-{
+local prefabs = {
     "bird_egg",
 }
 
@@ -14,7 +12,7 @@ local function InMood(inst)
         inst.components.periodicspawner:Start()
     end
     if inst.components.herd then
-        for k,v in pairs(inst.components.herd.members) do
+        for k, v in pairs(inst.components.herd.members) do
             k:PushEvent("entermood")
         end
     end
@@ -26,7 +24,7 @@ local function LeaveMood(inst)
         inst.components.periodicspawner:Stop()
     end
     if inst.components.herd then
-        for k,v in pairs(inst.components.herd.members) do
+        for k, v in pairs(inst.components.herd.members) do
             k:PushEvent("leavemood")
         end
     end
@@ -48,14 +46,14 @@ end
 
 local function OnFull(inst)
 end
-   
+
 local function fn(Sim)
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
-    
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
+
     inst:AddTag("herd")
-    
+
     inst:AddComponent("herd")
     inst.components.herd:SetMemberTag("penguin")
     inst.components.herd:SetGatherRange(40)
@@ -64,7 +62,7 @@ local function fn(Sim)
     inst.components.herd:SetOnFullFn(OnFull)
     inst.components.herd:SetAddMemberFn(AddMember)
     inst.components.herd:GatherNearbyMembers()
-    
+
     local season = GetSeasonManager()
     if season then
         local wait
@@ -80,8 +78,8 @@ local function fn(Sim)
         inst.components.mood:SetLeaveMoodFn(LeaveMood)
         inst.components.mood:CheckForMoodChange()
     end
-    
+
     return inst
 end
 
-return Prefab( "forest/animals/penguinherd", fn, assets, prefabs) 
+return Prefab("forest/animals/penguinherd", fn, assets, prefabs)

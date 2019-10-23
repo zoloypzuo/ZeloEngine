@@ -1,4 +1,3 @@
-
 --[[
     Functions to perform local analysis of the player's game
     and keep track of accumulated stats (to reduce amount of data sent)
@@ -23,16 +22,16 @@ end
 --]]
 
 TIMETRACKER_TYPE = {
-                        CUMULATIVE_ONLY = "CumulativeOnly",
-                        ONSET_ONLY      = "OnsetOnly",
-                        FIRST_AND_LAST  = "FirstAndLast"
-                    }
+    CUMULATIVE_ONLY = "CumulativeOnly",
+    ONSET_ONLY = "OnsetOnly",
+    FIRST_AND_LAST = "FirstAndLast"
+}
 
 TimeTracker = Class(function(self, name, subtable, stat, type, bufsize)
-    
+
     assert(name ~= nil)
 
-    timeTrackerStats[#timeTrackerStats+1] = self
+    timeTrackerStats[#timeTrackerStats + 1] = self
 
     self.name = name
     self.subtable = subtable or "time"
@@ -58,8 +57,8 @@ end)
 -- The function should return a single item which will be recorded as the current value
 -- and/or appended to the stored time-series
 
-function TimeTracker:DataFunction( fn )
-    assert( type(fn) == "function", "TimeTracker - needs function" )
+function TimeTracker:DataFunction(fn)
+    assert(type(fn) == "function", "TimeTracker - needs function")
     self.processData = fn
 end
 
@@ -112,7 +111,7 @@ function TimeTracker:UpdateTime(value)
     -- Process the data if necessary
     self.updates = self.updates + 1
     if self.processData then
-        value = self.processData(self,value)
+        value = self.processData(self, value)
     end
 
     self.value = value
@@ -120,7 +119,7 @@ function TimeTracker:UpdateTime(value)
     -- Do cumulative tracking here
 
     -- Add time-series info
-    self.buffer:Add({time=t,duration=self.lastInterval,value=value})
+    self.buffer:Add({ time = t, duration = self.lastInterval, value = value })
 
     return lastIdleDuration
 end
@@ -128,7 +127,6 @@ end
 function TimeTracker:End(value)
     self:UpdateTime(value)
 end
-
 
 local AFK_TIME = 10
 local lastInputTime = 0
@@ -148,21 +146,22 @@ local function UpdateInputTime()
     if IsPaused() then
         -- dprint("HUDPAUSED InputUpdate")
         local t = GetTime()
-        if t > lastInputTime then  -- means this is the first time into the paused HUD
+        if t > lastInputTime then
+            -- means this is the first time into the paused HUD
             lastIdleDuration = t - lastInputTime
             lastInputTime = t
         end
         if pauseReason == "minimap" then
-            pauseDuration = (GetTimeReal()/1000) - pauseScreenStart
+            pauseDuration = (GetTimeReal() / 1000) - pauseScreenStart
             -- The sim is paused during the minimap display, but I don't want to put a callback
             -- into WallUpdate to be called every few frames, so here I check to see if the
             -- time between inputs was long enough to be considered AFK and 
-            if pauseDuration > AFK_TIME and GetPlayer()then
-                dprint("============================= AFK during minimap",pauseDuration)
-                GetPlayer():PushEvent("minimapAFK",pauseDuration)
+            if pauseDuration > AFK_TIME and GetPlayer() then
+                dprint("============================= AFK during minimap", pauseDuration)
+                GetPlayer():PushEvent("minimapAFK", pauseDuration)
                 -- Add stat about AFK during minimap
             end
-            pauseScreenStart = GetTimeReal()/1000
+            pauseScreenStart = GetTimeReal() / 1000
             lastIdleDuration = pauseDuration
         else
             -- dprint("some other reason")
@@ -172,7 +171,8 @@ local function UpdateInputTime()
     local t = GetTime()
     lastIdleDuration = t - lastInputTime
     lastInputTime = t
-    if isAFK and GetPlayer() then  -- Player not instantiated at first
+    if isAFK and GetPlayer() then
+        -- Player not instantiated at first
         dprint("++++++++++++++++++++++++++++++++++ return to game")
         GetPlayer():PushEvent("returntogame")
     end
@@ -182,9 +182,9 @@ end
 
 global("PlayerPauseCheck")  -- drf Hmmm... don't think I need to do this to handle previous forward decl in mainfunctions.lua
 
-PlayerPauseCheck = function(paused,reason)
+PlayerPauseCheck = function(paused, reason)
     if paused then
-        pauseScreenStart = GetTimeReal()/1000
+        pauseScreenStart = GetTimeReal() / 1000
         pauseDuration = 0
         pauseReason = reason or ""
         OverseerPauseCheck(reason)
@@ -196,15 +196,16 @@ end
 
 IdlePlayerCheck = function()
     -- dprint("IdlePlayerCheck:")
-    local id = GetTime()-lastInputTime
+    local id = GetTime() - lastInputTime
     if id > AFK_TIME then
-        if not isAFK and GetPlayer() then  -- Player not instantiated at first
+        if not isAFK and GetPlayer() then
+            -- Player not instantiated at first
             dprint("---------------------------------- is AFK")
             GetPlayer():PushEvent("awayfromgame")
         end
         isAFK = true
     end
-    return isAFK,id
+    return isAFK, id
 end
 
 local function MoveCheck()
@@ -214,15 +215,15 @@ local function MoveCheck()
 end
 
 function IsAwayFromKeyBoard()
-    return isAFK , (GetTime() - lastInputTime)
+    return isAFK, (GetTime() - lastInputTime)
 end
 
-TheInput:AddTextInputHandler( UpdateInputTime )
-TheInput:AddKeyHandler( UpdateInputTime )
-TheInput:AddControlHandler( CONTROL_PRIMARY, UpdateInputTime )
-TheInput:AddControlHandler( CONTROL_ZOOM_IN, UpdateInputTime )
-TheInput:AddControlHandler( CONTROL_ZOOM_OUT, UpdateInputTime )
-TheInput:AddMoveHandler( MoveCheck )
+TheInput:AddTextInputHandler(UpdateInputTime)
+TheInput:AddKeyHandler(UpdateInputTime)
+TheInput:AddControlHandler(CONTROL_PRIMARY, UpdateInputTime)
+TheInput:AddControlHandler(CONTROL_ZOOM_IN, UpdateInputTime)
+TheInput:AddControlHandler(CONTROL_ZOOM_OUT, UpdateInputTime)
+TheInput:AddMoveHandler(MoveCheck)
 
-scheduler:ExecutePeriodic(AFK_TIME/2, IdlePlayerCheck, nil, 0)
+scheduler:ExecutePeriodic(AFK_TIME / 2, IdlePlayerCheck, nil, 0)
 

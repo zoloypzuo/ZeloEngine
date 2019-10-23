@@ -5,7 +5,6 @@ local Cooldown = Class(function(self, inst)
     self.cooldown_duration = nil
 end)
 
-
 function donecharging(inst)
     if inst.components.cooldown then
         inst.components.cooldown.charged = true
@@ -31,7 +30,7 @@ function Cooldown:StartCharging(time)
         return
     end
 
-    self.inst:DoTaskInTime(self.cooldown_duration, donecharging)    
+    self.inst:DoTaskInTime(self.cooldown_duration, donecharging)
     if self.startchargingfn then
         self.startchargingfn(self.inst)
     end
@@ -69,12 +68,11 @@ end
 
 function Cooldown:GetDebugString()
     if self.charged then
-		return "CHARGED!"
+        return "CHARGED!"
     else
-		return string.format("%2.2f", self:GetTimeToCharged())
+        return string.format("%2.2f", self:GetTimeToCharged())
     end
 end
-
 
 function Cooldown:LongUpdate(dt)
     if self.cooldown_deadline then
@@ -94,6 +92,5 @@ function Cooldown:OnLoad(data)
         self:StartCharging(data.time_to_charge)
     end
 end
-
 
 return Cooldown

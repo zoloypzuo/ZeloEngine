@@ -1,7 +1,7 @@
 PI = 3.14159
-DEGREES = PI/180
-RADIANS = 180/PI
-FRAMES = 1/30
+DEGREES = PI / 180
+RADIANS = 180 / PI
+FRAMES = 1 / 30
 TILE_SCALE = 4
 
 RESOLUTION_X = 1280
@@ -33,7 +33,6 @@ SCALEMODE_FIXEDSCREEN_NONDYNAMIC = 4
 
 PHYSICS_TYPE_ANIMATION_CONTROLLED = 0
 PHYSICS_TYPE_PHYSICS_CONTROLLED = 1
-
 
 MOVE_UP = 1
 MOVE_DOWN = 2
@@ -135,16 +134,14 @@ CONTROL_SCROLLFWD = 65
 
 CONTROL_CUSTOM_START = 100
 
-
-
 KEY_TAB = 9
-KEY_KP_PERIOD		= 266
-KEY_KP_DIVIDE		= 267
-KEY_KP_MULTIPLY		= 268
-KEY_KP_MINUS		= 269
-KEY_KP_PLUS			= 270
-KEY_KP_ENTER		= 271
-KEY_KP_EQUALS		= 272
+KEY_KP_PERIOD = 266
+KEY_KP_DIVIDE = 267
+KEY_KP_MULTIPLY = 268
+KEY_KP_MINUS = 269
+KEY_KP_PLUS = 270
+KEY_KP_ENTER = 271
+KEY_KP_EQUALS = 272
 KEY_MINUS = 45
 KEY_EQUALS = 61
 KEY_SPACE = 32
@@ -153,7 +150,7 @@ KEY_ESCAPE = 27
 KEY_HOME = 278
 KEY_INSERT = 277
 KEY_DELETE = 127
-KEY_END    = 279
+KEY_END = 279
 KEY_PAUSE = 19
 KEY_PRINT = 316
 KEY_CAPSLOCK = 301
@@ -170,9 +167,9 @@ KEY_SHIFT = 402
 KEY_BACKSPACE = 8
 KEY_PERIOD = 46
 KEY_SLASH = 47
-KEY_LEFTBRACKET	= 91
-KEY_BACKSLASH	= 92
-KEY_RIGHTBRACKET= 93
+KEY_LEFTBRACKET = 91
+KEY_BACKSLASH = 92
+KEY_RIGHTBRACKET = 93
 KEY_TILDE = 96
 KEY_A = 97
 KEY_B = 98
@@ -213,12 +210,12 @@ KEY_F10 = 291
 KEY_F11 = 292
 KEY_F12 = 293
 
-KEY_UP			= 273
-KEY_DOWN		= 274
-KEY_RIGHT		= 275
-KEY_LEFT		= 276
-KEY_PAGEUP		= 280
-KEY_PAGEDOWN	= 281
+KEY_UP = 273
+KEY_DOWN = 274
+KEY_RIGHT = 275
+KEY_LEFT = 276
+KEY_PAGEUP = 280
+KEY_PAGEDOWN = 281
 
 KEY_0 = 48
 KEY_1 = 49
@@ -238,93 +235,81 @@ MOUSEBUTTON_MIDDLE = 1002
 MOUSEBUTTON_SCROLLUP = 1003
 MOUSEBUTTON_SCROLLDOWN = 1004
 
-
 GESTURE_ZOOM_IN = 900
 GESTURE_ZOOM_OUT = 901
 GESTURE_ROTATE_LEFT = 902
 GESTURE_ROTATE_RIGHT = 903
 GESTURE_MAX = 904
 
-BACKEND_PREFABS = {"hud", "forest", "cave", "porkland", "shipwrecked", "volcanolevel", "maxwell", "fire", "character_fire", "shatter"}
-FRONTEND_PREFABS = {"frontend"}
+BACKEND_PREFABS = { "hud", "forest", "cave", "porkland", "shipwrecked", "volcanolevel", "maxwell", "fire", "character_fire", "shatter" }
+FRONTEND_PREFABS = { "frontend" }
 RECIPE_PREFABS = {}
 
-MAIN_CHARACTERLIST = 
-{
-	'wilson', 'willow', 'wolfgang', 'wendy', 'wx78', 'wickerbottom', 'woodie', 'wes', 'waxwell', 'wagstaff',
+MAIN_CHARACTERLIST = {
+    'wilson', 'willow', 'wolfgang', 'wendy', 'wx78', 'wickerbottom', 'woodie', 'wes', 'waxwell', 'wagstaff',
 }
 
-ROG_CHARACTERLIST =
-{
-	'wathgrithr', 'webber', 
+ROG_CHARACTERLIST = {
+    'wathgrithr', 'webber',
 }
 
-SHIPWRECKED_CHARACTERLIST = 
-{
-	"walani", "warly", "wilbur", "woodlegs"
+SHIPWRECKED_CHARACTERLIST = {
+    "walani", "warly", "wilbur", "woodlegs"
 }
 
-PORKLAND_CHARACTERLIST = 
-{
-	"warbucks",
-	"wilba",
-	"wormwood",
-	"wheeler"
+PORKLAND_CHARACTERLIST = {
+    "warbucks",
+    "wilba",
+    "wormwood",
+    "wheeler"
 }
 
-RETIRED_CHARACTERLIST =
-{
-	"warbucks",
+RETIRED_CHARACTERLIST = {
+    "warbucks",
 }
 
-MODCHARACTERLIST =
-{
-	--populated by mods
+MODCHARACTERLIST = {
+    --populated by mods
 }
 
-CHARACTER_GENDERS = 
-{
-	FEMALE = {
-		"willow",
-		"wendy",
-		"wickerbottom",
-		"wathgrithr",
-		"walani",
-	},
-	MALE = {
-		"wilson",
-		"woodie",
-		"waxwell",
-		"wolfgang",
-		"wes",
-		"webber",
-		"warly",
-		"wilbur",
-		"woodlegs",
-	},
-	ROBOT = {
-		"wx78",
-	},
+CHARACTER_GENDERS = {
+    FEMALE = {
+        "willow",
+        "wendy",
+        "wickerbottom",
+        "wathgrithr",
+        "walani",
+    },
+    MALE = {
+        "wilson",
+        "woodie",
+        "waxwell",
+        "wolfgang",
+        "wes",
+        "webber",
+        "warly",
+        "wilbur",
+        "woodlegs",
+    },
+    ROBOT = {
+        "wx78",
+    },
 }
 
-RECIPE_GAME_TYPE =
-{
-	SHIPWRECKED = "shipwrecked",
-	ROG = "rog",
-	COMMON = "common",
-	VANILLA = "vanilla",
+RECIPE_GAME_TYPE = {
+    SHIPWRECKED = "shipwrecked",
+    ROG = "rog",
+    COMMON = "common",
+    VANILLA = "vanilla",
 }
 
-EQUIPSLOTS =
-{
+EQUIPSLOTS = {
     HANDS = "hands",
     HEAD = "head",
     BODY = "body",
 }
 
-
-ITEMTAG =
-{
+ITEMTAG = {
     FOOD = "food",
     MEAT = "meat",
     WEAPON = "weapon",
@@ -340,27 +325,26 @@ ITEMTAG =
 
 
 -- See map_painter.h
-GROUND =
-{
-	INVALID = 255,
+GROUND = {
+    INVALID = 255,
     IMPASSABLE = 1,
-    
+
     ROAD = 2,
     ROCKY = 3,
     DIRT = 4,
-	SAVANNA = 5,
-	GRASS = 6,
-	FOREST = 7,
-	MARSH = 8,
-	WEB = 9,
-	WOODFLOOR = 10,
-	CARPET = 11,
-	CHECKER = 12,
+    SAVANNA = 5,
+    GRASS = 6,
+    FOREST = 7,
+    MARSH = 8,
+    WEB = 9,
+    WOODFLOOR = 10,
+    CARPET = 11,
+    CHECKER = 12,
 
-	-- CAVES
-	CAVE = 13,
-	FUNGUS = 14,
-	SINKHOLE = 15,
+    -- CAVES
+    CAVE = 13,
+    FUNGUS = 14,
+    SINKHOLE = 15,
     UNDERROCK = 16,
     MUD = 17,
     BRICK = 18,
@@ -369,94 +353,90 @@ GROUND =
     TILES_GLOW = 21,
     TRIM = 22,
     TRIM_GLOW = 23,
-	FUNGUSRED = 24,
-	FUNGUSGREEN = 25,
+    FUNGUSRED = 24,
+    FUNGUSGREEN = 25,
 
     -- Noise
-	ABYSS_NOISE = 124,
-	GROUND_NOISE = 125,
-	CAVE_NOISE = 126,
-	FUNGUS_NOISE = 127,
+    ABYSS_NOISE = 124,
+    GROUND_NOISE = 125,
+    CAVE_NOISE = 126,
+    FUNGUS_NOISE = 127,
 
-	UNDERGROUND = 128,
-	
-	WALL_ROCKY = 151,
-	WALL_DIRT = 152,
-	WALL_MARSH = 153,
-	WALL_CAVE = 154,
-	WALL_FUNGUS = 155,
-	WALL_SINKHOLE = 156,
-	WALL_MUD = 157,
-	WALL_TOP = 158,
-	WALL_WOOD = 159,
-	WALL_HUNESTONE = 160,
-	WALL_HUNESTONE_GLOW = 161,
-	WALL_STONEEYE = 162,
-	WALL_STONEEYE_GLOW = 163,
+    UNDERGROUND = 128,
 
---	STILL_WATER_SHALLOW = 130,
---	STILL_WATER_DEEP = 131,
---	MOVING_WATER_SHALLOW = 132,
---	MOVING_WATER_DEEP = 133,
---	SALT_WATER_SHALLOW = 134,
---	SALT_WATER_DEEP = 135,
+    WALL_ROCKY = 151,
+    WALL_DIRT = 152,
+    WALL_MARSH = 153,
+    WALL_CAVE = 154,
+    WALL_FUNGUS = 155,
+    WALL_SINKHOLE = 156,
+    WALL_MUD = 157,
+    WALL_TOP = 158,
+    WALL_WOOD = 159,
+    WALL_HUNESTONE = 160,
+    WALL_HUNESTONE_GLOW = 161,
+    WALL_STONEEYE = 162,
+    WALL_STONEEYE_GLOW = 163,
+
+    --	STILL_WATER_SHALLOW = 130,
+    --	STILL_WATER_DEEP = 131,
+    --	MOVING_WATER_SHALLOW = 132,
+    --	MOVING_WATER_DEEP = 133,
+    --	SALT_WATER_SHALLOW = 134,
+    --	SALT_WATER_DEEP = 135,
 }
 
 TECH = {
-	NONE = { SCIENCE = 0, MAGIC = 0, ANCIENT = 0, LOST = 0 },
-	SCIENCE_ONE = {SCIENCE = 1},
-	SCIENCE_TWO = {SCIENCE = 2},
-	SCIENCE_THREE = {SCIENCE = 3},	
-	-- Magic starts at level 2 so it's not teased from the start.
-	MAGIC_TWO = {MAGIC = 2},
-	MAGIC_THREE = {MAGIC = 3},
-	ANCIENT_TWO = {ANCIENT = 2},
-	ANCIENT_THREE = {ANCIENT = 3},
-	ANCIENT_FOUR = {ANCIENT = 4},
-	WATER_TWO = {WATER = 2},	
+    NONE = { SCIENCE = 0, MAGIC = 0, ANCIENT = 0, LOST = 0 },
+    SCIENCE_ONE = { SCIENCE = 1 },
+    SCIENCE_TWO = { SCIENCE = 2 },
+    SCIENCE_THREE = { SCIENCE = 3 },
+    -- Magic starts at level 2 so it's not teased from the start.
+    MAGIC_TWO = { MAGIC = 2 },
+    MAGIC_THREE = { MAGIC = 3 },
+    ANCIENT_TWO = { ANCIENT = 2 },
+    ANCIENT_THREE = { ANCIENT = 3 },
+    ANCIENT_FOUR = { ANCIENT = 4 },
+    WATER_TWO = { WATER = 2 },
 
-	LOST = {LOST = 10},
+    LOST = { LOST = 10 },
 }
 
 -- See cell_data.h
-NODE_TYPE =
-{
-	Default = 0, 
-	Blank = 1, 
-	Background = 2, 
-	Random = 3, 
-	Blocker = 4, 
-	Room = 5,
+NODE_TYPE = {
+    Default = 0,
+    Blank = 1,
+    Background = 2,
+    Random = 3,
+    Blocker = 4,
+    Room = 5,
 }
 
 -- See cell_data.h
-NODE_INTERNAL_CONNECTION_TYPE =
-{
-	EdgeCentroid = 0, 
-	EdgeSite = 1, 
-	EdgeEdgeDirect = 2, 
-	EdgeEdgeLeft = 3, 
-	EdgeEdgeRight = 4, 
-	EdgeData = 5,
+NODE_INTERNAL_CONNECTION_TYPE = {
+    EdgeCentroid = 0,
+    EdgeSite = 1,
+    EdgeEdgeDirect = 2,
+    EdgeEdgeLeft = 3,
+    EdgeEdgeRight = 4,
+    EdgeData = 5,
 }
 
-CA_SEED_MODE =
-{
-	SEED_RANDOM = 0,
-	SEED_CENTROID = 1,
-	SEED_SITE = 2,
-	SEED_WALLS = 3
+CA_SEED_MODE = {
+    SEED_RANDOM = 0,
+    SEED_CENTROID = 1,
+    SEED_SITE = 2,
+    SEED_WALLS = 3
 }
 
 -- See maze.h
-MAZE_TYPE =
-{
-	MAZE_DFS_4WAY_META = 0,
-	MAZE_DFS_4WAY = 1,
-	MAZE_DFS_8WAY = 2,
-	MAZE_GROWINGTREE_4WAY = 3,
-	MAZE_GROWINGTREE_8WAY = 4,
-	MAZE_GROWINGTREE_4WAY_INV = 5,
+MAZE_TYPE = {
+    MAZE_DFS_4WAY_META = 0,
+    MAZE_DFS_4WAY = 1,
+    MAZE_DFS_8WAY = 2,
+    MAZE_GROWINGTREE_4WAY = 3,
+    MAZE_GROWINGTREE_8WAY = 4,
+    MAZE_GROWINGTREE_4WAY_INV = 5,
 }
 
 -- NORTH	1
@@ -471,83 +451,76 @@ Meta maze def:
 	15 tiles needed
 --]]
 
-MAZE_CELL_EXITS =
-{
-	NO_EXITS = 		0, -- Dont place a cell here.
-	SINGLE_NORTH = 	1,
-	SINGLE_EAST = 	2,
-	L_NORTH = 		3,
-	SINGLE_SOUTH = 	4,
-	TUNNEL_NS = 	5,
-	L_EAST = 		6,
-	THREE_WAY_N = 	7,
-	SINGLE_WEST = 	8,
-	L_WEST = 		9,
-	TUNNEL_EW =		10,
-	THREE_WAY_W = 	11,
-	L_SOUTH = 		12,
-	THREE_WAY_S = 	13,
-	THREE_WAY_E = 	14,
-	FOUR_WAY = 		15,
+MAZE_CELL_EXITS = {
+    NO_EXITS = 0, -- Dont place a cell here.
+    SINGLE_NORTH = 1,
+    SINGLE_EAST = 2,
+    L_NORTH = 3,
+    SINGLE_SOUTH = 4,
+    TUNNEL_NS = 5,
+    L_EAST = 6,
+    THREE_WAY_N = 7,
+    SINGLE_WEST = 8,
+    L_WEST = 9,
+    TUNNEL_EW = 10,
+    THREE_WAY_W = 11,
+    L_SOUTH = 12,
+    THREE_WAY_S = 13,
+    THREE_WAY_E = 14,
+    FOUR_WAY = 15,
 }
 
-MAZE_CELL_EXITS_INV =
-{
-	"SINGLE_NORTH",
-	"SINGLE_EAST",
-	"L_NORTH",
-	"SINGLE_SOUTH",
-	"TUNNEL_NS",
-	"L_EAST",
-	"THREE_WAY_N",
-	"SINGLE_WEST",
-	"L_WEST",
-	"TUNNEL_EW",
-	"THREE_WAY_W",
-	"L_SOUTH" ,
-	"THREE_WAY_S",
-	"THREE_WAY_E",
-	"FOUR_WAY",
+MAZE_CELL_EXITS_INV = {
+    "SINGLE_NORTH",
+    "SINGLE_EAST",
+    "L_NORTH",
+    "SINGLE_SOUTH",
+    "TUNNEL_NS",
+    "L_EAST",
+    "THREE_WAY_N",
+    "SINGLE_WEST",
+    "L_WEST",
+    "TUNNEL_EW",
+    "THREE_WAY_W",
+    "L_SOUTH",
+    "THREE_WAY_S",
+    "THREE_WAY_E",
+    "FOUR_WAY",
 }
 
-LAYOUT =
-{
-	STATIC = 0,
-	CIRCLE_EDGE = 1,
-	CIRCLE_RANDOM = 2,
-	GRID = 3,
-	RECTANGLE_EDGE = 4,
-	CIRCLE_FILLED = 5,
+LAYOUT = {
+    STATIC = 0,
+    CIRCLE_EDGE = 1,
+    CIRCLE_RANDOM = 2,
+    GRID = 3,
+    RECTANGLE_EDGE = 4,
+    CIRCLE_FILLED = 5,
 }
 
-LAYOUT_POSITION =
-{
-	RANDOM = 0,
-	CENTER = 1,
+LAYOUT_POSITION = {
+    RANDOM = 0,
+    CENTER = 1,
 }
 
-LAYOUT_ROTATION =
-{
-	NORTH = 0, 	-- 0 Degrees
-	EAST = 1, 	-- 90 Degrees
-	SOUTH = 2, 	-- 180 Degrees
-	WEST = 3, 	-- 270 Degrees
+LAYOUT_ROTATION = {
+    NORTH = 0, -- 0 Degrees
+    EAST = 1, -- 90 Degrees
+    SOUTH = 2, -- 180 Degrees
+    WEST = 3, -- 270 Degrees
 }
 
-PLACE_MASK = 
-{
-	NORMAL = 0,
-	IGNORE_IMPASSABLE = 1,
-	IGNORE_BARREN = 2,
-	IGNORE_IMPASSABLE_BARREN = 3,
-	IGNORE_RESERVED = 4,
-	IGNORE_IMPASSABLE_RESERVED = 5,
-	IGNORE_BARREN_RESERVED = 6,
-	IGNORE_IMPASSABLE_BARREN_RESERVED = 7,
+PLACE_MASK = {
+    NORMAL = 0,
+    IGNORE_IMPASSABLE = 1,
+    IGNORE_BARREN = 2,
+    IGNORE_IMPASSABLE_BARREN = 3,
+    IGNORE_RESERVED = 4,
+    IGNORE_IMPASSABLE_RESERVED = 5,
+    IGNORE_BARREN_RESERVED = 6,
+    IGNORE_IMPASSABLE_BARREN_RESERVED = 7,
 }
 
-COLLISION =
-{
+COLLISION = {
 
     GROUND = 64, -- See BpWorld.cpp (ocean walls)
     LIMITS = 128,
@@ -559,126 +532,111 @@ COLLISION =
     SANITY = 4096
 }
 
-BLENDMODE =
-{
-	Disabled = 0,
-	AlphaBlended = 1,
-	Additive = 2,
-	Premultiplied = 3,
-	InverseAlpha = 4,
-	Subtractive = 6,
-	Modulate = 7,
+BLENDMODE = {
+    Disabled = 0,
+    AlphaBlended = 1,
+    Additive = 2,
+    Premultiplied = 3,
+    InverseAlpha = 4,
+    Subtractive = 6,
+    Modulate = 7,
 }
 
-LIGHTTYPE = 
-{
-	Additive = 0,
-	Subtractive = 1,
-	Modulate = 2,
+LIGHTTYPE = {
+    Additive = 0,
+    Subtractive = 1,
+    Modulate = 2,
 }
 DEFAULT_LIGHT_LAYER = 10
 
-ANIM_ORIENTATION =
-{
-	Billboard = 0,
-	OnGround = 1,
+ANIM_ORIENTATION = {
+    Billboard = 0,
+    OnGround = 1,
     RotatingBillboard = 2,
 }
 ANIM_ORIENTATION.Default = ANIM_ORIENTATION.Billboard
 
-RECIPETABS =
-{
-    TOOLS    = { str = "TOOLS",    sort =  0, icon = "tab_tool.tex"           },
-    LIGHT    = { str = "LIGHT",    sort =  1, icon = "tab_light.tex"          },
-    SURVIVAL = { str = "SURVIVAL", sort =  2, icon = "tab_trap.tex"           },
-    FARM     = { str = "FARM",     sort =  3, icon = "tab_farm.tex"           },
-    SCIENCE  = { str = "SCIENCE",  sort =  4, icon = "tab_science.tex"        },
-    WAR      = { str = "WAR",      sort =  5, icon = "tab_fight.tex"          },
-    TOWN     = { str = "TOWN",     sort =  6, icon = "tab_build.tex"          },
-    REFINE   = { str = "REFINE",   sort =  7, icon = "tab_refine.tex"         },
-    MAGIC    = { str = "MAGIC",    sort =  8, icon = "tab_arcane.tex"         },
-    DRESS    = { str = "DRESS",    sort =  9, icon = "tab_dress.tex"          },
-    ANCIENT  = { str = "ANCIENT",  sort = 10, icon = "tab_crafting_table.tex" }       
+RECIPETABS = {
+    TOOLS = { str = "TOOLS", sort = 0, icon = "tab_tool.tex" },
+    LIGHT = { str = "LIGHT", sort = 1, icon = "tab_light.tex" },
+    SURVIVAL = { str = "SURVIVAL", sort = 2, icon = "tab_trap.tex" },
+    FARM = { str = "FARM", sort = 3, icon = "tab_farm.tex" },
+    SCIENCE = { str = "SCIENCE", sort = 4, icon = "tab_science.tex" },
+    WAR = { str = "WAR", sort = 5, icon = "tab_fight.tex" },
+    TOWN = { str = "TOWN", sort = 6, icon = "tab_build.tex" },
+    REFINE = { str = "REFINE", sort = 7, icon = "tab_refine.tex" },
+    MAGIC = { str = "MAGIC", sort = 8, icon = "tab_arcane.tex" },
+    DRESS = { str = "DRESS", sort = 9, icon = "tab_dress.tex" },
+    ANCIENT = { str = "ANCIENT", sort = 10, icon = "tab_crafting_table.tex" }
 }
 
-
-VERBOSITY =
-{
-	ERROR = 0,
-	WARNING = 1,
-	INFO = 2,
-	DEBUG = 3,
+VERBOSITY = {
+    ERROR = 0,
+    WARNING = 1,
+    INFO = 2,
+    DEBUG = 3,
 }
 
-RENDERPASS =
-{
-	Z = 0,
-	BLOOM = 1,
-	DEFAULT = 2,
+RENDERPASS = {
+    Z = 0,
+    BLOOM = 1,
+    DEFAULT = 2,
 }
 
 NUM_TRINKETS = 12
 
-SEASONS =
-{
-	SUMMER = "summer",
-	WINTER = "winter",
-	CAVES = "caves",
+SEASONS = {
+    SUMMER = "summer",
+    WINTER = "winter",
+    CAVES = "caves",
 }
 
-RENDER_QUALITY = 
-{
-	LOW = 0,
-	DEFAULT = 1,
-	HIGH = 2,
+RENDER_QUALITY = {
+    LOW = 0,
+    DEFAULT = 1,
+    HIGH = 2,
 }
 
-CREATURE_SIZE =
-{
-	SMALL = 0,
-	MEDIUM = 1,
-	LARGE = 2,
+CREATURE_SIZE = {
+    SMALL = 0,
+    MEDIUM = 1,
+    LARGE = 2,
 }
 
-ROAD_PARAMETERS =
-{
-	NUM_SUBDIVISIONS_PER_SEGMENT = 50,
-	MIN_WIDTH = 2,
-	MAX_WIDTH = 3,
-	MIN_EDGE_WIDTH = 0.5,
-	MAX_EDGE_WIDTH = 1,
-	WIDTH_JITTER_SCALE=1,
+ROAD_PARAMETERS = {
+    NUM_SUBDIVISIONS_PER_SEGMENT = 50,
+    MIN_WIDTH = 2,
+    MAX_WIDTH = 3,
+    MIN_EDGE_WIDTH = 0.5,
+    MAX_EDGE_WIDTH = 1,
+    WIDTH_JITTER_SCALE = 1,
 }
 
-BGCOLOURS =
-{
-	RED = {255/255, 89/255, 46/255},
-	PURPLE = {202/255, 48/255, 209/255},
-	YELLOW = {255/255, 196/255, 45/255},
-	TEAL = {62/255,207/255,225/255},
+BGCOLOURS = {
+    RED = { 255 / 255, 89 / 255, 46 / 255 },
+    PURPLE = { 202 / 255, 48 / 255, 209 / 255 },
+    YELLOW = { 255 / 255, 196 / 255, 45 / 255 },
+    TEAL = { 62 / 255, 207 / 255, 225 / 255 },
 }
 
-ROAD_STRIPS = 
-{
-	CORNERS = 0,
-	ENDS = 1,
-	EDGES = 2,
-	CENTER = 3,
+ROAD_STRIPS = {
+    CORNERS = 0,
+    ENDS = 1,
+    EDGES = 2,
+    CENTER = 3,
 }
 
-WRAP_MODE = 
-{
-	WRAP = 0,
-	CLAMP = 1,
-	MIRROR = 2,
-	CLAMP_TO_EDGE = 3,
+WRAP_MODE = {
+    WRAP = 0,
+    CLAMP = 1,
+    MIRROR = 2,
+    CLAMP_TO_EDGE = 3,
 }
 
-RESET_ACTION =
-{
-	LOAD_FRONTEND = 0,
-	LOAD_SLOT = 1,
-	DO_DEMO = 2,
+RESET_ACTION = {
+    LOAD_FRONTEND = 0,
+    LOAD_SLOT = 1,
+    DO_DEMO = 2,
 }
 
 HUD_ATLAS = "images/hud.xml"
@@ -692,19 +650,16 @@ VIBRATION_BLOOD_OVER = 2
 
 NUM_SAVE_SLOTS = 4
 
-SAVELOAD = 
-{    
-    OPERATION = 
-    {
+SAVELOAD = {
+    OPERATION = {
         PREPARE = 0,
         LOAD = 1,
         SAVE = 2,
         DELETE = 3,
         NONE = 4,
     },
-    
-    STATUS = 
-    {
+
+    STATUS = {
         OK = 0,
         DAMAGED = 1,
         NOT_FOUND = 2,
@@ -714,29 +669,26 @@ SAVELOAD =
 }
 
 -- Domestication tendencies
-TENDENCY =
-{
+TENDENCY = {
     DEFAULT = "DEFAULT",
     ORNERY = "ORNERY",
     RIDER = "RIDER",
     PUDGY = "PUDGY",
 }
 
-DEPLOYSPACING =
-{
+DEPLOYSPACING = {
     DEFAULT = 0,
     MEDIUM = 1,
     LESS = 2,
     NONE = 3,
-	PLACER_DEFAULT = 4,
+    PLACER_DEFAULT = 4,
 }
 
 DONT_STARVE_TOGETHER_APPID = 322330
 DONT_STARVE_APPID = 219740
 
 -- Mirrors enum in SystemService.h
-LANGUAGE = 
-{
+LANGUAGE = {
     ENGLISH = 0,
     ENGLISH_UK = 1,
     FRENCH = 2,
@@ -763,8 +715,7 @@ LANGUAGE =
     CHINESE_S_RAIL = 23,
 }
 
-LANGUAGE_STEAMCODE_TO_ID =
-{
+LANGUAGE_STEAMCODE_TO_ID = {
     brazilian = LANGUAGE.PORTUGUESE_BR,
     bulgarian = nil,
     czech = nil,
@@ -790,5 +741,5 @@ LANGUAGE_STEAMCODE_TO_ID =
     tchinese = LANGUAGE.CHINESE_T,
     thai = nil,
     turkish = LANGUAGE.TURKISH,
-    ukrainian = nil, 
+    ukrainian = nil,
 }

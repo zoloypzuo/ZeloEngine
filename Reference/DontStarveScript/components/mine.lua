@@ -1,19 +1,20 @@
-
-local mine_test_fn = function(dude, inst) return dude.components.combat and not (dude.components.health and dude.components.health:IsDead() and dude.components.combat:CanBeAttacked(inst)) end
-local mine_test_tags = {"monster", "character", "animal"}
+local mine_test_fn = function(dude, inst)
+    return dude.components.combat and not (dude.components.health and dude.components.health:IsDead() and dude.components.combat:CanBeAttacked(inst))
+end
+local mine_test_tags = { "monster", "character", "animal" }
 
 local function MineTest(inst)
     local mine = inst.components.mine
-    
-    local notags = {"notraptrigger", "flying"}
+
+    local notags = { "notraptrigger", "flying" }
     if mine.alignment then
-		table.insert(notags, mine.alignment)
+        table.insert(notags, mine.alignment)
     end
-    
+
     if mine and mine.radius then
-        
+
         local target = FindEntity(inst, mine.radius, mine_test_fn, nil, notags, mine_test_tags)
-        
+
         if target and (not target.sg or (target.sg and not target.sg:HasStateTag("flying"))) then
             mine:Explode(target)
         end
@@ -22,17 +23,19 @@ end
 
 local Mine = Class(function(self, inst)
     self.inst = inst
-    
+
     self.radius = nil
     self.onexplode = nil
     self.onreset = nil
     self.onsetsprung = nil
     self.target = nil
     self.issprung = false
-	self.inactive = true
-	
-	self.alignment = "player"
-    self.inst:ListenForEvent("onputininventory", function(inst) self:Deactivate() end)
+    self.inactive = true
+
+    self.alignment = "player"
+    self.inst:ListenForEvent("onputininventory", function(inst)
+        self:Deactivate()
+    end)
 end)
 
 function Mine:SetRadius(radius)
@@ -56,7 +59,7 @@ function Mine:SetOnDeactivateFn(fn)
 end
 
 function Mine:SetAlignment(alignment)
-	self.alignment = alignment
+    self.alignment = alignment
 end
 
 function Mine:SetReusable(reusable)
@@ -92,11 +95,10 @@ function Mine:CollectSceneActions(doer, actions, right)
     end
 end
 
-
 function Mine:Deactivate()
     self:StopTesting()
     self.issprung = false
-	self.inactive = true    
+    self.inactive = true
     if self.ondeactivate then
         self.ondeactivate(self.inst)
     end
@@ -110,7 +112,7 @@ function Mine:Explode(target)
     self:StopTesting()
     self.target = target
     self.issprung = true
-	self.inactive = false    
+    self.inactive = false
     ProfileStatsAdd("trap_sprung_" .. target.prefab)
     if self.onexplode then
         self.onexplode(self.inst, target)
@@ -119,30 +121,29 @@ end
 
 function Mine:OnSave()
     if self.issprung then
-        return {sprung = true}
+        return { sprung = true }
     elseif self.inactive then
-		return {inactive = true}
+        return { inactive = true }
     end
 end
 
 function Mine:OnLoad(data)
     if data.sprung then
-		self.inactive = false
+        self.inactive = false
         self.issprung = true
         self:StopTesting()
         if self.onsetsprung then
             self.onsetsprung(self.inst)
         end
     elseif data.inactive then
-		self:Deactivate()
+        self:Deactivate()
     else
-		self:Reset()
+        self:Reset()
     end
 end
 
 function Mine:OnRemoveEntity()
     self:StopTesting()
 end
-
 
 return Mine

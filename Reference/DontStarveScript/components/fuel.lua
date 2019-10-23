@@ -1,9 +1,7 @@
-FUELTYPE = 
-{
+FUELTYPE = {
     "BURNABLE",
     "GASOLINE",
 }
-
 
 local Fuel = Class(function(self, inst)
     self.inst = inst
@@ -17,7 +15,7 @@ function Fuel:SetOnTakenFn(fn)
 end
 
 function Fuel:Taken(taker)
-    self.inst:PushEvent("fueltaken", {taker = taker})
+    self.inst:PushEvent("fueltaken", { taker = taker })
     if self.ontaken then
         self.ontaken(self.inst, taker)
     end

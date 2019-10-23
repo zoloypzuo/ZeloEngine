@@ -1,15 +1,13 @@
 require "brains/lureplantbrain"
 require "stategraphs/SGlureplant"
 
-local assets =
-{
-	Asset("ANIM", "anim/eyeplant_trap.zip"),
+local assets = {
+    Asset("ANIM", "anim/eyeplant_trap.zip"),
     Asset("ANIM", "anim/meat_rack_food.zip"),
     Asset("SOUND", "sound/plant.fsb"),
 }
 
-local prefabs = 
-{
+local prefabs = {
     "eyeplant",
     "lureplantbulb",
     "plantmeat"
@@ -21,9 +19,12 @@ end
 
 local function TryRevealBait(inst)
     inst.lure = inst.lurefn(inst)
-    if inst.lure ~= nil and inst.wakeinfo == nil then --There's something to show as bait!
-        inst.lure.onperishfn = function() inst.sg:GoToState("hidebait") end
-        inst:ListenForEvent("onremove", inst.lure.onperishfn, inst.lure )
+    if inst.lure ~= nil and inst.wakeinfo == nil then
+        --There's something to show as bait!
+        inst.lure.onperishfn = function()
+            inst.sg:GoToState("hidebait")
+        end
+        inst:ListenForEvent("onremove", inst.lure.onperishfn, inst.lure)
         inst.components.shelf.cantakeitem = true
         inst.components.inventory.nosteal = false
         inst.components.shelf.itemonshelf = inst.lure
@@ -33,14 +34,16 @@ local function TryRevealBait(inst)
             inst.task = nil
         end
 
-    else --There was nothing to use as bait. Try to reveal bait again until you can.
-        
+    else
+        --There was nothing to use as bait. Try to reveal bait again until you can.
+
         inst.task = inst:DoTaskInTime(1, TryRevealBait)
     end
 end
 
 local function HideBait(inst)
-    if not inst.sg:HasStateTag("hiding") and not inst.components.health:IsDead() then   --Won't hide if it's already hiding.        
+    if not inst.sg:HasStateTag("hiding") and not inst.components.health:IsDead() then
+        --Won't hide if it's already hiding.
         if not inst.task then
             inst.components.shelf.cantakeitem = false
             inst.components.inventory.nosteal = true
@@ -56,12 +59,11 @@ local function HideBait(inst)
         inst.lure = nil
     end
 
-
     if inst.task then
         inst.task:Cancel()
         inst.task = nil
     end
-    
+
     inst.task = inst:DoTaskInTime(math.random() * 3 + 2, TryRevealBait)    --Emerge again after some time.
 end
 
@@ -92,7 +94,7 @@ local function ResumeSleep(inst, seconds)
 
     inst.components.minionspawner.shouldspawn = false
     inst.components.minionspawner:KillAllMinions()
-    
+
     SetWakeInfo(inst, seconds)
     inst:DoTaskInTime(seconds, WakeUp)
 end
@@ -100,9 +102,9 @@ end
 local function OnPicked(inst)
     if inst.lure then
         if inst.lure.onperishfn then
-			inst:RemoveEventCallback("onremove", inst.lure.onperishfn)
-		end
-		inst.lure = nil
+            inst:RemoveEventCallback("onremove", inst.lure.onperishfn)
+        end
+        inst.lure = nil
     end
     inst.components.shelf.cantakeitem = false
     inst.components.inventory.nosteal = true
@@ -142,23 +144,23 @@ end
 
 local function CollectItems(inst)
     if inst.components.minionspawner.minions ~= nil then
-        for k,v in pairs(inst.components.minionspawner.minions) do
-            if v.components.inventory then                
+        for k, v in pairs(inst.components.minionspawner.minions) do
+            if v.components.inventory then
                 for k = 1, v.components.inventory.maxslots do
                     local item = v.components.inventory.itemslots[k]
                     if item and not inst.components.inventory:IsFull() then
                         local it = v.components.inventory:RemoveItem(item)
-                        
+
                         if it.components.perishable then
-							local top = it.components.perishable:GetPercent()
-							local bottom = .2
-							if top > bottom then
-								it.components.perishable:SetPercent(bottom + math.random()*(top-bottom))
-							end
+                            local top = it.components.perishable:GetPercent()
+                            local bottom = .2
+                            if top > bottom then
+                                it.components.perishable:SetPercent(bottom + math.random() * (top - bottom))
+                            end
                         end
-						inst.components.inventory:GiveItem(it)
-                                        
-                        
+                        inst.components.inventory:GiveItem(it)
+
+
                     elseif item then
                         local item = v.components.inventory:RemoveItem(item)
                         item:Remove()
@@ -169,22 +171,22 @@ local function CollectItems(inst)
     end
 end
 
-local function SelectLure(inst)    
+local function SelectLure(inst)
     if inst.components.inventory then
         local lures = {}
         for k = 1, inst.components.inventory.maxslots do
             local item = inst.components.inventory.itemslots[k]
             if item and item.components.edible and inst.components.eater:CanEat(item) and not item:HasTag("preparedfood") and not item.components.weapon then
-               table.insert(lures, item)
+                table.insert(lures, item)
             end
         end
 
         if #lures >= 1 then
             return lures[math.random(#lures)]
-        else      
+        else
             if inst.components.minionspawner.numminions >= inst.components.minionspawner.maxminions / 2 then
                 local meat = SpawnPrefab("plantmeat")
-                inst.components.inventory:GiveItem(meat)      
+                inst.components.inventory:GiveItem(meat)
                 return meat
             end
         end
@@ -255,10 +257,9 @@ local function SeasonChanges(inst)
     end
 end
 
-
 local function OnEntityWake(inst)
     inst.SoundEmitter:PlaySound("dontstarve/creatures/eyeplant/eye_central_idle", "loop")
-    adjustIdleSound(inst, inst.components.minionspawner.numminions/inst.components.minionspawner.maxminions)
+    adjustIdleSound(inst, inst.components.minionspawner.numminions / inst.components.minionspawner.maxminions)
 end
 
 local function OnEntitySleep(inst)
@@ -266,10 +267,10 @@ local function OnEntitySleep(inst)
 end
 
 local function fn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
-	local sound = inst.entity:AddSoundEmitter()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
+    local sound = inst.entity:AddSoundEmitter()
     MakeObstaclePhysics(inst, 1)
 
     local minimap = inst.entity:AddMiniMapEntity()
@@ -301,28 +302,30 @@ local function fn()
     inst:AddComponent("inspectable")
 
     inst:AddComponent("lootdropper")
-    inst.components.lootdropper:SetLoot({"lureplantbulb"})
+    inst.components.lootdropper:SetLoot({ "lureplantbulb" })
 
     inst:AddComponent("minionspawner")
     inst.components.minionspawner.onminionattacked = HideBait
-    inst.components.minionspawner.validtiletypes = {4,5,6,7,8,13,14,15,17}
+    inst.components.minionspawner.validtiletypes = { 4, 5, 6, 7, 8, 13, 14, 15, 17 }
 
     inst:AddComponent("digester")
     inst.components.digester.itemstodigestfn = CanDigest
 
     inst:SetStateGraph("SGlureplant")
 
-    inst:ListenForEvent("startfiredamage", function() 
-    inst.components.minionspawner.shouldspawn = false
-    inst.components.minionspawner:KillAllMinions()
+    inst:ListenForEvent("startfiredamage", function()
+        inst.components.minionspawner.shouldspawn = false
+        inst.components.minionspawner:KillAllMinions()
     end)
 
     inst.SoundEmitter:PlaySound("dontstarve/creatures/eyeplant/eye_central_idle", "loop")
-    adjustIdleSound(inst, inst.components.minionspawner.numminions/inst.components.minionspawner.maxminions)
+    adjustIdleSound(inst, inst.components.minionspawner.numminions / inst.components.minionspawner.maxminions)
 
     inst:ListenForEvent("freshspawn", FreshSpawn)
-    inst:ListenForEvent("minionchange", 
-    function(inst) adjustIdleSound(inst, inst.components.minionspawner.numminions/inst.components.minionspawner.maxminions) end)
+    inst:ListenForEvent("minionchange",
+            function(inst)
+                adjustIdleSound(inst, inst.components.minionspawner.numminions / inst.components.minionspawner.maxminions)
+            end)
 
     inst.OnEntitySleep = OnEntitySleep
     inst.OnEntityWake = OnEntityWake
@@ -345,7 +348,7 @@ local function fn()
     local brain = require "brains/lureplantbrain"
     inst:SetBrain(brain)
 
-	return inst
+    return inst
 end
 
 return Prefab("cave/lureplant", fn, assets, prefabs)

@@ -7,8 +7,8 @@ local FollowText = Class(Widget, function(self, font, size, text)
     self:SetScaleMode(SCALEMODE_PROPORTIONAL)
     self:SetMaxPropUpscale(1.25)
     self.text = self:AddChild(Text(font, size, text))
-    self.offset = Vector3(0,0,0)
-    self.screen_offset = Vector3(0,0,0)
+    self.offset = Vector3(0, 0, 0)
+    self.screen_offset = Vector3(0, 0, 0)
 
     self:StartUpdating()
 end)
@@ -23,7 +23,7 @@ function FollowText:SetOffset(offset)
     self:OnUpdate()
 end
 
-function FollowText:SetScreenOffset(x,y)
+function FollowText:SetScreenOffset(x, y)
     self.screen_offset.x = x
     self.screen_offset.y = y
     self:OnUpdate()
@@ -47,7 +47,7 @@ function FollowText:OnUpdate(dt)
         end
 
         if world_pos then
-            local screen_pos = Vector3(TheSim:GetScreenPos(world_pos:Get())) 
+            local screen_pos = Vector3(TheSim:GetScreenPos(world_pos:Get()))
 
             screen_pos.x = screen_pos.x + self.screen_offset.x
             screen_pos.y = screen_pos.y + self.screen_offset.y

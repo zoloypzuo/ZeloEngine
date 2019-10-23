@@ -1,13 +1,15 @@
-local assets = 
-{
-   Asset("ANIM", "anim/star.zip")
+local assets = {
+    Asset("ANIM", "anim/star.zip")
 }
 
 --Needs to save/load time alive.
 
 local function kill_light(inst)
     inst.AnimState:PlayAnimation("disappear")
-    inst:DoTaskInTime(0.6, function() inst.SoundEmitter:KillAllSounds() inst:Remove() end)    
+    inst:DoTaskInTime(0.6, function()
+        inst.SoundEmitter:KillAllSounds()
+        inst:Remove()
+    end)
 end
 
 local function resumestar(inst, time)
@@ -25,10 +27,10 @@ local function onsave(inst, data)
 end
 
 local function onload(inst, data)
-        if data.timealive and data.init_time then
-            inst.init_time = data.init_time
-            local timeleft = (inst.init_time or 120) - data.timealive
-            if timeleft > 0 then
+    if data.timealive and data.init_time then
+        inst.init_time = data.init_time
+        local timeleft = (inst.init_time or 120) - data.timealive
+        if timeleft > 0 then
             resumestar(inst, timeleft)
         else
             kill_light(inst)
@@ -40,18 +42,16 @@ local function pulse_light(inst)
     local s = GetSineVal(0.05, true, inst)
     local rad = Lerp(4, 5, s)
     local intentsity = Lerp(0.8, 0.7, s)
-    local falloff = Lerp(0.8, 0.7, s) 
+    local falloff = Lerp(0.8, 0.7, s)
     inst.Light:SetFalloff(falloff)
     inst.Light:SetIntensity(intentsity)
     inst.Light:SetRadius(rad)
     inst.Light:Enable(true)
 end
 
-
-
 local function fn(Sim)
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
     local anim = inst.entity:AddAnimState()
     inst.entity:AddSoundEmitter()
 
@@ -61,7 +61,7 @@ local function fn(Sim)
     anim:PushAnimation("idle_loop", true)
 
     MakeInventoryPhysics(inst)
-  
+
     inst:AddComponent("inspectable")
 
     inst:AddComponent("cooker")
@@ -75,11 +75,11 @@ local function fn(Sim)
     inst.components.heater.heat = 180
 
     local light = inst.entity:AddLight()
-    light:SetColour(223/255, 208/255, 69/255)
+    light:SetColour(223 / 255, 208 / 255, 69 / 255)
     light:Enable(false)
 
     inst.SoundEmitter:PlaySound("dontstarve/common/staff_star_create")
-    inst.SoundEmitter:PlaySound("dontstarve/common/staff_star_LP", "loop")    
+    inst.SoundEmitter:PlaySound("dontstarve/common/staff_star_LP", "loop")
 
     inst:AddComponent("sanityaura")
     inst.components.sanityaura.aura = TUNING.SANITYAURA_SMALL
@@ -93,4 +93,4 @@ local function fn(Sim)
     return inst
 end
 
-return Prefab( "common/stafflight", fn, assets) 
+return Prefab("common/stafflight", fn, assets)

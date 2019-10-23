@@ -1,6 +1,5 @@
-local assets=
-{
-	Asset("ANIM", "anim/shadow_skittish.zip"),
+local assets = {
+    Asset("ANIM", "anim/shadow_skittish.zip"),
 }
 
 local function Disappear(inst)
@@ -9,27 +8,29 @@ local function Disappear(inst)
         inst.deathtask = nil
     end
     inst.AnimState:PlayAnimation("disappear")
-    inst:ListenForEvent("animover", function() inst:Remove() end)
+    inst:ListenForEvent("animover", function()
+        inst:Remove()
+    end)
 end
 
 local function fn()
-	local inst = CreateEntity()
-	inst.entity:AddTransform()
-	inst.entity:AddAnimState()
-	inst.entity:AddSoundEmitter()
+    local inst = CreateEntity()
+    inst.entity:AddTransform()
+    inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
     inst:AddTag("NOCLICK")
     inst.AnimState:SetBank("shadowcreatures")
     inst.AnimState:SetBuild("shadow_skittish")
     inst.AnimState:PlayAnimation("idle_loop", true)
     inst.AnimState:SetMultColour(1, 1, 1, 0)
-    
-    inst.deathtask = inst:DoTaskInTime(5 + 10*math.random(), Disappear)
+
+    inst.deathtask = inst:DoTaskInTime(5 + 10 * math.random(), Disappear)
     inst:AddComponent("playerprox")
-    inst.components.playerprox:SetDist(5,8)
+    inst.components.playerprox:SetDist(5, 8)
     inst.components.playerprox:SetOnPlayerNear(Disappear)
     inst:AddComponent("transparentonsanity")
 
-return inst
+    return inst
 end
 
-return Prefab( "common/shadowskittish", fn, assets) 
+return Prefab("common/shadowskittish", fn, assets)

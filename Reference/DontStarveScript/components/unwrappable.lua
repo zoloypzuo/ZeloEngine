@@ -13,10 +13,10 @@ local Unwrappable = Class(function(self, inst)
     self.onwrappedfn = nil
     self.onunwrappedfn = nil
 end,
-nil,
-{
-    canbeunwrapped = oncanbeunwrapped,
-})
+        nil,
+        {
+            canbeunwrapped = oncanbeunwrapped,
+        })
 
 function Unwrappable:SetOnWrappedFn(fn)
     self.onwrappedfn = fn
@@ -45,8 +45,8 @@ function Unwrappable:Unwrap(doer)
     pos.y = 0
     if self.itemdata ~= nil then
         if doer ~= nil and
-            self.inst.components.inventoryitem ~= nil and
-            self.inst.components.inventoryitem:GetGrandOwner() == doer then
+                self.inst.components.inventoryitem ~= nil and
+                self.inst.components.inventoryitem:GetGrandOwner() == doer then
             local doerpos = doer:GetPosition()
             local offset = FindWalkableOffset(doerpos, doer.Transform:GetRotation() * DEGREES, 1, 8, false, true)
             if offset ~= nil then
@@ -80,10 +80,10 @@ end
 
 function Unwrappable:OnSave()
     return self.itemdata ~= nil
-        and {
-            items = self.itemdata,
-        }
-        or nil
+            and {
+        items = self.itemdata,
+    }
+            or nil
 end
 
 function Unwrappable:OnLoad(data)
@@ -96,16 +96,15 @@ function Unwrappable:OnLoad(data)
 end
 
 function Unwrappable:CollectSceneActions(doer, actions, right)
-   if right and self.inst:HasTag("unwrappable") then
-       table.insert(actions, ACTIONS.UNWRAP)
-   end
+    if right and self.inst:HasTag("unwrappable") then
+        table.insert(actions, ACTIONS.UNWRAP)
+    end
 end
 
 function Unwrappable:CollectInventoryActions(doer, actions)
-   if doer.components.inventory:GetActiveItem() ~= self.inst and self.inst:HasTag("unwrappable") then
-      table.insert(actions, ACTIONS.UNWRAP)
-   end
+    if doer.components.inventory:GetActiveItem() ~= self.inst and self.inst:HasTag("unwrappable") then
+        table.insert(actions, ACTIONS.UNWRAP)
+    end
 end
-
 
 return Unwrappable

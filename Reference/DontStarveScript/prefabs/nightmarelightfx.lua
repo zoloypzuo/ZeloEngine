@@ -1,14 +1,13 @@
-local assets =
-{
-	Asset("ANIM", "anim/rock_light_fx.zip"),
+local assets = {
+    Asset("ANIM", "anim/rock_light_fx.zip"),
     Asset("ANIM", "anim/nightmare_crack_ruins_fx.zip"),
-    Asset("ANIM", "anim/nightmare_crack_upper_fx.zip"),    
+    Asset("ANIM", "anim/nightmare_crack_upper_fx.zip"),
 }
 
 local function lightfn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
 
     inst:AddTag("NOCLICK")
 
@@ -55,5 +54,5 @@ local function upper_crackfn()
 end
 
 return Prefab("common/nightmarelightfx", lightfn, assets),
-       Prefab("common/nightmarefissurefx", crackfn, assets),
-       Prefab("common/upper_nightmarefissurefx", upper_crackfn, assets)
+Prefab("common/nightmarefissurefx", crackfn, assets),
+Prefab("common/upper_nightmarefissurefx", upper_crackfn, assets)

@@ -13,13 +13,15 @@ local NightmareCreatureBrain = Class(Brain, function(self, inst)
 end)
 
 function NightmareCreatureBrain:OnStart()
-    
+
     local root = PriorityNode(
-    {
-        ChaseAndAttack(self.inst, 40),
-        Wander(self.inst, function() return self.inst.components.knownlocations:GetLocation("home") end, 20),
-    }, .25)
-    
+            {
+                ChaseAndAttack(self.inst, 40),
+                Wander(self.inst, function()
+                    return self.inst.components.knownlocations:GetLocation("home")
+                end, 20),
+            }, .25)
+
     self.bt = BT(self.inst, root)
 end
 

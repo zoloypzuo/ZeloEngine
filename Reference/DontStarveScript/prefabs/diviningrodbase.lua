@@ -1,6 +1,5 @@
-local assets=
-{
-	Asset("ANIM", "anim/diviningrod.zip"),
+local assets = {
+    Asset("ANIM", "anim/diviningrod.zip"),
 }
 
 local function OnUnlock(inst)
@@ -38,31 +37,30 @@ local function describe(inst)
 end
 
 local function fn(Sim)
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
-	inst.entity:AddSoundEmitter()
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
+    inst.entity:AddSoundEmitter()
     MakeInventoryPhysics(inst)
-    
+
     anim:SetBank("diviningrod")
     anim:SetBuild("diviningrod")
     anim:PlayAnimation("idle_empty")
-    
+
     inst:AddTag("rodbase")
-    
+
     inst:AddComponent("inspectable")
-	inst.components.inspectable.getstatus = describe
-    
+    inst.components.inspectable.getstatus = describe
+
     inst:AddComponent("lock")
     inst.components.lock.locktype = "maxwell"
     inst.components.lock.isstuck = true
     inst.components.lock:SetOnUnlockedFn(OnUnlock)
     inst.components.lock:SetOnLockedFn(OnLock)
     inst:ListenForEvent("ready", OnReady)
-    
+
     return inst
 end
 
-
-return Prefab( "common/diviningrodbase", fn, assets) 
+return Prefab("common/diviningrodbase", fn, assets)
 

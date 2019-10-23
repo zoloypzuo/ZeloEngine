@@ -1,38 +1,32 @@
-local mushassets=
-{
-	Asset("ANIM", "anim/mushrooms.zip"),
+local mushassets = {
+    Asset("ANIM", "anim/mushrooms.zip"),
     Asset("INV_IMAGE", "blue_cap_cooked"),
     Asset("INV_IMAGE", "green_cap_cooked"),
     Asset("INV_IMAGE", "red_cap_cooked"),
 }
 
-
-local cookedassets = 
-{
-	Asset("ANIM", "anim/mushrooms.zip"),
+local cookedassets = {
+    Asset("ANIM", "anim/mushrooms.zip"),
 }
 
 local function MakeMushroom(data)
 
-    local capassets = 
-    {
-		Asset("ANIM", "anim/mushrooms.zip"),
+    local capassets = {
+        Asset("ANIM", "anim/mushrooms.zip"),
     }
 
-    local prefabs =
-    {
+    local prefabs = {
         data.pickloot
-    }    
+    }
 
-	local function dig_up(inst, chopper)
-		if inst.components.pickable and inst.components.pickable:CanBePicked() then
-			inst.components.lootdropper:SpawnLootPrefab(data.pickloot)
-		end
+    local function dig_up(inst, chopper)
+        if inst.components.pickable and inst.components.pickable:CanBePicked() then
+            inst.components.lootdropper:SpawnLootPrefab(data.pickloot)
+        end
 
-		inst.components.lootdropper:SpawnLootPrefab(data.pickloot)
-		inst:Remove()
-	end
-
+        inst.components.lootdropper:SpawnLootPrefab(data.pickloot)
+        inst:Remove()
+    end
 
     local function onsave(inst, data)
         data.rain = inst.rain
@@ -44,7 +38,7 @@ local function MakeMushroom(data)
         end
     end
 
-    local function onpickedfn( inst )
+    local function onpickedfn(inst)
         if inst.growtask then
             inst.growtask:Cancel()
             inst.growtask = nil
@@ -52,9 +46,8 @@ local function MakeMushroom(data)
         inst.AnimState:PlayAnimation("picked")
         inst.rain = 10 + math.random(10)
     end
-    
-    
-    local function makeemptyfn( inst )
+
+    local function makeemptyfn(inst)
         inst.AnimState:PlayAnimation("picked")
     end
 
@@ -64,7 +57,7 @@ local function MakeMushroom(data)
             if inst.rain <= 0 then
                 inst.components.pickable:Regen()
             end
-        end        
+        end
     end
 
     local function open(inst)
@@ -72,34 +65,33 @@ local function MakeMushroom(data)
             if inst.growtask then
                 inst.growtask:Cancel()
             end
-            inst.growtask = inst:DoTaskInTime(3+math.random()*6, function() 
-                    inst.AnimState:PlayAnimation("open_inground")
-                    inst.AnimState:PushAnimation("open_"..data.animname)
-                    inst.AnimState:PushAnimation(data.animname)
-                    inst.SoundEmitter:PlaySound("dontstarve/common/mushroom_up")
-                    inst.growtask = nil
-                    if inst.components.pickable then
-                        inst.components.pickable.caninteractwith = true
-                    end
-                end)
-        end        
+            inst.growtask = inst:DoTaskInTime(3 + math.random() * 6, function()
+                inst.AnimState:PlayAnimation("open_inground")
+                inst.AnimState:PushAnimation("open_" .. data.animname)
+                inst.AnimState:PushAnimation(data.animname)
+                inst.SoundEmitter:PlaySound("dontstarve/common/mushroom_up")
+                inst.growtask = nil
+                if inst.components.pickable then
+                    inst.components.pickable.caninteractwith = true
+                end
+            end)
+        end
     end
-
 
     local function GetStatus(inst)
         if inst.components.pickable and inst.components.pickable.canbepicked and not inst.components.pickable.caninteractwith then
             return "INGROUND"
         elseif inst.components.pickable and inst.components.pickable.canbepicked and inst.components.pickable.caninteractwith then
             return "GENERIC"
-        else 
+        else
             return "PICKED"
         end
     end
 
     local function onregenfn(inst)
         if (data.open_time == "day" and GetClock():IsDay()) or
-            (data.open_time == "dusk" and GetClock():IsDusk()) or
-            (data.open_time == "night" and GetClock():IsNight()) then
+                (data.open_time == "dusk" and GetClock():IsDusk()) or
+                (data.open_time == "night" and GetClock():IsNight()) then
             open(inst)
         end
     end
@@ -109,25 +101,27 @@ local function MakeMushroom(data)
             if inst.growtask then
                 inst.growtask:Cancel()
             end
-            inst.growtask = inst:DoTaskInTime(3+math.random()*6, function() 
-                    inst.AnimState:PlayAnimation("close_"..data.animname)
-                    inst.AnimState:PushAnimation("inground")
-                    inst:DoTaskInTime(.25, function() inst.SoundEmitter:PlaySound("dontstarve/common/mushroom_down") end )
-                    
-                    inst.growtask = nil
-                    if inst.components.pickable then
-                        inst.components.pickable.caninteractwith = false
-                    end
-                end)    
+            inst.growtask = inst:DoTaskInTime(3 + math.random() * 6, function()
+                inst.AnimState:PlayAnimation("close_" .. data.animname)
+                inst.AnimState:PushAnimation("inground")
+                inst:DoTaskInTime(.25, function()
+                    inst.SoundEmitter:PlaySound("dontstarve/common/mushroom_down")
+                end)
+
+                inst.growtask = nil
+                if inst.components.pickable then
+                    inst.components.pickable.caninteractwith = false
+                end
+            end)
         end
     end
 
     local function mushfn(Sim)
-    	local inst = CreateEntity()
+        local inst = CreateEntity()
         inst.entity:AddSoundEmitter()
-    	inst.entity:AddTransform()
-    	
-    	inst.entity:AddAnimState()
+        inst.entity:AddTransform()
+
+        inst.entity:AddAnimState()
         inst.AnimState:SetBank("mushrooms")
         inst.AnimState:SetBuild("mushrooms")
         inst.AnimState:PlayAnimation(data.animname)
@@ -142,48 +136,46 @@ local function MakeMushroom(data)
         inst.components.pickable.onregenfn = onregenfn
         inst.components.pickable:SetMakeEmptyFn(makeemptyfn)
         --inst.components.pickable.quickpick = true
-        
+
         inst.rain = 0
 
-		inst:AddComponent("lootdropper")
-		inst:AddComponent("workable")
-		inst.components.workable:SetWorkAction(ACTIONS.DIG)
-		inst.components.workable:SetOnFinishCallback(dig_up)
-		inst.components.workable:SetWorkLeft(1)
+        inst:AddComponent("lootdropper")
+        inst:AddComponent("workable")
+        inst.components.workable:SetWorkAction(ACTIONS.DIG)
+        inst.components.workable:SetOnFinishCallback(dig_up)
+        inst.components.workable:SetWorkLeft(1)
 
-
-    	MakeSmallBurnable(inst)
+        MakeSmallBurnable(inst)
         MakeSmallPropagator(inst)
         MakeNoGrowInWinter(inst)
 
         local openevent = "daytime"
         local closeevent = "nighttime"
-        
-        
+
         local isopen = false
         if data.open_time == "night" then
             openevent = "nighttime"
-            closeevent = "daytime"    
+            closeevent = "daytime"
             isopen = GetClock():IsNight()
         elseif data.open_time == "day" then
             openevent = "daytime"
-            closeevent = "dusktime"    
+            closeevent = "dusktime"
             isopen = GetClock():IsDay()
         else
             openevent = "dusktime"
             closeevent = "nighttime"
-            isopen = GetClock():IsDusk()    
+            isopen = GetClock():IsDusk()
         end
 
         inst:ListenForEvent(openevent, function(global, data)
-            open(inst)            
+            open(inst)
         end, GetWorld())
 
         inst:ListenForEvent(closeevent, function(global, data)
-            close(inst)            
+            close(inst)
         end, GetWorld())
 
-        inst:DoPeriodicTask(TUNING.SEG_TIME, checkregrow, TUNING.SEG_TIME + math.random()*TUNING.SEG_TIME)        
+        inst:DoPeriodicTask(TUNING.SEG_TIME, checkregrow, TUNING.SEG_TIME + math.random() * TUNING.SEG_TIME)
 
         if isopen then
             inst.AnimState:PlayAnimation(data.animname)
@@ -196,24 +188,23 @@ local function MakeMushroom(data)
         return inst
     end
 
-
     local function capfn(Sim)
         local inst = CreateEntity()
         inst.entity:AddTransform()
         inst.entity:AddAnimState()
 
         MakeInventoryPhysics(inst)
-        
+
         inst.AnimState:SetBank("mushrooms")
         inst.AnimState:SetBuild("mushrooms")
-        inst.AnimState:PlayAnimation(data.animname.."_cap")
-        
+        inst.AnimState:PlayAnimation(data.animname .. "_cap")
+
         inst:AddComponent("stackable")
         inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
 
         inst:AddComponent("tradable")
         inst:AddComponent("inspectable")
-        
+
         MakeSmallBurnable(inst, TUNING.TINY_BURNTIME)
         MakeSmallPropagator(inst)
         inst:AddComponent("inventoryitem")
@@ -224,18 +215,17 @@ local function MakeMushroom(data)
         inst.components.edible.hungervalue = data.hunger
         inst.components.edible.sanityvalue = data.sanity
         inst.components.edible.foodtype = "VEGGIE"
-        
+
         inst:AddComponent("perishable")
         inst.components.perishable:SetPerishTime(TUNING.PERISH_MED)
         inst.components.perishable:StartPerishing()
         inst.components.perishable.onperishreplacement = "spoiled_food"
 
         inst:AddComponent("cookable")
-        inst.components.cookable.product = data.pickloot.."_cooked"
+        inst.components.cookable.product = data.pickloot .. "_cooked"
 
         return inst
     end
-    
 
     local function cookedfn(Sim)
         local inst = CreateEntity()
@@ -243,17 +233,17 @@ local function MakeMushroom(data)
         inst.entity:AddAnimState()
 
         MakeInventoryPhysics(inst)
-        
+
         inst.AnimState:SetBank("mushrooms")
         inst.AnimState:SetBuild("mushrooms")
-        inst.AnimState:PlayAnimation(data.pickloot.."_cooked")
-        
+        inst.AnimState:PlayAnimation(data.pickloot .. "_cooked")
+
         inst:AddComponent("stackable")
         inst.components.stackable.maxsize = TUNING.STACK_SIZE_SMALLITEM
 
         inst:AddComponent("tradable")
         inst:AddComponent("inspectable")
-        
+
         inst:AddComponent("fuel")
         inst.components.fuel.fuelvalue = TUNING.TINY_FUEL
         MakeSmallBurnable(inst, TUNING.TINY_BURNTIME)
@@ -267,35 +257,33 @@ local function MakeMushroom(data)
         inst.components.edible.sanityvalue = data.cookedsanity
         inst.components.edible.foodstate = "COOKED"
         inst.components.edible.foodtype = "VEGGIE"
-        
+
         inst:AddComponent("perishable")
         inst.components.perishable:SetPerishTime(TUNING.PERISH_MED)
         inst.components.perishable:StartPerishing()
         inst.components.perishable.onperishreplacement = "spoiled_food"
 
         return inst
-    end    
+    end
 
-
-    return Prefab( "forest/objects/"..data.name, mushfn, mushassets, prefabs),
-           Prefab( "common/inventory/"..data.pickloot, capfn, capassets),
-           Prefab( "common/inventory/"..data.pickloot.."_cooked", cookedfn, cookedassets)
+    return Prefab("forest/objects/" .. data.name, mushfn, mushassets, prefabs),
+    Prefab("common/inventory/" .. data.pickloot, capfn, capassets),
+    Prefab("common/inventory/" .. data.pickloot .. "_cooked", cookedfn, cookedassets)
 end
 
-local data = { {name = "red_mushroom", animname="red", pickloot="red_cap", open_time = "day",	sanity = 0, health = -TUNING.HEALING_MED, hunger = TUNING.CALORIES_SMALL,
-																								cookedsanity = -TUNING.SANITY_SMALL, cookedhealth = TUNING.HEALING_TINY, cookedhunger = 0}, 
-               {name = "green_mushroom", animname="green", pickloot="green_cap", open_time = "dusk",	sanity = -TUNING.SANITY_HUGE, health= 0, hunger = TUNING.CALORIES_SMALL,
-																										cookedsanity = TUNING.SANITY_MED, cookedhealth = -TUNING.HEALING_TINY, cookedhunger = 0}, 
-               {name = "blue_mushroom", animname="blue", pickloot="blue_cap", open_time = "night",	sanity = -TUNING.SANITY_MED, health= TUNING.HEALING_MED, hunger = TUNING.CALORIES_SMALL, 
-																									cookedsanity = TUNING.SANITY_SMALL, cookedhealth = -TUNING.HEALING_SMALL, cookedhunger = 0}}
+local data = { { name = "red_mushroom", animname = "red", pickloot = "red_cap", open_time = "day", sanity = 0, health = -TUNING.HEALING_MED, hunger = TUNING.CALORIES_SMALL,
+                 cookedsanity = -TUNING.SANITY_SMALL, cookedhealth = TUNING.HEALING_TINY, cookedhunger = 0 },
+               { name = "green_mushroom", animname = "green", pickloot = "green_cap", open_time = "dusk", sanity = -TUNING.SANITY_HUGE, health = 0, hunger = TUNING.CALORIES_SMALL,
+                 cookedsanity = TUNING.SANITY_MED, cookedhealth = -TUNING.HEALING_TINY, cookedhunger = 0 },
+               { name = "blue_mushroom", animname = "blue", pickloot = "blue_cap", open_time = "night", sanity = -TUNING.SANITY_MED, health = TUNING.HEALING_MED, hunger = TUNING.CALORIES_SMALL,
+                 cookedsanity = TUNING.SANITY_SMALL, cookedhealth = -TUNING.HEALING_SMALL, cookedhunger = 0 } }
 local prefabs = {}
 
-for k,v in pairs(data) do
+for k, v in pairs(data) do
     local shroom, cap, cooked = MakeMushroom(v)
     table.insert(prefabs, shroom)
     table.insert(prefabs, cap)
     table.insert(prefabs, cooked)
 end
 
-
-return unpack(prefabs) 
+return unpack(prefabs)

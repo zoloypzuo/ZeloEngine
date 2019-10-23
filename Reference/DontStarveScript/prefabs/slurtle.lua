@@ -1,15 +1,13 @@
 require "brains/slurtlesnailbrain"
 require "stategraphs/SGslurtle"
 
-local assets =
-{
-	Asset("ANIM", "anim/slurtle.zip"),
+local assets = {
+    Asset("ANIM", "anim/slurtle.zip"),
     Asset("ANIM", "anim/slurtle_snaily.zip"),
     Asset("SOUND", "sound/slurtle.fsb"),
 }
 
-local prefabs =
-{
+local prefabs = {
     "slurtleslime",
     "slurtle_shellpieces",
     "slurtlehat",
@@ -17,21 +15,21 @@ local prefabs =
     "explode_small"
 }
 
-SetSharedLootTable( 'slurtle',
-{
-    {'slurtleslime',  1.0},
-    {'slurtleslime',  1.0},
-    {'slurtle_shellpieces',  1.0},
-    {'slurtlehat',    0.1},
-})
+SetSharedLootTable('slurtle',
+        {
+            { 'slurtleslime', 1.0 },
+            { 'slurtleslime', 1.0 },
+            { 'slurtle_shellpieces', 1.0 },
+            { 'slurtlehat', 0.1 },
+        })
 
-SetSharedLootTable( 'snurtle',
-{
-    {'slurtleslime',      1.0},
-    {'slurtleslime',      1.0},
-    {'slurtle_shellpieces',  1.0},
-    {'armorsnurtleshell', 0.75},
-})
+SetSharedLootTable('snurtle',
+        {
+            { 'slurtleslime', 1.0 },
+            { 'slurtleslime', 1.0 },
+            { 'slurtle_shellpieces', 1.0 },
+            { 'armorsnurtleshell', 0.75 },
+        })
 
 local SLEEP_DIST_FROMHOME = 1
 local SLEEP_DIST_FROMTHREAT = 20
@@ -40,24 +38,27 @@ local MAX_TARGET_SHARES = 5
 local SHARE_TARGET_DIST = 40
 local SPAWN_SLIME_VALUE = 6
 
-
 local function KeepTarget(inst, target)
-    if target:IsValid() then    
+    if target:IsValid() then
         local homePos = inst.components.knownlocations:GetLocation("home")
-        local targetPos = Vector3(target.Transform:GetWorldPosition() )
-        return homePos and distsq(homePos, targetPos) < MAX_CHASEAWAY_DIST*MAX_CHASEAWAY_DIST
+        local targetPos = Vector3(target.Transform:GetWorldPosition())
+        return homePos and distsq(homePos, targetPos) < MAX_CHASEAWAY_DIST * MAX_CHASEAWAY_DIST
     end
 end
 
 local function Slurtle_OnAttacked(inst, data)
     local attacker = data and data.attacker
     inst.components.combat:SetTarget(attacker)
-    inst.components.combat:ShareTarget(attacker, SHARE_TARGET_DIST, function(dude) return dude:HasTag("slurtle") end, MAX_TARGET_SHARES)
+    inst.components.combat:ShareTarget(attacker, SHARE_TARGET_DIST, function(dude)
+        return dude:HasTag("slurtle")
+    end, MAX_TARGET_SHARES)
 end
 
 local function Snurtle_OnAttacked(inst, data)
     local attacker = data and data.attacker
-    inst.components.combat:ShareTarget(attacker, SHARE_TARGET_DIST, function(dude) return dude:HasTag("slurtle") end, MAX_TARGET_SHARES)
+    inst.components.combat:ShareTarget(attacker, SHARE_TARGET_DIST, function(dude)
+        return dude:HasTag("slurtle")
+    end, MAX_TARGET_SHARES)
 end
 
 local function OnIgniteFn(inst)
@@ -71,11 +72,11 @@ local function OnExplodeFn(inst)
     local explode = SpawnPrefab("explode_small")
     local pos = inst:GetPosition()
     explode.Transform:SetPosition(pos.x, pos.y, pos.z)
-    explode.AnimState:SetBloomEffectHandle( "shaders/anim.ksh" )
+    explode.AnimState:SetBloomEffectHandle("shaders/anim.ksh")
     explode.AnimState:SetLightOverride(1)
 end
 
-local function OnEatElement(inst, data)    
+local function OnEatElement(inst, data)
     local value = data.food.components.edible.hungervalue
     inst.stomach = inst.stomach + value
     if inst.stomach >= SPAWN_SLIME_VALUE then
@@ -90,14 +91,13 @@ local function OnEatElement(inst, data)
     end
 end
 
-
 local function commonfn()
-	local inst = CreateEntity()
-	local trans = inst.entity:AddTransform()
-	local anim = inst.entity:AddAnimState()
-	local sound = inst.entity:AddSoundEmitter()
-	local shadow = inst.entity:AddDynamicShadow()
-	shadow:SetSize( 2, 1.5 )
+    local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    local anim = inst.entity:AddAnimState()
+    local sound = inst.entity:AddSoundEmitter()
+    local shadow = inst.entity:AddDynamicShadow()
+    shadow:SetSize(2, 1.5)
 
     inst.lastmeal = 0
     inst.stomach = 0
@@ -107,10 +107,10 @@ local function commonfn()
     MakeCharacterPhysics(inst, 50, .5)
 
     anim:SetBank("slurtle")
-    
+
     inst:AddComponent("locomotor")
-    
-    inst:SetStateGraph("SGslurtle")    
+
+    inst:SetStateGraph("SGslurtle")
 
     inst:AddComponent("eater")
     inst.components.eater:SetElemental()
@@ -122,12 +122,14 @@ local function commonfn()
     inst:AddComponent("health")
 
     inst:AddComponent("lootdropper")
-    
+
     inst:AddComponent("inspectable")
     inst:AddComponent("knownlocations")
-    
-    inst:DoTaskInTime(1*FRAMES, function() inst.components.knownlocations:RememberLocation("home", Vector3(inst.Transform:GetWorldPosition()), true) end)
-    
+
+    inst:DoTaskInTime(1 * FRAMES, function()
+        inst.components.knownlocations:RememberLocation("home", Vector3(inst.Transform:GetWorldPosition()), true)
+    end)
+
     MakeMediumFreezableCharacter(inst, "shell")
     MakeMediumBurnableCharacter(inst, "shell")
 
@@ -149,11 +151,14 @@ local function commonfn()
     inst.components.explosive:SetOnExplodeFn(OnExplodeFn)
     inst.components.explosive:SetOnIgniteFn(OnIgniteFn)
 
-    inst:ListenForEvent("oneatsomething", function(inst, data) OnEatElement(inst, data) end)
+    inst:ListenForEvent("oneatsomething", function(inst, data)
+        OnEatElement(inst, data)
+    end)
 
-    inst:ListenForEvent("ifnotchanceloot", function() inst.SoundEmitter:PlaySound("dontstarve/creatures/slurtle/shatter") end)
-    
-    
+    inst:ListenForEvent("ifnotchanceloot", function()
+        inst.SoundEmitter:PlaySound("dontstarve/creatures/slurtle/shatter")
+    end)
+
     return inst
 end
 
@@ -180,7 +185,6 @@ local function makeslurtle()
 
     return inst
 end
-
 
 local function makesnurtle()
     local inst = commonfn()

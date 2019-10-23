@@ -29,7 +29,7 @@ function EquipSlot:OnControl(control, down)
             local current_item = GetPlayer().components.inventory:GetEquippedItem(self.equipslot)
 
             if current_item and current_item.components.equippable.un_unequipable then
-                return 
+                return
             end
 
             if active_item and active_item.components.equippable and active_item.components.equippable.equipslot == self.equipslot then

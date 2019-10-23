@@ -50,13 +50,15 @@ local Rideable = Class(function(self, inst)
         self:SetSaddle(nil, nil)
     end)
 
-    self._OnRiderDoAttackOtherCB = function(other, data) self.inst:PushEvent("riderdoattackother", data) end
+    self._OnRiderDoAttackOtherCB = function(other, data)
+        self.inst:PushEvent("riderdoattackother", data)
+    end
 end,
-nil,
-{
-    canride = oncanride,
-    saddle = onsaddle,
-})
+        nil,
+        {
+            canride = oncanride,
+            saddle = onsaddle,
+        })
 
 function Rideable:OnRemoveFromEntity()
     StopRiddenTick(self)
@@ -74,8 +76,8 @@ end
 
 function Rideable:TestObedience()
     return self.requiredobedience == nil
-        or self.inst.components.domesticatable == nil
-        or self.inst.components.domesticatable:GetObedience() >= self.requiredobedience
+            or self.inst.components.domesticatable == nil
+            or self.inst.components.domesticatable:GetObedience() >= self.requiredobedience
 end
 
 function Rideable:SetSaddle(doer, newsaddle)
@@ -98,7 +100,7 @@ function Rideable:SetSaddle(doer, newsaddle)
     if newsaddle ~= nil then
         if self.saddleable then
             self.inst:AddChild(newsaddle)
-            newsaddle.Transform:SetPosition(0,0,0) -- make sure we're centered, so poop lands in the right spot!
+            newsaddle.Transform:SetPosition(0, 0, 0) -- make sure we're centered, so poop lands in the right spot!
             newsaddle:RemoveFromScene()
             self.saddle = newsaddle
             self.inst:PushEvent("saddlechanged", { saddle = newsaddle })
@@ -161,8 +163,7 @@ end
 --V2C: domesticatable MUST load b4 rideable, see domesticatable.lua
 --     (we aren't using the usual OnLoadPostPass method)
 function Rideable:OnSaveDomesticatable()
-    local data =
-    {
+    local data = {
         saddle = self.saddle ~= nil and self.saddle:GetSaveRecord() or nil,
         lastridedelta = GetTime() - self.lastridetime,
     }
@@ -179,13 +180,13 @@ function Rideable:OnLoadDomesticatable(data)
 end
 
 function Rideable:GetDebugString()
-    return "saddle:"..(self.saddle ~= nil and self.saddle.prefab or "nil")
+    return "saddle:" .. (self.saddle ~= nil and self.saddle.prefab or "nil")
 end
 
 function Rideable:CollectSceneActions(doer, actions, right)
-    if right and self.inst:HasTag("rideable") then        
+    if right and self.inst:HasTag("rideable") then
         table.insert(actions, ACTIONS.RIDE_MOUNT)
-    end    
+    end
 end
 
 return Rideable

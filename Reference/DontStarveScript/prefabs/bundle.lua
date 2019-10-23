@@ -1,16 +1,15 @@
-local function OnStartBundling(inst)--, doer)
+local function OnStartBundling(inst)
+    --, doer)
     inst.components.stackable:Get():Remove()
 end
 
 local function MakeWrap(name, containerprefab, tag, cheapfuel)
-    local assets =
-    {
-        Asset("ANIM", "anim/"..name..".zip"),
+    local assets = {
+        Asset("ANIM", "anim/" .. name .. ".zip"),
         Asset("INV_IMAGE", "bundlewrap"),
     }
 
-    local prefabs =
-    {
+    local prefabs = {
         name,
         containerprefab,
         "bundle",
@@ -56,7 +55,7 @@ local function MakeWrap(name, containerprefab, tag, cheapfuel)
         return inst
     end
 
-    return Prefab(name.."wrap", fn, assets, prefabs)
+    return Prefab(name .. "wrap", fn, assets, prefabs)
 end
 
 local function CollectContainerItems(container)
@@ -73,9 +72,8 @@ local function CollectContainerItems(container)
 end
 
 local function MakeContainer(name, build)
-    local assets =
-    {
-        Asset("ANIM", "anim/"..build..".zip"),
+    local assets = {
+        Asset("ANIM", "anim/" .. build .. ".zip"),
     }
 
     local function fn()
@@ -96,20 +94,18 @@ local function MakeContainer(name, build)
         -- end
 
 
-        local slotpos =
-        {
-            Vector3(-37.5, 32 + 4, 0), 
+        local slotpos = {
+            Vector3(-37.5, 32 + 4, 0),
             Vector3(37.5, 32 + 4, 0),
-            Vector3(-37.5, -(32 + 4), 0), 
+            Vector3(-37.5, -(32 + 4), 0),
             Vector3(37.5, -(32 + 4), 0),
         }
 
-        local widgetbuttoninfo =
-        {
+        local widgetbuttoninfo = {
             text = STRINGS.ACTIONS.WRAPBUNDLE,
             position = Vector3(0, -100, 0),
             fn = function(container, doer)
-				BufferedAction(inst.components.container.opener, inst, ACTIONS.WRAPBUNDLE):Do()
+                BufferedAction(inst.components.container.opener, inst, ACTIONS.WRAPBUNDLE):Do()
             end,
 
             validfn = function(inst)
@@ -121,9 +117,9 @@ local function MakeContainer(name, build)
         inst:AddComponent("container")
         inst.components.container:SetNumSlots(#slotpos)
         inst.components.container.widgetslotpos = slotpos
-        inst.components.container.widgetanimbank =  "ui_bundle_2x2"
+        inst.components.container.widgetanimbank = "ui_bundle_2x2"
         inst.components.container.widgetanimbuild = "ui_bundle_2x2"
-        inst.components.container.widgetpos = Vector3(200, 0,0)
+        inst.components.container.widgetpos = Vector3(200, 0, 0)
         inst.components.container.side_align_tip = 200
         inst.components.container.type = "cooker"
         inst.components.container.widgetbuttoninfo = widgetbuttoninfo
@@ -153,31 +149,29 @@ local function onextinguish(inst)
 end
 
 local function MakeBundle(name, onesize, variations, loot, tossloot, setupdata)
-    local assets =
-    {
-        Asset("ANIM", "anim/"..name..".zip"),
+    local assets = {
+        Asset("ANIM", "anim/" .. name .. ".zip"),
     }
 
     if variations ~= nil then
         for i = 1, variations do
             if onesize then
-                table.insert(assets, Asset("INV_IMAGE", name..tostring(i)))
+                table.insert(assets, Asset("INV_IMAGE", name .. tostring(i)))
             else
-                table.insert(assets, Asset("INV_IMAGE", name.."_small"..tostring(i)))
-                table.insert(assets, Asset("INV_IMAGE", name.."_medium"..tostring(i)))
-                table.insert(assets, Asset("INV_IMAGE", name.."_large"..tostring(i)))
+                table.insert(assets, Asset("INV_IMAGE", name .. "_small" .. tostring(i)))
+                table.insert(assets, Asset("INV_IMAGE", name .. "_medium" .. tostring(i)))
+                table.insert(assets, Asset("INV_IMAGE", name .. "_large" .. tostring(i)))
             end
         end
     elseif not onesize then
-        table.insert(assets, Asset("INV_IMAGE", name.."_small"))
-        table.insert(assets, Asset("INV_IMAGE", name.."_medium"))
-        table.insert(assets, Asset("INV_IMAGE", name.."_large"))
+        table.insert(assets, Asset("INV_IMAGE", name .. "_small"))
+        table.insert(assets, Asset("INV_IMAGE", name .. "_medium"))
+        table.insert(assets, Asset("INV_IMAGE", name .. "_large"))
     end
 
-    local prefabs =
-    {
+    local prefabs = {
         "ash",
-        name.."_unwrap",
+        name .. "_unwrap",
     }
 
     if loot ~= nil then
@@ -187,23 +181,22 @@ local function MakeBundle(name, onesize, variations, loot, tossloot, setupdata)
     end
 
     local function OnWrapped(inst, num, doer)
-        local suffix =
-            (onesize and "_onesize") or
-            (num > 3 and "_large") or
-            (num > 1 and "_medium") or
-            "_small"
+        local suffix = (onesize and "_onesize") or
+                (num > 3 and "_large") or
+                (num > 1 and "_medium") or
+                "_small"
 
         if variations ~= nil then
             if inst.variation == nil then
                 inst.variation = math.random(variations)
             end
-            suffix = suffix..tostring(inst.variation)
-            inst.components.inventoryitem:ChangeImageName(name..(onesize and tostring(inst.variation) or suffix))
+            suffix = suffix .. tostring(inst.variation)
+            inst.components.inventoryitem:ChangeImageName(name .. (onesize and tostring(inst.variation) or suffix))
         elseif not onesize then
-            inst.components.inventoryitem:ChangeImageName(name..suffix)
+            inst.components.inventoryitem:ChangeImageName(name .. suffix)
         end
 
-        inst.AnimState:PlayAnimation("idle"..suffix)
+        inst.AnimState:PlayAnimation("idle" .. suffix)
 
         if doer ~= nil and doer.SoundEmitter ~= nil then
             --doer.SoundEmitter:PlaySound("dontstarve/common/together/packaged")
@@ -270,9 +263,9 @@ local function MakeBundle(name, onesize, variations, loot, tossloot, setupdata)
         inst.AnimState:SetBank(name)
         inst.AnimState:SetBuild(name)
         inst.AnimState:PlayAnimation(
-            variations ~= nil and
-            (onesize and "idle_onesize1" or "idle_large1") or
-            (onesize and "idle_onesize" or "idle_large")
+                variations ~= nil and
+                        (onesize and "idle_onesize1" or "idle_large1") or
+                        (onesize and "idle_onesize" or "idle_large")
         )
 
         inst:AddTag("bundle")
@@ -289,8 +282,8 @@ local function MakeBundle(name, onesize, variations, loot, tossloot, setupdata)
 
         if variations ~= nil or not onesize then
             inst.components.inventoryitem:ChangeImageName(
-                name..
-                (variations == nil and "_large" or (onesize and "1" or "_large1"))
+                    name ..
+                            (variations == nil and "_large" or (onesize and "1" or "_large1"))
             )
         end
 
@@ -310,10 +303,12 @@ local function MakeBundle(name, onesize, variations, loot, tossloot, setupdata)
         end
 
         inst:AddComponent("useableitem")
-        inst.components.useableitem:SetOnUseFn(function ()
+        inst.components.useableitem:SetOnUseFn(function()
             inst.components.unwrappable:Unwrap()
         end)
-        inst.components.useableitem:SetCanInteractFn(function() return true end)
+        inst.components.useableitem:SetCanInteractFn(function()
+            return true
+        end)
 
         inst.OnSave = OnSave
         inst.OnPreLoad = OnPreLoad
@@ -325,6 +320,6 @@ local function MakeBundle(name, onesize, variations, loot, tossloot, setupdata)
 end
 
 return MakeContainer("bundle_container", "ui_bundle_2x2"),
-    --"bundle", "bundlewrap"
-    MakeBundle("bundle", false, nil, { "waxpaper" }),
-    MakeWrap("bundle", "bundle_container", nil, false)
+--"bundle", "bundlewrap"
+MakeBundle("bundle", false, nil, { "waxpaper" }),
+MakeWrap("bundle", "bundle_container", nil, false)

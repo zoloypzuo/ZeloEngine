@@ -4,7 +4,6 @@ require "behaviours/chaseandattack"
 require "behaviours/panic"
 require "behaviours/runaway"
 
-
 local MAX_CHASE_TIME = 6
 local WANDER_DIST_DAY = 20
 local WANDER_DIST_NIGHT = 5
@@ -15,15 +14,15 @@ local START_FACE_DIST = 14
 local KEEP_FACE_DIST = 20
 local FORCE_MELEE_DIST = 4
 
-local function GetFaceTargetFn(inst)            
-    return GetClosestInstWithTag("player",inst, START_FACE_DIST, true)
+local function GetFaceTargetFn(inst)
+    return GetClosestInstWithTag("player", inst, START_FACE_DIST, true)
 end
 
 local function KeepFaceTargetFn(inst, target)
     return target:IsValid() and
-        not (target:HasTag("playerghost") or
-            target:HasTag("notarget")) and
-        inst:IsNear(target, KEEP_FACE_DIST)
+            not (target:HasTag("playerghost") or
+                    target:HasTag("notarget")) and
+            inst:IsNear(target, KEEP_FACE_DIST)
 end
 
 local function ShouldRunAway(guy)
@@ -72,27 +71,39 @@ local Spatbrain = Class(Brain, function(self, inst)
 end)
 
 function Spatbrain:OnStart()
-    
+
     local root = PriorityNode(
-    {
-        WhileNode( function() return self.inst.components.hauntable and self.inst.components.hauntable.panic end, "PanicHaunted", Panic(self.inst)),
-        WhileNode( function() return self.inst.components.health.takingfiredamage end, "OnFire", Panic(self.inst)),
-        WhileNode(function() return CanMeleeNow(self.inst) end, "Hit Stuck Target or Creature",
-            SequenceNode({
-                ActionNode(function() EquipMeleeAndResetCooldown(self.inst) end, "Equip melee"),
-                ChaseAndAttack(self.inst, MAX_CHASE_TIME) })),
-        WhileNode(function() return CanPhlegmNow(self.inst) end, "AttackMomentarily",
-            SequenceNode({
-                ActionNode(function() EquipPhlegm(self.inst) end, "Equip phlegm"),
-                ChaseAndAttack(self.inst, MAX_CHASE_TIME) })),
-        RunAway(self.inst, ShouldRunAway, RUN_AWAY_DIST, STOP_RUN_AWAY_DIST),
-        FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
-        -- SequenceNode({ -- This makes Spat chase after non-player targets
-        --     ActionNode(function() EquipMelee(self.inst) end, "Equip melee"),
-        --     ChaseAndAttack(self.inst, MAX_CHASE_TIME) }),
-        Wander(self.inst)
-    }, .25)
-    
+            {
+                WhileNode(function()
+                    return self.inst.components.hauntable and self.inst.components.hauntable.panic
+                end, "PanicHaunted", Panic(self.inst)),
+                WhileNode(function()
+                    return self.inst.components.health.takingfiredamage
+                end, "OnFire", Panic(self.inst)),
+                WhileNode(function()
+                    return CanMeleeNow(self.inst)
+                end, "Hit Stuck Target or Creature",
+                        SequenceNode({
+                            ActionNode(function()
+                                EquipMeleeAndResetCooldown(self.inst)
+                            end, "Equip melee"),
+                            ChaseAndAttack(self.inst, MAX_CHASE_TIME) })),
+                WhileNode(function()
+                    return CanPhlegmNow(self.inst)
+                end, "AttackMomentarily",
+                        SequenceNode({
+                            ActionNode(function()
+                                EquipPhlegm(self.inst)
+                            end, "Equip phlegm"),
+                            ChaseAndAttack(self.inst, MAX_CHASE_TIME) })),
+                RunAway(self.inst, ShouldRunAway, RUN_AWAY_DIST, STOP_RUN_AWAY_DIST),
+                FaceEntity(self.inst, GetFaceTargetFn, KeepFaceTargetFn),
+                -- SequenceNode({ -- This makes Spat chase after non-player targets
+                --     ActionNode(function() EquipMelee(self.inst) end, "Equip melee"),
+                --     ChaseAndAttack(self.inst, MAX_CHASE_TIME) }),
+                Wander(self.inst)
+            }, .25)
+
     self.bt = BT(self.inst, root)
 end
 

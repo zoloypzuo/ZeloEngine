@@ -1,7 +1,7 @@
 local Widget = require "widgets/widget"
 local Image = require "widgets/image"
 
-local BeefBloodOver =  Class(Widget, function(self, owner)
+local BeefBloodOver = Class(Widget, function(self, owner)
     self.owner = owner
     Widget._ctor(self, "BeefBloodOver")
 
@@ -18,10 +18,12 @@ local BeefBloodOver =  Class(Widget, function(self, owner)
     self.base_level = 0
     self.level = 0
     self.k = 1
-    self.time_since_pulse = 0 
+    self.time_since_pulse = 0
     self.pulse_period = 1
 
-    local function UpdateState() self:UpdateState() end
+    local function UpdateState()
+        self:UpdateState()
+    end
 
     self.inst:ListenForEvent("mountattacked", function(owner, data)
         local rider = owner.components.rider
