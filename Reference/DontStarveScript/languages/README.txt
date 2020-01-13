@@ -1,1 +1,0 @@
-Hi! To regenerate these run the "createstringspo.lua" and "createstringspo_dlc.lua" files in the scripts folder.
