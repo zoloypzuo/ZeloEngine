@@ -1,2 +1,0 @@
---These items are now split across files depending on the tech trees they are related to.
---scienceprototyper, magicprototyper etc.
