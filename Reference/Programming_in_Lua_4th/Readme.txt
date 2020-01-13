@@ -1,2 +1,0 @@
-这个repo本身是PrgInLua2源码
-现在主要关注c api部分，也就是只有c api部分会在这里
