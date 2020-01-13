@@ -1,8 +1,0 @@
-x = tuple.new(10, "hi", {}, 3)
-print(x(1))
-print(x(2))
-print(x())
-y= tuple.newCounter(3)
-print(y(""))
-print(y("a"))
-print(y("b"))
