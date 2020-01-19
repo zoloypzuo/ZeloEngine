@@ -1,2 +1,0 @@
-openexr v1.5.0
-ilmbase v0.9.0
