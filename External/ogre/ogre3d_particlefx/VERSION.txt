@@ -1,1 +1,0 @@
-ogre3d v1.9.0 December 28th 2013
