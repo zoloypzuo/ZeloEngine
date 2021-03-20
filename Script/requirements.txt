@@ -24,7 +24,7 @@ idna==2.10
 imgui==1.2.0
 inputs==0.5
 isort==4.3.21
-Jinja2==2.11.2
+Jinja2==2.11.3
 lazy-object-proxy==1.5.1
 MarkupSafe==1.1.1
 Mastodon.py==1.5.1
