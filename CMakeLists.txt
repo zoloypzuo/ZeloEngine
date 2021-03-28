@@ -16,6 +16,8 @@ find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
 find_package(glm CONFIG REQUIRED)
 link_libraries(glm)
+find_package(SDL2 CONFIG REQUIRED)
+link_libraries(SDL2::SDL2 SDL2::SDL2main)
 
 add_subdirectory(Engine)
 
