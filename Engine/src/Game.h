@@ -8,13 +8,15 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 
-class Game : public Singleton<Game>, public IRuntimeModule {
+class Entity;
+
+class Game : public Singleton<Game> {
 public:
-    void initialize() override;
+    Game();
 
-    void finalize() override;
+    ~Game();
 
-    void update() override;
+    void update();
 
 public:
     static Game &getSingleton();

@@ -11,6 +11,12 @@
 #include <memory>
 #include <map>
 #include <functional>
+#include <vector>
+#include <map>
+#include <typeindex>
+#include <algorithm>
+#include <memory>
+#include <chrono>
 
 #include <glm/glm.hpp>
 

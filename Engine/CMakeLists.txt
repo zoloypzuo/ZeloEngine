@@ -7,6 +7,10 @@ set(SRC
         src/Window.cpp
         src/Input.cpp
         src/Game.cpp
+        src/Engine.cpp
+        src/Entity.cpp
+        src/Component.cpp
+        src/Transform.cpp
         )
 add_library(zelo ${SRC})
 

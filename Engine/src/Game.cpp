@@ -4,6 +4,8 @@
 
 #include "Game.h"
 
+class Entity;
+
 class Game::Impl : public IRuntimeModule {
 public:
     void initialize() override;
@@ -28,16 +30,9 @@ void Game::Impl::update() {
 
 }
 
-void Game::initialize() {
-
-}
-
-void Game::finalize() {
-
-}
 
 void Game::update() {
-
+    pImpl_->update();
 }
 
 template<> Game *Singleton<Game>::msSingleton = nullptr;
@@ -49,4 +44,16 @@ Game &Game::getSingleton() {
 
 Game *Game::getSingletonPtr() {
     return msSingleton;
+}
+
+std::shared_ptr<Entity> Game::getRootNode() {
+    return std::shared_ptr<Entity>();
+}
+
+Game::Game() : pImpl_(std::make_unique<Impl>()) {
+    pImpl_->initialize();
+}
+
+Game::~Game() {
+    pImpl_->finalize();
 }
