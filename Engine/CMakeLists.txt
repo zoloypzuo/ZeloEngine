@@ -2,10 +2,15 @@
 # author @zoloypzuo
 include_directories(include)
 add_library(zelo src/zelo.cpp)
-add_library(zelo_py SHARED
-        src/zelo.cpp
-        src/zelo_wrapper.cxx
-        )
 
-target_include_directories(zelo_py PRIVATE $ENV{PYTHON_INCLUDE})
-target_link_libraries(zelo_py $ENV{PYTHON_LIB})
+if (WIN32)  # build swig in win32 release
+    if (CMAKE_BUILD_TYPE STREQUAL "Release")
+        add_library(zelo_py SHARED
+                src/zelo.cpp
+                src/zelo_wrapper.cxx
+                )
+
+        target_include_directories(zelo_py PRIVATE $ENV{PYTHON_INCLUDE})
+        target_link_libraries(zelo_py $ENV{PYTHON_LIB})
+    endif ()
+endif ()

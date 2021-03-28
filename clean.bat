@@ -14,6 +14,6 @@ set Args=%*
 cd /d %ScriptDir%
 
 @rem rmdir is not necessary unless you make some mistake in build directory
-rmdir /s/q build
+rmdir /s/q build_vs2019
 
 pause
