@@ -4,6 +4,7 @@ include_directories(include)
 set(SRC
         src/zelo.cpp
         src/Engine.cpp
+        src/Window.cpp
         )
 add_library(zelo ${SRC})
 
