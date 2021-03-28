@@ -60,7 +60,6 @@ public:
 /** @} */
 /** @} */
 
-}
 #if ZELO_COMPILER == ZELO_COMPILER_MSVC
 #   pragma warning (pop)
 #endif

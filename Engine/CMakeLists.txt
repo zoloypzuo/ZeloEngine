@@ -6,6 +6,7 @@ set(SRC
         src/Engine.cpp
         src/Window.cpp
         src/Input.cpp
+        src/Game.cpp
         )
 add_library(zelo ${SRC})
 

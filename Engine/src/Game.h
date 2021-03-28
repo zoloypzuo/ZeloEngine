@@ -1,0 +1,33 @@
+// Game.h
+// created on 2021/3/28
+// author @zoloypzuo
+
+#ifndef ZELOENGINE_GAME_H
+#define ZELOENGINE_GAME_H
+
+#include "ZeloPrerequisites.h"
+#include "ZeloSingleton.h"
+
+class Game : public Singleton<Game>, public IRuntimeModule {
+public:
+    void initialize() override;
+
+    void finalize() override;
+
+    void update() override;
+
+public:
+    static Game &getSingleton();
+
+    static Game *getSingletonPtr();
+
+    std::shared_ptr<Entity> getRootNode();
+
+private:
+    class Impl;
+
+    std::unique_ptr<Impl> pImpl_;
+};
+
+
+#endif //ZELOENGINE_GAME_H
