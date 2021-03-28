@@ -8,4 +8,15 @@
 #include <string>
 #include <memory>
 
+class IRuntimeModule {
+public:
+    virtual ~IRuntimeModule() = default;
+
+    virtual void initialize() = 0;
+
+    virtual void finalize() = 0;
+
+    virtual void update() = 0;
+};
+
 #endif //ZELOENGINE_ZELOPREREQUISITES_H

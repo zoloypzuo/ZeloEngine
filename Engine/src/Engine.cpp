@@ -4,16 +4,16 @@
 
 #include "Engine.h"
 
-class Engine::Impl {
+class Engine::Impl : public IRuntimeModule {
 public:
-    void initialize();
+    void initialize() override;
 
-    void finalize();
+    void finalize() override;
 
-    void update();
+    void update() override;
 
 public:
-    bool quit;
+    bool quit{};
 };
 
 void Engine::Impl::initialize() {
