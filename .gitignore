@@ -19,3 +19,7 @@ bin*/**
 
 # archived
 **/**_ARHIVED/
+
+# swig wrapper
+**/zelo_wrapper.*
+zelo.py
