@@ -40,7 +40,7 @@ void Entity::addChild(std::shared_ptr<Entity> child) {
 
     // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
     if (m_engine) {
-        child->registerWithEngineAll(m_engine);
+//        child->registerWithEngineAll(m_engine);
     }
 }
 
