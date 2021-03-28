@@ -7,11 +7,17 @@ from unittest import TestCase
 
 
 class TestZelo(TestCase):
-    def test00(self):
+    def test00_import(self):
+        try:
+            import zelo
+        except ImportError as e:
+            raise RuntimeError(e.message.decode("gbk").encode("utf-8"))
+
+    def test01_add(self):
         import zelo
         self.assertEqual(3, zelo.add(1, 2))
 
-    def test01(self):
+    def test02_callback(self):
         import zelo
         class MyEngine(zelo.Engine):
             def __init__(self):
