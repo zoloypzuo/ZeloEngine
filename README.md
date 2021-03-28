@@ -33,9 +33,11 @@ Python prototype
     * entity & components
     * prefab
 * GUI & editor
-    * imgui
+    * imgui (in-game editor)
+    * PyQt5 (general editor)
     * scene editor
     * property editor
+    * node editor
 * physics
     * bullet
     * cyclone
