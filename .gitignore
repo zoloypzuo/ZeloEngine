@@ -1,6 +1,6 @@
 # jetbrain
 **/.idea/
-cmake-build*/**
+**/cmake-build*/
 
 # mac os
 .DS_Store
@@ -12,3 +12,7 @@ __pycache__/
 # build and binary
 build*/**
 bin*/**
+
+# game resource
+**/assets/
+**/media/
