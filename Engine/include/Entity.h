@@ -50,9 +50,9 @@ public:
     void updateAll(Input *input, std::chrono::microseconds delta);
 
 //    void renderAll(Shader *shader) const;
-    void registerWithEngineAll(Engine *engine);
-
-    void deregisterFromEngineAll();
+//    void registerWithEngineAll(Engine *engine);
+//
+//    void deregisterFromEngineAll();
 
     Transform &getTransform();
 
