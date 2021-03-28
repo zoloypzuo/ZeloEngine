@@ -7,6 +7,10 @@
 
 #include <string>
 #include <memory>
+#include <map>
+#include <functional>
+
+#include <glm/glm.hpp>
 
 class IRuntimeModule {
 public:

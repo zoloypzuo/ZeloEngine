@@ -5,6 +5,7 @@ set(SRC
         src/zelo.cpp
         src/Engine.cpp
         src/Window.cpp
+        src/Input.cpp
         )
 add_library(zelo ${SRC})
 
