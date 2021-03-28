@@ -6,6 +6,15 @@ set(CMAKE_CXX_STANDARD 11)
 
 project(ZeloEngine)
 
+if (WIN32)
+    set(VCPKG_TARGET_TRIPLET x86-windows)
+else ()
+    set(VCPKG_TARGET_TRIPLET x64-windows)
+endif ()
+include(/vcpkg/scripts/buildsystems/vcpkg.cmake)
+find_package(spdlog CONFIG REQUIRED)
+link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
+
 add_subdirectory(Engine)
 
 include_directories(Engine/include)
