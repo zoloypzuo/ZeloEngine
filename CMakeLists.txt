@@ -14,6 +14,8 @@ endif ()
 include(/vcpkg/scripts/buildsystems/vcpkg.cmake)
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
+find_package(glm CONFIG REQUIRED)
+link_libraries(glm)
 
 add_subdirectory(Engine)
 
