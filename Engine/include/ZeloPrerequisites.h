@@ -5,6 +5,8 @@
 #ifndef ZELOENGINE_ZELOPREREQUISITES_H
 #define ZELOENGINE_ZELOPREREQUISITES_H
 
+#include "ZeloPlatform.h"
+
 #include <string>
 #include <memory>
 #include <map>
