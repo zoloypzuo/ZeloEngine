@@ -16,3 +16,6 @@ bin*/**
 # game resource
 **/assets/
 **/media/
+
+# archived
+**/**_ARHIVED/
