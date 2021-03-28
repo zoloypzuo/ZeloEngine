@@ -6,37 +6,53 @@
 #define ZELOENGINE_WINDOW_H
 
 #include "ZeloPrerequisites.h"
+#include <glm/glm.hpp>
+#include <SDL.h>
 
-class Window : IRuntimeModule {
+#if _WIN32
+#undef main
+#endif
+
+class Window {
 public:
     Window();
 
-    ~Window() override;
+    ~Window();
 
-    void initialize() override;
-
-    void finalize() override;
-
-    void update() override;
+    void update();
 
     void swap_buffer();
 
     void make_current_context();
 
-    void drawCursor();
-
     int getWidth() const;
+
     int getHeight() const;
+
     glm::vec4 getViewport() const;
+
     glm::vec2 getDisplaySize() const;
+
     glm::vec2 getDrawableSize() const;
-    const char* getClipboardText() const;
-    void setClipboardText(const char* text);
-    SDL_Window* getSDLWindow();
+
+    const char *getClipboardText() const;
+
+    void setClipboardText(const char *text);
+
+    SDL_Window *getSDLWindow();
+
+    void showCursor(bool enabled);
+
     bool shouldQuit() const;
+
     void setFullscreen(uint32_t flag);
+
     void toggleFullscreen();
 
+private:
+    class Impl;
+
+    std::unique_ptr<Impl> pImpl_;
 };
 
 

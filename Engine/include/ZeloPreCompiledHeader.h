@@ -5,6 +5,6 @@
 #ifndef ZELOENGINE_ZELOPRECOMPILEDHEADER_H
 #define ZELOENGINE_ZELOPRECOMPILEDHEADER_H
 
-#include <spdlog>
+#include <spdlog/spdlog.h>
 
 #endif //ZELOENGINE_ZELOPRECOMPILEDHEADER_H
