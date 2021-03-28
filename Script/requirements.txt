@@ -24,7 +24,7 @@ idna==2.10
 imgui==1.2.0
 inputs==0.5
 isort==4.3.21
-Jinja2==2.11.2
+Jinja2==2.11.3
 lazy-object-proxy==1.5.1
 MarkupSafe==1.1.1
 Mastodon.py==1.5.1
@@ -35,7 +35,7 @@ msgpack==1.0.0
 numpy==1.16.6
 objgraph==3.5.0
 OpenGLContext==2.3.0b1
-Pillow==6.2.2
+Pillow==8.1.1
 protobuf==3.12.2
 psutil==5.7.3
 pyassimp==4.1.4
