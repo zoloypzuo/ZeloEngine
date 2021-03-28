@@ -5,16 +5,22 @@
 #ifndef ZELOENGINE_ENGINE_H
 #define ZELOENGINE_ENGINE_H
 
+#include "ZeloPrerequisites.h"
+
 
 class Engine {
 public:
-    Engine() = default;
+    Engine();
 
-    virtual ~Engine() = default;
+    virtual ~Engine();
 
     void start();
 
     virtual void start_script();
+
+private:
+    class Impl;
+    std::shared_ptr<Impl> pImpl_;
 };
 
 
