@@ -1,7 +1,8 @@
 %module(directors="1") zelo
 
 %{
-#include "zelo.h"
+#include "Engine.h"
+//#include "zelo.h"
 //using namespace zelo;
 %}
 
@@ -15,13 +16,16 @@ namespace zelo
 //%feature("director") ParticleContactGenerator;
 //%feature("director") ParticleForceGenerator;
 }
+%feature("director") Engine;
 
 
-%include "carrays.i"
-%array_functions(int,intArray)
-%array_functions(float,floatArray)
-%array_functions(double,doubleArray)
-%array_functions(double,realArray)
+//%include "carrays.i"
+//%array_functions(int,intArray)
+//%array_functions(float,floatArray)
+//%array_functions(double,doubleArray)
+//%array_functions(double,realArray)
 
 
-%include "zelo.h"
+%include "Engine.h"
+//%include "zelo.h"
+//

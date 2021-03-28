@@ -9,7 +9,7 @@ call build_swig_simple.bat
 
 mkdir build_swig
 cd build_swig
-cmake -G  "Visual Studio 15" ..
+cmake -DCMAKE_GENERATOR_PLATFORM=win32 -DBuildSwig=ON -G  "Visual Studio 15" ..
 cmake --build . --config release --target zelo_py
 
 cd %ScriptDir%
