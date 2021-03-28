@@ -25,8 +25,6 @@ public:
 
     std::shared_ptr<Entity> getRootNode();
 
-    virtual void init_script();
-
 private:
     class Impl;
 
