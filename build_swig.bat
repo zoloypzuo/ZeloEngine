@@ -14,8 +14,8 @@ cmake --build . --config release --target zelo_py
 
 cd %ScriptDir%
 
-rem copy build_vs2019\src\Release\cyclone_py.dll ..\..\..\ZeloEngineScript\_cyclone.pyd
-rem copy cyclone.py ..\..\..\ZeloEngineScript\cyclone.py
+copy build_swig\Engine\Release\zelo_py.dll Script\scriptlibs\_zelo.pyd
+copy build_swig\zelo.py Script\scriptlibs\zelo.py
 
 cd %CurrentDir%
 pause
