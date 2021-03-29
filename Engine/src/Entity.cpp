@@ -51,11 +51,11 @@ void Entity::updateAll(Input *input, std::chrono::microseconds delta) {
         worldMatrix = parentEntity->worldMatrix * transform.getTransformMatrix();
     }
 
-    for (auto component : components) {
+    for (const auto& component : components) {
         component->update(input, delta);
     }
 
-    for (auto child : children) {
+    for (const auto& child : children) {
         child->updateAll(input, delta);
     }
 }

@@ -6,6 +6,7 @@
 #define ZELOENGINE_INPUT_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloSingleton.h"
 #include <SDL.h>
 
 enum InputEvent {
@@ -19,7 +20,7 @@ struct AxisValuePair {
     float value;
 };
 
-class Input {
+class Input : public Singleton<Input> {
 public:
     Input();
 
@@ -70,6 +71,10 @@ public:
     void registerKeysToAxis(SDL_Keycode keyA, SDL_Keycode keyB, float min, float max, const std::string &axis);
 
     void registerButtonToAction(Uint8 button, const std::string &action);
+
+public:
+    static Input* getSingletonPtr();
+    static Input& getSingleton();
 
 private:
     std::map<SDL_Keycode, Uint8> m_keyState;

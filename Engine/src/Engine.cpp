@@ -11,6 +11,8 @@ public:
     bool m_quit{};
     std::unique_ptr<Window> m_window;
     std::unique_ptr<Game> m_game;
+    std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
+    std::chrono::microseconds m_deltaTime{};
 
 public:
     void initialize() override;
@@ -22,8 +24,10 @@ public:
 };
 
 void Engine::Impl::initialize() {
+    spdlog::set_level(spdlog::level::debug);
     m_window = std::make_unique<Window>();
     m_game = std::make_unique<Game>();
+    m_time = std::chrono::high_resolution_clock::now();
 }
 
 void Engine::Impl::finalize() {
@@ -31,6 +35,10 @@ void Engine::Impl::finalize() {
 }
 
 void Engine::Impl::update() {
+    m_lastTime = m_time;
+    m_time = std::chrono::high_resolution_clock::now();
+    m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
+
     m_window->update();
     m_game->update();
     m_window->swap_buffer();
@@ -56,5 +64,15 @@ Engine::Engine() :
 
 Engine::~Engine() {
     pImpl_->finalize();
+}
+
+template<> Engine *Singleton<Engine>::msSingleton = nullptr;
+
+Engine *Engine::getSingletonPtr() {
+    return msSingleton;
+}
+
+const std::chrono::microseconds &Engine::getDeltaTime() {
+    return pImpl_->m_deltaTime;
 }
 

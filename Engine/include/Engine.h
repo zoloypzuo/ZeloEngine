@@ -6,9 +6,9 @@
 #define ZELOENGINE_ENGINE_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloSingleton.h"
 
-
-class Engine {
+class Engine : public Singleton<Engine> {
 public:
     Engine();
 
@@ -18,8 +18,14 @@ public:
 
     virtual void start_script();
 
+    const std::chrono::microseconds &getDeltaTime();
+
+public:
+    static Engine *getSingletonPtr();
+
 private:
     class Impl;
+
     std::shared_ptr<Impl> pImpl_;
 };
 

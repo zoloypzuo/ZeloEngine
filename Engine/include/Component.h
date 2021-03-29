@@ -27,7 +27,7 @@ struct Property {
 
 class Component {
 public:
-    virtual ~Component() {};
+    virtual ~Component() = default;;
 
     virtual void update(Input *input, std::chrono::microseconds delta) {};
 

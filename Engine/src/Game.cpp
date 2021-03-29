@@ -1,10 +1,10 @@
 // Game.cpp
 // created on 2021/3/28
 // author @zoloypzuo
-
+#include "ZeloPreCompiledHeader.h"
 #include "Game.h"
-
-class Entity;
+#include "Entity.h"
+#include "Engine.h"
 
 class Game::Impl : public IRuntimeModule {
 public:
@@ -27,7 +27,7 @@ void Game::Impl::finalize() {
 }
 
 void Game::Impl::update() {
-
+    root->updateAll(Input::getSingletonPtr(), Engine::getSingletonPtr()->getDeltaTime());
 }
 
 
