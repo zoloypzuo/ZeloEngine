@@ -1,28 +1,31 @@
 # created on 2021/3/28
 # author @zoloypzuo
-include_directories(include)
-set(SRC
-        src/zelo.cpp
-        src/Engine.cpp
-        src/Window.cpp
-        src/Input.cpp
-        src/Game.cpp
-        src/Engine.cpp
-        src/Entity.cpp
-        src/Component.cpp
-        src/Transform.cpp
+include_directories(./)
+add_library(zelo
+        zelo.cpp
+        Engine.cpp
+        Window.cpp
+        Input.cpp
+        Game.cpp
+        Engine.cpp
+        Entity.cpp
+        Component.cpp
+        Transform.cpp
+#        GLManager.cpp
+#        GLEWManager.cpp
         )
-add_library(zelo ${SRC})
 
 option(BuildSwig "BuildSwig" OFF)
 message(STATUS BuildSwig=${BuildSwig})
 
 if (BuildSwig)  # build swig in win32 release
     add_library(zelo_py SHARED
-            ${SRC}
-            src/zelo_wrapper.cxx
+            zelo_wrapper.cxx
             )
 
     target_include_directories(zelo_py PRIVATE $ENV{PYTHON_INCLUDE})
-    target_link_libraries(zelo_py $ENV{PYTHON_LIB})
+    target_link_libraries(zelo_py
+            $ENV{PYTHON_LIB}
+            zelo
+            )
 endif ()
