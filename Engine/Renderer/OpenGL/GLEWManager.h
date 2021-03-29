@@ -7,8 +7,15 @@
 
 #include "ZeloPrerequisites.h"
 
-
 class GLEWManager {
+public:
+    GLEWManager();
+
+    ~GLEWManager();
+
+//    void clean();
+
+//    int init();
 
 };
 

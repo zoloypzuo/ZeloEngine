@@ -1,6 +1,10 @@
 # created on 2021/3/28
 # author @zoloypzuo
 include_directories(./)
+add_subdirectory(Framework)
+link_libraries(Framework)
+add_subdirectory(Renderer/OpenGL)
+link_libraries(OpenGLRenderer)
 add_library(zelo
         zelo.cpp
         Engine.cpp
@@ -11,8 +15,6 @@ add_library(zelo
         Entity.cpp
         Component.cpp
         Transform.cpp
-#        GLManager.cpp
-#        GLEWManager.cpp
         )
 
 option(BuildSwig "BuildSwig" OFF)

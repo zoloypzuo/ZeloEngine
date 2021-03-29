@@ -13,56 +13,56 @@
 #include <GLES3/gl3.h>
 #else
 
-#include <GL/glew.h>
+#include <gl/glew.h>
 
 #endif
 
-#include "Renderer.h"
-#include "SimpleRenderer.h"
-#include "Shader.h"
+#include "Framework/Renderer.h"
+//#include "SimpleRenderer.h"
+#include "Framework/Shader.h"
 #include "Entity.h"
 #include "Window.h"
-#include "components/Camera.h"
-
-#include "components/DirectionalLight.h"
-#include "components/PointLight.h"
-#include "components/SpotLight.h"
-
-#include "Line.h"
+//#include "Camera.h"
+//
+//#include "DirectionalLight.h"
+//#include "PointLight.h"
+//#include "SpotLight.h"
+//
+//#include "Line.h"
 
 class GLManager {
 public:
     GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2 &windowSize);
 
-    ~GLManager(void);
+    ~GLManager();
 
-    void setDrawSize(const glm::vec2 &size);
+    void setDrawSize(const glm::ivec2 &size);
 
-    void bindRenderTarget(void) const;
+    void bindRenderTarget() const;
 
     void renderScene(Entity *entity);
 
-    void setActiveCamera(std::shared_ptr<Camera> camera);
+//    void setActiveCamera(std::shared_ptr<Camera> camera);
+//
+//    void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
+//
+//    void addPointLight(std::shared_ptr<PointLight> light);
+//
+//    void addSpotLight(std::shared_ptr<SpotLight> light);
+//
+//    void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
+//
+//    void removePointLight(std::shared_ptr<PointLight> light);
+//
+//    void removeSpotLight(std::shared_ptr<SpotLight> light);
 
-    void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
+    glm::mat4 getViewMatrix();
 
-    void addPointLight(std::shared_ptr<PointLight> light);
-
-    void addSpotLight(std::shared_ptr<SpotLight> light);
-
-    void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
-
-    void removePointLight(std::shared_ptr<PointLight> light);
-
-    void removeSpotLight(std::shared_ptr<SpotLight> light);
-
-    glm::mat4 getViewMatrix(void);
-
-    glm::mat4 getProjectionMatrix(void);
+    glm::mat4 getProjectionMatrix();
 
     void drawEntity(Entity *entity);
 
-    void drawLine(Line line);
+//    void drawLine(Line line);
 
     int width, height;
 
@@ -71,13 +71,13 @@ public:
 
 private:
     std::unique_ptr<Renderer> m_renderer;
-    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
+//    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
 
-    std::shared_ptr<Camera> m_activeCamera;
-
-    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
-    std::vector<std::shared_ptr<PointLight>> m_pointLights;
-    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
+//    std::shared_ptr<Camera> m_activeCamera;
+//
+//    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
+//    std::vector<std::shared_ptr<PointLight>> m_pointLights;
+//    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 };
 
 
