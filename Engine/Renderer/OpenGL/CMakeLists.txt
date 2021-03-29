@@ -3,6 +3,7 @@
 add_library(OpenGLRenderer
         GLEWManager.cpp
         GLManager.cpp
+        ForwardRenderer.cpp
         )
 
 find_package(GLEW REQUIRED)
