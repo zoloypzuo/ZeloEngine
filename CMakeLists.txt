@@ -22,5 +22,5 @@ link_libraries(SDL2::SDL2 SDL2::SDL2main)
 add_subdirectory(Engine)
 
 include_directories(Engine)
-link_libraries(zelo)
+link_libraries(Common)
 add_executable(hello main.cpp)

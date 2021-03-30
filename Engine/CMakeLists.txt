@@ -5,7 +5,7 @@ add_subdirectory(Framework)
 link_libraries(Framework)
 add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
-add_library(zelo
+add_library(Common
         zelo.cpp
         Engine.cpp
         Window.cpp
@@ -28,6 +28,6 @@ if (BuildSwig)  # build swig in win32 release
     target_include_directories(zelo_py PRIVATE $ENV{PYTHON_INCLUDE})
     target_link_libraries(zelo_py
             $ENV{PYTHON_LIB}
-            zelo
+            Common
             )
 endif ()
