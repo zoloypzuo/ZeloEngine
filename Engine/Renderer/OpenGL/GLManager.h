@@ -6,6 +6,7 @@
 #define ZELOENGINE_GLMANAGER_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloSingleton.h"
 
 #if defined(GLES2)
 #include <GLES2/gl2.h>
@@ -30,9 +31,9 @@
 //
 //#include "Line.h"
 
-class GLManager {
+class GLManager : public Singleton<GLManager> {
 public:
-    GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2 &windowSize);
+    GLManager(std::unique_ptr <Renderer> renderer, const glm::vec2 &windowSize);
 
     ~GLManager();
 
@@ -60,24 +61,17 @@ public:
 
     glm::mat4 getProjectionMatrix();
 
-    void drawEntity(Entity *entity);
+//    void drawEntity(Entity *entity);
 
 //    void drawLine(Line line);
 
-    int width, height;
 
-    GLuint lineBuffer;
-    GLuint VertexArrayID;
+public:
+    static GLManager* getSingletonPtr();
 
 private:
-    std::unique_ptr<Renderer> m_renderer;
-//    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
-
-//    std::shared_ptr<Camera> m_activeCamera;
-//
-//    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
-//    std::vector<std::shared_ptr<PointLight>> m_pointLights;
-//    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
+    class Impl;
+    std::unique_ptr<Impl> mImpl;
 };
 
 

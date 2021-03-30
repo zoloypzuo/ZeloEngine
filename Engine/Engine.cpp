@@ -6,7 +6,6 @@
 #include "Engine.h"
 #include "Window.h"
 #include "Game.h"
-#include "Renderer/OpenGL/GLEWManager.h"
 #include "Renderer/OpenGL/GLManager.h"
 #include "Renderer/OpenGL/ForwardRenderer.h"
 
@@ -14,7 +13,6 @@ class Engine::Impl : public IRuntimeModule {
 public:
     std::unique_ptr<Window> m_window;
     std::unique_ptr<Game> m_game;
-    std::unique_ptr<GLEWManager> m_glewManager;
     std::unique_ptr<GLManager> m_glManager;
     std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
     std::chrono::microseconds m_deltaTime{};
@@ -31,7 +29,6 @@ public:
 void Engine::Impl::initialize() {
     spdlog::set_level(spdlog::level::debug);
     m_window = std::make_unique<Window>();
-    m_glewManager = std::make_unique<GLEWManager>();
     m_glManager = std::make_unique<GLManager>(std::make_unique<ForwardRenderer>(), m_window->getDrawableSize());
     m_game = std::make_unique<Game>();
     m_time = std::chrono::high_resolution_clock::now();

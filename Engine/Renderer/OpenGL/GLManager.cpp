@@ -4,39 +4,87 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLManager.h"
 
+class GLManager::Impl : public IRuntimeModule {
+public:
+    ~Impl() override;
 
-GLManager::GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2 &windowSize) {
-    m_renderer = std::move(renderer);
+    int width{}, height{};
+
+    GLuint lineBuffer{};
+    GLuint VertexArrayID{};
+    std::unique_ptr<Renderer> m_renderer;
+//    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
+
+//    std::shared_ptr<Camera> m_activeCamera;
+//
+//    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
+//    std::vector<std::shared_ptr<PointLight>> m_pointLights;
+//    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
+public:
+    Impl(std::unique_ptr<Renderer> renderer, const glm::vec2 &windowSize) {
+        m_renderer = std::move(renderer);
+
+    }
+
+    void initialize() override {
+#ifndef ANDROID
+        glewExperimental = GL_TRUE;
+        GLenum err = glewInit();
+
+        if (GLEW_OK != err) {
+            spdlog::error("GLEW failed to initalize: %s", glewGetErrorString(err));
+        }
+
+        spdlog::info("Status: Using GLEW %s", glewGetString(GLEW_VERSION));
+#endif
 //    m_simpleRenderer = std::make_unique<SimpleRenderer>();
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    glClearDepthf(1.0f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
+        glClearDepthf(1.0f);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LESS);
 
-    glEnable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
 
-    setDrawSize(windowSize);
+//        setDrawSize(windowSize);
 
-    glGenBuffers(1, &lineBuffer);
+        glGenBuffers(1, &lineBuffer);
+    }
+
+    void finalize() override {
+        glDeleteBuffers(1, &lineBuffer);
+    }
+
+    void update() override {
+
+    }
+
+    void setDrawSize(const glm::ivec2 &size);
+};
+
+void GLManager::Impl::setDrawSize(const glm::ivec2 &size) {
+
 }
 
-GLManager::~GLManager() {
-    glDeleteBuffers(1, &lineBuffer);
+GLManager::Impl::~Impl() {
+
 }
+
+GLManager::GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2 &windowSize)
+        : mImpl(std::make_unique<Impl>(renderer, windowSize)) {
+}
+
+GLManager::~GLManager() = default;
 
 void GLManager::setDrawSize(const glm::ivec2 &size) {
-    this->width = size.x;
-    this->height = size.y;
-
-    glViewport(0, 0, this->width, this->height);
+    mImpl->setDrawSize(size);
 }
 
 void GLManager::bindRenderTarget() const {
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, this->width, this->height);
+//    glBindTexture(GL_TEXTURE_2D, 0);
+//    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+//    glViewport(0, 0, this->width, this->height);
 }
 
 //void GLManager::setActiveCamera(std::shared_ptr<Camera> camera) {
@@ -80,21 +128,27 @@ void GLManager::bindRenderTarget() const {
 //    m_simpleRenderer->renderLine(line, m_activeCamera);
 //}
 
-void GLManager::drawEntity(Entity *entity) {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDepthMask(GL_FALSE);
-    glDepthFunc(GL_EQUAL);
-
+//void GLManager::drawEntity(Entity *entity) {
+//    glEnable(GL_BLEND);
+//    glBlendFunc(GL_ONE, GL_ONE);
+//    glDepthMask(GL_FALSE);
+//    glDepthFunc(GL_EQUAL);
+//
 //    m_simpleRenderer->render(*entity, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
-
-    glDepthFunc(GL_LESS);
-    glDepthMask(GL_TRUE);
-    glDisable(GL_BLEND);
-}
+//
+//    glDepthFunc(GL_LESS);
+//    glDepthMask(GL_TRUE);
+//    glDisable(GL_BLEND);
+//}
 
 void GLManager::renderScene(Entity *scene) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 //    m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
+}
+
+template<> GLManager *Singleton<GLManager>::msSingleton = nullptr;
+
+GLManager *GLManager::getSingletonPtr() {
+    return msSingleton;
 }
