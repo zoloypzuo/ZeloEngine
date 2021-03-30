@@ -12,6 +12,7 @@ __pycache__/
 # build and binary
 build*/**
 bin*/**
+**/lib/**
 
 # game resource
 **/assets/
