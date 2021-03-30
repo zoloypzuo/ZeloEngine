@@ -14,8 +14,10 @@ cmake --build . --config release --target zelo_py
 
 cd %ScriptDir%
 
-copy build_swig\Engine\Release\zelo_py.dll Script\scriptlibs\_zelo.pyd
 copy build_swig\zelo.py Script\scriptlibs\zelo.py
+xcopy build_swig\Engine\Release\*.dll Script\scriptlibs\ /y
+move Script\scriptlibs\zelo_py.dll Script\scriptlibs\_zelo.pyd
+
 
 cd %CurrentDir%
 pause
