@@ -19,7 +19,7 @@ public:
 };
 
 void Game::Impl::initialize() {
-
+    root = std::make_unique<Entity>();
 }
 
 void Game::Impl::finalize() {

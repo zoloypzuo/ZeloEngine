@@ -12,7 +12,7 @@ public:
 
     GLuint lineBuffer{};
     GLuint VertexArrayID{};
-    std::unique_ptr<Renderer> m_renderer;
+    Renderer *m_renderer;
 //    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
 
 //    std::shared_ptr<Camera> m_activeCamera;
@@ -21,8 +21,8 @@ public:
 //    std::vector<std::shared_ptr<PointLight>> m_pointLights;
 //    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 public:
-    Impl(std::unique_ptr<Renderer> renderer, const glm::vec2 &windowSize) {
-        m_renderer = std::move(renderer);
+    Impl(Renderer *renderer, const glm::vec2 &windowSize)
+            : m_renderer(renderer) {
 
     }
 
@@ -71,7 +71,7 @@ GLManager::Impl::~Impl() {
 
 }
 
-GLManager::GLManager(std::unique_ptr<Renderer> renderer, const glm::vec2 &windowSize)
+GLManager::GLManager(Renderer *renderer, const glm::vec2 &windowSize)
         : mImpl(std::make_unique<Impl>(renderer, windowSize)) {
 }
 

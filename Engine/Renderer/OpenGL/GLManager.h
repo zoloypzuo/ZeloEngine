@@ -33,7 +33,7 @@
 
 class GLManager : public Singleton<GLManager> {
 public:
-    GLManager(std::unique_ptr <Renderer> renderer, const glm::vec2 &windowSize);
+    GLManager(Renderer *renderer, const glm::vec2 &windowSize);
 
     ~GLManager();
 
@@ -67,10 +67,11 @@ public:
 
 
 public:
-    static GLManager* getSingletonPtr();
+    static GLManager *getSingletonPtr();
 
 private:
     class Impl;
+
     std::unique_ptr<Impl> mImpl;
 };
 
