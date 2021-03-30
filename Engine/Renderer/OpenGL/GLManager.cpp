@@ -17,9 +17,9 @@ public:
 
 //    std::shared_ptr<Camera> m_activeCamera;
 //
-//    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
-//    std::vector<std::shared_ptr<PointLight>> m_pointLights;
-//    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
+    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
+    std::vector<std::shared_ptr<PointLight>> m_pointLights;
+    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 public:
     Impl(Renderer *renderer, const glm::ivec2 &windowSize)
             : m_renderer(renderer), width(windowSize.x), height(windowSize.y) {
@@ -92,31 +92,31 @@ void GLManager::bindRenderTarget() const {
 //void GLManager::setActiveCamera(std::shared_ptr<Camera> camera) {
 //    m_activeCamera = camera;
 //}
-//
-//void GLManager::addDirectionalLight(std::shared_ptr<DirectionalLight> light) {
-//    m_directionalLights.push_back(light);
-//}
-//
-//void GLManager::removeDirectionalLight(std::shared_ptr<DirectionalLight> light) {
-//    m_directionalLights.erase(std::remove(m_directionalLights.begin(), m_directionalLights.end(), light),
-//                              m_directionalLights.end());
-//}
-//
-//void GLManager::addPointLight(std::shared_ptr<PointLight> light) {
-//    m_pointLights.push_back(light);
-//}
-//
-//void GLManager::removePointLight(std::shared_ptr<PointLight> light) {
-//    m_pointLights.erase(std::remove(m_pointLights.begin(), m_pointLights.end(), light), m_pointLights.end());
-//}
-//
-//void GLManager::addSpotLight(std::shared_ptr<SpotLight> light) {
-//    m_spotLights.push_back(light);
-//}
-//
-//void GLManager::removeSpotLight(std::shared_ptr<SpotLight> light) {
-//    m_spotLights.erase(std::remove(m_spotLights.begin(), m_spotLights.end(), light), m_spotLights.end());
-//}
+
+void GLManager::addDirectionalLight(std::shared_ptr<DirectionalLight> light) {
+    m_directionalLights.push_back(light);
+}
+
+void GLManager::removeDirectionalLight(std::shared_ptr<DirectionalLight> light) {
+    m_directionalLights.erase(std::remove(m_directionalLights.begin(), m_directionalLights.end(), light),
+                              m_directionalLights.end());
+}
+
+void GLManager::addPointLight(std::shared_ptr<PointLight> light) {
+    m_pointLights.push_back(light);
+}
+
+void GLManager::removePointLight(std::shared_ptr<PointLight> light) {
+    m_pointLights.erase(std::remove(m_pointLights.begin(), m_pointLights.end(), light), m_pointLights.end());
+}
+
+void GLManager::addSpotLight(std::shared_ptr<SpotLight> light) {
+    m_spotLights.push_back(light);
+}
+
+void GLManager::removeSpotLight(std::shared_ptr<SpotLight> light) {
+    m_spotLights.erase(std::remove(m_spotLights.begin(), m_spotLights.end(), light), m_spotLights.end());
+}
 //
 //glm::mat4 GLManager::getViewMatrix() {
 //    return m_activeCamera->getViewMatrix();

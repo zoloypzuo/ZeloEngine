@@ -15,6 +15,7 @@ add_library(Common
         Entity.cpp
         Component.cpp
         Transform.cpp
+        whereami.c
         )
 
 option(BuildSwig "BuildSwig" OFF)
@@ -31,4 +32,6 @@ if (BuildSwig)  # build swig in win32 release
             Common
             )
 endif ()
-add_subdirectory(cyclone-physics)
+if (0)
+    add_subdirectory(cyclone-physics)
+endif ()

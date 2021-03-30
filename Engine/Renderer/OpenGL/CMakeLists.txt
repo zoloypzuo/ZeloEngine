@@ -3,6 +3,14 @@
 add_library(OpenGLRenderer
         GLManager.cpp
         ForwardRenderer.cpp
+        Mesh.cpp
+        Material.cpp
+        Texture.cpp
+        Asset.cpp
+        MeshRenderer.cpp
+        Shader.cpp
+        Light.cpp
+        Attenuation.cpp
         )
 
 find_package(GLEW REQUIRED)

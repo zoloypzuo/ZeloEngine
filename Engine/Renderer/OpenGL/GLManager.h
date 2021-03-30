@@ -25,9 +25,7 @@
 #include "Window.h"
 //#include "Camera.h"
 //
-//#include "DirectionalLight.h"
-//#include "PointLight.h"
-//#include "SpotLight.h"
+#include "Light.h"
 //
 //#include "Line.h"
 
@@ -44,18 +42,18 @@ public:
     void renderScene(Entity *entity);
 
 //    void setActiveCamera(std::shared_ptr<Camera> camera);
-//
-//    void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
-//
-//    void addPointLight(std::shared_ptr<PointLight> light);
-//
-//    void addSpotLight(std::shared_ptr<SpotLight> light);
-//
-//    void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
-//
-//    void removePointLight(std::shared_ptr<PointLight> light);
-//
-//    void removeSpotLight(std::shared_ptr<SpotLight> light);
+
+    void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
+
+    void addPointLight(std::shared_ptr<PointLight> light);
+
+    void addSpotLight(std::shared_ptr<SpotLight> light);
+
+    void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
+
+    void removePointLight(std::shared_ptr<PointLight> light);
+
+    void removeSpotLight(std::shared_ptr<SpotLight> light);
 
     glm::mat4 getViewMatrix();
 
@@ -73,6 +71,9 @@ private:
     class Impl;
 
     std::unique_ptr<Impl> mImpl;
+    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
+    std::vector<std::shared_ptr<PointLight>> m_pointLights;
+    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 };
 
 
