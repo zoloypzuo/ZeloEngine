@@ -46,7 +46,7 @@ Texture::Texture(const Asset &file, GLenum textureTarget, GLfloat filter) {
                                                     file.getIOStream()->fileSize(), &x, &y, &bytesPerPixel, 4);
 
         if (data == NULL) {
-            spdlog::error("Unable to load texture: %s", file.getIOStream()->getFileName().c_str());
+            spdlog::error("Unable to load texture: {}", file.getIOStream()->getFileName().c_str());
         } else {
             m_textureData = std::make_shared<TextureData>(x, y, data, textureTarget, filter);
             m_textureCache[file.getIOStream()->getFileName()] = m_textureData;

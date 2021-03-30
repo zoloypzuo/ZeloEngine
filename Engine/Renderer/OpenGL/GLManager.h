@@ -41,7 +41,7 @@ public:
 
     void renderScene(Entity *entity);
 
-//    void setActiveCamera(std::shared_ptr<Camera> camera);
+    void setActiveCamera(std::shared_ptr<Camera> camera);
 
     void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
 
@@ -71,6 +71,7 @@ private:
     class Impl;
 
     std::unique_ptr<Impl> mImpl;
+    std::shared_ptr<Camera> m_activeCamera;
     std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
     std::vector<std::shared_ptr<PointLight>> m_pointLights;
     std::vector<std::shared_ptr<SpotLight>> m_spotLights;

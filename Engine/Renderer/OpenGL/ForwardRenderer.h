@@ -16,13 +16,15 @@ public:
 
     ~ForwardRenderer() override;
 
-//    virtual void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
-//                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
-//                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-//                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const;
+    virtual void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
+                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const;
+
+    void initialize() override;
 
 private:
-//    void createShaders();
+    void createShaders();
 
     std::unique_ptr<Shader> m_forwardAmbient;
     std::unique_ptr<Shader> m_forwardDirectional;

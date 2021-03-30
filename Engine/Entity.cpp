@@ -114,7 +114,8 @@ glm::vec3 Entity::getPosition() {
     if (parentEntity == nullptr) {
         return transform.getPosition();
     } else {
-        return (parentEntity->worldMatrix * glm::vec4(transform.getPosition(), 1));
+        auto pos = transform.getPosition();
+        return (parentEntity->worldMatrix * glm::vec4(pos.x, pos.y, pos.z, 1));
     }
 }
 

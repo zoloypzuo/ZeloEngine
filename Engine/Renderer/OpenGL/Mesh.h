@@ -66,5 +66,13 @@ private:
     std::shared_ptr<MeshData> m_meshData;
 };
 
+class Plane {
+public:
+    Plane();
+
+    ~Plane();
+
+    static std::shared_ptr<Mesh> getMesh();
+};
 
 #endif //ZELOENGINE_MESH_H

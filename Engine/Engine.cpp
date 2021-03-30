@@ -32,6 +32,7 @@ void Engine::Impl::initialize() {
     m_window = std::make_unique<Window>();
     m_renderer = std::make_unique<ForwardRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
+    m_renderer->initialize();
     m_game = std::make_unique<Game>();
     // TODO init gui
     // m_guiManager = std::make_unique<GuiManager>(getDrawableSize(), getDisplaySize(), getSDLWindow());

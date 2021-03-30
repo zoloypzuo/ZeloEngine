@@ -11,6 +11,8 @@ add_library(OpenGLRenderer
         Shader.cpp
         Light.cpp
         Attenuation.cpp
+        Camera.cpp
+        MeshLoader.cpp
         )
 
 find_package(GLEW REQUIRED)

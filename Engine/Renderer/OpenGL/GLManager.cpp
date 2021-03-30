@@ -15,8 +15,8 @@ public:
     Renderer *m_renderer;
 //    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
 
-//    std::shared_ptr<Camera> m_activeCamera;
-//
+    std::shared_ptr<Camera> m_activeCamera;
+
     std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
     std::vector<std::shared_ptr<PointLight>> m_pointLights;
     std::vector<std::shared_ptr<SpotLight>> m_spotLights;
@@ -89,9 +89,9 @@ void GLManager::bindRenderTarget() const {
 //    glViewport(0, 0, this->width, this->height);
 }
 
-//void GLManager::setActiveCamera(std::shared_ptr<Camera> camera) {
-//    m_activeCamera = camera;
-//}
+void GLManager::setActiveCamera(std::shared_ptr<Camera> camera) {
+    m_activeCamera = camera;
+}
 
 void GLManager::addDirectionalLight(std::shared_ptr<DirectionalLight> light) {
     m_directionalLights.push_back(light);
@@ -146,7 +146,7 @@ void GLManager::removeSpotLight(std::shared_ptr<SpotLight> light) {
 void GLManager::renderScene(Entity *scene) {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-//    m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
+    mImpl->m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
 }
 
 template<> GLManager *Singleton<GLManager>::msSingleton = nullptr;
