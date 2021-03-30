@@ -33,7 +33,7 @@
 
 class GLManager : public Singleton<GLManager> {
 public:
-    GLManager(Renderer *renderer, const glm::vec2 &windowSize);
+    GLManager(Renderer *renderer, const glm::ivec2 &windowSize);
 
     ~GLManager();
 

@@ -33,6 +33,9 @@ void Engine::Impl::initialize() {
     m_renderer = std::make_unique<ForwardRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
     m_game = std::make_unique<Game>();
+    // TODO init gui
+    // m_guiManager = std::make_unique<GuiManager>(getDrawableSize(), getDisplaySize(), getSDLWindow());
+    m_window->make_current_context();
     m_time = std::chrono::high_resolution_clock::now();
 }
 

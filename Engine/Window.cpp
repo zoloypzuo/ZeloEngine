@@ -66,9 +66,10 @@ public:
 
         m_window = SDL_CreateWindow(
                 "Engine!",
-                SDL_WINDOWPOS_UNDEFINED,
-                SDL_WINDOWPOS_UNDEFINED,
-                mode.w, mode.h,
+                SDL_WINDOWPOS_CENTERED,
+                SDL_WINDOWPOS_CENTERED,
+//                mode.w, mode.h,
+                800, 600,
                 flags);
         if (m_window == nullptr) {
             spdlog::error("SDL_CreateWindow error: %s", SDL_GetError());
@@ -179,8 +180,10 @@ glm::vec2 Window::getDisplaySize() const {
     return glm::vec2();
 }
 
-glm::vec2 Window::getDrawableSize() const {
-    return glm::vec2();
+glm::ivec2 Window::getDrawableSize() const {
+    int w, h;
+    SDL_GL_GetDrawableSize(pImpl_->m_window, &w, &h);
+    return glm::ivec2(w, h);
 }
 
 const char *Window::getClipboardText() const {

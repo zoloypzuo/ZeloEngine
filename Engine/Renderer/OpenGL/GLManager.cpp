@@ -21,9 +21,8 @@ public:
 //    std::vector<std::shared_ptr<PointLight>> m_pointLights;
 //    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 public:
-    Impl(Renderer *renderer, const glm::vec2 &windowSize)
-            : m_renderer(renderer) {
-
+    Impl(Renderer *renderer, const glm::ivec2 &windowSize)
+            : m_renderer(renderer), width(windowSize.x), height(windowSize.y) {
     }
 
     void initialize() override {
@@ -32,14 +31,14 @@ public:
         GLenum err = glewInit();
 
         if (GLEW_OK != err) {
-            spdlog::error("GLEW failed to initalize: %s", glewGetErrorString(err));
+            spdlog::error("GLEW failed to initalize: {}", glewGetErrorString(err));
         }
 
-        spdlog::info("Status: Using GLEW %s", glewGetString(GLEW_VERSION));
+        spdlog::info("Status: Using GLEW {}", glewGetString(GLEW_VERSION));
 #endif
 //    m_simpleRenderer = std::make_unique<SimpleRenderer>();
 
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(0.0f, 0.5f, 0.5f, 1.0f);
 
         glClearDepthf(1.0f);
         glEnable(GL_DEPTH_TEST);
@@ -47,7 +46,7 @@ public:
 
         glEnable(GL_CULL_FACE);
 
-//        setDrawSize(windowSize);
+        setDrawSize(glm::ivec2(width, height));
 
         glGenBuffers(1, &lineBuffer);
     }
@@ -64,15 +63,18 @@ public:
 };
 
 void GLManager::Impl::setDrawSize(const glm::ivec2 &size) {
-
+    width = size.x;
+    height = size.y;
+    glViewport(0, 0, width, height);
 }
 
 GLManager::Impl::~Impl() {
 
 }
 
-GLManager::GLManager(Renderer *renderer, const glm::vec2 &windowSize)
+GLManager::GLManager(Renderer *renderer, const glm::ivec2 &windowSize)
         : mImpl(std::make_unique<Impl>(renderer, windowSize)) {
+    mImpl->initialize();
 }
 
 GLManager::~GLManager() = default;
