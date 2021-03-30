@@ -19,6 +19,18 @@ link_libraries(glm)
 find_package(SDL2 CONFIG REQUIRED)
 link_libraries(SDL2::SDL2 SDL2::SDL2main)
 
+# use unicode, wstring and etc
+add_compile_definitions(UNICODE)
+# avoid some bugs with Windows...
+add_compile_definitions(NOMINMAX)
+# We do this to speed up the build process,
+# it reduces the size of the Win32 header files by excluding some of the less used APIs.
+add_compile_definitions(WIN32_LEAN_AND_MEAN)
+# define ZELO_AUTOLIB to automatically include the libs needed for DXUT
+add_compile_definitions(ZELO_AUTOLIB)
+# INIReader use some unsecure std api
+add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+
 add_subdirectory(Engine)
 
 include_directories(Engine)
