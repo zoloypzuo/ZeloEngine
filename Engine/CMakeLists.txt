@@ -1,16 +1,33 @@
 # created on 2021/3/28
 # author @zoloypzuo
-include_directories(include)
-add_library(zelo src/zelo.cpp)
+include_directories(./)
+add_subdirectory(Framework)
+link_libraries(Framework)
+add_subdirectory(Renderer/OpenGL)
+link_libraries(OpenGLRenderer)
+add_library(Common
+        zelo.cpp
+        Engine.cpp
+        Window.cpp
+        Input.cpp
+        Game.cpp
+        Engine.cpp
+        Entity.cpp
+        Component.cpp
+        Transform.cpp
+        )
 
-if (WIN32)  # build swig in win32 release
-    if (CMAKE_BUILD_TYPE STREQUAL "Release")
-        add_library(zelo_py SHARED
-                src/zelo.cpp
-                src/zelo_wrapper.cxx
-                )
+option(BuildSwig "BuildSwig" OFF)
+message(STATUS BuildSwig=${BuildSwig})
 
-        target_include_directories(zelo_py PRIVATE $ENV{PYTHON_INCLUDE})
-        target_link_libraries(zelo_py $ENV{PYTHON_LIB})
-    endif ()
+if (BuildSwig)  # build swig in win32 release
+    add_library(zelo_py SHARED
+            zelo_wrapper.cxx
+            )
+
+    target_include_directories(zelo_py PRIVATE $ENV{PYTHON_INCLUDE})
+    target_link_libraries(zelo_py
+            $ENV{PYTHON_LIB}
+            Common
+            )
 endif ()

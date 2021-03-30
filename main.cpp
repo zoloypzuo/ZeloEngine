@@ -3,10 +3,7 @@
 #include "zelo.h"
 
 int main() {
-    printf("shit");
-    printf("%d", add(1, 2));
-    spdlog::set_level(spdlog::level::debug);
-    spdlog::debug("shit");
-    spdlog::debug("{}", add(1, 2));
+    Engine engine;
+    engine.start();
     return 0;
 }

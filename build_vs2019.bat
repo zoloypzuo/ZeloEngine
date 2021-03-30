@@ -11,8 +11,8 @@ cd /d %ScriptDir%
 @echo on
 mkdir build_vs2019
 cd build_vs2019
-cmake -DCMAKE_GENERATOR_PLATFORM=x64 -G  "Visual Studio 16" ..
-cmake --build . --config release --target zelo
+cmake -DCMAKE_GENERATOR_PLATFORM=win32 -G  "Visual Studio 16" ..
+cmake --build . --config release
 
 cd %CurrentDir%
 pause

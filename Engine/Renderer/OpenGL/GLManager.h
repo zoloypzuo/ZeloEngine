@@ -1,0 +1,79 @@
+// GLManager.h
+// created on 2021/3/29
+// author @zoloypzuo
+
+#ifndef ZELOENGINE_GLMANAGER_H
+#define ZELOENGINE_GLMANAGER_H
+
+#include "ZeloPrerequisites.h"
+#include "ZeloSingleton.h"
+
+#if defined(GLES2)
+#include <GLES2/gl2.h>
+#elif defined(GLES3)
+#include <GLES3/gl3.h>
+#else
+
+#include <gl/glew.h>
+
+#endif
+
+#include "Framework/Renderer.h"
+//#include "SimpleRenderer.h"
+#include "Framework/Shader.h"
+#include "Entity.h"
+#include "Window.h"
+//#include "Camera.h"
+//
+//#include "DirectionalLight.h"
+//#include "PointLight.h"
+//#include "SpotLight.h"
+//
+//#include "Line.h"
+
+class GLManager : public Singleton<GLManager> {
+public:
+    GLManager(Renderer *renderer, const glm::ivec2 &windowSize);
+
+    ~GLManager();
+
+    void setDrawSize(const glm::ivec2 &size);
+
+    void bindRenderTarget() const;
+
+    void renderScene(Entity *entity);
+
+//    void setActiveCamera(std::shared_ptr<Camera> camera);
+//
+//    void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
+//
+//    void addPointLight(std::shared_ptr<PointLight> light);
+//
+//    void addSpotLight(std::shared_ptr<SpotLight> light);
+//
+//    void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
+//
+//    void removePointLight(std::shared_ptr<PointLight> light);
+//
+//    void removeSpotLight(std::shared_ptr<SpotLight> light);
+
+    glm::mat4 getViewMatrix();
+
+    glm::mat4 getProjectionMatrix();
+
+//    void drawEntity(Entity *entity);
+
+//    void drawLine(Line line);
+
+
+public:
+    static GLManager *getSingletonPtr();
+
+private:
+    class Impl;
+
+    std::unique_ptr<Impl> mImpl;
+};
+
+
+#endif //ZELOENGINE_GLMANAGER_H
