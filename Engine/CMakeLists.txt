@@ -5,6 +5,8 @@ add_subdirectory(Framework)
 link_libraries(Framework)
 add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
+#add_subdirectory(Component)
+#link_directories(Component)
 add_library(Common
         zelo.cpp
         Engine.cpp
@@ -17,6 +19,8 @@ add_library(Common
         Transform.cpp
         whereami.c
         GuiManager.cpp
+        Component/FreeLook.cpp
+        Component/FreeMove.cpp
         )
 
 option(BuildSwig "BuildSwig" OFF)

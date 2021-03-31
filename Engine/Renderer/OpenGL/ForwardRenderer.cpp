@@ -5,7 +5,6 @@
 #include "ForwardRenderer.h"
 
 SimpleRenderer::SimpleRenderer() {
-    createShaders();
 }
 
 SimpleRenderer::~SimpleRenderer() {
@@ -45,7 +44,7 @@ void SimpleRenderer::createShaders() {
 }
 
 void SimpleRenderer::initialize() {
-
+    createShaders();
 }
 
 ForwardRenderer::ForwardRenderer() = default;
