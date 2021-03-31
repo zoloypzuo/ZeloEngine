@@ -40,3 +40,7 @@ add_subdirectory(Engine)
 include_directories(Engine)
 link_libraries(Common)
 add_executable(hello main.cpp)
+add_custom_command(TARGET hello PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:hello>/assets)
