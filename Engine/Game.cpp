@@ -37,6 +37,27 @@ Game::Game() = default;
 Game::~Game() = default;
 
 void Game::initialize() {
+    auto input = Input::getSingletonPtr();
+    input->registerKeyToAction(SDLK_SPACE, "fire");
+    input->registerKeyToAction(SDLK_c, "swapCamera");
+
+//    input->bindAction("fire", IE_PRESSED, [this]() {
+//        MeshLoader cube("cube.obj");
+//        cube.getEntity()->getTransform().setPosition(primary_camera->getParent()->getPosition());
+//        cube.getEntity()->addComponent<BoxCollider>(glm::vec3(0.5, 0.5, 0.5), 50);
+//        addToScene(cube.getEntity());
+//        auto dir = primary_camera->getParent()->getDirection();
+//        cube.getEntity()->getComponent<BoxCollider>()->applyCentralImpulse(glm::vec3(dir.x * 500.0f, dir.y * 500.0f, dir.z * 500.0f));
+//    });
+//
+//    input->bindAction("swapCamera", IE_PRESSED, [this]() {
+//        getEngine()->getGLManager()->setActiveCamera(primary_camera2);
+//    });
+//
+//    input->bindAction("swapCamera", IE_RELEASED, [this]() {
+//        getEngine()->getGLManager()->setActiveCamera(primary_camera);
+//    });
+
     rootScene = std::make_unique<Entity>();
     auto brickMat = std::make_shared<Material>(std::make_shared<Texture>(Asset("bricks2.jpg")),
                                                std::make_shared<Texture>(Asset("bricks2_normal.jpg")),

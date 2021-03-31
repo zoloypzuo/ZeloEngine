@@ -61,11 +61,11 @@ void Entity::updateAll(Input *input, std::chrono::microseconds delta) {
 }
 
 void Entity::renderAll(Shader *shader) const {
-    for (auto component : components) {
+    for (const auto& component : components) {
         component->render(shader);
     }
 
-    for (auto child : children) {
+    for (const auto& child : children) {
         child->renderAll(shader);
     }
 }
@@ -73,7 +73,7 @@ void Entity::renderAll(Shader *shader) const {
 void Entity::registerWithEngineAll(Engine *engine) {
     m_engine = engine;
 
-    for (auto component : components) {
+    for (const auto& component : components) {
         component->registerWithEngine(engine);
     }
 
@@ -83,7 +83,7 @@ void Entity::registerWithEngineAll(Engine *engine) {
 }
 
 void Entity::deregisterFromEngineAll() {
-    for (auto component : components) {
+    for (const auto& component : components) {
         component->deregisterFromEngine(m_engine);
     }
 
