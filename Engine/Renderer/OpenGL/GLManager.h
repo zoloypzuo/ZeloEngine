@@ -19,15 +19,13 @@
 #endif
 
 #include "Framework/Renderer.h"
-//#include "SimpleRenderer.h"
-#include "Framework/Shader.h"
+#include "Renderer/OpenGL/ForwardRenderer.h"
+#include "Renderer/OpenGL/Shader.h"
 #include "Entity.h"
 #include "Window.h"
-//#include "Camera.h"
-//
+#include "Camera.h"
 #include "Light.h"
-//
-//#include "Line.h"
+#include "Line.h"
 
 class GLManager : public Singleton<GLManager> {
 public:
@@ -59,23 +57,28 @@ public:
 
     glm::mat4 getProjectionMatrix();
 
-//    void drawEntity(Entity *entity);
+    void drawEntity(Entity *entity);
 
-//    void drawLine(Line line);
+    void drawLine(Line line);
 
+    int width{};
+    int height{};
+
+    GLuint lineBuffer;
+    GLuint VertexArrayID;
 
 public:
     static GLManager *getSingletonPtr();
 
 private:
-    class Impl;
+    Renderer *m_renderer;
+    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
 
-    std::unique_ptr<Impl> mImpl;
     std::shared_ptr<Camera> m_activeCamera;
+
     std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
     std::vector<std::shared_ptr<PointLight>> m_pointLights;
     std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 };
-
 
 #endif //ZELOENGINE_GLMANAGER_H

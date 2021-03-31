@@ -36,7 +36,7 @@ public:
 
     glm::vec2 getDisplaySize() const;
 
-    glm::vec2 getDrawableSize() const;
+    glm::ivec2 getDrawableSize() const;
 
     GuiManager *getGuiManager() const;
 

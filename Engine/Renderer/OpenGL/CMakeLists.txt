@@ -13,6 +13,7 @@ add_library(OpenGLRenderer
         Attenuation.cpp
         Camera.cpp
         MeshLoader.cpp
+        Line.cpp
         )
 
 find_package(GLEW REQUIRED)

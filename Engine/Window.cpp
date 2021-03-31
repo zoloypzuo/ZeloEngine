@@ -167,10 +167,10 @@ glm::vec2 Window::getDisplaySize() const {
     return glm::vec2((float) w, (float) h);
 }
 
-glm::vec2 Window::getDrawableSize() const {
+glm::ivec2 Window::getDrawableSize() const {
     int display_w, display_h;
     SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
-    return glm::vec2((float) display_w, (float) display_h);
+    return glm::ivec2(display_w, display_h);
 }
 
 GuiManager *Window::getGuiManager() const {

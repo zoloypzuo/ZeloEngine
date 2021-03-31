@@ -8,9 +8,9 @@
 #include "ZeloPrerequisites.h"
 
 
-class Shader {
-
-};
+//class Shader {
+//
+//};
 
 
 #endif //ZELOENGINE_SHADER_H
