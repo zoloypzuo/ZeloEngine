@@ -40,7 +40,7 @@ void Entity::addChild(std::shared_ptr<Entity> child) {
 
     // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
     if (m_engine) {
-//        child->registerWithEngineAll(m_engine);
+        child->registerWithEngineAll(m_engine);
     }
 }
 
@@ -60,39 +60,39 @@ void Entity::updateAll(Input *input, std::chrono::microseconds delta) {
     }
 }
 
-//void Entity::renderAll(Shader *shader) const {
-//    for (auto component : components) {
-//        component->render(shader);
-//    }
-//
-//    for (auto child : children) {
-//        child->renderAll(shader);
-//    }
-//}
-//
-//void Entity::registerWithEngineAll(Engine *engine) {
-//    m_engine = engine;
-//
-//    for (auto component : components) {
-//        component->registerWithEngine(engine);
-//    }
-//
-//    for (auto child : children) {
-//        child->registerWithEngineAll(engine);
-//    }
-//}
-//
-//void Entity::deregisterFromEngineAll() {
-//    for (auto component : components) {
-//        component->deregisterFromEngine(m_engine);
-//    }
-//
-//    for (auto child : children) {
-//        child->deregisterFromEngineAll();
-//    }
-//
-//    m_engine = nullptr;
-//}
+void Entity::renderAll(Shader *shader) const {
+    for (const auto& component : components) {
+        component->render(shader);
+    }
+
+    for (const auto& child : children) {
+        child->renderAll(shader);
+    }
+}
+
+void Entity::registerWithEngineAll(Engine *engine) {
+    m_engine = engine;
+
+    for (const auto& component : components) {
+        component->registerWithEngine(engine);
+    }
+
+    for (const auto& child : children) {
+        child->registerWithEngineAll(engine);
+    }
+}
+
+void Entity::deregisterFromEngineAll() {
+    for (const auto& component : components) {
+        component->deregisterFromEngine(m_engine);
+    }
+
+    for (const auto& child : children) {
+        child->deregisterFromEngineAll();
+    }
+
+    m_engine = nullptr;
+}
 
 Transform &Entity::getTransform() {
     return transform;
@@ -114,7 +114,8 @@ glm::vec3 Entity::getPosition() {
     if (parentEntity == nullptr) {
         return transform.getPosition();
     } else {
-        return (parentEntity->worldMatrix * glm::vec4(transform.getPosition(), 1));
+        auto pos = transform.getPosition();
+        return (parentEntity->worldMatrix * glm::vec4(pos.x, pos.y, pos.z, 1));
     }
 }
 

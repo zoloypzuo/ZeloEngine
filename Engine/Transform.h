@@ -6,16 +6,12 @@
 #define ZELOENGINE_TRANSFORM_H
 
 #include "ZeloPrerequisites.h"
-
-#define GLM_SWIZZLE
-#define GLM_FORCE_RADIANS
-
 #include <glm/gtc/quaternion.hpp>
 
 class Transform {
 public:
     Transform(const glm::vec3 &position = glm::vec3(),
-              const glm::quat &rotation = glm::quat(),
+              const glm::quat &rotation = glm::quat(1, 0, 0, 0),
               const glm::vec3 &scale = glm::vec3(1.0f));
 
     ~Transform();

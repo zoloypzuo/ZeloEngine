@@ -7,16 +7,21 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
+#include "Renderer/OpenGL/Camera.h"
 
 class Entity;
 
-class Game : public Singleton<Game> {
+class Game : public Singleton<Game>, IRuntimeModule {
 public:
     Game();
 
-    ~Game();
+    ~Game() override;
 
-    void update();
+    void initialize() override;
+
+    void finalize() override;
+
+    void update() override;
 
 public:
     static Game &getSingleton();
@@ -25,10 +30,14 @@ public:
 
     std::shared_ptr<Entity> getRootNode();
 
+    void addToScene(std::shared_ptr<Entity> entity);
+
 private:
     class Impl;
 
-    std::unique_ptr<Impl> pImpl_;
+    std::shared_ptr<Entity> rootScene;
+    std::shared_ptr<PerspectiveCamera> primary_camera;
+    std::shared_ptr<PerspectiveCamera> primary_camera2;
 };
 
 

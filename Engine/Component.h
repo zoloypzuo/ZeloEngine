@@ -31,11 +31,11 @@ public:
 
     virtual void update(Input *input, std::chrono::microseconds delta) {};
 
-//    virtual void render(Shader *shader) {};
+    virtual void render(Shader *shader) {};
 
-//    virtual void registerWithEngine(Engine *engine) {};
+    virtual void registerWithEngine(Engine *engine) {};
 
-//    virtual void deregisterFromEngine(Engine *engine) {};
+    virtual void deregisterFromEngine(Engine *engine) {};
 
     virtual const char *getType() = 0;
 

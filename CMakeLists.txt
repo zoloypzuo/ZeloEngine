@@ -18,6 +18,10 @@ find_package(glm CONFIG REQUIRED)
 link_libraries(glm)
 find_package(SDL2 CONFIG REQUIRED)
 link_libraries(SDL2::SDL2 SDL2::SDL2main)
+find_package(assimp CONFIG REQUIRED)
+link_libraries(assimp::assimp)
+find_path(STB_INCLUDE_DIRS "stb.h")
+include_directories(${STB_INCLUDE_DIRS})
 
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
@@ -25,14 +29,21 @@ add_compile_definitions(UNICODE)
 add_compile_definitions(NOMINMAX)
 # We do this to speed up the build process,
 # it reduces the size of the Win32 header files by excluding some of the less used APIs.
-add_compile_definitions(WIN32_LEAN_AND_MEAN)
+#add_compile_definitions(WIN32_LEAN_AND_MEAN)
 # define ZELO_AUTOLIB to automatically include the libs needed for DXUT
 add_compile_definitions(ZELO_AUTOLIB)
 # INIReader use some unsecure std api
 add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+# glm
+add_compile_definitions(GLM_FORCE_SWIZZLE)
+add_compile_definitions(GLM_FORCE_RADIANS)
 
 add_subdirectory(Engine)
 
 include_directories(Engine)
 link_libraries(Common)
 add_executable(hello main.cpp)
+add_custom_command(TARGET hello PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/assets
+        $<TARGET_FILE_DIR:hello>/assets)

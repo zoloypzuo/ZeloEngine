@@ -5,6 +5,8 @@ add_subdirectory(Framework)
 link_libraries(Framework)
 add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
+#add_subdirectory(Component)
+#link_directories(Component)
 add_library(Common
         zelo.cpp
         Engine.cpp
@@ -15,6 +17,10 @@ add_library(Common
         Entity.cpp
         Component.cpp
         Transform.cpp
+        whereami.c
+        GuiManager.cpp
+        Component/FreeLook.cpp
+        Component/FreeMove.cpp
         )
 
 option(BuildSwig "BuildSwig" OFF)
@@ -31,4 +37,6 @@ if (BuildSwig)  # build swig in win32 release
             Common
             )
 endif ()
-add_subdirectory(cyclone-physics)
+if (0)
+    add_subdirectory(cyclone-physics)
+endif ()

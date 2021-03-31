@@ -19,17 +19,13 @@
 #endif
 
 #include "Framework/Renderer.h"
-//#include "SimpleRenderer.h"
-#include "Framework/Shader.h"
+#include "Renderer/OpenGL/ForwardRenderer.h"
+#include "Renderer/OpenGL/Shader.h"
 #include "Entity.h"
 #include "Window.h"
-//#include "Camera.h"
-//
-//#include "DirectionalLight.h"
-//#include "PointLight.h"
-//#include "SpotLight.h"
-//
-//#include "Line.h"
+#include "Camera.h"
+#include "Light.h"
+#include "Line.h"
 
 class GLManager : public Singleton<GLManager> {
 public:
@@ -43,37 +39,46 @@ public:
 
     void renderScene(Entity *entity);
 
-//    void setActiveCamera(std::shared_ptr<Camera> camera);
-//
-//    void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
-//
-//    void addPointLight(std::shared_ptr<PointLight> light);
-//
-//    void addSpotLight(std::shared_ptr<SpotLight> light);
-//
-//    void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
-//
-//    void removePointLight(std::shared_ptr<PointLight> light);
-//
-//    void removeSpotLight(std::shared_ptr<SpotLight> light);
+    void setActiveCamera(std::shared_ptr<Camera> camera);
+
+    void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
+
+    void addPointLight(std::shared_ptr<PointLight> light);
+
+    void addSpotLight(std::shared_ptr<SpotLight> light);
+
+    void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
+
+    void removePointLight(std::shared_ptr<PointLight> light);
+
+    void removeSpotLight(std::shared_ptr<SpotLight> light);
 
     glm::mat4 getViewMatrix();
 
     glm::mat4 getProjectionMatrix();
 
-//    void drawEntity(Entity *entity);
+    void drawEntity(Entity *entity);
 
-//    void drawLine(Line line);
+    void drawLine(Line line);
 
+    int width{};
+    int height{};
+
+    GLuint lineBuffer;
+    GLuint VertexArrayID;
 
 public:
     static GLManager *getSingletonPtr();
 
 private:
-    class Impl;
+    Renderer *m_renderer;
+    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
 
-    std::unique_ptr<Impl> mImpl;
+    std::shared_ptr<Camera> m_activeCamera;
+
+    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
+    std::vector<std::shared_ptr<PointLight>> m_pointLights;
+    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 };
-
 
 #endif //ZELOENGINE_GLMANAGER_H

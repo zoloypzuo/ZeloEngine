@@ -8,7 +8,30 @@
 #include "ZeloPrerequisites.h"
 
 #include "Framework/Renderer.h"
-#include "Framework/Shader.h"
+#include "Shader.h"
+#include "Line.h"
+
+class SimpleRenderer : public Renderer {
+public:
+    SimpleRenderer();
+
+    void initialize() override;
+
+    virtual ~SimpleRenderer();
+
+    virtual void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
+                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const;
+
+    void renderLine(const Line &line, std::shared_ptr<Camera> activeCamera) const;
+
+private:
+    void createShaders();
+
+    std::unique_ptr<Shader> m_simple;
+};
+
 
 class ForwardRenderer : public Renderer {
 public:
@@ -16,13 +39,15 @@ public:
 
     ~ForwardRenderer() override;
 
-//    virtual void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
-//                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
-//                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-//                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const;
+    virtual void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
+                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const;
+
+    void initialize() override;
 
 private:
-//    void createShaders();
+    void createShaders();
 
     std::unique_ptr<Shader> m_forwardAmbient;
     std::unique_ptr<Shader> m_forwardDirectional;
