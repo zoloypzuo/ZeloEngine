@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Game.h"
+
 #include "Entity.h"
 #include "Engine.h"
 // TODO rm it
@@ -200,7 +201,7 @@ void Game::Impl::initialize() {
 //    money2.getEntity()->addComponent<SpotLight>(glm::vec3(1.0f, 1.0f, 1.0f), 2.8f, 0.7f,
 //                                                std::make_shared<Attenuation>(0, 0, 0.2));
 //
-//    addToScene(money2.getEntity());
+    addToScene(money2.getEntity());
 
     std::shared_ptr<PerspectiveCamera> primary_camera = money2.getEntity()->getComponent<PerspectiveCamera>();
 
@@ -216,7 +217,7 @@ void Game::Impl::update() {
 }
 
 void Game::Impl::addToScene(std::shared_ptr<Entity> entity) {
-    root->addChild(entity);
+    root->addChild(std::move(entity));
 }
 
 
@@ -236,7 +237,7 @@ Game *Game::getSingletonPtr() {
 }
 
 std::shared_ptr<Entity> Game::getRootNode() {
-    return std::shared_ptr<Entity>();
+    return pImpl_->root;
 }
 
 Game::Game() : pImpl_(std::make_unique<Impl>()) {
