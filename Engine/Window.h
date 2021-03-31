@@ -8,22 +8,25 @@
 #include "ZeloPrerequisites.h"
 #include <glm/glm.hpp>
 #include <SDL.h>
+#include "Input.h"
+#include "GuiManager.h"
 
 #if _WIN32
 #undef main
 #endif
 
-class Window {
+class Window//: public IRuntimeModule
+{
 public:
     Window();
 
     ~Window();
 
+    void initialize();
+
     void update();
 
-    void swap_buffer();
-
-    void make_current_context();
+    void swapBuffer();
 
     int getWidth() const;
 
@@ -33,26 +36,39 @@ public:
 
     glm::vec2 getDisplaySize() const;
 
-    glm::ivec2 getDrawableSize() const;
+    glm::vec2 getDrawableSize() const;
 
-    const char *getClipboardText() const;
+    GuiManager *getGuiManager() const;
 
-    void setClipboardText(const char *text);
+    static const char *getClipboardText();
+
+    static void setClipboardText(const char *text);
+
+    void makeCurrentContext() const;
+
+    Input *getInput();
 
     SDL_Window *getSDLWindow();
 
-    void showCursor(bool enabled);
-
     bool shouldQuit() const;
+
+    void drawCursor(bool enabled);
 
     void setFullscreen(uint32_t flag);
 
     void toggleFullscreen();
 
 private:
-    class Impl;
+    SDL_Window *m_window;
+    SDL_GLContext m_glContext;
+    std::unique_ptr<GuiManager> m_guiManager;
 
-    std::unique_ptr<Impl> pImpl_;
+    int m_width, m_height;
+
+    Input m_input;
+
+    bool m_quit;
+    bool m_fullscreen;
 };
 
 

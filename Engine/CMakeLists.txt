@@ -16,6 +16,7 @@ add_library(Common
         Component.cpp
         Transform.cpp
         whereami.c
+        GuiManager.cpp
         )
 
 option(BuildSwig "BuildSwig" OFF)

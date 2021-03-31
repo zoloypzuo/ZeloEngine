@@ -55,7 +55,7 @@ void Shader::addVertex(const char *vert_src) {
     glGetShaderiv(g_shVert, GL_COMPILE_STATUS, &res);
     if (GL_FALSE == res) {
         glGetShaderInfoLog(g_shVert, 1024, &errlen, shErr);
-        spdlog::error("Failed to compile vertex shader: %s", shErr);
+        spdlog::error("Failed to compile vertex shader: {}", shErr);
         return;
     }
 
@@ -84,7 +84,7 @@ void Shader::addFragment(const char *frag_src) {
     glGetShaderiv(g_shFrag, GL_COMPILE_STATUS, &res);
     if (GL_FALSE == res) {
         glGetShaderInfoLog(g_shFrag, 1024, &errlen, shErr);
-        spdlog::error("Failed to compile fragment shader: %s", shErr);
+        spdlog::error("Failed to compile fragment shader: {}", shErr);
         return;
     }
 
@@ -110,7 +110,7 @@ void Shader::link() {
     glGetProgramiv(g_shProg, GL_VALIDATE_STATUS, &res);
     if (GL_FALSE == res) {
         glGetProgramInfoLog(g_shProg, 1024, &errlen, shErr);
-        spdlog::error("Error validating shader: %s", shErr);
+        spdlog::error("Error validating shader: {}", shErr);
     }
 }
 

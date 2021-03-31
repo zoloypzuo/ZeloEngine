@@ -5,7 +5,6 @@
 #include "Light.h"
 #include "GLManager.h"
 
-const int BITS_PER_CHANNEL = 8;
 
 BaseLight::BaseLight(glm::vec3 color, float intensity) {
     m_color = color;

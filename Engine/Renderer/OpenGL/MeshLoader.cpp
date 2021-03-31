@@ -109,7 +109,7 @@ MeshLoader::MeshLoader(const std::string file) {
         Assimp::Importer importer;
         importer.SetIOHandler(new CustomIOSystem());
 
-        spdlog::info("Loading mesh: %s", file.c_str());
+        spdlog::info("Loading mesh: {}", file.c_str());
 
         const aiScene *scene = importer.ReadFile(file,
                                                  aiProcess_Triangulate |
@@ -118,7 +118,7 @@ MeshLoader::MeshLoader(const std::string file) {
                                                  aiProcess_CalcTangentSpace);
 
         if (!scene) {
-            spdlog::error("Failed to load mesh: %s", file.c_str());
+            spdlog::error("Failed to load mesh: {}", file.c_str());
         } else {
             loadScene(scene);
         }
@@ -164,7 +164,7 @@ void MeshLoader::loadScene(const aiScene *scene) {
         }
 
         const aiMaterial *pMaterial = scene->mMaterials[model->mMaterialIndex];
-        spdlog::info("tex num: %i", model->mMaterialIndex);
+        spdlog::info("tex num: {}", model->mMaterialIndex);
 
         std::shared_ptr<Texture> diffuseMap;
         std::shared_ptr<Texture> normalMap;
