@@ -7,15 +7,8 @@
 
 #include "ZeloPrerequisites.h"
 
-#include <vector>
-#include <map>
-#include <typeindex>
-#include <algorithm>
-#include <memory>
-#include <chrono>
-
 #include "Transform.h"
-//#include "Shader.h"
+#include "Renderer/OpenGL/Shader.h"
 #include "Input.h"
 
 class Engine;
@@ -24,7 +17,7 @@ class Component;
 
 class Entity {
 public:
-    Entity(const std::string &tag);
+    explicit Entity(const std::string &tag);
 
     Entity();
 
@@ -49,10 +42,11 @@ public:
 
     void updateAll(Input *input, std::chrono::microseconds delta);
 
-//    void renderAll(Shader *shader) const;
-//    void registerWithEngineAll(Engine *engine);
-//
-//    void deregisterFromEngineAll();
+    void renderAll(Shader *shader) const;
+
+    void registerWithEngineAll(Engine *engine);
+
+    void deregisterFromEngineAll();
 
     Transform &getTransform();
 
@@ -106,11 +100,11 @@ private:
     std::vector<std::shared_ptr<Entity>> children;
     std::vector<std::shared_ptr<Component>> components;
 
-    glm::mat4 worldMatrix;
+    glm::mat4 worldMatrix{};
 
     std::string m_tag;
 
-    Engine *m_engine;
+    Engine *m_engine{};
 
     static void setTag(Entity *entity, const std::string &tag);
 

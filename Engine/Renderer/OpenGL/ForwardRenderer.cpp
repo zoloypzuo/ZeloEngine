@@ -3,20 +3,19 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRenderer.h"
-ForwardRenderer::ForwardRenderer()
-{
-}
 
-ForwardRenderer::~ForwardRenderer()
-{
-}
+ForwardRenderer::ForwardRenderer() = default;
 
-void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> activeCamera, const std::vector<std::shared_ptr<PointLight>> &pointLights, const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights, const std::vector<std::shared_ptr<SpotLight>> &spotLights) const
-{
+ForwardRenderer::~ForwardRenderer() = default;
+
+void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
+                             const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                             const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                             const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
     m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
 
-//    scene.renderAll(m_forwardAmbient.get());
+    scene.renderAll(m_forwardAmbient.get());
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
@@ -29,11 +28,10 @@ void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> active
 
     m_forwardDirectional->setUniform1f("specularIntensity", 0.5);
     m_forwardDirectional->setUniform1f("specularPower", 10);
-    for (auto light : directionalLights)
-    {
+    for (const auto& light : directionalLights) {
         light->updateShader(m_forwardDirectional.get());
 
-//        scene.renderAll(m_forwardDirectional.get());
+        scene.renderAll(m_forwardDirectional.get());
     }
 
     m_forwardPoint->setUniformMatrix4f("View", activeCamera->getViewMatrix());
@@ -42,11 +40,10 @@ void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> active
 
     m_forwardPoint->setUniform1f("specularIntensity", 0.5);
     m_forwardPoint->setUniform1f("specularPower", 10);
-    for (auto light : pointLights)
-    {
+    for (const auto& light : pointLights) {
         light->updateShader(m_forwardPoint.get());
 
-//        scene.renderAll(m_forwardPoint.get());
+        scene.renderAll(m_forwardPoint.get());
     }
 
     m_forwardSpot->setUniformMatrix4f("View", activeCamera->getViewMatrix());
@@ -55,11 +52,10 @@ void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> active
 
     m_forwardSpot->setUniform1f("specularIntensity", 0.5);
     m_forwardSpot->setUniform1f("specularPower", 10);
-    for (auto light : spotLights)
-    {
+    for (const auto& light : spotLights) {
         light->updateShader(m_forwardSpot.get());
 
-//        scene.renderAll(m_forwardSpot.get());
+        scene.renderAll(m_forwardSpot.get());
     }
 
     glDepthFunc(GL_LESS);
@@ -67,8 +63,7 @@ void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> active
     glDisable(GL_BLEND);
 }
 
-void ForwardRenderer::createShaders()
-{
+void ForwardRenderer::createShaders() {
     m_forwardAmbient = std::make_unique<Shader>("shaders/forward-ambient");
     m_forwardAmbient->setAttribLocation("position", 0);
     m_forwardAmbient->setAttribLocation("texCoord", 1);

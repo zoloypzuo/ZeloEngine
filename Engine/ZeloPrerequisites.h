@@ -18,6 +18,8 @@
 #include <memory>
 #include <chrono>
 #include <utility>
+#include <typeindex>
+#include <algorithm>
 
 #include <glm/glm.hpp>
 
