@@ -16,8 +16,6 @@ public:
 
     void start();
 
-    virtual void start_script();  // TODO rm it
-
     const std::chrono::microseconds &getDeltaTime();
 
 public:

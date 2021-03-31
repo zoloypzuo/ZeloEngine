@@ -4,7 +4,6 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Camera.h"
 
-#define GLM_FORCE_RADIANS
 
 #include <glm/gtx/transform.hpp>
 

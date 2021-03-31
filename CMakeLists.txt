@@ -34,6 +34,9 @@ add_compile_definitions(NOMINMAX)
 add_compile_definitions(ZELO_AUTOLIB)
 # INIReader use some unsecure std api
 add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+# glm
+add_compile_definitions(GLM_FORCE_SWIZZLE)
+add_compile_definitions(GLM_FORCE_RADIANS)
 
 add_subdirectory(Engine)
 
