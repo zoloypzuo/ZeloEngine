@@ -188,14 +188,14 @@ void Game::initialize() {
 
     MeshLoader money("monkey3.obj");
     money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
-    money.getEntity()->addComponent<PerspectiveCamera>(Mathf::PI / 2.0f, 800 / 600,
+    money.getEntity()->addComponent<PerspectiveCamera>(Mathf::PI / 2.0f, 800.0f / 600.0f,
                                                        0.05f, 100.0f);
     money.getEntity()->addComponent<SpotLight>(glm::vec3(0.1f, 1.0f, 1.0f), 5.8f, 0.7f,
-                                               std::make_shared<Attenuation>(0, 0, 0.2));
+                                               std::make_shared<Attenuation>(0.0f, 0.0f, 0.2f));
     addToScene(money.getEntity());
 
     MeshLoader money2("monkey3.obj");
-    money2.getEntity()->addComponent<PerspectiveCamera>(Mathf::PI / 2.0f, 800 / 600,
+    money2.getEntity()->addComponent<PerspectiveCamera>(Mathf::PI / 2.0f, 800.0f / 600.0f,
                                                         0.8f, 100.0f);
     money2.getEntity()->addComponent<FreeMove>();
 #if defined(ANDROID)
@@ -205,7 +205,7 @@ void Game::initialize() {
 #endif
     money2.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 5)).setScale(glm::vec3(0.8, 0.8, 0.8));
     money2.getEntity()->addComponent<SpotLight>(glm::vec3(1.0f, 1.0f, 1.0f), 2.8f, 0.7f,
-                                                std::make_shared<Attenuation>(0, 0, 0.2));
+                                                std::make_shared<Attenuation>(0.0f, 0.0f, 0.2f));
 
     addToScene(money2.getEntity());
 
