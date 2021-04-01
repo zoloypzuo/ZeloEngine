@@ -8,7 +8,9 @@
    program is -not- in the public domain. */
 
 #if defined(WIN32)
+
 #include <windows.h>
+
 #pragma warning (disable:4244)        /* disable bogus conversion warnings */
 #endif
 
@@ -17,8 +19,10 @@
 #include <OpenGL/gl.h>
 #include <OpenGL/glu.h>
 #else
+
 #include <GL/glu.h>
 #include <GL/gl.h>
+
 #endif
 
 /* define APIENTRY and CALLBACK to null string if we aren't on Win32 */

@@ -14,8 +14,7 @@
 #include "app.h"
 #include "timing.h"
 
-void Application::initGraphics()
-{
+void Application::initGraphics() {
     glClearColor(0.9f, 0.95f, 1.0f, 1.0f);
     glEnable(GL_DEPTH_TEST);
     glShadeModel(GL_SMOOTH);
@@ -23,16 +22,14 @@ void Application::initGraphics()
     setView();
 }
 
-void Application::setView()
-{
+void Application::setView() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(60.0, (double)width/(double)height, 1.0, 500.0);
+    gluPerspective(60.0, (double) width / (double) height, 1.0, 500.0);
     glMatrixMode(GL_MODELVIEW);
 }
 
-void Application::display()
-{
+void Application::display() {
     glClear(GL_COLOR_BUFFER_BIT);
 
     glBegin(GL_LINES);
@@ -41,27 +38,22 @@ void Application::display()
     glEnd();
 }
 
-const char* Application::getTitle()
-{
+const char *Application::getTitle() {
     return "Cyclone Demo";
 }
 
-void Application::deinit()
-{
+void Application::deinit() {
 }
 
-void Application::update()
-{
+void Application::update() {
     glutPostRedisplay();
 }
 
-void Application::key(unsigned char key)
-{
+void Application::key(unsigned char key) {
 }
 
 
-void Application::resize(int width, int height)
-{
+void Application::resize(int width, int height) {
     // Avoid the divide by zero.
     if (height <= 0) height = 1;
 
@@ -72,24 +64,21 @@ void Application::resize(int width, int height)
     setView();
 }
 
-void Application::mouse(int button, int state, int x, int y)
-{
+void Application::mouse(int button, int state, int x, int y) {
 }
 
-void Application::mouseDrag(int x, int y)
-{
+void Application::mouseDrag(int x, int y) {
 }
 
 // The following methods aren't intended to be overloaded
-void Application::renderText(float x, float y, const char *text, void *font)
-{
+void Application::renderText(float x, float y, const char *text, void *font) {
     glDisable(GL_DEPTH_TEST);
 
     // Temporarily set up the view in orthographic projection.
     glMatrixMode(GL_PROJECTION);
     glPushMatrix();
     glLoadIdentity();
-    glOrtho(0.0, (double)width, 0.0, (double)height, -1.0, 1.0);
+    glOrtho(0.0, (double) width, 0.0, (double) height, -1.0, 1.0);
 
     // Move to modelview mode.
     glMatrixMode(GL_MODELVIEW);
@@ -105,7 +94,7 @@ void Application::renderText(float x, float y, const char *text, void *font)
     size_t len = strlen(text);
 
     glRasterPos2f(x, y);
-    for (const char *letter = text; letter < text+len; letter++) {
+    for (const char *letter = text; letter < text + len; letter++) {
 
         // If we meet a newline, then move down by the line-height
         // TODO: Make the line-height a function of the font
@@ -127,12 +116,10 @@ void Application::renderText(float x, float y, const char *text, void *font)
 
 
 MassAggregateApplication::MassAggregateApplication(unsigned int particleCount)
-:
-world(particleCount*10)
-{
+        :
+        world(particleCount * 10) {
     particleArray = new cyclone::Particle[particleCount];
-    for (unsigned i = 0; i < particleCount; i++)
-    {
+    for (unsigned i = 0; i < particleCount; i++) {
         world.getParticles().push_back(particleArray + i);
     }
 
@@ -140,31 +127,27 @@ world(particleCount*10)
     world.getContactGenerators().push_back(&groundContactGenerator);
 }
 
-MassAggregateApplication::~MassAggregateApplication()
-{
+MassAggregateApplication::~MassAggregateApplication() {
     delete[] particleArray;
 }
 
-void MassAggregateApplication::initGraphics()
-{
+void MassAggregateApplication::initGraphics() {
     // Call the superclass
     Application::initGraphics();
 }
 
-void MassAggregateApplication::display()
-{
+void MassAggregateApplication::display() {
     // Clear the view port and set the camera direction
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    gluLookAt(0.0, 3.5, 8.0,  0.0, 3.5, 0.0,  0.0, 1.0, 0.0);
+    gluLookAt(0.0, 3.5, 8.0, 0.0, 3.5, 0.0, 0.0, 1.0, 0.0);
 
-    glColor3f(0,0,0);
+    glColor3f(0, 0, 0);
 
     cyclone::ParticleWorld::Particles &particles = world.getParticles();
     for (cyclone::ParticleWorld::Particles::iterator p = particles.begin();
-        p != particles.end();
-        p++)
-    {
+         p != particles.end();
+         p++) {
         cyclone::Particle *particle = *p;
         const cyclone::Vector3 &pos = particle->getPosition();
         glPushMatrix();
@@ -174,13 +157,12 @@ void MassAggregateApplication::display()
     }
 }
 
-void MassAggregateApplication::update()
-{
+void MassAggregateApplication::update() {
     // Clear accumulators
     world.startFrame();
 
     // Find the duration of the last frame in seconds
-    float duration = (float)TimingData::get().lastFrameDuration * 0.001f;
+    float duration = (float) TimingData::get().lastFrameDuration * 0.001f;
     if (duration <= 0.0f) return;
 
     // Run the simulation
@@ -190,33 +172,28 @@ void MassAggregateApplication::update()
 }
 
 RigidBodyApplication::RigidBodyApplication()
-:
-    theta(0.0f),
-    phi(15.0f),
-    resolver(maxContacts*8),
+        :
+        theta(0.0f),
+        phi(15.0f),
+        resolver(maxContacts * 8),
 
-    renderDebugInfo(false),
-    pauseSimulation(true),
-    autoPauseSimulation(false)
-{
+        renderDebugInfo(false),
+        pauseSimulation(true),
+        autoPauseSimulation(false) {
     cData.contactArray = contacts;
 }
 
-void RigidBodyApplication::update()
-{
+void RigidBodyApplication::update() {
     // Find the duration of the last frame in seconds
-    float duration = (float)TimingData::get().lastFrameDuration * 0.001f;
+    float duration = (float) TimingData::get().lastFrameDuration * 0.001f;
     if (duration <= 0.0f) return;
     else if (duration > 0.05f) duration = 0.05f;
 
     // Exit immediately if we aren't running the simulation
-    if (pauseSimulation)
-    {
+    if (pauseSimulation) {
         Application::update();
         return;
-    }
-    else if (autoPauseSimulation)
-    {
+    } else if (autoPauseSimulation) {
         pauseSimulation = true;
         autoPauseSimulation = false;
     }
@@ -229,26 +206,24 @@ void RigidBodyApplication::update()
 
     // Resolve detected contacts
     resolver.resolveContacts(
-        cData.contactArray,
-        cData.contactCount,
-        duration
-        );
+            cData.contactArray,
+            cData.contactCount,
+            duration
+    );
 
     Application::update();
 }
 
-void RigidBodyApplication::display()
-{
+void RigidBodyApplication::display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
-    gluLookAt(18.0f, 0, 0,  0, 0, 0,  0, 1.0f, 0);
+    gluLookAt(18.0f, 0, 0, 0, 0, 0, 0, 1.0f, 0);
     glRotatef(-phi, 0, 0, 1);
     glRotatef(theta, 0, 1, 0);
     glTranslatef(0, -5.0f, 0);
 }
 
-void RigidBodyApplication::drawDebug()
-{
+void RigidBodyApplication::drawDebug() {
     if (!renderDebugInfo) return;
 
     // Recalculate the contacts, so they are current (in case we're
@@ -257,13 +232,12 @@ void RigidBodyApplication::drawDebug()
 
     // Render the contacts, if required
     glBegin(GL_LINES);
-    for (unsigned i = 0; i < cData.contactCount; i++)
-    {
+    for (unsigned i = 0; i < cData.contactCount; i++) {
         // Interbody contacts are in green, floor contacts are red.
         if (contacts[i].body[1]) {
-            glColor3f(0,1,0);
+            glColor3f(0, 1, 0);
         } else {
-            glColor3f(1,0,0);
+            glColor3f(1, 0, 0);
         }
 
         cyclone::Vector3 vec = contacts[i].contactPoint;
@@ -276,18 +250,16 @@ void RigidBodyApplication::drawDebug()
     glEnd();
 }
 
-void RigidBodyApplication::mouse(int button, int state, int x, int y)
-{
+void RigidBodyApplication::mouse(int button, int state, int x, int y) {
     // Set the position
     last_x = x;
     last_y = y;
 }
 
-void RigidBodyApplication::mouseDrag(int x, int y)
-{
+void RigidBodyApplication::mouseDrag(int x, int y) {
     // Update the camera
-    theta += (x - last_x)*0.25f;
-    phi += (y - last_y)*0.25f;
+    theta += (x - last_x) * 0.25f;
+    phi += (y - last_y) * 0.25f;
 
     // Keep it in bounds
     if (phi < -20.0f) phi = -20.0f;
@@ -298,29 +270,30 @@ void RigidBodyApplication::mouseDrag(int x, int y)
     last_y = y;
 }
 
-void RigidBodyApplication::key(unsigned char key)
-{
-    switch(key)
-    {
-    case 'R': case 'r':
-        // Reset the simulation
-        reset();
-        return;
+void RigidBodyApplication::key(unsigned char key) {
+    switch (key) {
+        case 'R':
+        case 'r':
+            // Reset the simulation
+            reset();
+            return;
 
-    case 'C': case 'c':
-        // Toggle rendering of contacts
-        renderDebugInfo = !renderDebugInfo;
-        return;
+        case 'C':
+        case 'c':
+            // Toggle rendering of contacts
+            renderDebugInfo = !renderDebugInfo;
+            return;
 
-    case 'P': case 'p':
-        // Toggle running the simulation
-        pauseSimulation = !pauseSimulation;
-        return;
+        case 'P':
+        case 'p':
+            // Toggle running the simulation
+            pauseSimulation = !pauseSimulation;
+            return;
 
-    case ' ':
-        // Advance one frame
-        autoPauseSimulation = true;
-        pauseSimulation = false;
+        case ' ':
+            // Advance one frame
+            autoPauseSimulation = true;
+            pauseSimulation = false;
     }
 
     Application::key(key);

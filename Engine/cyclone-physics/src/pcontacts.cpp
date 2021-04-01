@@ -16,27 +16,23 @@ using namespace cyclone;
 
 // Contact implementation
 
-void ParticleContact::resolve(real duration)
-{
+void ParticleContact::resolve(real duration) {
     resolveVelocity(duration);
     resolveInterpenetration(duration);
 }
 
-real ParticleContact::calculateSeparatingVelocity() const
-{
+real ParticleContact::calculateSeparatingVelocity() const {
     Vector3 relativeVelocity = particle[0]->getVelocity();
     if (particle[1]) relativeVelocity -= particle[1]->getVelocity();
     return relativeVelocity * contactNormal;
 }
 
-void ParticleContact::resolveVelocity(real duration)
-{
+void ParticleContact::resolveVelocity(real duration) {
     // Find the velocity in the direction of the contact
     real separatingVelocity = calculateSeparatingVelocity();
 
     // Check if it needs to be resolved
-    if (separatingVelocity > 0)
-    {
+    if (separatingVelocity > 0) {
         // The contact is either separating, or stationary - there's
         // no impulse required.
         return;
@@ -52,8 +48,7 @@ void ParticleContact::resolveVelocity(real duration)
 
     // If we've got a closing velocity due to acceleration build-up,
     // remove it from the new separating velocity
-    if (accCausedSepVelocity < 0)
-    {
+    if (accCausedSepVelocity < 0) {
         newSepVelocity += restitution * accCausedSepVelocity;
 
         // Make sure we haven't removed more than was
@@ -81,19 +76,17 @@ void ParticleContact::resolveVelocity(real duration)
     // Apply impulses: they are applied in the direction of the contact,
     // and are proportional to the inverse mass.
     particle[0]->setVelocity(particle[0]->getVelocity() +
-        impulsePerIMass * particle[0]->getInverseMass()
-        );
-    if (particle[1])
-    {
+                             impulsePerIMass * particle[0]->getInverseMass()
+    );
+    if (particle[1]) {
         // Particle 1 goes in the opposite direction
         particle[1]->setVelocity(particle[1]->getVelocity() +
-            impulsePerIMass * -particle[1]->getInverseMass()
-            );
+                                 impulsePerIMass * -particle[1]->getInverseMass()
+        );
     }
 }
 
-void ParticleContact::resolveInterpenetration(real duration)
-{
+void ParticleContact::resolveInterpenetration(real duration) {
     // If we don't have any penetration, skip this step.
     if (penetration <= 0) return;
 
@@ -124,34 +117,28 @@ void ParticleContact::resolveInterpenetration(real duration)
 }
 
 ParticleContactResolver::ParticleContactResolver(unsigned iterations)
-:
-iterations(iterations)
-{
+        :
+        iterations(iterations) {
 }
 
-void ParticleContactResolver::setIterations(unsigned iterations)
-{
+void ParticleContactResolver::setIterations(unsigned iterations) {
     ParticleContactResolver::iterations = iterations;
 }
 
 void ParticleContactResolver::resolveContacts(ParticleContact *contactArray,
                                               unsigned numContacts,
-                                              real duration)
-{
+                                              real duration) {
     unsigned i;
 
     iterationsUsed = 0;
-    while(iterationsUsed < iterations)
-    {
+    while (iterationsUsed < iterations) {
         // Find the contact with the largest closing velocity;
         real max = REAL_MAX;
         unsigned maxIndex = numContacts;
-        for (i = 0; i < numContacts; i++)
-        {
+        for (i = 0; i < numContacts; i++) {
             real sepVel = contactArray[i].calculateSeparatingVelocity();
             if (sepVel < max &&
-                (sepVel < 0 || contactArray[i].penetration > 0))
-            {
+                (sepVel < 0 || contactArray[i].penetration > 0)) {
                 max = sepVel;
                 maxIndex = i;
             }
@@ -165,24 +152,16 @@ void ParticleContactResolver::resolveContacts(ParticleContact *contactArray,
 
         // Update the interpenetrations for all particles
         Vector3 *move = contactArray[maxIndex].particleMovement;
-        for (i = 0; i < numContacts; i++)
-        {
-            if (contactArray[i].particle[0] == contactArray[maxIndex].particle[0])
-            {
+        for (i = 0; i < numContacts; i++) {
+            if (contactArray[i].particle[0] == contactArray[maxIndex].particle[0]) {
                 contactArray[i].penetration -= move[0] * contactArray[i].contactNormal;
-            }
-            else if (contactArray[i].particle[0] == contactArray[maxIndex].particle[1])
-            {
+            } else if (contactArray[i].particle[0] == contactArray[maxIndex].particle[1]) {
                 contactArray[i].penetration -= move[1] * contactArray[i].contactNormal;
             }
-            if (contactArray[i].particle[1])
-            {
-                if (contactArray[i].particle[1] == contactArray[maxIndex].particle[0])
-                {
+            if (contactArray[i].particle[1]) {
+                if (contactArray[i].particle[1] == contactArray[maxIndex].particle[0]) {
                     contactArray[i].penetration += move[0] * contactArray[i].contactNormal;
-                }
-                else if (contactArray[i].particle[1] == contactArray[maxIndex].particle[1])
-                {
+                } else if (contactArray[i].particle[1] == contactArray[maxIndex].particle[1]) {
                     contactArray[i].penetration += move[1] * contactArray[i].contactNormal;
                 }
             }

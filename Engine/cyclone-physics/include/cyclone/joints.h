@@ -32,13 +32,12 @@ namespace cyclone {
      * body-coordinates) that will be kept at the same point in the
      * simulation.
      */
-    class Joint : public ContactGenerator
-    {
+    class Joint : public ContactGenerator {
     public:
         /**
          * Holds the two rigid bodies that are connected by this joint.
          */
-        RigidBody* body[2];
+        RigidBody *body[2];
 
         /**
          * Holds the relative location of the connection for each
@@ -59,10 +58,10 @@ namespace cyclone {
          * Configures the joint in one go.
          */
         void init(
-            RigidBody *a, const Vector3& a_pos,
-            RigidBody *b, const Vector3& b_pos,
-            real error
-            );
+                RigidBody *a, const Vector3 &a_pos,
+                RigidBody *b, const Vector3 &b_pos,
+                real error
+        );
 
         /**
          * Generates the contacts required to restore the joint if it

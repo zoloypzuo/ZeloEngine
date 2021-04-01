@@ -39,8 +39,7 @@ namespace cyclone {
      * this total 15 words are padding, distributed among the
      * Vector3 data members.
      */
-    class RigidBody
-    {
+    class RigidBody {
     public:
 
         // ... Other RigidBody code as before ...
@@ -222,11 +221,11 @@ namespace cyclone {
          */
         Vector3 torqueAccum;
 
-       /**
-         * Holds the acceleration of the rigid body.  This value
-         * can be used to set acceleration due to gravity (its primary
-         * use), or any other constant acceleration.
-         */
+        /**
+          * Holds the acceleration of the rigid body.  This value
+          * can be used to set acceleration due to gravity (its primary
+          * use), or any other constant acceleration.
+          */
         Vector3 acceleration;
 
         /**
@@ -568,7 +567,7 @@ namespace cyclone {
          * (1,0,0,0).
          */
         void setOrientation(const real r, const real i,
-            const real j, const real k);
+                            const real j, const real k);
 
         /**
          * Fills the given quaternion with the current value of the
@@ -798,8 +797,7 @@ namespace cyclone {
          *
          * @return The awake state of the body.
          */
-        bool getAwake() const
-        {
+        bool getAwake() const {
             return isAwake;
         }
 
@@ -811,14 +809,13 @@ namespace cyclone {
          *
          * @param awake The new awake state of the body.
          */
-        void setAwake(const bool awake=true);
+        void setAwake(const bool awake = true);
 
         /**
          * Returns true if the body is allowed to go to sleep at
          * any time.
          */
-        bool getCanSleep() const
-        {
+        bool getCanSleep() const {
             return canSleep;
         }
 
@@ -830,7 +827,7 @@ namespace cyclone {
          *
          * @param canSleep Whether the body can now be put to sleep.
          */
-        void setCanSleep(const bool canSleep=true);
+        void setCanSleep(const bool canSleep = true);
 
         /*@}*/
 

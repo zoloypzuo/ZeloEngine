@@ -1,4 +1,6 @@
-%module(directors="1") cyclone
+%
+module(directors = "1"
+) cyclone
 
 %{
 #include "cyclone/cyclone.h"
@@ -16,26 +18,41 @@
 #include "cyclone/fgen.h"
 #include "cyclone/joints.h"
 #include "cyclone/contacts.h"
-using namespace cyclone;
+
+using namespace
+cyclone;
 %}
 
 %include "typemaps.i"
 %include "std_vector.i"
-%template(ParticleVector) std::vector<cyclone::Particle*>;
+%
+template(ParticleVector)
+std::vector<cyclone::Particle * >;
 
 namespace cyclone
-{
-%ignore Vector3::operator [];
-%feature("director") ParticleContactGenerator;
-%feature("director") ParticleForceGenerator;
-}
+        {
+                %ignore Vector3::operator[];
+                %feature("director") ParticleContactGenerator;
+                %feature("director") ParticleForceGenerator;
+        }
 
 
 %include "carrays.i"
-%array_functions(int,intArray)
-%array_functions(float,floatArray)
-%array_functions(double,doubleArray)
-%array_functions(double,realArray)
+%
+
+array_functions(int, intArray)
+
+%
+
+array_functions(float, floatArray)
+
+%
+
+array_functions(double, doubleArray)
+
+%
+
+array_functions(double, realArray)
 
 
 %include "precision.h"

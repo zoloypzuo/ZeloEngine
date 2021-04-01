@@ -29,8 +29,7 @@ namespace cyclone {
     /**
      * Represents a bounding sphere that can be tested for overlap.
      */
-    struct BoundingSphere
-    {
+    struct BoundingSphere {
         Vector3 centre;
         real radius;
 
@@ -67,21 +66,19 @@ namespace cyclone {
          * to calculate how to recurse into the bounding volume tree.
          * For a bounding sphere it is a simple calculation.
          */
-        real getSize() const
-        {
-            return ((real)1.333333) * R_PI * radius * radius * radius;
+        real getSize() const {
+            return ((real) 1.333333) * R_PI * radius * radius * radius;
         }
     };
 
     /**
      * Stores a potential contact to check later.
      */
-    struct PotentialContact
-    {
+    struct PotentialContact {
         /**
          * Holds the bodies that might be in contact.
          */
-        RigidBody* body[2];
+        RigidBody *body[2];
     };
 
     /**
@@ -91,13 +88,12 @@ namespace cyclone {
      * volumes.
      */
     template<class BoundingVolumeClass>
-    class BVHNode
-    {
+    class BVHNode {
     public:
         /**
          * Holds the child nodes of this node.
          */
-        BVHNode * children[2];
+        BVHNode *children[2];
 
         /**
          * Holds a single bounding volume encompassing all the
@@ -113,30 +109,28 @@ namespace cyclone {
          * but the code provided ignores this vector unless firstChild
          * is NULL.
          */
-        RigidBody * body;
+        RigidBody *body;
 
         // ... other BVHNode code as before ...
 
         /**
          * Holds the node immediately above us in the tree.
          */
-        BVHNode * parent;
+        BVHNode *parent;
 
         /**
          * Creates a new node in the hierarchy with the given parameters.
          */
         BVHNode(BVHNode *parent, const BoundingVolumeClass &volume,
-            RigidBody* body=NULL)
-            : parent(parent), volume(volume), body(body)
-        {
+                RigidBody *body = NULL)
+                : parent(parent), volume(volume), body(body) {
             children[0] = children[1] = NULL;
         }
 
         /**
          * Checks if this node is at the bottom of the hierarchy.
          */
-        bool isLeaf() const
-        {
+        bool isLeaf() const {
             return (body != NULL);
         }
 
@@ -146,7 +140,7 @@ namespace cyclone {
          * given limit). Returns the number of potential contacts it
          * found.
          */
-        unsigned getPotentialContacts(PotentialContact* contacts,
+        unsigned getPotentialContacts(PotentialContact *contacts,
                                       unsigned limit) const;
 
         /**
@@ -154,7 +148,7 @@ namespace cyclone {
          * into the hierarchy. This may involve the creation of
          * further bounding volume nodes.
          */
-        void insert(RigidBody* body, const BoundingVolumeClass &volume);
+        void insert(RigidBody *body, const BoundingVolumeClass &volume);
 
         /**
          * Deltes this node, removing it first from the hierarchy, along
@@ -184,9 +178,9 @@ namespace cyclone {
          * found.
          */
         unsigned getPotentialContactsWith(
-            const BVHNode<BoundingVolumeClass> *other,
-            PotentialContact* contacts,
-            unsigned limit) const;
+                const BVHNode<BoundingVolumeClass> *other,
+                PotentialContact *contacts,
+                unsigned limit) const;
 
         /**
          * For non-leaf nodes, this method recalculates the bounding volume
@@ -201,30 +195,27 @@ namespace cyclone {
 
     template<class BoundingVolumeClass>
     bool BVHNode<BoundingVolumeClass>::overlaps(
-        const BVHNode<BoundingVolumeClass> * other
-        ) const
-    {
+            const BVHNode<BoundingVolumeClass> *other
+    ) const {
         return volume->overlaps(other->volume);
     }
 
     template<class BoundingVolumeClass>
     void BVHNode<BoundingVolumeClass>::insert(
-        RigidBody* newBody, const BoundingVolumeClass &newVolume
-        )
-    {
+            RigidBody *newBody, const BoundingVolumeClass &newVolume
+    ) {
         // If we are a leaf, then the only option is to spawn two
         // new children and place the new body in one.
-        if (isLeaf())
-        {
+        if (isLeaf()) {
             // Child one is a copy of us.
             children[0] = new BVHNode<BoundingVolumeClass>(
-                this, volume, body
-                );
+                    this, volume, body
+            );
 
             // Child two holds the new body
             children[1] = new BVHNode<BoundingVolumeClass>(
-                this, newVolume, newBody
-                );
+                    this, newVolume, newBody
+            );
 
             // And we now loose the body (we're no longer a leaf)
             this->body = NULL;
@@ -233,30 +224,24 @@ namespace cyclone {
             recalculateBoundingVolume();
         }
 
-        // Otherwise we need to work out which child gets to keep
-        // the inserted body. We give it to whoever would grow the
-        // least to incorporate it.
-        else
-        {
+            // Otherwise we need to work out which child gets to keep
+            // the inserted body. We give it to whoever would grow the
+            // least to incorporate it.
+        else {
             if (children[0]->volume.getGrowth(newVolume) <
-                children[1]->volume.getGrowth(newVolume))
-            {
+                children[1]->volume.getGrowth(newVolume)) {
                 children[0]->insert(newBody, newVolume);
-            }
-            else
-            {
+            } else {
                 children[1]->insert(newBody, newVolume);
             }
         }
     }
 
     template<class BoundingVolumeClass>
-    BVHNode<BoundingVolumeClass>::~BVHNode()
-    {
+    BVHNode<BoundingVolumeClass>::~BVHNode() {
         // If we don't have a parent, then we ignore the sibling
         // processing
-        if (parent)
-        {
+        if (parent) {
             // Find our sibling
             BVHNode<BoundingVolumeClass> *sibling;
             if (parent->children[0] == this) sibling = parent->children[1];
@@ -294,17 +279,16 @@ namespace cyclone {
     }
 
     template<class BoundingVolumeClass>
-        void BVHNode<BoundingVolumeClass>::recalculateBoundingVolume(
-        bool recurse
-        )
-    {
+    void BVHNode<BoundingVolumeClass>::recalculateBoundingVolume(
+            bool recurse
+    ) {
         if (isLeaf()) return;
 
         // Use the bounding volume combining constructor.
         volume = BoundingVolumeClass(
-            children[0]->volume,
-            children[1]->volume
-            );
+                children[0]->volume,
+                children[1]->volume
+        );
 
         // Recurse up the tree
         if (parent) parent->recalculateBoundingVolume(true);
@@ -312,9 +296,8 @@ namespace cyclone {
 
     template<class BoundingVolumeClass>
     unsigned BVHNode<BoundingVolumeClass>::getPotentialContacts(
-        PotentialContact* contacts, unsigned limit
-        ) const
-    {
+            PotentialContact *contacts, unsigned limit
+    ) const {
         // Early out if we don't have the room for contacts, or
         // if we're a leaf node.
         if (isLeaf() || limit == 0) return 0;
@@ -322,24 +305,22 @@ namespace cyclone {
         // Get the potential contacts of one of our children with
         // the other
         return children[0]->getPotentialContactsWith(
-            children[1], contacts, limit
-            );
+                children[1], contacts, limit
+        );
     }
 
     template<class BoundingVolumeClass>
     unsigned BVHNode<BoundingVolumeClass>::getPotentialContactsWith(
-        const BVHNode<BoundingVolumeClass> *other,
-        PotentialContact* contacts,
-        unsigned limit
-        ) const
-    {
+            const BVHNode<BoundingVolumeClass> *other,
+            PotentialContact *contacts,
+            unsigned limit
+    ) const {
         // Early out if we don't overlap or if we have no room
         // to report contacts
         if (!overlaps(other) || limit == 0) return 0;
 
         // If we're both at leaf nodes, then we have a potential contact
-        if (isLeaf() && other->isLeaf())
-        {
+        if (isLeaf() && other->isLeaf()) {
             contacts->body[0] = body;
             contacts->body[1] = other->body;
             return 1;
@@ -349,34 +330,31 @@ namespace cyclone {
         // a leaf, then we descend the other. If both are branches,
         // then we use the one with the largest size.
         if (other->isLeaf() ||
-            (!isLeaf() && volume->getSize() >= other->volume->getSize()))
-        {
+            (!isLeaf() && volume->getSize() >= other->volume->getSize())) {
             // Recurse into ourself
             unsigned count = children[0]->getPotentialContactsWith(
-                other, contacts, limit
-                );
+                    other, contacts, limit
+            );
 
             // Check we have enough slots to do the other side too
             if (limit > count) {
                 return count + children[1]->getPotentialContactsWith(
-                    other, contacts+count, limit-count
-                    );
+                        other, contacts + count, limit - count
+                );
             } else {
                 return count;
             }
-        }
-        else
-        {
+        } else {
             // Recurse into the other node
             unsigned count = getPotentialContactsWith(
-                other->children[0], contacts, limit
-                );
+                    other->children[0], contacts, limit
+            );
 
             // Check we have enough slots to do the other side too
             if (limit > count) {
                 return count + getPotentialContactsWith(
-                    other->children[1], contacts+count, limit-count
-                    );
+                        other->children[1], contacts + count, limit - count
+                );
             } else {
                 return count;
             }
