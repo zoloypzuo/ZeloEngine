@@ -126,19 +126,19 @@ std::shared_ptr<Entity> MeshLoader::getEntity() const {
 void MeshLoader::loadScene(const aiScene *scene) {
     m_entity = std::make_shared<Entity>();
 
-    for (int i = 0; i < scene->mNumMeshes; i++) {
+    for (unsigned int i = 0; i < scene->mNumMeshes; i++) {
         const aiMesh *model = scene->mMeshes[i];
 
         std::vector<Vertex> vertices;
         std::vector<unsigned int> indices;
 
         const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
-        for (unsigned int idxVertice = 0; idxVertice < model->mNumVertices; idxVertice++) {
-            const aiVector3D *pPos = &(model->mVertices[idxVertice]);
-            const aiVector3D *pNormal = &(model->mNormals[idxVertice]);
-            const aiVector3D *pTexCoord = model->HasTextureCoords(0) ? &(model->mTextureCoords[0][idxVertice])
+        for (unsigned int idxVertex = 0; idxVertex < model->mNumVertices; idxVertex++) {
+            const aiVector3D *pPos = &(model->mVertices[idxVertex]);
+            const aiVector3D *pNormal = &(model->mNormals[idxVertex]);
+            const aiVector3D *pTexCoord = model->HasTextureCoords(0) ? &(model->mTextureCoords[0][idxVertex])
                                                                      : &aiZeroVector;
-            const aiVector3D *pTangent = model->HasTangentsAndBitangents() ? &(model->mTangents[idxVertice])
+            const aiVector3D *pTangent = model->HasTangentsAndBitangents() ? &(model->mTangents[idxVertex])
                                                                            : &aiZeroVector;
 
             Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
