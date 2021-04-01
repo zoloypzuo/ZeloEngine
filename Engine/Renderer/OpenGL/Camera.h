@@ -8,19 +8,18 @@
 #include "ZeloPrerequisites.h"
 #include "Component.h"
 
-class Camera : public Component
-{
+class Camera : public Component {
 public:
     virtual ~Camera() {}
 
     glm::mat4 getViewMatrix() const;
+
     virtual glm::mat4 getProjectionMatrix() const = 0;
 
     inline virtual const char *getType() { return "CAMERA"; }
 };
 
-class PerspectiveCamera : public Camera
-{
+class PerspectiveCamera : public Camera {
 public:
     PerspectiveCamera(float fov, float aspect, float zNear, float zFar);
 
@@ -29,6 +28,7 @@ public:
     inline virtual const char *getType() { return "PERSPECTIVE_CAMERA"; }
 
     void setFov(float fov);
+
     float getFov();
 
 private:

@@ -8,10 +8,12 @@
 #include "ZeloPrerequisites.h"
 #include "Texture.h"
 
-class Material
-{
+class Material {
 public:
-    Material(std::shared_ptr<Texture> diffuseMap, std::shared_ptr<Texture> normalMap = std::make_shared<Texture>(Asset("default_normal.jpg")), std::shared_ptr<Texture> specularMap = std::make_shared<Texture>(Asset("default_specular.jpg")));
+    Material(std::shared_ptr<Texture> diffuseMap,
+             std::shared_ptr<Texture> normalMap = std::make_shared<Texture>(Asset("default_normal.jpg")),
+             std::shared_ptr<Texture> specularMap = std::make_shared<Texture>(Asset("default_specular.jpg")));
+
     ~Material();
 
     void bind() const;

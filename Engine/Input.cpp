@@ -177,7 +177,8 @@ void Input::registerButtonToAction(Uint8 button, const std::string &action) {
     m_buttonToAction[button] = action;
 }
 
-template<> Input* Singleton<Input>::msSingleton = nullptr;
+template<> Input *Singleton<Input>::msSingleton = nullptr;
+
 Input *Input::getSingletonPtr() {
     return msSingleton;
 }

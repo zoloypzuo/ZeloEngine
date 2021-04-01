@@ -3,7 +3,9 @@
 
 // in case you want to #include "whereami.c" in a larger compilation unit
 #if !defined(WHEREAMI_H)
+
 #include <whereami.h>
+
 #endif
 
 #ifdef __cplusplus
@@ -11,7 +13,9 @@ extern "C" {
 #endif
 
 #if !defined(WAI_MALLOC) || !defined(WAI_FREE) || !defined(WAI_REALLOC)
+
 #include <stdlib.h>
+
 #endif
 
 #if !defined(WAI_MALLOC)
@@ -50,111 +54,103 @@ extern "C" {
 #if defined(_MSC_VER)
 #pragma warning(push, 3)
 #endif
+
 #include <windows.h>
 #include <intrin.h>
+
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif
 
-static int WAI_PREFIX(getModulePath_)(HMODULE module, char* out, int capacity, int* dirname_length)
-{
-  wchar_t buffer1[1];
-  wchar_t buffer2[MAX_PATH];
-  wchar_t* path = NULL;
-  int length = -1;
+static int WAI_PREFIX(getModulePath_)(HMODULE module, char *out, int capacity, int *dirname_length) {
+    wchar_t buffer1[1];
+    wchar_t buffer2[MAX_PATH];
+    wchar_t *path = NULL;
+    int length = -1;
 
-  for (;;)
-  {
-    DWORD size;
-    int length_;
+    for (;;) {
+        DWORD size;
+        int length_;
 
-    size = GetModuleFileNameW(module, buffer1, sizeof(buffer1) / sizeof(buffer1[0]));
+        size = GetModuleFileNameW(module, buffer1, sizeof(buffer1) / sizeof(buffer1[0]));
 
-    if (size == 0)
-      break;
-    else if (size == (DWORD)(sizeof(buffer1) / sizeof(buffer1[0])))
-    {
-      DWORD size_ = size;
-      do
-      {
-        wchar_t* path_;
+        if (size == 0)
+            break;
+        else if (size == (DWORD) (sizeof(buffer1) / sizeof(buffer1[0]))) {
+            DWORD size_ = size;
+            do {
+                wchar_t *path_;
 
-        path_ = (wchar_t*)WAI_REALLOC(path, sizeof(wchar_t) * size_ * 2);
-        if (!path_)
-          break;
-        size_ *= 2;
-        path = path_;
-        size = GetModuleFileNameW(module, path, size_);
-      }
-      while (size == size_);
+                path_ = (wchar_t *) WAI_REALLOC(path, sizeof(wchar_t) * size_ * 2);
+                if (!path_)
+                    break;
+                size_ *= 2;
+                path = path_;
+                size = GetModuleFileNameW(module, path, size_);
+            } while (size == size_);
 
-      if (size == size_)
+            if (size == size_)
+                break;
+        } else
+            path = buffer1;
+
+        if (!_wfullpath(buffer2, path, MAX_PATH))
+            break;
+        length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, out, capacity, NULL, NULL);
+
+        if (length_ == 0)
+            length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, NULL, 0, NULL, NULL);
+        if (length_ == 0)
+            break;
+
+        if (length_ <= capacity && dirname_length) {
+            int i;
+
+            for (i = length_ - 1; i >= 0; --i) {
+                if (out[i] == '\\') {
+                    *dirname_length = i;
+                    break;
+                }
+            }
+        }
+
+        length = length_;
+
         break;
     }
-    else
-      path = buffer1;
 
-    if (!_wfullpath(buffer2, path, MAX_PATH))
-      break;
-    length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, out, capacity, NULL, NULL);
+    if (path != buffer1)
+        WAI_FREE(path);
 
-    if (length_ == 0)
-      length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, NULL, 0, NULL, NULL);
-    if (length_ == 0)
-      break;
-
-    if (length_ <= capacity && dirname_length)
-    {
-      int i;
-
-      for (i = length_ - 1; i >= 0; --i)
-      {
-        if (out[i] == '\\')
-        {
-          *dirname_length = i;
-          break;
-        }
-      }
-    }
-
-    length = length_;
-
-    break;
-  }
-
-  if (path != buffer1)
-    WAI_FREE(path);
-
-  return length;
+    return length;
 }
 
 WAI_NOINLINE
 WAI_FUNCSPEC
-int WAI_PREFIX(getExecutablePath)(char* out, int capacity, int* dirname_length)
-{
-  return WAI_PREFIX(getModulePath_)(NULL, out, capacity, dirname_length);
+int WAI_PREFIX(getExecutablePath)(char *out, int capacity, int *dirname_length) {
+    return WAI_PREFIX(getModulePath_)(NULL, out, capacity, dirname_length);
 }
 
 WAI_NOINLINE
 WAI_FUNCSPEC
-int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
-{
-  HMODULE module;
-  int length = -1;
+int WAI_PREFIX(getModulePath)(char *out, int capacity, int *dirname_length) {
+    HMODULE module;
+    int length = -1;
 
 #if defined(_MSC_VER)
 #pragma warning(push)
 #pragma warning(disable: 4054)
 #endif
-  if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCTSTR)WAI_RETURN_ADDRESS(), &module))
+    if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                          (LPCTSTR) WAI_RETURN_ADDRESS(), &module))
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif
-  {
-    length = WAI_PREFIX(getModulePath_)(module, out, capacity, dirname_length);
-  }
+    {
+        length = WAI_PREFIX(getModulePath_)(module, out, capacity, dirname_length);
+    }
 
-  return length;
+    return length;
 }
 
 #elif defined(__linux__)

@@ -60,7 +60,7 @@ public:
 
 class MeshLoader {
 public:
-    explicit MeshLoader(const std::string& file);
+    explicit MeshLoader(const std::string &file);
 
     ~MeshLoader();
 
