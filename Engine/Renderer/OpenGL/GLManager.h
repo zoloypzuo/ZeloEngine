@@ -21,6 +21,7 @@
 #include "Framework/Renderer.h"
 #include "Renderer/OpenGL/ForwardRenderer.h"
 #include "Renderer/OpenGL/Shader.h"
+#include "MeshManager.h"
 #include "Entity.h"
 #include "Window.h"
 #include "Camera.h"
@@ -73,6 +74,7 @@ public:
 private:
     Renderer *m_renderer;
     std::unique_ptr<SimpleRenderer> m_simpleRenderer;
+    std::unique_ptr<MeshManager> m_meshManager;
 
     std::shared_ptr<Camera> m_activeCamera;
 

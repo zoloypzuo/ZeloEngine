@@ -58,15 +58,9 @@ public:
     void Close(Assimp::IOStream *pFile) override;
 };
 
-
-struct MeshRendererData {
-    std::shared_ptr<Mesh> mesh;
-    std::shared_ptr<Material> material;
-};
-
 class MeshLoader {
 public:
-    explicit MeshLoader(std::string file);
+    explicit MeshLoader(const std::string& file);
 
     ~MeshLoader();
 
@@ -78,8 +72,6 @@ private:
     std::string m_fileName;
 
     std::shared_ptr<Entity> m_entity;
-
-    static std::map<std::string, std::vector<MeshRendererData>> sceneMeshRendererDataCache;
 };
 
 

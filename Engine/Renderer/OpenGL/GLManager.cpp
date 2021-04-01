@@ -19,6 +19,7 @@ GLManager::GLManager(Renderer *renderer, const glm::ivec2 &windowSize) {
     m_renderer = renderer;
     m_simpleRenderer = std::make_unique<SimpleRenderer>();
     m_simpleRenderer->initialize();
+    m_meshManager = std::make_unique<MeshManager>();
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
