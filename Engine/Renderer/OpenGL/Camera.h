@@ -11,12 +11,12 @@
 class Camera : public Component
 {
 public:
-    virtual ~Camera(void) {}
+    virtual ~Camera() {}
 
-    glm::mat4 getViewMatrix(void) const;
-    virtual glm::mat4 getProjectionMatrix(void) const = 0;
+    glm::mat4 getViewMatrix() const;
+    virtual glm::mat4 getProjectionMatrix() const = 0;
 
-    inline virtual const char *getType(void) { return "CAMERA"; }
+    inline virtual const char *getType() { return "CAMERA"; }
 };
 
 class PerspectiveCamera : public Camera
@@ -24,12 +24,12 @@ class PerspectiveCamera : public Camera
 public:
     PerspectiveCamera(float fov, float aspect, float zNear, float zFar);
 
-    virtual glm::mat4 getProjectionMatrix(void) const;
+    virtual glm::mat4 getProjectionMatrix() const;
 
-    inline virtual const char *getType(void) { return "PERSPECTIVE_CAMERA"; }
+    inline virtual const char *getType() { return "PERSPECTIVE_CAMERA"; }
 
     void setFov(float fov);
-    float getFov(void);
+    float getFov();
 
 private:
     float m_fov, m_aspect, m_zNear, m_zFar;

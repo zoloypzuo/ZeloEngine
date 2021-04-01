@@ -12,7 +12,7 @@ CustomIOStream::CustomIOStream(const char *pFile, const char *pMode) {
     m_iostream = new EngineIOStream(std::string(pFile));
 }
 
-CustomIOStream::~CustomIOStream(void) {
+CustomIOStream::~CustomIOStream() {
     delete m_iostream;
 }
 
@@ -40,23 +40,23 @@ aiReturn CustomIOStream::Seek(size_t pOffset, aiOrigin pOrigin) {
     }
 }
 
-size_t CustomIOStream::Tell(void) const {
+size_t CustomIOStream::Tell() const {
     return m_iostream->tell();
 }
 
-size_t CustomIOStream::FileSize(void) const {
+size_t CustomIOStream::FileSize() const {
     return m_iostream->fileSize();
 }
 
-void CustomIOStream::Flush(void) {
+void CustomIOStream::Flush() {
     m_iostream->flush();
 }
 
 
-CustomIOSystem::CustomIOSystem(void) {
+CustomIOSystem::CustomIOSystem() {
 }
 
-CustomIOSystem::~CustomIOSystem(void) {
+CustomIOSystem::~CustomIOSystem() {
 }
 
 bool CustomIOSystem::ComparePaths(const char *one, const char *second) const {
@@ -81,7 +81,7 @@ bool CustomIOSystem::Exists(const char *pFile) const {
 #endif
 }
 
-char CustomIOSystem::getOsSeparator(void) const {
+char CustomIOSystem::getOsSeparator() const {
     return '/';
 }
 

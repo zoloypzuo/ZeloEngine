@@ -19,7 +19,7 @@ EngineIOStream::EngineIOStream(const std::string &fileName) {
 #elif EMSCRIPTEN
     m_file = new std::fstream(ASSET_DIR + fileName, std::ifstream::binary | std::fstream::in | std::fstream::out);
 #else
-    int length = wai_getExecutablePath(NULL, 0, NULL);
+    int length = wai_getExecutablePath(nullptr, 0, nullptr);
     char *path = new char[length + 1];
     wai_getExecutablePath(path, length, &length);
     path[length] = '\0';
@@ -39,7 +39,7 @@ EngineIOStream::~EngineIOStream() {
 size_t EngineIOStream::read(void *pvBuffer, size_t pSize, size_t pCount) {
 #ifndef ANDROID
     m_file->read((char *) pvBuffer, pSize * pCount);
-    return m_file->gcount();
+    return static_cast<size_t>(m_file->gcount());
 #else
     return AAsset_read(m_file, (char *)pvBuffer, pSize * pCount);
 #endif
@@ -92,7 +92,7 @@ bool EngineIOStream::seek(size_t pOffset, origin pOrigin) {
 
 size_t EngineIOStream::tell() const {
 #ifndef ANDROID
-    return m_file->tellg();
+    return static_cast<size_t >(m_file->tellg());
 #else
     return AAsset_getLength(m_file) - AAsset_getRemainingLength(m_file);
 #endif
@@ -100,10 +100,10 @@ size_t EngineIOStream::tell() const {
 
 size_t EngineIOStream::fileSize() const {
 #ifndef ANDROID
-    size_t cur = m_file->tellg();
+    size_t cur = static_cast<size_t>(m_file->tellg());
     m_file->seekg(0, std::ios::end);
 
-    size_t end = m_file->tellg();
+    size_t end = static_cast<size_t>(m_file->tellg());
     m_file->seekg(cur, std::ios::beg);
 
     return end;
