@@ -28,8 +28,7 @@ namespace cyclone {
      * A force generator can be asked to add a force to one or more
      * particles.
      */
-    class ParticleForceGenerator
-    {
+    class ParticleForceGenerator {
     public:
         virtual ~ParticleForceGenerator() = default;
 
@@ -44,8 +43,7 @@ namespace cyclone {
      * A force generator that applies a gravitational force. One instance
      * can be used for multiple particles.
      */
-    class ParticleGravity : public ParticleForceGenerator
-    {
+    class ParticleGravity : public ParticleForceGenerator {
         /** Holds the acceleration due to gravity. */
         Vector3 gravity;
 
@@ -62,8 +60,7 @@ namespace cyclone {
      * A force generator that applies a drag force. One instance
      * can be used for multiple particles.
      */
-    class ParticleDrag : public ParticleForceGenerator
-    {
+    class ParticleDrag : public ParticleForceGenerator {
         /** Holds the velocity drag coeffificent. */
         real k1;
 
@@ -83,8 +80,7 @@ namespace cyclone {
      * A force generator that applies a Spring force, where
      * one end is attached to a fixed point in space.
      */
-    class ParticleAnchoredSpring : public ParticleForceGenerator
-    {
+    class ParticleAnchoredSpring : public ParticleForceGenerator {
     protected:
         /** The location of the anchored end of the spring. */
         Vector3 *anchor;
@@ -104,7 +100,7 @@ namespace cyclone {
                                real restLength);
 
         /** Retrieve the anchor point. */
-        const Vector3* getAnchor() const { return anchor; }
+        const Vector3 *getAnchor() const { return anchor; }
 
         /** Set the spring's properties. */
         void init(Vector3 *anchor,
@@ -119,8 +115,7 @@ namespace cyclone {
     * A force generator that applies a bungee force, where
     * one end is attached to a fixed point in space.
     */
-    class ParticleAnchoredBungee : public ParticleAnchoredSpring
-    {
+    class ParticleAnchoredBungee : public ParticleAnchoredSpring {
     public:
         /** Applies the spring force to the given particle. */
         virtual void updateForce(Particle *particle, real duration);
@@ -130,8 +125,7 @@ namespace cyclone {
      * A force generator that fakes a stiff spring force, and where
      * one end is attached to a fixed point in space.
      */
-    class ParticleFakeSpring : public ParticleForceGenerator
-    {
+    class ParticleFakeSpring : public ParticleForceGenerator {
         /** The location of the anchored end of the spring. */
         Vector3 *anchor;
 
@@ -145,7 +139,7 @@ namespace cyclone {
 
         /** Creates a new spring with the given parameters. */
         ParticleFakeSpring(Vector3 *anchor, real springConstant,
-            real damping);
+                           real damping);
 
         /** Applies the spring force to the given particle. */
         virtual void updateForce(Particle *particle, real duration);
@@ -154,8 +148,7 @@ namespace cyclone {
     /**
      * A force generator that applies a Spring force.
      */
-    class ParticleSpring : public ParticleForceGenerator
-    {
+    class ParticleSpring : public ParticleForceGenerator {
         /** The particle at the other end of the spring. */
         Particle *other;
 
@@ -169,7 +162,7 @@ namespace cyclone {
 
         /** Creates a new spring with the given parameters. */
         ParticleSpring(Particle *other,
-            real springConstant, real restLength);
+                       real springConstant, real restLength);
 
         /** Applies the spring force to the given particle. */
         virtual void updateForce(Particle *particle, real duration);
@@ -179,8 +172,7 @@ namespace cyclone {
      * A force generator that applies a spring force only
      * when extended.
      */
-    class ParticleBungee : public ParticleForceGenerator
-    {
+    class ParticleBungee : public ParticleForceGenerator {
         /** The particle at the other end of the spring. */
         Particle *other;
 
@@ -197,7 +189,7 @@ namespace cyclone {
 
         /** Creates a new bungee with the given parameters. */
         ParticleBungee(Particle *other,
-            real springConstant, real restLength);
+                       real springConstant, real restLength);
 
         /** Applies the spring force to the given particle. */
         virtual void updateForce(Particle *particle, real duration);
@@ -207,8 +199,7 @@ namespace cyclone {
      * A force generator that applies a buoyancy force for a plane of
      * liquid parrallel to XZ plane.
      */
-    class ParticleBuoyancy : public ParticleForceGenerator
-    {
+    class ParticleBuoyancy : public ParticleForceGenerator {
         /**
          * The maximum submersion depth of the object before
          * it generates its maximum boyancy force.
@@ -236,7 +227,7 @@ namespace cyclone {
 
         /** Creates a new buoyancy force with the given parameters. */
         ParticleBuoyancy(real maxDepth, real volume, real waterHeight,
-            real liquidDensity = 1000.0f);
+                         real liquidDensity = 1000.0f);
 
         /** Applies the buoyancy force to the given particle. */
         virtual void updateForce(Particle *particle, real duration);
@@ -245,16 +236,14 @@ namespace cyclone {
     /**
      * Holds all the force generators and the particles they apply to.
      */
-    class ParticleForceRegistry
-    {
+    class ParticleForceRegistry {
     private:
 
         /**
          * Keeps track of one force generator and the particle it
          * applies to.
          */
-        struct ParticleForceRegistration
-        {
+        struct ParticleForceRegistration {
             Particle *particle;
             ParticleForceGenerator *fg;
         };
@@ -270,14 +259,14 @@ namespace cyclone {
          * Registers the given force generator to apply to the
          * given particle.
          */
-        void add(Particle* particle, ParticleForceGenerator *fg);
+        void add(Particle *particle, ParticleForceGenerator *fg);
 
         /**
          * Removes the given registered pair from the registry.
          * If the pair is not registered, this method will have
          * no effect.
          */
-        void remove(Particle* particle, ParticleForceGenerator *fg);
+        void remove(Particle *particle, ParticleForceGenerator *fg);
 
         /**
          * Clears all registrations from the registry. This will

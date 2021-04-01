@@ -28,8 +28,7 @@ namespace cyclone {
      * keeps track of a set of rigid bodies, and provides the means to
      * update them all.
      */
-    class World
-    {
+    class World {
         // ... other World data as before ...
         /**
          * True if the world should calculate the number of iterations
@@ -40,10 +39,9 @@ namespace cyclone {
         /**
          * Holds a single rigid body in a linked list of bodies.
          */
-        struct BodyRegistration
-        {
+        struct BodyRegistration {
             RigidBody *body;
-            BodyRegistration * next;
+            BodyRegistration *next;
         };
 
         /**
@@ -59,8 +57,7 @@ namespace cyclone {
         /**
          * Holds one contact generators in a linked list.
          */
-        struct ContactGenRegistration
-        {
+        struct ContactGenRegistration {
             ContactGenerator *gen;
             ContactGenRegistration *next;
         };
@@ -90,7 +87,8 @@ namespace cyclone {
          * don't give a number of iterations, then four times the
          * number of detected contacts will be used for each frame.
          */
-        World(unsigned maxContacts, unsigned iterations=0);
+        World(unsigned maxContacts, unsigned iterations = 0);
+
         ~World();
 
         /**

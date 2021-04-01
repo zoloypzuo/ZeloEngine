@@ -17,10 +17,11 @@ add_library(Common
         Entity.cpp
         Component.cpp
         Transform.cpp
-        whereami.c
+        Util/whereami.c
         GuiManager.cpp
         Component/FreeLook.cpp
         Component/FreeMove.cpp
+        Mathf.cpp
         )
 
 option(BuildSwig "BuildSwig" OFF)

@@ -14,6 +14,7 @@ add_library(OpenGLRenderer
         Camera.cpp
         MeshLoader.cpp
         Line.cpp
+        MeshManager.cpp
         )
 
 find_package(GLEW REQUIRED)

@@ -26,8 +26,7 @@
 /**
  * The main demo class definition.
  */
-class PlatformDemo : public MassAggregateApplication
-{
+class PlatformDemo : public MassAggregateApplication {
     cyclone::ParticleRod *rods;
 
     cyclone::Vector3 massPos;
@@ -42,10 +41,11 @@ class PlatformDemo : public MassAggregateApplication
 public:
     /** Creates a new demo object. */
     PlatformDemo();
+
     virtual ~PlatformDemo();
 
     /** Returns the window title for the demo. */
-    virtual const char* getTitle();
+    virtual const char *getTitle();
 
     /** Display the particles. */
     virtual void display();
@@ -59,21 +59,19 @@ public:
 
 // Method definitions
 PlatformDemo::PlatformDemo()
-:
-MassAggregateApplication(6), rods(0),
-massPos(0,0,0.5f)
-{
+        :
+        MassAggregateApplication(6), rods(0),
+        massPos(0, 0, 0.5f) {
     // Create the masses and connections.
-    particleArray[0].setPosition(0,0,1);
-    particleArray[1].setPosition(0,0,-1);
-    particleArray[2].setPosition(-3,2,1);
-    particleArray[3].setPosition(-3,2,-1);
-    particleArray[4].setPosition(4,2,1);
-    particleArray[5].setPosition(4,2,-1);
-    for (unsigned i = 0; i < 6; i++)
-    {
+    particleArray[0].setPosition(0, 0, 1);
+    particleArray[1].setPosition(0, 0, -1);
+    particleArray[2].setPosition(-3, 2, 1);
+    particleArray[3].setPosition(-3, 2, -1);
+    particleArray[4].setPosition(4, 2, 1);
+    particleArray[5].setPosition(4, 2, -1);
+    for (unsigned i = 0; i < 6; i++) {
         particleArray[i].setMass(BASE_MASS);
-        particleArray[i].setVelocity(0,0,0);
+        particleArray[i].setVelocity(0, 0, 0);
         particleArray[i].setDamping(0.9f);
         particleArray[i].clearAccumulator();
     }
@@ -130,23 +128,19 @@ massPos(0,0,0.5f)
     rods[14].particle[1] = &particleArray[0];
     rods[14].length = 4.899;
 
-    for (unsigned i = 0; i < ROD_COUNT; i++)
-    {
+    for (unsigned i = 0; i < ROD_COUNT; i++) {
         world.getContactGenerators().push_back(&rods[i]);
     }
 
     updateAdditionalMass();
 }
 
-PlatformDemo::~PlatformDemo()
-{
+PlatformDemo::~PlatformDemo() {
     if (rods) delete[] rods;
 }
 
-void PlatformDemo::updateAdditionalMass()
-{
-    for (unsigned i = 2; i < 6; i++)
-    {
+void PlatformDemo::updateAdditionalMass() {
+    for (unsigned i = 2; i < 6; i++) {
         particleArray[i].setMass(BASE_MASS);
     }
 
@@ -163,43 +157,38 @@ void PlatformDemo::updateAdditionalMass()
     massDisplayPos.clear();
 
     // Add the proportion to the correct masses
-    particleArray[2].setMass(BASE_MASS + EXTRA_MASS*(1-xp)*(1-zp));
+    particleArray[2].setMass(BASE_MASS + EXTRA_MASS * (1 - xp) * (1 - zp));
     massDisplayPos.addScaledVector(
-        particleArray[2].getPosition(), (1-xp)*(1-zp)
+            particleArray[2].getPosition(), (1 - xp) * (1 - zp)
+    );
+
+    if (xp > 0) {
+        particleArray[4].setMass(BASE_MASS + EXTRA_MASS * xp * (1 - zp));
+        massDisplayPos.addScaledVector(
+                particleArray[4].getPosition(), xp * (1 - zp)
         );
 
-    if (xp > 0)
-    {
-        particleArray[4].setMass(BASE_MASS + EXTRA_MASS*xp*(1-zp));
-        massDisplayPos.addScaledVector(
-            particleArray[4].getPosition(), xp*(1-zp)
-            );
-
-        if (zp > 0)
-        {
-            particleArray[5].setMass(BASE_MASS + EXTRA_MASS*xp*zp);
+        if (zp > 0) {
+            particleArray[5].setMass(BASE_MASS + EXTRA_MASS * xp * zp);
             massDisplayPos.addScaledVector(
-                particleArray[5].getPosition(), xp*zp
-                );
+                    particleArray[5].getPosition(), xp * zp
+            );
         }
     }
-    if (zp > 0)
-    {
-        particleArray[3].setMass(BASE_MASS + EXTRA_MASS*(1-xp)*zp);
+    if (zp > 0) {
+        particleArray[3].setMass(BASE_MASS + EXTRA_MASS * (1 - xp) * zp);
         massDisplayPos.addScaledVector(
-            particleArray[3].getPosition(), (1-xp)*zp
-            );
+                particleArray[3].getPosition(), (1 - xp) * zp
+        );
     }
 }
 
-void PlatformDemo::display()
-{
+void PlatformDemo::display() {
     MassAggregateApplication::display();
 
     glBegin(GL_LINES);
-    glColor3f(0,0,1);
-    for (unsigned i = 0; i < ROD_COUNT; i++)
-    {
+    glColor3f(0, 0, 1);
+    for (unsigned i = 0; i < ROD_COUNT; i++) {
         cyclone::Particle **particles = rods[i].particle;
         const cyclone::Vector3 &p0 = particles[0]->getPosition();
         const cyclone::Vector3 &p1 = particles[1]->getPosition();
@@ -208,48 +197,48 @@ void PlatformDemo::display()
     }
     glEnd();
 
-    glColor3f(1,0,0);
+    glColor3f(1, 0, 0);
     glPushMatrix();
-    glTranslatef(massDisplayPos.x, massDisplayPos.y+0.25f, massDisplayPos.z);
+    glTranslatef(massDisplayPos.x, massDisplayPos.y + 0.25f, massDisplayPos.z);
     glutSolidSphere(0.25f, 20, 10);
     glPopMatrix();
 }
 
-void PlatformDemo::update()
-{
+void PlatformDemo::update() {
     MassAggregateApplication::update();
 
     updateAdditionalMass();
 }
 
-const char* PlatformDemo::getTitle()
-{
+const char *PlatformDemo::getTitle() {
     return "Cyclone > Platform Demo";
 }
 
-void PlatformDemo::key(unsigned char key)
-{
-    switch(key)
-    {
-    case 'w': case 'W':
-        massPos.z += 0.1f;
-        if (massPos.z > 1.0f) massPos.z = 1.0f;
-        break;
-    case 's': case 'S':
-        massPos.z -= 0.1f;
-        if (massPos.z < 0.0f) massPos.z = 0.0f;
-        break;
-    case 'a': case 'A':
-        massPos.x -= 0.1f;
-        if (massPos.x < 0.0f) massPos.x = 0.0f;
-        break;
-    case 'd': case 'D':
-        massPos.x += 0.1f;
-        if (massPos.x > 1.0f) massPos.x = 1.0f;
-        break;
+void PlatformDemo::key(unsigned char key) {
+    switch (key) {
+        case 'w':
+        case 'W':
+            massPos.z += 0.1f;
+            if (massPos.z > 1.0f) massPos.z = 1.0f;
+            break;
+        case 's':
+        case 'S':
+            massPos.z -= 0.1f;
+            if (massPos.z < 0.0f) massPos.z = 0.0f;
+            break;
+        case 'a':
+        case 'A':
+            massPos.x -= 0.1f;
+            if (massPos.x < 0.0f) massPos.x = 0.0f;
+            break;
+        case 'd':
+        case 'D':
+            massPos.x += 0.1f;
+            if (massPos.x > 1.0f) massPos.x = 1.0f;
+            break;
 
-    default:
-        MassAggregateApplication::key(key);
+        default:
+            MassAggregateApplication::key(key);
     }
 }
 
@@ -257,7 +246,6 @@ void PlatformDemo::key(unsigned char key)
  * Called by the common demo framework to create an application
  * object (with new) and return a pointer.
  */
-Application* getApplication()
-{
+Application *getApplication() {
     return new PlatformDemo();
 }

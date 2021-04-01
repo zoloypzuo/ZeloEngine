@@ -73,8 +73,9 @@ public:
     void registerButtonToAction(Uint8 button, const std::string &action);
 
 public:
-    static Input* getSingletonPtr();
-    static Input& getSingleton();
+    static Input *getSingletonPtr();
+
+    static Input &getSingleton();
 
 private:
     std::map<SDL_Keycode, Uint8> m_keyState;

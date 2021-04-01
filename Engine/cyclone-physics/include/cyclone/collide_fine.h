@@ -31,13 +31,13 @@ namespace cyclone {
 
     // Forward declarations of primitive friends
     class IntersectionTests;
+
     class CollisionDetector;
 
     /**
      * Represents a primitive to detect collisions against.
      */
-    class CollisionPrimitive
-    {
+    class CollisionPrimitive {
     public:
         /**
          * This class exists to help the collision detector
@@ -45,12 +45,13 @@ namespace cyclone {
          * access to its data.
          */
         friend class IntersectionTests;
+
         friend class CollisionDetector;
 
         /**
          * The rigid body that is represented by this primitive.
          */
-        RigidBody * body;
+        RigidBody *body;
 
         /**
          * The offset of this primitive from the given rigid body.
@@ -66,8 +67,7 @@ namespace cyclone {
          * This is a convenience function to allow access to the
          * axis vectors in the transform for this primitive.
          */
-        Vector3 getAxis(unsigned index) const
-        {
+        Vector3 getAxis(unsigned index) const {
             return transform.getAxisVector(index);
         }
 
@@ -77,8 +77,7 @@ namespace cyclone {
          * (orientation + position) of the rigid body to which it is
          * attached.
          */
-        const Matrix4& getTransform() const
-        {
+        const Matrix4 &getTransform() const {
             return transform;
         }
 
@@ -96,8 +95,7 @@ namespace cyclone {
      * Represents a rigid body that can be treated as a sphere
      * for collision detection.
      */
-    class CollisionSphere : public CollisionPrimitive
-    {
+    class CollisionSphere : public CollisionPrimitive {
     public:
         /**
          * The radius of the sphere.
@@ -110,8 +108,7 @@ namespace cyclone {
      * rigid body. It is used for contacts with the immovable
      * world geometry.
      */
-    class CollisionPlane
-    {
+    class CollisionPlane {
     public:
         /**
          * The plane normal
@@ -128,8 +125,7 @@ namespace cyclone {
      * Represents a rigid body that can be treated as an aligned bounding
      * box for collision detection.
      */
-    class CollisionBox : public CollisionPrimitive
-    {
+    class CollisionBox : public CollisionPrimitive {
     public:
         /**
          * Holds the half-sizes of the box along each of its local axes.
@@ -142,21 +138,20 @@ namespace cyclone {
      * can be used to drive the coarse collision detection system or
      * as an early out in the full collision tests below.
      */
-    class IntersectionTests
-    {
+    class IntersectionTests {
     public:
 
         static bool sphereAndHalfSpace(
-            const CollisionSphere &sphere,
-            const CollisionPlane &plane);
+                const CollisionSphere &sphere,
+                const CollisionPlane &plane);
 
         static bool sphereAndSphere(
-            const CollisionSphere &one,
-            const CollisionSphere &two);
+                const CollisionSphere &one,
+                const CollisionSphere &two);
 
         static bool boxAndBox(
-            const CollisionBox &one,
-            const CollisionBox &two);
+                const CollisionBox &one,
+                const CollisionBox &two);
 
         /**
          * Does an intersection test on an arbitrarily aligned box and a
@@ -171,8 +166,8 @@ namespace cyclone {
          * direction.
          */
         static bool boxAndHalfSpace(
-            const CollisionBox &box,
-            const CollisionPlane &plane);
+                const CollisionBox &box,
+                const CollisionPlane &plane);
     };
 
 
@@ -180,8 +175,7 @@ namespace cyclone {
      * A helper structure that contains information for the detector to use
      * in building its contact data.
      */
-    struct CollisionData
-    {
+    struct CollisionData {
         /**
          * Holds the base of the collision data: the first contact
          * in the array. This is used so that the contact pointer (below)
@@ -215,16 +209,14 @@ namespace cyclone {
          * Checks if there are more contacts available in the contact
          * data.
          */
-        bool hasMoreContacts()
-        {
+        bool hasMoreContacts() {
             return contactsLeft > 0;
         }
 
         /**
          * Resets the data so that it has no used contacts recorded.
          */
-        void reset(unsigned maxContacts)
-        {
+        void reset(unsigned maxContacts) {
             contactsLeft = maxContacts;
             contactCount = 0;
             contacts = contactArray;
@@ -234,8 +226,7 @@ namespace cyclone {
          * Notifies the data that the given number of contacts have
          * been added.
          */
-        void addContacts(unsigned count)
-        {
+        void addContacts(unsigned count) {
             // Reduce the number of contacts remaining, add number used
             contactsLeft -= count;
             contactCount += count;
@@ -268,27 +259,26 @@ namespace cyclone {
      * of two objects, and a pointer to a contact array to fill. It
      * returns the number of contacts it wrote into the array.
      */
-    class CollisionDetector
-    {
+    class CollisionDetector {
     public:
 
         static unsigned sphereAndHalfSpace(
-            const CollisionSphere &sphere,
-            const CollisionPlane &plane,
-            CollisionData *data
-            );
+                const CollisionSphere &sphere,
+                const CollisionPlane &plane,
+                CollisionData *data
+        );
 
         static unsigned sphereAndTruePlane(
-            const CollisionSphere &sphere,
-            const CollisionPlane &plane,
-            CollisionData *data
-            );
+                const CollisionSphere &sphere,
+                const CollisionPlane &plane,
+                CollisionData *data
+        );
 
         static unsigned sphereAndSphere(
-            const CollisionSphere &one,
-            const CollisionSphere &two,
-            CollisionData *data
-            );
+                const CollisionSphere &one,
+                const CollisionSphere &two,
+                CollisionData *data
+        );
 
         /**
          * Does a collision test on a collision box and a plane representing
@@ -296,30 +286,29 @@ namespace cyclone {
          * points out of the half-space).
          */
         static unsigned boxAndHalfSpace(
-            const CollisionBox &box,
-            const CollisionPlane &plane,
-            CollisionData *data
-            );
+                const CollisionBox &box,
+                const CollisionPlane &plane,
+                CollisionData *data
+        );
 
         static unsigned boxAndBox(
-            const CollisionBox &one,
-            const CollisionBox &two,
-            CollisionData *data
-            );
+                const CollisionBox &one,
+                const CollisionBox &two,
+                CollisionData *data
+        );
 
         static unsigned boxAndPoint(
-            const CollisionBox &box,
-            const Vector3 &point,
-            CollisionData *data
-            );
+                const CollisionBox &box,
+                const Vector3 &point,
+                CollisionData *data
+        );
 
         static unsigned boxAndSphere(
-            const CollisionBox &box,
-            const CollisionSphere &sphere,
-            CollisionData *data
-            );
+                const CollisionBox &box,
+                const CollisionSphere &sphere,
+                CollisionData *data
+        );
     };
-
 
 
 } // namespace cyclone

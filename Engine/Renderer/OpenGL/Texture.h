@@ -21,7 +21,7 @@ class TextureData {
 public:
     TextureData(int width, int height, const unsigned char *data, GLenum textureTarget, GLfloat filter);
 
-    virtual ~TextureData(void);
+    virtual ~TextureData();
 
     void createTexture(int width, int height, const unsigned char *data, GLenum textureTarget, GLfloat filter);
 
@@ -48,7 +48,7 @@ class Texture {
 public:
     Texture(const Asset &file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
 
-    ~Texture(void);
+    ~Texture();
 
     void bind(unsigned int unit = 0) const;
 

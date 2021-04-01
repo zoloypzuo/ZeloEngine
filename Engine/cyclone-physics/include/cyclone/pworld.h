@@ -28,11 +28,10 @@ namespace cyclone {
      * Keeps track of a set of particles, and provides the means to
      * update them all.
      */
-    class ParticleWorld
-    {
+    class ParticleWorld {
     public:
-        typedef std::vector<Particle*> Particles;
-        typedef std::vector<ParticleContactGenerator*> ContactGenerators;
+        typedef std::vector<Particle *> Particles;
+        typedef std::vector<ParticleContactGenerator *> ContactGenerators;
 
     protected:
         /**
@@ -81,7 +80,7 @@ namespace cyclone {
          * don't give a number of iterations, then twice the number of
          * contacts will be used.
          */
-        ParticleWorld(unsigned maxContacts, unsigned iterations=0);
+        ParticleWorld(unsigned maxContacts, unsigned iterations = 0);
 
         /**
          * Deletes the simulator.
@@ -116,23 +115,23 @@ namespace cyclone {
         /**
          *  Returns the list of particles.
          */
-        Particles& getParticles();
+        Particles &getParticles();
 
         /**
          * Returns the list of contact generators.
          */
-        ContactGenerators& getContactGenerators();
+        ContactGenerators &getContactGenerators();
 
         /**
          * Returns the force registry.
          */
-        ParticleForceRegistry& getForceRegistry();
+        ParticleForceRegistry &getForceRegistry();
 
-        void appendContactGenerator(ParticleContactGenerator& contactGenerator){
+        void appendContactGenerator(ParticleContactGenerator &contactGenerator) {
             contactGenerators.push_back(&contactGenerator);
         }
 
-        void appendParticles(Particle& particle){
+        void appendParticles(Particle &particle) {
             particles.push_back(&particle);
         }
 
@@ -142,15 +141,14 @@ namespace cyclone {
       * A contact generator that takes an STL vector of particle pointers and
      * collides them against the ground.
      */
-    class GroundContacts : public cyclone::ParticleContactGenerator
-    {
+    class GroundContacts : public cyclone::ParticleContactGenerator {
         cyclone::ParticleWorld::Particles *particles;
 
     public:
         void init(cyclone::ParticleWorld::Particles *particles);
 
         virtual unsigned addContact(cyclone::ParticleContact *contact,
-            unsigned limit) const;
+                                    unsigned limit) const;
     };
 
 } // namespace cyclone

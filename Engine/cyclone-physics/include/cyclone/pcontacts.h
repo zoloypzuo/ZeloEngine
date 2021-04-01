@@ -44,8 +44,7 @@ namespace cyclone {
      * contact details. To resolve a set of contacts, use the particle
      * contact resolver class.
      */
-    class ParticleContact
-    {
+    class ParticleContact {
         // ... Other ParticleContact code as before ...
 
 
@@ -61,7 +60,7 @@ namespace cyclone {
          * Holds the particles that are involved in the contact. The
          * second of these can be NULL, for contacts with the scenery.
          */
-        Particle* particle[2];
+        Particle *particle[2];
 
         /**
          * Holds the normal restitution coefficient at the contact.
@@ -112,8 +111,7 @@ namespace cyclone {
      * The contact resolution routine for particle contacts. One
      * resolver instance can be shared for the whole simulation.
      */
-    class ParticleContactResolver
-    {
+    class ParticleContactResolver {
     protected:
         /**
          * Holds the number of iterations allowed.
@@ -167,16 +165,15 @@ namespace cyclone {
          * This is used to compensate for forces applied.
         */
         void resolveContacts(ParticleContact *contactArray,
-            unsigned numContacts,
-            real duration);
+                             unsigned numContacts,
+                             real duration);
     };
 
     /**
      * This is the basic polymorphic interface for contact generators
      * applying to particles.
      */
-    class ParticleContactGenerator
-    {
+    class ParticleContactGenerator {
     public:
         virtual ~ParticleContactGenerator() = default;
 
@@ -194,7 +191,6 @@ namespace cyclone {
         };
 
     };
-
 
 
 } // namespace cyclone

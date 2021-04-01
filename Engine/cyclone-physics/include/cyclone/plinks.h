@@ -29,13 +29,12 @@ namespace cyclone {
      * base class for cables and rods, and could be used as a base
      * class for springs with a limit to their extension..
      */
-    class ParticleLink : public ParticleContactGenerator
-    {
+    class ParticleLink : public ParticleContactGenerator {
     public:
         /**
          * Holds the pair of particles that are connected by this link.
          */
-        Particle* particle[2];
+        Particle *particle[2];
 
     protected:
         /**
@@ -67,16 +66,16 @@ namespace cyclone {
             this->particle[1] = particle_;
         }
 
-        Particle* getParticle0(){ return particle[0];}
-        Particle* getParticle1(){ return particle[1];}
+        Particle *getParticle0() { return particle[0]; }
+
+        Particle *getParticle1() { return particle[1]; }
     };
 
     /**
      * Cables link a pair of particles, generating a contact if they
      * stray too far apart.
      */
-    class ParticleCable : public ParticleLink
-    {
+    class ParticleCable : public ParticleLink {
     public:
         /**
          * Holds the maximum length of the cable.
@@ -101,8 +100,7 @@ namespace cyclone {
      * Rods link a pair of particles, generating a contact if they
      * stray too far apart or too close.
      */
-    class ParticleRod : public ParticleLink
-    {
+    class ParticleRod : public ParticleLink {
     public:
         /**
          * Holds the length of the rod.
@@ -115,20 +113,19 @@ namespace cyclone {
          * to keep the rod from extending or compressing.
          */
         virtual unsigned addContact(ParticleContact *contact,
-                                     unsigned limit) const;
+                                    unsigned limit) const;
     };
 
     /**
     * Constraints are just like links, except they connect a particle to
     * an immovable anchor point.
     */
-    class ParticleConstraint : public ParticleContactGenerator
-    {
+    class ParticleConstraint : public ParticleContactGenerator {
     public:
         /**
         * Holds the particles connected by this constraint.
         */
-        Particle* particle;
+        Particle *particle;
 
         /**
          * The point to which the particle is anchored.
@@ -155,15 +152,14 @@ namespace cyclone {
         * documentation purposes.
         */
         virtual unsigned addContact(ParticleContact *contact,
-            unsigned limit) const = 0;
+                                    unsigned limit) const = 0;
     };
 
     /**
     * Cables link a particle to an anchor point, generating a contact if they
     * stray too far apart.
     */
-    class ParticleCableConstraint : public ParticleConstraint
-    {
+    class ParticleCableConstraint : public ParticleConstraint {
     public:
         /**
         * Holds the maximum length of the cable.
@@ -181,15 +177,14 @@ namespace cyclone {
         * to keep the cable from over-extending.
         */
         virtual unsigned addContact(ParticleContact *contact,
-            unsigned limit) const;
+                                    unsigned limit) const;
     };
 
     /**
     * Rods link a particle to an anchor point, generating a contact if they
     * stray too far apart or too close.
     */
-    class ParticleRodConstraint : public ParticleConstraint
-    {
+    class ParticleRodConstraint : public ParticleConstraint {
     public:
         /**
         * Holds the length of the rod.
@@ -202,7 +197,7 @@ namespace cyclone {
         * to keep the rod from extending or compressing.
         */
         virtual unsigned addContact(ParticleContact *contact,
-            unsigned limit) const;
+                                    unsigned limit) const;
     };
 } // namespace cyclone
 

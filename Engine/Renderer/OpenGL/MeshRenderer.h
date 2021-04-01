@@ -11,10 +11,10 @@
 #include "Material.h"
 #include "Shader.h"
 
-class MeshRenderer : public Component
-{
+class MeshRenderer : public Component {
 public:
     MeshRenderer(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material);
+
     virtual ~MeshRenderer();
 
     virtual void render(Shader *shader);

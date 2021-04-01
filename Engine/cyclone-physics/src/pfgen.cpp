@@ -15,38 +15,33 @@
 using namespace cyclone;
 
 
-void ParticleForceRegistry::updateForces(real duration)
-{
+void ParticleForceRegistry::updateForces(real duration) {
     Registry::iterator i = registrations.begin();
-    for (; i != registrations.end(); i++)
-    {
+    for (; i != registrations.end(); i++) {
         i->fg->updateForce(i->particle, duration);
     }
 }
 
-void ParticleForceRegistry::add(Particle* particle, ParticleForceGenerator *fg)
-{
+void ParticleForceRegistry::add(Particle *particle, ParticleForceGenerator *fg) {
     ParticleForceRegistry::ParticleForceRegistration registration;
     registration.particle = particle;
     registration.fg = fg;
     registrations.push_back(registration);
 }
 
-void ParticleForceRegistry::remove(Particle* body, ParticleForceGenerator *fg) {
-	// @zoloypzuo BUG-53-´íÎó LNK2019 ÎÞ·¨½âÎöµÄÍâ²¿·ûºÅ
+void ParticleForceRegistry::remove(Particle *body, ParticleForceGenerator *fg) {
+    // @zoloypzuo BUG-53-ï¿½ï¿½ï¿½ï¿½ LNK2019 ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â²¿ï¿½ï¿½ï¿½ï¿½
 }
 
 void ParticleForceRegistry::clear() {
-	// @zoloypzuo BUG-53-´íÎó LNK2019 ÎÞ·¨½âÎöµÄÍâ²¿·ûºÅ
+    // @zoloypzuo BUG-53-ï¿½ï¿½ï¿½ï¿½ LNK2019 ï¿½Þ·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â²¿ï¿½ï¿½ï¿½ï¿½
 }
 
-ParticleGravity::ParticleGravity(const Vector3& gravity)
-: gravity(gravity)
-{
+ParticleGravity::ParticleGravity(const Vector3 &gravity)
+        : gravity(gravity) {
 }
 
-void ParticleGravity::updateForce(Particle* particle, real duration)
-{
+void ParticleGravity::updateForce(Particle *particle, real duration) {
     // Check that we do not have infinite mass
     if (!particle->hasFiniteMass()) return;
 
@@ -55,12 +50,10 @@ void ParticleGravity::updateForce(Particle* particle, real duration)
 }
 
 ParticleDrag::ParticleDrag(real k1, real k2)
-: k1(k1), k2(k2)
-{
+        : k1(k1), k2(k2) {
 }
 
-void ParticleDrag::updateForce(Particle* particle, real duration)
-{
+void ParticleDrag::updateForce(Particle *particle, real duration) {
     Vector3 force;
     particle->getVelocity(&force);
 
@@ -75,12 +68,10 @@ void ParticleDrag::updateForce(Particle* particle, real duration)
 }
 
 ParticleSpring::ParticleSpring(Particle *other, real sc, real rl)
-: other(other), springConstant(sc), restLength(rl)
-{
+        : other(other), springConstant(sc), restLength(rl) {
 }
 
-void ParticleSpring::updateForce(Particle* particle, real duration)
-{
+void ParticleSpring::updateForce(Particle *particle, real duration) {
     // Calculate the vector of the spring
     Vector3 force;
     particle->getPosition(&force);
@@ -98,27 +89,24 @@ void ParticleSpring::updateForce(Particle* particle, real duration)
 }
 
 ParticleBuoyancy::ParticleBuoyancy(real maxDepth,
-                                 real volume,
-                                 real waterHeight,
-                                 real liquidDensity)
-:
-maxDepth(maxDepth), volume(volume),
-waterHeight(waterHeight), liquidDensity(liquidDensity)
-{
+                                   real volume,
+                                   real waterHeight,
+                                   real liquidDensity)
+        :
+        maxDepth(maxDepth), volume(volume),
+        waterHeight(waterHeight), liquidDensity(liquidDensity) {
 }
 
-void ParticleBuoyancy::updateForce(Particle* particle, real duration)
-{
+void ParticleBuoyancy::updateForce(Particle *particle, real duration) {
     // Calculate the submersion depth
     real depth = particle->getPosition().y;
 
     // Check if we're out of the water
     if (depth >= waterHeight + maxDepth) return;
-    Vector3 force(0,0,0);
+    Vector3 force(0, 0, 0);
 
     // Check if we're at maximum depth
-    if (depth <= waterHeight - maxDepth)
-    {
+    if (depth <= waterHeight - maxDepth) {
         force.y = liquidDensity * volume;
         particle->addForce(force);
         return;
@@ -126,17 +114,15 @@ void ParticleBuoyancy::updateForce(Particle* particle, real duration)
 
     // Otherwise we are partly submerged
     force.y = liquidDensity * volume *
-        (depth - maxDepth - waterHeight) / 2 * maxDepth;
+              (depth - maxDepth - waterHeight) / 2 * maxDepth;
     particle->addForce(force);
 }
 
 ParticleBungee::ParticleBungee(Particle *other, real sc, real rl)
-: other(other), springConstant(sc), restLength(rl)
-{
+        : other(other), springConstant(sc), restLength(rl) {
 }
 
-void ParticleBungee::updateForce(Particle* particle, real duration)
-{
+void ParticleBungee::updateForce(Particle *particle, real duration) {
     // Calculate the vector of the spring
     Vector3 force;
     particle->getPosition(&force);
@@ -156,12 +142,10 @@ void ParticleBungee::updateForce(Particle* particle, real duration)
 }
 
 ParticleFakeSpring::ParticleFakeSpring(Vector3 *anchor, real sc, real d)
-: anchor(anchor), springConstant(sc), damping(d)
-{
+        : anchor(anchor), springConstant(sc), damping(d) {
 }
 
-void ParticleFakeSpring::updateForce(Particle* particle, real duration)
-{
+void ParticleFakeSpring::updateForce(Particle *particle, real duration) {
     // Check that we do not have infinite mass
     if (!particle->hasFiniteMass()) return;
 
@@ -171,42 +155,38 @@ void ParticleFakeSpring::updateForce(Particle* particle, real duration)
     position -= *anchor;
 
     // Calculate the constants and check they are in bounds.
-    real gamma = 0.5f * real_sqrt(4 * springConstant - damping*damping);
+    real gamma = 0.5f * real_sqrt(4 * springConstant - damping * damping);
     if (gamma == 0.0f) return;
     Vector3 c = position * (damping / (2.0f * gamma)) +
-        particle->getVelocity() * (1.0f / gamma);
+                particle->getVelocity() * (1.0f / gamma);
 
     // Calculate the target position
     Vector3 target = position * real_cos(gamma * duration) +
-        c * real_sin(gamma * duration);
+                     c * real_sin(gamma * duration);
     target *= real_exp(-0.5f * duration * damping);
 
     // Calculate the resulting acceleration and therefore the force
-    Vector3 accel = (target - position) * ((real)1.0 / (duration*duration)) -
-        particle->getVelocity() * ((real)1.0/duration);
+    Vector3 accel = (target - position) * ((real) 1.0 / (duration * duration)) -
+                    particle->getVelocity() * ((real) 1.0 / duration);
     particle->addForce(accel * particle->getMass());
 }
 
-ParticleAnchoredSpring::ParticleAnchoredSpring()
-{
+ParticleAnchoredSpring::ParticleAnchoredSpring() {
 }
 
 ParticleAnchoredSpring::ParticleAnchoredSpring(Vector3 *anchor,
                                                real sc, real rl)
-: anchor(anchor), springConstant(sc), restLength(rl)
-{
+        : anchor(anchor), springConstant(sc), restLength(rl) {
 }
 
 void ParticleAnchoredSpring::init(Vector3 *anchor, real springConstant,
-                                  real restLength)
-{
+                                  real restLength) {
     ParticleAnchoredSpring::anchor = anchor;
     ParticleAnchoredSpring::springConstant = springConstant;
     ParticleAnchoredSpring::restLength = restLength;
 }
 
-void ParticleAnchoredBungee::updateForce(Particle* particle, real duration)
-{
+void ParticleAnchoredBungee::updateForce(Particle *particle, real duration) {
     // Calculate the vector of the spring
     Vector3 force;
     particle->getPosition(&force);
@@ -225,8 +205,7 @@ void ParticleAnchoredBungee::updateForce(Particle* particle, real duration)
     particle->addForce(force);
 }
 
-void ParticleAnchoredSpring::updateForce(Particle* particle, real duration)
-{
+void ParticleAnchoredSpring::updateForce(Particle *particle, real duration) {
     // Calculate the vector of the spring
     Vector3 force;
     particle->getPosition(&force);

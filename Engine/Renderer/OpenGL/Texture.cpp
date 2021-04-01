@@ -45,7 +45,7 @@ Texture::Texture(const Asset &file, GLenum textureTarget, GLfloat filter) {
         unsigned char *data = stbi_load_from_memory(reinterpret_cast<const unsigned char *>(file.read()),
                                                     file.getIOStream()->fileSize(), &x, &y, &bytesPerPixel, 4);
 
-        if (data == NULL) {
+        if (data == nullptr) {
             spdlog::error("Unable to load texture: {}", file.getIOStream()->getFileName().c_str());
         } else {
             m_textureData = std::make_shared<TextureData>(x, y, data, textureTarget, filter);

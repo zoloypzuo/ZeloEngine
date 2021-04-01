@@ -33,7 +33,8 @@ void DirectionalLight::registerWithEngine(Engine *engine) {
 }
 
 void DirectionalLight::deregisterFromEngine(Engine *engine) {
-    GLManager::getSingletonPtr()->removeDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
+    GLManager::getSingletonPtr()->removeDirectionalLight(
+            std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
 void DirectionalLight::updateShader(Shader *shader) {

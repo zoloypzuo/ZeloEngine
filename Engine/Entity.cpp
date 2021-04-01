@@ -34,7 +34,7 @@ std::vector<Entity *> Entity::findByTag(const std::string &tag) {
     return Entity::taggedEntities[tag];
 }
 
-void Entity::addChild(std::shared_ptr<Entity> child) {
+void Entity::addChild(const std::shared_ptr<Entity> &child) {
     child->parentEntity = this;
     children.push_back(child);
 
@@ -51,21 +51,21 @@ void Entity::updateAll(Input *input, std::chrono::microseconds delta) {
         worldMatrix = parentEntity->worldMatrix * transform.getTransformMatrix();
     }
 
-    for (const auto& component : components) {
+    for (const auto &component : components) {
         component->update(input, delta);
     }
 
-    for (const auto& child : children) {
+    for (const auto &child : children) {
         child->updateAll(input, delta);
     }
 }
 
 void Entity::renderAll(Shader *shader) const {
-    for (const auto& component : components) {
+    for (const auto &component : components) {
         component->render(shader);
     }
 
-    for (const auto& child : children) {
+    for (const auto &child : children) {
         child->renderAll(shader);
     }
 }
@@ -73,21 +73,21 @@ void Entity::renderAll(Shader *shader) const {
 void Entity::registerWithEngineAll(Engine *engine) {
     m_engine = engine;
 
-    for (const auto& component : components) {
+    for (const auto &component : components) {
         component->registerWithEngine(engine);
     }
 
-    for (const auto& child : children) {
+    for (const auto &child : children) {
         child->registerWithEngineAll(engine);
     }
 }
 
 void Entity::deregisterFromEngineAll() {
-    for (const auto& component : components) {
+    for (const auto &component : components) {
         component->deregisterFromEngine(m_engine);
     }
 
-    for (const auto& child : children) {
+    for (const auto &child : children) {
         child->deregisterFromEngineAll();
     }
 

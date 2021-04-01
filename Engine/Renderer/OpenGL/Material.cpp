@@ -16,8 +16,8 @@ Material::~Material() {
 
 void Material::bind() const {
     m_diffuseMap->bind(0);
-    // if (m_normalMap != NULL)
+    // if (m_normalMap != nullptr)
     m_normalMap->bind(1);
-    // if (m_specularMap != NULL)
+    // if (m_specularMap != nullptr)
     m_specularMap->bind(2);
 }

@@ -22,8 +22,7 @@
 /**
  * The main demo class definition.
  */
-class SailboatDemo : public Application
-{
+class SailboatDemo : public Application {
     cyclone::Buoyancy buoyancy;
 
     cyclone::Aero sail;
@@ -38,10 +37,11 @@ class SailboatDemo : public Application
 public:
     /** Creates a new demo object. */
     SailboatDemo();
+
     virtual ~SailboatDemo();
 
     /** Returns the window title for the demo. */
-    virtual const char* getTitle();
+    virtual const char *getTitle();
 
     /** Display the particles. */
     virtual void display();
@@ -55,28 +55,27 @@ public:
 
 // Method definitions
 SailboatDemo::SailboatDemo()
-:
-Application(),
+        :
+        Application(),
 
-sail(cyclone::Matrix3(0,0,0, 0,0,0, 0,0,-1.0f),
-     cyclone::Vector3(2.0f, 0, 0), &windspeed),
+        sail(cyclone::Matrix3(0, 0, 0, 0, 0, 0, 0, 0, -1.0f),
+             cyclone::Vector3(2.0f, 0, 0), &windspeed),
 
-buoyancy(cyclone::Vector3(0.0f, 0.5f, 0.0f), 1.0f, 3.0f, 1.6f),
+        buoyancy(cyclone::Vector3(0.0f, 0.5f, 0.0f), 1.0f, 3.0f, 1.6f),
 
-sail_control(0),
+        sail_control(0),
 
-windspeed(0,0,0)
-{
+        windspeed(0, 0, 0) {
     // Set up the boat's rigid body.
     sailboat.setPosition(0, 1.6f, 0);
-    sailboat.setOrientation(1,0,0,0);
+    sailboat.setOrientation(1, 0, 0, 0);
 
-    sailboat.setVelocity(0,0,0);
-    sailboat.setRotation(0,0,0);
+    sailboat.setVelocity(0, 0, 0);
+    sailboat.setRotation(0, 0, 0);
 
     sailboat.setMass(200.0f);
     cyclone::Matrix3 it;
-    it.setBlockInertiaTensor(cyclone::Vector3(2,1,1), 100.0f);
+    it.setBlockInertiaTensor(cyclone::Vector3(2, 1, 1), 100.0f);
     sailboat.setInertiaTensor(it);
 
     sailboat.setDamping(0.8f, 0.8f);
@@ -90,12 +89,10 @@ windspeed(0,0,0)
     registry.add(&sailboat, &buoyancy);
 }
 
-SailboatDemo::~SailboatDemo()
-{
+SailboatDemo::~SailboatDemo() {
 }
 
-static void drawBoat()
-{
+static void drawBoat() {
     // Left Hull
     glPushMatrix();
     glTranslatef(0, 0, -1.0f);
@@ -126,8 +123,7 @@ static void drawBoat()
 
 }
 
-void SailboatDemo::display()
-{
+void SailboatDemo::display() {
     // Clear the view port and set the camera direction
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glLoadIdentity();
@@ -135,21 +131,21 @@ void SailboatDemo::display()
     cyclone::Vector3 pos = sailboat.getPosition();
     cyclone::Vector3 offset(4.0f, 0, 0);
     offset = sailboat.getTransform().transformDirection(offset);
-    gluLookAt(pos.x+offset.x, pos.y+5.0f, pos.z+offset.z,
+    gluLookAt(pos.x + offset.x, pos.y + 5.0f, pos.z + offset.z,
               pos.x, pos.y, pos.z,
               0.0, 1.0, 0.0);
 
-    glColor3f(0.6f,0.6f,0.6f);
+    glColor3f(0.6f, 0.6f, 0.6f);
     int bx = int(pos.x);
     int bz = int(pos.z);
     glBegin(GL_QUADS);
-    for (int x = -20; x <= 20; x++) for (int z = -20; z <= 20; z++)
-    {
-        glVertex3f(bx+x-0.1f, 0, bz+z-0.1f);
-        glVertex3f(bx+x-0.1f, 0, bz+z+0.1f);
-        glVertex3f(bx+x+0.1f, 0, bz+z+0.1f);
-        glVertex3f(bx+x+0.1f, 0, bz+z-0.1f);
-    }
+    for (int x = -20; x <= 20; x++)
+        for (int z = -20; z <= 20; z++) {
+            glVertex3f(bx + x - 0.1f, 0, bz + z - 0.1f);
+            glVertex3f(bx + x - 0.1f, 0, bz + z + 0.1f);
+            glVertex3f(bx + x + 0.1f, 0, bz + z + 0.1f);
+            glVertex3f(bx + x + 0.1f, 0, bz + z - 0.1f);
+        }
     glEnd();
 
     // Set the transform matrix for the aircraft
@@ -160,31 +156,30 @@ void SailboatDemo::display()
     glMultMatrixf(gl_transform);
 
     // Draw the boat
-    glColor3f(0,0,0);
+    glColor3f(0, 0, 0);
     drawBoat();
     glPopMatrix();
 
     char buffer[256];
     sprintf(
-        buffer,
-        "Speed %.1f",
-        sailboat.getVelocity().magnitude()
-        );
-    glColor3f(0,0,0);
+            buffer,
+            "Speed %.1f",
+            sailboat.getVelocity().magnitude()
+    );
+    glColor3f(0, 0, 0);
     renderText(10.0f, 24.0f, buffer);
 
     sprintf(
-        buffer,
-        "Sail Control: %.1f",
-        sail_control
-        );
+            buffer,
+            "Sail Control: %.1f",
+            sail_control
+    );
     renderText(10.0f, 10.0f, buffer);
 }
 
-void SailboatDemo::update()
-{
+void SailboatDemo::update() {
     // Find the duration of the last frame in seconds
-    float duration = (float)TimingData::get().lastFrameDuration * 0.001f;
+    float duration = (float) TimingData::get().lastFrameDuration * 0.001f;
     if (duration <= 0.0f) return;
 
     // Start with no forces or acceleration.
@@ -202,29 +197,29 @@ void SailboatDemo::update()
     Application::update();
 }
 
-const char* SailboatDemo::getTitle()
-{
+const char *SailboatDemo::getTitle() {
     return "Cyclone > Sail Boat Demo";
 }
 
-void SailboatDemo::key(unsigned char key)
-{
-    switch(key)
-    {
-    case 'q': case 'Q':
-        sail_control -= 0.1f;
-        break;
+void SailboatDemo::key(unsigned char key) {
+    switch (key) {
+        case 'q':
+        case 'Q':
+            sail_control -= 0.1f;
+            break;
 
-    case 'e': case 'E':
-        sail_control += 0.1f;
-        break;
+        case 'e':
+        case 'E':
+            sail_control += 0.1f;
+            break;
 
-    case 'w': case 'W':
-        sail_control = 0.0f;
-        break;
+        case 'w':
+        case 'W':
+            sail_control = 0.0f;
+            break;
 
-    default:
-        Application::key(key);
+        default:
+            Application::key(key);
     }
 
     // Make sure the controls are in range
@@ -239,7 +234,6 @@ void SailboatDemo::key(unsigned char key)
  * Called by the common demo framework to create an application
  * object (with new) and return a pointer.
  */
-Application* getApplication()
-{
+Application *getApplication() {
     return new SailboatDemo();
 }

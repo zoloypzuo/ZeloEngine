@@ -20,16 +20,13 @@
 #define NUM_BONES 12
 #define NUM_JOINTS 11
 
-class Bone : public cyclone::CollisionBox
-{
+class Bone : public cyclone::CollisionBox {
 public:
-    Bone()
-    {
+    Bone() {
         body = new cyclone::RigidBody();
     }
 
-    ~Bone()
-    {
+    ~Bone() {
         delete body;
     }
 
@@ -37,8 +34,7 @@ public:
      * We use a sphere to collide bone on bone to allow some limited
      * interpenetration.
      */
-    cyclone::CollisionSphere getCollisionSphere() const
-    {
+    cyclone::CollisionSphere getCollisionSphere() const {
         cyclone::CollisionSphere sphere;
         sphere.body = body;
         sphere.radius = halfSize.x;
@@ -50,8 +46,7 @@ public:
     }
 
     /** Draws the bone. */
-    void render()
-    {
+    void render() {
         // Get the OpenGL transformation
         GLfloat mat[16];
         body->getGLTransform(mat);
@@ -61,15 +56,14 @@ public:
 
         glPushMatrix();
         glMultMatrixf(mat);
-        glScalef(halfSize.x*2, halfSize.y*2, halfSize.z*2);
+        glScalef(halfSize.x * 2, halfSize.y * 2, halfSize.z * 2);
         glutSolidCube(1.0f);
         glPopMatrix();
     }
 
     /** Sets the bone to a specific location. */
     void setState(const cyclone::Vector3 &position,
-                  const cyclone::Vector3 &extents)
-    {
+                  const cyclone::Vector3 &extents) {
         body->setPosition(position);
         body->setOrientation(cyclone::Quaternion());
         body->setVelocity(cyclone::Vector3());
@@ -99,8 +93,7 @@ public:
 /**
  * The main demo class definition.
  */
-class RagdollDemo : public RigidBodyApplication
-{
+class RagdollDemo : public RigidBodyApplication {
     cyclone::Random random;
 
     /** Holds the bone bodies. */
@@ -126,7 +119,7 @@ public:
     virtual void initGraphics();
 
     /** Returns the window title for the demo. */
-    virtual const char* getTitle();
+    virtual const char *getTitle();
 
     /** Display the particle positions. */
     virtual void display();
@@ -135,8 +128,7 @@ public:
 // Method definitions
 RagdollDemo::RagdollDemo()
         :
-        RigidBodyApplication()
-{
+        RigidBodyApplication() {
     // init up the bone hierarchy.
 
     // Right Knee
@@ -218,29 +210,26 @@ RagdollDemo::RagdollDemo()
     deinit();
 }
 
-const char* RagdollDemo::getTitle()
-{
+const char *RagdollDemo::getTitle() {
     return "Cyclone > Ragdoll Demo";
 }
 
-void RagdollDemo::generateContacts()
-{
+void RagdollDemo::generateContacts() {
     // Create the ground plane data
     cyclone::CollisionPlane plane;
-    plane.direction = cyclone::Vector3(0,1,0);
+    plane.direction = cyclone::Vector3(0, 1, 0);
     plane.offset = 0;
 
     // Set up the collision data structure
     cData.reset(maxContacts);
-    cData.friction = (cyclone::real)0.9;
-    cData.restitution = (cyclone::real)0.6;
-    cData.tolerance = (cyclone::real)0.1;
+    cData.friction = (cyclone::real) 0.9;
+    cData.restitution = (cyclone::real) 0.6;
+    cData.tolerance = (cyclone::real) 0.1;
 
     // Perform exhaustive collision detection on the ground plane
     cyclone::Matrix4 transform, otherTransform;
     cyclone::Vector3 position, otherPosition;
-    for (Bone *bone = bones; bone < bones+NUM_BONES; bone++)
-    {
+    for (Bone *bone = bones; bone < bones + NUM_BONES; bone++) {
         // Check for collisions with the ground plane
         if (!cData.hasMoreContacts()) return;
         cyclone::CollisionDetector::boxAndHalfSpace(*bone, plane, &cData);
@@ -248,97 +237,90 @@ void RagdollDemo::generateContacts()
         cyclone::CollisionSphere boneSphere = bone->getCollisionSphere();
 
         // Check for collisions with each other box
-        for (Bone *other = bone+1; other < bones+NUM_BONES; other++)
-        {
+        for (Bone *other = bone + 1; other < bones + NUM_BONES; other++) {
             if (!cData.hasMoreContacts()) return;
 
             cyclone::CollisionSphere otherSphere = other->getCollisionSphere();
 
             cyclone::CollisionDetector::sphereAndSphere(
-                boneSphere,
-                otherSphere,
-                &cData
-                );
+                    boneSphere,
+                    otherSphere,
+                    &cData
+            );
         }
     }
 
     // Check for joint violation
-    for (cyclone::Joint *joint = joints; joint < joints+NUM_JOINTS; joint++)
-    {
+    for (cyclone::Joint *joint = joints; joint < joints + NUM_JOINTS; joint++) {
         if (!cData.hasMoreContacts()) return;
         unsigned added = joint->addContact(cData.contacts, cData.contactsLeft);
         cData.addContacts(added);
     }
 }
 
-void RagdollDemo::reset()
-{
+void RagdollDemo::reset() {
     bones[0].setState(
-        cyclone::Vector3(0, 0.993, -0.5),
-        cyclone::Vector3(0.301, 1.0, 0.234));
+            cyclone::Vector3(0, 0.993, -0.5),
+            cyclone::Vector3(0.301, 1.0, 0.234));
     bones[1].setState(
-        cyclone::Vector3(0, 3.159, -0.56),
-        cyclone::Vector3(0.301, 1.0, 0.234));
+            cyclone::Vector3(0, 3.159, -0.56),
+            cyclone::Vector3(0.301, 1.0, 0.234));
     bones[2].setState(
-        cyclone::Vector3(0, 0.993, 0.5),
-        cyclone::Vector3(0.301, 1.0, 0.234));
+            cyclone::Vector3(0, 0.993, 0.5),
+            cyclone::Vector3(0.301, 1.0, 0.234));
     bones[3].setState(
-        cyclone::Vector3(0, 3.15, 0.56),
-        cyclone::Vector3(0.301, 1.0, 0.234));
+            cyclone::Vector3(0, 3.15, 0.56),
+            cyclone::Vector3(0.301, 1.0, 0.234));
     bones[4].setState(
-        cyclone::Vector3(-0.054, 4.683, 0.013),
-        cyclone::Vector3(0.415, 0.392, 0.690));
+            cyclone::Vector3(-0.054, 4.683, 0.013),
+            cyclone::Vector3(0.415, 0.392, 0.690));
     bones[5].setState(
-        cyclone::Vector3(0.043, 5.603, 0.013),
-        cyclone::Vector3(0.301, 0.367, 0.693));
+            cyclone::Vector3(0.043, 5.603, 0.013),
+            cyclone::Vector3(0.301, 0.367, 0.693));
     bones[6].setState(
-        cyclone::Vector3(0, 6.485, 0.013),
-        cyclone::Vector3(0.435, 0.367, 0.786));
+            cyclone::Vector3(0, 6.485, 0.013),
+            cyclone::Vector3(0.435, 0.367, 0.786));
     bones[7].setState(
-        cyclone::Vector3(0, 7.759, 0.013),
-        cyclone::Vector3(0.45, 0.598, 0.421));
+            cyclone::Vector3(0, 7.759, 0.013),
+            cyclone::Vector3(0.45, 0.598, 0.421));
     bones[8].setState(
-        cyclone::Vector3(0, 5.946, -1.066),
-        cyclone::Vector3(0.267, 0.888, 0.207));
+            cyclone::Vector3(0, 5.946, -1.066),
+            cyclone::Vector3(0.267, 0.888, 0.207));
     bones[9].setState(
-        cyclone::Vector3(0, 4.024, -1.066),
-        cyclone::Vector3(0.267, 0.888, 0.207));
+            cyclone::Vector3(0, 4.024, -1.066),
+            cyclone::Vector3(0.267, 0.888, 0.207));
     bones[10].setState(
-        cyclone::Vector3(0, 5.946, 1.066),
-        cyclone::Vector3(0.267, 0.888, 0.207));
+            cyclone::Vector3(0, 5.946, 1.066),
+            cyclone::Vector3(0.267, 0.888, 0.207));
     bones[11].setState(
-        cyclone::Vector3(0, 4.024, 1.066),
-        cyclone::Vector3(0.267, 0.888, 0.207));
+            cyclone::Vector3(0, 4.024, 1.066),
+            cyclone::Vector3(0.267, 0.888, 0.207));
 
     cyclone::real strength = -random.randomReal(500.0f, 1000.0f);
-    for (unsigned i = 0; i < NUM_BONES; i++)
-    {
+    for (unsigned i = 0; i < NUM_BONES; i++) {
         bones[i].body->addForceAtBodyPoint(
-            cyclone::Vector3(strength, 0, 0), cyclone::Vector3()
-            );
+                cyclone::Vector3(strength, 0, 0), cyclone::Vector3()
+        );
     }
     bones[6].body->addForceAtBodyPoint(
-        cyclone::Vector3(strength, 0, random.randomBinomial(1000.0f)),
-        cyclone::Vector3(random.randomBinomial(4.0f), random.randomBinomial(3.0f), 0)
-        );
+            cyclone::Vector3(strength, 0, random.randomBinomial(1000.0f)),
+            cyclone::Vector3(random.randomBinomial(4.0f), random.randomBinomial(3.0f), 0)
+    );
 
     // Reset the contacts
     cData.contactCount = 0;
 }
 
-void RagdollDemo::updateObjects(cyclone::real duration)
-{
-    for (Bone *bone = bones; bone < bones+NUM_BONES; bone++)
-    {
+void RagdollDemo::updateObjects(cyclone::real duration) {
+    for (Bone *bone = bones; bone < bones + NUM_BONES; bone++) {
         bone->body->integrate(duration);
         bone->calculateInternals();
     }
 }
 
-void RagdollDemo::initGraphics()
-{
-    GLfloat lightAmbient[] = {0.8f,0.8f,0.8f,1.0f};
-    GLfloat lightDiffuse[] = {0.9f,0.95f,1.0f,1.0f};
+void RagdollDemo::initGraphics() {
+    GLfloat lightAmbient[] = {0.8f, 0.8f, 0.8f, 1.0f};
+    GLfloat lightDiffuse[] = {0.9f, 0.95f, 1.0f, 1.0f};
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, lightAmbient);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, lightDiffuse);
@@ -348,10 +330,9 @@ void RagdollDemo::initGraphics()
     Application::initGraphics();
 }
 
-void RagdollDemo::display()
-{
-    const static GLfloat lightPosition[] = {0.7f,-1,0.4f,0};
-    const static GLfloat lightPositionMirror[] = {0.7f,1,0.4f,0};
+void RagdollDemo::display() {
+    const static GLfloat lightPosition[] = {0.7f, -1, 0.4f, 0};
+    const static GLfloat lightPositionMirror[] = {0.7f, 1, 0.4f, 0};
 
     RigidBodyApplication::display();
 
@@ -365,9 +346,8 @@ void RagdollDemo::display()
     glEnable(GL_COLOR_MATERIAL);
 
     glEnable(GL_NORMALIZE);
-    glColor3f(1,0,0);
-    for (unsigned i = 0; i < NUM_BONES; i++)
-    {
+    glColor3f(1, 0, 0);
+    for (unsigned i = 0; i < NUM_BONES; i++) {
         bones[i].render();
     }
     glDisable(GL_NORMALIZE);
@@ -377,15 +357,14 @@ void RagdollDemo::display()
 
     glDisable(GL_DEPTH_TEST);
     glBegin(GL_LINES);
-    for (unsigned i = 0; i < NUM_JOINTS; i++)
-    {
+    for (unsigned i = 0; i < NUM_JOINTS; i++) {
         cyclone::Joint *joint = joints + i;
         cyclone::Vector3 a_pos = joint->body[0]->getPointInWorldSpace(joint->position[0]);
         cyclone::Vector3 b_pos = joint->body[1]->getPointInWorldSpace(joint->position[1]);
         cyclone::real length = (b_pos - a_pos).magnitude();
 
-        if (length > joint->error) glColor3f(1,0,0);
-        else glColor3f(0,1,0);
+        if (length > joint->error) glColor3f(1, 0, 0);
+        else glColor3f(0, 1, 0);
 
         glVertex3f(a_pos.x, a_pos.y, a_pos.z);
         glVertex3f(b_pos.x, b_pos.y, b_pos.z);
@@ -395,21 +374,19 @@ void RagdollDemo::display()
 
     // Draw some scale circles
     glColor3f(0.75, 0.75, 0.75);
-    for (unsigned i = 1; i < 20; i++)
-    {
+    for (unsigned i = 1; i < 20; i++) {
         glBegin(GL_LINE_LOOP);
-        for (unsigned j = 0; j < 32; j++)
-        {
+        for (unsigned j = 0; j < 32; j++) {
             float theta = 3.1415926f * j / 16.0f;
-            glVertex3f(i*cosf(theta),0.0f,i*sinf(theta));
+            glVertex3f(i * cosf(theta), 0.0f, i * sinf(theta));
         }
         glEnd();
     }
     glBegin(GL_LINES);
-    glVertex3f(-20,0,0);
-    glVertex3f(20,0,0);
-    glVertex3f(0,0,-20);
-    glVertex3f(0,0,20);
+    glVertex3f(-20, 0, 0);
+    glVertex3f(20, 0, 0);
+    glVertex3f(0, 0, -20);
+    glVertex3f(0, 0, 20);
     glEnd();
 
     RigidBodyApplication::drawDebug();
@@ -419,7 +396,6 @@ void RagdollDemo::display()
  * Called by the common demo framework to create an application
  * object (with new) and return a pointer.
  */
-Application* getApplication()
-{
+Application *getApplication() {
     return new RagdollDemo();
 }

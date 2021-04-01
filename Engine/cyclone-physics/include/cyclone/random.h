@@ -29,18 +29,18 @@ namespace cyclone {
      * allows there to be several streams of repeatable random numbers
      * at the same time. Uses the RandRotB algorithm.
      */
-    class Random
-    {
+    class Random {
     public:
-    	/**
-    	 * left bitwise rotation
-    	 */
+        /**
+         * left bitwise rotation
+         */
 
-    	unsigned rotl(unsigned n, unsigned r);
-    	/**
-    	 * right bitwise rotation
-    	 */
-    	unsigned rotr(unsigned n, unsigned r);
+        unsigned rotl(unsigned n, unsigned r);
+
+        /**
+         * right bitwise rotation
+         */
+        unsigned rotr(unsigned n, unsigned r);
 
         /**
          * Creates a new random number stream with a seed based on

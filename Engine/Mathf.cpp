@@ -1,22 +1,21 @@
 // Mathf.cpp
 // created on 2020/2/5
 // author @zoloypzuo
+#define _USE_MATH_DEFINES
 
-#include <DirectXMath.h>
 #include <cmath>  // for float computation
 #include "Mathf.h"
 
-using namespace DirectX;
 
-float Mathf::Deg2Rad = 2 * XM_2PI / 360;
+float Mathf::Deg2Rad = static_cast<float>(M_2_PI) / 360.0f;
 float Mathf::Epsilon = 1.401298e-45f;
-float Mathf::Infinity = 1.0f / 0.0;
-float Mathf::NegativeInfinity = -1.0f / 0.0;
-float Mathf::PI = XM_PI;
-float Mathf::Rad2Deg = 1 / Deg2Rad;
+float Mathf::Infinity = 1.0f / 0.0f;
+float Mathf::NegativeInfinity = -1.0f / 0.0f;
+float Mathf::PI = static_cast<float>(M_PI);
+float Mathf::Rad2Deg = 1.0f / Deg2Rad;
 
 bool Mathf::Approximately(float a, float b) {
-    return XMScalarNearEqual(a, b, Epsilon);
+    return abs(a - b) < Epsilon;
 }
 
 float Mathf::Clamp(float value, float min, float max) {

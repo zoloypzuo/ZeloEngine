@@ -51,10 +51,11 @@ void Engine::Impl::initialize() {
 //        GuiManager::getSingletonPtr()->togglePropertyEditor();
     });
 
-    m_window->getInput()->bindAction("fullscreenToggle", IE_PRESSED, [this]() {
-        m_window->toggleFullscreen();
-        m_glManager->setDrawSize(m_window->getDrawableSize());
-    });
+    // do not toggle fullscreen
+//    m_window->getInput()->bindAction("fullscreenToggle", IE_PRESSED, [this]() {
+//        m_window->toggleFullscreen();
+//        m_glManager->setDrawSize(m_window->getDrawableSize());
+//    });
 
     m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
         m_fireRay = true;

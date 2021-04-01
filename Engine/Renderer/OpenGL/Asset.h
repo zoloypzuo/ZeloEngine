@@ -21,7 +21,7 @@ enum origin {
 
 class EngineIOStream {
 public:
-    EngineIOStream(const std::string &fileName);
+    explicit EngineIOStream(const std::string &fileName);
 
     ~EngineIOStream();
 
@@ -51,7 +51,7 @@ private:
 
 class Asset {
 public:
-    Asset(const std::string &fileName);
+    explicit Asset(const std::string &fileName);
 
     ~Asset();
 

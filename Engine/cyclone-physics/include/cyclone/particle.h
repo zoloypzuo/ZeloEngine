@@ -33,8 +33,7 @@ namespace cyclone {
      * linear forces, and impulses applied to it. The particle manages
      * its state and allows access through a set of methods.
      */
-    class Particle
-    {
+    class Particle {
     public:
 
         // ... Other Particle code as before ...

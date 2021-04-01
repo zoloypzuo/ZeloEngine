@@ -56,8 +56,7 @@ namespace cyclone {
      * details. To resolve a set of contacts, use the contact resolver
      * class.
      */
-    class Contact
-    {
+    class Contact {
         // ... Other data as before ...
 
         /**
@@ -71,7 +70,7 @@ namespace cyclone {
          * Holds the bodies that are involved in the contact. The
          * second of these can be NULL, for contacts with the scenery.
          */
-        RigidBody* body[2];
+        RigidBody *body[2];
 
         /**
          * Holds the lateral friction coefficient at the contact.
@@ -104,7 +103,7 @@ namespace cyclone {
          * Sets the data that doesn't normally depend on the position
          * of the contact (i.e. the bodies, and their material properties).
          */
-        void setBodyData(RigidBody* one, RigidBody *two,
+        void setBodyData(RigidBody *one, RigidBody *two,
                          real friction, real restitution);
 
     protected:
@@ -266,8 +265,7 @@ namespace cyclone {
      * but is perfect for handling impact, explosive, and flat resting
      * situations.
      */
-    class ContactResolver
-    {
+    class ContactResolver {
     protected:
         /**
          * Holds the number of iterations to perform when resolving
@@ -324,23 +322,22 @@ namespace cyclone {
          * per resolution call, and optional epsilon values.
          */
         ContactResolver(unsigned iterations,
-            real velocityEpsilon=(real)0.01,
-            real positionEpsilon=(real)0.01);
+                        real velocityEpsilon = (real) 0.01,
+                        real positionEpsilon = (real) 0.01);
 
         /**
          * Creates a new contact resolver with the given number of iterations
          * for each kind of resolution, and optional epsilon values.
          */
         ContactResolver(unsigned velocityIterations,
-            unsigned positionIterations,
-            real velocityEpsilon=(real)0.01,
-            real positionEpsilon=(real)0.01);
+                        unsigned positionIterations,
+                        real velocityEpsilon = (real) 0.01,
+                        real positionEpsilon = (real) 0.01);
 
         /**
          * Returns true if the resolver has valid settings and is ready to go.
          */
-        bool isValid()
-        {
+        bool isValid() {
             return (velocityIterations > 0) &&
                    (positionIterations > 0) &&
                    (positionEpsilon >= 0.0f) &&
@@ -391,8 +388,8 @@ namespace cyclone {
          * This is used to compensate for forces applied.
          */
         void resolveContacts(Contact *contactArray,
-            unsigned numContacts,
-            real duration);
+                             unsigned numContacts,
+                             real duration);
 
     protected:
         /**
@@ -401,31 +398,30 @@ namespace cyclone {
          * is made alive.
          */
         void prepareContacts(Contact *contactArray, unsigned numContacts,
-            real duration);
+                             real duration);
 
         /**
          * Resolves the velocity issues with the given array of constraints,
          * using the given number of iterations.
          */
         void adjustVelocities(Contact *contactArray,
-            unsigned numContacts,
-            real duration);
+                              unsigned numContacts,
+                              real duration);
 
         /**
          * Resolves the positional issues with the given array of constraints,
          * using the given number of iterations.
          */
         void adjustPositions(Contact *contacts,
-            unsigned numContacts,
-            real duration);
+                             unsigned numContacts,
+                             real duration);
     };
 
     /**
      * This is the basic polymorphic interface for contact generators
      * applying to rigid bodies.
      */
-    class ContactGenerator
-    {
+    class ContactGenerator {
     public:
         /**
          * Fills the given contact structure with the generated

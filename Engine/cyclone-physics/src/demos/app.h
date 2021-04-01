@@ -34,8 +34,7 @@
  * in this class, I have not made them pure virtual. This saves the
  * annoying need to implement an empty function that isn't needed.
  */
-class Application
-{
+class Application {
 protected:
     /**
      * Holds the height of the application window.
@@ -53,7 +52,7 @@ public:
      *
      * The default implementation returns a generic title.
      */
-    virtual const char* getTitle();
+    virtual const char *getTitle();
 
     /**
      * Sets up the graphics, and allows the application to acquire
@@ -144,14 +143,13 @@ public:
      * on the window. This is used to pass status information to the
      * application.
      */
-    void renderText(float x, float y, const char *text, void* font=NULL);
+    void renderText(float x, float y, const char *text, void *font = NULL);
 };
 
 /**
  * This application adds additional functionality used in the mass-aggregate demos.
  */
-class MassAggregateApplication : public Application
-{
+class MassAggregateApplication : public Application {
 protected:
     cyclone::ParticleWorld world;
     cyclone::Particle *particleArray;
@@ -159,6 +157,7 @@ protected:
 
 public:
     MassAggregateApplication(unsigned int particleCount);
+
     virtual ~MassAggregateApplication();
 
     /** Update the particle positions. */
@@ -176,9 +175,8 @@ public:
  * demos. This includes the ability to track contacts (for rigid bodies)
  * and move the camera around.
  */
- class RigidBodyApplication : public Application
- {
- protected:
+class RigidBodyApplication : public Application {
+protected:
     /** Holds the maximum number of contacts. */
     const static unsigned maxContacts = 256;
 
@@ -244,4 +242,4 @@ public:
 
     /** Handles a key press. */
     virtual void key(unsigned char key);
- };
+};
