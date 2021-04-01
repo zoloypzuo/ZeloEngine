@@ -21,6 +21,7 @@ add_library(Common
         GuiManager.cpp
         Component/FreeLook.cpp
         Component/FreeMove.cpp
+        Mathf.cpp
         )
 
 option(BuildSwig "BuildSwig" OFF)

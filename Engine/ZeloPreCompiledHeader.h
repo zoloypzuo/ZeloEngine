@@ -7,5 +7,6 @@
 
 #include <spdlog/spdlog.h>
 #include "G.h"
+#include "Mathf.h"
 
 #endif //ZELOENGINE_ZELOPRECOMPILEDHEADER_H

@@ -34,7 +34,7 @@ std::vector<Entity *> Entity::findByTag(const std::string &tag) {
     return Entity::taggedEntities[tag];
 }
 
-void Entity::addChild(std::shared_ptr<Entity> child) {
+void Entity::addChild(const std::shared_ptr<Entity>& child) {
     child->parentEntity = this;
     children.push_back(child);
 

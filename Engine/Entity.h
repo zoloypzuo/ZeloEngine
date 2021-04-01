@@ -23,7 +23,7 @@ public:
 
     ~Entity();
 
-    void addChild(std::shared_ptr<Entity> child);
+    void addChild(const std::shared_ptr<Entity>& child);
 
     template<class T>
     inline void addComponent(std::shared_ptr<T> component) {

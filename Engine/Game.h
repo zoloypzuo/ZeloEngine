@@ -24,13 +24,11 @@ public:
     void update() override;
 
 public:
-    static Game &getSingleton();
-
     static Game *getSingletonPtr();
 
     std::shared_ptr<Entity> getRootNode();
 
-    void addToScene(std::shared_ptr<Entity> entity);
+    void addToScene(const std::shared_ptr<Entity> &entity);
 
 private:
     class Impl;
