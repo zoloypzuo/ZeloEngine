@@ -8,7 +8,6 @@ link_libraries(OpenGLRenderer)
 #add_subdirectory(Component)
 #link_directories(Component)
 add_library(Common
-        zelo.cpp
         Engine.cpp
         Window.cpp
         Input.cpp
