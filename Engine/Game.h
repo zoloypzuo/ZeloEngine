@@ -31,11 +31,7 @@ public:
     void addToScene(const std::shared_ptr<Entity> &entity);
 
 private:
-    class Impl;
-
     std::shared_ptr<Entity> rootScene;
-    std::shared_ptr<PerspectiveCamera> primary_camera;
-    std::shared_ptr<PerspectiveCamera> primary_camera2;
 };
 
 
