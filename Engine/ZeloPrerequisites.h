@@ -7,19 +7,23 @@
 
 #include "ZeloPlatform.h"
 
-#include <string>
 #include <memory>
-#include <map>
+#include <iostream>
+#include <sstream>
 #include <functional>
-#include <vector>
-#include <map>
 #include <typeindex>
 #include <algorithm>
-#include <memory>
 #include <chrono>
 #include <utility>
 #include <typeindex>
-#include <algorithm>
+
+// containers
+#include <string>
+#include <array>
+#include <vector>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
 
 #include <glm/glm.hpp>
 
