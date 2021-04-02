@@ -10,8 +10,8 @@ BaseLight::BaseLight(glm::vec3 color, float intensity) {
     m_color = color;
     m_intensity = intensity;
 
-    setProperty("color", COLOR, &m_color.x, 0, 1);
-    setProperty("intensity", FLOAT, &m_intensity, 0, 100);
+    setProperty("color", PropertyType::COLOR, &m_color.x, 0, 1);
+    setProperty("intensity", PropertyType::FLOAT, &m_intensity, 0, 100);
 }
 
 BaseLight::~BaseLight() {
@@ -49,9 +49,9 @@ PointLight::PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenua
     // float b = attenuation->getLinear();
     // float c = attenuation->getConstant() - BITS_PER_CHANNEL * getIntensity() * glm::max(color.x, glm::max(color.y, color.z));
 
-    setProperty("exp", FLOAT, &m_attenuation->m_exponent, 0, 0.5);
-    setProperty("linear", FLOAT, &m_attenuation->m_linear, 0, 1);
-    setProperty("const", FLOAT, &m_attenuation->m_constant, 0, 1);
+    setProperty("exp", PropertyType::FLOAT, &m_attenuation->m_exponent, 0, 0.5);
+    setProperty("linear", PropertyType::FLOAT, &m_attenuation->m_linear, 0, 1);
+    setProperty("const", PropertyType::FLOAT, &m_attenuation->m_constant, 0, 1);
 
     // m_range = (-b + glm::sqrt(b * b - 4 * a * c)) / (2 * a);
 }
@@ -88,7 +88,7 @@ float PointLight::getRange() {
 SpotLight::SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared_ptr<Attenuation> attenuation)
         : PointLight(color, intensity, attenuation) {
     m_cutoff = cutoff;
-    setProperty("cutoff", FLOAT, &m_cutoff, 0, 1);
+    setProperty("cutoff", PropertyType::FLOAT, &m_cutoff, 0, 1);
 }
 
 void SpotLight::registerWithEngine(Engine *engine) {

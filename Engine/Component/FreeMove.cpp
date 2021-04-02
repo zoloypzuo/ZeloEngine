@@ -13,11 +13,11 @@ FreeMove::FreeMove(bool moveForwards, float speed) {
     m_forwardsVelocity = 0;
     m_strafeVelocity = 0;
 
-    setProperty("speed", FLOAT, &m_speed, 0, 20);
-    setProperty("forwards velocity", FLOAT, &m_forwardsVelocity, -1, 1);
-    setProperty("strafe velocity", FLOAT, &m_strafeVelocity, -1, 1);
-    setProperty("forwards", BOOLEAN, &m_moveForwards);
-    setProperty("sprinting", BOOLEAN, &m_sprinting);
+    setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 20);
+    setProperty("forwards velocity", PropertyType::FLOAT, &m_forwardsVelocity, -1, 1);
+    setProperty("strafe velocity", PropertyType::FLOAT, &m_strafeVelocity, -1, 1);
+    setProperty("forwards", PropertyType::BOOLEAN, &m_moveForwards);
+    setProperty("sprinting", PropertyType::BOOLEAN, &m_sprinting);
 }
 
 FreeMove::~FreeMove() = default;

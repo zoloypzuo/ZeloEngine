@@ -9,8 +9,8 @@ FreeLook::FreeLook(float speed) {
     m_speed = speed;
     m_look = false;
 
-    setProperty("speed", FLOAT, &m_speed, 0, 5);
-    setProperty("look", BOOLEAN, &m_look);
+    setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 5);
+    setProperty("look", PropertyType::BOOLEAN, &m_look);
 }
 
 FreeLook::~FreeLook() {
