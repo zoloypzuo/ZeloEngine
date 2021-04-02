@@ -5,6 +5,7 @@
 #ifndef ZELOENGINE_ZELOPRECOMPILEDHEADER_H
 #define ZELOENGINE_ZELOPRECOMPILEDHEADER_H
 
+#include "ZeloPlatform.h"
 // This ignores all warnings raised inside External headers
 #pragma warning(push, 0)
 
@@ -16,8 +17,10 @@
 #include "G.h"
 #include "Mathf.h"
 
-#ifdef ZELO_PLATFORM_WINDOWS // TODO platform detection
-#include <Windows.h>
+#ifdef ZELO_PLATFORM_WINDOWS
+
+//#include <Windows.h>
+
 #endif
 
 
