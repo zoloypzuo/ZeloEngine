@@ -3,7 +3,8 @@
 include_directories(./)
 add_subdirectory(Framework)
 link_libraries(Framework)
-if (WIN32)
+if (0)
+#if (WIN32) TODO use cotire and pch
     add_subdirectory(Platform/Windows)
     link_libraries(Windows)
 endif ()
