@@ -6,14 +6,13 @@
 #define ZELOENGINE_FILEDIALOGS_H
 
 #include "ZeloPrerequisites.h"
-#include <optional>
 
 class FileDialogs {
 public:
     // These return empty strings if cancelled
-    static std::optional<std::string> OpenFile(const char *filter);
+    std::wstring OpenFile(const wchar_t *filter, void *windowHandle);
 
-    static std::optional<std::string> SaveFile(const char *filter);
+    std::wstring SaveFile(const wchar_t *filter, void *windowHandle);
 };
 
 
