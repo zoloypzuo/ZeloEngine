@@ -1,26 +1,35 @@
-// Renderer.h
-// created on 2021/3/29
-// author @zoloypzuo
-
-#ifndef ZELOENGINE_RENDERER_H
-#define ZELOENGINE_RENDERER_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Entity.h"
-#include "Renderer/OpenGL/Camera.h"
-#include "Renderer/OpenGL/Light.h"
+
+#include "Framework/Renderer/RenderCommand.h"
+
+#include "Framework/Renderer/Shader.h"
+
+namespace Zelo {
 
 class Renderer {
 public:
-    virtual ~Renderer() = default;
+    static void Init();
 
-    virtual void initialize() = 0;
+    static void Shutdown();
 
-    virtual void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
-                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const = 0;
+    static void OnWindowResize(uint32_t width, uint32_t height);
+
+//    static void BeginScene(OrthographicCamera &camera);
+
+    static void EndScene();
+
+    static void Submit(const Ref<Shader> &shader, const Ref<VertexArray> &vertexArray,
+                       const glm::mat4 &transform = glm::mat4(1.0f));
+
+    static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
+
+private:
+    struct SceneData {
+        glm::mat4 ViewProjectionMatrix;
+    };
+
+    static Scope<SceneData> s_SceneData;
 };
-
-
-#endif //ZELOENGINE_RENDERER_H
+}

@@ -1,3 +1,4 @@
+#include "ZeloPreCompiledHeader.h"
 #include "Zelo.h"
 
 class MyGame : public Game {
@@ -193,7 +194,6 @@ void MyGame::initialize() {
 }
 
 int main() {
-//    ZELO_CORE_ASSERT("")
     Engine engine(new MyGame());
     engine.start();
     return 0;
