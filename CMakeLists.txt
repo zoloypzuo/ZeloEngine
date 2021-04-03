@@ -31,6 +31,9 @@ include_directories(${STB_INCLUDE_DIRS})
 find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
 
+find_package(imgui CONFIG REQUIRED)
+link_libraries(imgui::imgui)
+
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
 # avoid some bugs with Windows...
