@@ -29,6 +29,8 @@ add_library(Common
         Profiler.cpp
         )
 
+add_subdirectory(InGameEditor)
+
 option(BuildSwig "BuildSwig" OFF)
 message(STATUS BuildSwig=${BuildSwig})
 
