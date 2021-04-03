@@ -1,8 +1,8 @@
 # created on 2021/3/28
 # author @zoloypzuo
 include_directories(./)
-add_subdirectory(Framework)
-link_libraries(Framework)
+#add_subdirectory(Framework)
+#link_libraries(Framework)
 if (0)
 #if (WIN32) TODO use cotire and pch
     add_subdirectory(Platform/Windows)

@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 
-#include "Framework/Renderer/Renderer.h"
+#include "Renderer.h"
 #include "Shader.h"
 #include "Line.h"
 

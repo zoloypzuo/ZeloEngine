@@ -16,6 +16,7 @@
 #include "Component/FreeLook.h"
 #include "Game.h"
 #include "Mathf.h"
+#include "Engine.h"
 
 
 #endif //ZELOENGINE_ZELO_H

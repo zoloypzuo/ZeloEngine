@@ -15,7 +15,7 @@ add_library(OpenGLRenderer
         MeshLoader.cpp
         Line.cpp
         MeshManager.cpp
-        )
+        Renderer.cpp Renderer.h)
 
 find_package(GLEW REQUIRED)
 target_link_libraries(OpenGLRenderer PRIVATE GLEW::GLEW)
