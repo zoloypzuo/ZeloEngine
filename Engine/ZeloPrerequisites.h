@@ -10,6 +10,7 @@
 #include <memory>
 #include <iostream>
 #include <sstream>
+#include <fstream>
 #include <functional>
 #include <typeindex>
 #include <algorithm>
@@ -26,6 +27,8 @@
 #include <unordered_set>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 class IRuntimeModule {
 public:
