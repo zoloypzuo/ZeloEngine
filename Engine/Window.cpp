@@ -69,7 +69,7 @@ Window::Window() {
         spdlog::error("SDL_GL_CreateContext error: {}", SDL_GetError());
     }
 
-    SDL_GL_SetSwapInterval(0);
+    SDL_GL_SetSwapInterval(m_vSync ? 1 : 0);
 
     int display_w, display_h;
     SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
@@ -93,6 +93,7 @@ void Window::initialize() {
 }
 
 void Window::update() {
+    ZELO_PROFILE_FUNCTION();
     m_input.setMouseDelta(0, 0);
 
     SDL_Event event;

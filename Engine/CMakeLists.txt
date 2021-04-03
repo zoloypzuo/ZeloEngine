@@ -3,12 +3,16 @@
 include_directories(./)
 add_subdirectory(Framework)
 link_libraries(Framework)
+if (0)
+#if (WIN32) TODO use cotire and pch
+    add_subdirectory(Platform/Windows)
+    link_libraries(Windows)
+endif ()
 add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
 #add_subdirectory(Component)
 #link_directories(Component)
 add_library(Common
-        zelo.cpp
         Engine.cpp
         Window.cpp
         Input.cpp
@@ -22,7 +26,10 @@ add_library(Common
         Component/FreeLook.cpp
         Component/FreeMove.cpp
         Mathf.cpp
+        Profiler.cpp
         )
+
+add_subdirectory(InGameEditor)
 
 option(BuildSwig "BuildSwig" OFF)
 message(STATUS BuildSwig=${BuildSwig})

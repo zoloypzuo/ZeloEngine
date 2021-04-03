@@ -20,6 +20,8 @@ public:
     bool m_fireRay{};
 
 public:
+    Impl(Game *game);
+
     void initialize() override;
 
     void finalize() override;
@@ -34,7 +36,7 @@ void Engine::Impl::initialize() {
     m_renderer = std::make_unique<ForwardRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
     m_renderer->initialize();
-    m_game = std::make_unique<Game>();
+//    m_game = std::make_unique<Game>();
     m_game->initialize();
     m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
 
@@ -83,16 +85,29 @@ void Engine::Impl::update() {
     m_window->swapBuffer();
 }
 
+Engine::Impl::Impl(Game *game) {
+    m_game = std::unique_ptr<Game>(game);
+}
+
 
 void Engine::start() {
+    ZELO_PROFILE_BEGIN_SESSION("Startup", "ZeloProfile-Startup.json");
     pImpl_->initialize();
+    ZELO_PROFILE_END_SESSION();
+
+    ZELO_PROFILE_BEGIN_SESSION("Runtime", "ZeloProfile-Runtime.json");
     while (!pImpl_->m_window->shouldQuit()) {
         pImpl_->update();
     }
+    ZELO_PROFILE_END_SESSION();
+
+    ZELO_PROFILE_BEGIN_SESSION("Shutdown", "ZeloProfile-Shutdown.json");
+    pImpl_->finalize();
+    ZELO_PROFILE_END_SESSION();
 }
 
-Engine::Engine() :
-        pImpl_(std::make_shared<Impl>()) {
+Engine::Engine(Game *game) :
+        pImpl_(std::make_shared<Impl>(game)) {
 
 }
 

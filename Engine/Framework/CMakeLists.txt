@@ -1,6 +1,4 @@
 # created on 2021/3/29
 # author @zoloypzuo
-add_library(Framework
-        Renderer.cpp
-        Shader.cpp
-        )
+file(GLOB_RECURSE FrameworkSrc Renderer/*.cpp OpenGL/*.cpp Scene/*.cpp ImGui/*.cpp)
+add_library(Framework ${FrameworkSrc})

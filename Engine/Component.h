@@ -10,7 +10,7 @@
 #include "Entity.h"
 #include "Transform.h"
 
-enum PropertyType {
+enum class PropertyType {
     FLOAT,
     FLOAT3,
     BOOLEAN,

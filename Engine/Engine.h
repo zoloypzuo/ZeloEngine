@@ -7,10 +7,11 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
+#include "Game.h"
 
 class Engine : public Singleton<Engine> {
 public:
-    Engine();
+    Engine(Game * game);
 
     virtual ~Engine();
 

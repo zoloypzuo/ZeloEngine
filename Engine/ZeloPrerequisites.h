@@ -7,21 +7,28 @@
 
 #include "ZeloPlatform.h"
 
-#include <string>
 #include <memory>
-#include <map>
+#include <iostream>
+#include <sstream>
+#include <fstream>
 #include <functional>
-#include <vector>
-#include <map>
 #include <typeindex>
 #include <algorithm>
-#include <memory>
 #include <chrono>
 #include <utility>
 #include <typeindex>
-#include <algorithm>
+
+// containers
+#include <string>
+#include <array>
+#include <vector>
+#include <map>
+#include <unordered_map>
+#include <unordered_set>
 
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 
 class IRuntimeModule {
 public:
@@ -33,5 +40,21 @@ public:
 
     virtual void update() = 0;
 };
+
+template<typename T>
+using Scope = std::unique_ptr<T>;
+template<typename T, typename ... Args>
+constexpr Scope<T> CreateScope(Args&& ... args)
+{
+    return std::make_unique<T>(std::forward<Args>(args)...);
+}
+
+template<typename T>
+using Ref = std::shared_ptr<T>;
+template<typename T, typename ... Args>
+constexpr Ref<T> CreateRef(Args&& ... args)
+{
+    return std::make_shared<T>(std::forward<Args>(args)...);
+}
 
 #endif //ZELOENGINE_ZELOPREREQUISITES_H

@@ -1,18 +1,18 @@
 // Renderer.h
-// created on 2021/3/29
+// created on 2021/4/3
 // author @zoloypzuo
 
-#ifndef ZELOENGINE_RENDERER_H
-#define ZELOENGINE_RENDERER_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
+
 #include "Entity.h"
 #include "Renderer/OpenGL/Camera.h"
 #include "Renderer/OpenGL/Light.h"
 
 class Renderer {
 public:
-    virtual ~Renderer();
+    virtual ~Renderer() = default;
 
     virtual void initialize() = 0;
 
@@ -21,6 +21,3 @@ public:
                         const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                         const std::vector<std::shared_ptr<SpotLight>> &spotLights) const = 0;
 };
-
-
-#endif //ZELOENGINE_RENDERER_H
