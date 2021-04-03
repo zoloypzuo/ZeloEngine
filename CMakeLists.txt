@@ -12,14 +12,19 @@ else ()
     set(VCPKG_TARGET_TRIPLET x64-windows)
 endif ()
 include(/vcpkg/scripts/buildsystems/vcpkg.cmake)
+
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
+
 find_package(glm CONFIG REQUIRED)
 link_libraries(glm)
+
 find_package(SDL2 CONFIG REQUIRED)
 link_libraries(SDL2::SDL2 SDL2::SDL2main)
+
 find_package(assimp CONFIG REQUIRED)
 link_libraries(assimp::assimp)
+
 find_path(STB_INCLUDE_DIRS "stb.h")
 include_directories(${STB_INCLUDE_DIRS})
 
