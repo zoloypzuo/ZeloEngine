@@ -63,12 +63,15 @@ private:
     SDL_GLContext m_glContext;
     std::unique_ptr<GuiManager> m_guiManager;
 
-    int m_width, m_height;
+    int m_width{};
+    int m_height{};
 
     Input m_input;
 
-    bool m_quit;
-    bool m_fullscreen;
+    bool m_quit{};
+    bool m_fullscreen{};
+
+    bool m_vSync{true};
 };
 
 
