@@ -26,6 +26,7 @@ add_library(Common
         Component/FreeLook.cpp
         Component/FreeMove.cpp
         Mathf.cpp
+        Profiler.cpp
         )
 
 option(BuildSwig "BuildSwig" OFF)

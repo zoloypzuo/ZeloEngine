@@ -93,6 +93,7 @@ void Window::initialize() {
 }
 
 void Window::update() {
+    ZELO_PROFILE_FUNCTION();
     m_input.setMouseDelta(0, 0);
 
     SDL_Event event;

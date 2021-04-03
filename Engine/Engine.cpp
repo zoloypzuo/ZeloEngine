@@ -91,10 +91,19 @@ Engine::Impl::Impl(Game *game) {
 
 
 void Engine::start() {
+    ZELO_PROFILE_BEGIN_SESSION("Startup", "ZeloProfile-Startup.json");
     pImpl_->initialize();
+    ZELO_PROFILE_END_SESSION();
+
+    ZELO_PROFILE_BEGIN_SESSION("Runtime", "ZeloProfile-Runtime.json");
     while (!pImpl_->m_window->shouldQuit()) {
         pImpl_->update();
     }
+    ZELO_PROFILE_END_SESSION();
+
+    ZELO_PROFILE_BEGIN_SESSION("Shutdown", "ZeloProfile-Shutdown.json");
+    pImpl_->finalize();
+    ZELO_PROFILE_END_SESSION();
 }
 
 Engine::Engine(Game *game) :

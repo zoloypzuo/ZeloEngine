@@ -6,6 +6,7 @@
 #define ZELOENGINE_ZELOPRECOMPILEDHEADER_H
 
 #include "ZeloPlatform.h"
+#include "Profiler.h"
 // This ignores all warnings raised inside External headers
 #pragma warning(push, 0)
 
