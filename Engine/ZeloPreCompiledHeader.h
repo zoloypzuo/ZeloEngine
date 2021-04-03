@@ -75,8 +75,8 @@
 #define __ZELO_INTERNAL_ASSERT_GET_MACRO(...) ZELO_EXPAND_MACRO( __ZELO_INTERNAL_ASSERT_GET_MACRO_NAME(__VA_ARGS__, __ZELO_INTERNAL_ASSERT_WITH_MSG, __ZELO_INTERNAL_ASSERT_NO_MSG) )
 
 // Currently accepts at least the condition and one additional parameter (the message) being optional
-#define ZELO_ASSERT(...) ZELO_EXPAND_MACRO( __ZELO_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_, __VA_ARGS__) )
-#define ZELO_CORE_ASSERT(...) ZELO_EXPAND_MACRO( __ZELO_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_CORE_, __VA_ARGS__) )
+#define ZELO_ASSERT(...) do {ZELO_EXPAND_MACRO( __ZELO_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_, __VA_ARGS__) )} while(0)
+#define ZELO_CORE_ASSERT(...) do {ZELO_EXPAND_MACRO( __ZELO_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_CORE_, __VA_ARGS__) )} while(0)
 #else
 #define ZELO_ASSERT(...)
 #define ZELO_CORE_ASSERT(...)
