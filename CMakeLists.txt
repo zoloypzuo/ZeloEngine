@@ -43,6 +43,7 @@ add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 add_compile_definitions(GLM_FORCE_SWIZZLE)
 add_compile_definitions(GLM_FORCE_RADIANS)
 
+add_compile_definitions(ZELO_DEBUG)
 add_subdirectory(Engine)
 
 include_directories(Engine)
