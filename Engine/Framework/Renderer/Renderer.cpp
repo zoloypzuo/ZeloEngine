@@ -4,6 +4,4 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Renderer.h"
 
-Renderer::~Renderer() {
-
-}
+Renderer::~Renderer() = default;

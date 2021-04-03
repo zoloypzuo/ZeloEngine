@@ -18,7 +18,7 @@
 
 #endif
 
-#include "Framework/Renderer.h"
+#include "Framework/Renderer/Renderer.h"
 #include "Renderer/OpenGL/ForwardRenderer.h"
 #include "Renderer/OpenGL/Shader.h"
 #include "MeshManager.h"

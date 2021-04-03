@@ -7,7 +7,6 @@
 
 #include "ZeloPrerequisites.h"
 
-
 #include "Asset.h"
 #include "Attenuation.h"
 
@@ -31,7 +30,7 @@ class Shader {
 public:
     Shader();
 
-    Shader(std::string shaderAssetName);
+    explicit Shader(std::string shaderAssetName);
 
     Shader(const char *vert_src, const char *frag_src);
 
