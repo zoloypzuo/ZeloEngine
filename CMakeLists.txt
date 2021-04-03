@@ -28,6 +28,9 @@ link_libraries(assimp::assimp)
 find_path(STB_INCLUDE_DIRS "stb.h")
 include_directories(${STB_INCLUDE_DIRS})
 
+find_package(yaml-cpp CONFIG REQUIRED)
+link_libraries(yaml-cpp)
+
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
 # avoid some bugs with Windows...
