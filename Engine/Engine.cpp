@@ -20,7 +20,7 @@ public:
     bool m_fireRay{};
 
 public:
-    Impl(Game *game);
+    explicit Impl(Game *game);
 
     void initialize() override;
 
@@ -40,8 +40,7 @@ void Engine::Impl::initialize() {
     m_game->initialize();
     m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
 
-    // TODO init gui
-    // m_guiManager = std::make_unique<GuiManager>(getDrawableSize(), getDisplaySize(), getSDLWindow());
+    m_window->initialize();  // init gui
     m_window->makeCurrentContext();
 
     m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
@@ -50,7 +49,7 @@ void Engine::Impl::initialize() {
     m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
 
     m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
-//        GuiManager::getSingletonPtr()->togglePropertyEditor();
+        m_window->getGuiManager()->togglePropertyEditor();
     });
 
     // do not toggle fullscreen
@@ -80,8 +79,10 @@ void Engine::Impl::update() {
     m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
 
     m_window->update();
+    m_window->getGuiManager()->tick(m_deltaTime);
     m_game->update();
     m_glManager->renderScene(m_game->getRootNode().get());
+    m_window->getGuiManager()->render(m_game->getRootNode().get());
     m_window->swapBuffer();
 }
 
@@ -123,5 +124,9 @@ Engine *Engine::getSingletonPtr() {
 
 const std::chrono::microseconds &Engine::getDeltaTime() {
     return pImpl_->m_deltaTime;
+}
+
+Window *Engine::getWindow() {
+    return pImpl_->m_window.get();
 }
 

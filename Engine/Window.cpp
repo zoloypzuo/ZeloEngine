@@ -77,7 +77,6 @@ Window::Window() {
     this->m_height = display_h;
 
     spdlog::info("Window initialize to: {} x {}", this->m_width, this->m_height);
-    initialize();
 }
 
 Window::~Window() {
@@ -88,8 +87,7 @@ Window::~Window() {
 
 void Window::initialize() {
     spdlog::info("Initializing GUI");
-    // TODO gui
-//    m_guiManager = std::make_unique<GuiManager>(getDrawableSize(), getDisplaySize(), getSDLWindow());
+    m_guiManager = std::make_unique<GuiManager>(getDrawableSize(), getDisplaySize(), getSDLWindow());
 }
 
 void Window::update() {
@@ -108,8 +106,7 @@ void Window::update() {
                 break;
             case SDL_KEYDOWN:
             case SDL_KEYUP:
-                //TODO
-//                m_guiManager->setKeyEvent(event.key.keysym.sym & ~SDLK_SCANCODE_MASK, event.type == SDL_KEYDOWN);
+                m_guiManager->setKeyEvent(event.key.keysym.sym & ~SDLK_SCANCODE_MASK, event.type == SDL_KEYDOWN);
                 m_input.handleKeyboardEvent(event.key);
                 break;
             case SDL_MOUSEBUTTONDOWN:
@@ -121,8 +118,7 @@ void Window::update() {
                 mouseWheelEvent = true;
                 break;
             case SDL_TEXTINPUT:
-                //TODO
-//                m_guiManager->addInputCharactersUTF8(event.text.text);
+                m_guiManager->addInputCharactersUTF8(event.text.text);
                 break;
             case SDL_MULTIGESTURE:
                 m_input.handleMultigesture(event.mgesture);
@@ -133,7 +129,7 @@ void Window::update() {
         }
     }
 
-    if (mouseWheelEvent == false) {
+    if (!mouseWheelEvent) {
         m_input.handleMouseWheelEvent(0, 0);
     }
 }

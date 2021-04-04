@@ -8,16 +8,19 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Game.h"
+#include "Window.h"
 
 class Engine : public Singleton<Engine> {
 public:
-    Engine(Game * game);
+    explicit Engine(Game * game);
 
     virtual ~Engine();
 
     void start();
 
     const std::chrono::microseconds &getDeltaTime();
+
+    Window* getWindow();
 
 public:
     static Engine *getSingletonPtr();
