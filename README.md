@@ -30,6 +30,20 @@ It is all about game engine.
 
 把事情做对，不要只是把事情做了
 
+# 构建
+
+现在以VS2019 Win32为主，vcpkg来管理第三方库依赖
+运行`Tools\build_vs2019.bat`
+
+使用vcpkg安装依赖：
+* spdlog
+* glm
+* SDL2
+* assimp
+* stb
+* yaml-cpp
+* imgui
+
 # Feature
 
 Python prototype
@@ -52,6 +66,8 @@ Python prototype
     * bullet
     * cyclone
 
+
+
 # Demo
 
 * cyclone physics demo
@@ -60,12 +76,4 @@ Python prototype
 
 * Windows 10
 * Mac OS X
-
-# Compilers
-
-* Visual Studio 2019
-* Visual Studio 2017
-
-# Dependency
-
-* spdlog
+* MORE WORK TO DO
