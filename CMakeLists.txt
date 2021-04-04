@@ -11,7 +11,11 @@ if (WIN32)
 else ()
     set(VCPKG_TARGET_TRIPLET x64-windows)
 endif ()
-include(/vcpkg/scripts/buildsystems/vcpkg.cmake)
+
+set(VcpkgDir "D:/vcpkg" CACHE STRING "vcpkg install directory")
+message(STATUS VcpkgDir=${VcpkgDir})
+
+include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
 
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
