@@ -14,7 +14,7 @@
 
 class Engine : public Singleton<Engine> {
 public:
-    explicit Engine(Game * game);
+    explicit Engine(Game *game);
 
     virtual ~Engine();
 
@@ -22,9 +22,13 @@ public:
 
     const std::chrono::microseconds &getDeltaTime();
 
-    Window* getWindow();
+    Window *getWindow();
 
-    INIReader* getBootConfig();
+    INIReader *getConfig();
+
+    std::filesystem::path getEngineDir();
+
+    std::filesystem::path getAssetDir();
 
 public:
     static Engine *getSingletonPtr();
