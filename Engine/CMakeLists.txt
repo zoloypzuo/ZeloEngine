@@ -33,5 +33,5 @@ if (BuildSwig)  # build swig in win32 release
             )
 endif ()
 if (0)
-    add_subdirectory(cyclone-physics)
+    add_subdirectory(Physics)
 endif ()
