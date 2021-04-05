@@ -34,7 +34,13 @@ It is all about game engine.
 
 目前以VS2019 Win32为主，使用vcpkg来管理C++第三方库依赖
 
-首先使用vcpkg安装依赖：
+安装:
+* python2
+* vcpkg
+* cmake
+* VS2019
+
+使用vcpkg安装依赖：
 * spdlog
 * glm
 * SDL2
@@ -43,7 +49,7 @@ It is all about game engine.
 * yaml-cpp
 * imgui
 
-然后运行`Tools\build_vs2019.bat`
+运行`Tools\build_vs2019.bat`
 
 # Feature
 
