@@ -6,7 +6,7 @@ Gui, Add, Button,, BuildVS2019
 Gui, Show
 Return
 
-Esc::Gui Cancel
+LCtrl & Esc::Gui Cancel
 
 ButtonBuildClean:
 Gui, Submit, NoHide

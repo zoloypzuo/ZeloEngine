@@ -3,13 +3,11 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Asset.h"
+#include "Engine.h"
 
 #ifdef EMSCRIPTEN
 #elif ANDROID
 #else
-
-#include <Util/whereami.h>
-
 #endif
 
 EngineIOStream::EngineIOStream(const std::string &fileName) {
@@ -19,11 +17,8 @@ EngineIOStream::EngineIOStream(const std::string &fileName) {
 #elif EMSCRIPTEN
     m_file = new std::fstream(ASSET_DIR + fileName, std::ifstream::binary | std::fstream::in | std::fstream::out);
 #else
-    int length = wai_getExecutablePath(nullptr, 0, nullptr);
-    char *path = new char[length + 1];
-    wai_getExecutablePath(path, length, &length);
-    path[length] = '\0';
-    m_file = new std::fstream((std::string(path) + "/assets/" + fileName).c_str(),
+    auto filePath = Engine::getSingletonPtr()->getAssetDir() / fileName;
+    m_file = new std::fstream(filePath.c_str(),
                               std::ifstream::binary | std::fstream::in | std::fstream::out);
 #endif
 }

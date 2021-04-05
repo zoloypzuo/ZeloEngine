@@ -71,7 +71,7 @@ private:
     bool m_quit{};
     bool m_fullscreen{};
 
-    bool m_vSync{true};
+    bool m_vSync{};
 };
 
 

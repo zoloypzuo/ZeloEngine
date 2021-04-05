@@ -12,7 +12,7 @@ add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
 #add_subdirectory(Component)
 #link_directories(Component)
-file(GLOB CommonSrc *.cpp Component/*.cpp Util/*.c)
+file(GLOB CommonSrc *.cpp Component/*.cpp Util/*.c Util/*.cpp)
 add_library(Common ${CommonSrc})
 
 
