@@ -4,7 +4,7 @@
 
 It is all about game engine.
 
-自顶向下开发的游戏引擎demo
+自顶向下开发的游戏引擎Demo
 
 # 动机
 
@@ -18,7 +18,7 @@ It is all about game engine.
     * 多种脚本语言，C#，Python，Lua
     * DSL驱动引擎模块，避免编辑器（行为树，状态机etc）
     * DSL驱动渲染管线（可编程渲染管线，frame graph）
-* 并行引擎架构
+* 多线程引擎架构
 * 网络引擎
 
 # Trade off
@@ -32,10 +32,9 @@ It is all about game engine.
 
 # 构建
 
-现在以VS2019 Win32为主，vcpkg来管理第三方库依赖
-运行`Tools\build_vs2019.bat`
+目前以VS2019 Win32为主，使用vcpkg来管理C++第三方库依赖
 
-使用vcpkg安装依赖：
+首先使用vcpkg安装依赖：
 * spdlog
 * glm
 * SDL2
@@ -43,6 +42,8 @@ It is all about game engine.
 * stb
 * yaml-cpp
 * imgui
+
+然后运行`Tools\build_vs2019.bat`
 
 # Feature
 
@@ -65,8 +66,6 @@ Python prototype
 * physics
     * bullet
     * cyclone
-
-
 
 # Demo
 
