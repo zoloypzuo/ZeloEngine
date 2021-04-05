@@ -63,3 +63,7 @@ add_custom_command(TARGET hello PRE_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_directory
         ${CMAKE_CURRENT_SOURCE_DIR}/assets
         $<TARGET_FILE_DIR:hello>/assets)
+add_custom_command(TARGET hello PRE_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/Config
+        $<TARGET_FILE_DIR:hello>/Config)
