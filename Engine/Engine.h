@@ -9,6 +9,8 @@
 #include "ZeloSingleton.h"
 #include "Game.h"
 #include "Window.h"
+#include "Util/INIReader.h"
+
 
 class Engine : public Singleton<Engine> {
 public:
@@ -21,6 +23,8 @@ public:
     const std::chrono::microseconds &getDeltaTime();
 
     Window* getWindow();
+
+    INIReader* getBootConfig();
 
 public:
     static Engine *getSingletonPtr();

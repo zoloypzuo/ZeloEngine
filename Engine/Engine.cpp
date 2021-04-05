@@ -8,6 +8,7 @@
 #include "Game.h"
 #include "Renderer/OpenGL/GLManager.h"
 #include "Renderer/OpenGL/ForwardRenderer.h"
+#include "Util/whereami.h"
 
 class Engine::Impl : public IRuntimeModule {
 public:
@@ -15,6 +16,7 @@ public:
     std::unique_ptr<Game> m_game;
     std::unique_ptr<GLManager> m_glManager;
     std::unique_ptr<Renderer> m_renderer;
+    std::unique_ptr<INIReader> m_bootConfig;
     std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
     std::chrono::microseconds m_deltaTime{};
     bool m_fireRay{};
@@ -28,15 +30,21 @@ public:
 
     void update() override;
 
+private:
+    void initBootConfig();
+
 };
 
 void Engine::Impl::initialize() {
+    // init config and logger first
     spdlog::set_level(spdlog::level::debug);
+    initBootConfig();
+
     m_window = std::make_unique<Window>();
     m_renderer = std::make_unique<ForwardRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
     m_renderer->initialize();
-//    m_game = std::make_unique<Game>();
+//    m_game = std::make_unique<Game>(); game is newed by app
     m_game->initialize();
     m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
 
@@ -44,7 +52,7 @@ void Engine::Impl::initialize() {
     m_window->makeCurrentContext();
 
     m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
-    m_window->getInput()->registerKeyToAction(SDLK_F2, "fullscreenToggle");
+//    m_window->getInput()->registerKeyToAction(SDLK_F2, "fullscreenToggle");
 
     m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
 
@@ -67,6 +75,14 @@ void Engine::Impl::initialize() {
     });
 
     m_time = std::chrono::high_resolution_clock::now();
+}
+
+void Engine::Impl::initBootConfig() {
+    int length = wai_getExecutablePath(nullptr, 0, nullptr);
+    char *path = new char[length + 1];
+    wai_getExecutablePath(path, length, &length);
+    path[length] = '\0';
+    this->m_bootConfig = std::make_unique<INIReader>((std::string(path) + "/Config/" + "EngineBootConfig.ini"));
 }
 
 void Engine::Impl::finalize() {
@@ -128,5 +144,9 @@ const std::chrono::microseconds &Engine::getDeltaTime() {
 
 Window *Engine::getWindow() {
     return pImpl_->m_window.get();
+}
+
+INIReader *Engine::getBootConfig() {
+    return pImpl_->m_bootConfig.get();
 }
 
