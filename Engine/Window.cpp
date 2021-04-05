@@ -4,17 +4,14 @@
 
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
+#include "Engine.h"
 
-
-Window::Window() {
-    m_quit = false;
+Window::Window() : m_quit(false) {
+    auto config = Engine::getSingletonPtr()->getConfig()->GetSection("Window");
 
     if (SDL_Init(SDL_INIT_EVERYTHING & ~(SDL_INIT_TIMER | SDL_INIT_HAPTIC)) != 0) {
         spdlog::error("SDL_Init error: {}", SDL_GetError());
     }
-
-    SDL_DisplayMode mode;
-    SDL_GetCurrentDisplayMode(0, &mode);
 
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, BITS_PER_CHANNEL);
     SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, BITS_PER_CHANNEL);
@@ -26,19 +23,19 @@ Window::Window() {
 
 #if defined(GLES3)
     spdlog::info("Using GLES 3");
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #elif defined(GLES2)
     spdlog::info("Using GLES 2");
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #elif defined(EMSCRIPTEN)
     spdlog::info("Using GLES 2");
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
-  SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #else
     spdlog::info("Using GL 3");
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
@@ -46,7 +43,7 @@ Window::Window() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 #endif
 
-    m_fullscreen = false;
+    m_fullscreen = config.GetBoolean("fullscreen");
 
     uint32_t flags = SDL_WINDOW_OPENGL;
 
@@ -55,11 +52,12 @@ Window::Window() {
     }
 
     m_window = SDL_CreateWindow(
-            "Engine!",
+            config.GetCString("title"),
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-//                mode.w, mode.h,
-            800, 600, flags);
+            config.GetInteger("windowed_width"),
+            config.GetInteger("windowed_height"),
+            flags);
     if (m_window == nullptr) {
         spdlog::error("SDL_CreateWindow error: {}", SDL_GetError());
     }
@@ -69,14 +67,15 @@ Window::Window() {
         spdlog::error("SDL_GL_CreateContext error: {}", SDL_GetError());
     }
 
+    m_vSync = config.GetBoolean("vsync");
     SDL_GL_SetSwapInterval(m_vSync ? 1 : 0);
 
     int display_w, display_h;
     SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
-    this->m_width = display_w;
-    this->m_height = display_h;
+    m_width = display_w;
+    m_height = display_h;
 
-    spdlog::info("Window initialize to: {} x {}", this->m_width, this->m_height);
+    spdlog::info("Window initialize to: {} x {}, vsync={}", m_width, m_height, m_vSync);
 }
 
 Window::~Window() {
