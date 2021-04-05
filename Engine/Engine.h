@@ -9,7 +9,7 @@
 #include "ZeloSingleton.h"
 #include "Game.h"
 #include "Window.h"
-#include "Util/INIReader.h"
+#include "Util/IniReader.h"
 
 
 class Engine : public Singleton<Engine> {
