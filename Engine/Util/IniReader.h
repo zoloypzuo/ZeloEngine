@@ -288,17 +288,17 @@ public:
     public:
         explicit Section(INIReader *reader, const std::string &name);
 
-        std::string GetString(const std::string &name, const std::string &default_value="") const;
+        std::string GetString(const std::string &name, const std::string &default_value = "") const;
 
-        const char* GetCString(const std::string &name, const std::string &default_value="") const;
+        const char *GetCString(const std::string &name, const std::string &default_value = "") const;
 
-        long GetInteger(const std::string &name, long default_value) const;
+        long GetInteger(const std::string &name, long default_value = 0) const;
 
-        double GetReal(const std::string &name, double default_value) const;
+        double GetReal(const std::string &name, double default_value = 0.0) const;
 
-        float GetFloat(const std::string &name, float default_value) const;
+        float GetFloat(const std::string &name, float default_value = 0.0f) const;
 
-        bool GetBoolean(const std::string &name, bool default_value) const;
+        bool GetBoolean(const std::string &name, bool default_value = false) const;
 
     private:
         std::string sectionName;
