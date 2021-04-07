@@ -35,3 +35,7 @@ endif ()
 if (0)
     add_subdirectory(Physics)
 endif ()
+
+
+enable_testing()
+add_subdirectory(Test)
