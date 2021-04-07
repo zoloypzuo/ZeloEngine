@@ -30,6 +30,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+// SDL
+#define SDL_MAIN_HANDLED
+#include <SDL.h>
+#if _WIN32
+#undef main
+#endif
 
 class IRuntimeModule {
 public:

@@ -19,3 +19,4 @@ add_library(OpenGLRenderer
 
 find_package(GLEW REQUIRED)
 target_link_libraries(OpenGLRenderer PRIVATE GLEW::GLEW)
+target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)

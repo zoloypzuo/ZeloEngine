@@ -6,14 +6,17 @@ include_directories(./)
 if (0)
     #if (WIN32) TODO use cotire and pch
     add_subdirectory(Platform/Windows)
+    target_link_libraries(Windows PRIVATE SDL2::SDL2 SDL2::SDL2main)
     link_libraries(Windows)
 endif ()
 add_subdirectory(Renderer/OpenGL)
+
 link_libraries(OpenGLRenderer)
 #add_subdirectory(Component)
 #link_directories(Component)
 file(GLOB CommonSrc *.cpp Component/*.cpp Util/*.c Util/*.cpp)
 add_library(Common ${CommonSrc})
+target_link_libraries(Common PRIVATE SDL2::SDL2 SDL2::SDL2main)
 
 
 add_subdirectory(InGameEditor)
