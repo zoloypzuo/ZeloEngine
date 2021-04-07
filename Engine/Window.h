@@ -7,7 +7,6 @@
 
 #include "ZeloPrerequisites.h"
 #include <glm/glm.hpp>
-#include <SDL.h>
 #include "Input.h"
 #include "GuiManager.h"
 

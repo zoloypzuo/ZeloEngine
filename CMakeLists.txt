@@ -24,7 +24,6 @@ find_package(glm CONFIG REQUIRED)
 link_libraries(glm)
 
 find_package(SDL2 CONFIG REQUIRED)
-link_libraries(SDL2::SDL2 SDL2::SDL2main)
 
 find_package(assimp CONFIG REQUIRED)
 link_libraries(assimp::assimp)
@@ -39,7 +38,6 @@ find_package(imgui CONFIG REQUIRED)
 link_libraries(imgui::imgui)
 
 find_package(gtest CONFIG REQUIRED)
-
 
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
@@ -66,3 +64,8 @@ message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
 add_custom_command(TARGET hello PRE_BUILD
         COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/build.py ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE_DIR:hello>)
+
+# build test
+include(CTest)
+enable_testing()
+add_subdirectory(Engine/Test)
