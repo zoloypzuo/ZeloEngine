@@ -4,39 +4,8 @@
 
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
-#include "Window.h"
-#include "Game.h"
-#include "Renderer/OpenGL/GLManager.h"
-#include "Renderer/OpenGL/ForwardRenderer.h"
-#include "Util/whereami.h"
 
-class Engine::Impl : public IRuntimeModule {
-public:
-    std::unique_ptr<Window> m_window;
-    std::unique_ptr<Game> m_game;
-    std::unique_ptr<GLManager> m_glManager;
-    std::unique_ptr<Renderer> m_renderer;
-    std::unique_ptr<INIReader> m_config;
-    std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
-    std::chrono::microseconds m_deltaTime{};
-    std::filesystem::path m_engineDir{};
-    bool m_fireRay{};
-
-public:
-    explicit Impl(Game *game);
-
-    void initialize() override;
-
-    void finalize() override;
-
-    void update() override;
-
-private:
-    void initConfig();
-
-};
-
-void Engine::Impl::initialize() {
+void Engine::initialize() {
     // init config and logger first
     spdlog::set_level(spdlog::level::debug);
     initConfig();
@@ -78,7 +47,7 @@ void Engine::Impl::initialize() {
     m_time = std::chrono::high_resolution_clock::now();
 }
 
-void Engine::Impl::initConfig() {
+void Engine::initConfig() {
 //    auto length = wai_getExecutablePath(nullptr, 0, nullptr);
 //    char *exePathRaw = new char[length + 1];
     char exePathRaw[256];
@@ -105,11 +74,11 @@ void Engine::Impl::initConfig() {
     }
 }
 
-void Engine::Impl::finalize() {
+void Engine::finalize() {
 
 }
 
-void Engine::Impl::update() {
+void Engine::update() {
     m_lastTime = m_time;
     m_time = std::chrono::high_resolution_clock::now();
     m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
@@ -122,34 +91,25 @@ void Engine::Impl::update() {
     m_window->swapBuffer();
 }
 
-Engine::Impl::Impl(Game *game) {
-    m_game = std::unique_ptr<Game>(game);
-}
-
 
 void Engine::start() {
     ZELO_PROFILE_BEGIN_SESSION("Startup", "ZeloProfile-Startup.json");
-    pImpl_->initialize();
+    initialize();
     ZELO_PROFILE_END_SESSION();
 
     ZELO_PROFILE_BEGIN_SESSION("Runtime", "ZeloProfile-Runtime.json");
-    while (!pImpl_->m_window->shouldQuit()) {
-        pImpl_->update();
+    while (!m_window->shouldQuit()) {
+        update();
     }
     ZELO_PROFILE_END_SESSION();
 
     ZELO_PROFILE_BEGIN_SESSION("Shutdown", "ZeloProfile-Shutdown.json");
-    pImpl_->finalize();
+    finalize();
     ZELO_PROFILE_END_SESSION();
 }
 
-Engine::Engine(Game *game) :
-        pImpl_(std::make_shared<Impl>(game)) {
-
-}
-
 Engine::~Engine() {
-    pImpl_->finalize();
+    finalize();
 }
 
 template<> Engine *Singleton<Engine>::msSingleton = nullptr;
@@ -159,22 +119,25 @@ Engine *Engine::getSingletonPtr() {
 }
 
 const std::chrono::microseconds &Engine::getDeltaTime() {
-    return pImpl_->m_deltaTime;
+    return m_deltaTime;
 }
 
 Window *Engine::getWindow() {
-    return pImpl_->m_window.get();
+    return m_window.get();
 }
 
 INIReader *Engine::getConfig() {
-    return pImpl_->m_config.get();
+    return m_config.get();
 }
 
 std::filesystem::path Engine::getEngineDir() {
-    return pImpl_->m_engineDir;
+    return m_engineDir;
 }
 
 std::filesystem::path Engine::getAssetDir() {
     return getEngineDir() / "assets";
+}
+
+Engine::Engine(Game *game) : m_game(game) {
 }
 
