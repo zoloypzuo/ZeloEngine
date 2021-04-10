@@ -23,19 +23,12 @@ void Engine::initialize() {
     m_window->makeCurrentContext();
 
     m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
-//    m_window->getInput()->registerKeyToAction(SDLK_F2, "fullscreenToggle");
 
     m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
 
     m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
         m_window->getGuiManager()->togglePropertyEditor();
     });
-
-    // do not toggle fullscreen
-//    m_window->getInput()->bindAction("fullscreenToggle", IE_PRESSED, [this]() {
-//        m_window->toggleFullscreen();
-//        m_glManager->setDrawSize(m_window->getDrawableSize());
-//    });
 
     m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
         m_fireRay = true;
@@ -53,8 +46,6 @@ void Engine::initialize() {
 }
 
 void Engine::initConfig() {
-//    auto length = wai_getExecutablePath(nullptr, 0, nullptr);
-//    char *exePathRaw = new char[length + 1];
     char exePathRaw[256];
     auto length = 256;
     wai_getExecutablePath(exePathRaw, length, &length);
