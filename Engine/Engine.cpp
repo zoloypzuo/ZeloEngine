@@ -5,6 +5,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
 #include "Util/whereami.h"
+#include "MyGame.h"
 
 void Engine::initialize() {
     // init config and logger first
@@ -177,5 +178,9 @@ void Engine::uninstallPlugin(Plugin *plugin) {
     }
 
     spdlog::debug("plugin uninstalled successfully: {}", plugin->getName());
+}
+
+Engine::Engine() {
+    m_game = std::make_unique<MyGame>();
 }
 

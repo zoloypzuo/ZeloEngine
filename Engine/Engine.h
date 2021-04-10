@@ -20,6 +20,8 @@ public:
     typedef std::vector<std::unique_ptr<Plugin>> PluginInstanceList;
 
 public:
+    Engine();
+
     explicit Engine(Game *game);
 
     ~Engine() override;
