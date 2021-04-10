@@ -126,7 +126,6 @@ constexpr auto CleanupOutputString(const char(&expr)[N], const char(&remove)[K])
 }
 }
 
-#define ZELO_PROFILE 1
 #if ZELO_PROFILE
 // Resolve which function signature macro will be used. Note that this only
 // is resolved when the (pre)compiler starts, so the syntax highlighting
