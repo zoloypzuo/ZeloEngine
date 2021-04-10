@@ -33,21 +33,18 @@ using namespace std;
 %}
 
 %feature("autodoc", "1");
-%feature("director") *Listener;
-%feature("director") *::Listener;
-
 %ignore *::operator=;  // needs rename to wrap
 %ignore *::setUserAny; // deprecated
 %ignore *::getUserAny; // deprecated
 %ignore *::getSingletonPtr; // only expose the non ptr variant
 
-#ifdef SWIG_DIRECTORS
-%feature("director:except") {
-    if ($error != NULL) {
-        throw Swig::DirectorMethodException();
-    }
-}
-#endif
+//#ifdef SWIG_DIRECTORS
+//%feature("director:except") {
+//    if ($error != NULL) {
+//        throw Swig::DirectorMethodException();
+//    }
+//}
+//#endif
 
 // convert c++ exceptions to language native exceptions
 // %exception {
