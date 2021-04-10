@@ -1,8 +1,8 @@
 # Changelog
 
-## [Unreleased](https://github.com/zoloypzuo/ZeloEngine/tree/HEAD)
+## [v0.2](https://github.com/zoloypzuo/ZeloEngine/tree/v0.2) (2021-04-10)
 
-[Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/v0.1...HEAD)
+[Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/7f26b3c98b94ec470e041326f68d06e361bb3e19...v0.2)
 
 **Fixed bugs:**
 
@@ -15,6 +15,9 @@
 
 **Closed issues:**
 
+- Export Engine to Python [\#236](https://github.com/zoloypzuo/ZeloEngine/issues/236)
+- In Game Editor [\#234](https://github.com/zoloypzuo/ZeloEngine/issues/234)
+- Plugin Support [\#232](https://github.com/zoloypzuo/ZeloEngine/issues/232)
 - Google Test [\#230](https://github.com/zoloypzuo/ZeloEngine/issues/230)
 - TEST TODO [\#227](https://github.com/zoloypzuo/ZeloEngine/issues/227)
 - Boot Config [\#226](https://github.com/zoloypzuo/ZeloEngine/issues/226)
@@ -41,6 +44,9 @@
 
 **Merged pull requests:**
 
+- Export engine to python [\#237](https://github.com/zoloypzuo/ZeloEngine/pull/237) ([zoloypzuo](https://github.com/zoloypzuo))
+- Ingame editor [\#235](https://github.com/zoloypzuo/ZeloEngine/pull/235) ([zoloypzuo](https://github.com/zoloypzuo))
+- Plugin module [\#233](https://github.com/zoloypzuo/ZeloEngine/pull/233) ([zoloypzuo](https://github.com/zoloypzuo))
 - Gtest [\#231](https://github.com/zoloypzuo/ZeloEngine/pull/231) ([zoloypzuo](https://github.com/zoloypzuo))
 - Boot config [\#229](https://github.com/zoloypzuo/ZeloEngine/pull/229) ([zoloypzuo](https://github.com/zoloypzuo))
 - Update README.md [\#228](https://github.com/zoloypzuo/ZeloEngine/pull/228) ([zoloypzuo](https://github.com/zoloypzuo))
@@ -57,10 +63,6 @@
 - Bump pillow from 6.2.2 to 8.1.1 in /Script [\#215](https://github.com/zoloypzuo/ZeloEngine/pull/215) ([dependabot[bot]](https://github.com/apps/dependabot))
 - zeloscript [\#214](https://github.com/zoloypzuo/ZeloEngine/pull/214) ([zoloypzuo](https://github.com/zoloypzuo))
 - - [\#213](https://github.com/zoloypzuo/ZeloEngine/pull/213) ([zoloypzuo](https://github.com/zoloypzuo))
-
-## [v0.1](https://github.com/zoloypzuo/ZeloEngine/tree/v0.1) (2019-08-25)
-
-[Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/7f26b3c98b94ec470e041326f68d06e361bb3e19...v0.1)
 
 
 
