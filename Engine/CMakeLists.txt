@@ -26,7 +26,12 @@ if (BuildSwig)  # build swig in win32 release
     add_library(zelo_py SHARED
             zelo_wrapper.cxx
             )
-
+    set_target_properties(
+            zelo_py
+            PROPERTIES
+                OUTPUT_NAME "_zelo"
+                SUFFIX ".pyd"
+    )
     target_include_directories(zelo_py PRIVATE $ENV{PYTHON_INCLUDE})
     target_link_libraries(zelo_py
             $ENV{PYTHON_LIB}

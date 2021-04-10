@@ -21,7 +21,6 @@ cd /d %EngineDir%
 
 copy build_swig\zelo.py Script\scriptlibs\zelo.py
 xcopy build_swig\Engine\RelWithDebInfo\* Script\scriptlibs\ /y
-move Script\scriptlibs\zelo_py.dll Script\scriptlibs\_zelo.pyd
 
 cd %CurrentDir%
 pause
