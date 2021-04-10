@@ -38,28 +38,28 @@ using namespace std;
 %ignore *::getUserAny; // deprecated
 %ignore *::getSingletonPtr; // only expose the non ptr variant
 
-//#ifdef SWIG_DIRECTORS
-//%feature("director:except") {
-//    if ($error != NULL) {
-//        throw Swig::DirectorMethodException();
-//    }
-//}
-//#endif
+#ifdef SWIG_DIRECTORS
+%feature("director:except") {
+   if ($error != NULL) {
+       throw Swig::DirectorMethodException();
+   }
+}
+#endif
 
 // convert c++ exceptions to language native exceptions
-// %exception {
-//     try {
-//         $action
-//     }
-// #ifdef SWIGPYTHON
-//     catch (Swig::DirectorException &e) { 
-//         SWIG_fail;
-//     }
-// #endif
-//     catch (const std::exception& e) {
-//         SWIG_exception(SWIG_RuntimeError, e.what());
-//     }
-// }
+%exception {
+    try {
+        $action
+    }
+#ifdef SWIGPYTHON
+    catch (Swig::DirectorException &e) { 
+        SWIG_fail;
+    }
+#endif
+    catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
 
 // connect operator<< to tp_repr
 %ignore ::operator<<;
