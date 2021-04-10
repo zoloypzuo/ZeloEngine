@@ -4,6 +4,7 @@
 
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
+#include "Util/whereami.h"
 
 void Engine::initialize() {
     // init config and logger first
@@ -44,7 +45,11 @@ void Engine::initialize() {
         m_fireRay = false;
     });
 
+    initialisePlugins();
+
     m_time = std::chrono::high_resolution_clock::now();
+
+    mIsInitialised = true;
 }
 
 void Engine::initConfig() {
@@ -75,7 +80,7 @@ void Engine::initConfig() {
 }
 
 void Engine::finalize() {
-
+    shutdownPlugins();
 }
 
 void Engine::update() {
@@ -139,5 +144,47 @@ std::filesystem::path Engine::getAssetDir() {
 }
 
 Engine::Engine(Game *game) : m_game(game) {
+}
+
+void Engine::initialisePlugins() {
+    for (auto &plugin: mPlugins) {
+        plugin->initialise();
+    }
+}
+
+void Engine::shutdownPlugins() {
+    for (auto &plugin:mPlugins) {
+        plugin->shutdown();
+    }
+}
+
+void Engine::installPlugin(Plugin *plugin) {
+    spdlog::debug("installing plugin: {}", plugin->getName());
+
+    mPlugins.push_back(std::move(std::unique_ptr<Plugin>(plugin)));
+    plugin->install();
+
+    // if rendersystem is already initialised, call rendersystem init too
+    if (mIsInitialised) {
+        plugin->initialise();
+    }
+
+    spdlog::debug("plugin installed successfully: {}", plugin->getName());
+}
+
+void Engine::uninstallPlugin(Plugin *plugin) {
+    spdlog::debug("uninstalling plugin: {}", plugin->getName());
+
+    auto i = std::find_if(
+            mPlugins.begin(), mPlugins.end(),
+            [&](auto &item) { return item->getName() == plugin->getName(); });
+    if (i != mPlugins.end()) {
+        if (mIsInitialised) {
+            plugin->shutdown();
+        }
+        plugin->uninstall();
+    }
+
+    spdlog::debug("plugin uninstalled successfully: {}", plugin->getName());
 }
 
