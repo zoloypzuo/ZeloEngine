@@ -33,9 +33,6 @@ using namespace std;
 %}
 
 %feature("autodoc", "1");
-%feature("director") *Listener;
-%feature("director") *::Listener;
-
 %ignore *::operator=;  // needs rename to wrap
 %ignore *::setUserAny; // deprecated
 %ignore *::getUserAny; // deprecated
@@ -43,26 +40,26 @@ using namespace std;
 
 #ifdef SWIG_DIRECTORS
 %feature("director:except") {
-    if ($error != NULL) {
-        throw Swig::DirectorMethodException();
-    }
+   if ($error != NULL) {
+       throw Swig::DirectorMethodException();
+   }
 }
 #endif
 
 // convert c++ exceptions to language native exceptions
-// %exception {
-//     try {
-//         $action
-//     }
-// #ifdef SWIGPYTHON
-//     catch (Swig::DirectorException &e) { 
-//         SWIG_fail;
-//     }
-// #endif
-//     catch (const std::exception& e) {
-//         SWIG_exception(SWIG_RuntimeError, e.what());
-//     }
-// }
+%exception {
+    try {
+        $action
+    }
+#ifdef SWIGPYTHON
+    catch (Swig::DirectorException &e) { 
+        SWIG_fail;
+    }
+#endif
+    catch (const std::exception& e) {
+        SWIG_exception(SWIG_RuntimeError, e.what());
+    }
+}
 
 // connect operator<< to tp_repr
 %ignore ::operator<<;
