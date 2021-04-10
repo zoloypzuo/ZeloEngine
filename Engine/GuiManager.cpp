@@ -268,7 +268,6 @@ GuiManager::GuiManager(const glm::vec2 &drawableSize, const glm::vec2 &displaySi
 GuiManager::~GuiManager(void) {
     invalidateDeviceObjects();
     delete m_textureData;
-//    ImGui::Shutdown();
 }
 
 void GuiManager::tick(std::chrono::microseconds delta) {
@@ -299,12 +298,13 @@ void GuiManager::tick(std::chrono::microseconds delta) {
 
 void renderComponent(Component *component) {
     ImGui::PushID(component);
-//    ImGui::AlignFirstTextHeightToWidgets();
 
-//    ImGui::PushStyleColor(ImGuiCol_Text, ImColor(1.0f, 0.78f, 0.58f, 1.0f));
-    bool node_open = ImGui::TreeNodeEx("Component", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "component", component);
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(1.0f, 0.78f, 0.58f, 1.0f));
+    bool node_open = ImGui::TreeNodeEx(
+            "Component",
+            ImGuiTreeNodeFlags_DefaultOpen,
+            "%s_%u", "component", component);
     ImGui::NextColumn();
-//    ImGui::AlignFirstTextHeightToWidgets();
     ImGui::Text("%s", component->getType());
     ImGui::PopStyleColor();
     ImGui::NextColumn();
@@ -315,9 +315,8 @@ void renderComponent(Component *component) {
         for (auto &property : component->m_properties) {
             ImGui::PushID(id++);
 
-//            ImGui::AlignFirstTextHeightToWidgets();
             ImGui::Bullet();
-//            ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.78f, 0.58f, 1.0f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.78f, 0.58f, 1.0f, 1.0f));
             ImGui::Selectable(property.first);
             ImGui::NextColumn();
             ImGui::PushItemWidth(-1);
@@ -356,22 +355,22 @@ void renderComponent(Component *component) {
 
 void renderSceneGraph(Entity *sceneGraph) {
     ImGui::PushID(sceneGraph);
-//    ImGui::AlignFirstTextHeightToWidgets();
 
-//    ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.78f, 1.0f, 0.58f, 1.0f));
-    bool node_open = ImGui::TreeNodeEx("Node", ImGuiTreeNodeFlags_DefaultOpen, "%s_%u", "node", sceneGraph);
+    ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.78f, 1.0f, 0.58f, 1.0f));
+    bool node_open = ImGui::TreeNodeEx(
+            "Node",
+            ImGuiTreeNodeFlags_DefaultOpen,
+            "%s_%u", "node", sceneGraph);
     ImGui::PopStyleColor();
     ImGui::NextColumn();
-//    ImGui::AlignFirstTextHeightToWidgets();
     ImGui::NextColumn();
 
     int id = 0;
 
     if (node_open) {
         ImGui::PushID(id);
-//        ImGui::PushStyleColor(ImGuiCol_Text, ImColor(0.0f, 0.8f, 1.0f, 1.0f));
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.0f, 0.8f, 1.0f, 1.0f));
 
-//        ImGui::AlignFirstTextHeightToWidgets();
         ImGui::Bullet();
         ImGui::Selectable("translation");
         ImGui::NextColumn();
@@ -426,13 +425,15 @@ void GuiManager::togglePropertyEditor(void) {
 void GuiManager::render(Entity *sceneGraph) {
     if (showProps) {
         ImGui::SetNextWindowPos(ImVec2(10, 10));
-//        ImGui::SetNextWindowSize(ImVec2(500, 0), ImGuiSetCond_FirstUseEver);
-//        if (!ImGui::Begin("Example: Fixed Overlay", nullptr, ImVec2(0, 0), 0.3f,
-//                          ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove |
-//                          ImGuiWindowFlags_NoSavedSettings)) {
-//            ImGui::End();
-//        return;
-//        }
+        ImGui::SetNextWindowSize(ImVec2(500, 400), ImGuiCond_FirstUseEver);
+        if (!ImGui::Begin("Example: Fixed Overlay", nullptr,
+                          ImGuiWindowFlags_NoTitleBar |
+                          ImGuiWindowFlags_NoResize |
+                          ImGuiWindowFlags_NoMove |
+                          ImGuiWindowFlags_NoSavedSettings)) {
+            ImGui::End();
+        return;
+        }
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
                     ImGui::GetIO().Framerate);
 
@@ -440,12 +441,12 @@ void GuiManager::render(Entity *sceneGraph) {
         ImGui::Separator();
         ImGui::Columns(2);
 
-//        renderSceneGraph(sceneGraph);
+        renderSceneGraph(sceneGraph);
 
         ImGui::Columns(1);
         ImGui::Separator();
         ImGui::PopStyleVar();
-        //ImGui::End();
+        ImGui::End();
 
         // ImGui::ShowTestWindow();
 
