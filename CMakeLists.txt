@@ -24,6 +24,7 @@ find_package(glm CONFIG REQUIRED)
 link_libraries(glm)
 
 find_package(SDL2 CONFIG REQUIRED)
+link_libraries(SDL2::SDL2 SDL2::SDL2main)
 
 find_package(assimp CONFIG REQUIRED)
 link_libraries(assimp::assimp)
