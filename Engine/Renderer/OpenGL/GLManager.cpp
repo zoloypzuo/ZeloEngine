@@ -27,6 +27,8 @@ GLManager::GLManager(Renderer *renderer, const glm::ivec2 &windowSize) {
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 
+    glEnable(GL_MULTISAMPLE); // Enabled by default on some drivers, but not all so always enable to make sure
+
     glEnable(GL_CULL_FACE);
 
     setDrawSize(windowSize);
