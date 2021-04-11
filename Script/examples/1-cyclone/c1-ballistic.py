@@ -6,7 +6,7 @@
 
 import G
 from cyclone_demo_common import *
-from framework._archived.zapp_glut import App
+from framework.zapp_glut import App
 from game_timer import now
 # from text_renderer import TextRenderer
 from main import game_main_from_app

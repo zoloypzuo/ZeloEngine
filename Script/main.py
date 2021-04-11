@@ -26,7 +26,7 @@ def game_main():
     if argc > 2:
         use_glut = G.cmd_argv[2]
         print "use glut"
-        from framework._archived.zgraphics_glut import Graphics
+        from framework.zgraphics_glut import Graphics
         G.graphicsm = Graphics()
     else:
         print "use glfw"
@@ -51,7 +51,7 @@ def game_main_from_app(app, use_glut=False):
     app()
     if use_glut:
         print "use glut"
-        from framework._archived.zgraphics_glut import Graphics
+        from framework.zgraphics_glut import Graphics
         G.graphicsm = Graphics()
     else:
         print "use glfw"

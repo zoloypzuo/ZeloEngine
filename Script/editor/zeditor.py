@@ -4,8 +4,7 @@
 # zeditor.py
 # created on 2020/12/28
 # usage: zeditor
-from editor.panels.scene_hierarchy_panel import SceneHierarchyPanel
-from interfaces.runtime import IRuntimeModule
+from editor.scene_hierarchy_panel import SceneHierarchyPanel
 
 from main_functions import create_entity, ents, remove_entity
 
@@ -33,7 +32,7 @@ class SceneGraph:
         return self.entities.itervalues()
 
 
-class Editor(object, IRuntimeModule):
+class Editor(object):
     def __init__(self):
         super(Editor, self).__init__()
         self.scene_hierarchy_panel = None

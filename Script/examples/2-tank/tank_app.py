@@ -9,7 +9,7 @@ from cameras.camera_freelook import CameraFreelook
 from cameras.camera_god import CameraGod
 from common.zlogger import logger
 from entityscript import EntityScript
-from framework._archived.zapp_glut import App
+from framework.zapp_glut import App
 from main import game_main_from_app
 from main_functions import spawn_prefab
 from framework.renderer.render_item import TexturedCubeRenderer, DebugPlaneRenderer
