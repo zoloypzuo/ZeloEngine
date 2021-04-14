@@ -17,12 +17,12 @@ public:
 
     void initialize() override;
 
-    virtual ~SimpleRenderer();
+    ~SimpleRenderer() override;
 
     void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
-                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const override;
+                const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                const std::vector<std::shared_ptr<SpotLight>> &spotLights) const override;
 
     void renderLine(const Line &line, std::shared_ptr<Camera> activeCamera) const;
 
@@ -40,9 +40,9 @@ public:
     ~ForwardRenderer() override;
 
     void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
-                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const override;
+                const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                const std::vector<std::shared_ptr<SpotLight>> &spotLights) const override;
 
     void initialize() override;
 
@@ -54,10 +54,17 @@ private:
     std::unique_ptr<Shader> m_forwardPoint;
     std::unique_ptr<Shader> m_forwardSpot;
 
-    unsigned int depthMapFBO;
-    unsigned int depthMap;
+    std::unique_ptr<Shader> simpleDepthShader;
+    std::unique_ptr<Shader> debugDepthQuad;
+
+    unsigned int depthMapFBO{};
+    unsigned int depthMap{};
+
+    glm::vec3 lightPos;
 
     void initializeShadowMap();
+
+    void renderQuad() const;
 };
 
 
