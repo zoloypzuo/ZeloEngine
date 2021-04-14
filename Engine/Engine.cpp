@@ -10,7 +10,10 @@
 void Engine::initialize() {
     // init config and logger first
     spdlog::set_level(spdlog::level::debug);
-    initConfig();
+    if (!m_configInitialized) {
+        initConfig();
+    }
+    m_configInitialized = true;
 
     m_window = std::make_unique<Window>();
     m_renderer = std::make_unique<ForwardRenderer>();
@@ -61,8 +64,10 @@ void Engine::initConfig() {
         return;
     }
     m_engineDir = bootConfig->GetString("boot", "engineDir", "").c_str();
+    m_configDir = m_engineDir / "Config";
+    m_assertDir = m_engineDir / "assets";
 
-    auto engineIniPath = m_engineDir / "Config" / "Engine.ini";
+    auto engineIniPath = m_configDir / "Engine.ini";
     m_config = std::make_unique<INIReader>(engineIniPath.string());
     if (m_config->ParseError()) {
         spdlog::error("Engine.ini not found, path={}", engineIniPath.string());
@@ -132,7 +137,7 @@ std::filesystem::path Engine::getEngineDir() {
 }
 
 std::filesystem::path Engine::getAssetDir() {
-    return getEngineDir() / "assets";
+    return m_assertDir;
 }
 
 Engine::Engine(Game *game) : m_game(game) {
@@ -184,3 +189,25 @@ Engine::Engine() {
     m_game = std::make_unique<MyGame>();
 }
 
+Engine::Engine(
+        Game *game,
+        const std::string &engineDir,
+        const std::string &configDir,
+        const std::string &assetDir
+) : m_game(game),
+    m_engineDir(engineDir),
+    m_configDir(configDir),
+    m_assertDir(assetDir) {
+    auto engineIniPath = m_configDir / "Engine.ini";
+    m_config = std::make_unique<INIReader>(engineIniPath.string());
+    if (m_config->ParseError()) {
+        spdlog::error("Engine.ini not found, path={}", engineIniPath.string());
+        ZELO_CORE_ASSERT(false, "Engine.ini not found");
+        return;
+    }
+    m_configInitialized = true;
+}
+
+std::filesystem::path Engine::getConfigDir() {
+    return m_configDir;
+}
