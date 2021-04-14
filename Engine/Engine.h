@@ -24,6 +24,13 @@ public:
 
     explicit Engine(Game *game);
 
+    Engine(
+            Game *game,
+            const std::string& engineDir,
+            const std::string& configDir,
+            const std::string& assetDir
+            );
+
     ~Engine() override;
 
     void initialize() override;
@@ -42,7 +49,10 @@ public:
 
     std::filesystem::path getEngineDir();
 
+    std::filesystem::path getConfigDir();
+
     std::filesystem::path getAssetDir();
+
 
     /** Install a new plugin.
     @remarks
@@ -81,9 +91,12 @@ protected:
     std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
     std::chrono::microseconds m_deltaTime{};
     std::filesystem::path m_engineDir{};
+    std::filesystem::path m_configDir{};
+    std::filesystem::path m_assertDir{};
     bool m_fireRay{};
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};
+    bool m_configInitialized{};
 
 protected:
     void initConfig();
