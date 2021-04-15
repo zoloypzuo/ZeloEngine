@@ -17,9 +17,9 @@ public:
 
     virtual ~MeshRenderer();
 
-    virtual void render(Shader *shader);
+    void render(Shader *shader) override;
 
-    inline virtual const char *getType() { return "MESH_RENDERER"; }
+    inline const char *getType() override { return "MESH_RENDERER"; }
 
 private:
     std::shared_ptr<Mesh> m_mesh;

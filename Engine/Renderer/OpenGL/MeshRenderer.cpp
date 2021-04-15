@@ -4,9 +4,11 @@
 #include "ZeloPreCompiledHeader.h"
 #include "MeshRenderer.h"
 
+#include <utility>
+
 MeshRenderer::MeshRenderer(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material) {
-    this->m_mesh = mesh;
-    this->m_material = material;
+    this->m_mesh = std::move(mesh);
+    this->m_material = std::move(material);
 }
 
 MeshRenderer::~MeshRenderer() {
