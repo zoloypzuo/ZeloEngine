@@ -59,6 +59,11 @@ void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> active
                              const std::vector<std::shared_ptr<PointLight>> &pointLights,
                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
+    // render
+    // ------
+    glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     // 1. render depth of scene to texture (from light's perspective)
     // --------------------------------------------------------------
     glm::mat4 lightProjection, lightView;
@@ -149,11 +154,16 @@ void ForwardRenderer::createShaders() {
     // -------------------------
     lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
     simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth");
-    debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad");
-    debugDepthQuad->bind();
-    debugDepthQuad->setUniform1i("depthMap", 0);
+    simpleDepthShader->setAttribLocation("position", 0);
     simpleDepthShader->link();
+    simpleDepthShader->createUniform("lightSpaceMatrix");
+    simpleDepthShader->createUniform("World");
+
+    debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad");
+    debugDepthQuad->setAttribLocation("position", 0);
+    debugDepthQuad->setAttribLocation("texCoord", 1);
     debugDepthQuad->link();
+    debugDepthQuad->setUniform1i("depthMap", 0);
 
     m_forwardAmbient = std::make_unique<Shader>("shaders/forward-ambient");
     m_forwardAmbient->setAttribLocation("position", 0);
