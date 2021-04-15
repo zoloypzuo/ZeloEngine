@@ -148,8 +148,8 @@ void ForwardRenderer::createShaders() {
     // build and compile shaders
     // -------------------------
     lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
-    simpleDepthShader = std::make_unique<Shader>("shaders/3.1.1.shadow_mapping_depth");
-    debugDepthQuad = std::make_unique<Shader>("shaders/3.1.1.debug_quad");
+    simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth");
+    debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad");
     debugDepthQuad->bind();
     debugDepthQuad->setUniform1i("depthMap", 0);
     simpleDepthShader->link();
