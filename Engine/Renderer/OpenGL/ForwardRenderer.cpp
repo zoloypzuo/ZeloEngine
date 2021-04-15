@@ -163,6 +163,9 @@ void ForwardRenderer::createShaders() {
     debugDepthQuad->setAttribLocation("position", 0);
     debugDepthQuad->setAttribLocation("texCoord", 1);
     debugDepthQuad->link();
+    debugDepthQuad->createUniform("depthMap");
+    debugDepthQuad->createUniform("near_plane");
+    debugDepthQuad->createUniform("far_plane");
     debugDepthQuad->setUniform1i("depthMap", 0);
 
     m_forwardAmbient = std::make_unique<Shader>("shaders/forward-ambient");
