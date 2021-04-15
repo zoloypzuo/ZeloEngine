@@ -20,13 +20,14 @@ public:
 
 private:
     std::unique_ptr<Shader> debugDepthQuad;
+    std::unique_ptr<Shader> simpleDepthShader;
+
     unsigned int depthMap{};
     unsigned int depthMapFBO{};
 
     glm::vec3 lightPos{};
 
-    std::unique_ptr<Shader> simpleDepthShader;
-
+private:
     void initializeShadowMap();
 
     void CreateShader();
