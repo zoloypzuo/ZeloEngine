@@ -3,8 +3,6 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRenderer.h"
-#include "ForwardShadowRenderer.h"
-
 
 SimpleRenderer::SimpleRenderer() {
 }
