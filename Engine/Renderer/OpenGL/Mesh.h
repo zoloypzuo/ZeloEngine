@@ -46,17 +46,17 @@ private:
     void createMesh(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
 
 #if !defined(GLES2)
-    GLuint m_vao;
+    GLuint m_vao{};
 #endif
-    GLuint m_vbo;
-    GLuint m_ibo;
+    GLuint m_vbo{};
+    GLuint m_ibo{};
 
-    int m_indexSize, m_vertSize;
+    int m_indexSize{}, m_vertSize{};
 };
 
 class Mesh {
 public:
-    Mesh(std::string identifier, Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
+    Mesh(const std::string& identifier, Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
 
     virtual ~Mesh();
 
