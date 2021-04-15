@@ -122,6 +122,6 @@ void ForwardShadowRenderer::CreateShader() {
 }
 
 void ForwardShadowRenderer::initialize() {
-    ForwardShadowRenderer::initializeShadowMap();
+    initializeShadowMap();
     CreateShader();
 }
