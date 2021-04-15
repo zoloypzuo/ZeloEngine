@@ -30,7 +30,7 @@ private:
 private:
     void initializeShadowMap();
 
-    void CreateShader();
+    void createShader();
 
     void renderQuad() const;
 };

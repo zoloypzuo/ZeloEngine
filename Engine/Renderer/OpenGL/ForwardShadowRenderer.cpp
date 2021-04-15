@@ -82,8 +82,6 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
     glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
     glClear(GL_DEPTH_BUFFER_BIT);
-//    glActiveTexture(GL_TEXTURE0);
-//    glBindTexture(GL_TEXTURE_2D, woodTexture);
     scene.renderAll(simpleDepthShader.get());
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -93,7 +91,6 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
 
     // render Depth map to quad for visual debugging
     // ---------------------------------------------
-    debugDepthQuad->bind();
     debugDepthQuad->setUniform1f("near_plane", near_plane);
     debugDepthQuad->setUniform1f("far_plane", far_plane);
     glActiveTexture(GL_TEXTURE0);
@@ -101,7 +98,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     renderQuad();
 }
 
-void ForwardShadowRenderer::CreateShader() {
+void ForwardShadowRenderer::createShader() {
     // build and compile shaders
     // -------------------------
     lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
@@ -123,5 +120,5 @@ void ForwardShadowRenderer::CreateShader() {
 
 void ForwardShadowRenderer::initialize() {
     initializeShadowMap();
-    CreateShader();
+    createShader();
 }
