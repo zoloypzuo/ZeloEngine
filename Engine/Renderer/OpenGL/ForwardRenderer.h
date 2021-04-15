@@ -53,18 +53,6 @@ private:
     std::unique_ptr<Shader> m_forwardDirectional;
     std::unique_ptr<Shader> m_forwardPoint;
     std::unique_ptr<Shader> m_forwardSpot;
-
-    std::unique_ptr<Shader> simpleDepthShader;
-    std::unique_ptr<Shader> debugDepthQuad;
-
-    unsigned int depthMapFBO{};
-    unsigned int depthMap{};
-
-    glm::vec3 lightPos{};
-
-    void initializeShadowMap();
-
-    void renderQuad() const;
 };
 
 

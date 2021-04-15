@@ -3,6 +3,7 @@
 add_library(OpenGLRenderer
         GLManager.cpp
         ForwardRenderer.cpp
+        ForwardShadowRenderer.cpp
         Mesh.cpp
         Material.cpp
         Texture.cpp
