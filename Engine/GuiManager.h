@@ -32,7 +32,7 @@ private:
 
     static void renderDrawLists(ImDrawData *draw_data);
 
-    bool showProps{true};
+    bool showProps{false};
 
     SDL_Window *m_sdlWindow;
 };
