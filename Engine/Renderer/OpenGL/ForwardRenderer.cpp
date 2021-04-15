@@ -91,6 +91,7 @@ void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> active
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, depthMap);
     renderQuad();
+    return;
 
     m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
@@ -147,9 +148,9 @@ void ForwardRenderer::createShaders() {
     // build and compile shaders
     // -------------------------
     lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
-    simpleDepthShader = std::make_unique<Shader>("shaders/3.1.1.shadow_mapping_depth",
-                                                 "shaders/3.1.1.shadow_mapping_depth");
-    debugDepthQuad = std::make_unique<Shader>("shaders/3.1.1.debug_quad", "shaders/3.1.1.debug_quad_depth");
+    simpleDepthShader = std::make_unique<Shader>("shaders/3.1.1.shadow_mapping_depth");
+    debugDepthQuad = std::make_unique<Shader>("shaders/3.1.1.debug_quad");
+    debugDepthQuad->bind();
     debugDepthQuad->setUniform1i("depthMap", 0);
     simpleDepthShader->link();
     debugDepthQuad->link();
