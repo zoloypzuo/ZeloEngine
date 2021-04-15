@@ -452,4 +452,7 @@ void GuiManager::render(Entity *sceneGraph) {
 
         ImGui::Render();
     }
+    else {
+        ImGui::Render();
+    }
 }
