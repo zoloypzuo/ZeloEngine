@@ -33,6 +33,10 @@ private:
     void createShader();
 
     void renderQuad() const;
+
+    void renderScene(Shader *shader);
+
+    void renderCube();
 };
 
 
