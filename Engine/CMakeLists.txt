@@ -38,6 +38,21 @@ if (BuildSwig)  # build swig in win32 release
             Common
             )
 endif ()
+
+option(BuildSwigLua "BuildSwigLua" OFF)
+message(STATUS BuildSwigLua=${BuildSwigLua})
+
+if (BuildSwigLua)  # build swig in win32 release
+    add_library(ZeloWrapperLua SHARED
+            ZeloWrapperLua.cxx
+            )
+
+    include(FindLua)
+    find_package(Lua REQUIRED)
+    target_link_libraries(ZeloWrapperLua PRIVATE ${LUA_LIBRARIES} Common)
+    target_include_directories(ZeloWrapperLua PRIVATE ${LUA_INCLUDE_DIR})
+endif ()
+
 if (0)
     add_subdirectory(Physics)
 endif ()

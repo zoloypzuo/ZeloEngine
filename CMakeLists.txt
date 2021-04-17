@@ -1,6 +1,7 @@
 # created on 2019/9/23
 # author @zoloypzuo
 cmake_minimum_required(VERSION 3.8)
+#cmake_minimum_required(VERSION 3.18.4) TODO clion support <3.14, vcpkg need >3.18
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
