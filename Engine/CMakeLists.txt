@@ -46,7 +46,12 @@ if (BuildSwigLua)  # build swig in win32 release
     add_library(ZeloWrapperLua SHARED
             ZeloWrapperLua.cxx
             )
-
+    set_target_properties(
+            ZeloWrapperLua
+            PROPERTIES
+            OUTPUT_NAME "Zelo"
+            SUFFIX ".dll"
+    )
     include(FindLua)
     find_package(Lua REQUIRED)
     target_link_libraries(ZeloWrapperLua PRIVATE ${LUA_LIBRARIES} Common)

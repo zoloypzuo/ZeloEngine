@@ -1,5 +1,5 @@
-//%module(package="zelo", directors="1") zelo
-%module(directors="1") zelo
+//%module(package="Zelo", directors="1") Zelo
+%module(directors="1") Zelo
 
 %{
 #include "Component.h"
