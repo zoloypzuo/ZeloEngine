@@ -10,6 +10,7 @@ set Args=%*
 cd /d %EngineDir%
 @echo on
 rd /s/q build_swig
+rd /s/q build_swig_lua
 rd /s/q build_vs2017
 rd /s/q build_vs2019
 rd /s/q cmake-build-debug

@@ -40,8 +40,15 @@ link_libraries(imgui::imgui)
 
 find_package(gtest CONFIG REQUIRED)
 
-include(FindLua)
-find_package(Lua REQUIRED)
+# use vcpkg lua
+#include(FindLua)
+#find_package(Lua REQUIRED)
+add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+add_subdirectory(Engine/Lua)
+set(LUA_LIBRARIES Lua)
+set(LUA_INCLUDE_DIR Engine/Lua/include)
+include_directories(${LUA_INCLUDE_DIR})
+link_libraries(${LUA_LIBRARIES})
 
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
@@ -53,7 +60,7 @@ add_compile_definitions(NOMINMAX)
 # define ZELO_AUTOLIB to automatically include the libs needed for DXUT
 add_compile_definitions(ZELO_AUTOLIB)
 # INIReader use some unsecure std api
-add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+#add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
 # glm
 add_compile_definitions(GLM_FORCE_SWIZZLE)
 add_compile_definitions(GLM_FORCE_RADIANS)
@@ -63,7 +70,12 @@ add_subdirectory(Engine)
 
 include_directories(Engine)
 link_libraries(Common)
+
+find_package(sol2 CONFIG REQUIRED)
+
 add_executable(hello main.cpp)
+target_link_libraries(hello sol2::sol2)
+
 message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
 add_custom_command(TARGET hello PRE_BUILD
