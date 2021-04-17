@@ -27,6 +27,6 @@ cmake --build . --config %BuildType% --target %TargetName%
 
 cd /d %EngineDir%
 
-xcopy %BuildDir%\Engine\RelWithDebInfo\* %ScriptLibDir%\ /y
+xcopy %BuildDir%\Engine\%BuildType%\* %ScriptLibDir%\ /y
 
 cd %CurrentDir%
