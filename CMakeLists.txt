@@ -1,7 +1,6 @@
 # created on 2019/9/23
 # author @zoloypzuo
-cmake_minimum_required(VERSION 3.8)
-#cmake_minimum_required(VERSION 3.18.4) TODO clion support <3.14, vcpkg need >3.18
+cmake_minimum_required(VERSION 3.18.4)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
@@ -40,6 +39,9 @@ find_package(imgui CONFIG REQUIRED)
 link_libraries(imgui::imgui)
 
 find_package(gtest CONFIG REQUIRED)
+
+include(FindLua)
+find_package(Lua REQUIRED)
 
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
