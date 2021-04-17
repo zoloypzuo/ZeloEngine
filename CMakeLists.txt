@@ -38,9 +38,7 @@ link_libraries(yaml-cpp)
 find_package(imgui CONFIG REQUIRED)
 link_libraries(imgui::imgui)
 
-find_package(gtest CONFIG REQUIRED)
-
-# use vcpkg lua
+# we do not use vcpkg lua
 #include(FindLua)
 #find_package(Lua REQUIRED)
 add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
@@ -49,6 +47,9 @@ set(LUA_LIBRARIES Lua)
 set(LUA_INCLUDE_DIR Engine/Lua/include)
 include_directories(${LUA_INCLUDE_DIR})
 link_libraries(${LUA_LIBRARIES})
+
+find_package(sol2 CONFIG REQUIRED)
+link_libraries(sol2::sol2)
 
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
@@ -65,16 +66,16 @@ add_compile_definitions(ZELO_AUTOLIB)
 add_compile_definitions(GLM_FORCE_SWIZZLE)
 add_compile_definitions(GLM_FORCE_RADIANS)
 
+# sol2 fix link error
+add_compile_definitions(SOL_USING_CXX_LUA=0)
+
 add_compile_definitions(ZELO_DEBUG)
 add_subdirectory(Engine)
 
 include_directories(Engine)
 link_libraries(Common)
 
-find_package(sol2 CONFIG REQUIRED)
-
 add_executable(hello main.cpp)
-target_link_libraries(hello sol2::sol2)
 
 message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
@@ -82,6 +83,13 @@ add_custom_command(TARGET hello PRE_BUILD
         COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/build.py ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE_DIR:hello>)
 
 # build test
-include(CTest)
-enable_testing()
-add_subdirectory(Engine/Test)
+option(BuildTest "BuildTest" OFF)
+message(STATUS BuildTest=${BuildTest})
+
+if (BuildTest)  # build swig in win32 release
+    find_package(gtest CONFIG REQUIRED)
+
+    include(CTest)
+    enable_testing()
+    add_subdirectory(Engine/Test)
+endif ()
