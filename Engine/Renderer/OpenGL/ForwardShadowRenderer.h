@@ -34,9 +34,9 @@ private:
 
     void renderQuad() const;
 
-    void renderScene(Shader *shader);
+    void renderScene(Shader *shader) const;
 
-    void renderCube();
+    void renderCube() const;
 };
 
 

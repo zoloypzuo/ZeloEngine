@@ -71,32 +71,37 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     // --------------------------------------------------------------
     glm::mat4 lightProjection, lightView;
     glm::mat4 lightSpaceMatrix;
-    float near_plane = 0.01f, far_plane = 500.0f;
+    float near_plane = 1.0f, far_plane = 7.5f;
     lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
     lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
     lightSpaceMatrix = lightProjection * lightView;
     // render scene from light's point of view
+    simpleDepthShader->bind();
+    simpleDepthShader->setUniformMatrix4f("World", glm::mat4());
     simpleDepthShader->setUniformMatrix4f("lightSpaceMatrix", lightSpaceMatrix);
 
     glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
     glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+    glEnable(GL_DEPTH_TEST);
+
     glClear(GL_DEPTH_BUFFER_BIT);
     simpleDepthShader->bind();
-    scene.renderAll(simpleDepthShader.get());
+    //scene.renderAll(simpleDepthShader.get());
+    renderScene(simpleDepthShader.get());
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
+    
     // reset viewport
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // render Depth map to quad for visual debugging
     // ---------------------------------------------
+    debugDepthQuad->bind();
     debugDepthQuad->setUniform1f("near_plane", near_plane);
     debugDepthQuad->setUniform1f("far_plane", far_plane);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, depthMap);
-    debugDepthQuad->bind();
     renderQuad();
 }
 
@@ -125,7 +130,7 @@ void ForwardShadowRenderer::initialize() {
     createShader();
 }
 
-void ForwardShadowRenderer::renderScene(Shader *shader) {
+void ForwardShadowRenderer::renderScene(Shader *shader) const {
     // floor
     glm::mat4 model = glm::mat4(1.0f);
 //    shader.setMat4("model", model);
@@ -155,7 +160,7 @@ void ForwardShadowRenderer::renderScene(Shader *shader) {
 unsigned int cubeVAO = 0;
 unsigned int cubeVBO = 0;
 
-void ForwardShadowRenderer::renderCube() {
+void ForwardShadowRenderer::renderCube() const {
     // initialize (if necessary)
     if (cubeVAO == 0) {
         float vertices[] = {
