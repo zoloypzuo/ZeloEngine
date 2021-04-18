@@ -8,7 +8,7 @@
 #include "ForwardRenderer.h"
 
 
-class ForwardShadowRenderer : public Renderer {
+class ForwardShadowRenderer : public ForwardRenderer {
 
 public:
     void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
@@ -27,16 +27,18 @@ private:
 
     glm::vec3 lightPos{};
 
-private:
+protected:
     void initializeShadowMap();
 
     void createShader();
 
-    void renderQuad() const;
-
+#ifdef DEBUG_SHADOWMAP
     void renderScene(Shader *shader) const;
 
+    void renderQuad() const;
+
     void renderCube() const;
+#endif
 };
 
 
