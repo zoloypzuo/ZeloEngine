@@ -46,7 +46,7 @@ public:
 
     void initialize() override;
 
-private:
+protected:
     void createShaders();
 
     std::unique_ptr<Shader> m_forwardAmbient;
