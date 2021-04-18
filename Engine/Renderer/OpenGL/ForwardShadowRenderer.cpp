@@ -110,14 +110,11 @@ void ForwardShadowRenderer::createShader() {
     // -------------------------
     lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
     simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth");
-    simpleDepthShader->setAttribLocation("position", 0);
     simpleDepthShader->link();
     simpleDepthShader->createUniform("lightSpaceMatrix");
     simpleDepthShader->createUniform("World");
 
     debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad");
-    debugDepthQuad->setAttribLocation("position", 0);
-    debugDepthQuad->setAttribLocation("texCoord", 1);
     debugDepthQuad->link();
     debugDepthQuad->createUniform("depthMap");
     debugDepthQuad->createUniform("near_plane");
