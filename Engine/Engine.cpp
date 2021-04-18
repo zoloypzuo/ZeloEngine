@@ -6,6 +6,7 @@
 #include "Engine.h"
 #include "Util/whereami.h"
 #include "MyGame.h"
+#include "Renderer/OpenGL/ForwardShadowRenderer.h"
 
 void Engine::initialize() {
     // init config and logger first
@@ -16,7 +17,7 @@ void Engine::initialize() {
     m_configInitialized = true;
 
     m_window = std::make_unique<Window>();
-    m_renderer = std::make_unique<ForwardRenderer>();
+    m_renderer = std::make_unique<ForwardShadowRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
     m_renderer->initialize();
 //    m_game = std::make_unique<Game>(); game is newed by app
@@ -86,10 +87,10 @@ void Engine::update() {
     m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
 
     m_window->update();
-    m_window->getGuiManager()->tick(m_deltaTime);
+//    m_window->getGuiManager()->tick(m_deltaTime);
     m_game->update();
     m_glManager->renderScene(m_game->getRootNode().get());
-    m_window->getGuiManager()->render(m_game->getRootNode().get());
+//    m_window->getGuiManager()->render(m_game->getRootNode().get());
     m_window->swapBuffer();
 }
 

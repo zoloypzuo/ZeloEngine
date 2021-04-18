@@ -17,12 +17,12 @@ public:
 
     void initialize() override;
 
-    virtual ~SimpleRenderer();
+    ~SimpleRenderer() override;
 
-    virtual void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
-                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const;
+    void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
+                const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                const std::vector<std::shared_ptr<SpotLight>> &spotLights) const override;
 
     void renderLine(const Line &line, std::shared_ptr<Camera> activeCamera) const;
 
@@ -39,10 +39,10 @@ public:
 
     ~ForwardRenderer() override;
 
-    virtual void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
+    void render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
                         const std::vector<std::shared_ptr<PointLight>> &pointLights,
                         const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const;
+                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const override;
 
     void initialize() override;
 

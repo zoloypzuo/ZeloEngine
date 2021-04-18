@@ -17,9 +17,19 @@ EngineIOStream::EngineIOStream(const std::string &fileName) {
 #elif EMSCRIPTEN
     m_file = new std::fstream(ASSET_DIR + fileName, std::ifstream::binary | std::fstream::in | std::fstream::out);
 #else
-    auto filePath = Engine::getSingletonPtr()->getAssetDir() / fileName;
-    m_file = new std::fstream(filePath.c_str(),
-                              std::ifstream::binary | std::fstream::in | std::fstream::out);
+    // fallback search
+    std::filesystem::path filePath;
+    auto engineAssetPath = Engine::getSingletonPtr()->getAssetDir() / fileName;
+    if (std::filesystem::exists(engineAssetPath)) {
+        filePath = engineAssetPath;
+    } else {
+        auto enginePath = Engine::getSingletonPtr()->getEngineDir() / fileName;
+        ZELO_ASSERT(std::filesystem::exists(enginePath));
+        filePath = enginePath;
+    }
+    m_file = new std::fstream(
+            filePath.c_str(),
+            std::ifstream::binary | std::fstream::in | std::fstream::out);
 #endif
 }
 

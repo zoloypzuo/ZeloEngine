@@ -215,7 +215,6 @@ void GuiManager::createDeviceObjects(void) {
 GuiManager::GuiManager(const glm::vec2 &drawableSize, const glm::vec2 &displaySize, SDL_Window *sdlWindow) {
     m_sdlWindow = sdlWindow;
 
-    showProps = true;
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -450,6 +449,9 @@ void GuiManager::render(Entity *sceneGraph) {
 
         // ImGui::ShowTestWindow();
 
+        ImGui::Render();
+    }
+    else {
         ImGui::Render();
     }
 }
