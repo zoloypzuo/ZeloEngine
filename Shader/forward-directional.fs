@@ -1,5 +1,6 @@
 #version 330
-
+// TODO copy paste fs code
+// TODO change C++ code with shader
 in vec2 texCoord0;
 in vec3 worldPos0;
 in mat3 tbnMatrix;
