@@ -71,7 +71,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     // --------------------------------------------------------------
     glm::mat4 lightProjection, lightView;
     glm::mat4 lightSpaceMatrix;
-    float near_plane = 1.0f, far_plane = 7.5f;
+    float near_plane = 0.1f, far_plane = 7.5f;
     lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
     lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
     lightSpaceMatrix = lightProjection * lightView;
@@ -86,8 +86,8 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
 
     glClear(GL_DEPTH_BUFFER_BIT);
     simpleDepthShader->bind();
-    //scene.renderAll(simpleDepthShader.get());
-    renderScene(simpleDepthShader.get());
+    scene.renderAll(simpleDepthShader.get());
+    //renderScene(simpleDepthShader.get());  // DEBUG scene
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     
