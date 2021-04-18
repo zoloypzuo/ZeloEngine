@@ -75,7 +75,7 @@ add_subdirectory(Engine)
 include_directories(Engine)
 link_libraries(Common)
 
-add_executable(hello main.cpp)
+add_executable(hello main.cpp Engine/ZeloWrapperLua.cxx)
 
 message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
