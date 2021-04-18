@@ -24,3 +24,6 @@ bin*/**
 # swig wrapper
 **/zelo_wrapper.*
 zelo.py
+
+*ZeloWrapper*.cxx
+scriptlibs/
