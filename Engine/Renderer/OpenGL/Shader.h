@@ -30,7 +30,7 @@ class Shader {
 public:
     Shader();
 
-    explicit Shader(std::string shaderAssetName);
+    explicit Shader(const std::string &shaderAssetName);
 
     Shader(const char *vert_src, const char *frag_src);
 
@@ -40,15 +40,15 @@ public:
 
     void addFragment(const char *frag_src);
 
-    void link();
+    void link() const;
 
     void createUniform(const std::string &uniformName);
 
-    GLuint getUniformLocation(const std::string &uniformName);
+    GLint getUniformLocation(const std::string &uniformName);
 
-    void setAttribLocation(const char *name, int i);
+    void setAttribLocation(const char *name, int i) const;
 
-    GLuint getProgram();
+    GLuint getProgram() const;
 
     void bind() const;
 
@@ -58,7 +58,7 @@ public:
 
     void updateUniformSpotLight(const std::string &uniformName, SpotLight *spotLight);
 
-    void setUniformAttenuation(const std::string &uniformName, std::shared_ptr<Attenuation> attenuation);
+    void setUniformAttenuation(const std::string &uniformName, const std::shared_ptr<Attenuation>& attenuation);
 
     void setUniformVec3f(const std::string &uniformName, glm::vec3 vector);
 
@@ -69,11 +69,11 @@ public:
     void setUniformMatrix4f(const std::string &uniformName, const glm::mat4 &matrix);
 
 private:
-    GLuint g_shVert;
-    GLuint g_shFrag;
-    GLuint g_shProg;
+    GLuint g_shVert{};
+    GLuint g_shFrag{};
+    GLuint g_shProg{};
 
-    std::map<std::string, GLuint> uniformLocation;
+    std::map<std::string, GLint> uniformLocation;
 };
 
 
