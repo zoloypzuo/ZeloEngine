@@ -70,6 +70,7 @@ add_compile_definitions(GLM_FORCE_RADIANS)
 add_compile_definitions(SOL_USING_CXX_LUA=0)
 
 add_compile_definitions(ZELO_DEBUG)
+add_compile_definitions(DEBUG_SHADOWMAP)
 add_subdirectory(Engine)
 
 include_directories(Engine)
