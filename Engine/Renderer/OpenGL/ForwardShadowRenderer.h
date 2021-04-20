@@ -25,8 +25,6 @@ private:
     unsigned int depthMap{};
     unsigned int depthMapFBO{};
 
-    glm::vec3 lightPos{};
-
 protected:
     void initializeShadowMap();
 

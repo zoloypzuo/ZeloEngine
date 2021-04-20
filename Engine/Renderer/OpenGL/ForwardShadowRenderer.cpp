@@ -44,6 +44,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glm::mat4 lightProjection, lightView;
     glm::mat4 lightSpaceMatrix;
     float near_plane = 0.1f, far_plane = 7.5f;
+    auto lightPos = directionalLights[0]->getParent()->getTransform().getPosition();
     lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
     lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
     lightSpaceMatrix = lightProjection * lightView;
@@ -147,7 +148,6 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
 void ForwardShadowRenderer::createShader() {
     // build and compile shaders
     // -------------------------
-    lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
     simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth");
     simpleDepthShader->link();
     simpleDepthShader->createUniform("lightSpaceMatrix");
@@ -199,6 +199,9 @@ void ForwardShadowRenderer::createShader() {
     m_forwardDirectional->createUniform("diffuseMap");
     m_forwardDirectional->createUniform("normalMap");
     m_forwardDirectional->createUniform("specularMap");
+
+    m_forwardDirectional->createUniform("shadowMap");
+    m_forwardDirectional->createUniform("lightPos");
 
     m_forwardDirectional->setUniform1i("diffuseMap", 0);
     m_forwardDirectional->setUniform1i("normalMap", 1);
