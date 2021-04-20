@@ -42,6 +42,8 @@ public:
 
     glm::vec4 getDirection() const;
 
+    void lookAt(const glm::vec3 center);
+
     // private:
     glm::vec3 m_position{};
     glm::quat m_rotation{};

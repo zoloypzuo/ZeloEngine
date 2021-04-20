@@ -8,9 +8,6 @@ const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-unsigned int quadVAO = 0;
-unsigned int quadVBO;
-
 
 void ForwardShadowRenderer::initializeShadowMap() {
     // configure depth map FBO
@@ -33,31 +30,6 @@ void ForwardShadowRenderer::initializeShadowMap() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void ForwardShadowRenderer::renderQuad() const {
-    if (quadVAO == 0) {
-        float quadVertices[] = {
-                // positions        // texture Coords
-                -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
-                -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-                1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-        };
-        // setup plane VAO
-        glGenVertexArrays(1, &quadVAO);
-        glGenBuffers(1, &quadVBO);
-        glBindVertexArray(quadVAO);
-        glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) nullptr);
-        glEnableVertexAttribArray(1);
-        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
-    }
-    glBindVertexArray(quadVAO);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    glBindVertexArray(0);
-}
-
 void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
                                    const std::vector<std::shared_ptr<PointLight>> &pointLights,
                                    const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
@@ -72,6 +44,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glm::mat4 lightProjection, lightView;
     glm::mat4 lightSpaceMatrix;
     float near_plane = 0.1f, far_plane = 7.5f;
+    auto lightPos = directionalLights[0]->getParent()->getTransform().getPosition();
     lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
     lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
     lightSpaceMatrix = lightProjection * lightView;
@@ -87,14 +60,80 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glClear(GL_DEPTH_BUFFER_BIT);
     simpleDepthShader->bind();
     scene.renderAll(simpleDepthShader.get());
-    //renderScene(simpleDepthShader.get());  // DEBUG scene
+    renderScene(simpleDepthShader.get());  // DEBUG scene
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    
+
     // reset viewport
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // 2. render scene as normal using the generated depth/shadow map
+    // --------------------------------------------------------------
+    glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+    m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+
+    scene.renderAll(m_forwardAmbient.get());
+
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE);
+    glDepthMask(GL_FALSE);
+    glDepthFunc(GL_EQUAL);
+
+    m_forwardDirectional->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+    m_forwardDirectional->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+    m_forwardDirectional->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
+
+    m_forwardDirectional->setUniform1f("specularIntensity", 0.5);
+    m_forwardDirectional->setUniform1f("specularPower", 10);
+
+    // shadow
+    m_forwardDirectional->setUniformMatrix4f("lightSpaceMatrix", lightSpaceMatrix);
+    m_forwardDirectional->setUniformVec3f("lightPos", lightPos);
+
+    glActiveTexture(GL_TEXTURE3);
+    glBindTexture(GL_TEXTURE_2D, depthMap);
+
+    for (const auto &light : directionalLights) {
+        light->updateShader(m_forwardDirectional.get());
+
+        scene.renderAll(m_forwardDirectional.get());
+
+//        renderScene(m_forwardDirectional.get());
+    }
+
+    m_forwardPoint->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+    m_forwardPoint->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+    m_forwardPoint->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
+
+    m_forwardPoint->setUniform1f("specularIntensity", 0.5);
+    m_forwardPoint->setUniform1f("specularPower", 10);
+    for (const auto &light : pointLights) {
+        light->updateShader(m_forwardPoint.get());
+
+        scene.renderAll(m_forwardPoint.get());
+    }
+
+    m_forwardSpot->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+    m_forwardSpot->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+    m_forwardSpot->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
+
+    m_forwardSpot->setUniform1f("specularIntensity", 0.5);
+    m_forwardSpot->setUniform1f("specularPower", 10);
+    for (const auto &light : spotLights) {
+        light->updateShader(m_forwardSpot.get());
+
+        scene.renderAll(m_forwardSpot.get());
+    }
+
+    glDepthFunc(GL_LESS);
+    glDepthMask(GL_TRUE);
+    glDisable(GL_BLEND);
+
+#ifdef DEBUG_SHADOWMAP
     // render Depth map to quad for visual debugging
     // ---------------------------------------------
     debugDepthQuad->bind();
@@ -103,29 +142,55 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, depthMap);
     renderQuad();
+#endif
 }
 
 void ForwardShadowRenderer::createShader() {
     // build and compile shaders
     // -------------------------
-    lightPos = glm::vec3(-2.0f, 4.0f, -1.0f);
     simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth");
     simpleDepthShader->link();
-    simpleDepthShader->createUniform("lightSpaceMatrix");
-    simpleDepthShader->createUniform("World");
 
     debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad");
     debugDepthQuad->link();
-    debugDepthQuad->createUniform("depthMap");
-    debugDepthQuad->createUniform("near_plane");
-    debugDepthQuad->createUniform("far_plane");
     debugDepthQuad->setUniform1i("depthMap", 0);
+
+    m_forwardAmbient = std::make_unique<Shader>("shaders/forward-ambient");
+    m_forwardAmbient->link();
+
+    m_forwardAmbient->setUniform1i("diffuseMap", 0);
+
+    m_forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
+
+    m_forwardDirectional = std::make_unique<Shader>("Shader/forward-directional");
+    m_forwardDirectional->link();
+
+    m_forwardDirectional->setUniform1i("diffuseMap", 0);
+    m_forwardDirectional->setUniform1i("normalMap", 1);
+    m_forwardDirectional->setUniform1i("specularMap", 2);
+    m_forwardDirectional->setUniform1i("shadowMap", 3);
+
+    m_forwardPoint = std::make_unique<Shader>("shaders/forward-point");
+    m_forwardPoint->link();
+
+    m_forwardPoint->setUniform1i("diffuseMap", 0);
+    m_forwardPoint->setUniform1i("normalMap", 1);
+    m_forwardPoint->setUniform1i("specularMap", 2);
+
+    m_forwardSpot = std::make_unique<Shader>("shaders/forward-spot");
+    m_forwardSpot->link();
+
+    m_forwardSpot->setUniform1i("diffuseMap", 0);
+    m_forwardSpot->setUniform1i("normalMap", 1);
+    m_forwardSpot->setUniform1i("specularMap", 2);
 }
 
 void ForwardShadowRenderer::initialize() {
     initializeShadowMap();
     createShader();
 }
+
+#ifdef DEBUG_SHADOWMAP
 
 void ForwardShadowRenderer::renderScene(Shader *shader) const {
     // floor
@@ -154,10 +219,10 @@ void ForwardShadowRenderer::renderScene(Shader *shader) const {
     renderCube();
 }
 
-unsigned int cubeVAO = 0;
-unsigned int cubeVBO = 0;
 
 void ForwardShadowRenderer::renderCube() const {
+    static unsigned int cubeVAO = 0;
+    static unsigned int cubeVBO = 0;
     // initialize (if necessary)
     if (cubeVAO == 0) {
         float vertices[] = {
@@ -225,3 +290,32 @@ void ForwardShadowRenderer::renderCube() const {
     glDrawArrays(GL_TRIANGLES, 0, 36);
     glBindVertexArray(0);
 }
+
+void ForwardShadowRenderer::renderQuad() const {
+    static unsigned int quadVAO = 0;
+    static unsigned int quadVBO;
+    if (quadVAO == 0) {
+        float quadVertices[] = {
+                // positions        // texture Coords
+                0.5f, 1.0f, 0.0f, 0.0f, 1.0f,
+                0.5f, 0.5f, 0.0f, 0.0f, 0.0f,
+                1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
+                1.0f, 0.5f, 0.0f, 1.0f, 0.0f,
+        };
+        // setup plane VAO
+        glGenVertexArrays(1, &quadVAO);
+        glGenBuffers(1, &quadVBO);
+        glBindVertexArray(quadVAO);
+        glBindBuffer(GL_ARRAY_BUFFER, quadVBO);
+        glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) nullptr);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *) (3 * sizeof(float)));
+    }
+    glBindVertexArray(quadVAO);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    glBindVertexArray(0);
+}
+
+#endif

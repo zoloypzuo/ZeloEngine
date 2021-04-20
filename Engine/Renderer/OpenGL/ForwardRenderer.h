@@ -24,7 +24,7 @@ public:
                 const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                 const std::vector<std::shared_ptr<SpotLight>> &spotLights) const override;
 
-    void renderLine(const Line &line, std::shared_ptr<Camera> activeCamera) const;
+    void renderLine(const Line &line, const std::shared_ptr<Camera>& activeCamera) const;
 
 private:
     void createShaders();
@@ -46,7 +46,7 @@ public:
 
     void initialize() override;
 
-private:
+protected:
     void createShaders();
 
     std::unique_ptr<Shader> m_forwardAmbient;

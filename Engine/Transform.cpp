@@ -72,3 +72,7 @@ glm::mat4 Transform::getTransformMatrix() const {
 glm::vec4 Transform::getDirection() const {
     return getRotation() * glm::vec4(0, 0, -1, 0);
 }
+
+void Transform::lookAt(const glm::vec3 center) {
+
+}

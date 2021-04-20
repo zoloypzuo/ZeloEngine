@@ -186,5 +186,11 @@ void MyGame::initialize() {
 
     primary_camera = money2.getEntity()->getComponent<PerspectiveCamera>();
 
+    MeshLoader light("monkey3.obj");
+    light.getEntity()->getTransform().setPosition(glm::vec3(-2.0f, 4.0f, -1.0f));
+    light.getEntity()->addComponent<DirectionalLight>(glm::vec3(1), 2.8f);
+
+    addToScene(light.getEntity());
+
     GLManager::getSingletonPtr()->setActiveCamera(primary_camera);
 }

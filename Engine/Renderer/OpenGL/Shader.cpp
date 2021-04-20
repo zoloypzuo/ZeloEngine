@@ -5,24 +5,21 @@
 #include "Shader.h"
 #include "Light.h"
 
-Shader::Shader() {
-    g_shProg = glCreateProgram();
+Shader::Shader() : g_shProg(glCreateProgram()) {
 }
 
-Shader::Shader(std::string shaderAssetName) {
-    g_shProg = glCreateProgram();
+Shader::Shader(const std::string &shaderAssetName) : Shader() {
 
 #if defined(GLES2) || defined(GLES3) || defined(EMSCRIPTEN)
     addVertex(Asset(shaderAssetName + "-gles.vs").read());
-  addFragment(Asset(shaderAssetName + "-gles.fs").read());
+    addFragment(Asset(shaderAssetName + "-gles.fs").read());
 #else
     addVertex(Asset(shaderAssetName + ".vs").read());
     addFragment(Asset(shaderAssetName + ".fs").read());
 #endif
 }
 
-Shader::Shader(const char *vert_src, const char *frag_src) {
-    g_shProg = glCreateProgram();
+Shader::Shader(const char *vert_src, const char *frag_src) : Shader() {
     addVertex(vert_src);
     addFragment(frag_src);
 }
@@ -39,8 +36,8 @@ Shader::~Shader() {
 
 void Shader::addVertex(const char *vert_src) {
     char shErr[1024];
-    int errlen;
-    GLint res;
+    int errlen = 0;
+    GLint res = 0;
 
     // Generate some IDs for our shader programs
     g_shVert = glCreateShader(GL_VERTEX_SHADER);
@@ -68,8 +65,8 @@ void Shader::addVertex(const char *vert_src) {
 
 void Shader::addFragment(const char *frag_src) {
     char shErr[1024];
-    int errlen;
-    GLint res;
+    int errlen = 0;
+    GLint res = 0;
 
     // Generate some IDs for our shader programs
     g_shFrag = glCreateShader(GL_FRAGMENT_SHADER);
@@ -95,10 +92,10 @@ void Shader::addFragment(const char *frag_src) {
     glDeleteShader(g_shFrag);
 }
 
-void Shader::link() {
+void Shader::link() const {
     char shErr[1024];
-    int errlen;
-    GLint res;
+    int errlen = 0;
+    GLint res = 0;
     // Link the shaders
     glLinkProgram(g_shProg);
     glGetProgramiv(g_shProg, GL_LINK_STATUS, &res);
@@ -114,7 +111,7 @@ void Shader::link() {
     }
 }
 
-GLuint Shader::getProgram() {
+GLuint Shader::getProgram() const {
     return g_shProg;
 }
 
@@ -122,11 +119,11 @@ void Shader::createUniform(const std::string &uniformName) {
     uniformLocation[uniformName] = glGetUniformLocation(g_shProg, uniformName.c_str());
 }
 
-GLuint Shader::getUniformLocation(const std::string &uniformName) {
+GLint Shader::getUniformLocation(const std::string &uniformName) {
     return uniformLocation[uniformName];
 }
 
-void Shader::setAttribLocation(const char *name, int i) {
+void Shader::setAttribLocation(const char *name, int i) const {
     glBindAttribLocation(g_shProg, i, name);
 }
 
@@ -168,7 +165,7 @@ void Shader::updateUniformSpotLight(const std::string &uniformName, SpotLight *s
     setUniform1f(uniformName + ".cutoff", spotLight->getCutoff());
 }
 
-void Shader::setUniformAttenuation(const std::string &uniformName, std::shared_ptr<Attenuation> attenuation) {
+void Shader::setUniformAttenuation(const std::string &uniformName, const std::shared_ptr<Attenuation> &attenuation) {
     setUniform1f(uniformName + ".constant", attenuation->getConstant());
     setUniform1f(uniformName + ".linear", attenuation->getLinear());
     setUniform1f(uniformName + ".exponent", attenuation->getExponent());
@@ -177,23 +174,27 @@ void Shader::setUniformAttenuation(const std::string &uniformName, std::shared_p
 void Shader::setUniform1i(const std::string &uniformName, int value) {
     bind();
 
+    createUniform(uniformName);
     glUniform1i(getUniformLocation(uniformName), value);
 }
 
 void Shader::setUniform1f(const std::string &uniformName, float value) {
     bind();
 
+    createUniform(uniformName);
     glUniform1f(getUniformLocation(uniformName), value);
 }
 
 void Shader::setUniformVec3f(const std::string &uniformName, glm::vec3 vector) {
     bind();
 
+    createUniform(uniformName);
     glUniform3f(getUniformLocation(uniformName), vector.x, vector.y, vector.z);
 }
 
 void Shader::setUniformMatrix4f(const std::string &uniformName, const glm::mat4 &matrix) {
     bind();
 
+    createUniform(uniformName);
     glUniformMatrix4fv(getUniformLocation(uniformName), 1, GL_FALSE, &(matrix)[0][0]);
 }
