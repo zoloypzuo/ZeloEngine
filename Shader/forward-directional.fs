@@ -88,5 +88,6 @@ void main()
 {
   vec3 normal = normalize(tbnMatrix * (255.0/128.0 * texture(normalMap, texCoord0).xyz - 1));
   vec4 color = texture(diffuseMap, texCoord0);
-  fragColor = color * calculateDirectionalLight(directionalLight, normal);
+  vec4 ambient = 0.3 * color;
+  fragColor = color * (ambient + calculateDirectionalLight(directionalLight, normal));
 }
