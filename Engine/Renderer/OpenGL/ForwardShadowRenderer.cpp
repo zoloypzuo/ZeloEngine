@@ -82,16 +82,6 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glDepthMask(GL_FALSE);
     glDepthFunc(GL_EQUAL);
 
-    // set light uniforms
-//    shader.setVec3("viewPos", camera.Position);
-//    shader.setVec3("lightPos", lightPos);
-//    shader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
-//    glActiveTexture(GL_TEXTURE0);
-//    glBindTexture(GL_TEXTURE_2D, woodTexture);
-//    glActiveTexture(GL_TEXTURE1);
-//    glBindTexture(GL_TEXTURE_2D, depthMap);
-//    renderScene(shader);
-
     m_forwardDirectional->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardDirectional->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
     m_forwardDirectional->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
