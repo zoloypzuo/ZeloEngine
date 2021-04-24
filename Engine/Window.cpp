@@ -7,6 +7,7 @@
 #include "Engine.h"
 
 Window::Window() : m_quit(false) {
+    spdlog::info("start initialize window");
     auto config = Engine::getSingletonPtr()->getConfig()->GetSection("Window");
 
     if (SDL_Init(SDL_INIT_EVERYTHING & ~(SDL_INIT_TIMER | SDL_INIT_HAPTIC)) != 0) {
@@ -73,7 +74,8 @@ Window::Window() : m_quit(false) {
     m_vSync = config.GetBoolean("vsync");
     SDL_GL_SetSwapInterval(m_vSync ? 1 : 0);
 
-    int display_w, display_h;
+    int display_w{};
+    int display_h{};
     SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
     m_width = display_w;
     m_height = display_h;
