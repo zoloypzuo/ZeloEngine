@@ -22,10 +22,20 @@ class SpotLight;
 #include <GLES3/gl3.h>
 #else
 
-#include <GL/glew.h>
+#include <gl/glew.h>
 
 #endif
 
+enum class GLSLShaderType {
+    VERTEX = GL_VERTEX_SHADER,
+    FRAGMENT = GL_FRAGMENT_SHADER,
+    GEOMETRY = GL_GEOMETRY_SHADER,
+    TESS_CONTROL = GL_TESS_CONTROL_SHADER,
+    TESS_EVALUATION = GL_TESS_EVALUATION_SHADER,
+    COMPUTE = GL_COMPUTE_SHADER
+};
+
+// TODO zyp rename to GLSLShaderProgram, inherit from ShaderBase class
 class Shader {
 public:
     Shader();
@@ -36,44 +46,56 @@ public:
 
     ~Shader();
 
+public:
     void addVertex(const char *vert_src);
 
     void addFragment(const char *frag_src);
 
-    void link() const;
-
-    void createUniform(const std::string &uniformName);
-
-    GLint getUniformLocation(const std::string &uniformName);
-
-    void setAttribLocation(const char *name, int i) const;
-
-    GLuint getProgram() const;
+    void link();
 
     void bind() const;
 
-    void updateUniformDirectionalLight(const std::string &uniformName, DirectionalLight *directionalLight);
+    void setUniformVec3f(const std::string &name, glm::vec3 vector);
 
-    void updateUniformPointLight(const std::string &uniformName, PointLight *pointLight);
+    void setUniform1i(const std::string &name, int value);
 
-    void updateUniformSpotLight(const std::string &uniformName, SpotLight *spotLight);
+    void setUniform1f(const std::string &name, float value);
 
-    void setUniformAttenuation(const std::string &uniformName, const std::shared_ptr<Attenuation>& attenuation);
+    void setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix);
 
-    void setUniformVec3f(const std::string &uniformName, glm::vec3 vector);
+    // TODO decouple and remove these api
+    void updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight);
 
-    void setUniform1i(const std::string &uniformName, int value);
+    void updateUniformPointLight(const std::string &name, PointLight *pointLight);
 
-    void setUniform1f(const std::string &uniformName, float value);
+    void updateUniformSpotLight(const std::string &name, SpotLight *spotLight);
 
-    void setUniformMatrix4f(const std::string &uniformName, const glm::mat4 &matrix);
+    void setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation);
+
+    // debug
+    void printActiveUniforms() const;
+
+    void printActiveUniformBlocks() const;
+
+    void printActiveAttributes() const;
+
+public:
+    GLuint getHandle() const;
+
+    bool isInitialized() const;
 
 private:
     GLuint g_shVert{};
     GLuint g_shFrag{};
-    GLuint g_shProg{};
+    GLuint m_handle{};
+    bool m_initialized{};
 
-    std::map<std::string, GLint> uniformLocation;
+    std::map<std::string, GLint> m_uniformLocationMap;
+
+private:
+    void createUniform(const std::string &name);
+
+    GLint getUniformLocation(const std::string &name);
 };
 
 
