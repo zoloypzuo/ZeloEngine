@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "GLManager.h"
+#include "GLUtil.h"
 
 #include <utility>
 
@@ -18,7 +19,17 @@ GLManager::GLManager(Renderer *renderer, const glm::ivec2 &windowSize) {
     }
 
     spdlog::info("GLEW Version: {}", glewGetString(GLEW_VERSION));
+    dumpGLInfo();
 #endif
+
+#ifndef __APPLE__
+    spdlog::debug("hook glDebugMessageCallback");
+    glDebugMessageCallback(debugCallback, NULL);
+    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+    glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
+                         GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Start debugging");
+#endif
+
     m_renderer = renderer;
     m_simpleRenderer = std::make_unique<SimpleRenderer>();
     m_simpleRenderer->initialize();

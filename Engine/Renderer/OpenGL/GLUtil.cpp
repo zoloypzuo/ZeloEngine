@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLUtil.h"
 
-void /*APIENTRY*/ debugCallback(GLenum source, GLenum type, GLuint id,
+void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
                                 GLenum severity, GLsizei length,
                                 const GLchar *msg, const void *param) {
 
@@ -83,7 +83,7 @@ void /*APIENTRY*/ debugCallback(GLenum source, GLenum type, GLuint id,
             sevStr = "UNK";
     }
 
-    spdlog::info("%s:%s[%s](%d): %s\n",
+    spdlog::info("{}:{}[{}]({}): {}",
                  sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(),
                  id, msg);
 }
@@ -118,7 +118,7 @@ int checkForOpenGLError(const char *file, int line) {
                 message = "Unknown error";
         }
 
-        spdlog::error("glError in file %s @ line %d: %s\n", file, line, message);
+        spdlog::error("glError in file {} @ line {}: {}", file, line, message);
         retCode = 1;
         glErr = glGetError();
     }
@@ -136,19 +136,19 @@ void dumpGLInfo(bool dumpExtensions) {
     glGetIntegerv(GL_MAJOR_VERSION, &major);
     glGetIntegerv(GL_MINOR_VERSION, &minor);
 
-    spdlog::info("-------------------------------------------------------------\n");
-    spdlog::info("GL Vendor    : %s\n", vendor);
-    spdlog::info("GL Renderer  : %s\n", renderer);
-    spdlog::info("GL Version   : %s\n", version);
-    spdlog::info("GL Version   : %d.%d\n", major, minor);
-    spdlog::info("GLSL Version : %s\n", glslVersion);
-    spdlog::info("-------------------------------------------------------------\n");
+    spdlog::info("-------------------------------------------------------------");
+    spdlog::info("GL Vendor    : {}", vendor);
+    spdlog::info("GL Renderer  : {}", renderer);
+    spdlog::info("GL Version   : {}", version);
+    spdlog::info("GL Version   : {}.{}", major, minor);
+    spdlog::info("GLSL Version : {}", glslVersion);
+    spdlog::info("-------------------------------------------------------------");
 
     if (dumpExtensions) {
         GLint nExtensions = 0;
         glGetIntegerv(GL_NUM_EXTENSIONS, &nExtensions);
         for (int i = 0; i < nExtensions; i++) {
-            spdlog::info("%s\n", glGetStringi(GL_EXTENSIONS, i));
+            spdlog::info("{}", glGetStringi(GL_EXTENSIONS, i));
         }
     }
 }
