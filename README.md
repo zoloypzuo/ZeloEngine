@@ -14,10 +14,13 @@ It is all about game engine.
 
 # 目标
 
+## v1
 * DSL驱动引擎
     * 多种脚本语言，C#，Python，Lua
     * DSL驱动引擎模块，避免编辑器（行为树，状态机etc）
     * DSL驱动渲染管线（可编程渲染管线，frame graph）
+
+## v2
 * 多线程引擎架构
 * 网络引擎
 
