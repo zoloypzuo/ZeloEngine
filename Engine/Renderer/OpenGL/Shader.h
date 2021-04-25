@@ -42,14 +42,12 @@ public:
 
     explicit Shader(const std::string &shaderAssetName);
 
-    Shader(const char *vert_src, const char *frag_src);
-
     ~Shader();
 
 public:
-    void addVertex(const char *vert_src);
+    void addShader(const std::string &fileName) const;
 
-    void addFragment(const char *frag_src);
+    void addShader(const std::string &fileName, GLSLShaderType shaderType) const;
 
     void link();
 
@@ -85,8 +83,6 @@ public:
     bool isInitialized() const;
 
 private:
-    GLuint g_shVert{};
-    GLuint g_shFrag{};
     GLuint m_handle{};
     bool m_initialized{};
 

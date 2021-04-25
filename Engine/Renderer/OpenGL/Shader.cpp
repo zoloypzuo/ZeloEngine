@@ -6,6 +6,24 @@
 #include "Light.h"
 #include "GLUtil.h"
 
+struct shader_file_extension {
+    const std::string &ext;
+    GLSLShaderType type;
+};
+
+struct shader_file_extension extensions[] =
+        {
+                {".vs",   GLSLShaderType::VERTEX},
+                {".vert", GLSLShaderType::VERTEX},
+                {".gs",   GLSLShaderType::GEOMETRY},
+                {".geom", GLSLShaderType::GEOMETRY},
+                {".tcs",  GLSLShaderType::TESS_CONTROL},
+                {".tes",  GLSLShaderType::TESS_EVALUATION},
+                {".fs",   GLSLShaderType::FRAGMENT},
+                {".frag", GLSLShaderType::FRAGMENT},
+                {".cs",   GLSLShaderType::COMPUTE}
+        };
+
 Shader::Shader() : m_handle(glCreateProgram()) {
 }
 
@@ -15,82 +33,32 @@ Shader::Shader(const std::string &shaderAssetName) : Shader() {
     addVertex(Asset(shaderAssetName + "-gles.vs").read());
     addFragment(Asset(shaderAssetName + "-gles.fs").read());
 #else
-    addVertex(Asset(shaderAssetName + ".vs").read());
-    addFragment(Asset(shaderAssetName + ".fs").read());
+    addShader(shaderAssetName + ".vs");
+    addShader(shaderAssetName + ".fs");
 #endif
 }
 
-Shader::Shader(const char *vert_src, const char *frag_src) : Shader() {
-    addVertex(vert_src);
-    addFragment(frag_src);
-}
-
 Shader::~Shader() {
-    glDetachShader(m_handle, g_shVert);
-    glDeleteShader(g_shVert);
+    ZELO_ASSERT(m_handle, "shader handle not initialized");
 
-    glDetachShader(m_handle, g_shFrag);
-    glDeleteShader(g_shFrag);
+    // Query the number of attached shaders
+    GLint numShaders = 0;
+    glGetProgramiv(m_handle, GL_ATTACHED_SHADERS, &numShaders);
 
+    // Get the shader names
+    GLuint *shaderNames = new GLuint[numShaders];
+    glGetAttachedShaders(m_handle, numShaders, NULL, shaderNames);
+
+    // Delete the shaders
+    for (int i = 0; i < numShaders; i++) {
+        glDetachShader(m_handle, shaderNames[i]);
+        glDeleteShader(shaderNames[i]);
+    }
+
+    // Delete the program
     glDeleteProgram(m_handle);
-}
 
-void Shader::addVertex(const char *vert_src) {
-    char shErr[1024];
-    int errlen = 0;
-    GLint res = 0;
-
-    // Generate some IDs for our shader programs
-    g_shVert = glCreateShader(GL_VERTEX_SHADER);
-
-    // Assign our above shader source code to these IDs
-    glShaderSource(g_shVert, 1, &vert_src, nullptr);
-
-    // Attempt to compile the source code
-    glCompileShader(g_shVert);
-
-    // check if compilation was successful
-    glGetShaderiv(g_shVert, GL_COMPILE_STATUS, &res);
-    if (GL_FALSE == res) {
-        glGetShaderInfoLog(g_shVert, 1024, &errlen, shErr);
-        spdlog::error("Failed to compile vertex shader: {}", shErr);
-        return;
-    }
-
-    // Attach these shaders to the shader program
-    glAttachShader(m_handle, g_shVert);
-
-    // flag the shaders to be deleted when the shader program is deleted
-    glDeleteShader(g_shVert);
-}
-
-void Shader::addFragment(const char *frag_src) {
-    char shErr[1024];
-    int errlen = 0;
-    GLint res = 0;
-
-    // Generate some IDs for our shader programs
-    g_shFrag = glCreateShader(GL_FRAGMENT_SHADER);
-
-    // Assign our above shader source code to these IDs
-    glShaderSource(g_shFrag, 1, &frag_src, nullptr);
-
-    // Attempt to compile the source code
-    glCompileShader(g_shFrag);
-
-    // check if compilation was successful
-    glGetShaderiv(g_shFrag, GL_COMPILE_STATUS, &res);
-    if (GL_FALSE == res) {
-        glGetShaderInfoLog(g_shFrag, 1024, &errlen, shErr);
-        spdlog::error("Failed to compile fragment shader: {}", shErr);
-        return;
-    }
-
-    // Attach these shaders to the shader program
-    glAttachShader(m_handle, g_shFrag);
-
-    // flag the shaders to be deleted when the shader program is deleted
-    glDeleteShader(g_shFrag);
+    delete[] shaderNames;
 }
 
 void Shader::link() {
@@ -360,4 +328,64 @@ void Shader::printActiveAttributes() const {
         delete[] name;
     }
 #endif
+}
+
+void Shader::addShader(const std::string &fileName) const {
+    // Check the file name's extension to determine the shader type
+    auto ext = std::filesystem::path(fileName).extension();
+    auto shaderType = GLSLShaderType::VERTEX;
+    bool matchFound = false;
+    int numExt = sizeof(extensions) / sizeof(shader_file_extension);
+    for (int i = 0; i < numExt; i++) {
+        if (ext == extensions[i].ext) {
+            matchFound = true;
+            shaderType = extensions[i].type;
+            break;
+        }
+    }
+
+    // If we didn't find a match, throw an exception
+    if (!matchFound) {
+        spdlog::error("Unrecognized extension: {}", ext.c_str());
+        return;
+    }
+
+    // Pass the discovered shader type along
+    addShader(fileName, shaderType);
+}
+
+void Shader::addShader(const std::string &fileName, GLSLShaderType shaderType) const {
+    const char *c_code = Asset(fileName).read();
+
+    GLuint shaderHandle = glCreateShader(static_cast<GLenum>(shaderType));
+
+    glShaderSource(shaderHandle, 1, &c_code, NULL);
+
+    // Compile the shader
+    glCompileShader(shaderHandle);
+
+    // Check for errors
+    int result{};
+    glGetShaderiv(shaderHandle, GL_COMPILE_STATUS, &result);
+    if (GL_FALSE == result) {
+        // Compile failed, get log
+        int length = 0;
+        std::string logString;
+        glGetShaderiv(shaderHandle, GL_INFO_LOG_LENGTH, &length);
+        if (length > 0) {
+            char *c_log = new char[length];
+            int written = 0;
+            glGetShaderInfoLog(shaderHandle, length, &written, c_log);
+            logString = c_log;
+            delete[] c_log;
+        }
+        spdlog::error("{}: shader compliation failed\n{}", fileName, logString);
+        return;
+    } else {
+        // Compile succeeded, attach shader
+        glAttachShader(m_handle, shaderHandle);
+
+        // flag the shaders to be deleted when the shader program is deleted
+        glDeleteShader(shaderHandle);
+    }
 }
