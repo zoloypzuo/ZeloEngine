@@ -9,7 +9,7 @@
 struct shader_file_extension {
     const std::string &ext;
     GLSLShaderType type;
-} __attribute__((aligned(8)));
+};
 
 const struct shader_file_extension extensions[] =
         {
@@ -95,9 +95,9 @@ void Shader::createUniform(const std::string &name) {
 
 GLint Shader::getUniformLocation(const std::string &name) {
     auto result = m_uniformLocationMap.find(name);
-    if(result == m_uniformLocationMap.end()){
+    if (result == m_uniformLocationMap.end()) {
         createUniform(name);
-    }else{
+    } else {
         return result->second;
     }
 }
