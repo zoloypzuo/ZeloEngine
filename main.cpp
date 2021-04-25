@@ -4,8 +4,9 @@
 #include "sol/sol.hpp"
 
 extern "C" {
-    extern int luaopen_Zelo(lua_State* L);
+extern int luaopen_Zelo(lua_State *L);
 }
+
 int main() {
     sol::state lua;
     lua.open_libraries(sol::lib::package, sol::lib::base);
