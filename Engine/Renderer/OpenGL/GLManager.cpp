@@ -3,19 +3,33 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "GLManager.h"
+#include "GLUtil.h"
+
+#include <utility>
 
 
 GLManager::GLManager(Renderer *renderer, const glm::ivec2 &windowSize) {
 #ifndef ANDROID
+    spdlog::info("start initializing GLEW");
     glewExperimental = GL_TRUE;
     GLenum err = glewInit();
 
     if (GLEW_OK != err) {
-        spdlog::error("GLEW failed to initalize: {}", glewGetErrorString(err));
+        spdlog::error("GLEW failed to initialize: {}", glewGetErrorString(err));
     }
 
-    spdlog::info("Status: Using GLEW {}", glewGetString(GLEW_VERSION));
+    spdlog::info("GLEW Version: {}", glewGetString(GLEW_VERSION));
+    dumpGLInfo();
 #endif
+
+#ifndef __APPLE__
+    spdlog::debug("hook glDebugMessageCallback");
+    glDebugMessageCallback(debugCallback, NULL);
+    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+    glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
+                         GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Start debugging");
+#endif
+
     m_renderer = renderer;
     m_simpleRenderer = std::make_unique<SimpleRenderer>();
     m_simpleRenderer->initialize();
@@ -54,31 +68,31 @@ void GLManager::bindRenderTarget() const {
 }
 
 void GLManager::setActiveCamera(std::shared_ptr<Camera> camera) {
-    m_activeCamera = camera;
+    m_activeCamera = std::move(camera);
 }
 
-void GLManager::addDirectionalLight(std::shared_ptr<DirectionalLight> light) {
+void GLManager::addDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
     m_directionalLights.push_back(light);
 }
 
-void GLManager::removeDirectionalLight(std::shared_ptr<DirectionalLight> light) {
+void GLManager::removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
     m_directionalLights.erase(std::remove(m_directionalLights.begin(), m_directionalLights.end(), light),
                               m_directionalLights.end());
 }
 
-void GLManager::addPointLight(std::shared_ptr<PointLight> light) {
+void GLManager::addPointLight(const std::shared_ptr<PointLight> &light) {
     m_pointLights.push_back(light);
 }
 
-void GLManager::removePointLight(std::shared_ptr<PointLight> light) {
+void GLManager::removePointLight(const std::shared_ptr<PointLight> &light) {
     m_pointLights.erase(std::remove(m_pointLights.begin(), m_pointLights.end(), light), m_pointLights.end());
 }
 
-void GLManager::addSpotLight(std::shared_ptr<SpotLight> light) {
+void GLManager::addSpotLight(const std::shared_ptr<SpotLight> &light) {
     m_spotLights.push_back(light);
 }
 
-void GLManager::removeSpotLight(std::shared_ptr<SpotLight> light) {
+void GLManager::removeSpotLight(const std::shared_ptr<SpotLight> &light) {
     m_spotLights.erase(std::remove(m_spotLights.begin(), m_spotLights.end(), light), m_spotLights.end());
 }
 
@@ -90,7 +104,7 @@ glm::mat4 GLManager::getProjectionMatrix() {
     return m_activeCamera->getProjectionMatrix();
 }
 
-void GLManager::drawLine(Line line) {
+void GLManager::drawLine(const Line &line) {
     m_simpleRenderer->renderLine(line, m_activeCamera);
 }
 

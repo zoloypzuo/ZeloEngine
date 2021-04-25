@@ -42,17 +42,17 @@ public:
 
     void setActiveCamera(std::shared_ptr<Camera> camera);
 
-    void addDirectionalLight(std::shared_ptr<DirectionalLight> light);
+    void addDirectionalLight(const std::shared_ptr<DirectionalLight>& light);
 
-    void addPointLight(std::shared_ptr<PointLight> light);
+    void addPointLight(const std::shared_ptr<PointLight>& light);
 
-    void addSpotLight(std::shared_ptr<SpotLight> light);
+    void addSpotLight(const std::shared_ptr<SpotLight>& light);
 
-    void removeDirectionalLight(std::shared_ptr<DirectionalLight> light);
+    void removeDirectionalLight(const std::shared_ptr<DirectionalLight>& light);
 
-    void removePointLight(std::shared_ptr<PointLight> light);
+    void removePointLight(const std::shared_ptr<PointLight>& light);
 
-    void removeSpotLight(std::shared_ptr<SpotLight> light);
+    void removeSpotLight(const std::shared_ptr<SpotLight>& light);
 
     glm::mat4 getViewMatrix();
 
@@ -60,13 +60,13 @@ public:
 
     void drawEntity(Entity *entity);
 
-    void drawLine(Line line);
+    void drawLine(const Line& line);
 
     int width{};
     int height{};
 
-    GLuint lineBuffer;
-    GLuint VertexArrayID;
+    GLuint lineBuffer{};
+    GLuint VertexArrayID{};
 
 public:
     static GLManager *getSingletonPtr();

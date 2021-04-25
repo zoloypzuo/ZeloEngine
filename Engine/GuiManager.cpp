@@ -182,12 +182,10 @@ void GuiManager::invalidateDeviceObjects(void) {
 void GuiManager::createDeviceObjects(void) {
     m_shader = new Shader("shaders/gui");
     m_shader->link();
-    m_shader->createUniform("Texture");
-    m_shader->createUniform("ProjMtx");
 
-    g_AttribLocationPosition = glGetAttribLocation(m_shader->getProgram(), "Position");
-    g_AttribLocationUV = glGetAttribLocation(m_shader->getProgram(), "UV");
-    g_AttribLocationColor = glGetAttribLocation(m_shader->getProgram(), "Color");
+    g_AttribLocationPosition = glGetAttribLocation(m_shader->getHandle(), "Position");
+    g_AttribLocationUV = glGetAttribLocation(m_shader->getHandle(), "UV");
+    g_AttribLocationColor = glGetAttribLocation(m_shader->getHandle(), "Color");
 
     glGenBuffers(1, &g_VboHandle);
     glGenBuffers(1, &g_ElementsHandle);
