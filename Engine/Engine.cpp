@@ -7,6 +7,7 @@
 #include "Util/whereami.h"
 #include "MyGame.h"
 #include "Renderer/OpenGL/ForwardShadowRenderer.h"
+#include <vld.h>
 
 void Engine::initialize() {
     // init config and logger first
@@ -31,9 +32,9 @@ void Engine::initialize() {
 
     m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
 
-    m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
-        m_window->getGuiManager()->togglePropertyEditor();
-    });
+//    m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
+//        m_window->getGuiManager()->togglePropertyEditor();
+//    });
 
     m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
         m_fireRay = true;

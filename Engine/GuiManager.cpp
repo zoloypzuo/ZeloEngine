@@ -210,9 +210,8 @@ void GuiManager::createDeviceObjects(void) {
 #endif
 }
 
-GuiManager::GuiManager(const glm::vec2 &drawableSize, const glm::vec2 &displaySize, SDL_Window *sdlWindow) {
-    m_sdlWindow = sdlWindow;
-
+GuiManager::GuiManager(const glm::vec2 &drawableSize, const glm::vec2 &displaySize, SDL_Window *sdlWindow)
+        : m_sdlWindow(sdlWindow) {
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -251,10 +250,11 @@ GuiManager::GuiManager(const glm::vec2 &drawableSize, const glm::vec2 &displaySi
 
     createDeviceObjects();
 
-    unsigned char *pixels;
-    int width, height;
-    io.Fonts->GetTexDataAsRGBA32(&pixels, &width,
-                                 &height); // Load as RGBA 32-bits for OpenGL3 demo because it is more likely to be compatible with user's existing shader.
+    unsigned char *pixels = nullptr;
+    int width = 0, height = 0;
+    io.Fonts->GetTexDataAsRGBA32(
+            &pixels, &width,
+            &height); // Load as RGBA 32-bits for OpenGL3 demo because it is more likely to be compatible with user's existing shader.
     m_textureData = new TextureData(width, height, pixels, GL_TEXTURE_2D, GL_LINEAR);
 
     io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
@@ -429,7 +429,7 @@ void GuiManager::render(Entity *sceneGraph) {
                           ImGuiWindowFlags_NoMove |
                           ImGuiWindowFlags_NoSavedSettings)) {
             ImGui::End();
-        return;
+            return;
         }
         ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate,
                     ImGui::GetIO().Framerate);
@@ -448,8 +448,7 @@ void GuiManager::render(Entity *sceneGraph) {
         // ImGui::ShowTestWindow();
 
         ImGui::Render();
-    }
-    else {
+    } else {
         ImGui::Render();
     }
 }
