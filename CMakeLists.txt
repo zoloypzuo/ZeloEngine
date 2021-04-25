@@ -38,6 +38,21 @@ link_libraries(yaml-cpp)
 find_package(imgui CONFIG REQUIRED)
 link_libraries(imgui::imgui)
 
+option(DetectMemoryLeak "DetectMemoryLeak" ON)
+message(STATUS DetectMemoryLeak=${DetectMemoryLeak})
+
+if (DetectMemoryLeak)
+    set(VldIncludeDir "C:/Program Files (x86)/Visual Leak Detector/include")
+    if (WIN32)
+        set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win32")
+    else ()
+        set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win64")
+    endif ()
+    include_directories(${VldIncludeDir})
+    link_directories(${VldLibDir})
+endif ()
+
+
 # we do not use vcpkg lua
 #include(FindLua)
 #find_package(Lua REQUIRED)
@@ -87,7 +102,7 @@ add_custom_command(TARGET hello PRE_BUILD
 option(BuildTest "BuildTest" OFF)
 message(STATUS BuildTest=${BuildTest})
 
-if (BuildTest)  # build swig in win32 release
+if (BuildTest)
     find_package(gtest CONFIG REQUIRED)
 
     include(CTest)

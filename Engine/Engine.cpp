@@ -7,6 +7,7 @@
 #include "Util/whereami.h"
 #include "MyGame.h"
 #include "Renderer/OpenGL/ForwardShadowRenderer.h"
+#include <vld.h>
 
 void Engine::initialize() {
     // init config and logger first
