@@ -9,9 +9,9 @@
 struct shader_file_extension {
     const std::string &ext;
     GLSLShaderType type;
-};
+} __attribute__((aligned(8)));
 
-struct shader_file_extension extensions[] =
+const struct shader_file_extension extensions[] =
         {
                 {".vs",   GLSLShaderType::VERTEX},
                 {".vert", GLSLShaderType::VERTEX},
