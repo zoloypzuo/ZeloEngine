@@ -97,9 +97,8 @@ GLint Shader::getUniformLocation(const std::string &name) {
     auto result = m_uniformLocationMap.find(name);
     if (result == m_uniformLocationMap.end()) {
         createUniform(name);
-    } else {
-        return result->second;
     }
+    return m_uniformLocationMap[name];
 }
 
 void Shader::bind() const {
@@ -349,7 +348,7 @@ void Shader::addShader(const std::string &fileName) const {
 
     // If we didn't find a match, throw an exception
     if (!matchFound) {
-        spdlog::error("Unrecognized extension: {}", ext.c_str());
+        spdlog::error("Unrecognized extension: {}", ext.string());
         return;
     }
 
