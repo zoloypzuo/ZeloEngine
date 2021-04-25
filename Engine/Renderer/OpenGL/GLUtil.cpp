@@ -5,8 +5,8 @@
 #include "GLUtil.h"
 
 void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
-                                GLenum severity, GLsizei length,
-                                const GLchar *msg, const void *param) {
+                                          GLenum severity, GLsizei length,
+                                          const GLchar *msg, const void *param) {
 
     std::string sourceStr;
     switch (source) {
@@ -180,6 +180,25 @@ const char *getTypeString(GLenum type) {
             return "mat3";
         case GL_FLOAT_MAT4:
             return "mat4";
+        default:
+            return "?";
+    }
+}
+
+std::string getShaderTypeString(GLenum shaderType) {
+    switch (shaderType) {
+        case GL_VERTEX_SHADER:
+            return "GL_VERTEX_SHADER";
+        case GL_FRAGMENT_SHADER:
+            return "GL_FRAGMENT_SHADER";
+        case GL_GEOMETRY_SHADER:
+            return "GL_GEOMETRY_SHADER";
+        case GL_TESS_CONTROL_SHADER:
+            return "GL_TESS_CONTROL_SHADER";
+        case GL_TESS_EVALUATION_SHADER:
+            return "GL_TESS_EVALUATION_SHADER";
+        case GL_COMPUTE_SHADER:
+            return "GL_COMPUTE_SHADER";
         default:
             return "?";
     }

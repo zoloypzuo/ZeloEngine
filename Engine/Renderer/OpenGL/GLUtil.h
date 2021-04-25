@@ -15,3 +15,5 @@ void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
                                 const GLchar *msg, const void *param);
 
 const char *getTypeString(GLenum type);
+
+std::string getShaderTypeString(GLenum shaderType);

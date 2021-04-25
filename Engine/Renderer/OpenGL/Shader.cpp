@@ -357,6 +357,7 @@ void Shader::addShader(const std::string &fileName) const {
 }
 
 void Shader::addShader(const std::string &fileName, GLSLShaderType shaderType) const {
+    spdlog::debug("addShader {} {}", fileName, getShaderTypeString(static_cast<GLenum>(shaderType)));
     const char *c_code = Asset(fileName).read();
 
     GLuint shaderHandle = glCreateShader(static_cast<GLenum>(shaderType));
