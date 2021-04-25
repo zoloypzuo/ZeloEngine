@@ -119,84 +119,84 @@ GLuint Shader::getHandle() const {
     return m_handle;
 }
 
-void Shader::createUniform(const std::string &uniformName) {
-    m_uniformLocationMap[uniformName] = glGetUniformLocation(m_handle, uniformName.c_str());
+void Shader::createUniform(const std::string &name) {
+    m_uniformLocationMap[name] = glGetUniformLocation(m_handle, name.c_str());
 }
 
-GLint Shader::getUniformLocation(const std::string &uniformName) {
-    return m_uniformLocationMap[uniformName];
+GLint Shader::getUniformLocation(const std::string &name) {
+    return m_uniformLocationMap[name];
 }
 
 void Shader::bind() const {
     glUseProgram(m_handle);
 }
 
-void Shader::updateUniformDirectionalLight(const std::string &uniformName, DirectionalLight *directionalLight) {
+void Shader::updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight) {
     bind();
 
-    setUniformVec3f(uniformName + ".base.color", directionalLight->getColor());
-    setUniform1f(uniformName + ".base.intensity", directionalLight->getIntensity());
+    setUniformVec3f(name + ".base.color", directionalLight->getColor());
+    setUniform1f(name + ".base.intensity", directionalLight->getIntensity());
 
-    setUniformVec3f(uniformName + ".direction", directionalLight->getParent()->getDirection());
+    setUniformVec3f(name + ".direction", directionalLight->getParent()->getDirection());
 }
 
-void Shader::updateUniformPointLight(const std::string &uniformName, PointLight *pointLight) {
+void Shader::updateUniformPointLight(const std::string &name, PointLight *pointLight) {
     bind();
 
-    setUniformVec3f(uniformName + ".base.color", pointLight->getColor());
-    setUniform1f(uniformName + ".base.intensity", pointLight->getIntensity());
+    setUniformVec3f(name + ".base.color", pointLight->getColor());
+    setUniform1f(name + ".base.intensity", pointLight->getIntensity());
 
-    setUniformAttenuation(uniformName + ".attenuation", pointLight->getAttenuation());
-    setUniformVec3f(uniformName + ".position", pointLight->getParent()->getPosition());
-    setUniform1f(uniformName + ".range", pointLight->getRange());
+    setUniformAttenuation(name + ".attenuation", pointLight->getAttenuation());
+    setUniformVec3f(name + ".position", pointLight->getParent()->getPosition());
+    setUniform1f(name + ".range", pointLight->getRange());
 }
 
-void Shader::updateUniformSpotLight(const std::string &uniformName, SpotLight *spotLight) {
+void Shader::updateUniformSpotLight(const std::string &name, SpotLight *spotLight) {
     bind();
 
-    setUniformVec3f(uniformName + ".pointLight.base.color", spotLight->getColor());
-    setUniform1f(uniformName + ".pointLight.base.intensity", spotLight->getIntensity());
+    setUniformVec3f(name + ".pointLight.base.color", spotLight->getColor());
+    setUniform1f(name + ".pointLight.base.intensity", spotLight->getIntensity());
 
-    setUniformAttenuation(uniformName + ".pointLight.attenuation", spotLight->getAttenuation());
-    setUniformVec3f(uniformName + ".pointLight.position", spotLight->getParent()->getPosition());
-    setUniform1f(uniformName + ".pointLight.range", spotLight->getRange());
+    setUniformAttenuation(name + ".pointLight.attenuation", spotLight->getAttenuation());
+    setUniformVec3f(name + ".pointLight.position", spotLight->getParent()->getPosition());
+    setUniform1f(name + ".pointLight.range", spotLight->getRange());
 
-    setUniformVec3f(uniformName + ".direction", spotLight->getParent()->getDirection());
-    setUniform1f(uniformName + ".cutoff", spotLight->getCutoff());
+    setUniformVec3f(name + ".direction", spotLight->getParent()->getDirection());
+    setUniform1f(name + ".cutoff", spotLight->getCutoff());
 }
 
-void Shader::setUniformAttenuation(const std::string &uniformName, const std::shared_ptr<Attenuation> &attenuation) {
-    setUniform1f(uniformName + ".constant", attenuation->getConstant());
-    setUniform1f(uniformName + ".linear", attenuation->getLinear());
-    setUniform1f(uniformName + ".exponent", attenuation->getExponent());
+void Shader::setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation) {
+    setUniform1f(name + ".constant", attenuation->getConstant());
+    setUniform1f(name + ".linear", attenuation->getLinear());
+    setUniform1f(name + ".exponent", attenuation->getExponent());
 }
 
-void Shader::setUniform1i(const std::string &uniformName, int value) {
+void Shader::setUniform1i(const std::string &name, int value) {
     bind();
 
-    createUniform(uniformName);
-    glUniform1i(getUniformLocation(uniformName), value);
+    createUniform(name);
+    glUniform1i(getUniformLocation(name), value);
 }
 
-void Shader::setUniform1f(const std::string &uniformName, float value) {
+void Shader::setUniform1f(const std::string &name, float value) {
     bind();
 
-    createUniform(uniformName);
-    glUniform1f(getUniformLocation(uniformName), value);
+    createUniform(name);
+    glUniform1f(getUniformLocation(name), value);
 }
 
-void Shader::setUniformVec3f(const std::string &uniformName, glm::vec3 vector) {
+void Shader::setUniformVec3f(const std::string &name, glm::vec3 vector) {
     bind();
 
-    createUniform(uniformName);
-    glUniform3f(getUniformLocation(uniformName), vector.x, vector.y, vector.z);
+    createUniform(name);
+    glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
 }
 
-void Shader::setUniformMatrix4f(const std::string &uniformName, const glm::mat4 &matrix) {
+void Shader::setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) {
     bind();
 
-    createUniform(uniformName);
-    glUniformMatrix4fv(getUniformLocation(uniformName), 1, GL_FALSE, &(matrix)[0][0]);
+    createUniform(name);
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
 
 bool Shader::isInitialized() const {
