@@ -32,9 +32,9 @@ void Engine::initialize() {
 
     m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
 
-    m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
-        m_window->getGuiManager()->togglePropertyEditor();
-    });
+//    m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
+//        m_window->getGuiManager()->togglePropertyEditor();
+//    });
 
     m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
         m_fireRay = true;
