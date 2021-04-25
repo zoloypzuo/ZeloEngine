@@ -210,9 +210,7 @@ void GuiManager::createDeviceObjects(void) {
 #endif
 }
 
-GuiManager::GuiManager(const glm::vec2 &drawableSize, const glm::vec2 &displaySize, SDL_Window *sdlWindow) {
-    m_sdlWindow = sdlWindow;
-
+GuiManager::GuiManager(const glm::vec2 &drawableSize, const glm::vec2 &displaySize, SDL_Window *sdlWindow):m_sdlWindow(sdlWindow) {
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
