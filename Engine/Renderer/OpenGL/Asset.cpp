@@ -10,8 +10,7 @@
 #else
 #endif
 
-EngineIOStream::EngineIOStream(const std::string &fileName) {
-    m_fileName = fileName;
+EngineIOStream::EngineIOStream(const std::string &fileName) : m_fileName(fileName) {
 #ifdef ANDROID
     m_file = AAssetManager_open(AndroidAssetManager::getAssetManager(), fileName.c_str(), AASSET_MODE_UNKNOWN);
 #elif EMSCRIPTEN
