@@ -13,3 +13,5 @@ content = content_template.format(engine_dir)
 print "write to =>", boot_ini_path
 with open(boot_ini_path, "w") as fp:
     fp.write(content)
+
+# TODO copy vld.ini
