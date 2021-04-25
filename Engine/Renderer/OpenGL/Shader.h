@@ -53,6 +53,8 @@ public:
 
     void bind() const;
 
+    void findUniformLocations();
+
     void setUniformVec3f(const std::string &name, glm::vec3 vector);
 
     void setUniform1i(const std::string &name, int value);

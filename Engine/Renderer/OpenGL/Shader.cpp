@@ -78,9 +78,11 @@ void Shader::link() {
     if (GL_FALSE == res) {
         glGetProgramInfoLog(m_handle, 1024, &errlen, shErr);
         spdlog::error("Error validating shader: {}", shErr);
+        return;
+    } else {
+        findUniformLocations();
+        m_initialized = true;
     }
-
-    m_initialized = true;
 }
 
 GLuint Shader::getHandle() const {
@@ -92,7 +94,12 @@ void Shader::createUniform(const std::string &name) {
 }
 
 GLint Shader::getUniformLocation(const std::string &name) {
-    return m_uniformLocationMap[name];
+    auto result = m_uniformLocationMap.find(name);
+    if(result == m_uniformLocationMap.end()){
+        createUniform(name);
+    }else{
+        return result->second;
+    }
 }
 
 void Shader::bind() const {
@@ -142,28 +149,24 @@ void Shader::setUniformAttenuation(const std::string &name, const std::shared_pt
 void Shader::setUniform1i(const std::string &name, int value) {
     bind();
 
-    createUniform(name);
     glUniform1i(getUniformLocation(name), value);
 }
 
 void Shader::setUniform1f(const std::string &name, float value) {
     bind();
 
-    createUniform(name);
     glUniform1f(getUniformLocation(name), value);
 }
 
 void Shader::setUniformVec3f(const std::string &name, glm::vec3 vector) {
     bind();
 
-    createUniform(name);
     glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
 }
 
 void Shader::setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) {
     bind();
 
-    createUniform(name);
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
 
@@ -388,4 +391,46 @@ void Shader::addShader(const std::string &fileName, GLSLShaderType shaderType) c
         // flag the shaders to be deleted when the shader program is deleted
         glDeleteShader(shaderHandle);
     }
+}
+
+void Shader::findUniformLocations() {
+    m_uniformLocationMap.clear();
+
+    GLint numUniforms = 0;
+#ifdef __APPLE__
+    // For OpenGL 4.1, use glGetActiveUniform
+    GLint maxLen;
+    GLchar *name;
+
+    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLen);
+    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORMS, &numUniforms);
+
+    name = new GLchar[maxLen];
+    for (GLuint i = 0; i < numUniforms; ++i) {
+        GLint size;
+        GLenum type;
+        GLsizei written;
+        glGetActiveUniform(m_handle, i, maxLen, &written, &size, &type, name);
+        GLint location = glGetUniformLocation(m_handle, name);
+        m_uniformLocationMap[name] = glGetUniformLocation(m_handle, name);
+    }
+    delete[] name;
+#else
+    // For OpenGL 4.3 and above, use glGetProgramResource
+    glGetProgramInterfaceiv(m_handle, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
+
+    GLenum properties[] = {GL_NAME_LENGTH, GL_TYPE, GL_LOCATION, GL_BLOCK_INDEX};
+
+    for (GLint i = 0; i < numUniforms; ++i) {
+        GLint results[4];
+        glGetProgramResourceiv(m_handle, GL_UNIFORM, i, 4, properties, 4, NULL, results);
+
+        if (results[3] != -1) continue;  // Skip uniforms in blocks
+        GLint nameBufSize = results[0] + 1;
+        char *name = new char[nameBufSize];
+        glGetProgramResourceName(m_handle, GL_UNIFORM, i, nameBufSize, NULL, name);
+        m_uniformLocationMap[name] = results[2];
+        delete[] name;
+    }
+#endif
 }
