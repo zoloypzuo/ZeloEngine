@@ -57,4 +57,16 @@ private:
     std::shared_ptr<TextureData> m_textureData;
 };
 
+class Texture3D {
+public:
+    explicit Texture3D(const std::string &name);
+
+    void bind(unsigned int slot) const;
+
+    GLenum getTextureTarget() const;
+
+protected:
+    GLuint m_handle{};
+};
+
 #endif //ZELOENGINE_TEXTURE_H
