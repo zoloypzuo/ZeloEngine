@@ -74,14 +74,17 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // render sky
-//    m_skyboxShader->setUniformVec3f("WorldCameraPosition", activeCamera->getTransform().getPosition());
-
+    m_skyboxShader->bind();
+    m_skyboxTex->bind(0);
+    m_skyboxShader->setUniformVec3f("WorldCameraPosition", activeCamera->getTransform().getPosition());
+    m_skyboxShader->setUniformMatrix4f("ModelMatrix", glm::mat4(1.0f));
+    m_skyboxShader->setUniformMatrix4f("MVP", activeCamera->getProjectionMatrix() * activeCamera->getViewMatrix());
     m_skyboxShader->setUniform1i("DrawSkyBox", true);
     m_skybox->render();
     m_skyboxShader->setUniform1i("DrawSkyBox", false);
 
 
-
+    m_forwardAmbient->bind();
     m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
 
@@ -92,6 +95,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glDepthMask(GL_FALSE);
     glDepthFunc(GL_EQUAL);
 
+    m_forwardAmbient->bind();
     m_forwardDirectional->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardDirectional->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
     m_forwardDirectional->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
@@ -114,6 +118,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
 //        renderScene(m_forwardDirectional.get());
     }
 
+    m_forwardPoint->bind();
     m_forwardPoint->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardPoint->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
     m_forwardPoint->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
@@ -126,6 +131,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
         scene.renderAll(m_forwardPoint.get());
     }
 
+    m_forwardSpot->bind();
     m_forwardSpot->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardSpot->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
     m_forwardSpot->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
@@ -334,6 +340,7 @@ void ForwardShadowRenderer::initializeSkybox() {
     m_skybox = std::make_unique<SkyBox>();
 
     m_skyboxShader = std::make_unique<Shader>("Shader/cubemap_reflect");
+    m_skyboxShader->link();
     m_skyboxShader->setUniform1i("CubeMapTex", 0);
 }
 
