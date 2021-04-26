@@ -73,6 +73,15 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glViewport(0, 0, SCR_WIDTH, SCR_HEIGHT);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    // render sky
+//    m_skyboxShader->setUniformVec3f("WorldCameraPosition", activeCamera->getTransform().getPosition());
+
+    m_skyboxShader->setUniform1i("DrawSkyBox", true);
+    m_skybox->render();
+    m_skyboxShader->setUniform1i("DrawSkyBox", false);
+
+
+
     m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
 
@@ -183,9 +192,11 @@ void ForwardShadowRenderer::createShader() {
     m_forwardSpot->setUniform1i("diffuseMap", 0);
     m_forwardSpot->setUniform1i("normalMap", 1);
     m_forwardSpot->setUniform1i("specularMap", 2);
+
 }
 
 void ForwardShadowRenderer::initialize() {
+    initializeSkybox();
     initializeShadowMap();
     createShader();
 }
@@ -316,6 +327,14 @@ void ForwardShadowRenderer::renderQuad() const {
     glBindVertexArray(quadVAO);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
+}
+
+void ForwardShadowRenderer::initializeSkybox() {
+    m_skyboxTex = std::make_unique<Texture3D>("texture/cubemap_night/night");
+    m_skybox = std::make_unique<SkyBox>();
+
+    m_skyboxShader = std::make_unique<Shader>("Shader/cubemap_reflect");
+    m_skyboxShader->setUniform1i("CubeMapTex", 0);
 }
 
 #endif

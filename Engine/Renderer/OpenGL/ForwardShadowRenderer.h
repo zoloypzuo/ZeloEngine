@@ -6,6 +6,8 @@
 
 #include "ZeloPrerequisites.h"
 #include "ForwardRenderer.h"
+#include "Texture.h"
+#include "skybox.h"
 
 
 class ForwardShadowRenderer : public ForwardRenderer {
@@ -25,6 +27,10 @@ private:
     unsigned int depthMap{};
     unsigned int depthMapFBO{};
 
+    std::unique_ptr<Texture3D> m_skyboxTex;
+    std::unique_ptr<Shader> m_skyboxShader;
+    std::unique_ptr<SkyBox> m_skybox;
+
 protected:
     void initializeShadowMap();
 
@@ -37,6 +43,8 @@ protected:
 
     void renderCube() const;
 #endif
+
+    void initializeSkybox();
 };
 
 
