@@ -21,11 +21,11 @@ public:
     void initialize() override;
 
 private:
-    std::unique_ptr<Shader> debugDepthQuad;
-    std::unique_ptr<Shader> simpleDepthShader;
+    std::unique_ptr<Shader> m_debugDepthQuad;
+    std::unique_ptr<Shader> m_simpleDepthShader;
 
-    unsigned int depthMap{};
-    unsigned int depthMapFBO{};
+    unsigned int m_depthMap{};
+    unsigned int m_depthMapFBO{};
 
     std::unique_ptr<Texture3D> m_skyboxTex;
     std::unique_ptr<Shader> m_skyboxShader;

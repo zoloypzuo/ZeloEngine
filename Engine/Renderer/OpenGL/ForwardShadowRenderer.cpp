@@ -12,22 +12,32 @@ const unsigned int SCR_HEIGHT = 600;
 void ForwardShadowRenderer::initializeShadowMap() {
     // configure depth map FBO
     // -----------------------
-    glGenFramebuffers(1, &depthMapFBO);
+    glGenFramebuffers(1, &m_depthMapFBO);
+
     // create depth texture
-    glGenTextures(1, &depthMap);
-    glBindTexture(GL_TEXTURE_2D, depthMap);
+    glGenTextures(1, &m_depthMap);
+    glBindTexture(GL_TEXTURE_2D, m_depthMap);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT,
                  NULL);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
     // attach depth texture as FBO's depth buffer
-    glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_depthMapFBO);
+    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthMap, 0);
     glDrawBuffer(GL_NONE);
     glReadBuffer(GL_NONE);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+    // shader
+    m_simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth");
+    m_simpleDepthShader->link();
+
+    m_debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad");
+    m_debugDepthQuad->link();
+    m_debugDepthQuad->setUniform1i("m_depthMap", 0);
 }
 
 void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
@@ -49,18 +59,18 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     lightView = glm::lookAt(lightPos, glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0, 1.0, 0.0));
     lightSpaceMatrix = lightProjection * lightView;
     // render scene from light's point of view
-    simpleDepthShader->bind();
-    simpleDepthShader->setUniformMatrix4f("World", glm::mat4());
-    simpleDepthShader->setUniformMatrix4f("lightSpaceMatrix", lightSpaceMatrix);
+    m_simpleDepthShader->bind();
+    m_simpleDepthShader->setUniformMatrix4f("World", glm::mat4());
+    m_simpleDepthShader->setUniformMatrix4f("lightSpaceMatrix", lightSpaceMatrix);
 
     glViewport(0, 0, SHADOW_WIDTH, SHADOW_HEIGHT);
-    glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+    glBindFramebuffer(GL_FRAMEBUFFER, m_depthMapFBO);
     glEnable(GL_DEPTH_TEST);
 
     glClear(GL_DEPTH_BUFFER_BIT);
-    simpleDepthShader->bind();
-    scene.renderAll(simpleDepthShader.get());
-    renderScene(simpleDepthShader.get());  // DEBUG scene
+    m_simpleDepthShader->bind();
+    scene.renderAll(m_simpleDepthShader.get());
+    renderScene(m_simpleDepthShader.get());  // DEBUG scene
 
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
@@ -108,7 +118,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     m_forwardDirectional->setUniformVec3f("lightPos", lightPos);
 
     glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, depthMap);
+    glBindTexture(GL_TEXTURE_2D, m_depthMap);
 
     for (const auto &light : directionalLights) {
         light->updateShader(m_forwardDirectional.get());
@@ -151,11 +161,11 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
 #ifdef DEBUG_SHADOWMAP
     // render Depth map to quad for visual debugging
     // ---------------------------------------------
-    debugDepthQuad->bind();
-    debugDepthQuad->setUniform1f("near_plane", near_plane);
-    debugDepthQuad->setUniform1f("far_plane", far_plane);
+    m_debugDepthQuad->bind();
+    m_debugDepthQuad->setUniform1f("near_plane", near_plane);
+    m_debugDepthQuad->setUniform1f("far_plane", far_plane);
     glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, depthMap);
+    glBindTexture(GL_TEXTURE_2D, m_depthMap);
     renderQuad();
 #endif
 }
@@ -163,13 +173,6 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
 void ForwardShadowRenderer::createShader() {
     // build and compile shaders
     // -------------------------
-    simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth");
-    simpleDepthShader->link();
-
-    debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad");
-    debugDepthQuad->link();
-    debugDepthQuad->setUniform1i("depthMap", 0);
-
     m_forwardAmbient = std::make_unique<Shader>("shaders/forward-ambient");
     m_forwardAmbient->link();
 
@@ -205,6 +208,15 @@ void ForwardShadowRenderer::initialize() {
     initializeSkybox();
     initializeShadowMap();
     createShader();
+}
+
+void ForwardShadowRenderer::initializeSkybox() {
+    m_skyboxTex = std::make_unique<Texture3D>("texture/cubemap_night/night");
+    m_skybox = std::make_unique<SkyBox>();
+
+    m_skyboxShader = std::make_unique<Shader>("Shader/cubemap_reflect");
+    m_skyboxShader->link();
+    m_skyboxShader->setUniform1i("CubeMapTex", 0);
 }
 
 #ifdef DEBUG_SHADOWMAP
@@ -333,15 +345,6 @@ void ForwardShadowRenderer::renderQuad() const {
     glBindVertexArray(quadVAO);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     glBindVertexArray(0);
-}
-
-void ForwardShadowRenderer::initializeSkybox() {
-    m_skyboxTex = std::make_unique<Texture3D>("texture/cubemap_night/night");
-    m_skybox = std::make_unique<SkyBox>();
-
-    m_skyboxShader = std::make_unique<Shader>("Shader/cubemap_reflect");
-    m_skyboxShader->link();
-    m_skyboxShader->setUniform1i("CubeMapTex", 0);
 }
 
 #endif
