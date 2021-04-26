@@ -16,8 +16,11 @@ TextureData::~TextureData() {
     glDeleteTextures(1, &m_textureId);
 }
 
-void
-TextureData::createTexture(int width, int height, const unsigned char *data, GLenum textureTarget, GLfloat filter) {
+void TextureData::createTexture(
+        int width, int height,
+        const unsigned char *data,
+        GLenum textureTarget,
+        GLfloat filter) {
     m_textureTarget = textureTarget;
 
     glGenTextures(1, &m_textureId);
@@ -41,9 +44,12 @@ Texture::Texture(const Asset &file, GLenum textureTarget, GLfloat filter) {
     auto it = m_textureCache.find(file.getIOStream()->getFileName());
 
     if (it == m_textureCache.end() || !(m_textureData = it->second.lock())) {
-        int x, y, bytesPerPixel;
-        unsigned char *data = stbi_load_from_memory(reinterpret_cast<const unsigned char *>(file.read()),
-                                                    file.getIOStream()->fileSize(), &x, &y, &bytesPerPixel, 4);
+        int x = 0, y = 0, bytesPerPixel = 0;
+        unsigned char *data = stbi_load_from_memory(
+                reinterpret_cast<const unsigned char *>(file.read()),
+                static_cast<int>(file.getIOStream()->fileSize()),
+                &x, &y, &bytesPerPixel,
+                4);
 
         if (data == nullptr) {
             spdlog::error("Unable to load texture: {}", file.getIOStream()->getFileName().c_str());

@@ -23,13 +23,14 @@ public:
 
     virtual ~TextureData();
 
-    void createTexture(int width, int height, const unsigned char *data, GLenum textureTarget, GLfloat filter);
-
     void bind(unsigned int unit) const;
 
 private:
-    GLenum m_textureTarget;
-    GLuint m_textureId;
+    GLenum m_textureTarget{};
+    GLuint m_textureId{};
+
+private:
+    void createTexture(int width, int height, const unsigned char *data, GLenum textureTarget, GLfloat filter);
 };
 
 #if defined(GLES2)
@@ -46,7 +47,7 @@ private:
 
 class Texture {
 public:
-    Texture(const Asset &file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
+    explicit Texture(const Asset &file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
 
     ~Texture();
 
