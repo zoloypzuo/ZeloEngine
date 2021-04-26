@@ -18,6 +18,7 @@ add_library(OpenGLRenderer
         MeshManager.cpp
         Renderer.cpp Renderer.h
         GLUtil.cpp
+        skybox.cpp
         )
 
 find_package(GLEW REQUIRED)
