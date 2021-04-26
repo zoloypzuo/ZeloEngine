@@ -90,6 +90,8 @@ private:
 
     std::map<std::string, GLint> m_uniformLocationMap;
 
+    std::string m_name{};  // for debug
+
 private:
     void createUniform(const std::string &name);
 
