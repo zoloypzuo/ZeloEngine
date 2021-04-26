@@ -83,7 +83,7 @@ void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
             sevStr = "UNK";
     }
 
-    spdlog::info("{}:{}[{}]({}): {}",
+    spdlog::debug("{}:{}[{}]({}): {}",
                  sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(),
                  id, msg);
 }
