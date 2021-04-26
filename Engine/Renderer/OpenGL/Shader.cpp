@@ -27,7 +27,7 @@ const struct shader_file_extension extensions[] =
 Shader::Shader() : m_handle(glCreateProgram()) {
 }
 
-Shader::Shader(const std::string &shaderAssetName) : Shader() {
+Shader::Shader(const std::string &shaderAssetName) : m_handle(glCreateProgram()), m_name(shaderAssetName) {
 
 #if defined(GLES2) || defined(GLES3) || defined(EMSCRIPTEN)
     addVertex(Asset(shaderAssetName + "-gles.vs").read());
@@ -102,6 +102,9 @@ GLint Shader::getUniformLocation(const std::string &name) {
 }
 
 void Shader::bind() const {
+    if (!isInitialized()) {
+        spdlog::error("shader {} not linked before use", m_name);
+    }
     glUseProgram(m_handle);
 }
 
