@@ -52,6 +52,14 @@ if (DetectMemoryLeak)
     link_directories(${VldLibDir})
 endif ()
 
+option(UsePreCompiledHeader "UsePreCompiledHeader" ON)
+message(STATUS UsePreCompiledHeader=${UsePreCompiledHeader})
+
+if (UsePreCompiledHeader)
+    set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
+    include(cotire)
+endif ()
+
 
 # we do not use vcpkg lua
 #include(FindLua)
@@ -92,6 +100,11 @@ include_directories(Engine)
 link_libraries(Common)
 
 add_executable(hello main.cpp Engine/ZeloWrapperLua.cxx)
+if (UsePreCompiledHeader)
+    set_target_properties(hello PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "Engine/ZeloPreCompiledHeader.h")
+    cotire(hello)
+endif ()
+
 
 message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
