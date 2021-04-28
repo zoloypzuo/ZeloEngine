@@ -34,6 +34,12 @@ private:
     std::unique_ptr<Shader> m_skyboxShader;
     std::unique_ptr<SkyBox> m_skybox;
 
+    std::unique_ptr<Shader> m_deferredShader;
+    uint32_t pass1Index;
+    uint32_t pass2Index;
+    uint32_t deferredFBO;
+    uint32_t quad;
+
 protected:
     void initializeShadowMap();
 
@@ -48,4 +54,12 @@ protected:
 #endif
 
     void initializeSkybox();
+
+    void initializeDeferred();
+
+    void initializeQuad() ;
+
+    void initializeParam();
+
+    void initializeFbo() ;
 };
