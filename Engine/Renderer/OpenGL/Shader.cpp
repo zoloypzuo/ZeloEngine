@@ -166,6 +166,12 @@ void Shader::setUniformVec3f(const std::string &name, glm::vec3 vector) {
     glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
 }
 
+void Shader::setUniformVec4f(const std::string &name, glm::vec4 vector) {
+    bind();
+
+    glUniform4f(getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
+}
+
 void Shader::setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) {
     bind();
 
@@ -214,7 +220,7 @@ void Shader::printActiveUniforms() const {
         GLint nameBufSize = results[0] + 1;
         char *name = new char[nameBufSize];
         glGetProgramResourceName(m_handle, GL_UNIFORM, i, nameBufSize, NULL, name);
-        spdlog::debug("%-5d {} ({})\n", results[2], name, getTypeString(results[1]));
+        spdlog::debug("{} {} ({})\n", results[2], name, getTypeString(results[1]));
         delete[] name;
     }
 #endif

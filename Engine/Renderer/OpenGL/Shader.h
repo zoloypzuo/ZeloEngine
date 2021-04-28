@@ -57,6 +57,8 @@ public:
 
     void setUniformVec3f(const std::string &name, glm::vec3 vector);
 
+    void setUniformVec4f(const std::string &name, glm::vec4 vector);
+
     void setUniform1i(const std::string &name, int value);
 
     void setUniform1f(const std::string &name, float value);
