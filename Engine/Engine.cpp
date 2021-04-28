@@ -6,7 +6,8 @@
 #include "Engine.h"
 #include "Util/whereami.h"
 #include "MyGame.h"
-#include "Renderer/OpenGL/ForwardShadowRenderer.h"
+//#include "Renderer/OpenGL/ForwardShadowRenderer.h"
+#include "Renderer/OpenGL/DeferredRenderer.h"
 #include <vld.h>
 
 void Engine::initialize() {
@@ -18,7 +19,8 @@ void Engine::initialize() {
     m_configInitialized = true;
 
     m_window = std::make_unique<Window>();
-    m_renderer = std::make_unique<ForwardShadowRenderer>();
+//    m_renderer = std::make_unique<ForwardShadowRenderer>();
+    m_renderer = std::make_unique<DeferredRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
     m_renderer->initialize();
 //    m_game = std::make_unique<Game>(); game is newed by app

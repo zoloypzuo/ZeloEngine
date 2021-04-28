@@ -19,6 +19,7 @@ add_library(OpenGLRenderer
         Renderer.cpp Renderer.h
         GLUtil.cpp
         skybox.cpp
+        DeferredRenderer.cpp
         )
 
 find_package(GLEW REQUIRED)
