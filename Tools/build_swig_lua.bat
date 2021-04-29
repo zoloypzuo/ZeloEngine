@@ -20,7 +20,7 @@ set InterpreterTargetName=LuaInterpreter
 
 mkdir %BuildDir%
 
-swig -lua -c++ -Wall -o Engine/%SwigWrapperName% -outdir ./%BuildDir%/Engine/%BuildType% Engine/%SwigScriptName%
+swig -lua -c++ -no-old-metatable-bindings -o Engine/%SwigWrapperName% -outdir ./%BuildDir%/Engine/%BuildType% Engine/%SwigScriptName%
 
 cd %BuildDir%
 cmake -DCMAKE_GENERATOR_PLATFORM=win32 -DBuildSwigLua=ON -G  "Visual Studio 16" ..
