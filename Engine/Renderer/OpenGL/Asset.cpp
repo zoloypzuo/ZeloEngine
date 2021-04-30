@@ -26,6 +26,7 @@ EngineIOStream::EngineIOStream(const std::string &fileName) : m_fileName(fileNam
         ZELO_ASSERT(std::filesystem::exists(enginePath));
         filePath = enginePath;
     }
+    spdlog::debug("EngineIOStream {} => {}", fileName, filePath);
     m_file = new std::fstream(
             filePath.c_str(),
             std::ifstream::binary | std::fstream::in | std::fstream::out);
