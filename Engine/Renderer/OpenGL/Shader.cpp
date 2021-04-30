@@ -5,6 +5,7 @@
 #include "Shader.h"
 #include "Light.h"
 #include "GLUtil.h"
+#include "sol/sol.hpp"
 
 struct shader_file_extension {
     const std::string &ext;
@@ -33,8 +34,7 @@ Shader::Shader(const std::string &shaderAssetName) : m_handle(glCreateProgram())
     addVertex(Asset(shaderAssetName + "-gles.vs").read());
     addFragment(Asset(shaderAssetName + "-gles.fs").read());
 #else
-    addShader(shaderAssetName + ".vs");
-    addShader(shaderAssetName + ".fs");
+    loadShader(shaderAssetName);
 #endif
 }
 
@@ -364,6 +364,10 @@ void Shader::addShader(const std::string &fileName, GLSLShaderType shaderType) c
     const Asset &asset = Asset(fileName);
     const char *c_code = asset.read();
 
+    addShaderSrc(fileName, shaderType, c_code);
+}
+
+void Shader::addShaderSrc(const std::string &fileName, const GLSLShaderType &shaderType, const char *c_code) const {
     GLuint shaderHandle = glCreateShader(static_cast<GLenum>(shaderType));
 
     glShaderSource(shaderHandle, 1, &c_code, NULL);
@@ -437,4 +441,14 @@ void Shader::findUniformLocations() {
         delete[] name;
     }
 #endif
+}
+
+void Shader::loadShader(const std::string &fileName) const {
+    auto asset = Asset(fileName);
+    sol::state lua;
+    sol::table result = lua.script(asset.read());
+    std::string vertex_src = result["vertex_shader"];
+    std::string fragment_src = result["fragment_shader"];
+    addShaderSrc(fileName, GLSLShaderType::VERTEX, vertex_src.c_str());
+    addShaderSrc(fileName, GLSLShaderType::FRAGMENT, fragment_src.c_str());
 }

@@ -180,7 +180,7 @@ void GuiManager::invalidateDeviceObjects(void) {
 }
 
 void GuiManager::createDeviceObjects(void) {
-    m_shader = new Shader("shaders/gui");
+    m_shader = new Shader("Shader/gui.lua");
     m_shader->link();
 
     g_AttribLocationPosition = glGetAttribLocation(m_shader->getHandle(), "Position");
