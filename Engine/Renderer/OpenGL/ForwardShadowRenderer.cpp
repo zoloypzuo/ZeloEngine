@@ -180,7 +180,7 @@ void ForwardShadowRenderer::createShader() {
 
     m_forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
-    m_forwardDirectional = std::make_unique<Shader>("Shader/forward-directional");
+    m_forwardDirectional = std::make_unique<Shader>("Shader/forward-directional.lua");
     m_forwardDirectional->link();
 
     m_forwardDirectional->setUniform1i("diffuseMap", 0);
