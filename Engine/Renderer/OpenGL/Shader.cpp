@@ -178,6 +178,7 @@ void Shader::setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
 
+
 bool Shader::isInitialized() const {
     return m_initialized;
 }
@@ -457,4 +458,10 @@ void Shader::loadShader(const std::string &fileName) const {
     std::string fragment_src = result["fragment_shader"];
     addShaderSrc(fileName, GLSLShaderType::VERTEX, vertex_src.c_str());
     addShaderSrc(fileName, GLSLShaderType::FRAGMENT, fragment_src.c_str());
+}
+
+void Shader::setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) {
+    bind();
+
+    glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }

@@ -67,6 +67,8 @@ public:
 
     void setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix);
 
+    void setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix);
+
     // TODO decouple and remove these api
     void updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight);
 
