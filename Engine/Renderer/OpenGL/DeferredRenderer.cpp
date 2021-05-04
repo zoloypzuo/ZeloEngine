@@ -81,13 +81,13 @@ void DeferredRenderer::pass1(const std::shared_ptr<Camera> &activeCamera) const 
     model = glm::translate(model, glm::vec3(0.0f, 0.0f, 0.0f));
     model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     setMatrices(model, view, projection);
-    teapot.render();
+    teapot->render();
 
     m_deferredShader->setUniformVec3f("Material.Kd", glm::vec3(0.4f, 0.4f, 0.4f));
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(0.0f, -0.75f, 0.0f));
     setMatrices(model, view, projection);
-    plane.render();
+    plane->render();
 
     m_deferredShader->setUniformVec4f("Light.Position", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
     m_deferredShader->setUniformVec3f("Material.Kd", glm::vec3(0.9f, 0.5f, 0.2f));
@@ -95,7 +95,7 @@ void DeferredRenderer::pass1(const std::shared_ptr<Camera> &activeCamera) const 
     model = glm::translate(model, glm::vec3(1.0f, 1.0f, 3.0f));
     model = glm::rotate(model, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
     setMatrices(model, view, projection);
-    torus.render();
+    torus->render();
 
     glFinish();
 }
@@ -208,4 +208,13 @@ void DeferredRenderer::initializeQuad() {
     glEnableVertexAttribArray(2);  // Texture coordinates
 
     glBindVertexArray(0);
+}
+
+void DeferredRenderer::initiializeMesh() {
+    //                                  plane(50.0f, 50.0f, 1, 1),
+    //                                 torus(0.7f * 1.5f, 0.3f * 1.5f, 50,50),
+    //                                 teapot(14, mat4(1.0))
+    plane = std::make_unique<Ingredients::Plane>(50.0f, 50.0f, 1, 1);
+    torus = std::make_unique<Torus>(0.7f * 1.5f, 0.3f * 1.5f, 50, 50);
+    teapot = std::make_unique<Teapot>(14, glm::mat4(1.0f));
 }

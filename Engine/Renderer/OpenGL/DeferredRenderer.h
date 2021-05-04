@@ -4,18 +4,13 @@
 
 #pragma once
 
-#include <Renderer/OpenGL/ingredients/plane.h>
-#include <Renderer/OpenGL/ingredients/torus.h>
-#include <Renderer/OpenGL/ingredients/teapot.h>
-#include "ZeloPrerequisites.h"
-
 
 #include "ZeloPrerequisites.h"
 #include "ForwardRenderer.h"
 #include "Texture.h"
-#include "skybox.h"
-#include "plane.h"
-
+#include <Renderer/OpenGL/ingredients/plane.h>
+#include <Renderer/OpenGL/ingredients/torus.h>
+#include <Renderer/OpenGL/ingredients/teapot.h>
 
 class DeferredRenderer : public ForwardRenderer {
 
@@ -28,28 +23,20 @@ public:
     void initialize() override;
 
 private:
-    std::unique_ptr<Shader> m_debugDepthQuad;
-    std::unique_ptr<Shader> m_simpleDepthShader;
-
-    unsigned int m_depthMap{};
-    unsigned int m_depthMapFBO{};
-
-    std::unique_ptr<Texture3D> m_skyboxTex;
-    std::unique_ptr<Shader> m_skyboxShader;
-    std::unique_ptr<SkyBox> m_skybox;
-
     std::unique_ptr<Shader> m_deferredShader;
     uint32_t pass1Index;
     uint32_t pass2Index;
     uint32_t deferredFBO;
     uint32_t quad;
 
-    Ingredients::Plane plane;
-    Torus torus;
-    Teapot teapot;
+    std::unique_ptr<Ingredients::Plane> plane;
+    std::unique_ptr<Torus> torus;
+    std::unique_ptr<Teapot> teapot;
 
 protected:
     void initializeDeferred();
+
+    void initiializeMesh();
 
     void initializeQuad();
 
