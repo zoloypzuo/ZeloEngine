@@ -16,6 +16,7 @@ EngineIOStream::EngineIOStream(const std::string &fileName) : m_fileName(fileNam
 #elif EMSCRIPTEN
     m_file = new std::fstream(ASSET_DIR + fileName, std::ifstream::binary | std::fstream::in | std::fstream::out);
 #else
+    spdlog::debug("EngineIOStream {}", fileName);
     // fallback search
     std::filesystem::path filePath;
     auto engineAssetPath = Engine::getSingletonPtr()->getAssetDir() / fileName;

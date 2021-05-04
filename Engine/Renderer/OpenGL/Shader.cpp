@@ -166,11 +166,18 @@ void Shader::setUniformVec3f(const std::string &name, glm::vec3 vector) {
     glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
 }
 
+void Shader::setUniformVec4f(const std::string &name, glm::vec4 vector) {
+    bind();
+
+    glUniform4f(getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
+}
+
 void Shader::setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) {
     bind();
 
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
+
 
 bool Shader::isInitialized() const {
     return m_initialized;
@@ -189,12 +196,12 @@ void Shader::printActiveUniforms() const {
 
     name = new GLchar[maxLen];
 
-    spdlog::debug("Active uniforms:\n");
-    spdlog::debug("------------------------------------------------\n");
+    spdlog::debug("Active uniforms:");
+    spdlog::debug("------------------------------------------------");
     for (GLuint i = 0; i < nUniforms; ++i) {
         glGetActiveUniform(m_handle, i, maxLen, &written, &size, &type, name);
         location = glGetUniformLocation(m_handle, name);
-        spdlog::debug(" %-5d {} ({})\n", location, name, getTypeString(type));
+        spdlog::debug(" {} {} ({})", location, name, getTypeString(type));
     }
 
     delete[] name;
@@ -205,7 +212,7 @@ void Shader::printActiveUniforms() const {
 
     GLenum properties[] = {GL_NAME_LENGTH, GL_TYPE, GL_LOCATION, GL_BLOCK_INDEX};
 
-    spdlog::debug("Active uniforms:\n");
+    spdlog::debug("Active uniforms:");
     for (int i = 0; i < numUniforms; ++i) {
         GLint results[4];
         glGetProgramResourceiv(m_handle, GL_UNIFORM, i, 4, properties, 4, NULL, results);
@@ -214,7 +221,7 @@ void Shader::printActiveUniforms() const {
         GLint nameBufSize = results[0] + 1;
         char *name = new char[nameBufSize];
         glGetProgramResourceName(m_handle, GL_UNIFORM, i, nameBufSize, NULL, name);
-        spdlog::debug("%-5d {} ({})\n", results[2], name, getTypeString(results[1]));
+        spdlog::debug("{} {} ({})", results[2], name, getTypeString(results[1]));
         delete[] name;
     }
 #endif
@@ -232,12 +239,12 @@ void Shader::printActiveUniformBlocks() const {
     GLchar *uniName = new GLchar[maxUniLen];
     name = new GLchar[maxLength];
 
-    spdlog::debug("Active Uniform blocks: \n");
-    spdlog::debug("------------------------------------------------\n");
+    spdlog::debug("Active Uniform blocks: ");
+    spdlog::debug("------------------------------------------------");
     for (GLuint i = 0; i < nBlocks; i++) {
         glGetActiveUniformBlockName(m_handle, i, maxLength, &written, name);
         glGetActiveUniformBlockiv(m_handle, i, GL_UNIFORM_BLOCK_BINDING, &binding);
-        spdlog::debug("Uniform block \"{}\" ({}):\n", name, binding);
+        spdlog::debug("Uniform block \"{}\" ({}):", name, binding);
 
         GLint nUnis;
         glGetActiveUniformBlockiv(m_handle, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &nUnis);
@@ -250,7 +257,7 @@ void Shader::printActiveUniformBlocks() const {
             GLenum type;
 
             glGetActiveUniform(m_handle, uniIndex, maxUniLen, &written, &size, &type, uniName);
-            spdlog::debug("    {} ({})\n", name, getTypeString(type));
+            spdlog::debug("    {} ({})", name, getTypeString(type));
         }
 
         delete[] unifIndexes;
@@ -272,7 +279,7 @@ void Shader::printActiveUniformBlocks() const {
 
         char *blockName = new char[blockInfo[1] + 1];
         glGetProgramResourceName(m_handle, GL_UNIFORM_BLOCK, block, blockInfo[1] + 1, NULL, blockName);
-        spdlog::debug("Uniform block \"{}\":\n", blockName);
+        spdlog::debug("Uniform block \"{}\":", blockName);
         delete[] blockName;
 
         auto *unifIndexes = new GLint[numUnis];
@@ -286,7 +293,7 @@ void Shader::printActiveUniformBlocks() const {
             GLint nameBufSize = results[0] + 1;
             char *name = new char[nameBufSize];
             glGetProgramResourceName(m_handle, GL_UNIFORM, uniIndex, nameBufSize, NULL, name);
-            spdlog::debug("    {} ({})\n", name, getTypeString(results[1]));
+            spdlog::debug("{} {} ({})", name, getTypeString(results[1]));
             delete[] name;
         }
 
@@ -306,12 +313,12 @@ void Shader::printActiveAttributes() const {
     glGetProgramiv(m_handle, GL_ACTIVE_ATTRIBUTES, &nAttribs);
 
     name = new GLchar[maxLength];
-    spdlog::debug("Active Attributes: \n");
-    spdlog::debug("------------------------------------------------\n");
+    spdlog::debug("Active Attributes: ");
+    spdlog::debug("------------------------------------------------");
     for (int i = 0; i < nAttribs; i++) {
         glGetActiveAttrib(m_handle, i, maxLength, &written, &size, &type, name);
         location = glGetAttribLocation(m_handle, name);
-        spdlog::debug(" %-5d {} ({})\n", location, name, getTypeString(type));
+        spdlog::debug("{} {} ({})", location, name, getTypeString(type));
     }
     delete[] name;
 #else
@@ -321,7 +328,7 @@ void Shader::printActiveAttributes() const {
 
     GLenum properties[] = {GL_NAME_LENGTH, GL_TYPE, GL_LOCATION};
 
-    spdlog::debug("Active attributes:\n");
+    spdlog::debug("Active attributes:");
     for (int i = 0; i < numAttribs; ++i) {
         GLint results[3];
         glGetProgramResourceiv(m_handle, GL_PROGRAM_INPUT, i, 3, properties, 3, NULL, results);
@@ -329,7 +336,7 @@ void Shader::printActiveAttributes() const {
         GLint nameBufSize = results[0] + 1;
         char *name = new char[nameBufSize];
         glGetProgramResourceName(m_handle, GL_PROGRAM_INPUT, i, nameBufSize, NULL, name);
-        spdlog::debug("%-5d {} ({})\n", results[2], name, getTypeString(results[1]));
+        spdlog::debug("{} {} ({})", results[2], name, getTypeString(results[1]));
         delete[] name;
     }
 #endif
@@ -390,7 +397,7 @@ void Shader::addShaderSrc(const std::string &fileName, const GLSLShaderType &sha
             logString = c_log;
             delete[] c_log;
         }
-        spdlog::error("{}: shader compliation failed\n{}", fileName, logString);
+        spdlog::error("{}: shader compliation failed{}", fileName, logString);
         return;
     } else {
         // Compile succeeded, attach shader
@@ -451,4 +458,10 @@ void Shader::loadShader(const std::string &fileName) const {
     std::string fragment_src = result["fragment_shader"];
     addShaderSrc(fileName, GLSLShaderType::VERTEX, vertex_src.c_str());
     addShaderSrc(fileName, GLSLShaderType::FRAGMENT, fragment_src.c_str());
+}
+
+void Shader::setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) {
+    bind();
+
+    glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
