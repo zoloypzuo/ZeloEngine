@@ -22,7 +22,12 @@ add_library(OpenGLRenderer
         DeferredRenderer.cpp
         )
 
+target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)
+
 # GLEW replaced by GLAD
 find_package(glad CONFIG REQUIRED)
 target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
-target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)
+
+add_subdirectory(ingredients)
+target_link_libraries(OpenGLRenderer PRIVATE ingredients)
+

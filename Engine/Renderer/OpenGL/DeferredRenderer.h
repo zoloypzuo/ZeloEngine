@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include <Renderer/OpenGL/ingredients/plane.h>
+#include <Renderer/OpenGL/ingredients/torus.h>
+#include <Renderer/OpenGL/ingredients/teapot.h>
 #include "ZeloPrerequisites.h"
 
 
@@ -11,6 +14,7 @@
 #include "ForwardRenderer.h"
 #include "Texture.h"
 #include "skybox.h"
+#include "plane.h"
 
 
 class DeferredRenderer : public ForwardRenderer {
@@ -40,26 +44,25 @@ private:
     uint32_t deferredFBO;
     uint32_t quad;
 
+    Ingredients::Plane plane;
+    Torus torus;
+    Teapot teapot;
+
 protected:
-    void initializeShadowMap();
-
-    void createShader();
-
-#ifdef DEBUG_SHADOWMAP
-    void renderScene(Shader *shader) const;
-
-    void renderQuad() const;
-
-    void renderCube() const;
-#endif
-
-    void initializeSkybox();
-
     void initializeDeferred();
 
-    void initializeQuad() ;
+    void initializeQuad();
 
     void initializeParam();
 
-    void initializeFbo() ;
+    void initializeFbo();
+
+    void pass1(const std::shared_ptr<Camera> &activeCamera) const;
+
+    void pass2(const Entity &scene, const std::shared_ptr<Camera> &activeCamera,
+               const std::vector<std::shared_ptr<PointLight>> &pointLights,
+               const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+               const std::vector<std::shared_ptr<SpotLight>> &spotLights) const;
+
+    void setMatrices(glm::mat4 model, glm::mat4 view, glm::mat4 projection) const;
 };
