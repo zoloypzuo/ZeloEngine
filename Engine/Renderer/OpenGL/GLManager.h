@@ -14,7 +14,7 @@
 #include <GLES3/gl3.h>
 #else
 
-#include <gl/glew.h>
+#include <glad/glad.h>
 
 #endif
 
