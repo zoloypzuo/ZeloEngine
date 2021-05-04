@@ -11,7 +11,7 @@ GLManager::GLManager(Renderer *renderer, const glm::ivec2 &windowSize) {
 #ifndef ANDROID
     // Load the OpenGL functions.
     spdlog::info("start initializing GLAD");
-    if (!gladLoadGL()) {
+    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
         spdlog::error("GLAD failed to initialize");
         ZELO_ASSERT(false, "GLAD failed to initialize");
     }
