@@ -122,6 +122,7 @@ void DeferredRenderer::initializeDeferred() {
     m_deferredShader = std::make_unique<Shader>("Shader/deferred.lua");
     m_deferredShader->link();
     m_deferredShader->bind();
+    initiializeMesh();
     initializeQuad();
     initializeFbo();
     initializeParam();
