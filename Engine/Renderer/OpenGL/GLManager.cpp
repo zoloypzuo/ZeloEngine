@@ -7,23 +7,23 @@
 
 #include <utility>
 
-
 GLManager::GLManager(Renderer *renderer, const glm::ivec2 &windowSize) {
 #ifndef ANDROID
-    spdlog::info("start initializing GLEW");
-    glewExperimental = GL_TRUE;
-    GLenum err = glewInit();
-
-    if (GLEW_OK != err) {
-        spdlog::error("GLEW failed to initialize: {}", glewGetErrorString(err));
+    // Load the OpenGL functions.
+    spdlog::info("start initializing GLAD");
+    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
+        spdlog::error("GLAD failed to initialize");
+        ZELO_ASSERT(false, "GLAD failed to initialize");
     }
 
-    spdlog::info("GLEW Version: {}", glewGetString(GLEW_VERSION));
     dumpGLInfo();
 #endif
 
 #ifndef __APPLE__
-    if (GLEW_ARB_debug_output) {
+    int flags{};
+    glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT && glDebugMessageCallback) {
+        // initialize debug output 
         spdlog::debug("GL debug context initialized, hook glDebugMessageCallback");
         glDebugMessageCallback(debugCallback, NULL);
         glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
