@@ -270,7 +270,7 @@ void createGBufTex(GLenum texUnit, GLenum format, GLuint &texid) {
 }
 
 void DeferredRenderer::initializeDeferred() {
-    m_deferredShader = std::make_unique<Shader>("Shader/deferred");
+    m_deferredShader = std::make_unique<Shader>("Shader/deferred.lua");
     m_deferredShader->link();
     m_deferredShader->bind();
     initializeQuad();
