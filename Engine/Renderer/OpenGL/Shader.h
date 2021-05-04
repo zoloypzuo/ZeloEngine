@@ -45,6 +45,8 @@ public:
     ~Shader();
 
 public:
+    void loadShader(const std::string &fileName) const;
+
     void addShader(const std::string &fileName) const;
 
     void addShader(const std::string &fileName, GLSLShaderType shaderType) const;
@@ -98,6 +100,8 @@ private:
     void createUniform(const std::string &name);
 
     GLint getUniformLocation(const std::string &name);
+
+    void addShaderSrc(const std::string &fileName, const GLSLShaderType &shaderType, const char *c_code) const;
 };
 
 

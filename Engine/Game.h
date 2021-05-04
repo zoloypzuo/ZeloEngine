@@ -11,7 +11,7 @@
 
 class Entity;
 
-class Game : public Singleton<Game>, IRuntimeModule {
+class Game : public Singleton<Game>, public IRuntimeModule {
 public:
     Game();
 

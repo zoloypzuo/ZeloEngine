@@ -33,6 +33,15 @@ using namespace std;
 %ignore *::setUserAny; // deprecated
 %ignore *::getUserAny; // deprecated
 %ignore *::getSingletonPtr; // only expose the non ptr variant
+%ignore Singleton;
+
+template<class T> class Singleton{
+
+};
+
+%template(SingletonEngine) Singleton<Engine>;
+%template(SingletonGame) Singleton<Game>;
+%template(SingletonInput) Singleton<Input>;
 
 #ifdef SWIG_DIRECTORS
 %feature("director:except") {
