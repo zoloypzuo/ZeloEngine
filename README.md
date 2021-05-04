@@ -6,6 +6,8 @@ It is all about game engine.
 
 自顶向下开发的游戏引擎Demo
 
+正在施工中
+
 # 动机
 
 * 满足好奇心
@@ -19,6 +21,9 @@ It is all about game engine.
     * 多种脚本语言，C#，Python，Lua
     * DSL驱动引擎模块，避免编辑器（行为树，状态机etc）
     * DSL驱动渲染管线（可编程渲染管线，frame graph）
+* 渲染器原型
+* 游戏逻辑框架
+* 脚本支持
 
 ## v2
 * 多线程引擎架构
