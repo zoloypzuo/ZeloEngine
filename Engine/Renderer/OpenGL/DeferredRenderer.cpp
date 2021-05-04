@@ -32,10 +32,10 @@ void DeferredRenderer::initializeShadowMap() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
     // shader
-    m_simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth");
+    m_simpleDepthShader = std::make_unique<Shader>("Shader/3.1.1.shadow_mapping_depth.lua");
     m_simpleDepthShader->link();
 
-    m_debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad");
+    m_debugDepthQuad = std::make_unique<Shader>("Shader/3.1.1.debug_quad.lua");
     m_debugDepthQuad->link();
     m_debugDepthQuad->setUniform1i("m_depthMap", 0);
 }
@@ -208,14 +208,14 @@ void DeferredRenderer::render(const Entity &scene, std::shared_ptr<Camera> activ
 void DeferredRenderer::createShader() {
     // build and compile shaders
     // -------------------------
-    m_forwardAmbient = std::make_unique<Shader>("shaders/forward-ambient");
+    m_forwardAmbient = std::make_unique<Shader>("Shader/forward-ambient.lua");
     m_forwardAmbient->link();
 
     m_forwardAmbient->setUniform1i("diffuseMap", 0);
 
     m_forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
-    m_forwardDirectional = std::make_unique<Shader>("Shader/forward-directional");
+    m_forwardDirectional = std::make_unique<Shader>("Shader/forward-directional.lua");
     m_forwardDirectional->link();
 
     m_forwardDirectional->setUniform1i("diffuseMap", 0);
@@ -223,14 +223,14 @@ void DeferredRenderer::createShader() {
     m_forwardDirectional->setUniform1i("specularMap", 2);
     m_forwardDirectional->setUniform1i("shadowMap", 3);
 
-    m_forwardPoint = std::make_unique<Shader>("shaders/forward-point");
+    m_forwardPoint = std::make_unique<Shader>("Shader/forward-point.lua");
     m_forwardPoint->link();
 
     m_forwardPoint->setUniform1i("diffuseMap", 0);
     m_forwardPoint->setUniform1i("normalMap", 1);
     m_forwardPoint->setUniform1i("specularMap", 2);
 
-    m_forwardSpot = std::make_unique<Shader>("shaders/forward-spot");
+    m_forwardSpot = std::make_unique<Shader>("Shader/forward-spot.lua");
     m_forwardSpot->link();
 
     m_forwardSpot->setUniform1i("diffuseMap", 0);
@@ -250,7 +250,7 @@ void DeferredRenderer::initializeSkybox() {
     m_skyboxTex = std::make_unique<Texture3D>("texture/cubemap_night/night");
     m_skybox = std::make_unique<SkyBox>();
 
-    m_skyboxShader = std::make_unique<Shader>("Shader/cubemap_reflect");
+    m_skyboxShader = std::make_unique<Shader>("Shader/cubemap_reflect.lua");
     m_skyboxShader->link();
     m_skyboxShader->setUniform1i("CubeMapTex", 0);
 }
