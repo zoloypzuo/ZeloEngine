@@ -21,6 +21,7 @@ add_library(OpenGLRenderer
         skybox.cpp
         )
 
-find_package(GLEW REQUIRED)
-target_link_libraries(OpenGLRenderer PRIVATE GLEW::GLEW)
+# GLEW replaced by GLAD
+find_package(glad CONFIG REQUIRED)
+target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
 target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)
