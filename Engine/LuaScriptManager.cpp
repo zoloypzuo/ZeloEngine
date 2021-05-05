@@ -41,6 +41,9 @@ void LuaScriptManager::initialize() {
             sol::lib::utf8
     );
     require("Zelo", luaopen_Zelo);
+
+    set("SCRIPT_DIR", Engine::getSingletonPtr()->getScriptDir().string());
+
     auto mainLuaPath = Engine::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
     do_file(mainLuaPath.string());
 }
