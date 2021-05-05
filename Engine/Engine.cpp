@@ -70,7 +70,7 @@ void Engine::initConfig() {
     m_engineDir = bootConfig->GetString("boot", "engineDir", "").c_str();
     m_configDir = m_engineDir / "Config";
     m_assertDir = m_engineDir / "assets";
-    m_scriptDir = m_scriptDir / "Script";
+    m_scriptDir = m_engineDir / "Script";
 
     auto engineIniPath = m_configDir / "Engine.ini";
     m_config = std::make_unique<INIReader>(engineIniPath.string());
