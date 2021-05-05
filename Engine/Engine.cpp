@@ -17,6 +17,7 @@ void Engine::initialize() {
     }
     m_configInitialized = true;
 
+    m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_window = std::make_unique<Window>();
     m_renderer = std::make_unique<ForwardShadowRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
