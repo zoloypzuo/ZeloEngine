@@ -42,7 +42,7 @@ void LuaScriptManager::initialize() {
     );
     require("Zelo", luaopen_Zelo);
     auto mainLuaPath = Engine::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-    require_file("main", mainLuaPath.string());
+    do_file(mainLuaPath.string());
 }
 
 void LuaScriptManager::finalize() {
