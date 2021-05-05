@@ -18,15 +18,31 @@ EngineIOStream::EngineIOStream(const std::string &fileName) : m_fileName(fileNam
 #else
     spdlog::debug("EngineIOStream {}", fileName);
     // fallback search
-    std::filesystem::path filePath;
-    auto engineAssetPath = Engine::getSingletonPtr()->getAssetDir() / fileName;
-    if (std::filesystem::exists(engineAssetPath)) {
-        filePath = engineAssetPath;
-    } else {
-        auto enginePath = Engine::getSingletonPtr()->getEngineDir() / fileName;
-        ZELO_ASSERT(std::filesystem::exists(enginePath));
-        filePath = enginePath;
+    std::filesystem::path filePath{};
+    std::filesystem::path resourceDir{};
+    auto resourceConfigLuaPath = Engine::getSingletonPtr()->getConfigDir() / "resource_config.lua";
+    sol::table resourceDirList = LuaScriptManager::getSingletonPtr()->require_file(
+            resourceConfigLuaPath.string(),
+            resourceConfigLuaPath.string());
+    for (const auto& pair : resourceDirList ) {
+        resourceDir = pair.second.as<std::string>();
+        auto resourcePath = resourceDir / fileName;
+        if(std::filesystem::exists(resourcePath)){
+            filePath = resourcePath;
+            break;
+        };
     }
+    if(filePath.empty()){
+        auto engineAssetPath = Engine::getSingletonPtr()->getAssetDir() / fileName;
+        if (std::filesystem::exists(engineAssetPath)) {
+            filePath = engineAssetPath;
+        } else {
+            auto enginePath = Engine::getSingletonPtr()->getEngineDir() / fileName;
+            ZELO_ASSERT(std::filesystem::exists(enginePath));
+            filePath = enginePath;
+        }
+    }
+
     spdlog::debug("EngineIOStream {} => {}", fileName, filePath);
     m_file = new std::fstream(
             filePath.c_str(),
