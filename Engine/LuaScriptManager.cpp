@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "LuaScriptManager.h"
+#include "Engine.h"
 
 extern "C" {
 extern int luaopen_Zelo(lua_State *L);
@@ -15,8 +16,33 @@ LuaScriptManager *LuaScriptManager::getSingletonPtr() {
 }
 
 void LuaScriptManager::initialize() {
-    open_libraries(sol::lib::package, sol::lib::base);
+    open_libraries(
+            // print, assert, and other base functions
+            sol::lib::base,
+            // require and other package functions
+            sol::lib::package,
+            // coroutine functions and utilities
+            sol::lib::coroutine,
+            // string library
+            sol::lib::string,
+            // functionality from the OS
+            sol::lib::os,
+            // all things math
+            sol::lib::math,
+            // the table manipulator and observer functions
+            sol::lib::table,
+            // the debug library
+            sol::lib::debug,
+            // the bit library: different based on which you're using
+            sol::lib::bit32,
+            // input/output library
+            sol::lib::io,
+            // library for handling utf8: new to Lua
+            sol::lib::utf8
+    );
     require("Zelo", luaopen_Zelo);
+    auto mainLuaPath = Engine::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
+    require_file("main", mainLuaPath.string());
 }
 
 void LuaScriptManager::finalize() {
