@@ -1,18 +1,8 @@
-//%module(package="Zelo", directors="1") Zelo
 %module(directors="1") Zelo
 
 %{
-#include "Component.h"
-#include "Engine.h"
-#include "Entity.h"
-#include "Game.h"
-#include "Input.h"
-#include "Transform.h"
-#include "Window.h"
-#include "ZeloPlatform.h"
-// #include "ZeloPreCompiledHeader.h"
-#include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "ZeloPreCompiledHeader.h"
+#include "Zelo.h"
 %}
 
 //%include std_shared_ptr.i
@@ -30,18 +20,6 @@ using namespace std;
 
 %feature("autodoc", "1");
 %ignore *::operator=;  // needs rename to wrap
-%ignore *::setUserAny; // deprecated
-%ignore *::getUserAny; // deprecated
-%ignore *::getSingletonPtr; // only expose the non ptr variant
-%ignore Singleton;
-
-template<class T> class Singleton{
-
-};
-
-%template(SingletonEngine) Singleton<Engine>;
-%template(SingletonGame) Singleton<Game>;
-%template(SingletonInput) Singleton<Input>;
 
 #ifdef SWIG_DIRECTORS
 %feature("director:except") {
@@ -56,11 +34,6 @@ template<class T> class Singleton{
     try {
         $action
     }
-#ifdef SWIGPYTHON
-    catch (Swig::DirectorException &e) { 
-        SWIG_fail;
-    }
-#endif
     catch (const std::exception& e) {
         SWIG_exception(SWIG_RuntimeError, e.what());
     }
@@ -71,6 +44,7 @@ template<class T> class Singleton{
 
 %include "ZeloPrerequisites.h"
 %include "ZeloPlatform.h"
+%include "ZeloSingleton.h"
 %include "Engine.h"
 %include "Component.h"
 %include "Engine.h"
@@ -80,4 +54,6 @@ template<class T> class Singleton{
 %include "Transform.h"
 %include "Window.h"
 %include "ZeloPrerequisites.h"
-%include "ZeloSingleton.h"
+
+
+%template(SingletonEngine) Singleton<Engine>;

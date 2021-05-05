@@ -222,5 +222,6 @@ std::filesystem::path Engine::getScriptDir() {
 }
 
 Engine &Engine::getSingleton() {
-    return &msSingleton;
+    ZELO_ASSERT(msSingleton);
+    return *msSingleton;
 }
