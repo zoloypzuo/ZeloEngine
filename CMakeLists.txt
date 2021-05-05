@@ -73,6 +73,7 @@ link_libraries(${LUA_LIBRARIES})
 
 find_package(sol2 CONFIG REQUIRED)
 link_libraries(sol2::sol2)
+add_compile_definitions(SOL_ALL_SAFETIES_ON)
 
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
