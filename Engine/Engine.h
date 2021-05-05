@@ -13,6 +13,7 @@
 #include "Renderer/OpenGL/ForwardRenderer.h"
 #include "Util/IniReader.h"
 #include "Plugin.h"
+#include "LuaScriptManager.h"
 
 
 class Engine : public Singleton<Engine>, public IRuntimeModule {
@@ -97,6 +98,8 @@ protected:
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};
     bool m_configInitialized{};
+
+    std::unique_ptr<LuaScriptManager> m_luaScriptManager{};
 
 protected:
     void initConfig();
