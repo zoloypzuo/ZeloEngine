@@ -27,10 +27,10 @@ public:
 
     Engine(
             Game *game,
-            const std::string& engineDir,
-            const std::string& configDir,
-            const std::string& assetDir
-            );
+            const std::string &engineDir,
+            const std::string &configDir,
+            const std::string &assetDir
+    );
 
     ~Engine() override;
 
@@ -84,6 +84,8 @@ public:
 
 public:
     static Engine *getSingletonPtr();
+
+    static Engine &getSingleton();
 
 protected:
     std::unique_ptr<Window> m_window;

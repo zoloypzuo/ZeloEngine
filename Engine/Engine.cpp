@@ -220,3 +220,7 @@ std::filesystem::path Engine::getConfigDir() {
 std::filesystem::path Engine::getScriptDir() {
     return m_scriptDir;
 }
+
+Engine &Engine::getSingleton() {
+    return &msSingleton;
+}
