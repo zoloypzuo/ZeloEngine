@@ -8,7 +8,6 @@ set EngineDir=%ScriptDir%\..
 set Args=%*
 
 cd /d %EngineDir%
-@echo on
 set BuildDir=build_swig_lua
 set BuildType=RelWithDebInfo
 set SwigScriptName=ZeloLua.i
@@ -17,6 +16,7 @@ set ScriptDir=Script\Lua
 set ScriptLibDir=Script\Lua\scriptlibs
 set TargetName=ZeloWrapperLua
 set InterpreterTargetName=LuaInterpreter
+@echo on
 
 mkdir %BuildDir%
 
