@@ -54,6 +54,8 @@ public:
 
     std::filesystem::path getAssetDir();
 
+    std::filesystem::path getScriptDir();
+
 
     /** Install a new plugin.
     @remarks
@@ -94,6 +96,7 @@ protected:
     std::filesystem::path m_engineDir{};
     std::filesystem::path m_configDir{};
     std::filesystem::path m_assertDir{};
+    std::filesystem::path m_scriptDir{};
     bool m_fireRay{};
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};
