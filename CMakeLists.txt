@@ -73,6 +73,7 @@ link_libraries(${LUA_LIBRARIES})
 
 find_package(sol2 CONFIG REQUIRED)
 link_libraries(sol2::sol2)
+add_compile_definitions(SOL_ALL_SAFETIES_ON)
 
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
@@ -99,7 +100,7 @@ add_subdirectory(Engine)
 include_directories(Engine)
 link_libraries(Common)
 
-add_compile_definitions(SWIGRUNTIME_DEBUG)
+#add_compile_definitions(SWIGRUNTIME_DEBUG)
 add_executable(hello main.cpp Engine/ZeloWrapperLua.cxx)
 if (UsePreCompiledHeader)
     set_target_properties(hello PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "Engine/ZeloPreCompiledHeader.h")

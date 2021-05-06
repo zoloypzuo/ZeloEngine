@@ -8,7 +8,6 @@ set EngineDir=%ScriptDir%\..
 set Args=%*
 
 cd /d %EngineDir%
-@echo on
 set BuildDir=build_swig_lua
 set BuildType=RelWithDebInfo
 set SwigScriptName=ZeloLua.i
@@ -17,10 +16,11 @@ set ScriptDir=Script\Lua
 set ScriptLibDir=Script\Lua\scriptlibs
 set TargetName=ZeloWrapperLua
 set InterpreterTargetName=LuaInterpreter
+@echo on
 
 mkdir %BuildDir%
 
-swig -lua -c++ -no-old-metatable-bindings -o Engine/%SwigWrapperName% -outdir ./%BuildDir%/Engine/%BuildType% Engine/%SwigScriptName%
+swig -lua -c++ -no-old-metatable-bindings -nomoduleglobal -o Engine/%SwigWrapperName% -outdir ./%BuildDir%/Engine/%BuildType% Engine/%SwigScriptName%
 
 cd %BuildDir%
 cmake -DCMAKE_GENERATOR_PLATFORM=win32 -DBuildSwigLua=ON -G  "Visual Studio 16" ..

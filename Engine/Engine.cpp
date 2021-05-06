@@ -18,6 +18,7 @@ void Engine::initialize() {
     m_configInitialized = true;
 
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
+    m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>();
     m_renderer = std::make_unique<ForwardShadowRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
@@ -69,6 +70,7 @@ void Engine::initConfig() {
     m_engineDir = bootConfig->GetString("boot", "engineDir", "").c_str();
     m_configDir = m_engineDir / "Config";
     m_assertDir = m_engineDir / "assets";
+    m_scriptDir = m_engineDir / "Script";
 
     auto engineIniPath = m_configDir / "Engine.ini";
     m_config = std::make_unique<INIReader>(engineIniPath.string());
@@ -213,4 +215,13 @@ Engine::Engine(
 
 std::filesystem::path Engine::getConfigDir() {
     return m_configDir;
+}
+
+std::filesystem::path Engine::getScriptDir() {
+    return m_scriptDir;
+}
+
+Engine &Engine::getSingleton() {
+    ZELO_ASSERT(msSingleton);
+    return *msSingleton;
 }

@@ -27,10 +27,10 @@ public:
 
     Engine(
             Game *game,
-            const std::string& engineDir,
-            const std::string& configDir,
-            const std::string& assetDir
-            );
+            const std::string &engineDir,
+            const std::string &configDir,
+            const std::string &assetDir
+    );
 
     ~Engine() override;
 
@@ -53,6 +53,8 @@ public:
     std::filesystem::path getConfigDir();
 
     std::filesystem::path getAssetDir();
+
+    std::filesystem::path getScriptDir();
 
 
     /** Install a new plugin.
@@ -83,6 +85,8 @@ public:
 public:
     static Engine *getSingletonPtr();
 
+    static Engine &getSingleton();
+
 protected:
     std::unique_ptr<Window> m_window;
     std::unique_ptr<Game> m_game;
@@ -94,6 +98,7 @@ protected:
     std::filesystem::path m_engineDir{};
     std::filesystem::path m_configDir{};
     std::filesystem::path m_assertDir{};
+    std::filesystem::path m_scriptDir{};
     bool m_fireRay{};
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};
