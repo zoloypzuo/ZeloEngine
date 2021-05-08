@@ -123,3 +123,4 @@ It is all about game engine.
 
 * cyclone physics demo
 * forward renderer demo
+* TPS AI demo
