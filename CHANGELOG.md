@@ -1,5 +1,49 @@
 # Changelog
 
+## [v0.3](https://github.com/zoloypzuo/ZeloEngine/tree/v0.3) (2021-05-08)
+
+[Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/v0.2...v0.3)
+
+**Fixed bugs:**
+
+- Fix Lua Scripting [\#275](https://github.com/zoloypzuo/ZeloEngine/issues/275)
+- Fix Memory Leak [\#257](https://github.com/zoloypzuo/ZeloEngine/issues/257)
+- Resource Path Fix [\#238](https://github.com/zoloypzuo/ZeloEngine/issues/238)
+
+**Closed issues:**
+
+- Asset Repo Search [\#271](https://github.com/zoloypzuo/ZeloEngine/issues/271)
+- Glad [\#269](https://github.com/zoloypzuo/ZeloEngine/issues/269)
+- Lua Wrap glsl [\#266](https://github.com/zoloypzuo/ZeloEngine/issues/266)
+- Precompiled Header [\#262](https://github.com/zoloypzuo/ZeloEngine/issues/262)
+- Deffered Shading [\#261](https://github.com/zoloypzuo/ZeloEngine/issues/261)
+- Chapter 4: Using Textures [\#259](https://github.com/zoloypzuo/ZeloEngine/issues/259)
+- Chapter 1: Getting Started with GLSL 4.0 [\#255](https://github.com/zoloypzuo/ZeloEngine/issues/255)
+- Generate Shadow Map [\#251](https://github.com/zoloypzuo/ZeloEngine/issues/251)
+- Build Lua5.1 [\#249](https://github.com/zoloypzuo/ZeloEngine/issues/249)
+- Skybox & Cubemap [\#245](https://github.com/zoloypzuo/ZeloEngine/issues/245)
+- MSAA [\#243](https://github.com/zoloypzuo/ZeloEngine/issues/243)
+- Apply Shadow Map [\#242](https://github.com/zoloypzuo/ZeloEngine/issues/242)
+- Lua Scripting [\#239](https://github.com/zoloypzuo/ZeloEngine/issues/239)
+
+**Merged pull requests:**
+
+- Fix [\#276](https://github.com/zoloypzuo/ZeloEngine/pull/276) ([zoloypzuo](https://github.com/zoloypzuo))
+- Asset repo search [\#274](https://github.com/zoloypzuo/ZeloEngine/pull/274) ([zoloypzuo](https://github.com/zoloypzuo))
+- Deffered shading [\#272](https://github.com/zoloypzuo/ZeloEngine/pull/272) ([zoloypzuo](https://github.com/zoloypzuo))
+- Glad [\#270](https://github.com/zoloypzuo/ZeloEngine/pull/270) ([zoloypzuo](https://github.com/zoloypzuo))
+- Lua wrap glsl [\#267](https://github.com/zoloypzuo/ZeloEngine/pull/267) ([zoloypzuo](https://github.com/zoloypzuo))
+- cotire [\#263](https://github.com/zoloypzuo/ZeloEngine/pull/263) ([zoloypzuo](https://github.com/zoloypzuo))
+- Chapter 4 using textures [\#260](https://github.com/zoloypzuo/ZeloEngine/pull/260) ([zoloypzuo](https://github.com/zoloypzuo))
+- Fix memory leak [\#258](https://github.com/zoloypzuo/ZeloEngine/pull/258) ([zoloypzuo](https://github.com/zoloypzuo))
+- Chapter 1 getting started with glsl 4.0  [\#256](https://github.com/zoloypzuo/ZeloEngine/pull/256) ([zoloypzuo](https://github.com/zoloypzuo))
+- Apply shadow map [\#253](https://github.com/zoloypzuo/ZeloEngine/pull/253) ([zoloypzuo](https://github.com/zoloypzuo))
+- Shadow map [\#252](https://github.com/zoloypzuo/ZeloEngine/pull/252) ([zoloypzuo](https://github.com/zoloypzuo))
+- Lua51 [\#250](https://github.com/zoloypzuo/ZeloEngine/pull/250) ([zoloypzuo](https://github.com/zoloypzuo))
+- Lua scripting [\#248](https://github.com/zoloypzuo/ZeloEngine/pull/248) ([zoloypzuo](https://github.com/zoloypzuo))
+- fix resource dir [\#246](https://github.com/zoloypzuo/ZeloEngine/pull/246) ([zoloypzuo](https://github.com/zoloypzuo))
+- MSAA [\#244](https://github.com/zoloypzuo/ZeloEngine/pull/244) ([zoloypzuo](https://github.com/zoloypzuo))
+
 ## [v0.2](https://github.com/zoloypzuo/ZeloEngine/tree/v0.2) (2021-04-10)
 
 [Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/7f26b3c98b94ec470e041326f68d06e361bb3e19...v0.2)
@@ -29,6 +73,7 @@
 - hello world [\#114](https://github.com/zoloypzuo/ZeloEngine/issues/114)
 - 坦克炮塔控制 手感不对 [\#64](https://github.com/zoloypzuo/ZeloEngine/issues/64)
 - shader 实现MVP变换 [\#60](https://github.com/zoloypzuo/ZeloEngine/issues/60)
+- 是否要封装lua C API？ [\#56](https://github.com/zoloypzuo/ZeloEngine/issues/56)
 - 12. 加入具简单 AI 的坦克。 [\#42](https://github.com/zoloypzuo/ZeloEngine/issues/42)
 - 11. 发射炮弹，模拟弹道。 [\#41](https://github.com/zoloypzuo/ZeloEngine/issues/41)
 - 10. 要解决坦克穿过大楼的问题，可实现简单的碰撞检测，或使用现成的物理引擎如 bullet。 [\#40](https://github.com/zoloypzuo/ZeloEngine/issues/40)
