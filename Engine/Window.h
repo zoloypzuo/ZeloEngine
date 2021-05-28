@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include <glm/glm.hpp>
 #include "Input.h"
-#include "GuiManager.h"
+#include "InGameEditor/GuiManager.h"
 
 #if _WIN32
 #undef main
