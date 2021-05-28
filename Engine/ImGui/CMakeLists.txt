@@ -3,4 +3,5 @@
 add_library(ImGui
         ImGui.cpp
         ImRuntime.cpp
+        ImGuiManager.cpp
         )
