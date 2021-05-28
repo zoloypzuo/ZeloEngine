@@ -52,7 +52,7 @@ if (DetectMemoryLeak)
     link_directories(${VldLibDir})
 endif ()
 
-option(UsePreCompiledHeader "UsePreCompiledHeader" ON)
+option(UsePreCompiledHeader "UsePreCompiledHeader" OFF)
 message(STATUS UsePreCompiledHeader=${UsePreCompiledHeader})
 
 if (UsePreCompiledHeader)
