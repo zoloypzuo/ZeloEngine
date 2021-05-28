@@ -7,6 +7,7 @@
 
 #include "ZeloPlatform.h"
 
+// cpp libraries
 #include <memory>
 #include <iostream>
 #include <sstream>
@@ -29,6 +30,11 @@
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+// c libraries
+#include <cfloat>
+#include <cstdarg>
+#include <cstdlib>
 
 // SDL
 #define SDL_MAIN_HANDLED

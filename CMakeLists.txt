@@ -35,7 +35,6 @@ include_directories(${STB_INCLUDE_DIRS})
 find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
 
-add_subdirectory(Engine/ImGui) # use my own ImGui implementation
 
 option(DetectMemoryLeak "DetectMemoryLeak" ON)
 message(STATUS DetectMemoryLeak=${DetectMemoryLeak})
