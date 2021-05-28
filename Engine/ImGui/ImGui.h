@@ -39,7 +39,7 @@ using ImVector = std::vector<T>;
 
 // ImGui End-user API
 // In a namespace so that user can add extra functions (e.g. Value() helpers for your vector or common types)
-class ImGui {
+struct ImGui {
     // Main
     ImGuiIO&	GetIO();
     ImGuiStyle&	GetStyle();
@@ -159,6 +159,10 @@ class ImGui {
     int			GetFrameCount();
     const char*	GetStyleColorName(ImGuiCol idx);
     void		GetDefaultFontData(const void** fnt_data, unsigned int* fnt_size, const void** png_data, unsigned int* png_size);
+
+private:
+    struct ImGuiState;
+    std::unique_ptr<ImGuiState> m_imguiState;
 };
 
 // Flags for ImGui::Begin()

@@ -2,6 +2,7 @@
 # author @zoloypzuo
 add_library(ImGui
         ImGui.cpp
-        ImRuntime.cpp
+        ImWidget.cpp
         ImGuiManager.cpp
+        ImUtil.cpp
         )

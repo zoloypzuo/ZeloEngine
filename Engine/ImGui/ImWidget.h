@@ -1,4 +1,4 @@
-// ImRuntime.h
+// ImWidget.h
 // created on 2021/5/28
 // author @zoloypzuo
 
@@ -7,7 +7,7 @@
 #include "ZeloPrerequisites.h"
 #include "ImGui.h"
 
-class ImRuntime {
+class ImWidget {
 
 };
 

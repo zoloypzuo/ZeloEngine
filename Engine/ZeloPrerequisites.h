@@ -35,6 +35,10 @@
 #include <cfloat>
 #include <cstdarg>
 #include <cstdlib>
+#include <cctype>
+#include <cmath>
+#include <cstdio>
+#include <cstring>
 
 // SDL
 #define SDL_MAIN_HANDLED
