@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ImUtil.h"
 
-static int ImStricmp(const char *str1, const char *str2) {
+int ImStricmp(const char *str1, const char *str2) {
     int d;
     while ((d = toupper(*str2) - toupper(*str1)) == 0 && *str1) {
         str1++;
@@ -13,7 +13,7 @@ static int ImStricmp(const char *str1, const char *str2) {
     return d;
 }
 
-static const char *ImStristr(const char *haystack, const char *needle, const char *needle_end) {
+const char *ImStristr(const char *haystack, const char *needle, const char *needle_end) {
     if (!needle_end)
         needle_end = needle + strlen(needle);
 
@@ -32,7 +32,7 @@ static const char *ImStristr(const char *haystack, const char *needle, const cha
     return NULL;
 }
 
-static ImU32 crc32(const void *data, size_t data_size, ImU32 seed = 0) {
+ImU32 crc32(const void *data, size_t data_size, ImU32 seed) {
     static ImU32 crc32_lut[256] = {0};
     if (!crc32_lut[1]) {
         const ImU32 polynomial = 0xEDB88320;
@@ -50,7 +50,7 @@ static ImU32 crc32(const void *data, size_t data_size, ImU32 seed = 0) {
     return ~crc;
 }
 
-static size_t ImFormatString(char *buf, size_t buf_size, const char *fmt, ...) {
+size_t ImFormatString(char *buf, size_t buf_size, const char *fmt, ...) {
     va_list args;
             va_start(args, fmt);
     int w = vsnprintf(buf, buf_size, fmt, args);
@@ -60,14 +60,14 @@ static size_t ImFormatString(char *buf, size_t buf_size, const char *fmt, ...) {
     return w;
 }
 
-static size_t ImFormatStringV(char *buf, size_t buf_size, const char *fmt, va_list args) {
+size_t ImFormatStringV(char *buf, size_t buf_size, const char *fmt, va_list args) {
     int w = vsnprintf(buf, buf_size, fmt, args);
     buf[buf_size - 1] = 0;
     if (w == -1) w = buf_size;
     return w;
 }
 
-static ImU32 ImConvertColorFloat4ToU32(const ImVec4 &in) {
+ImU32 ImConvertColorFloat4ToU32(const ImVec4 &in) {
     ImU32 out = ((ImU32) (ImSaturate(in.x) * 255.f));
     out |= ((ImU32) (ImSaturate(in.y) * 255.f) << 8);
     out |= ((ImU32) (ImSaturate(in.z) * 255.f) << 16);
@@ -77,7 +77,7 @@ static ImU32 ImConvertColorFloat4ToU32(const ImVec4 &in) {
 
 // Convert rgb floats ([0-1],[0-1],[0-1]) to hsv floats ([0-1],[0-1],[0-1]), from Foley & van Dam p592
 // Optimized http://lolengine.net/blog/2013/01/13/fast-rgb-to-hsv
-static void ImConvertColorRGBtoHSV(float r, float g, float b, float &out_h, float &out_s, float &out_v) {
+void ImConvertColorRGBtoHSV(float r, float g, float b, float &out_h, float &out_s, float &out_v) {
     float K = 0.f;
     if (g < b) {
         const float tmp = g;
@@ -100,7 +100,7 @@ static void ImConvertColorRGBtoHSV(float r, float g, float b, float &out_h, floa
 
 // Convert hsv floats ([0-1],[0-1],[0-1]) to rgb floats ([0-1],[0-1],[0-1]), from Foley & van Dam p593
 // also http://en.wikipedia.org/wiki/HSL_and_HSV
-static void ImConvertColorHSVtoRGB(float h, float s, float v, float &out_r, float &out_g, float &out_b) {
+void ImConvertColorHSVtoRGB(float h, float s, float v, float &out_r, float &out_g, float &out_b) {
     if (s == 0.0f) {
         // gray
         out_r = out_g = out_b = v;
