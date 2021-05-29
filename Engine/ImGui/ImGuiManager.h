@@ -20,14 +20,25 @@ public:
 
     void update() override;
 
+    void render();
+
 public:
     static ImGuiManager *getSingletonPtr();
 
 public:
-    ImGui *getImGui() { return m_imgui.get(); }
+//    void addInputCharactersUTF8(const char *text);
+//
+//    void setKeyEvent(int key, bool keydown);
 
 private:
-    std::unique_ptr<ImGui> m_imgui;
+//    void createDeviceObjects(void);
+//
+//    void invalidateDeviceObjects(void);
+
+//    static void renderDrawLists(ImDrawData *draw_data);
+
+private:
+    SDL_Window *m_sdlWindow;
 };
 
 

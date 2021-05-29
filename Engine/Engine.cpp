@@ -23,11 +23,12 @@ void Engine::initialize() {
     m_renderer = std::make_unique<ForwardShadowRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
     m_renderer->initialize();
+    m_imguiManager = std::make_unique<ImGuiManager>();
+    m_imguiManager->initialize();
 //    m_game = std::make_unique<Game>(); game is newed by app
     m_game->initialize();
     m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
 
-    m_window->initialize();  // init gui
     m_window->makeCurrentContext();
 
     m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
@@ -92,9 +93,11 @@ void Engine::update() {
 
     m_window->update();
 //    m_window->getGuiManager()->tick(m_deltaTime);
+    m_imguiManager->update();
     m_game->update();
-    m_glManager->renderScene(m_game->getRootNode().get());
+//    m_glManager->renderScene(m_game->getRootNode().get());
 //    m_window->getGuiManager()->render(m_game->getRootNode().get());
+    m_imguiManager->render();
     m_window->swapBuffer();
 }
 

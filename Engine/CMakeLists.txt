@@ -10,6 +10,7 @@ if (0)
 endif ()
 
 add_subdirectory(ImGui) # use my own ImGui implementation
+link_libraries(ImGui)
 
 add_subdirectory(Renderer/OpenGL)
 

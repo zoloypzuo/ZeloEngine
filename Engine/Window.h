@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include <glm/glm.hpp>
 #include "Input.h"
-#include "InGameEditor/GuiManager.h"
+//#include "InGameEditor/GuiManager.h"
 
 #if _WIN32
 #undef main
@@ -37,7 +37,7 @@ public:
 
     glm::ivec2 getDrawableSize() const;
 
-    GuiManager *getGuiManager() const;
+//    GuiManager *getGuiManager() const;
 
     static const char *getClipboardText();
 
@@ -60,7 +60,7 @@ public:
 private:
     SDL_Window *m_window;
     SDL_GLContext m_glContext;
-    std::unique_ptr<GuiManager> m_guiManager;
+//    std::unique_ptr<GuiManager> m_guiManager;
 
     int m_width{};
     int m_height{};
