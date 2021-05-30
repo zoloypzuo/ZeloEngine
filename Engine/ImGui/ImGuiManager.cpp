@@ -3,8 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ImGuiManager.h"
-//#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"				// for .png loading
+#include "stb_image.h"
 
 #ifdef _MSC_VER
 #pragma warning (disable: 4996)		// 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen
@@ -260,7 +259,8 @@ void InitImGui()
     auto *window = Engine::getSingletonPtr()->getWindow();
 
     ImGuiIO& io = ImGui::GetIO();
-    io.DisplaySize = window->getDisplaySize();
+    auto displaySize = window->getDisplaySize();
+    io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
     io.DeltaTime = 1.0f/60.0f;
     io.KeyMap[ImGuiKey_Tab] = SDLK_TAB; // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
     io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
@@ -335,7 +335,9 @@ void ImGuiManager::update() {
 
     // 1) ImGui start frame, setup time delta & inputs
     auto delta = Engine::getSingletonPtr()->getDeltaTime();
-    io.DeltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(delta).count();
+    auto deltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(delta).count();
+
+    io.DeltaTime = deltaTime ? deltaTime : io.DeltaTime;
 
     glm::vec2 mousePos = window->getInput()->getMousePosition();
     io.MousePos = ImVec2(mousePos.x, mousePos.y);

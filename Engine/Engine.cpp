@@ -22,7 +22,7 @@ void Engine::initialize() {
     m_window = std::make_unique<Window>();
     m_renderer = std::make_unique<ForwardShadowRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
-    m_renderer->initialize();
+//    m_renderer->initialize();
     m_imguiManager = std::make_unique<ImGuiManager>();
     m_imguiManager->initialize();
 //    m_game = std::make_unique<Game>(); game is newed by app
