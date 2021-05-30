@@ -8,6 +8,10 @@ if (0)
     add_subdirectory(Platform/Windows)
     link_libraries(Windows)
 endif ()
+
+add_subdirectory(ImGui) # use my own ImGui implementation
+link_libraries(ImGui)
+
 add_subdirectory(Renderer/OpenGL)
 
 link_libraries(OpenGLRenderer)

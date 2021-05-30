@@ -176,9 +176,9 @@ glm::ivec2 Window::getDrawableSize() const {
     return glm::ivec2(display_w, display_h);
 }
 
-GuiManager *Window::getGuiManager() const {
-    return m_guiManager.get();
-}
+//GuiManager *Window::getGuiManager() const {
+//    return m_guiManager.get();
+//}
 
 const char *Window::getClipboardText() {
     return SDL_GetClipboardText();

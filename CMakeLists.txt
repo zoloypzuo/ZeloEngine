@@ -35,8 +35,6 @@ include_directories(${STB_INCLUDE_DIRS})
 find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
 
-find_package(imgui CONFIG REQUIRED)
-link_libraries(imgui::imgui)
 
 option(DetectMemoryLeak "DetectMemoryLeak" ON)
 message(STATUS DetectMemoryLeak=${DetectMemoryLeak})
@@ -52,7 +50,7 @@ if (DetectMemoryLeak)
     link_directories(${VldLibDir})
 endif ()
 
-option(UsePreCompiledHeader "UsePreCompiledHeader" ON)
+option(UsePreCompiledHeader "UsePreCompiledHeader" OFF)
 message(STATUS UsePreCompiledHeader=${UsePreCompiledHeader})
 
 if (UsePreCompiledHeader)
