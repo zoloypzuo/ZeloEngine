@@ -88,7 +88,7 @@ static lua_CFunction ll_sym (lua_State *L, void *lib, const char *sym) {
 ** This is an implementation of loadlib for Windows using native functions.
 ** =======================================================================
 */
-
+#if 0  // FIXME zyp avoid winbase.h BUG
 #include <windows.h>
 
 
@@ -136,7 +136,28 @@ static lua_CFunction ll_sym (lua_State *L, void *lib, const char *sym) {
   if (f == NULL) pusherror(L);
   return f;
 }
+#else
 
+static void pusherror (lua_State *L) {
+    luaL_error(L, "unable to pusherror");
+}
+
+
+static void ll_unloadlib (void *lib) {
+}
+
+
+static void *ll_load (lua_State *L, const char *path) {
+    luaL_error(L, "unable to ll_load");
+    return NULL;
+}
+
+
+static lua_CFunction ll_sym (lua_State *L, void *lib, const char *sym) {
+    luaL_error(L, "unable to ll_sym");
+    return NULL;
+}
+#endif
 /* }====================================================== */
 
 
