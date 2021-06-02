@@ -54,10 +54,9 @@ link_libraries(ImGui)
 add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
 
-file(GLOB CommonSrc *.cpp Component/*.cpp Util/*.c Util/*.cpp)
+file(GLOB CommonSrc *.cpp *.cxx Component/*.cpp Util/*.c Util/*.cpp)
 add_library(Common ${CommonSrc})
 
-add_subdirectory(InGameEditor)
 
 if (0)  # not used for now
     add_subdirectory(Physics)
