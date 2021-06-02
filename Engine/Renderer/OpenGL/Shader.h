@@ -10,21 +10,6 @@
 #include "Core/Resource/Resource.h"
 #include "Attenuation.h"
 
-class DirectionalLight;
-
-class PointLight;
-
-class SpotLight;
-
-#if defined(GLES2)
-#include <GLES2/gl2.h>
-#elif defined(GLES3)
-#include <GLES3/gl3.h>
-#else
-
-#include <glad/glad.h>
-
-#endif
 
 enum class GLSLShaderType {
     VERTEX = GL_VERTEX_SHADER,
