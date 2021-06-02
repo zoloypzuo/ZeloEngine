@@ -1,13 +1,49 @@
 # created on 2021/3/28
 # author @zoloypzuo
-include_directories(./)
-#add_subdirectory(Framework)
-#link_libraries(Framework)
-if (0)
-    #if (WIN32) TODO use cotire and pch
-    add_subdirectory(Platform/Windows)
-    link_libraries(Windows)
+
+if (WIN32)
+    # ignore warning
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+    # avoid some bugs with Windows...
+    add_compile_definitions(NOMINMAX)
+    # We do this to speed up the build process,
+    # it reduces the size of the Win32 header files by excluding some of the less used APIs.
+    add_compile_definitions(WIN32_LEAN_AND_MEAN)
 endif ()
+
+# first we compile lua from source
+# lua <= sol <= engine object system
+add_subdirectory(Lua)
+set(LUA_LIBRARIES Lua)
+set(LUA_INCLUDE_DIR Lua/include)
+include_directories(${LUA_INCLUDE_DIR})
+link_libraries(${LUA_LIBRARIES})
+
+# vcpkg import sol
+find_package(sol2 CONFIG REQUIRED)
+link_libraries(sol2::sol2)
+# sol enable safety check
+add_compile_definitions(SOL_ALL_SAFETIES_ON)
+# sol fix link error
+add_compile_definitions(SOL_USING_CXX_LUA=0)
+
+# use unicode, wstring and etc
+add_compile_definitions(UNICODE)
+
+# glm
+add_compile_definitions(GLM_FORCE_SWIZZLE)
+add_compile_definitions(GLM_FORCE_RADIANS)
+
+# swig runtime debug log
+if (0)  # too much log
+    add_compile_definitions(SWIGRUNTIME_DEBUG)
+endif ()
+
+# build engine
+include_directories(./)
+
+add_compile_definitions(ZELO_DEBUG)
+add_compile_definitions(DEBUG_SHADOWMAP)
 
 add_subdirectory(ImGui) # use my own ImGui implementation
 link_libraries(ImGui)
@@ -15,54 +51,11 @@ link_libraries(ImGui)
 add_subdirectory(Renderer/OpenGL)
 
 link_libraries(OpenGLRenderer)
-#add_subdirectory(Component)
-#link_directories(Component)
 file(GLOB CommonSrc *.cpp Component/*.cpp Util/*.c Util/*.cpp)
 add_library(Common ${CommonSrc})
 
-
 add_subdirectory(InGameEditor)
 
-option(BuildSwig "BuildSwig" OFF)
-message(STATUS BuildSwig=${BuildSwig})
-
-if (BuildSwig)  # build swig in win32 release
-    add_library(zelo_py SHARED
-            zelo_wrapper.cxx
-            )
-    set_target_properties(
-            zelo_py
-            PROPERTIES
-                OUTPUT_NAME "_zelo"
-                SUFFIX ".pyd"
-    )
-    target_include_directories(zelo_py PRIVATE $ENV{PYTHON_INCLUDE})
-    target_link_libraries(zelo_py
-            $ENV{PYTHON_LIB}
-            Common
-            )
-endif ()
-
-option(BuildSwigLua "BuildSwigLua" OFF)
-message(STATUS BuildSwigLua=${BuildSwigLua})
-
-if (BuildSwigLua)  # build swig in win32 release
-    add_library(ZeloWrapperLua SHARED
-            ZeloWrapperLua.cxx
-            )
-    set_target_properties(
-            ZeloWrapperLua
-            PROPERTIES
-            OUTPUT_NAME "Zelo"
-            SUFFIX ".dll"
-    )
-
-    message(STATUS ${LUA_LIBRARIES})
-    message(STATUS ${LUA_INCLUDE_DIR})
-    target_link_libraries(ZeloWrapperLua PRIVATE ${LUA_LIBRARIES} Common)
-    target_include_directories(ZeloWrapperLua PRIVATE ${LUA_INCLUDE_DIR})
-endif ()
-
-if (0)
+if (0)  # not used for now
     add_subdirectory(Physics)
 endif ()

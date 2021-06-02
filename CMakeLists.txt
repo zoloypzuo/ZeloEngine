@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 
 project(ZeloEngine)
 
+# vcpkg import third party
 if (WIN32)
     set(VCPKG_TARGET_TRIPLET x86-windows)
 else ()
@@ -35,7 +36,7 @@ include_directories(${STB_INCLUDE_DIRS})
 find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
 
-
+# memory leak check
 option(DetectMemoryLeak "DetectMemoryLeak" ON)
 message(STATUS DetectMemoryLeak=${DetectMemoryLeak})
 
@@ -50,6 +51,7 @@ if (DetectMemoryLeak)
     link_directories(${VldLibDir})
 endif ()
 
+# use precompiled header
 option(UsePreCompiledHeader "UsePreCompiledHeader" OFF)
 message(STATUS UsePreCompiledHeader=${UsePreCompiledHeader})
 
@@ -58,54 +60,19 @@ if (UsePreCompiledHeader)
     include(cotire)
 endif ()
 
-
-# we do not use vcpkg lua
-#include(FindLua)
-#find_package(Lua REQUIRED)
-add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-add_subdirectory(Engine/Lua)
-set(LUA_LIBRARIES Lua)
-set(LUA_INCLUDE_DIR Engine/Lua/include)
-include_directories(${LUA_INCLUDE_DIR})
-link_libraries(${LUA_LIBRARIES})
-
-find_package(sol2 CONFIG REQUIRED)
-link_libraries(sol2::sol2)
-add_compile_definitions(SOL_ALL_SAFETIES_ON)
-
-# use unicode, wstring and etc
-add_compile_definitions(UNICODE)
-# avoid some bugs with Windows...
-add_compile_definitions(NOMINMAX)
-# We do this to speed up the build process,
-# it reduces the size of the Win32 header files by excluding some of the less used APIs.
-#add_compile_definitions(WIN32_LEAN_AND_MEAN)
-# define ZELO_AUTOLIB to automatically include the libs needed for DXUT
-add_compile_definitions(ZELO_AUTOLIB)
-# INIReader use some unsecure std api
-#add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
-# glm
-add_compile_definitions(GLM_FORCE_SWIZZLE)
-add_compile_definitions(GLM_FORCE_RADIANS)
-
-# sol2 fix link error
-add_compile_definitions(SOL_USING_CXX_LUA=0)
-
-add_compile_definitions(ZELO_DEBUG)
-add_compile_definitions(DEBUG_SHADOWMAP)
-add_subdirectory(Engine)
-
+# build engine
 include_directories(Engine)
+add_subdirectory(Engine)
 link_libraries(Common)
 
-#add_compile_definitions(SWIGRUNTIME_DEBUG)
+# build main
 add_executable(hello main.cpp Engine/ZeloWrapperLua.cxx)
 if (UsePreCompiledHeader)
     set_target_properties(hello PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "Engine/ZeloPreCompiledHeader.h")
     cotire(hello)
 endif ()
 
-
+# after build main, copy config file to exe directory
 message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
 add_custom_command(TARGET hello PRE_BUILD
