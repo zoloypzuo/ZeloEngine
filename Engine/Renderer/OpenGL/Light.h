@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "Component.h"
-#include "Shader.h"
+#include "GLSLShaderProgram.h"
 #include "Attenuation.h"
 
 class BaseLight : public Component, public std::enable_shared_from_this<BaseLight> {
@@ -22,7 +22,7 @@ public:
 
     float getIntensity() const;
 
-    virtual void updateShader(Shader *shader) = 0;
+    virtual void updateShader(GLSLShaderProgram *shader) = 0;
 
 protected:
     glm::vec3 m_color;
@@ -37,7 +37,7 @@ public:
 
     virtual void deregisterFromEngine(Engine *engine);
 
-    virtual void updateShader(Shader *shader);
+    virtual void updateShader(GLSLShaderProgram *shader);
 
     inline virtual const char *getType() { return "DIRECTIONAL_LIGHT"; }
 };
@@ -52,7 +52,7 @@ public:
 
     virtual void deregisterFromEngine(Engine *engine);
 
-    virtual void updateShader(Shader *shader);
+    virtual void updateShader(GLSLShaderProgram *shader);
 
     inline virtual const char *getType() { return "POINT_LIGHT"; }
 
@@ -76,7 +76,7 @@ public:
 
     inline virtual const char *getType() { return "SPOT_LIGHT"; }
 
-    virtual void updateShader(Shader *shader);
+    virtual void updateShader(GLSLShaderProgram *shader);
 
     float getCutoff() const;
 

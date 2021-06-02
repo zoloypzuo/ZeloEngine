@@ -1,9 +1,9 @@
-// Shader.h
+// GLSLShaderProgram.h
 // created on 2021/3/31
 // author @zoloypzuo
 
-#ifndef ZELOENGINE_SHADER_H
-#define ZELOENGINE_SHADER_H
+#ifndef ZELOENGINE_GLSLSHADERPROGRAM_H
+#define ZELOENGINE_GLSLSHADERPROGRAM_H
 
 #include "ZeloPrerequisites.h"
 
@@ -21,13 +21,13 @@ enum class GLSLShaderType {
 };
 
 // TODO zyp rename to GLSLShaderProgram, inherit from ShaderBase class
-class Shader {
+class GLSLShaderProgram {
 public:
-    Shader();
+    GLSLShaderProgram();
 
-    explicit Shader(const std::string &shaderAssetName);
+    explicit GLSLShaderProgram(const std::string &shaderAssetName);
 
-    ~Shader();
+    ~GLSLShaderProgram();
 
 public:
     void loadShader(const std::string &fileName) const;
@@ -92,4 +92,4 @@ private:
 };
 
 
-#endif //ZELOENGINE_SHADER_H
+#endif //ZELOENGINE_GLSLSHADERPROGRAM_H

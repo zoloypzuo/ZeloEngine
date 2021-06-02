@@ -9,7 +9,7 @@
 #include "Component.h"
 #include "Mesh.h"
 #include "Material.h"
-#include "Shader.h"
+#include "GLSLShaderProgram.h"
 
 class MeshRenderer : public Component {
 public:
@@ -17,7 +17,7 @@ public:
 
     virtual ~MeshRenderer();
 
-    void render(Shader *shader) override;
+    void render(GLSLShaderProgram *shader) override;
 
     inline const char *getType() override { return "MESH_RENDERER"; }
 

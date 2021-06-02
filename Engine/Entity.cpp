@@ -60,7 +60,7 @@ void Entity::updateAll(Input *input, std::chrono::microseconds delta) {
     }
 }
 
-void Entity::renderAll(Shader *shader) const {
+void Entity::renderAll(GLSLShaderProgram *shader) const {
     for (const auto &component : components) {
         component->render(shader);
     }

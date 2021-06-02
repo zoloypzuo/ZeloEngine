@@ -20,7 +20,7 @@
 
 #include "Renderer.h"
 #include "ForwardRenderer.h"
-#include "Shader.h"
+#include "GLSLShaderProgram.h"
 #include "MeshManager.h"
 #include "Entity.h"
 #include "Window.h"

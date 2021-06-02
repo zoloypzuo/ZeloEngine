@@ -23,7 +23,7 @@ public:
     void initialize() override;
 
 private:
-    std::unique_ptr<Shader> m_deferredShader;
+    std::unique_ptr<GLSLShaderProgram> m_deferredShader;
     uint32_t pass1Index;
     uint32_t pass2Index;
     uint32_t deferredFBO;

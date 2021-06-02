@@ -32,7 +32,7 @@ void SimpleRenderer::renderLine(const Line &line, const std::shared_ptr<Camera>&
 }
 
 void SimpleRenderer::createShaders() {
-    m_simple = std::make_unique<Shader>("Shader/simple.lua");
+    m_simple = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
     m_simple->link();
 
 }
@@ -101,27 +101,27 @@ void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> active
 }
 
 void ForwardRenderer::createShaders() {
-    m_forwardAmbient = std::make_unique<Shader>("Shader/forward-ambient.lua");
+    m_forwardAmbient = std::make_unique<GLSLShaderProgram>("Shader/forward-ambient.lua");
     m_forwardAmbient->link();
 
     m_forwardAmbient->setUniform1i("diffuseMap", 0);
 
     m_forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
-    m_forwardDirectional = std::make_unique<Shader>("Shader/forward-directional.lua");
+    m_forwardDirectional = std::make_unique<GLSLShaderProgram>("Shader/forward-directional.lua");
     m_forwardDirectional->link();
     m_forwardDirectional->setUniform1i("diffuseMap", 0);
     m_forwardDirectional->setUniform1i("normalMap", 1);
     m_forwardDirectional->setUniform1i("specularMap", 2);
 
-    m_forwardPoint = std::make_unique<Shader>("Shader/forward-point.lua");
+    m_forwardPoint = std::make_unique<GLSLShaderProgram>("Shader/forward-point.lua");
     m_forwardPoint->link();
 
     m_forwardPoint->setUniform1i("diffuseMap", 0);
     m_forwardPoint->setUniform1i("normalMap", 1);
     m_forwardPoint->setUniform1i("specularMap", 2);
 
-    m_forwardSpot = std::make_unique<Shader>("Shader/forward-spot.lua");
+    m_forwardSpot = std::make_unique<GLSLShaderProgram>("Shader/forward-spot.lua");
     m_forwardSpot->link();
     m_forwardSpot->setUniform1i("diffuseMap", 0);
     m_forwardSpot->setUniform1i("normalMap", 1);

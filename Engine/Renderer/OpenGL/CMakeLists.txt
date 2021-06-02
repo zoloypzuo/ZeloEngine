@@ -8,7 +8,7 @@ add_library(OpenGLRenderer
         Material.cpp
         Texture.cpp
         MeshRenderer.cpp
-        Shader.cpp
+        GLSLShaderProgram.cpp
         Light.cpp
         Attenuation.cpp
         Camera.cpp

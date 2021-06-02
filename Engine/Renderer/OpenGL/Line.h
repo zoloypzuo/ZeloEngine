@@ -6,7 +6,7 @@
 #define ZELOENGINE_LINE_H
 
 #include "ZeloPrerequisites.h"
-#include "Shader.h"
+#include "GLSLShaderProgram.h"
 
 class Line {
 public:
@@ -14,7 +14,7 @@ public:
 
     ~Line();
 
-    void render(Shader *shader) const;
+    void render(GLSLShaderProgram *shader) const;
 
 private:
 #if !defined(GLES2)

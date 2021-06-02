@@ -21,14 +21,14 @@ public:
     void initialize() override;
 
 private:
-    std::unique_ptr<Shader> m_debugDepthQuad;
-    std::unique_ptr<Shader> m_simpleDepthShader;
+    std::unique_ptr<GLSLShaderProgram> m_debugDepthQuad;
+    std::unique_ptr<GLSLShaderProgram> m_simpleDepthShader;
 
     unsigned int m_depthMap{};
     unsigned int m_depthMapFBO{};
 
     std::unique_ptr<Texture3D> m_skyboxTex;
-    std::unique_ptr<Shader> m_skyboxShader;
+    std::unique_ptr<GLSLShaderProgram> m_skyboxShader;
     std::unique_ptr<SkyBox> m_skybox;
 
 protected:
@@ -37,7 +37,7 @@ protected:
     void createShader();
 
 #ifdef DEBUG_SHADOWMAP
-    void renderScene(Shader *shader) const;
+    void renderScene(GLSLShaderProgram *shader) const;
 
     void renderQuad() const;
 
