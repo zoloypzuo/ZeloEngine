@@ -1,29 +1,24 @@
-// Asset.h
+// Resource.h
 // created on 2021/3/31
 // author @zoloypzuo
 
-#ifndef ZELOENGINE_ASSET_H
-#define ZELOENGINE_ASSET_H
+#ifndef ZELOENGINE_RESOURCE_H
+#define ZELOENGINE_RESOURCE_H
 
 #include "ZeloPrerequisites.h"
 
-#include <fstream>
-
-#ifdef ANDROID
-#include "AndroidAssetManager.h"
-#endif
-
+namespace Zelo {
 enum origin {
     Origin_SET,
     Origin_CUR,
     Origin_END
 };
 
-class EngineIOStream {
+class IOStream {
 public:
-    explicit EngineIOStream(const std::string &fileName);
+    explicit IOStream(const std::string &fileName);
 
-    ~EngineIOStream();
+    ~IOStream();
 
     size_t read(void *pvBuffer, size_t pSize, size_t pCount);
 
@@ -42,28 +37,25 @@ public:
 private:
     std::string m_fileName;
 
-#ifndef ANDROID
     std::fstream *m_file;
-#else
-    AAsset *m_file;
-#endif
 };
 
-class Asset {
+class Resource {
 public:
-    explicit Asset(const std::string &fileName);
+    explicit Resource(const std::string &fileName);
 
-    ~Asset();
+    ~Resource();
 
     const char *read() const;
 
-    EngineIOStream *getIOStream() const;
+    IOStream *getIOStream() const;
 
 private:
     char *m_buffer;
-    EngineIOStream *m_ioStream;
+    IOStream *m_ioStream;
     size_t m_fileSize;
 };
+}
 
 
-#endif //ZELOENGINE_ASSET_H
+#endif //ZELOENGINE_RESOURCE_H
