@@ -9,33 +9,29 @@
 
 struct shader_file_extension {
     const std::string &ext;
-    GLSLShaderType type;
+    ShaderType type;
 };
 
 const struct shader_file_extension extensions[] =
         {
-                {".vs",   GLSLShaderType::VERTEX},
-                {".vert", GLSLShaderType::VERTEX},
-                {".gs",   GLSLShaderType::GEOMETRY},
-                {".geom", GLSLShaderType::GEOMETRY},
-                {".tcs",  GLSLShaderType::TESS_CONTROL},
-                {".tes",  GLSLShaderType::TESS_EVALUATION},
-                {".fs",   GLSLShaderType::FRAGMENT},
-                {".frag", GLSLShaderType::FRAGMENT},
-                {".cs",   GLSLShaderType::COMPUTE}
+                {".vs",   ShaderType::VERTEX},
+                {".vert", ShaderType::VERTEX},
+                {".gs",   ShaderType::GEOMETRY},
+                {".geom", ShaderType::GEOMETRY},
+                {".tcs",  ShaderType::TESS_CONTROL},
+                {".tes",  ShaderType::TESS_EVALUATION},
+                {".fs",   ShaderType::FRAGMENT},
+                {".frag", ShaderType::FRAGMENT},
+                {".cs",   ShaderType::COMPUTE}
         };
 
-GLSLShaderProgram::GLSLShaderProgram() : m_handle(glCreateProgram()) {
+GLSLShaderProgram::GLSLShaderProgram() {
+    m_handle = glCreateProgram();
 }
 
-GLSLShaderProgram::GLSLShaderProgram(const std::string &shaderAssetName) : m_handle(glCreateProgram()), m_name(shaderAssetName) {
-
-#if defined(GLES2) || defined(GLES3) || defined(EMSCRIPTEN)
-    addVertex(Asset(shaderAssetName + "-gles.vs").read());
-    addFragment(Asset(shaderAssetName + "-gles.fs").read());
-#else
-    loadShader(shaderAssetName);
-#endif
+GLSLShaderProgram::GLSLShaderProgram(const std::string &shaderAssetName) : m_name(shaderAssetName) {
+    m_handle = glCreateProgram();
+    GLSLShaderProgram::loadShader(shaderAssetName);
 }
 
 GLSLShaderProgram::~GLSLShaderProgram() {
@@ -83,10 +79,6 @@ void GLSLShaderProgram::link() {
         findUniformLocations();
         m_initialized = true;
     }
-}
-
-GLuint GLSLShaderProgram::getHandle() const {
-    return m_handle;
 }
 
 void GLSLShaderProgram::createUniform(const std::string &name) {
@@ -142,7 +134,8 @@ void GLSLShaderProgram::updateUniformSpotLight(const std::string &name, SpotLigh
     setUniform1f(name + ".cutoff", spotLight->getCutoff());
 }
 
-void GLSLShaderProgram::setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation) {
+void
+GLSLShaderProgram::setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation) {
     setUniform1f(name + ".constant", attenuation->getConstant());
     setUniform1f(name + ".linear", attenuation->getLinear());
     setUniform1f(name + ".exponent", attenuation->getExponent());
@@ -176,11 +169,6 @@ void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::m
     bind();
 
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
-}
-
-
-bool GLSLShaderProgram::isInitialized() const {
-    return m_initialized;
 }
 
 void GLSLShaderProgram::printActiveUniforms() const {
@@ -345,7 +333,7 @@ void GLSLShaderProgram::printActiveAttributes() const {
 void GLSLShaderProgram::addShader(const std::string &fileName) const {
     // Check the file name's extension to determine the shader type
     auto ext = std::filesystem::path(fileName).extension();
-    auto shaderType = GLSLShaderType::VERTEX;
+    auto shaderType = ShaderType::VERTEX;
     bool matchFound = false;
     int numExt = sizeof(extensions) / sizeof(shader_file_extension);
     for (int i = 0; i < numExt; i++) {
@@ -366,7 +354,7 @@ void GLSLShaderProgram::addShader(const std::string &fileName) const {
     addShader(fileName, shaderType);
 }
 
-void GLSLShaderProgram::addShader(const std::string &fileName, GLSLShaderType shaderType) const {
+void GLSLShaderProgram::addShader(const std::string &fileName, ShaderType shaderType) const {
     spdlog::debug("addShader {} {}", fileName, getShaderTypeString(static_cast<GLenum>(shaderType)));
     const Zelo::Resource &asset = Zelo::Resource(fileName);
     const char *c_code = asset.read();
@@ -374,7 +362,8 @@ void GLSLShaderProgram::addShader(const std::string &fileName, GLSLShaderType sh
     addShaderSrc(fileName, shaderType, c_code);
 }
 
-void GLSLShaderProgram::addShaderSrc(const std::string &fileName, const GLSLShaderType &shaderType, const char *c_code) const {
+void
+GLSLShaderProgram::addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const {
     GLuint shaderHandle = glCreateShader(static_cast<GLenum>(shaderType));
 
     glShaderSource(shaderHandle, 1, &c_code, NULL);
@@ -456,8 +445,8 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
-    addShaderSrc(fileName, GLSLShaderType::VERTEX, vertex_src.c_str());
-    addShaderSrc(fileName, GLSLShaderType::FRAGMENT, fragment_src.c_str());
+    addShaderSrc(fileName, ShaderType::VERTEX, vertex_src.c_str());
+    addShaderSrc(fileName, ShaderType::FRAGMENT, fragment_src.c_str());
 }
 
 void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) {

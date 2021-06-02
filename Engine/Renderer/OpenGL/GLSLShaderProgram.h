@@ -7,21 +7,11 @@
 
 #include "ZeloPrerequisites.h"
 
+#include "Core/RHI/Shader.h"
 #include "Core/Resource/Resource.h"
 #include "Attenuation.h"
 
-
-enum class GLSLShaderType {
-    VERTEX = GL_VERTEX_SHADER,
-    FRAGMENT = GL_FRAGMENT_SHADER,
-    GEOMETRY = GL_GEOMETRY_SHADER,
-    TESS_CONTROL = GL_TESS_CONTROL_SHADER,
-    TESS_EVALUATION = GL_TESS_EVALUATION_SHADER,
-    COMPUTE = GL_COMPUTE_SHADER
-};
-
-// TODO zyp rename to GLSLShaderProgram, inherit from ShaderBase class
-class GLSLShaderProgram {
+class GLSLShaderProgram : public Shader {
 public:
     GLSLShaderProgram();
 
@@ -30,29 +20,29 @@ public:
     ~GLSLShaderProgram();
 
 public:
-    void loadShader(const std::string &fileName) const;
+    void loadShader(const std::string &fileName) const override;
 
-    void addShader(const std::string &fileName) const;
+    void addShader(const std::string &fileName) const override;
 
-    void addShader(const std::string &fileName, GLSLShaderType shaderType) const;
+    void addShader(const std::string &fileName, ShaderType shaderType) const override;
 
-    void link();
+    void link() override;
 
-    void bind() const;
+    void bind() const override;
 
-    void findUniformLocations();
+    void findUniformLocations() override;
 
-    void setUniformVec3f(const std::string &name, glm::vec3 vector);
+    void setUniformVec3f(const std::string &name, glm::vec3 vector) override;
 
-    void setUniformVec4f(const std::string &name, glm::vec4 vector);
+    void setUniformVec4f(const std::string &name, glm::vec4 vector) override;
 
-    void setUniform1i(const std::string &name, int value);
+    void setUniform1i(const std::string &name, int value) override;
 
-    void setUniform1f(const std::string &name, float value);
+    void setUniform1f(const std::string &name, float value) override;
 
-    void setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix);
+    void setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) override;
 
-    void setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix);
+    void setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) override;
 
     // TODO decouple and remove these api
     void updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight);
@@ -64,21 +54,13 @@ public:
     void setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation);
 
     // debug
-    void printActiveUniforms() const;
+    void printActiveUniforms() const override;
 
-    void printActiveUniformBlocks() const;
+    void printActiveUniformBlocks() const override;
 
-    void printActiveAttributes() const;
-
-public:
-    GLuint getHandle() const;
-
-    bool isInitialized() const;
+    void printActiveAttributes() const override;
 
 private:
-    GLuint m_handle{};
-    bool m_initialized{};
-
     std::map<std::string, GLint> m_uniformLocationMap;
 
     std::string m_name{};  // for debug
@@ -88,7 +70,7 @@ private:
 
     GLint getUniformLocation(const std::string &name);
 
-    void addShaderSrc(const std::string &fileName, const GLSLShaderType &shaderType, const char *c_code) const;
+    void addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const;
 };
 
 

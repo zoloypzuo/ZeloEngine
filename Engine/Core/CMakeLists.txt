@@ -2,4 +2,5 @@
 # author @zoloypzuo
 add_library(Core
         Resource/Resource.cpp
+        RHI/Shader.cpp
         )
