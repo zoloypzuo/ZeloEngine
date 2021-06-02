@@ -6,15 +6,13 @@
 
 #include "ZeloPrerequisites.h"
 
-#include "glad/glad.h"
-
 enum class ShaderType {
-    VERTEX = GL_VERTEX_SHADER,
-    FRAGMENT = GL_FRAGMENT_SHADER,
-    GEOMETRY = GL_GEOMETRY_SHADER,
-    TESS_CONTROL = GL_TESS_CONTROL_SHADER,
-    TESS_EVALUATION = GL_TESS_EVALUATION_SHADER,
-    COMPUTE = GL_COMPUTE_SHADER
+    VERTEX,
+    FRAGMENT,
+    GEOMETRY,
+    TESS_CONTROL,
+    TESS_EVALUATION,
+    COMPUTE,
 };
 
 class Shader {
@@ -23,7 +21,6 @@ public:
 
     virtual void addShader(const std::string &fileName) const = 0;
 
-    // TODO move shader type to here
     virtual void addShader(const std::string &fileName, ShaderType shaderType) const = 0;
 
     virtual void link() = 0;

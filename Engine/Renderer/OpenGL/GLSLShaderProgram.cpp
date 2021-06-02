@@ -25,6 +25,23 @@ const struct shader_file_extension extensions[] =
                 {".cs",   ShaderType::COMPUTE}
         };
 
+static GLenum GetGLShaderType(const ShaderType &shaderType) {
+    switch (shaderType) {
+        case ShaderType::VERTEX:
+            return GL_VERTEX_SHADER;
+        case ShaderType::FRAGMENT:
+            return GL_FRAGMENT_SHADER;
+        case ShaderType::GEOMETRY:
+            return GL_GEOMETRY_SHADER;
+        case ShaderType::TESS_CONTROL:
+            return GL_TESS_CONTROL_SHADER;
+        case ShaderType::TESS_EVALUATION:
+            return GL_TESS_EVALUATION_SHADER;
+        case ShaderType::COMPUTE:
+            return GL_COMPUTE_SHADER;
+    }
+}
+
 GLSLShaderProgram::GLSLShaderProgram() {
     m_handle = glCreateProgram();
 }
@@ -364,7 +381,7 @@ void GLSLShaderProgram::addShader(const std::string &fileName, ShaderType shader
 
 void
 GLSLShaderProgram::addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const {
-    GLuint shaderHandle = glCreateShader(static_cast<GLenum>(shaderType));
+    GLuint shaderHandle = glCreateShader(GetGLShaderType(shaderType));
 
     glShaderSource(shaderHandle, 1, &c_code, NULL);
 
