@@ -11,8 +11,8 @@
 class Material {
 public:
     Material(std::shared_ptr<Texture> diffuseMap,
-             std::shared_ptr<Texture> normalMap = std::make_shared<Texture>(Asset("default_normal.jpg")),
-             std::shared_ptr<Texture> specularMap = std::make_shared<Texture>(Asset("default_specular.jpg")));
+             std::shared_ptr<Texture> normalMap = std::make_shared<Texture>(Zelo::Resource("default_normal.jpg")),
+             std::shared_ptr<Texture> specularMap = std::make_shared<Texture>(Zelo::Resource("default_specular.jpg")));
 
     ~Material();
 

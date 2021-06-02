@@ -43,11 +43,11 @@ private:
 
 #endif
 
-#include "Asset.h"
+#include "Core/Resource/Resource.h"
 
 class Texture {
 public:
-    explicit Texture(const Asset &file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
+    explicit Texture(const Zelo::Resource &file, GLenum textureTarget = GL_TEXTURE_2D, GLfloat filter = GL_LINEAR);
 
     ~Texture();
 

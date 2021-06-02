@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 
-#include "Asset.h"
+#include "Core/Resource/Resource.h"
 #include "Attenuation.h"
 
 class DirectionalLight;

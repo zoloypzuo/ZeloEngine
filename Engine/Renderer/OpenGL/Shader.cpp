@@ -368,7 +368,7 @@ void Shader::addShader(const std::string &fileName) const {
 
 void Shader::addShader(const std::string &fileName, GLSLShaderType shaderType) const {
     spdlog::debug("addShader {} {}", fileName, getShaderTypeString(static_cast<GLenum>(shaderType)));
-    const Asset &asset = Asset(fileName);
+    const Zelo::Resource &asset = Zelo::Resource(fileName);
     const char *c_code = asset.read();
 
     addShaderSrc(fileName, shaderType, c_code);
@@ -451,7 +451,7 @@ void Shader::findUniformLocations() {
 }
 
 void Shader::loadShader(const std::string &fileName) const {
-    auto asset = Asset(fileName);
+    auto asset = Zelo::Resource(fileName);
     sol::state lua;
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];

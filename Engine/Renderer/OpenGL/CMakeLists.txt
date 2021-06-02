@@ -7,7 +7,6 @@ add_library(OpenGLRenderer
         Mesh.cpp
         Material.cpp
         Texture.cpp
-        Asset.cpp
         MeshRenderer.cpp
         Shader.cpp
         Light.cpp

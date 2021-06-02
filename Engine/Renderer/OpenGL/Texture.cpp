@@ -8,6 +8,7 @@
 
 #include "stb_image.h"
 
+
 TextureData::TextureData(int width, int height, const unsigned char *data, GLenum textureTarget, GLfloat filter) {
     createTexture(width, height, data, textureTarget, filter);
 }
@@ -40,7 +41,7 @@ void TextureData::bind(unsigned int unit) const {
 
 std::map<std::string, std::weak_ptr<TextureData>> m_textureCache;
 
-Texture::Texture(const Asset &file, GLenum textureTarget, GLfloat filter) {
+Texture::Texture(const Zelo::Resource &file, GLenum textureTarget, GLfloat filter) {
     auto it = m_textureCache.find(file.getIOStream()->getFileName());
 
     if (it == m_textureCache.end() || !(m_textureData = it->second.lock())) {
@@ -68,7 +69,7 @@ void Texture::bind(unsigned int unit) const {
     m_textureData->bind(unit);
 }
 
-unsigned char *loadPixels(const Asset &file, int &w, int &h) {
+unsigned char *loadPixels(const Zelo::Resource &file, int &w, int &h) {
     int bytesPerPixel = 0;
     unsigned char *data = stbi_load_from_memory(
             reinterpret_cast<const unsigned char *>(file.read()),
@@ -101,7 +102,7 @@ GLuint loadCubeMap(const std::string &baseName) {
 
     // Load the first one to get width/height
     std::string texName0 = baseName + "_" + suffixes[0] + ".png";
-    GLubyte *data0 = loadPixels(Asset(texName0), w, h);
+    GLubyte *data0 = loadPixels(Zelo::Resource(texName0), w, h);
 
     // Allocate immutable storage for the whole cube map texture
     glTexStorage2D(GL_TEXTURE_CUBE_MAP, 1, GL_RGBA8, w, h);
@@ -112,7 +113,7 @@ GLuint loadCubeMap(const std::string &baseName) {
     // Load the other 5 cube-map faces
     for (int i = 1; i < 6; i++) {
         std::string texName = baseName + "_" + suffixes[i] + ".png";
-        GLubyte *data = loadPixels(Asset(texName), w, h);
+        GLubyte *data = loadPixels(Zelo::Resource(texName), w, h);
         glTexSubImage2D(targets[i], 0, 0, 0, w, h, GL_RGBA, GL_UNSIGNED_BYTE, data);
         stbi_image_free(data);
     }

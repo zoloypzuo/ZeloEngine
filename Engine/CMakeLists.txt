@@ -45,12 +45,15 @@ include_directories(./)
 add_compile_definitions(ZELO_DEBUG)
 add_compile_definitions(DEBUG_SHADOWMAP)
 
+add_subdirectory(Core)
+link_libraries(Core)
+
 add_subdirectory(ImGui) # use my own ImGui implementation
 link_libraries(ImGui)
 
 add_subdirectory(Renderer/OpenGL)
-
 link_libraries(OpenGLRenderer)
+
 file(GLOB CommonSrc *.cpp Component/*.cpp Util/*.c Util/*.cpp)
 add_library(Common ${CommonSrc})
 

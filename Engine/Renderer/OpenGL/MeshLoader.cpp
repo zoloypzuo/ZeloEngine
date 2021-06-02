@@ -2,6 +2,7 @@
 // created on 2021/3/31
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
+#include "Core/Resource/Resource.h"
 #include "MeshLoader.h"
 #include "MeshRenderer.h"
 #include "MeshManager.h"
@@ -11,7 +12,7 @@
 
 CustomIOStream::CustomIOStream(const char *pFile, const char *pMode) {
     (void) pMode;
-    m_iostream = new EngineIOStream(std::string(pFile));
+    m_iostream = new Zelo::IOStream(std::string(pFile));
 }
 
 CustomIOStream::~CustomIOStream() {
@@ -29,11 +30,11 @@ size_t CustomIOStream::Write(const void *pvBuffer, size_t pSize, size_t pCount) 
 aiReturn CustomIOStream::Seek(size_t pOffset, aiOrigin pOrigin) {
     switch (pOrigin) {
         case aiOrigin_SET:
-            return m_iostream->seek(pOffset, Origin_SET) ? AI_SUCCESS : AI_FAILURE;
+            return m_iostream->seek(pOffset, Zelo::Origin_SET) ? AI_SUCCESS : AI_FAILURE;
         case aiOrigin_CUR:
-            return m_iostream->seek(pOffset, Origin_CUR) ? AI_SUCCESS : AI_FAILURE;
+            return m_iostream->seek(pOffset, Zelo::Origin_CUR) ? AI_SUCCESS : AI_FAILURE;
         case aiOrigin_END:
-            return m_iostream->seek(pOffset, Origin_END) ? AI_SUCCESS : AI_FAILURE;
+            return m_iostream->seek(pOffset, Zelo::Origin_END) ? AI_SUCCESS : AI_FAILURE;
         case _AI_ORIGIN_ENFORCE_ENUM_SIZE:
             break;
     }
@@ -63,17 +64,7 @@ bool CustomIOSystem::ComparePaths(const char *one, const char *second) const {
 
 bool CustomIOSystem::Exists(const char *pFile) const {
     (void) pFile;
-#ifndef ANDROID
-    // TODO: FIX THIS IN WINDOWS
-    //if(access(("../assets/" + std::string(pFile)).c_str(), F_OK) != -1) {
-    //  return true;
-    //} else {
-    //  return false;
-    //}
     return true;
-#else
-    return true;
-#endif
 }
 
 char CustomIOSystem::getOsSeparator() const {
@@ -91,7 +82,7 @@ void CustomIOSystem::Close(Assimp::IOStream *pFile) {
 
 MeshLoader::MeshLoader(const std::string &file) {
     m_fileName = file;
-    auto mesh_m = MeshManager::getSingletonPtr();
+    auto *mesh_m = MeshManager::getSingletonPtr();
     if (!mesh_m->sceneMeshRendererDataCache[m_fileName].empty()) {
         m_entity = std::make_shared<Entity>();
         for (const auto &meshRenderData : mesh_m->sceneMeshRendererDataCache[m_fileName]) {
@@ -169,27 +160,27 @@ void MeshLoader::loadScene(const aiScene *scene) {
             && pMaterial->GetTexture(
                 aiTextureType_DIFFUSE, 0, &Path,
                 nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            diffuseMap = std::make_shared<Texture>(Asset(Path.data));
+            diffuseMap = std::make_shared<Texture>(Zelo::Resource(Path.data));
         } else {
-            diffuseMap = std::make_shared<Texture>(Asset("default_normal.jpg"));
+            diffuseMap = std::make_shared<Texture>(Zelo::Resource("default_normal.jpg"));
         }
 
         if (pMaterial->GetTextureCount(aiTextureType_HEIGHT) > 0
             && pMaterial->GetTexture(
                 aiTextureType_HEIGHT, 0, &Path,
                 nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            normalMap = std::make_shared<Texture>(Asset(Path.data));
+            normalMap = std::make_shared<Texture>(Zelo::Resource(Path.data));
         } else {
-            normalMap = std::make_shared<Texture>(Asset("default_normal.jpg"));
+            normalMap = std::make_shared<Texture>(Zelo::Resource("default_normal.jpg"));
         }
 
         if (pMaterial->GetTextureCount(aiTextureType_SPECULAR) > 0
             && pMaterial->GetTexture(
                 aiTextureType_SPECULAR, 0, &Path,
                 nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            specularMap = std::make_shared<Texture>(Asset(Path.data));
+            specularMap = std::make_shared<Texture>(Zelo::Resource(Path.data));
         } else {
-            specularMap = std::make_shared<Texture>(Asset("default_specular.jpg"));
+            specularMap = std::make_shared<Texture>(Zelo::Resource("default_specular.jpg"));
         }
 
         MeshRendererData meshRenderData;

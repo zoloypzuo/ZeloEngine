@@ -7,7 +7,7 @@
 
 void MyGame::initialize() {
     Game::initialize();
-    auto input = Input::getSingletonPtr();
+    auto *input = Input::getSingletonPtr();
     input->registerKeyToAction(SDLK_SPACE, "fire");
     input->registerKeyToAction(SDLK_c, "swapCamera");
 
@@ -26,9 +26,9 @@ void MyGame::initialize() {
         GLManager::getSingletonPtr()->setActiveCamera(primary_camera);
     });
 
-    auto brickMat = std::make_shared<Material>(std::make_shared<Texture>(Asset("bricks2.jpg")),
-                                               std::make_shared<Texture>(Asset("bricks2_normal.jpg")),
-                                               std::make_shared<Texture>(Asset("bricks2_specular.png")));
+    auto brickMat = std::make_shared<Material>(std::make_shared<Texture>(Zelo::Resource("bricks2.jpg")),
+                                               std::make_shared<Texture>(Zelo::Resource("bricks2_normal.jpg")),
+                                               std::make_shared<Texture>(Zelo::Resource("bricks2_specular.png")));
     auto planeMesh = Plane::getMesh();
     // ground
     {
