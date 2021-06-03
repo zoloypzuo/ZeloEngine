@@ -6,6 +6,7 @@
 #define ZELOENGINE_MESHMANAGER_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Mesh.h"
 #include "Material.h"

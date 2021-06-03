@@ -6,6 +6,7 @@
 #define ZELOENGINE_MATERIAL_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "Texture.h"
 
 class Material {

@@ -6,6 +6,7 @@
 
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "ForwardRenderer.h"
 #include "Texture.h"
 #include <Renderer/OpenGL/ingredients/plane.h>

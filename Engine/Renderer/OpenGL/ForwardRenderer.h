@@ -6,6 +6,7 @@
 #define ZELOENGINE_FORWARDRENDERER_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 
 #include "Renderer.h"
 #include "GLSLShaderProgram.h"

@@ -6,17 +6,7 @@
 #define ZELOENGINE_MESH_H
 
 #include "ZeloPrerequisites.h"
-
-#if defined(GLES2)
-#include <GLES2/gl2.h>
-#elif defined(GLES3)
-#include <GLES3/gl3.h>
-#else
-
-#include <glad/glad.h>
-
-#endif
-
+#include "ZeloGLPrerequisites.h"
 
 struct Vertex {
     glm::vec3 position;
@@ -56,7 +46,7 @@ private:
 
 class Mesh {
 public:
-    Mesh(const std::string& identifier, Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
+    Mesh(const std::string &identifier, Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
 
     virtual ~Mesh();
 

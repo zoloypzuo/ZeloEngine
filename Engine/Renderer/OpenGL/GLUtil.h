@@ -5,6 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 
 int checkForOpenGLError(const char *, int);
 

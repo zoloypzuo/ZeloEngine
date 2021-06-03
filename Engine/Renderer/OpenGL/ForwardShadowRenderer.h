@@ -5,6 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "ForwardRenderer.h"
 #include "Texture.h"
 #include "skybox.h"

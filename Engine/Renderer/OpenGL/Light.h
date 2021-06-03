@@ -6,6 +6,7 @@
 #define ZELOENGINE_LIGHT_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "Component.h"
 #include "GLSLShaderProgram.h"
 #include "Attenuation.h"

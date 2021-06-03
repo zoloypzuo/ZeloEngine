@@ -6,6 +6,7 @@
 #define ZELOENGINE_LINE_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "GLSLShaderProgram.h"
 
 class Line {

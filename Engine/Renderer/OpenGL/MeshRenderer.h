@@ -6,6 +6,7 @@
 #define ZELOENGINE_MESHRENDERER_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "Component.h"
 #include "Mesh.h"
 #include "Material.h"

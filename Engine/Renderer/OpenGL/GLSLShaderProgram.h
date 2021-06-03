@@ -6,6 +6,7 @@
 #define ZELOENGINE_GLSLSHADERPROGRAM_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 
 #include "Core/RHI/Shader.h"
 #include "Core/Resource/Resource.h"

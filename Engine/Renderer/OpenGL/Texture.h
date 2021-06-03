@@ -6,16 +6,7 @@
 #define ZELOENGINE_TEXTURE_H
 
 #include "ZeloPrerequisites.h"
-
-#if defined(GLES2)
-#include <GLES2/gl2.h>
-#elif defined(GLES3)
-#include <GLES3/gl3.h>
-#else
-
-#include <glad/glad.h>
-
-#endif
+#include "ZeloGLPrerequisites.h"
 
 class TextureData {
 public:
@@ -32,16 +23,6 @@ private:
 private:
     void createTexture(int width, int height, const unsigned char *data, GLenum textureTarget, GLfloat filter);
 };
-
-#if defined(GLES2)
-#include <GLES2/gl2.h>
-#elif defined(GLES3)
-#include <GLES3/gl3.h>
-#else
-
-#include <glad/glad.h>
-
-#endif
 
 #include "Core/Resource/Resource.h"
 
