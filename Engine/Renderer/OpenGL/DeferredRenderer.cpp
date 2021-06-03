@@ -206,7 +206,7 @@ void DeferredRenderer::initializeQuad() {
 
     glBindBuffer(GL_ARRAY_BUFFER, handle[1]);
     glVertexAttribPointer((GLuint) 2, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(2);  // Texture coordinates
+    glEnableVertexAttribArray(2);  // GLTexture coordinates
 
     glBindVertexArray(0);
 }

@@ -211,7 +211,7 @@ void ForwardShadowRenderer::initialize() {
 }
 
 void ForwardShadowRenderer::initializeSkybox() {
-    m_skyboxTex = std::make_unique<Texture3D>("texture/cubemap_night/night");
+    m_skyboxTex = std::make_unique<GLTexture3D>("texture/cubemap_night/night");
     m_skybox = std::make_unique<SkyBox>();
 
     m_skyboxShader = std::make_unique<GLSLShaderProgram>("Shader/cubemap_reflect.lua");

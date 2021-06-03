@@ -8,7 +8,7 @@
 // INCLUDE HEADERS HERE
 #include "Renderer/OpenGL/Light.h"
 #include "Renderer/OpenGL/Material.h"
-#include "Renderer/OpenGL/Texture.h"
+#include "Renderer/OpenGL/GLTexture.h"
 #include "Renderer/OpenGL/MeshRenderer.h"
 #include "Renderer/OpenGL/GLManager.h"
 #include "Renderer/OpenGL/MeshLoader.h"

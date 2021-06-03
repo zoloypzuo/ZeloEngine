@@ -26,9 +26,9 @@ void MyGame::initialize() {
         GLManager::getSingletonPtr()->setActiveCamera(primary_camera);
     });
 
-    auto brickMat = std::make_shared<Material>(std::make_shared<Texture>(Zelo::Resource("bricks2.jpg")),
-                                               std::make_shared<Texture>(Zelo::Resource("bricks2_normal.jpg")),
-                                               std::make_shared<Texture>(Zelo::Resource("bricks2_specular.png")));
+    auto brickMat = std::make_shared<Material>(std::make_shared<GLTexture>(Zelo::Resource("bricks2.jpg")),
+                                               std::make_shared<GLTexture>(Zelo::Resource("bricks2_normal.jpg")),
+                                               std::make_shared<GLTexture>(Zelo::Resource("bricks2_specular.png")));
     auto planeMesh = Plane::getMesh();
     // ground
     {

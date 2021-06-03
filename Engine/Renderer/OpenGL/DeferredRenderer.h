@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "ForwardRenderer.h"
-#include "Texture.h"
+#include "GLTexture.h"
 #include <Renderer/OpenGL/ingredients/plane.h>
 #include <Renderer/OpenGL/ingredients/torus.h>
 #include <Renderer/OpenGL/ingredients/teapot.h>

@@ -6,7 +6,7 @@ add_library(OpenGLRenderer
         ForwardShadowRenderer.cpp
         Mesh.cpp
         Material.cpp
-        Texture.cpp
+        GLTexture.cpp
         MeshRenderer.cpp
         GLSLShaderProgram.cpp
         Light.cpp

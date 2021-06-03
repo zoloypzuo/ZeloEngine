@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Texture.h"
+#include "GLTexture.h"
 #include "Mesh.h"
 #include "Material.h"
 #include "Entity.h"
