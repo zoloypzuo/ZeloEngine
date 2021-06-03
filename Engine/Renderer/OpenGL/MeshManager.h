@@ -8,11 +8,11 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "Mesh.h"
+#include "GLMesh.h"
 #include "Material.h"
 
 struct MeshRendererData {
-    std::shared_ptr<Mesh> mesh;
+    std::shared_ptr<GLMesh> mesh;
     std::shared_ptr<Material> material;
 };
 

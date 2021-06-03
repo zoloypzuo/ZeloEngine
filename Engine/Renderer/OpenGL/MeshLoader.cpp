@@ -184,7 +184,7 @@ void MeshLoader::loadScene(const aiScene *scene) {
         }
 
         MeshRendererData meshRenderData;
-        meshRenderData.mesh = std::make_shared<Mesh>(m_fileName + std::string(model->mName.C_Str()), &vertices[0],
+        meshRenderData.mesh = std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()), &vertices[0],
                                                      vertices.size(), &indices[0], indices.size());
         meshRenderData.material = std::make_shared<Material>(diffuseMap, normalMap, specularMap);
 

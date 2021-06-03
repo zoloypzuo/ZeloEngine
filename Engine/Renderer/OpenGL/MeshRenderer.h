@@ -8,13 +8,13 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "Component.h"
-#include "Mesh.h"
+#include "GLMesh.h"
 #include "Material.h"
 #include "GLSLShaderProgram.h"
 
 class MeshRenderer : public Component {
 public:
-    MeshRenderer(std::shared_ptr<Mesh> mesh, std::shared_ptr<Material> material);
+    MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Material> material);
 
     virtual ~MeshRenderer();
 
@@ -23,7 +23,7 @@ public:
     inline const char *getType() override { return "MESH_RENDERER"; }
 
 private:
-    std::shared_ptr<Mesh> m_mesh;
+    std::shared_ptr<GLMesh> m_mesh;
     std::shared_ptr<Material> m_material;
 };
 

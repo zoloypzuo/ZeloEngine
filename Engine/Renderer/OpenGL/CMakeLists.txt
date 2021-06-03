@@ -4,7 +4,7 @@ add_library(OpenGLRenderer
         GLManager.cpp
         ForwardRenderer.cpp
         ForwardShadowRenderer.cpp
-        Mesh.cpp
+        GLMesh.cpp
         Material.cpp
         GLTexture.cpp
         MeshRenderer.cpp
