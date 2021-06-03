@@ -4,8 +4,8 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Material.h"
 
-Material::Material(std::shared_ptr<Texture> diffuseMap, std::shared_ptr<Texture> normalMap,
-                   std::shared_ptr<Texture> specularMap) {
+Material::Material(std::shared_ptr<GLTexture> diffuseMap, std::shared_ptr<GLTexture> normalMap,
+                   std::shared_ptr<GLTexture> specularMap) {
     m_diffuseMap = diffuseMap;
     m_normalMap = normalMap;
     m_specularMap = specularMap;

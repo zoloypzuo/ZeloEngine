@@ -6,21 +6,12 @@
 #define ZELOENGINE_GLMANAGER_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "ZeloSingleton.h"
-
-#if defined(GLES2)
-#include <GLES2/gl2.h>
-#elif defined(GLES3)
-#include <GLES3/gl3.h>
-#else
-
-#include <glad/glad.h>
-
-#endif
 
 #include "Renderer.h"
 #include "ForwardRenderer.h"
-#include "Shader.h"
+#include "GLSLShaderProgram.h"
 #include "MeshManager.h"
 #include "Entity.h"
 #include "Window.h"

@@ -82,7 +82,4 @@
 #define ZELO_CORE_ASSERT(...)
 #endif
 
-// TODO if use opengl
-#include <glad/glad.h>
-
 #endif //ZELOENGINE_ZELOPRECOMPILEDHEADER_H

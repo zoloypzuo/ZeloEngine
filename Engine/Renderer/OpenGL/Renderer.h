@@ -5,6 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 
 #include "Entity.h"
 #include "Renderer/OpenGL/Camera.h"

@@ -5,7 +5,7 @@
 #include "GuiManager.h"
 
 #include "Renderer/OpenGL/Shader.h"
-#include "Renderer/OpenGL/Texture.h"
+#include "Renderer/OpenGL/GLTexture.h"
 #include "Component.h"
 #include "Engine.h"
 

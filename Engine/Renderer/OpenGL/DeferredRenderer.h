@@ -6,8 +6,9 @@
 
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "ForwardRenderer.h"
-#include "Texture.h"
+#include "GLTexture.h"
 #include <Renderer/OpenGL/ingredients/plane.h>
 #include <Renderer/OpenGL/ingredients/torus.h>
 #include <Renderer/OpenGL/ingredients/teapot.h>
@@ -23,7 +24,7 @@ public:
     void initialize() override;
 
 private:
-    std::unique_ptr<Shader> m_deferredShader;
+    std::unique_ptr<GLSLShaderProgram> m_deferredShader;
     uint32_t pass1Index;
     uint32_t pass2Index;
     uint32_t deferredFBO;

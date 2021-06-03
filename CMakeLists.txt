@@ -66,7 +66,7 @@ add_subdirectory(Engine)
 link_libraries(Common)
 
 # build main
-add_executable(hello main.cpp Engine/ZeloWrapperLua.cxx)
+add_executable(hello main.cpp)
 if (UsePreCompiledHeader)
     set_target_properties(hello PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "Engine/ZeloPreCompiledHeader.h")
     cotire(hello)

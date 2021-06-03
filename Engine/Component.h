@@ -31,7 +31,7 @@ public:
 
     virtual void update(Input *input, std::chrono::microseconds delta) {};
 
-    virtual void render(Shader *shader) {};
+    virtual void render(GLSLShaderProgram *shader) {};
 
     virtual void registerWithEngine(Engine *engine) {};
 

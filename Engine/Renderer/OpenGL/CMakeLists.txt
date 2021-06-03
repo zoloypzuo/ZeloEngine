@@ -4,11 +4,11 @@ add_library(OpenGLRenderer
         GLManager.cpp
         ForwardRenderer.cpp
         ForwardShadowRenderer.cpp
-        Mesh.cpp
+        GLMesh.cpp
         Material.cpp
-        Texture.cpp
+        GLTexture.cpp
         MeshRenderer.cpp
-        Shader.cpp
+        GLSLShaderProgram.cpp
         Light.cpp
         Attenuation.cpp
         Camera.cpp

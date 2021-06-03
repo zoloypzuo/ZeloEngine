@@ -6,8 +6,9 @@
 #define ZELOENGINE_MESHLOADER_H
 
 #include "ZeloPrerequisites.h"
-#include "Texture.h"
-#include "Mesh.h"
+#include "ZeloGLPrerequisites.h"
+#include "GLTexture.h"
+#include "GLMesh.h"
 #include "Material.h"
 #include "Entity.h"
 

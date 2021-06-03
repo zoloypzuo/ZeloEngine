@@ -1,44 +1,57 @@
-// Shader.cpp
+// GLSLShaderProgram.cpp
 // created on 2021/3/31
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "Shader.h"
+#include "GLSLShaderProgram.h"
 #include "Light.h"
 #include "GLUtil.h"
 #include "sol/sol.hpp"
 
 struct shader_file_extension {
     const std::string &ext;
-    GLSLShaderType type;
+    ShaderType type;
 };
 
 const struct shader_file_extension extensions[] =
         {
-                {".vs",   GLSLShaderType::VERTEX},
-                {".vert", GLSLShaderType::VERTEX},
-                {".gs",   GLSLShaderType::GEOMETRY},
-                {".geom", GLSLShaderType::GEOMETRY},
-                {".tcs",  GLSLShaderType::TESS_CONTROL},
-                {".tes",  GLSLShaderType::TESS_EVALUATION},
-                {".fs",   GLSLShaderType::FRAGMENT},
-                {".frag", GLSLShaderType::FRAGMENT},
-                {".cs",   GLSLShaderType::COMPUTE}
+                {".vs",   ShaderType::VERTEX},
+                {".vert", ShaderType::VERTEX},
+                {".gs",   ShaderType::GEOMETRY},
+                {".geom", ShaderType::GEOMETRY},
+                {".tcs",  ShaderType::TESS_CONTROL},
+                {".tes",  ShaderType::TESS_EVALUATION},
+                {".fs",   ShaderType::FRAGMENT},
+                {".frag", ShaderType::FRAGMENT},
+                {".cs",   ShaderType::COMPUTE}
         };
 
-Shader::Shader() : m_handle(glCreateProgram()) {
+static GLenum GetGLShaderType(const ShaderType &shaderType) {
+    switch (shaderType) {
+        case ShaderType::VERTEX:
+            return GL_VERTEX_SHADER;
+        case ShaderType::FRAGMENT:
+            return GL_FRAGMENT_SHADER;
+        case ShaderType::GEOMETRY:
+            return GL_GEOMETRY_SHADER;
+        case ShaderType::TESS_CONTROL:
+            return GL_TESS_CONTROL_SHADER;
+        case ShaderType::TESS_EVALUATION:
+            return GL_TESS_EVALUATION_SHADER;
+        case ShaderType::COMPUTE:
+            return GL_COMPUTE_SHADER;
+    }
 }
 
-Shader::Shader(const std::string &shaderAssetName) : m_handle(glCreateProgram()), m_name(shaderAssetName) {
-
-#if defined(GLES2) || defined(GLES3) || defined(EMSCRIPTEN)
-    addVertex(Asset(shaderAssetName + "-gles.vs").read());
-    addFragment(Asset(shaderAssetName + "-gles.fs").read());
-#else
-    loadShader(shaderAssetName);
-#endif
+GLSLShaderProgram::GLSLShaderProgram() {
+    m_handle = glCreateProgram();
 }
 
-Shader::~Shader() {
+GLSLShaderProgram::GLSLShaderProgram(const std::string &shaderAssetName) : m_name(shaderAssetName) {
+    m_handle = glCreateProgram();
+    GLSLShaderProgram::loadShader(shaderAssetName);
+}
+
+GLSLShaderProgram::~GLSLShaderProgram() {
     ZELO_ASSERT(m_handle, "shader handle not initialized");
 
     // Query the number of attached shaders
@@ -61,7 +74,7 @@ Shader::~Shader() {
     delete[] shaderNames;
 }
 
-void Shader::link() {
+void GLSLShaderProgram::link() {
     char shErr[1024];
     int errlen = 0;
     GLint res = 0;
@@ -85,15 +98,11 @@ void Shader::link() {
     }
 }
 
-GLuint Shader::getHandle() const {
-    return m_handle;
-}
-
-void Shader::createUniform(const std::string &name) {
+void GLSLShaderProgram::createUniform(const std::string &name) {
     m_uniformLocationMap[name] = glGetUniformLocation(m_handle, name.c_str());
 }
 
-GLint Shader::getUniformLocation(const std::string &name) {
+GLint GLSLShaderProgram::getUniformLocation(const std::string &name) {
     auto result = m_uniformLocationMap.find(name);
     if (result == m_uniformLocationMap.end()) {
         createUniform(name);
@@ -101,14 +110,14 @@ GLint Shader::getUniformLocation(const std::string &name) {
     return m_uniformLocationMap[name];
 }
 
-void Shader::bind() const {
+void GLSLShaderProgram::bind() const {
     if (!isInitialized()) {
         spdlog::error("shader {} not linked before use", m_name);
     }
     glUseProgram(m_handle);
 }
 
-void Shader::updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight) {
+void GLSLShaderProgram::updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight) {
     bind();
 
     setUniformVec3f(name + ".base.color", directionalLight->getColor());
@@ -117,7 +126,7 @@ void Shader::updateUniformDirectionalLight(const std::string &name, DirectionalL
     setUniformVec3f(name + ".direction", directionalLight->getParent()->getDirection());
 }
 
-void Shader::updateUniformPointLight(const std::string &name, PointLight *pointLight) {
+void GLSLShaderProgram::updateUniformPointLight(const std::string &name, PointLight *pointLight) {
     bind();
 
     setUniformVec3f(name + ".base.color", pointLight->getColor());
@@ -128,7 +137,7 @@ void Shader::updateUniformPointLight(const std::string &name, PointLight *pointL
     setUniform1f(name + ".range", pointLight->getRange());
 }
 
-void Shader::updateUniformSpotLight(const std::string &name, SpotLight *spotLight) {
+void GLSLShaderProgram::updateUniformSpotLight(const std::string &name, SpotLight *spotLight) {
     bind();
 
     setUniformVec3f(name + ".pointLight.base.color", spotLight->getColor());
@@ -142,48 +151,44 @@ void Shader::updateUniformSpotLight(const std::string &name, SpotLight *spotLigh
     setUniform1f(name + ".cutoff", spotLight->getCutoff());
 }
 
-void Shader::setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation) {
+void
+GLSLShaderProgram::setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation) {
     setUniform1f(name + ".constant", attenuation->getConstant());
     setUniform1f(name + ".linear", attenuation->getLinear());
     setUniform1f(name + ".exponent", attenuation->getExponent());
 }
 
-void Shader::setUniform1i(const std::string &name, int value) {
+void GLSLShaderProgram::setUniform1i(const std::string &name, int value) {
     bind();
 
     glUniform1i(getUniformLocation(name), value);
 }
 
-void Shader::setUniform1f(const std::string &name, float value) {
+void GLSLShaderProgram::setUniform1f(const std::string &name, float value) {
     bind();
 
     glUniform1f(getUniformLocation(name), value);
 }
 
-void Shader::setUniformVec3f(const std::string &name, glm::vec3 vector) {
+void GLSLShaderProgram::setUniformVec3f(const std::string &name, glm::vec3 vector) {
     bind();
 
     glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
 }
 
-void Shader::setUniformVec4f(const std::string &name, glm::vec4 vector) {
+void GLSLShaderProgram::setUniformVec4f(const std::string &name, glm::vec4 vector) {
     bind();
 
     glUniform4f(getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
 }
 
-void Shader::setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) {
+void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) {
     bind();
 
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
 
-
-bool Shader::isInitialized() const {
-    return m_initialized;
-}
-
-void Shader::printActiveUniforms() const {
+void GLSLShaderProgram::printActiveUniforms() const {
 #ifdef __APPLE__
     // For OpenGL 4.1, use glGetActiveUniform
     GLint nUniforms, size, location, maxLen;
@@ -227,7 +232,7 @@ void Shader::printActiveUniforms() const {
 #endif
 }
 
-void Shader::printActiveUniformBlocks() const {
+void GLSLShaderProgram::printActiveUniformBlocks() const {
 #ifdef __APPLE__
     // For OpenGL 4.1, use glGetActiveUniformBlockiv
     GLint written, maxLength, maxUniLen, nBlocks, binding;
@@ -302,7 +307,7 @@ void Shader::printActiveUniformBlocks() const {
 #endif
 }
 
-void Shader::printActiveAttributes() const {
+void GLSLShaderProgram::printActiveAttributes() const {
 #ifdef __APPLE__
     // For OpenGL 4.1, use glGetActiveAttrib
     GLint written, size, location, maxLength, nAttribs;
@@ -342,10 +347,10 @@ void Shader::printActiveAttributes() const {
 #endif
 }
 
-void Shader::addShader(const std::string &fileName) const {
+void GLSLShaderProgram::addShader(const std::string &fileName) const {
     // Check the file name's extension to determine the shader type
     auto ext = std::filesystem::path(fileName).extension();
-    auto shaderType = GLSLShaderType::VERTEX;
+    auto shaderType = ShaderType::VERTEX;
     bool matchFound = false;
     int numExt = sizeof(extensions) / sizeof(shader_file_extension);
     for (int i = 0; i < numExt; i++) {
@@ -366,7 +371,7 @@ void Shader::addShader(const std::string &fileName) const {
     addShader(fileName, shaderType);
 }
 
-void Shader::addShader(const std::string &fileName, GLSLShaderType shaderType) const {
+void GLSLShaderProgram::addShader(const std::string &fileName, ShaderType shaderType) const {
     spdlog::debug("addShader {} {}", fileName, getShaderTypeString(static_cast<GLenum>(shaderType)));
     const Zelo::Resource &asset = Zelo::Resource(fileName);
     const char *c_code = asset.read();
@@ -374,8 +379,9 @@ void Shader::addShader(const std::string &fileName, GLSLShaderType shaderType) c
     addShaderSrc(fileName, shaderType, c_code);
 }
 
-void Shader::addShaderSrc(const std::string &fileName, const GLSLShaderType &shaderType, const char *c_code) const {
-    GLuint shaderHandle = glCreateShader(static_cast<GLenum>(shaderType));
+void
+GLSLShaderProgram::addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const {
+    GLuint shaderHandle = glCreateShader(GetGLShaderType(shaderType));
 
     glShaderSource(shaderHandle, 1, &c_code, NULL);
 
@@ -408,7 +414,7 @@ void Shader::addShaderSrc(const std::string &fileName, const GLSLShaderType &sha
     }
 }
 
-void Shader::findUniformLocations() {
+void GLSLShaderProgram::findUniformLocations() {
     m_uniformLocationMap.clear();
 
     GLint numUniforms = 0;
@@ -450,17 +456,17 @@ void Shader::findUniformLocations() {
 #endif
 }
 
-void Shader::loadShader(const std::string &fileName) const {
+void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     auto asset = Zelo::Resource(fileName);
     sol::state lua;
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
-    addShaderSrc(fileName, GLSLShaderType::VERTEX, vertex_src.c_str());
-    addShaderSrc(fileName, GLSLShaderType::FRAGMENT, fragment_src.c_str());
+    addShaderSrc(fileName, ShaderType::VERTEX, vertex_src.c_str());
+    addShaderSrc(fileName, ShaderType::FRAGMENT, fragment_src.c_str());
 }
 
-void Shader::setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) {
+void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) {
     bind();
 
     glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);

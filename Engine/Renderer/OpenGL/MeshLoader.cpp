@@ -150,9 +150,9 @@ void MeshLoader::loadScene(const aiScene *scene) {
         const aiMaterial *pMaterial = scene->mMaterials[model->mMaterialIndex];
         spdlog::info("tex num: {}", model->mMaterialIndex);
 
-        std::shared_ptr<Texture> diffuseMap;
-        std::shared_ptr<Texture> normalMap;
-        std::shared_ptr<Texture> specularMap;
+        std::shared_ptr<GLTexture> diffuseMap;
+        std::shared_ptr<GLTexture> normalMap;
+        std::shared_ptr<GLTexture> specularMap;
 
         aiString Path;
 
@@ -160,31 +160,31 @@ void MeshLoader::loadScene(const aiScene *scene) {
             && pMaterial->GetTexture(
                 aiTextureType_DIFFUSE, 0, &Path,
                 nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            diffuseMap = std::make_shared<Texture>(Zelo::Resource(Path.data));
+            diffuseMap = std::make_shared<GLTexture>(Zelo::Resource(Path.data));
         } else {
-            diffuseMap = std::make_shared<Texture>(Zelo::Resource("default_normal.jpg"));
+            diffuseMap = std::make_shared<GLTexture>(Zelo::Resource("default_normal.jpg"));
         }
 
         if (pMaterial->GetTextureCount(aiTextureType_HEIGHT) > 0
             && pMaterial->GetTexture(
                 aiTextureType_HEIGHT, 0, &Path,
                 nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            normalMap = std::make_shared<Texture>(Zelo::Resource(Path.data));
+            normalMap = std::make_shared<GLTexture>(Zelo::Resource(Path.data));
         } else {
-            normalMap = std::make_shared<Texture>(Zelo::Resource("default_normal.jpg"));
+            normalMap = std::make_shared<GLTexture>(Zelo::Resource("default_normal.jpg"));
         }
 
         if (pMaterial->GetTextureCount(aiTextureType_SPECULAR) > 0
             && pMaterial->GetTexture(
                 aiTextureType_SPECULAR, 0, &Path,
                 nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            specularMap = std::make_shared<Texture>(Zelo::Resource(Path.data));
+            specularMap = std::make_shared<GLTexture>(Zelo::Resource(Path.data));
         } else {
-            specularMap = std::make_shared<Texture>(Zelo::Resource("default_specular.jpg"));
+            specularMap = std::make_shared<GLTexture>(Zelo::Resource("default_specular.jpg"));
         }
 
         MeshRendererData meshRenderData;
-        meshRenderData.mesh = std::make_shared<Mesh>(m_fileName + std::string(model->mName.C_Str()), &vertices[0],
+        meshRenderData.mesh = std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()), &vertices[0],
                                                      vertices.size(), &indices[0], indices.size());
         meshRenderData.material = std::make_shared<Material>(diffuseMap, normalMap, specularMap);
 

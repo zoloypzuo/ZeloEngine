@@ -1,6 +1,8 @@
 #ifndef SKYBOX_H
 #define SKYBOX_H
 
+#include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 //#include "drawable.h"
 
 //class SkyBox : public Drawable

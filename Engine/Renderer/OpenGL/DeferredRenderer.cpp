@@ -119,7 +119,7 @@ void createGBufTex(GLenum texUnit, GLenum format, GLuint &texid) {
 }
 
 void DeferredRenderer::initializeDeferred() {
-    m_deferredShader = std::make_unique<Shader>("Shader/deferred.lua");
+    m_deferredShader = std::make_unique<GLSLShaderProgram>("Shader/deferred.lua");
     m_deferredShader->link();
     m_deferredShader->bind();
     initiializeMesh();
@@ -206,7 +206,7 @@ void DeferredRenderer::initializeQuad() {
 
     glBindBuffer(GL_ARRAY_BUFFER, handle[1]);
     glVertexAttribPointer((GLuint) 2, 2, GL_FLOAT, GL_FALSE, 0, 0);
-    glEnableVertexAttribArray(2);  // Texture coordinates
+    glEnableVertexAttribArray(2);  // GLTexture coordinates
 
     glBindVertexArray(0);
 }

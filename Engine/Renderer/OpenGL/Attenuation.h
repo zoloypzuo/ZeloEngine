@@ -6,6 +6,7 @@
 #define ZELOENGINE_ATTENUATION_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 
 
 class Attenuation {

@@ -6,7 +6,13 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
+
+#pragma warning( push )
+#pragma warning(disable: 4005)
+
 #include <sol/sol.hpp>
+
+#pragma warning(pop)
 
 class LuaScriptManager : public sol::state, public Singleton<LuaScriptManager>, public IRuntimeModule {
 public:

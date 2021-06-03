@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 
 #include "Transform.h"
-#include "Renderer/OpenGL/Shader.h"
+#include "Renderer/OpenGL/GLSLShaderProgram.h"
 #include "Input.h"
 
 class Engine;
@@ -42,7 +42,7 @@ public:
 
     void updateAll(Input *input, std::chrono::microseconds delta);
 
-    void renderAll(Shader *shader) const;
+    void renderAll(GLSLShaderProgram *shader) const;
 
     void registerWithEngineAll(Engine *engine);
 

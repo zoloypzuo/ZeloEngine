@@ -6,9 +6,10 @@
 #define ZELOENGINE_FORWARDRENDERER_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 
 #include "Renderer.h"
-#include "Shader.h"
+#include "GLSLShaderProgram.h"
 #include "Line.h"
 
 class SimpleRenderer : public Renderer {
@@ -29,7 +30,7 @@ public:
 private:
     void createShaders();
 
-    std::unique_ptr<Shader> m_simple;
+    std::unique_ptr<GLSLShaderProgram> m_simple;
 };
 
 
@@ -49,10 +50,10 @@ public:
 protected:
     void createShaders();
 
-    std::unique_ptr<Shader> m_forwardAmbient;
-    std::unique_ptr<Shader> m_forwardDirectional;
-    std::unique_ptr<Shader> m_forwardPoint;
-    std::unique_ptr<Shader> m_forwardSpot;
+    std::unique_ptr<GLSLShaderProgram> m_forwardAmbient;
+    std::unique_ptr<GLSLShaderProgram> m_forwardDirectional;
+    std::unique_ptr<GLSLShaderProgram> m_forwardPoint;
+    std::unique_ptr<GLSLShaderProgram> m_forwardSpot;
 };
 
 

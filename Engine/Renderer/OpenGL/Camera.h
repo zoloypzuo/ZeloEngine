@@ -6,6 +6,7 @@
 #define ZELOENGINE_CAMERA_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "Component.h"
 
 class Camera : public Component {

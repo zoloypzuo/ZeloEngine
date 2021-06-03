@@ -37,7 +37,7 @@ void DirectionalLight::deregisterFromEngine(Engine *engine) {
             std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
-void DirectionalLight::updateShader(Shader *shader) {
+void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
     shader->updateUniformDirectionalLight("directionalLight", this);
 }
 
@@ -67,7 +67,7 @@ void PointLight::deregisterFromEngine(Engine *engine) {
     GLManager::getSingletonPtr()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
-void PointLight::updateShader(Shader *shader) {
+void PointLight::updateShader(GLSLShaderProgram *shader) {
     shader->updateUniformPointLight("pointLight", this);
 }
 
@@ -99,7 +99,7 @@ void SpotLight::deregisterFromEngine(Engine *engine) {
     GLManager::getSingletonPtr()->removeSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
 }
 
-void SpotLight::updateShader(Shader *shader) {
+void SpotLight::updateShader(GLSLShaderProgram *shader) {
     shader->updateUniformSpotLight("spotLight", this);
 }
 
