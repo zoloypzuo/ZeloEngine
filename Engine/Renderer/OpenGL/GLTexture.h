@@ -7,6 +7,8 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
+
+#include "Core/RHI/Texture.h"
 #include "Core/Resource/Resource.h"
 
 class TextureData {
@@ -24,23 +26,23 @@ private:
     void createTexture(int width, int height, const unsigned char *data);
 };
 
-class GLTexture {
+class GLTexture : public Texture {
 public:
     explicit GLTexture(const Zelo::Resource &file);
 
     ~GLTexture();
 
-    void bind(unsigned int unit = 0) const;
+    void bind(uint32_t slot) const override;
 
 private:
     std::shared_ptr<TextureData> m_textureData;
 };
 
-class GLTexture3D {
+class GLTexture3D : public Texture3D {
 public:
     explicit GLTexture3D(const std::string &name);
 
-    void bind(unsigned int slot) const;
+    void bind(uint32_t slot) const override;
 
 protected:
     GLuint m_handle{};

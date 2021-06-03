@@ -3,4 +3,5 @@
 add_library(Core
         Resource/Resource.cpp
         RHI/Shader.cpp
+        RHI/Texture.cpp
         )

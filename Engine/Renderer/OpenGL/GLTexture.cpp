@@ -60,8 +60,8 @@ GLTexture::GLTexture(const Zelo::Resource &file) {
 GLTexture::~GLTexture() {
 }
 
-void GLTexture::bind(unsigned int unit) const {
-    m_textureData->bind(unit);
+void GLTexture::bind(uint32_t slot) const {
+    m_textureData->bind(slot);
 }
 
 unsigned char *loadPixels(const Zelo::Resource &file, int &w, int &h) {
@@ -125,7 +125,7 @@ GLuint loadCubeMap(const std::string &baseName) {
 GLTexture3D::GLTexture3D(const std::string &name) : m_handle(loadCubeMap(name)) {
 }
 
-void GLTexture3D::bind(unsigned int slot) const {
+void GLTexture3D::bind(uint32_t slot) const {
     glActiveTexture(GL_TEXTURE0 + slot);
     glBindTexture(GL_TEXTURE_CUBE_MAP, m_handle);
 }
