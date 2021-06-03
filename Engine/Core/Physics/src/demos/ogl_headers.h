@@ -5,7 +5,7 @@
 #include <GL/glut.h>
 #else
 
-#include <gl/glut.h>
+#include <GL/glut.h>
 
 #endif
 

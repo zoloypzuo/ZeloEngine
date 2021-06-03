@@ -59,5 +59,5 @@ add_library(Common ${CommonSrc})
 
 
 if (0)  # not used for now
-    add_subdirectory(Physics)
+    add_subdirectory(Core/Physics)
 endif ()

@@ -9,7 +9,7 @@
 
 #if defined(WIN32)
 
-#include <windows.h>
+#include <Windows.h>
 
 #pragma warning (disable:4244)        /* disable bogus conversion warnings */
 #endif
@@ -20,8 +20,8 @@
 #include <OpenGL/glu.h>
 #else
 
-#include <GL/glu.h>
-#include <GL/gl.h>
+#include <gl/GLU.h>
+#include <gl/GL.h>
 
 #endif
 

@@ -29,7 +29,7 @@ typedef unsigned long long	LONGLONG;
 // assume windows
 
 // Import the high performance timer (c. 4ms).
-#include <windows.h>
+#include <Windows.h>
 #include <mmsystem.h>
 
 static double qpcFrequency;

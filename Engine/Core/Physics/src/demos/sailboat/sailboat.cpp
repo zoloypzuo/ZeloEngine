@@ -11,9 +11,9 @@
  */
 
 #include <cyclone/cyclone.h>
-#include "../ogl_headers.h"
-#include "../app.h"
-#include "../timing.h"
+#include "Core/Physics/src/demos/ogl_headers.h"
+#include "Core/Physics/src/demos/app.h"
+#include "Core/Physics/src/demos/timing.h"
 
 #include <stdio.h>
 #include <cassert>
