@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Game.h"
-#include "Window.h"
+#include "Core/Window/Window.h"
 #include "Renderer/OpenGL/GLManager.h"
 #include "Renderer/OpenGL/ForwardRenderer.h"
 #include "Util/IniReader.h"

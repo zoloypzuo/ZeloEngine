@@ -6,7 +6,7 @@
 #define ZELOENGINE_COMPONENT_H
 
 #include "ZeloPrerequisites.h"
-#include "Input.h"
+#include "Core/Input/Input.h"
 #include "Entity.h"
 #include "Transform.h"
 

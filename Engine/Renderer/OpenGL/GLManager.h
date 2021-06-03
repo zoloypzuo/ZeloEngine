@@ -14,7 +14,7 @@
 #include "GLSLShaderProgram.h"
 #include "MeshManager.h"
 #include "Entity.h"
-#include "Window.h"
+#include "Core/Window/Window.h"
 #include "Camera.h"
 #include "Light.h"
 #include "Line.h"

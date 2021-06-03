@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "FreeMove.h"
 #include "Engine.h"
-#include "Input.h"
+#include "Core/Input/Input.h"
 
 FreeMove::FreeMove(bool moveForwards, float speed) {
     m_speed = speed;

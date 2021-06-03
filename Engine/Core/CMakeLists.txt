@@ -2,8 +2,13 @@
 # author @zoloypzuo
 add_library(Core
         Resource/Resource.cpp
+
         RHI/Shader.cpp
         RHI/Texture.cpp
         RHI/RenderCommand.cpp
         RHI/Framebuffer.cpp
+
+        Input/Input.cpp
+        Window/Window.cpp
+        Math/Mathf.cpp
         )

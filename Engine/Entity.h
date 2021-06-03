@@ -9,7 +9,7 @@
 
 #include "Transform.h"
 #include "Renderer/OpenGL/GLSLShaderProgram.h"
-#include "Input.h"
+#include "Core/Input/Input.h"
 
 class Engine;
 
