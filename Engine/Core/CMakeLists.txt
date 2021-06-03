@@ -5,4 +5,5 @@ add_library(Core
         RHI/Shader.cpp
         RHI/Texture.cpp
         RHI/RenderCommand.cpp
+        RHI/Framebuffer.cpp
         )
