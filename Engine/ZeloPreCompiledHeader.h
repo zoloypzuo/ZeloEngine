@@ -6,7 +6,7 @@
 #define ZELOENGINE_ZELOPRECOMPILEDHEADER_H
 
 #include "ZeloPlatform.h"
-#include "Profiler.h"
+#include "Core/Profile/Profiler.h"
 #include "G.h"
 #include "Core/Math/Mathf.h"
 
