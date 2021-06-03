@@ -4,7 +4,7 @@ set(SRC_CORE src/lapi.c src/lcode.c src/ldebug.c src/ldo.c src/ldump.c src/lfunc
 set(SRC_LIB src/lauxlib.c src/lbaselib.c src/ldblib.c src/liolib.c
         src/lmathlib.c src/loslib.c src/lstrlib.c src/ltablib.c src/loadlib.c src/linit.c)
 
-include_directories(./include)
+include_directories(include)
 add_library(Lua ${SRC_CORE} ${SRC_LIB})
 
 set(SRC_LUA src/lua.c)

@@ -19,6 +19,7 @@ add_library(OpenGLRenderer
         GLUtil.cpp
         skybox.cpp
         DeferredRenderer.cpp
+        ImGuiManager.cpp
         )
 
 target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)

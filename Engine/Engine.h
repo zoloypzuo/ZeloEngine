@@ -14,7 +14,7 @@
 #include "Util/IniReader.h"
 #include "Plugin.h"
 #include "LuaScriptManager.h"
-#include "ImGui/ImGuiManager.h"
+#include "Renderer/OpenGL/ImGuiManager.h"
 
 class Engine : public Singleton<Engine>, public IRuntimeModule {
 public:

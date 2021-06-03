@@ -13,9 +13,9 @@ endif ()
 
 # first we compile lua from source
 # lua <= sol <= engine object system
-add_subdirectory(Lua)
+add_subdirectory(Core/Lua)
 set(LUA_LIBRARIES Lua)
-set(LUA_INCLUDE_DIR Lua/include)
+set(LUA_INCLUDE_DIR Core/Lua/include)
 include_directories(${LUA_INCLUDE_DIR})
 link_libraries(${LUA_LIBRARIES})
 
@@ -48,7 +48,7 @@ add_compile_definitions(DEBUG_SHADOWMAP)
 add_subdirectory(Core)
 link_libraries(Core)
 
-add_subdirectory(ImGui) # use my own ImGui implementation
+add_subdirectory(Core/ImGui) # use my own ImGui implementation
 link_libraries(ImGui)
 
 add_subdirectory(Renderer/OpenGL)
