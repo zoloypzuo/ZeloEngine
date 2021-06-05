@@ -26,8 +26,8 @@ void Engine::initialize() {
     m_imguiManager = std::make_unique<ImGuiManager>();
     m_imguiManager->initialize();
 //    m_game = std::make_unique<Game>(); game is newed by app
-    m_game->initialize();
-    m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
+//    m_game->initialize();
+//    m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
 
     m_window->makeCurrentContext();
 
@@ -94,7 +94,7 @@ void Engine::update() {
     m_window->update();
 //    m_window->getGuiManager()->tick(m_deltaTime);
     m_imguiManager->update();
-    m_game->update();
+//    m_game->update();
 //    m_glManager->renderScene(m_game->getRootNode().get());
 //    m_window->getGuiManager()->render(m_game->getRootNode().get());
     m_imguiManager->render();
