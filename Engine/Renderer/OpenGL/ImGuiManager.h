@@ -7,6 +7,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Core/ImGui/ImGui.h"
+#include "Renderer/OpenGL/GLSLShaderProgram.h"
 
 class ImGuiManager : public Singleton<ImGuiManager>, public IRuntimeModule {
 public:
@@ -37,8 +38,11 @@ private:
 
 //    static void renderDrawLists(ImDrawData *draw_data);
 
+    void initGL();
+
 private:
-    SDL_Window *m_sdlWindow;
+    SDL_Window *m_sdlWindow{};
+    std::unique_ptr<GLSLShaderProgram> m_imguiShader{};
 };
 
 
