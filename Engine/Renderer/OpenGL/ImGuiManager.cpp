@@ -5,12 +5,13 @@
 #include "ImGuiManager.h"
 #include "stb_image.h"
 
-#ifdef _MSC_VER
-#pragma warning (disable: 4996)        // 'This function or variable may be unsafe': strcpy, strdup, sprintf, vsnprintf, sscanf, fopen
-#endif
-
 #include "Engine.h"
 
+// TODO
+//   [ ] Texture
+//   [ ] VAO
+//   [ ] Clear Command
+//   [ ]
 static GLuint shaderProgram;
 static GLuint vbo;
 static GLuint vao;
