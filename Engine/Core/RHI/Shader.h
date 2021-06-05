@@ -29,6 +29,8 @@ public:
 
     virtual void findUniformLocations() = 0;
 
+    virtual void bindFragDataLocation(const std::string &name, uint32_t slot) = 0;
+
     virtual void setUniformVec3f(const std::string &name, glm::vec3 vector) = 0;
 
     virtual void setUniformVec4f(const std::string &name, glm::vec4 vector) = 0;

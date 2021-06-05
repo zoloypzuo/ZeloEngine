@@ -33,6 +33,10 @@ public:
 
     void findUniformLocations() override;
 
+    void bindFragDataLocation(const std::string &name, uint32_t slot) override;
+
+    GLint getUniformLocation(const std::string &name);
+
     void setUniformVec3f(const std::string &name, glm::vec3 vector) override;
 
     void setUniformVec4f(const std::string &name, glm::vec4 vector) override;
@@ -68,8 +72,6 @@ private:
 
 private:
     void createUniform(const std::string &name);
-
-    GLint getUniformLocation(const std::string &name);
 
     void addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const;
 };
