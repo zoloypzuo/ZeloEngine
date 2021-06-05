@@ -1,6 +1,8 @@
 -- imgui.lua
 -- created on 2021/6/5
 -- author @zoloypzuo
+
+-- FIXME-OPT: clip at vertex level
 local vertex_shader = [[
 #version 150 core
 
