@@ -50,9 +50,7 @@ using namespace std;
 %include "Engine.h"
 %include "Entity.h"
 %include "Game.h"
-%include "Input.h"
 %include "Transform.h"
-%include "Window.h"
 %include "ZeloPrerequisites.h"
 
 
