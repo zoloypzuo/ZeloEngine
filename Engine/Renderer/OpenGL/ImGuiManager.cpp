@@ -59,14 +59,6 @@ static void ImImpl_SetClipboardTextFn(const char *text, const char *text_end) {
 //}
 
 
-void InitImGui() {
-
-}
-
-void Shutdown() {
-    ImGui::Shutdown();
-}
-
 ImGuiManager::ImGuiManager() = default;
 
 ImGuiManager::~ImGuiManager() {
@@ -79,7 +71,7 @@ void ImGuiManager::initialize() {
 }
 
 void ImGuiManager::finalize() {
-    Shutdown();
+    ImGui::Shutdown();
 }
 
 void ImGuiManager::update() {
