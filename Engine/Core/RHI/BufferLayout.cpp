@@ -47,7 +47,7 @@ BufferElement::BufferElement(
     Normalized(normalized) {
 }
 
-uint32_t BufferElement::GetComponentCount() const {
+uint32_t BufferElement::getComponentCount() const {
     switch (Type) {
         case ShaderDataType::Float:
             return 1;
@@ -79,7 +79,7 @@ uint32_t BufferElement::GetComponentCount() const {
     return 0;
 }
 
-void BufferLayout::CalculateOffsetsAndStride() {
+void BufferLayout::calculateOffsetsAndStride() {
     size_t offset = 0;
     m_Stride = 0;
     for (auto &element : m_Elements) {

@@ -24,7 +24,7 @@ struct BufferElement {
             bool normalized = false
     );
 
-    uint32_t GetComponentCount() const;
+    uint32_t getComponentCount() const;
 };
 
 class BufferLayout {
@@ -34,12 +34,12 @@ public:
 
     BufferLayout(std::initializer_list<BufferElement> elements)
             : m_Elements(elements) {
-        CalculateOffsetsAndStride();
+        calculateOffsetsAndStride();
     }
 
-    uint32_t GetStride() const { return m_Stride; }
+    uint32_t getStride() const { return m_Stride; }
 
-    const std::vector<BufferElement> &GetElements() const { return m_Elements; }
+    const std::vector<BufferElement> &getElements() const { return m_Elements; }
 
     std::vector<BufferElement>::iterator begin() { return m_Elements.begin(); }
 
@@ -50,7 +50,7 @@ public:
     std::vector<BufferElement>::const_iterator end() const { return m_Elements.end(); }
 
 private:
-    void CalculateOffsetsAndStride();
+    void calculateOffsetsAndStride();
 
 private:
     std::vector<BufferElement> m_Elements;

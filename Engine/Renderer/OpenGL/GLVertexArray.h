@@ -28,6 +28,9 @@ public:
 
     const std::shared_ptr<IndexBuffer> &getIndexBuffer() const override { return m_IndexBuffer; }
 
+public:
+    uint32_t getHandle() const { return m_RendererID; }
+
 private:
     uint32_t m_RendererID{};
     uint32_t m_VertexBufferIndex{};
