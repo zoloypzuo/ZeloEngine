@@ -3,13 +3,13 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ImGuiManager.h"
-#include "stb_image.h"
 
 #include "Engine.h"
+#include "Renderer/OpenGL/GLBuffer.h"
 
 // TODO
-//   [ ] Texture
-//   [ ] VAO
+//   [x] Texture
+//   [x] VAO
 //   [ ] Clear Command
 //   [ ]
 static GLuint shaderProgram;
@@ -185,9 +185,6 @@ void InitImGui() {
 
 void Shutdown() {
     ImGui::Shutdown();
-
-    glDeleteBuffers(1, &vbo);
-    glDeleteVertexArrays(1, &vao);
 }
 
 ImGuiManager::ImGuiManager() = default;
@@ -290,30 +287,29 @@ void ImGuiManager::initGL() {
 
     shaderProgram = m_imguiShader->getHandle();
 
-    // Create Vertex Buffer Objects & Vertex Array Objects
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-
-    GLint posAttrib = glGetAttribLocation(shaderProgram, "i_pos");
-    glVertexAttribPointer(posAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), 0);
-    glEnableVertexAttribArray(posAttrib);
-
-    GLint uvAttrib = glGetAttribLocation(shaderProgram, "i_uv");
-    glEnableVertexAttribArray(uvAttrib);
-    glVertexAttribPointer(uvAttrib, 2, GL_FLOAT, GL_FALSE, sizeof(ImDrawVert), (void *) (2 * sizeof(float)));
-
-    GLint colAttrib = glGetAttribLocation(shaderProgram, "i_col");
-    glVertexAttribPointer(colAttrib, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (void *) (4 * sizeof(float)));
-    glEnableVertexAttribArray(colAttrib);
-
-
     // Load font texture
     const void *png_data{};
     unsigned int png_size{};
     ImGui::GetDefaultFontData(NULL, NULL, &png_data, &png_size);
 
-    m_imguiTex = std::make_unique<GLTexture>(reinterpret_cast<const char *>(png_data), png_size, true, "proggy_clean_13_png");
+    m_imguiTex = std::make_unique<GLTexture>(
+            reinterpret_cast<const char *>(png_data),
+            png_size,
+            true,
+            "proggy_clean_13_png");
     fontTex = m_imguiTex->getHandle();
+
+    m_imguiVAO = CreateRef<Zelo::GLVertexArray>();
+    vao = m_imguiVAO->getHandle();
+
+    Ref<Zelo::GLVertexBuffer> imguiVBO = CreateRef<Zelo::GLVertexBuffer>();
+    vbo = imguiVBO->getHandle();
+
+    imguiVBO->setLayout({
+                                BufferElement(ShaderDataType::Float2, "i_pos"),
+                                BufferElement(ShaderDataType::Float2, "i_uv"),
+                                BufferElement(ShaderDataType::UByte, "i_col", true),
+                        });
+
+    m_imguiVAO->addVertexBuffer(imguiVBO);
 }

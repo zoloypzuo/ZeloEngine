@@ -4,13 +4,13 @@
 
 -- FIXME-OPT: clip at vertex level
 local vertex_shader = [[
-#version 150 core
+#version 330
 
 uniform mat4 MVP;
 
-in vec2 i_pos;
-in vec2 i_uv;
-in vec4 i_col;
+layout(location = 0) in vec2 i_pos;
+layout(location = 1) in vec2 i_uv;
+layout(location = 2) in vec4 i_col;
 
 out vec4 col;
 out vec2 pixel_pos;
@@ -25,7 +25,7 @@ void main() {
 ]]
 
 local fragment_shader = [[
-#version 150 core
+#version 330
 
 uniform sampler2D Tex;
 uniform vec4 ClipRect;
