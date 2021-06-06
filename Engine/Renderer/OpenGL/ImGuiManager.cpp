@@ -233,7 +233,7 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
     const float R = ImGui::GetIO().DisplaySize.x;
     const float B = ImGui::GetIO().DisplaySize.y;
     const float T = 0.0f;
-    const float mvp[4][4] =
+    const glm::mat4 mvp =
             {
                     {2.0f / (R - L),     0.0f,               0.0f,  0.0f},
                     {0.0f,               2.0f / (T - B),     0.0f,  0.0f},
@@ -258,8 +258,7 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
     }
     glUnmapBuffer(GL_ARRAY_BUFFER);
 
-    glUseProgram(shaderProgram);
-    glUniformMatrix4fv(uniMVP, 1, GL_FALSE, &mvp[0][0]);
+    m_imguiShader->setUniformMatrix4f("MVP", mvp);
 
     // Setup render state: alpha-blending enabled, no face culling, no depth testing
     glEnable(GL_BLEND);
