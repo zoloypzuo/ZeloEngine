@@ -12,6 +12,8 @@ namespace Zelo {
 
 class GLVertexBuffer : public VertexBuffer {
 public:
+    GLVertexBuffer();
+
     explicit GLVertexBuffer(uint32_t size);
 
     GLVertexBuffer(float *vertices, uint32_t size);
@@ -27,6 +29,9 @@ public:
     const BufferLayout &getLayout() const override { return m_Layout; }
 
     void setLayout(const BufferLayout &layout) override { m_Layout = layout; }
+
+public:
+    uint32_t getHandle() { return m_RendererID; }
 
 private:
     uint32_t m_RendererID{};
