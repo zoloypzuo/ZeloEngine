@@ -1,10 +1,8 @@
 // GLUtil.cpp.cc
 // created on 2021/4/24
 // author @zoloypzuo
-#include "BufferLayout.h"
 #include "ZeloPreCompiledHeader.h"
 #include "GLUtil.h"
-#include "Core/RHI/ShaderType.h"
 
 void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
                                           GLenum severity, GLsizei length,
