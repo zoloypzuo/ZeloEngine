@@ -11,6 +11,7 @@
 #include "Core/RHI/Shader.h"
 #include "Core/Resource/Resource.h"
 #include "Attenuation.h"
+#include "Core/RHI/ShaderType.h"
 
 class GLSLShaderProgram : public Shader {
 public:

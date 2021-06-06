@@ -6,11 +6,9 @@
 #define ZELOENGINE_BUFFERLAYOUT_H
 
 #include "ZeloPrerequisites.h"
+#include "Core/RHI/ShaderType.h"
 
-enum class ShaderDataType {
-    None = 0, Float, Float2, Float3, Float4, Mat3, Mat4, Int, Int2, Int3, Int4, Bool
-};
-
+// TODO OPTIMIZE pack alignment
 struct BufferElement {
     std::string Name{};
     ShaderDataType Type{};
@@ -58,8 +56,5 @@ private:
     std::vector<BufferElement> m_Elements;
     uint32_t m_Stride = 0;
 };
-
-
-
 
 #endif //ZELOENGINE_BUFFERLAYOUT_H

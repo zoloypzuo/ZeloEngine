@@ -10,6 +10,7 @@ add_library(Core
         RHI/Buffer.cpp
         RHI/VertexArray.cpp
         RHI/BufferLayout.cpp
+        RHI/ShaderType.cpp
 
         Input/Input.cpp
         Window/Window.cpp

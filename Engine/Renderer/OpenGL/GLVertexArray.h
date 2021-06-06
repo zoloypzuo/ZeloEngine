@@ -5,6 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"
 #include "Core/RHI/VertexArray.h"
 
 namespace Zelo {

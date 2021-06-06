@@ -5,15 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-
-enum class ShaderType {
-    VERTEX,
-    FRAGMENT,
-    GEOMETRY,
-    TESS_CONTROL,
-    TESS_EVALUATION,
-    COMPUTE,
-};
+#include "Core/RHI/ShaderType.h"
 
 class Shader {
 public:
