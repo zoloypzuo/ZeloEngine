@@ -6,6 +6,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
+#include "Core/RHI/ShaderType.h"
 
 int checkForOpenGLError(const char *, int);
 
