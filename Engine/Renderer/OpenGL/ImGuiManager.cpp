@@ -267,7 +267,7 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
     glDisable(GL_CULL_FACE);
     glDisable(GL_DEPTH_TEST);
 
-    glBindTexture(GL_TEXTURE_2D, fontTex);
+    m_imguiTex->bind(0);
 
     vtx_consumed = 0;                        // offset in vertex buffer. each command consume ImDrawCmd::vtx_count of those
     bool clip_rect_dirty = true;
