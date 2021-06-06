@@ -18,8 +18,9 @@
 #include "Camera.h"
 #include "Light.h"
 #include "Line.h"
+#include "Core/RHI/RenderCommand.h"
 
-class GLManager : public Singleton<GLManager> {
+class GLManager : public Singleton<GLManager>, public RenderCommand {
 public:
     GLManager(Renderer *renderer, const glm::ivec2 &windowSize);
 
@@ -33,17 +34,17 @@ public:
 
     void setActiveCamera(std::shared_ptr<Camera> camera);
 
-    void addDirectionalLight(const std::shared_ptr<DirectionalLight>& light);
+    void addDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
 
-    void addPointLight(const std::shared_ptr<PointLight>& light);
+    void addPointLight(const std::shared_ptr<PointLight> &light);
 
-    void addSpotLight(const std::shared_ptr<SpotLight>& light);
+    void addSpotLight(const std::shared_ptr<SpotLight> &light);
 
-    void removeDirectionalLight(const std::shared_ptr<DirectionalLight>& light);
+    void removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
 
-    void removePointLight(const std::shared_ptr<PointLight>& light);
+    void removePointLight(const std::shared_ptr<PointLight> &light);
 
-    void removeSpotLight(const std::shared_ptr<SpotLight>& light);
+    void removeSpotLight(const std::shared_ptr<SpotLight> &light);
 
     glm::mat4 getViewMatrix();
 
@@ -51,13 +52,20 @@ public:
 
     void drawEntity(Entity *entity);
 
-    void drawLine(const Line& line);
+    void drawLine(const Line &line);
 
-    int width{};
-    int height{};
+    int m_width{};
+    int m_height{};
 
     GLuint lineBuffer{};
     GLuint VertexArrayID{};
+
+public:
+    void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
+
+    void SetClearColor(const glm::vec4 &color) override;
+
+    void Clear() override;
 
 public:
     static GLManager *getSingletonPtr();

@@ -7,6 +7,8 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Core/ImGui/ImGui.h"
+#include "Core/RHI/RenderCommand.h"
+
 #include "Renderer/OpenGL/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/GLTexture.h"
 #include "Renderer/OpenGL/GLVertexArray.h"
@@ -53,6 +55,7 @@ private:
     std::unique_ptr<GLSLShaderProgram> m_imguiShader{};
     std::unique_ptr<GLTexture> m_imguiTex{};
     Ref<Zelo::GLVertexArray> m_imguiVAO{};
+    RenderCommand * m_renderCommand{};
 };
 
 

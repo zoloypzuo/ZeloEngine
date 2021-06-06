@@ -5,6 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
+#include "Core/RHI/VertexArray.h"
 
 // TODO 看需要扩展和实现渲染命令
 class RenderCommand {
@@ -16,7 +17,6 @@ public:
     virtual void Clear() = 0;
 
 //    virtual void DrawIndexed(const Ref<VertexArray> &vertexArray, uint32_t indexCount) = 0;
-
 };
 
 

@@ -57,16 +57,16 @@ GLManager::~GLManager() {
 }
 
 void GLManager::setDrawSize(const glm::ivec2 &size) {
-    this->width = size.x;
-    this->height = size.y;
+    this->m_width = size.x;
+    this->m_height = size.y;
 
-    glViewport(0, 0, this->width, this->height);
+    glViewport(0, 0, this->m_width, this->m_height);
 }
 
 void GLManager::bindRenderTarget() const {
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, this->width, this->height);
+    glViewport(0, 0, this->m_width, this->m_height);
 }
 
 void GLManager::setActiveCamera(std::shared_ptr<Camera> camera) {
@@ -134,4 +134,17 @@ template<> GLManager *Singleton<GLManager>::msSingleton = nullptr;
 
 GLManager *GLManager::getSingletonPtr() {
     return msSingleton;
+}
+
+void GLManager::Clear() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void GLManager::SetClearColor(const glm::vec4 &color) {
+    glClearColor(color.r, color.g, color.b, color.a);
+}
+
+void GLManager::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+    // TODO cast to int
+    glViewport(x, y, width, height);
 }

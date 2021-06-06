@@ -7,11 +7,6 @@
 #include "Engine.h"
 #include "Renderer/OpenGL/GLBuffer.h"
 
-// TODO
-//   [x] Texture
-//   [x] VAO
-//   [ ] Clear Command
-//   [ ]
 static GLuint shaderProgram;
 static GLuint vbo;
 static GLuint vao;
@@ -137,8 +132,8 @@ void ImGuiManager::update() {
 }
 
 void ImGuiManager::render() {
-    glClearColor(0.8f, 0.6f, 0.6f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    m_renderCommand->SetClearColor({0.8f, 0.6f, 0.6f, 1.0f});
+    m_renderCommand->Clear();
     ImGui::Render();
 }
 
@@ -149,6 +144,8 @@ ImGuiManager *ImGuiManager::getSingletonPtr() {
 }
 
 void ImGuiManager::initGL() {
+    m_renderCommand = GLManager::getSingletonPtr();
+
     m_imguiShader = std::make_unique<GLSLShaderProgram>("Shader/imgui.lua");
     m_imguiShader->link();
 
