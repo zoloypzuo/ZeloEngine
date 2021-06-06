@@ -48,7 +48,7 @@ public:
 
     void unbind() const override;
 
-    uint32_t getCount() const override { return m_Count; }
+    int32_t getCount() const override { return m_Count; }
 
 private:
     uint32_t m_RendererID{};

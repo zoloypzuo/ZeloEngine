@@ -19,7 +19,6 @@
 #include "Light.h"
 #include "Line.h"
 #include "Core/RHI/RenderCommand.h"
-#include "RenderCommand.h"
 
 class GLManager : public Singleton<GLManager>, public Zelo::RenderCommand {
 public:
@@ -62,11 +61,15 @@ public:
     GLuint VertexArrayID{};
 
 public:
-    void setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
+    void setViewport(int32_t x, int32_t y, int32_t width, int32_t height) override;
 
     void setClearColor(const glm::vec4 &color) override;
 
     void clear() override;
+
+    void drawIndexed(const Ref<Zelo::VertexArray> &vertexArray, int32_t indexCount) override;
+
+    void drawArray(const Ref<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) override;
 
 public:
     static GLManager *getSingletonPtr();

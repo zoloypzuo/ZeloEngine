@@ -12,7 +12,6 @@
 #include "Renderer/OpenGL/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/GLTexture.h"
 #include "Renderer/OpenGL/GLVertexArray.h"
-#include "RenderCommand.h"
 
 class ImGuiManager : public Singleton<ImGuiManager>, public IRuntimeModule {
 public:

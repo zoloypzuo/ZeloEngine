@@ -144,7 +144,17 @@ void GLManager::setClearColor(const glm::vec4 &color) {
     glClearColor(color.r, color.g, color.b, color.a);
 }
 
-void GLManager::setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
-    // TODO cast to int
+void GLManager::setViewport(int32_t x, int32_t y, int32_t width, int32_t height) {
     glViewport(x, y, width, height);
+}
+
+void GLManager::drawIndexed(const Ref<Zelo::VertexArray> &vertexArray, int32_t indexCount) {
+    int32_t count = indexCount ? indexCount : vertexArray->getIndexBuffer()->getCount();
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void GLManager::drawArray(const Ref<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) {
+    count = count ? count : vertexArray->getIndexBuffer()->getCount();
+    glDrawArrays(GL_TRIANGLES, start, count);
 }
