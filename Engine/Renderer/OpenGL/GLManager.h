@@ -19,8 +19,9 @@
 #include "Light.h"
 #include "Line.h"
 #include "Core/RHI/RenderCommand.h"
+#include "RenderCommand.h"
 
-class GLManager : public Singleton<GLManager>, public RenderCommand {
+class GLManager : public Singleton<GLManager>, public Zelo::RenderCommand {
 public:
     GLManager(Renderer *renderer, const glm::ivec2 &windowSize);
 

@@ -7,6 +7,7 @@
 #include "ZeloPrerequisites.h"
 #include "Core/RHI/VertexArray.h"
 
+namespace Zelo {
 // TODO 看需要扩展和实现渲染命令
 class RenderCommand {
 public:
@@ -17,7 +18,8 @@ public:
     virtual void clear() = 0;
 
 //    virtual void DrawIndexed(const Ref<VertexArray> &vertexArray, uint32_t indexCount) = 0;
-    virtual void DrawArray()
+//    virtual void DrawArray(const Ref<)
 };
+}
 
 
