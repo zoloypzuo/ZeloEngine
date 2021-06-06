@@ -136,15 +136,15 @@ GLManager *GLManager::getSingletonPtr() {
     return msSingleton;
 }
 
-void GLManager::Clear() {
+void GLManager::clear() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void GLManager::SetClearColor(const glm::vec4 &color) {
+void GLManager::setClearColor(const glm::vec4 &color) {
     glClearColor(color.r, color.g, color.b, color.a);
 }
 
-void GLManager::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
+void GLManager::setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) {
     // TODO cast to int
     glViewport(x, y, width, height);
 }

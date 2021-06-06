@@ -132,8 +132,8 @@ void ImGuiManager::update() {
 }
 
 void ImGuiManager::render() {
-    m_renderCommand->SetClearColor({0.8f, 0.6f, 0.6f, 1.0f});
-    m_renderCommand->Clear();
+    m_renderCommand->setClearColor({0.8f, 0.6f, 0.6f, 1.0f});
+    m_renderCommand->clear();
     ImGui::Render();
 }
 

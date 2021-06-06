@@ -61,11 +61,11 @@ public:
     GLuint VertexArrayID{};
 
 public:
-    void SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
+    void setViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height) override;
 
-    void SetClearColor(const glm::vec4 &color) override;
+    void setClearColor(const glm::vec4 &color) override;
 
-    void Clear() override;
+    void clear() override;
 
 public:
     static GLManager *getSingletonPtr();
