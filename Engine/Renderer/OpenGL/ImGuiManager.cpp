@@ -20,108 +20,16 @@ static GLint uniMVP;
 static GLint uniClipRect;
 
 
-static void ImImpl_RenderDrawLists(ImDrawList **const cmd_lists, int cmd_lists_count) {
-    size_t total_vtx_count = 0;
-    for (int n = 0; n < cmd_lists_count; n++)
-        total_vtx_count += cmd_lists[n]->vtx_buffer.size();
-    if (total_vtx_count == 0)
-        return;
-
-    int read_pos_clip_rect_buf = 0;        // offset in 'clip_rect_buffer'. each PushClipRect command consume 1 of those.
-
-    ImVector<ImVec4> clip_rect_stack;
-    clip_rect_stack.push_back(ImVec4(-9999, -9999, +9999, +9999));
-
-    // Setup orthographic projection
-    const float L = 0.0f;
-    const float R = ImGui::GetIO().DisplaySize.x;
-    const float B = ImGui::GetIO().DisplaySize.y;
-    const float T = 0.0f;
-    const float mvp[4][4] =
-            {
-                    {2.0f / (R - L),     0.0f,               0.0f,  0.0f},
-                    {0.0f,               2.0f / (T - B),     0.0f,  0.0f},
-                    {0.0f,               0.0f,               -1.0f, 0.0f},
-                    {-(R + L) / (R - L), -(T + B) / (T - B), 0.0f,  1.0f},
-            };
-
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBindVertexArray(vao);
-    glBufferData(GL_ARRAY_BUFFER, total_vtx_count * sizeof(ImDrawVert), NULL, GL_STREAM_DRAW);
-    unsigned char *buffer_data = (unsigned char *) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-    if (!buffer_data)
-        return;
-    int vtx_consumed = 0;
-    for (int n = 0; n < cmd_lists_count; n++) {
-        const ImDrawList *cmd_list = cmd_lists[n];
-        if (!cmd_list->vtx_buffer.empty()) {
-            memcpy(buffer_data, &cmd_list->vtx_buffer[0], cmd_list->vtx_buffer.size() * sizeof(ImDrawVert));
-            buffer_data += cmd_list->vtx_buffer.size() * sizeof(ImDrawVert);
-            vtx_consumed += cmd_list->vtx_buffer.size();
-        }
-    }
-    glUnmapBuffer(GL_ARRAY_BUFFER);
-
-    glUseProgram(shaderProgram);
-    glUniformMatrix4fv(uniMVP, 1, GL_FALSE, &mvp[0][0]);
-
-    // Setup render state: alpha-blending enabled, no face culling, no depth testing
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_DEPTH_TEST);
-
-    glBindTexture(GL_TEXTURE_2D, fontTex);
-
-    vtx_consumed = 0;                        // offset in vertex buffer. each command consume ImDrawCmd::vtx_count of those
-    bool clip_rect_dirty = true;
-
-    for (int n = 0; n < cmd_lists_count; n++) {
-        const ImDrawList *cmd_list = cmd_lists[n];
-        if (cmd_list->commands.empty() || cmd_list->vtx_buffer.empty())
-            continue;
-        const ImDrawCmd *pcmd = &cmd_list->commands.front();
-        const ImDrawCmd *pcmd_end = &cmd_list->commands.back();
-        int clip_rect_buf_consumed = 0;        // offset in cmd_list->clip_rect_buffer. each PushClipRect command consume 1 of those.
-        while (pcmd <= pcmd_end) {
-            const ImDrawCmd &cmd = *pcmd++;
-            switch (cmd.cmd_type) {
-                case ImDrawCmdType_DrawTriangleList:
-                    if (clip_rect_dirty) {
-                        glUniform4fv(uniClipRect, 1, (float *) &clip_rect_stack.back());
-                        clip_rect_dirty = false;
-                    }
-                    glDrawArrays(GL_TRIANGLES, vtx_consumed, cmd.vtx_count);
-                    vtx_consumed += cmd.vtx_count;
-                    break;
-
-                case ImDrawCmdType_PushClipRect:
-                    clip_rect_stack.push_back(cmd_list->clip_rect_buffer[clip_rect_buf_consumed++]);
-                    clip_rect_dirty = true;
-                    break;
-
-                case ImDrawCmdType_PopClipRect:
-                    clip_rect_stack.pop_back();
-                    clip_rect_dirty = true;
-                    break;
-            }
-        }
-    }
+static void ImImpl_RenderDrawLists(ImDrawList **const draw_lists, int count) {
+    ImGuiManager::getSingletonPtr()->renderDrawLists(draw_lists, count);
 }
 
 static const char *ImImpl_GetClipboardTextFn() {
-    return "test clip text";
+    return ImGuiManager::getSingletonPtr()->getClipboardText();
 }
 
 static void ImImpl_SetClipboardTextFn(const char *text, const char *text_end) {
-    if (!text_end)
-        text_end = text + strlen(text);
-
-    char *buf = (char *) malloc(text_end - text + 1);
-    memcpy(buf, text, text_end - text);
-    buf[text_end - text] = '\0';
-//  TODO set text to window clipboard buffer
-    free(buf);
+    ImGuiManager::getSingletonPtr()->setClipboardText(text, text_end);
 }
 
 // TODO
@@ -152,35 +60,7 @@ static void ImImpl_SetClipboardTextFn(const char *text, const char *text_end) {
 
 
 void InitImGui() {
-    auto *window = Engine::getSingletonPtr()->getWindow();
 
-    ImGuiIO &io = ImGui::GetIO();
-    auto displaySize = window->getDisplaySize();
-    io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
-    io.DeltaTime = 1.0f / 60.0f;
-    io.KeyMap[ImGuiKey_Tab] = SDLK_TAB; // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
-    io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
-    io.KeyMap[ImGuiKey_RightArrow] = SDL_SCANCODE_RIGHT;
-    io.KeyMap[ImGuiKey_UpArrow] = SDL_SCANCODE_UP;
-    io.KeyMap[ImGuiKey_DownArrow] = SDL_SCANCODE_DOWN;
-//    io.KeyMap[ImGuiKey_PageUp] = SDL_SCANCODE_PAGEUP;
-//    io.KeyMap[ImGuiKey_PageDown] = SDL_SCANCODE_PAGEDOWN;
-    io.KeyMap[ImGuiKey_Home] = SDL_SCANCODE_HOME;
-    io.KeyMap[ImGuiKey_End] = SDL_SCANCODE_END;
-    io.KeyMap[ImGuiKey_Delete] = SDLK_DELETE;
-    io.KeyMap[ImGuiKey_Backspace] = SDLK_BACKSPACE;
-    io.KeyMap[ImGuiKey_Enter] = SDLK_RETURN;
-    io.KeyMap[ImGuiKey_Escape] = SDLK_ESCAPE;
-    io.KeyMap[ImGuiKey_A] = SDLK_a;
-    io.KeyMap[ImGuiKey_C] = SDLK_c;
-    io.KeyMap[ImGuiKey_V] = SDLK_v;
-    io.KeyMap[ImGuiKey_X] = SDLK_x;
-    io.KeyMap[ImGuiKey_Y] = SDLK_y;
-    io.KeyMap[ImGuiKey_Z] = SDLK_z;
-
-    io.RenderDrawListsFn = ImImpl_RenderDrawLists;
-    io.SetClipboardTextFn = ImImpl_SetClipboardTextFn;
-    io.GetClipboardTextFn = ImImpl_GetClipboardTextFn;
 }
 
 void Shutdown() {
@@ -195,7 +75,7 @@ ImGuiManager::~ImGuiManager() {
 
 void ImGuiManager::initialize() {
     initGL();
-    InitImGui();
+    initImGui();
 }
 
 void ImGuiManager::finalize() {
@@ -312,4 +192,140 @@ void ImGuiManager::initGL() {
                         });
 
     m_imguiVAO->addVertexBuffer(imguiVBO);
+}
+
+void ImGuiManager::initImGui() {
+    auto *window = Engine::getSingletonPtr()->getWindow();
+
+    ImGuiIO &io = ImGui::GetIO();
+    auto displaySize = window->getDisplaySize();
+    io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
+    io.DeltaTime = 1.0f / 60.0f;
+    io.KeyMap[ImGuiKey_Tab] = SDLK_TAB; // Keyboard mapping. ImGui will use those indices to peek into the io.KeyDown[] array.
+    io.KeyMap[ImGuiKey_LeftArrow] = SDL_SCANCODE_LEFT;
+    io.KeyMap[ImGuiKey_RightArrow] = SDL_SCANCODE_RIGHT;
+    io.KeyMap[ImGuiKey_UpArrow] = SDL_SCANCODE_UP;
+    io.KeyMap[ImGuiKey_DownArrow] = SDL_SCANCODE_DOWN;
+//    io.KeyMap[ImGuiKey_PageUp] = SDL_SCANCODE_PAGEUP;
+//    io.KeyMap[ImGuiKey_PageDown] = SDL_SCANCODE_PAGEDOWN;
+    io.KeyMap[ImGuiKey_Home] = SDL_SCANCODE_HOME;
+    io.KeyMap[ImGuiKey_End] = SDL_SCANCODE_END;
+    io.KeyMap[ImGuiKey_Delete] = SDLK_DELETE;
+    io.KeyMap[ImGuiKey_Backspace] = SDLK_BACKSPACE;
+    io.KeyMap[ImGuiKey_Enter] = SDLK_RETURN;
+    io.KeyMap[ImGuiKey_Escape] = SDLK_ESCAPE;
+    io.KeyMap[ImGuiKey_A] = SDLK_a;
+    io.KeyMap[ImGuiKey_C] = SDLK_c;
+    io.KeyMap[ImGuiKey_V] = SDLK_v;
+    io.KeyMap[ImGuiKey_X] = SDLK_x;
+    io.KeyMap[ImGuiKey_Y] = SDLK_y;
+    io.KeyMap[ImGuiKey_Z] = SDLK_z;
+
+    io.RenderDrawListsFn = ImImpl_RenderDrawLists;
+    io.SetClipboardTextFn = ImImpl_SetClipboardTextFn;
+    io.GetClipboardTextFn = ImImpl_GetClipboardTextFn;
+}
+
+void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
+    size_t total_vtx_count = 0;
+    for (int n = 0; n < count; n++)
+        total_vtx_count += draw_lists[n]->vtx_buffer.size();
+    if (total_vtx_count == 0)
+        return;
+
+    int read_pos_clip_rect_buf = 0;        // offset in 'clip_rect_buffer'. each PushClipRect command consume 1 of those.
+
+    ImVector<ImVec4> clip_rect_stack;
+    clip_rect_stack.push_back(ImVec4(-9999, -9999, +9999, +9999));
+
+    // Setup orthographic projection
+    const float L = 0.0f;
+    const float R = ImGui::GetIO().DisplaySize.x;
+    const float B = ImGui::GetIO().DisplaySize.y;
+    const float T = 0.0f;
+    const float mvp[4][4] =
+            {
+                    {2.0f / (R - L),     0.0f,               0.0f,  0.0f},
+                    {0.0f,               2.0f / (T - B),     0.0f,  0.0f},
+                    {0.0f,               0.0f,               -1.0f, 0.0f},
+                    {-(R + L) / (R - L), -(T + B) / (T - B), 0.0f,  1.0f},
+            };
+
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindVertexArray(vao);
+    glBufferData(GL_ARRAY_BUFFER, total_vtx_count * sizeof(ImDrawVert), NULL, GL_STREAM_DRAW);
+    unsigned char *buffer_data = (unsigned char *) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+    if (!buffer_data)
+        return;
+    int vtx_consumed = 0;
+    for (int n = 0; n < count; n++) {
+        const ImDrawList *cmd_list = draw_lists[n];
+        if (!cmd_list->vtx_buffer.empty()) {
+            memcpy(buffer_data, &cmd_list->vtx_buffer[0], cmd_list->vtx_buffer.size() * sizeof(ImDrawVert));
+            buffer_data += cmd_list->vtx_buffer.size() * sizeof(ImDrawVert);
+            vtx_consumed += cmd_list->vtx_buffer.size();
+        }
+    }
+    glUnmapBuffer(GL_ARRAY_BUFFER);
+
+    glUseProgram(shaderProgram);
+    glUniformMatrix4fv(uniMVP, 1, GL_FALSE, &mvp[0][0]);
+
+    // Setup render state: alpha-blending enabled, no face culling, no depth testing
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glDisable(GL_CULL_FACE);
+    glDisable(GL_DEPTH_TEST);
+
+    glBindTexture(GL_TEXTURE_2D, fontTex);
+
+    vtx_consumed = 0;                        // offset in vertex buffer. each command consume ImDrawCmd::vtx_count of those
+    bool clip_rect_dirty = true;
+
+    for (int n = 0; n < count; n++) {
+        const ImDrawList *cmd_list = draw_lists[n];
+        if (cmd_list->commands.empty() || cmd_list->vtx_buffer.empty())
+            continue;
+        const ImDrawCmd *pcmd = &cmd_list->commands.front();
+        const ImDrawCmd *pcmd_end = &cmd_list->commands.back();
+        int clip_rect_buf_consumed = 0;        // offset in cmd_list->clip_rect_buffer. each PushClipRect command consume 1 of those.
+        while (pcmd <= pcmd_end) {
+            const ImDrawCmd &cmd = *pcmd++;
+            switch (cmd.cmd_type) {
+                case ImDrawCmdType_DrawTriangleList:
+                    if (clip_rect_dirty) {
+                        glUniform4fv(uniClipRect, 1, (float *) &clip_rect_stack.back());
+                        clip_rect_dirty = false;
+                    }
+                    glDrawArrays(GL_TRIANGLES, vtx_consumed, cmd.vtx_count);
+                    vtx_consumed += cmd.vtx_count;
+                    break;
+
+                case ImDrawCmdType_PushClipRect:
+                    clip_rect_stack.push_back(cmd_list->clip_rect_buffer[clip_rect_buf_consumed++]);
+                    clip_rect_dirty = true;
+                    break;
+
+                case ImDrawCmdType_PopClipRect:
+                    clip_rect_stack.pop_back();
+                    clip_rect_dirty = true;
+                    break;
+            }
+        }
+    }
+}
+
+const char *ImGuiManager::getClipboardText() {
+    return "test clip text";
+}
+
+void ImGuiManager::setClipboardText(const char *text, const char *text_end) {
+    if (!text_end)
+        text_end = text + strlen(text);
+
+    char *buf = (char *) malloc(text_end - text + 1);
+    memcpy(buf, text, text_end - text);
+    buf[text_end - text] = '\0';
+//  TODO set text to window clipboard buffer
+    free(buf);
 }

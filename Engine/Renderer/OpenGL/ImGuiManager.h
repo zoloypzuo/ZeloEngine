@@ -33,14 +33,20 @@ public:
 //
 //    void setKeyEvent(int key, bool keydown);
 
+    void renderDrawLists(ImDrawList **const draw_lists, int count);
+
+    const char *getClipboardText();
+
+    void setClipboardText(const char *text, const char *text_end);
+
 private:
 //    void createDeviceObjects(void);
 //
 //    void invalidateDeviceObjects(void);
 
-//    static void renderDrawLists(ImDrawData *draw_data);
-
     void initGL();
+
+    void initImGui();
 
 private:
     SDL_Window *m_sdlWindow{};
