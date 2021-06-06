@@ -21,3 +21,5 @@ const char *getTypeString(GLenum type);
 std::string getShaderTypeString(GLenum shaderType);
 
 GLenum ShaderDataTypeToOpenGLBaseType(const ShaderDataType &type);
+
+uint32_t ShaderDataTypeSize(ShaderDataType type);
