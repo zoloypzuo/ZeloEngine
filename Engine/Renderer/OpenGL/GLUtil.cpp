@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "GLUtil.h"
+#include "Core/RHI/ShaderType.h"
 
 void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
                                           GLenum severity, GLsizei length,
@@ -84,8 +85,8 @@ void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
     }
 
     spdlog::debug("{}:{}[{}]({}): {}",
-                 sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(),
-                 id, msg);
+                  sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(),
+                  id, msg);
 }
 
 
@@ -202,4 +203,36 @@ std::string getShaderTypeString(GLenum shaderType) {
         default:
             return "?";
     }
+}
+
+GLenum ShaderDataTypeToOpenGLBaseType(const ShaderDataType &type) {
+    switch (type) {
+        case ShaderDataType::Float:
+            return GL_FLOAT;
+        case ShaderDataType::Float2:
+            return GL_FLOAT;
+        case ShaderDataType::Float3:
+            return GL_FLOAT;
+        case ShaderDataType::Float4:
+            return GL_FLOAT;
+        case ShaderDataType::Mat3:
+            return GL_FLOAT;
+        case ShaderDataType::Mat4:
+            return GL_FLOAT;
+        case ShaderDataType::Int:
+            return GL_INT;
+        case ShaderDataType::Int2:
+            return GL_INT;
+        case ShaderDataType::Int3:
+            return GL_INT;
+        case ShaderDataType::Int4:
+            return GL_INT;
+        case ShaderDataType::Bool:
+            return GL_BOOL;
+        default:
+            break;
+    }
+
+    ZELO_CORE_ASSERT(false, "Unknown ShaderDataType!");
+    return 0;
 }
