@@ -20,6 +20,8 @@ add_library(OpenGLRenderer
         skybox.cpp
         DeferredRenderer.cpp
         ImGuiManager.cpp
+        GLBuffer.cpp
+        GLVertexArray.cpp
         )
 
 target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)
