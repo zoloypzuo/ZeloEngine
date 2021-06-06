@@ -34,6 +34,8 @@ void TextureData::bind(unsigned int unit) const {
     glBindTexture(GL_TEXTURE_2D, m_textureId);
 }
 
+uint32_t TextureData::getHandle() const { return m_textureId; }
+
 std::map<std::string, std::weak_ptr<TextureData>> m_textureCache;
 
 GLTexture::GLTexture(const Zelo::Resource &file)
@@ -70,6 +72,8 @@ GLTexture::GLTexture(const char *buffer, uint32_t size, const std::string &name)
         }
     }
 }
+
+uint32_t GLTexture::getHandle() const { return m_textureData->getHandle(); }
 
 unsigned char *loadPixels(const Zelo::Resource &file, int &w, int &h) {
     int bytesPerPixel = 0;

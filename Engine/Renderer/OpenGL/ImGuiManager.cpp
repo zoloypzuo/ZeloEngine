@@ -181,21 +181,6 @@ void InitImGui() {
     io.RenderDrawListsFn = ImImpl_RenderDrawLists;
     io.SetClipboardTextFn = ImImpl_SetClipboardTextFn;
     io.GetClipboardTextFn = ImImpl_GetClipboardTextFn;
-
-    // Load font texture
-    glGenTextures(1, &fontTex);
-    glBindTexture(GL_TEXTURE_2D, fontTex);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-    const void *png_data;
-    unsigned int png_size;
-    ImGui::GetDefaultFontData(NULL, NULL, &png_data, &png_size);
-    int tex_x, tex_y, tex_comp;
-    void *tex_data = stbi_load_from_memory((const unsigned char *) png_data, (int) png_size, &tex_x, &tex_y, &tex_comp,
-                                           0);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tex_x, tex_y, 0, GL_RGBA, GL_UNSIGNED_BYTE, tex_data);
-    stbi_image_free(tex_data);
 }
 
 void Shutdown() {
@@ -323,4 +308,12 @@ void ImGuiManager::initGL() {
     glVertexAttribPointer(colAttrib, 4, GL_UNSIGNED_BYTE, GL_TRUE, sizeof(ImDrawVert), (void *) (4 * sizeof(float)));
     glEnableVertexAttribArray(colAttrib);
 
+
+    // Load font texture
+    const void *png_data{};
+    unsigned int png_size{};
+    ImGui::GetDefaultFontData(NULL, NULL, &png_data, &png_size);
+
+    m_imguiTex = std::make_unique<GLTexture>(reinterpret_cast<const char *>(png_data), png_size, "proggy_clean_13_png");
+    fontTex = m_imguiTex->getHandle();
 }

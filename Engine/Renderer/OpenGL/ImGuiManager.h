@@ -8,6 +8,7 @@
 #include "ZeloSingleton.h"
 #include "Core/ImGui/ImGui.h"
 #include "Renderer/OpenGL/GLSLShaderProgram.h"
+#include "Renderer/OpenGL/GLTexture.h"
 
 class ImGuiManager : public Singleton<ImGuiManager>, public IRuntimeModule {
 public:
@@ -43,6 +44,7 @@ private:
 private:
     SDL_Window *m_sdlWindow{};
     std::unique_ptr<GLSLShaderProgram> m_imguiShader{};
+    std::unique_ptr<GLTexture> m_imguiTex{};
 };
 
 
