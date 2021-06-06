@@ -9,20 +9,21 @@
 #include <stb_image.h>
 
 
-TextureData::TextureData(int width, int height, const unsigned char *data) {
-    createTexture(width, height, data);
+TextureData::TextureData(const unsigned char *data, int width, int height, bool filter_nearest) {
+    createTexture(data, width, height, filter_nearest);
 }
 
 TextureData::~TextureData() {
     glDeleteTextures(1, &m_textureId);
 }
 
-void TextureData::createTexture(int width, int height, const unsigned char *data) {
+void TextureData::createTexture(const unsigned char *data, int width, int height, bool filter_nearest) {
+
 
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter_nearest ? GL_NEAREST : GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter_nearest ? GL_NEAREST : GL_LINEAR);
     // TODO: RE-ENABLE THIS!!
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -42,6 +43,7 @@ GLTexture::GLTexture(const Zelo::Resource &file)
         : GLTexture(
         file.read(),
         file.getIOStream()->fileSize(),
+        false,
         file.getIOStream()->getFileName()
 ) {
 }
@@ -52,7 +54,7 @@ void GLTexture::bind(uint32_t slot) const {
     m_textureData->bind(slot);
 }
 
-GLTexture::GLTexture(const char *buffer, uint32_t size, const std::string &name) {
+GLTexture::GLTexture(const char *buffer, uint32_t size, bool filter_nearest, const std::string &name) {
     auto it = m_textureCache.find(name);
 
     if (it == m_textureCache.end() || !(m_textureData = it->second.lock())) {
@@ -66,7 +68,7 @@ GLTexture::GLTexture(const char *buffer, uint32_t size, const std::string &name)
         if (data == nullptr) {
             spdlog::error("Unable to load texture: {}", name);
         } else {
-            m_textureData = std::make_shared<TextureData>(x, y, data);
+            m_textureData = std::make_shared<TextureData>(data, x, y, filter_nearest);
             m_textureCache[name] = m_textureData;
             stbi_image_free(data);
         }

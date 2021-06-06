@@ -314,6 +314,6 @@ void ImGuiManager::initGL() {
     unsigned int png_size{};
     ImGui::GetDefaultFontData(NULL, NULL, &png_data, &png_size);
 
-    m_imguiTex = std::make_unique<GLTexture>(reinterpret_cast<const char *>(png_data), png_size, "proggy_clean_13_png");
+    m_imguiTex = std::make_unique<GLTexture>(reinterpret_cast<const char *>(png_data), png_size, true, "proggy_clean_13_png");
     fontTex = m_imguiTex->getHandle();
 }
