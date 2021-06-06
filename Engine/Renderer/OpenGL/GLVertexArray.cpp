@@ -38,31 +38,31 @@ static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type) {
     return 0;
 }
 
-OpenGLVertexArray::OpenGLVertexArray() {
+GLVertexArray::GLVertexArray() {
     ZELO_PROFILE_FUNCTION();
 
     glCreateVertexArrays(1, &m_RendererID);
 }
 
-OpenGLVertexArray::~OpenGLVertexArray() {
+GLVertexArray::~GLVertexArray() {
     ZELO_PROFILE_FUNCTION();
 
     glDeleteVertexArrays(1, &m_RendererID);
 }
 
-void OpenGLVertexArray::bind() const {
+void GLVertexArray::bind() const {
     ZELO_PROFILE_FUNCTION();
 
     glBindVertexArray(m_RendererID);
 }
 
-void OpenGLVertexArray::unbind() const {
+void GLVertexArray::unbind() const {
     ZELO_PROFILE_FUNCTION();
 
     glBindVertexArray(0);
 }
 
-void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer) {
+void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer) {
     ZELO_PROFILE_FUNCTION();
 
     ZELO_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "Vertex Buffer has no layout!");
@@ -125,7 +125,7 @@ void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &ver
     m_VertexBuffers.push_back(vertexBuffer);
 }
 
-void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer) {
+void GLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer) {
     ZELO_PROFILE_FUNCTION();
 
     glBindVertexArray(m_RendererID);

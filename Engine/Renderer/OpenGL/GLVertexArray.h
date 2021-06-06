@@ -9,11 +9,11 @@
 
 namespace Zelo {
 
-class OpenGLVertexArray : public VertexArray {
+class GLVertexArray : public VertexArray {
 public:
-    OpenGLVertexArray();
+    GLVertexArray();
 
-    ~OpenGLVertexArray() override;
+    ~GLVertexArray() override;
 
     void bind() const override;
 

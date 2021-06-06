@@ -9,13 +9,13 @@
 
 namespace Zelo {
 
-class OpenGLVertexBuffer : public VertexBuffer {
+class GLVertexBuffer : public VertexBuffer {
 public:
-    explicit OpenGLVertexBuffer(uint32_t size);
+    explicit GLVertexBuffer(uint32_t size);
 
-    OpenGLVertexBuffer(float *vertices, uint32_t size);
+    GLVertexBuffer(float *vertices, uint32_t size);
 
-    ~OpenGLVertexBuffer() override;
+    ~GLVertexBuffer() override;
 
     void bind() const override;
 
@@ -32,11 +32,11 @@ private:
     BufferLayout m_Layout;
 };
 
-class OpenGLIndexBuffer : public IndexBuffer {
+class GLIndexBuffer : public IndexBuffer {
 public:
-    OpenGLIndexBuffer(uint32_t *indices, uint32_t count);
+    GLIndexBuffer(uint32_t *indices, uint32_t count);
 
-    ~OpenGLIndexBuffer() override;
+    ~GLIndexBuffer() override;
 
     void bind() const override;
 

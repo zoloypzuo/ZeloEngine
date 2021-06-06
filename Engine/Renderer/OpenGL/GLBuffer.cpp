@@ -10,7 +10,7 @@ namespace Zelo {
 // VertexBuffer /////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size) {
+GLVertexBuffer::GLVertexBuffer(uint32_t size) {
     ZELO_PROFILE_FUNCTION();
 
     glCreateBuffers(1, &m_RendererID);
@@ -18,7 +18,7 @@ OpenGLVertexBuffer::OpenGLVertexBuffer(uint32_t size) {
     glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 }
 
-OpenGLVertexBuffer::OpenGLVertexBuffer(float *vertices, uint32_t size) {
+GLVertexBuffer::GLVertexBuffer(float *vertices, uint32_t size) {
     ZELO_PROFILE_FUNCTION();
 
     glCreateBuffers(1, &m_RendererID);
@@ -26,25 +26,25 @@ OpenGLVertexBuffer::OpenGLVertexBuffer(float *vertices, uint32_t size) {
     glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 }
 
-OpenGLVertexBuffer::~OpenGLVertexBuffer() {
+GLVertexBuffer::~GLVertexBuffer() {
     ZELO_PROFILE_FUNCTION();
 
     glDeleteBuffers(1, &m_RendererID);
 }
 
-void OpenGLVertexBuffer::bind() const {
+void GLVertexBuffer::bind() const {
     ZELO_PROFILE_FUNCTION();
 
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 }
 
-void OpenGLVertexBuffer::unbind() const {
+void GLVertexBuffer::unbind() const {
     ZELO_PROFILE_FUNCTION();
 
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
-void OpenGLVertexBuffer::setData(const void *data, uint32_t size) {
+void GLVertexBuffer::setData(const void *data, uint32_t size) {
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 }
@@ -53,7 +53,7 @@ void OpenGLVertexBuffer::setData(const void *data, uint32_t size) {
 // IndexBuffer //////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////
 
-OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t *indices, uint32_t count)
+GLIndexBuffer::GLIndexBuffer(uint32_t *indices, uint32_t count)
         : m_Count(count) {
     ZELO_PROFILE_FUNCTION();
 
@@ -65,19 +65,19 @@ OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t *indices, uint32_t count)
     glBufferData(GL_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 }
 
-OpenGLIndexBuffer::~OpenGLIndexBuffer() {
+GLIndexBuffer::~GLIndexBuffer() {
     ZELO_PROFILE_FUNCTION();
 
     glDeleteBuffers(1, &m_RendererID);
 }
 
-void OpenGLIndexBuffer::bind() const {
+void GLIndexBuffer::bind() const {
     ZELO_PROFILE_FUNCTION();
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 }
 
-void OpenGLIndexBuffer::unbind() const {
+void GLIndexBuffer::unbind() const {
     ZELO_PROFILE_FUNCTION();
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
