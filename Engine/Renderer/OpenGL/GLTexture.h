@@ -30,6 +30,8 @@ class GLTexture : public Texture {
 public:
     explicit GLTexture(const Zelo::Resource &file);
 
+    GLTexture(const char *buffer, uint32_t size, const std::string& name);
+
     ~GLTexture();
 
     void bind(uint32_t slot) const override;
