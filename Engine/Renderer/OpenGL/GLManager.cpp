@@ -158,3 +158,28 @@ void GLManager::drawArray(const Ref<Zelo::VertexArray> &vertexArray, int32_t sta
     count = count ? count : vertexArray->getIndexBuffer()->getCount();
     glDrawArrays(GL_TRIANGLES, start, count);
 }
+
+void GLManager::setBlendEnabled(bool enabled) {
+    if (enabled)
+        glEnable(GL_BLEND);
+    else
+        glDisable(GL_BLEND);
+}
+
+void GLManager::setBlendFunc() {
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void GLManager::setCullFaceEnabled(bool enabled) {
+    if (enabled)
+        glEnable(GL_CULL_FACE);
+    else
+        glDisable(GL_CULL_FACE);
+}
+
+void GLManager::setDepthTestEnabled(bool enabled) {
+    if (enabled)
+        glEnable(GL_DEPTH_TEST);
+    else
+        glDisable(GL_DEPTH_TEST);
+}

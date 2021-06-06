@@ -20,6 +20,14 @@ public:
     virtual void drawIndexed(const Ref<VertexArray> &vertexArray, int32_t indexCount) = 0;
 
     virtual void drawArray(const Ref<VertexArray> &vertexArray, int32_t start, int32_t count) = 0;
+
+    virtual void setBlendEnabled(bool enabled) = 0;
+
+    virtual void setBlendFunc() = 0;
+
+    virtual void setCullFaceEnabled(bool enabled) = 0;
+
+    virtual void setDepthTestEnabled(bool enabled) = 0;
 };
 }
 

@@ -71,6 +71,14 @@ public:
 
     void drawArray(const Ref<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) override;
 
+    void setBlendEnabled(bool enabled) override;
+
+    void setBlendFunc() override;
+
+    void setCullFaceEnabled(bool enabled) override;
+
+    void setDepthTestEnabled(bool enabled) override;
+
 public:
     static GLManager *getSingletonPtr();
 

@@ -261,10 +261,10 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
     m_imguiShader->setUniformMatrix4f("MVP", mvp);
 
     // Setup render state: alpha-blending enabled, no face culling, no depth testing
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDisable(GL_CULL_FACE);
-    glDisable(GL_DEPTH_TEST);
+    m_renderCommand->setBlendEnabled(true);
+    m_renderCommand->setBlendFunc();
+    m_renderCommand->setCullFaceEnabled(false);
+    m_renderCommand->setDepthTestEnabled(false);
 
     m_imguiTex->bind(0);
 
