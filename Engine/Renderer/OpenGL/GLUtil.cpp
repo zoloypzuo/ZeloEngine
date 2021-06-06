@@ -60,7 +60,7 @@ void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
             break;
         case GL_DEBUG_TYPE_OTHER:
             typeStr = "Other";
-            break;
+            return;
         default:
             typeStr = "Unknown";
     }
