@@ -10,7 +10,7 @@ namespace Zelo {
 GLVertexArray::GLVertexArray() {
     ZELO_PROFILE_FUNCTION();
 
-    glCreateVertexArrays(1, &m_RendererID);
+    glGenVertexArrays(1, &m_RendererID);
 }
 
 GLVertexArray::~GLVertexArray() {
@@ -36,25 +36,35 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
 
     ZELO_CORE_ASSERT(!vertexBuffer->getLayout().getElements().empty(), "Vertex Buffer has no layout!");
 
-    glBindVertexArray(m_RendererID);
+    this->bind();
     vertexBuffer->bind();
 
     const auto &layout = vertexBuffer->getLayout();
     for (const auto &element : layout) {
+        GLuint index{};
+        GLint size{};
+        GLenum type{};
+        GLboolean normalized{};
+        GLsizei stride{};
+        const void *pointer{};
+
+        index = m_VertexBufferIndex;
+        size = static_cast<GLint>(element.getComponentCount());
+        type = ShaderDataTypeToOpenGLBaseType(element.Type);
+        normalized = element.Normalized ? GL_TRUE : GL_FALSE;
+        stride = static_cast<GLsizei>(layout.getStride());
+        pointer = (const void *) element.Offset;
+
         switch (element.Type) {
             case ShaderDataType::Float:
             case ShaderDataType::Float2:
             case ShaderDataType::Float3:
             case ShaderDataType::Float4: {
-                glEnableVertexAttribArray(m_VertexBufferIndex);
-                glVertexAttribPointer(
-                        m_VertexBufferIndex,
-                        element.getComponentCount(),
-                        ShaderDataTypeToOpenGLBaseType(element.Type),
-                        element.Normalized ? GL_TRUE : GL_FALSE,
-                        layout.getStride(),
-                        (const void *) element.Offset);
-                m_VertexBufferIndex++;
+                glEnableVertexAttribArray(index);
+                glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+                index++;
+
+                m_VertexBufferIndex = index;
                 break;
             }
             case ShaderDataType::Int:
@@ -62,31 +72,23 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
             case ShaderDataType::Int3:
             case ShaderDataType::Int4:
             case ShaderDataType::Bool: {
-                glEnableVertexAttribArray(m_VertexBufferIndex);
-                glVertexAttribIPointer(
-                        m_VertexBufferIndex,
-                        element.getComponentCount(),
-                        ShaderDataTypeToOpenGLBaseType(element.Type),
-                        layout.getStride(),
-                        (const void *) element.Offset);
-                m_VertexBufferIndex++;
+                glEnableVertexAttribArray(index);
+                glVertexAttribIPointer(index, size, type, stride, pointer);
+                index++;
+
+                m_VertexBufferIndex = index;
                 break;
             }
             case ShaderDataType::Mat3:
             case ShaderDataType::Mat4: {
-                uint8_t count = element.getComponentCount();
-                for (uint8_t i = 0; i < count; i++) {
-                    glEnableVertexAttribArray(m_VertexBufferIndex);
-                    glVertexAttribPointer(
-                            m_VertexBufferIndex,
-                            count,
-                            ShaderDataTypeToOpenGLBaseType(element.Type),
-                            element.Normalized ? GL_TRUE : GL_FALSE,
-                            layout.getStride(),
-                            (const void *) (element.Offset + sizeof(float) * count * i));
-                    glVertexAttribDivisor(m_VertexBufferIndex, 1);
-                    m_VertexBufferIndex++;
+                for (auto i = 0; i < size; i++) {
+                    glEnableVertexAttribArray(index);
+                    glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+                    glVertexAttribDivisor(index, 1);
+                    index++;
                 }
+
+                m_VertexBufferIndex = index;
                 break;
             }
             default:

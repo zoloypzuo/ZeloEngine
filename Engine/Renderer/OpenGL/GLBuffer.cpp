@@ -12,7 +12,7 @@ namespace Zelo {
 GLVertexBuffer::GLVertexBuffer() {
     ZELO_PROFILE_FUNCTION();
 
-    glCreateBuffers(1, &m_RendererID);
+    glGenBuffers(1, &m_RendererID);
 }
 
 GLVertexBuffer::GLVertexBuffer(uint32_t size) {
