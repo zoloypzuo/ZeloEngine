@@ -5,15 +5,6 @@
 #include "ImGuiManager.h"
 
 #include "Engine.h"
-#include "Renderer/OpenGL/GLBuffer.h"
-
-static GLuint shaderProgram;
-static GLuint vbo;
-static GLuint vao;
-static GLuint fontTex;
-static GLint uniMVP;
-static GLint uniClipRect;
-
 
 static void ImImpl_RenderDrawLists(ImDrawList **const draw_lists, int count) {
     ImGuiManager::getSingletonPtr()->renderDrawLists(draw_lists, count);
@@ -151,11 +142,6 @@ void ImGuiManager::initGL() {
 
     m_imguiShader->bindFragDataLocation("o_col", 0);
 
-    uniMVP = m_imguiShader->getUniformLocation("MVP");
-    uniClipRect = m_imguiShader->getUniformLocation("ClipRect");
-
-    shaderProgram = m_imguiShader->getHandle();
-
     // Load font texture
     const void *png_data{};
     unsigned int png_size{};
@@ -166,13 +152,12 @@ void ImGuiManager::initGL() {
             png_size,
             true,
             "proggy_clean_13_png");
-    fontTex = m_imguiTex->getHandle();
 
     m_imguiVAO = CreateRef<Zelo::GLVertexArray>();
-    vao = m_imguiVAO->getHandle();
 
-    Ref<Zelo::GLVertexBuffer> imguiVBO = CreateRef<Zelo::GLVertexBuffer>();
-    vbo = imguiVBO->getHandle();
+    m_imguiVBO = CreateRef<Zelo::GLVertexBuffer>();
+
+    Ref<Zelo::GLVertexBuffer> imguiVBO = m_imguiVBO;
 
     imguiVBO->setLayout({
                                 BufferElement(ShaderDataType::Float2, "i_pos"),
@@ -241,22 +226,19 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
                     {-(R + L) / (R - L), -(T + B) / (T - B), 0.0f,  1.0f},
             };
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBindVertexArray(vao);
-    glBufferData(GL_ARRAY_BUFFER, total_vtx_count * sizeof(ImDrawVert), NULL, GL_STREAM_DRAW);
-    auto *buffer_data = (unsigned char *) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-    if (!buffer_data)
-        return;
     int vtx_consumed = 0;
-    for (int n = 0; n < count; n++) {
-        const ImDrawList *cmd_list = draw_lists[n];
-        if (!cmd_list->vtx_buffer.empty()) {
-            memcpy(buffer_data, &cmd_list->vtx_buffer[0], cmd_list->vtx_buffer.size() * sizeof(ImDrawVert));
-            buffer_data += cmd_list->vtx_buffer.size() * sizeof(ImDrawVert);
-            vtx_consumed += cmd_list->vtx_buffer.size();
+    {
+        auto mapBufferJanitor = Zelo::GLMapBufferJanitor(m_imguiVBO, total_vtx_count * sizeof(ImDrawVert));
+        auto *buffer_data = mapBufferJanitor.getBufferData();
+        for (int n = 0; n < count; n++) {
+            const ImDrawList *cmd_list = draw_lists[n];
+            if (!cmd_list->vtx_buffer.empty()) {
+                memcpy(buffer_data, &cmd_list->vtx_buffer[0], cmd_list->vtx_buffer.size() * sizeof(ImDrawVert));
+                buffer_data += cmd_list->vtx_buffer.size() * sizeof(ImDrawVert);
+                vtx_consumed += cmd_list->vtx_buffer.size();
+            }
         }
     }
-    glUnmapBuffer(GL_ARRAY_BUFFER);
 
     m_imguiShader->setUniformMatrix4f("MVP", mvp);
 

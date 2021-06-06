@@ -31,7 +31,7 @@ public:
     void setLayout(const BufferLayout &layout) override { m_Layout = layout; }
 
 public:
-    uint32_t getHandle() { return m_RendererID; }
+    uint32_t getHandle() const { return m_RendererID; }
 
 private:
     uint32_t m_RendererID{};
@@ -52,7 +52,19 @@ public:
 
 private:
     uint32_t m_RendererID{};
-    uint32_t m_Count;
+    int32_t m_Count;
+};
+
+class GLMapBufferJanitor {
+public:
+    GLMapBufferJanitor(const Ref<GLVertexBuffer> &vertexBuffer, int32_t size);
+
+    ~GLMapBufferJanitor();
+
+    unsigned char *getBufferData() const { return m_bufferData; }
+
+private:
+    unsigned char *m_bufferData{};
 };
 
 }

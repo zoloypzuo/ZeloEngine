@@ -12,6 +12,7 @@
 #include "Renderer/OpenGL/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/GLTexture.h"
 #include "Renderer/OpenGL/GLVertexArray.h"
+#include "Renderer/OpenGL/GLBuffer.h"
 
 class ImGuiManager : public Singleton<ImGuiManager>, public IRuntimeModule {
 public:
@@ -55,6 +56,7 @@ private:
     std::unique_ptr<GLSLShaderProgram> m_imguiShader{};
     std::unique_ptr<GLTexture> m_imguiTex{};
     Ref<Zelo::GLVertexArray> m_imguiVAO{};
+    Ref<Zelo::GLVertexBuffer> m_imguiVBO{};
     Zelo::RenderCommand * m_renderCommand{};
 };
 
