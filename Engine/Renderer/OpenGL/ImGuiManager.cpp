@@ -184,6 +184,7 @@ void ImGuiManager::initGL() {
 }
 
 void ImGuiManager::initImGui() {
+    (void) this;
     auto *window = Engine::getSingletonPtr()->getWindow();
 
     ImGuiIO &io = ImGui::GetIO();
@@ -243,7 +244,7 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBindVertexArray(vao);
     glBufferData(GL_ARRAY_BUFFER, total_vtx_count * sizeof(ImDrawVert), NULL, GL_STREAM_DRAW);
-    unsigned char *buffer_data = (unsigned char *) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+    auto *buffer_data = (unsigned char *) glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
     if (!buffer_data)
         return;
     int vtx_consumed = 0;
@@ -283,10 +284,10 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
             switch (cmd.cmd_type) {
                 case ImDrawCmdType_DrawTriangleList:
                     if (clip_rect_dirty) {
-                        glUniform4fv(uniClipRect, 1, (float *) &clip_rect_stack.back());
+                        m_imguiShader->setUniformVec4f("ClipRect", clip_rect_stack.back());
                         clip_rect_dirty = false;
                     }
-                    glDrawArrays(GL_TRIANGLES, vtx_consumed, cmd.vtx_count);
+                    m_renderCommand->drawArray(m_imguiVAO, vtx_consumed, cmd.vtx_count);
                     vtx_consumed += cmd.vtx_count;
                     break;
 
@@ -299,16 +300,20 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
                     clip_rect_stack.pop_back();
                     clip_rect_dirty = true;
                     break;
+                default:
+                    ZELO_ASSERT(false, "unhandled ImDrawCmd");
             }
         }
     }
 }
 
 const char *ImGuiManager::getClipboardText() {
+    (void) this;
     return "test clip text";
 }
 
 void ImGuiManager::setClipboardText(const char *text, const char *text_end) {
+    (void) this;
     if (!text_end)
         text_end = text + strlen(text);
 

@@ -436,9 +436,13 @@ enum ImDrawCmdType
 // sizeof() == 4
 struct ImDrawCmd
 {
-    ImDrawCmdType	cmd_type : 16;
-    unsigned int	vtx_count : 16;
-    ImDrawCmd(ImDrawCmdType _cmd_type = ImDrawCmdType_DrawTriangleList, unsigned int _vtx_count = 0) { cmd_type = _cmd_type; vtx_count = _vtx_count; }
+    ImDrawCmdType cmd_type : 16;
+    int16_t vtx_count : 16;
+
+    explicit ImDrawCmd(ImDrawCmdType _cmd_type = ImDrawCmdType_DrawTriangleList, int16_t _vtx_count = 0) {
+        cmd_type = _cmd_type;
+        vtx_count = _vtx_count;
+    }
 };
 
 #ifndef IMDRAW_TEX_UV_FOR_WHITE
