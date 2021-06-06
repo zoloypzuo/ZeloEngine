@@ -7,6 +7,10 @@ add_library(Core
         RHI/Texture.cpp
         RHI/RenderCommand.cpp
         RHI/Framebuffer.cpp
+        RHI/Buffer.cpp
+        RHI/VertexArray.cpp
+        RHI/BufferLayout.cpp
+        RHI/ShaderType.cpp
 
         Input/Input.cpp
         Window/Window.cpp

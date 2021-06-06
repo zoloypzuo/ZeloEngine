@@ -79,6 +79,12 @@ constexpr Ref<T> CreateRef(Args &&... args) {
 }
 
 // forward declaration
+class Engine;
+
+class GLManager;
+
+class Input;
+
 class DirectionalLight;
 
 class PointLight;

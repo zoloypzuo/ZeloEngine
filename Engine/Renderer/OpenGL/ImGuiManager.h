@@ -7,6 +7,12 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Core/ImGui/ImGui.h"
+#include "Core/RHI/RenderCommand.h"
+
+#include "Renderer/OpenGL/GLSLShaderProgram.h"
+#include "Renderer/OpenGL/GLTexture.h"
+#include "Renderer/OpenGL/GLVertexArray.h"
+#include "Renderer/OpenGL/GLBuffer.h"
 
 class ImGuiManager : public Singleton<ImGuiManager>, public IRuntimeModule {
 public:
@@ -30,15 +36,28 @@ public:
 //
 //    void setKeyEvent(int key, bool keydown);
 
+    void renderDrawLists(ImDrawList **const draw_lists, int count);
+
+    const char *getClipboardText();
+
+    void setClipboardText(const char *text, const char *text_end);
+
 private:
 //    void createDeviceObjects(void);
 //
 //    void invalidateDeviceObjects(void);
 
-//    static void renderDrawLists(ImDrawData *draw_data);
+    void initGL();
+
+    void initImGui();
 
 private:
-    SDL_Window *m_sdlWindow;
+    SDL_Window *m_sdlWindow{};
+    std::unique_ptr<GLSLShaderProgram> m_imguiShader{};
+    std::unique_ptr<GLTexture> m_imguiTex{};
+    Ref<Zelo::GLVertexArray> m_imguiVAO{};
+    Ref<Zelo::GLVertexBuffer> m_imguiVBO{};
+    Zelo::RenderCommand * m_renderCommand{};
 };
 
 

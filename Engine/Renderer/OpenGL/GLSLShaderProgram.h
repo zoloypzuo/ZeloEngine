@@ -11,6 +11,7 @@
 #include "Core/RHI/Shader.h"
 #include "Core/Resource/Resource.h"
 #include "Attenuation.h"
+#include "Core/RHI/ShaderType.h"
 
 class GLSLShaderProgram : public Shader {
 public:
@@ -32,6 +33,10 @@ public:
     void bind() const override;
 
     void findUniformLocations() override;
+
+    void bindFragDataLocation(const std::string &name, uint32_t slot) override;
+
+    GLint getUniformLocation(const std::string &name);
 
     void setUniformVec3f(const std::string &name, glm::vec3 vector) override;
 
@@ -68,8 +73,6 @@ private:
 
 private:
     void createUniform(const std::string &name);
-
-    GLint getUniformLocation(const std::string &name);
 
     void addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const;
 };

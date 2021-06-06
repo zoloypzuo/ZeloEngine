@@ -5,15 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-
-enum class ShaderType {
-    VERTEX,
-    FRAGMENT,
-    GEOMETRY,
-    TESS_CONTROL,
-    TESS_EVALUATION,
-    COMPUTE,
-};
+#include "Core/RHI/ShaderType.h"
 
 class Shader {
 public:
@@ -28,6 +20,8 @@ public:
     virtual void bind() const = 0;
 
     virtual void findUniformLocations() = 0;
+
+    virtual void bindFragDataLocation(const std::string &name, uint32_t slot) = 0;
 
     virtual void setUniformVec3f(const std::string &name, glm::vec3 vector) = 0;
 

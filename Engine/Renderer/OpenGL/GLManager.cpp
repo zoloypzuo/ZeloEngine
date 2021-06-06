@@ -57,16 +57,16 @@ GLManager::~GLManager() {
 }
 
 void GLManager::setDrawSize(const glm::ivec2 &size) {
-    this->width = size.x;
-    this->height = size.y;
+    this->m_width = size.x;
+    this->m_height = size.y;
 
-    glViewport(0, 0, this->width, this->height);
+    glViewport(0, 0, this->m_width, this->m_height);
 }
 
 void GLManager::bindRenderTarget() const {
     glBindTexture(GL_TEXTURE_2D, 0);
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    glViewport(0, 0, this->width, this->height);
+    glViewport(0, 0, this->m_width, this->m_height);
 }
 
 void GLManager::setActiveCamera(std::shared_ptr<Camera> camera) {
@@ -134,4 +134,52 @@ template<> GLManager *Singleton<GLManager>::msSingleton = nullptr;
 
 GLManager *GLManager::getSingletonPtr() {
     return msSingleton;
+}
+
+void GLManager::clear() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void GLManager::setClearColor(const glm::vec4 &color) {
+    glClearColor(color.r, color.g, color.b, color.a);
+}
+
+void GLManager::setViewport(int32_t x, int32_t y, int32_t width, int32_t height) {
+    glViewport(x, y, width, height);
+}
+
+void GLManager::drawIndexed(const Ref<Zelo::VertexArray> &vertexArray, int32_t indexCount) {
+    int32_t count = indexCount ? indexCount : vertexArray->getIndexBuffer()->getCount();
+    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
+    glBindTexture(GL_TEXTURE_2D, 0);
+}
+
+void GLManager::drawArray(const Ref<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) {
+    count = count ? count : vertexArray->getIndexBuffer()->getCount();
+    glDrawArrays(GL_TRIANGLES, start, count);
+}
+
+void GLManager::setBlendEnabled(bool enabled) {
+    if (enabled)
+        glEnable(GL_BLEND);
+    else
+        glDisable(GL_BLEND);
+}
+
+void GLManager::setBlendFunc() {
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+}
+
+void GLManager::setCullFaceEnabled(bool enabled) {
+    if (enabled)
+        glEnable(GL_CULL_FACE);
+    else
+        glDisable(GL_CULL_FACE);
+}
+
+void GLManager::setDepthTestEnabled(bool enabled) {
+    if (enabled)
+        glEnable(GL_DEPTH_TEST);
+    else
+        glDisable(GL_DEPTH_TEST);
 }

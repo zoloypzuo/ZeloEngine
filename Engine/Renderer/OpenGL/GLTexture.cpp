@@ -9,20 +9,21 @@
 #include <stb_image.h>
 
 
-TextureData::TextureData(int width, int height, const unsigned char *data) {
-    createTexture(width, height, data);
+TextureData::TextureData(const unsigned char *data, int width, int height, bool filter_nearest) {
+    createTexture(data, width, height, filter_nearest);
 }
 
 TextureData::~TextureData() {
     glDeleteTextures(1, &m_textureId);
 }
 
-void TextureData::createTexture(int width, int height, const unsigned char *data) {
+void TextureData::createTexture(const unsigned char *data, int width, int height, bool filter_nearest) {
+
 
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter_nearest ? GL_NEAREST : GL_LINEAR);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter_nearest ? GL_NEAREST : GL_LINEAR);
     // TODO: RE-ENABLE THIS!!
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
     // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
@@ -34,35 +35,47 @@ void TextureData::bind(unsigned int unit) const {
     glBindTexture(GL_TEXTURE_2D, m_textureId);
 }
 
+uint32_t TextureData::getHandle() const { return m_textureId; }
+
 std::map<std::string, std::weak_ptr<TextureData>> m_textureCache;
 
-GLTexture::GLTexture(const Zelo::Resource &file) {
-    auto it = m_textureCache.find(file.getIOStream()->getFileName());
+GLTexture::GLTexture(const Zelo::Resource &file)
+        : GLTexture(
+        file.read(),
+        file.getIOStream()->fileSize(),
+        false,
+        file.getIOStream()->getFileName()
+) {
+}
+
+GLTexture::~GLTexture() = default;
+
+void GLTexture::bind(uint32_t slot) const {
+    m_textureData->bind(slot);
+}
+
+GLTexture::GLTexture(const char *buffer, uint32_t size, bool filter_nearest, const std::string &name) {
+    auto it = m_textureCache.find(name);
 
     if (it == m_textureCache.end() || !(m_textureData = it->second.lock())) {
         int x = 0, y = 0, bytesPerPixel = 0;
         unsigned char *data = stbi_load_from_memory(
-                reinterpret_cast<const unsigned char *>(file.read()),
-                static_cast<int>(file.getIOStream()->fileSize()),
+                reinterpret_cast<const unsigned char *>(buffer),
+                static_cast<int>(size),
                 &x, &y, &bytesPerPixel,
                 4);
 
         if (data == nullptr) {
-            spdlog::error("Unable to load texture: {}", file.getIOStream()->getFileName().c_str());
+            spdlog::error("Unable to load texture: {}", name);
         } else {
-            m_textureData = std::make_shared<TextureData>(x, y, data);
-            m_textureCache[file.getIOStream()->getFileName()] = m_textureData;
+            m_textureData = std::make_shared<TextureData>(data, x, y, filter_nearest);
+            m_textureCache[name] = m_textureData;
             stbi_image_free(data);
         }
     }
 }
 
-GLTexture::~GLTexture() {
-}
-
-void GLTexture::bind(uint32_t slot) const {
-    m_textureData->bind(slot);
-}
+uint32_t GLTexture::getHandle() const { return m_textureData->getHandle(); }
 
 unsigned char *loadPixels(const Zelo::Resource &file, int &w, int &h) {
     int bytesPerPixel = 0;

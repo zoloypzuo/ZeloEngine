@@ -471,3 +471,9 @@ void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::m
 
     glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
+
+void GLSLShaderProgram::bindFragDataLocation(const std::string &name, uint32_t slot) {
+    bind();
+
+    glBindFragDataLocation(m_handle, slot, name.c_str());
+}

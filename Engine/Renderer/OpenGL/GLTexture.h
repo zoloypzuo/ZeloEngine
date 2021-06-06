@@ -13,26 +13,32 @@
 
 class TextureData {
 public:
-    TextureData(int width, int height, const unsigned char *data);
+    TextureData(const unsigned char *data, int width, int height, bool filter_nearest);
 
     virtual ~TextureData();
 
     void bind(unsigned int unit) const;
 
+    uint32_t getHandle() const;
+
 private:
     GLuint m_textureId{};
 
 private:
-    void createTexture(int width, int height, const unsigned char *data);
+    void createTexture(const unsigned char *data, int width, int height, bool filter_nearest);
 };
 
 class GLTexture : public Texture {
 public:
     explicit GLTexture(const Zelo::Resource &file);
 
+    GLTexture(const char *buffer, uint32_t size, bool filter_nearest, const std::string &name);
+
     ~GLTexture();
 
     void bind(uint32_t slot) const override;
+
+    uint32_t getHandle() const;
 
 private:
     std::shared_ptr<TextureData> m_textureData;
