@@ -39,6 +39,9 @@ static GLenum GetGLShaderType(const ShaderType &shaderType) {
             return GL_TESS_EVALUATION_SHADER;
         case ShaderType::COMPUTE:
             return GL_COMPUTE_SHADER;
+        default:
+            ZELO_ASSERT(false, "unhandled shader type");
+            return GL_NONE;
     }
 }
 
