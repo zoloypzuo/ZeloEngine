@@ -54,7 +54,7 @@ link_libraries(ImGui)
 add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
 
-file(GLOB CommonSrc *.cpp *.cxx Component/*.cpp Util/*.c Util/*.cpp)
+file(GLOB CommonSrc *.cpp *.cxx Component/*.cpp Util/*.cpp)
 add_library(Common ${CommonSrc})
 
 

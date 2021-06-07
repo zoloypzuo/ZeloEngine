@@ -8,13 +8,9 @@
 
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #if !defined(WAI_MALLOC) || !defined(WAI_FREE) || !defined(WAI_REALLOC)
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #endif
 
@@ -57,32 +53,28 @@ extern "C" {
 #endif
 
 #include <windows.h>
-#include <intrin.h>
+//#include <intrin.h>  fix VS2003 error
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
 #endif
 
-static int WAI_PREFIX(getModulePath_)(HMODULE module, char *out, int capacity, int *dirname_length) {
+static int wai_getModulePath_(HMODULE module, char *out, int capacity, int *dirname_length) {
     wchar_t buffer1[1];
     wchar_t buffer2[MAX_PATH];
     wchar_t *path = NULL;
     int length = -1;
 
     for (;;) {
-        DWORD size;
-        int length_;
-
-        size = GetModuleFileNameW(module, buffer1, sizeof(buffer1) / sizeof(buffer1[0]));
+        DWORD size = GetModuleFileNameW(module, buffer1, sizeof(buffer1) / sizeof(buffer1[0]));
 
         if (size == 0)
             break;
         else if (size == (DWORD) (sizeof(buffer1) / sizeof(buffer1[0]))) {
             DWORD size_ = size;
             do {
-                wchar_t *path_;
 
-                path_ = (wchar_t *) WAI_REALLOC(path, sizeof(wchar_t) * size_ * 2);
+                wchar_t *path_ = (wchar_t *) WAI_REALLOC(path, sizeof(wchar_t) * size_ * 2);
                 if (!path_)
                     break;
                 size_ *= 2;
@@ -97,7 +89,7 @@ static int WAI_PREFIX(getModulePath_)(HMODULE module, char *out, int capacity, i
 
         if (!_wfullpath(buffer2, path, MAX_PATH))
             break;
-        length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, out, capacity, NULL, NULL);
+        int length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, out, capacity, NULL, NULL);
 
         if (length_ == 0)
             length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, NULL, 0, NULL, NULL);
@@ -105,9 +97,7 @@ static int WAI_PREFIX(getModulePath_)(HMODULE module, char *out, int capacity, i
             break;
 
         if (length_ <= capacity && dirname_length) {
-            int i;
-
-            for (i = length_ - 1; i >= 0; --i) {
+            for (int i = length_ - 1; i >= 0; --i) {
                 if (out[i] == '\\') {
                     *dirname_length = i;
                     break;
@@ -128,14 +118,14 @@ static int WAI_PREFIX(getModulePath_)(HMODULE module, char *out, int capacity, i
 
 WAI_NOINLINE
 WAI_FUNCSPEC
-int WAI_PREFIX(getExecutablePath)(char *out, int capacity, int *dirname_length) {
-    return WAI_PREFIX(getModulePath_)(NULL, out, capacity, dirname_length);
+int wai_getExecutablePath(char *out, int capacity, int *dirname_length) {
+    return wai_getModulePath_(NULL, out, capacity, dirname_length);
 }
 
 WAI_NOINLINE
 WAI_FUNCSPEC
-int WAI_PREFIX(getModulePath)(char *out, int capacity, int *dirname_length) {
-    HMODULE module;
+int wai_getModulePath(char *out, int capacity, int *dirname_length) {
+    HMODULE module = nullptr;
     int length = -1;
 
 #if defined(_MSC_VER)
@@ -148,7 +138,7 @@ int WAI_PREFIX(getModulePath)(char *out, int capacity, int *dirname_length) {
 #pragma warning(pop)
 #endif
     {
-        length = WAI_PREFIX(getModulePath_)(module, out, capacity, dirname_length);
+        length = wai_getModulePath_(module, out, capacity, dirname_length);
     }
 
     return length;
@@ -650,8 +640,4 @@ int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
 
 #error unsupported platform
 
-#endif
-
-#ifdef __cplusplus
-}
 #endif
