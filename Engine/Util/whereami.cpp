@@ -53,7 +53,7 @@
 #endif
 
 #include <windows.h>
-#include <intrin.h>
+//#include <intrin.h>  fix VS2003 error
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
@@ -66,19 +66,15 @@ static int wai_getModulePath_(HMODULE module, char *out, int capacity, int *dirn
     int length = -1;
 
     for (;;) {
-        DWORD size;
-        int length_;
-
-        size = GetModuleFileNameW(module, buffer1, sizeof(buffer1) / sizeof(buffer1[0]));
+        DWORD size = GetModuleFileNameW(module, buffer1, sizeof(buffer1) / sizeof(buffer1[0]));
 
         if (size == 0)
             break;
         else if (size == (DWORD) (sizeof(buffer1) / sizeof(buffer1[0]))) {
             DWORD size_ = size;
             do {
-                wchar_t *path_;
 
-                path_ = (wchar_t *) WAI_REALLOC(path, sizeof(wchar_t) * size_ * 2);
+                wchar_t *path_ = (wchar_t *) WAI_REALLOC(path, sizeof(wchar_t) * size_ * 2);
                 if (!path_)
                     break;
                 size_ *= 2;
@@ -93,7 +89,7 @@ static int wai_getModulePath_(HMODULE module, char *out, int capacity, int *dirn
 
         if (!_wfullpath(buffer2, path, MAX_PATH))
             break;
-        length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, out, capacity, NULL, NULL);
+        int length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, out, capacity, NULL, NULL);
 
         if (length_ == 0)
             length_ = WideCharToMultiByte(CP_UTF8, 0, buffer2, -1, NULL, 0, NULL, NULL);
@@ -101,9 +97,7 @@ static int wai_getModulePath_(HMODULE module, char *out, int capacity, int *dirn
             break;
 
         if (length_ <= capacity && dirname_length) {
-            int i;
-
-            for (i = length_ - 1; i >= 0; --i) {
+            for (int i = length_ - 1; i >= 0; --i) {
                 if (out[i] == '\\') {
                     *dirname_length = i;
                     break;
@@ -131,7 +125,7 @@ int wai_getExecutablePath(char *out, int capacity, int *dirname_length) {
 WAI_NOINLINE
 WAI_FUNCSPEC
 int wai_getModulePath(char *out, int capacity, int *dirname_length) {
-    HMODULE module;
+    HMODULE module = nullptr;
     int length = -1;
 
 #if defined(_MSC_VER)
