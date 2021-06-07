@@ -8,13 +8,9 @@
 
 #endif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #if !defined(WAI_MALLOC) || !defined(WAI_FREE) || !defined(WAI_REALLOC)
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #endif
 
@@ -63,7 +59,7 @@ extern "C" {
 #pragma warning(pop)
 #endif
 
-static int WAI_PREFIX(getModulePath_)(HMODULE module, char *out, int capacity, int *dirname_length) {
+static int wai_getModulePath_(HMODULE module, char *out, int capacity, int *dirname_length) {
     wchar_t buffer1[1];
     wchar_t buffer2[MAX_PATH];
     wchar_t *path = NULL;
@@ -128,13 +124,13 @@ static int WAI_PREFIX(getModulePath_)(HMODULE module, char *out, int capacity, i
 
 WAI_NOINLINE
 WAI_FUNCSPEC
-int WAI_PREFIX(getExecutablePath)(char *out, int capacity, int *dirname_length) {
-    return WAI_PREFIX(getModulePath_)(NULL, out, capacity, dirname_length);
+int wai_getExecutablePath(char *out, int capacity, int *dirname_length) {
+    return wai_getModulePath_(NULL, out, capacity, dirname_length);
 }
 
 WAI_NOINLINE
 WAI_FUNCSPEC
-int WAI_PREFIX(getModulePath)(char *out, int capacity, int *dirname_length) {
+int wai_getModulePath(char *out, int capacity, int *dirname_length) {
     HMODULE module;
     int length = -1;
 
@@ -148,7 +144,7 @@ int WAI_PREFIX(getModulePath)(char *out, int capacity, int *dirname_length) {
 #pragma warning(pop)
 #endif
     {
-        length = WAI_PREFIX(getModulePath_)(module, out, capacity, dirname_length);
+        length = wai_getModulePath_(module, out, capacity, dirname_length);
     }
 
     return length;
@@ -650,8 +646,4 @@ int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
 
 #error unsupported platform
 
-#endif
-
-#ifdef __cplusplus
-}
 #endif
