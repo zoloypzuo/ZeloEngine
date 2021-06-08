@@ -9,14 +9,6 @@
 #include "Component.h"
 #include "Engine.h"
 
-#if defined(GLES2)
-#include <GLES2/gl2.h>
-#elif defined(GLES3)
-#include <GLES3/gl3.h>
-#else
-
-#endif
-
 TextureData *m_textureData;
 Shader *m_shader;
 static int g_AttribLocationPosition = 0, g_AttribLocationUV = 0, g_AttribLocationColor = 0;
