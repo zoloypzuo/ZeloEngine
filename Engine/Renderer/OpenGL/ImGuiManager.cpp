@@ -67,7 +67,7 @@ void ImGuiManager::update() {
     auto delta = Engine::getSingletonPtr()->getDeltaTime();
     auto deltaTime = std::chrono::duration_cast<std::chrono::duration<float>>(delta).count();
 
-    io.DeltaTime = deltaTime ? deltaTime : io.DeltaTime;
+    io.DeltaTime = static_cast<bool>(deltaTime) ? deltaTime : io.DeltaTime;
 
     glm::vec2 mousePos = window->getInput()->getMousePosition();
     io.MousePos = ImVec2(mousePos.x, mousePos.y);
@@ -76,7 +76,7 @@ void ImGuiManager::update() {
     io.MouseDown[1] = window->getInput()->mouseIsPressed(SDL_BUTTON_RIGHT);
 //    io.MouseDown[2] = window->getInput()->mouseIsPressed(SDL_BUTTON_MIDDLE);
 
-    io.MouseWheel = window->getInput()->getMouseWheel().y / 15.0f;
+    io.MouseWheel = static_cast<int>(window->getInput()->getMouseWheel().y / 15.0f);
 
     io.KeyShift = (window->getInput()->getKeyModState() & KMOD_SHIFT) != 0;
     io.KeyCtrl = (window->getInput()->getKeyModState() & KMOD_CTRL) != 0;
@@ -206,7 +206,7 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
     if (total_vtx_count == 0)
         return;
 
-    int read_pos_clip_rect_buf = 0;        // offset in 'clip_rect_buffer'. each PushClipRect command consume 1 of those.
+//    int read_pos_clip_rect_buf = 0;        // offset in 'clip_rect_buffer'. each PushClipRect command consume 1 of those.
 
     ImVector<ImVec4> clip_rect_stack;
     clip_rect_stack.push_back(ImVec4(-9999, -9999, +9999, +9999));
@@ -226,14 +226,16 @@ void ImGuiManager::renderDrawLists(ImDrawList **const draw_lists, int count) {
 
     int vtx_consumed = 0;
     {
-        auto mapBufferJanitor = Zelo::GLMapBufferJanitor(m_imguiVBO, total_vtx_count * sizeof(ImDrawVert));
+        auto mapBufferJanitor = Zelo::GLMapBufferJanitor(
+                m_imguiVBO,
+                static_cast<int>(total_vtx_count * sizeof(ImDrawVert)));
         auto *buffer_data = mapBufferJanitor.getBufferData();
         for (int n = 0; n < count; n++) {
             const ImDrawList *cmd_list = draw_lists[n];
             if (!cmd_list->vtx_buffer.empty()) {
                 memcpy(buffer_data, &cmd_list->vtx_buffer[0], cmd_list->vtx_buffer.size() * sizeof(ImDrawVert));
                 buffer_data += cmd_list->vtx_buffer.size() * sizeof(ImDrawVert);
-                vtx_consumed += cmd_list->vtx_buffer.size();
+                vtx_consumed += static_cast<int>(cmd_list->vtx_buffer.size());
             }
         }
     }
