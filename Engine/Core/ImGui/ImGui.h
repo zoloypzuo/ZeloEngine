@@ -1,7 +1,6 @@
 // ImGui.h
 // created on 2021/5/28
 // author @zoloypzuo
-
 #pragma once
 
 #include "ZeloPrerequisites.h"
@@ -351,10 +350,10 @@ struct ImGuiIO
 struct ImGuiOncePerFrame
 {
     ImGuiOncePerFrame() : LastFrame(-1) {}
-    operator bool() const { return TryIsNewFrame(); }
+    explicit operator bool() const { return TryIsNewFrame(); }
 private:
     mutable int LastFrame;
-    bool		TryIsNewFrame() const	{ const int current_frame = ImGui::GetFrameCount(); if (LastFrame == current_frame) return false; LastFrame = current_frame; return true; }
+    bool		TryIsNewFrame() const;
 };
 
 // Helper: Parse and apply text filter. In format "aaaaa[,bbbb][,ccccc]"
@@ -371,7 +370,7 @@ struct ImGuiTextFilter
         const char* end() const { return e; }
         bool empty() const { return b == e; }
         char front() const { return *b; }
-        static bool isblank(char c) { return c == ' ' && c == '\t'; }
+        static bool isblank(char c) { return c == ' ' || c == '\t'; }
         void trim_blanks() { while (b < e && isblank(*b)) b++; while (e > b && isblank(*(e-1))) e--; }
         void split(char separator, ImVector<TextRange>& out);
     };
@@ -397,7 +396,7 @@ struct ImGuiTextBuffer
     const char*			begin() const { return &*Buf.begin(); }
     const char*			end() const { return &*Buf.end()-1; }
     size_t				size() const { return Buf.size()-1; }
-    bool				empty() { return Buf.empty(); }
+    bool				empty() const { return Buf.empty(); }
     void				clear() { Buf.clear(); Buf.push_back(0); }
     void				Append(const char* fmt, ...);
 };
@@ -418,7 +417,7 @@ struct ImGuiStorage
     void	SetAllInt(int val);
 
     int*	Find(ImU32 key);
-    void	Insert(ImU32 key, int val);
+//    void	Insert(ImU32 key, int val);
 };
 
 //-----------------------------------------------------------------------------
@@ -452,20 +451,20 @@ struct ImDrawCmd
 // sizeof() == 20
 struct ImDrawVert
 {
-    ImVec2	pos;
-    ImVec2  uv;
-    ImU32	col;
+    ImVec2	pos{};
+    ImVec2  uv{};
+    ImU32	col{};
 };
 
 // Draw command list
 // User is responsible for providing a renderer for this in ImGuiIO::RenderDrawListFn
 struct ImDrawList
 {
-    ImVector<ImDrawCmd>		commands;
-    ImVector<ImDrawVert>	vtx_buffer;			// each command consume ImDrawCmd::vtx_count of those
-    ImVector<ImVec4>		clip_rect_buffer;	// each PushClipRect command consume 1 of those
-    ImVector<ImVec4>		clip_rect_stack_;	// [internal] clip rect stack while building the command-list (so text command can perform clipping early on)
-    ImDrawVert*				vtx_write_;			// [internal] point within vtx_buffer after each add command. allow us to use less [] and .resize on the vector (often slow on windows/debug)
+    ImVector<ImDrawCmd>		commands{};
+    ImVector<ImDrawVert>	vtx_buffer{};			// each command consume ImDrawCmd::vtx_count of those
+    ImVector<ImVec4>		clip_rect_buffer{};	// each PushClipRect command consume 1 of those
+    ImVector<ImVec4>		clip_rect_stack_{};	// [internal] clip rect stack while building the command-list (so text command can perform clipping early on)
+    ImDrawVert*				vtx_write_{};			// [internal] point within vtx_buffer after each add command. allow us to use less [] and .resize on the vector (often slow on windows/debug)
 
     ImDrawList() { Clear(); }
 

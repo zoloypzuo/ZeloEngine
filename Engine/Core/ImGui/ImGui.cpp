@@ -5412,3 +5412,9 @@ void GetDefaultFontData(const void** fnt_data, unsigned int* fnt_size, const voi
 //-----------------------------------------------------------------------------
 
 // @formatter:on
+bool ImGuiOncePerFrame::TryIsNewFrame() const {
+    const int current_frame = ImGui::GetFrameCount();
+    if (LastFrame == current_frame) return false;
+    LastFrame = current_frame;
+    return true;
+}
