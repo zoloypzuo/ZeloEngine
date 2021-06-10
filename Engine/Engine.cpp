@@ -7,7 +7,13 @@
 #include "Util/whereami.h"
 #include "MyGame.h"
 #include "Renderer/OpenGL/ForwardShadowRenderer.h"
+
+// enable vld
+#ifdef DETECT_MEMORY_LEAK
+
 #include <vld.h>
+
+#endif
 
 void Engine::initialize() {
     // init config and logger first
@@ -118,9 +124,7 @@ void Engine::start() {
     ZELO_PROFILE_END_SESSION();
 }
 
-Engine::~Engine() {
-    finalize();
-}
+Engine::~Engine() = default;
 
 template<> Engine *Singleton<Engine>::msSingleton = nullptr;
 

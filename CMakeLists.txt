@@ -41,6 +41,7 @@ option(DetectMemoryLeak "DetectMemoryLeak" ON)
 message(STATUS DetectMemoryLeak=${DetectMemoryLeak})
 
 if (DetectMemoryLeak)
+    add_compile_definitions(DETECT_MEMORY_LEAK)
     set(VldIncludeDir "C:/Program Files (x86)/Visual Leak Detector/include")
     if (WIN32)
         set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win32")
