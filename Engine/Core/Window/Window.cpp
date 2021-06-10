@@ -85,15 +85,9 @@ Window::Window() : m_quit(false) {
     spdlog::info("Window initialize to: {} x {}, vsync={}", m_width, m_height, m_vSync);
 }
 
-Window::~Window() {
-    SDL_GL_DeleteContext(m_glContext);
-    SDL_DestroyWindow(m_window);
-    SDL_Quit();
-}
+Window::~Window() = default;
 
 void Window::initialize() {
-//    spdlog::info("Initializing GUI");
-//    m_guiManager = std::make_unique<GuiManager>(getDrawableSize(), getDisplaySize(), getSDLWindow());
 }
 
 void Window::update() {
@@ -140,6 +134,13 @@ void Window::update() {
     }
 }
 
+
+void Window::finalize() {
+    SDL_GL_DeleteContext(m_glContext);
+    SDL_DestroyWindow(m_window);
+    SDL_Quit();
+}
+
 void Window::swapBuffer() {
     SDL_GL_SwapWindow(m_window);
 }
@@ -175,10 +176,6 @@ glm::ivec2 Window::getDrawableSize() const {
     SDL_GL_GetDrawableSize(m_window, &display_w, &display_h);
     return glm::ivec2(display_w, display_h);
 }
-
-//GuiManager *Window::getGuiManager() const {
-//    return m_guiManager.get();
-//}
 
 const char *Window::getClipboardText() {
     return SDL_GetClipboardText();
