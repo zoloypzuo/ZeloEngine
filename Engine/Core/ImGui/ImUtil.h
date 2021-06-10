@@ -12,7 +12,7 @@ class ImUtil {
 };
 // @formatter:off
 #undef ARRAYSIZE
-#define ARRAYSIZE(_ARR)            (sizeof(_ARR)/sizeof(*_ARR))
+#define ARRAYSIZE(_ARR)            (sizeof(_ARR)/sizeof(*(_ARR)))
 
 #undef PI
 const float PI = 3.14159265358979323846f;
