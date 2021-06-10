@@ -53,7 +53,7 @@
 #endif
 
 #include <windows.h>
-//#include <intrin.h>  fix VS2003 error
+#include <intrin.h>  // _ReturnAddress
 
 #if defined(_MSC_VER)
 #pragma warning(pop)
