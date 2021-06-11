@@ -4,35 +4,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-
-struct ImDrawList;
-struct ImBitmapFont;
-struct ImGuiAabb;
-struct ImGuiIO;
-struct ImGuiStorage;
-struct ImGuiStyle;
-struct ImGuiWindow;
-
-#ifndef IM_ASSERT
-
-#include <cassert>
-
-#define IM_ASSERT(_EXPR)    assert(_EXPR)
-#endif
-
-typedef unsigned int ImU32;
-typedef ImU32 ImGuiID;
-typedef int ImGuiCol;                // enum ImGuiCol_
-typedef int ImGuiKey;                // enum ImGuiKey_
-typedef int ImGuiColorEditMode;        // enum ImGuiColorEditMode_
-typedef ImU32 ImGuiWindowFlags;        // enum ImGuiWindowFlags_
-typedef ImU32 ImGuiInputTextFlags;    // enum ImGuiInputTextFlags_
-typedef ImBitmapFont *ImFont;
-
-typedef glm::vec2 ImVec2;
-typedef glm::vec4 ImVec4;
-template<typename T>
-using ImVector = std::vector<T>;
+#include "ImGuiPrerequisites.h"
 
 // @formatter:off
 
