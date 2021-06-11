@@ -16,8 +16,8 @@ namespace ImGui
 
 static bool			ButtonBehaviour(const ImGuiAabb& bb, const ImGuiID& id, bool* out_hovered = NULL, bool* out_held = NULL, bool repeat = false);
 static void			RenderFrame(ImVec2 p_min, ImVec2 p_max, ImU32 fill_col, bool border = true, float rounding = 0.0f);
-static void			RenderText(ImVec2 pos, const char* text, const char* text_end = NULL, const bool hide_text_after_hash = true);
-static ImVec2		CalcTextSize(const char* text, const char* text_end = NULL, const bool hide_text_after_hash = true);
+static void			RenderText(ImVec2 pos, const char* text, const char* text_end = NULL, bool hide_text_after_hash = true);
+static ImVec2		CalcTextSize(const char* text, const char* text_end = NULL, bool hide_text_after_hash = true);
 static void			LogText(const ImVec2& ref_pos, const char* text, const char* text_end = NULL);
 
 static void			ItemSize(ImVec2 size, ImVec2* adjust_start_offset = NULL);
@@ -43,8 +43,8 @@ struct ImGuiColMod	// Color/style modifier, backup of modified data so we can re
 
 struct ImGuiAabb	// 2D axis aligned bounding-box
 {
-    ImVec2		Min;
-    ImVec2		Max;
+    ImVec2		Min{};
+    ImVec2		Max{};
 
     ImGuiAabb()											{ Min = ImVec2(FLT_MAX,FLT_MAX); Max = ImVec2(-FLT_MAX,-FLT_MAX); }
     ImGuiAabb(const ImVec2& min, const ImVec2& max)		{ Min = min; Max = max; }
@@ -69,9 +69,9 @@ struct ImGuiAabb	// 2D axis aligned bounding-box
 // Temporary per-window data, reset at the beginning of the frame
 struct ImGuiDrawContext
 {
-    ImVec2					CursorPos;
-    ImVec2					CursorPosPrevLine;
-    ImVec2					CursorStartPos;
+    ImVec2					CursorPos{};
+    ImVec2					CursorPosPrevLine{};
+    ImVec2					CursorStartPos{};
     float					CurrentLineHeight;
     float					PrevLineHeight;
     float					LogLineHeight;
@@ -81,7 +81,7 @@ struct ImGuiDrawContext
     ImVector<bool>			AllowKeyboardFocus;
     ImVector<float>			ItemWidth;
     ImVector<ImGuiColMod>	ColorModifiers;
-    ImGuiColorEditMode		ColorEditMode;
+    ImGuiColorEditMode		ColorEditMode{};
     ImGuiStorage*			StateStorage;
     int						OpenNextNode;
 
@@ -89,8 +89,8 @@ struct ImGuiDrawContext
     int						ColumnCurrent;
     int						ColumnsCount;
     bool					ColumnsShowBorders;
-    ImVec2					ColumnsStartCursorPos;
-    ImGuiID					ColumnsSetID;
+    ImVec2					ColumnsStartCursorPos{};
+    ImGuiID					ColumnsSetID{};
 
     ImGuiDrawContext()
     {
@@ -118,16 +118,16 @@ struct ImGuiTextEditState;
 // State of the currently focused/edited text input box
 struct ImGuiTextEditState
 {
-    char				Text[1024];						// edit buffer, we need to persist but can't guarantee the persistence of the user-provided buffer. so own buffer.
-    char				InitialText[1024];				// backup of end-user buffer at focusing time, to ESC key can do a revert. Also used for arithmetic operations (but could use a pre-parsed float there).
-    int					MaxLength;						// end-user buffer size <= 1024 (or increase above)
-    float				Width;							// widget width
-    float				ScrollX;
-    STB_TexteditState	StbState;
-    float				CursorAnim;
-    bool				SelectedAllMouseLock;
-    ImFont				Font;
-    float				FontSize;
+    char				Text[1024]{};						// edit buffer, we need to persist but can't guarantee the persistence of the user-provided buffer. so own buffer.
+    char				InitialText[1024]{};				// backup of end-user buffer at focusing time, to ESC key can do a revert. Also used for arithmetic operations (but could use a pre-parsed float there).
+    int					MaxLength{};						// end-user buffer size <= 1024 (or increase above)
+    float				Width{};							// widget width
+    float				ScrollX{};
+    STB_TexteditState	StbState{};
+    float				CursorAnim{};
+    bool				SelectedAllMouseLock{};
+    ImFont				Font{};
+    float				FontSize{};
 
     ImGuiTextEditState()								{ memset(this, 0, sizeof(*this)); }
 
@@ -142,15 +142,15 @@ struct ImGuiTextEditState
 
     // Static functions because they are used to render non-focused instances of a text input box
     static const char*	GetTextPointerClipped(ImFont font, float font_size, const char* text, float width, ImVec2* out_text_size = NULL);
-    static void			RenderTextScrolledClipped(ImFont font, float font_size, const char* text, ImVec2 pos_base, float width, float scroll_x);
+    static void			RenderTextScrolledClipped(ImFont font, float font_size, const char* buf, ImVec2 pos_base, float width, float scroll_x);
 };
 
 struct ImGuiIniData
 {
-    char*	Name;
-    ImVec2	Pos;
-    ImVec2	Size;
-    bool	Collapsed;
+    char*	Name{};
+    ImVec2	Pos{};
+    ImVec2	Size{};
+    bool	Collapsed{};
 
     ImGuiIniData() { memset(this, 0, sizeof(*this)); }
     ~ImGuiIniData() { if (Name) { free(Name); Name = NULL; } }
@@ -170,13 +170,13 @@ struct ImGuiState
     ImGuiWindow*			FocusedWindow;						// Will catch keyboard inputs
     ImGuiWindow*			HoveredWindow;						// Will catch mouse inputs
     ImGuiWindow*			HoveredWindowExcludingChilds;		// Will catch mouse inputs (for focus/move only)
-    ImGuiID					HoveredId;
-    ImGuiID					ActiveId;
-    ImGuiID					ActiveIdPreviousFrame;
+    ImGuiID					HoveredId{};
+    ImGuiID					ActiveId{};
+    ImGuiID					ActiveIdPreviousFrame{};
     bool					ActiveIdIsAlive;
     float					SettingsDirtyTimer;
     ImVector<ImGuiIniData*>	Settings;
-    ImVec2					NewWindowDefaultPos;
+    ImVec2					NewWindowDefaultPos{};
 
     // Render
     ImVector<ImDrawList*>	RenderDrawLists;
@@ -186,7 +186,7 @@ struct ImGuiState
     ImGuiID					SliderAsInputTextId;
     ImGuiStorage			ColorEditModeStorage;				// for user selection
     ImGuiID					ActiveComboID;
-    char					Tooltip[1024];
+    char					Tooltip[1024]{};
 
     // Logging
     bool					LogEnabled;
@@ -222,18 +222,18 @@ struct ImGuiWindow
 {
     char*					Name;
     ImGuiID					ID;
-    ImGuiWindowFlags		Flags;
-    ImVec2					PosFloat;
-    ImVec2					Pos;								// Position rounded-up to nearest pixel
-    ImVec2					Size;								// Current size (==SizeFull or collapsed title bar size)
-    ImVec2					SizeFull;							// Size when non collapsed
-    ImVec2					SizeContentsFit;					// Size of contents (extents reach by the drawing cursor) - may not fit within Size.
+    ImGuiWindowFlags		Flags{};
+    ImVec2					PosFloat{};
+    ImVec2					Pos{};								// Position rounded-up to nearest pixel
+    ImVec2					Size{};								// Current size (==SizeFull or collapsed title bar size)
+    ImVec2					SizeFull{};							// Size when non collapsed
+    ImVec2					SizeContentsFit{};					// Size of contents (extents reach by the drawing cursor) - may not fit within Size.
     float					ScrollY;
     float					NextScrollY;
     bool					ScrollbarY;
     bool					Visible;
     bool					Collapsed;
-    bool					Accessed;
+    bool					Accessed{};
     int						AutoFitFrames;
 
     ImGuiDrawContext		DC;
@@ -427,7 +427,7 @@ void ImGuiStorage::SetInt(ImU32 key, int val)
     }
     else
     {
-        Pair pair_key;
+        Pair pair_key{};
         pair_key.key = key;
         pair_key.val = val;
         Data.insert(it, pair_key);

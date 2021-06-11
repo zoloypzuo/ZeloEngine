@@ -266,19 +266,19 @@ enum ImGuiColorEditMode_
 // See constructor for comments of individual fields.
 struct ImGuiStyle
 {
-    ImVec2		WindowPadding;
-    ImVec2		WindowMinSize;
-    ImVec2		FramePadding;
-    ImVec2		ItemSpacing;
-    ImVec2		ItemInnerSpacing;
-    ImVec2		TouchExtraPadding;
-    ImVec2		AutoFitPadding;
+    ImVec2		WindowPadding{};
+    ImVec2		WindowMinSize{};
+    ImVec2		FramePadding{};
+    ImVec2		ItemSpacing{};
+    ImVec2		ItemInnerSpacing{};
+    ImVec2		TouchExtraPadding{};
+    ImVec2		AutoFitPadding{};
     float		WindowFillAlphaDefault;
     float		WindowRounding;
     float		TreeNodeSpacing;
     float		ColumnsMinSpacing;
     float		ScrollBarWidth;
-    ImVec4		Colors[ImGuiCol_COUNT];
+    ImVec4		Colors[ImGuiCol_COUNT]{};
 
     ImGuiStyle();
 };
@@ -289,45 +289,45 @@ struct ImGuiStyle
 struct ImGuiIO
 {
     // Settings (fill once)					// Default value:
-    ImVec2		DisplaySize;				// <unset>					// Display size, in pixels. For clamping windows positions.
+    ImVec2		DisplaySize{};				// <unset>					// Display size, in pixels. For clamping windows positions.
     float		DeltaTime;					// = 1.0f/60.0f				// Time elapsed since last frame, in seconds.
     float		IniSavingRate;				// = 5.0f					// Maximum time between saving .ini file, in seconds. Set to a negative value to disable .ini saving.
     const char* IniFilename;				// = "imgui.ini"			// Absolute path to .ini file.
     const char*	LogFilename;				// = "imgui_log.txt"		// Absolute path to .log file.
     float		MouseDoubleClickTime;		// = 0.30f					// Time for a double-click, in seconds.
     float		MouseDoubleClickMaxDist;	// = 6.0f					// Distance threshold to stay in to validate a double-click, in pixels.
-    int			KeyMap[ImGuiKey_COUNT];		// <unset>					// Map of indices into the KeysDown[512] entries array
+    int			KeyMap[ImGuiKey_COUNT]{};		// <unset>					// Map of indices into the KeysDown[512] entries array
     ImFont		Font;						// <auto>					// Gets passed to text functions. Typedef ImFont to the type you want (ImBitmapFont* or your own font).
-    float		FontHeight;					// <auto>					// Default font height, must be the vertical distance between two lines of text, aka == CalcTextSize(" ").y
+    float		FontHeight{};					// <auto>					// Default font height, must be the vertical distance between two lines of text, aka == CalcTextSize(" ").y
     bool		FontAllowScaling;			// = false					// Set to allow scaling text with CTRL+Wheel.
 
     // Settings - Functions (fill once)
-    void		(*RenderDrawListsFn)(ImDrawList** const draw_lists, int count);	// Required
-    const char*	(*GetClipboardTextFn)();										// Required for clipboard support
-    void		(*SetClipboardTextFn)(const char* text, const char* text_end);	// Required for clipboard support (nb- the string is *NOT* zero-terminated at 'text_end')
+    void		(*RenderDrawListsFn)(ImDrawList** const draw_lists, int count){};	// Required
+    const char*	(*GetClipboardTextFn)(){};										// Required for clipboard support
+    void		(*SetClipboardTextFn)(const char* text, const char* text_end){};	// Required for clipboard support (nb- the string is *NOT* zero-terminated at 'text_end')
 
     // Input - Fill before calling NewFrame()
-    ImVec2		MousePos;					// Mouse position (set to -1,-1 if no mouse / on another screen, etc.)
-    bool		MouseDown[2];				// Mouse buttons
-    int			MouseWheel;					// Mouse wheel: -1,0,+1
-    bool		KeyCtrl;					// Keyboard modifier pressed: Control
-    bool		KeyShift;					// Keyboard modifier pressed: Shift
-    bool		KeysDown[512];				// Keyboard keys that are pressed (in whatever order user naturally has access to keyboard data)
-    char		InputCharacters[16];		// List of characters input (translated by user from keypress+keyboard state). Fill using AddInputCharacter() helper.
+    ImVec2		MousePos{};					// Mouse position (set to -1,-1 if no mouse / on another screen, etc.)
+    bool		MouseDown[2]{};				// Mouse buttons
+    int			MouseWheel{};					// Mouse wheel: -1,0,+1
+    bool		KeyCtrl{};					// Keyboard modifier pressed: Control
+    bool		KeyShift{};					// Keyboard modifier pressed: Shift
+    bool		KeysDown[512]{};				// Keyboard keys that are pressed (in whatever order user naturally has access to keyboard data)
+    char		InputCharacters[16]{};		// List of characters input (translated by user from keypress+keyboard state). Fill using AddInputCharacter() helper.
 
     // Output - Retrieve after calling NewFrame(), you can use them to discard inputs for the rest of your application
-    bool		WantCaptureMouse;			// ImGui is using your mouse input (= window is being hovered or widget is active).
-    bool		WantCaptureKeyboard;		// imGui is using your keyboard input (= widget is active).
+    bool		WantCaptureMouse{};			// ImGui is using your mouse input (= window is being hovered or widget is active).
+    bool		WantCaptureKeyboard{};		// imGui is using your keyboard input (= widget is active).
 
     // [Internal] ImGui will maintain those fields for you
-    ImVec2		MousePosPrev;
-    ImVec2		MouseDelta;
-    bool		MouseClicked[2];
-    ImVec2		MouseClickedPos[2];
-    float		MouseClickedTime[2];
-    bool		MouseDoubleClicked[2];
-    float		MouseDownTime[2];
-    float		KeysDownTime[512];
+    ImVec2		MousePosPrev{};
+    ImVec2		MouseDelta{};
+    bool		MouseClicked[2]{};
+    ImVec2		MouseClickedPos[2]{};
+    float		MouseClickedTime[2]{};
+    bool		MouseDoubleClicked[2]{};
+    float		MouseDownTime[2]{};
+    float		KeysDownTime[512]{};
 
     ImGuiIO();
     void		AddInputCharacter(char c);	// Helper to add a new character into InputCharacters[]
@@ -375,7 +375,7 @@ struct ImGuiTextFilter
         void split(char separator, ImVector<TextRange>& out);
     };
 
-    char				InputBuf[256];
+    char				InputBuf[256]{};
     ImVector<TextRange>	Filters;
     int					CountGrep;
 
