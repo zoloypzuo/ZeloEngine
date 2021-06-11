@@ -643,7 +643,7 @@ void ImGuiWindow::AddToRenderList()
     for (size_t i = 0; i < DC.ChildWindows.size(); i++)
     {
         ImGuiWindow* child = DC.ChildWindows[i];
-        IM_ASSERT(child->Visible);	// Shouldn't be in this list if we are not active this frame
+        ZELO_ASSERT(child->Visible);	// Shouldn't be in this list if we are not active this frame
         child->AddToRenderList();
     }
 }
@@ -794,14 +794,14 @@ void NewFrame()
     ImGuiState& g = GImGui;
 
     // Check user inputs
-    IM_ASSERT(g.IO.DeltaTime > 0.0f);
-    IM_ASSERT(g.IO.DisplaySize.x > 0.0f && g.IO.DisplaySize.y > 0.0f);
-    IM_ASSERT(g.IO.RenderDrawListsFn != NULL);	// Must be implemented
+    ZELO_ASSERT(g.IO.DeltaTime > 0.0f);
+    ZELO_ASSERT(g.IO.DisplaySize.x > 0.0f && g.IO.DisplaySize.y > 0.0f);
+    ZELO_ASSERT(g.IO.RenderDrawListsFn != NULL);	// Must be implemented
 
     if (!g.Initialized)
     {
         // Initialize on first frame
-        IM_ASSERT(g.Settings.empty());
+        ZELO_ASSERT(g.Settings.empty());
         LoadSettings();
         if (!g.IO.Font)
         {
@@ -913,7 +913,7 @@ void NewFrame()
 
     // Create implicit window
     // We will only render it if the user has added something to it.
-    IM_ASSERT(g.CurrentWindowStack.empty());	// No window should be open at the beginning of the frame!
+    ZELO_ASSERT(g.CurrentWindowStack.empty());	// No window should be open at the beginning of the frame!
     ImGui::Begin("Debug", NULL, ImVec2(400,400));
 }
 
@@ -992,7 +992,7 @@ static void PopClipRect()
 void Render()
 {
     ImGuiState& g = GImGui;
-    IM_ASSERT(g.Initialized);						// Forgot to call ImGui::NewFrame()
+    ZELO_ASSERT(g.Initialized);						// Forgot to call ImGui::NewFrame()
 
     const bool first_render_of_the_frame = (g.FrameCountRendered != g.FrameCount);
     g.FrameCountRendered = g.FrameCount;
@@ -1000,7 +1000,7 @@ void Render()
     if (first_render_of_the_frame)
     {
         // Hide implicit window if it hasn't been used
-        IM_ASSERT(g.CurrentWindowStack.size() == 1);	// Mismatched Begin/End
+        ZELO_ASSERT(g.CurrentWindowStack.size() == 1);	// Mismatched Begin/End
         if (g.CurrentWindow && !g.CurrentWindow->Accessed)
             g.CurrentWindow->Visible = false;
         ImGui::End();
@@ -1017,7 +1017,7 @@ void Render()
                     continue;
             AddWindowToSortedBuffer(window, sorted_windows);
         }
-        IM_ASSERT(g.Windows.size() == sorted_windows.size());			// We done something wrong
+        ZELO_ASSERT(g.Windows.size() == sorted_windows.size());			// We done something wrong
         g.Windows.swap(sorted_windows);
 
         // Clear data for next frame
@@ -1145,7 +1145,7 @@ static void RenderText(ImVec2 pos, const char* text, const char* text_end, const
     }
 
     const int text_len = (int)(text_display_end - text);
-    //IM_ASSERT(text_len >= 0 && text_len < 10000);	// Suspicious text length
+    //ZELO_ASSERT(text_len >= 0 && text_len < 10000);	// Suspicious text length
     if (text_len > 0)
     {
         // Render
@@ -1261,7 +1261,7 @@ static bool IsKeyPressedMap(ImGuiKey key, bool repeat)
 bool IsKeyPressed(int key_index, bool repeat)
 {
     ImGuiState& g = GImGui;
-    IM_ASSERT(key_index >= 0 && key_index < ARRAYSIZE(g.IO.KeysDown));
+    ZELO_ASSERT(key_index >= 0 && key_index < ARRAYSIZE(g.IO.KeysDown));
     const float t = g.IO.KeysDownTime[key_index];
     if (t == 0.0f)
         return true;
@@ -1279,7 +1279,7 @@ bool IsKeyPressed(int key_index, bool repeat)
 bool IsMouseClicked(int button, bool repeat)
 {
     ImGuiState& g = GImGui;
-    IM_ASSERT(button >= 0 && button < ARRAYSIZE(g.IO.MouseDown));
+    ZELO_ASSERT(button >= 0 && button < ARRAYSIZE(g.IO.MouseDown));
     const float t = g.IO.MouseDownTime[button];
     if (t == 0.0f)
         return true;
@@ -1863,7 +1863,7 @@ const char* GetStyleColorName(ImGuiCol idx)
         case ImGuiCol_TextSelectedBg: return "TextSelectedBg";
         case ImGuiCol_TooltipBg: return "TooltipBg";
     }
-    IM_ASSERT(0);
+    ZELO_ASSERT(0);
     return "Unknown";
 }
 
@@ -2281,7 +2281,7 @@ void LogToFile(int max_depth, const char* filename)
     ImGuiState& g = GImGui;
     if (g.LogEnabled)
         return;
-    IM_ASSERT(filename);
+    ZELO_ASSERT(filename);
     g.LogEnabled = true;
     g.LogFile = fopen(filename, "at");
     g.LogAutoExpandMaxDepth = max_depth;
@@ -2334,7 +2334,7 @@ bool CollapsingHeader(const char* label, const char* str_id, const bool display_
 
     const ImGuiStyle& style = g.Style;
 
-    IM_ASSERT(str_id != NULL || label != NULL);
+    ZELO_ASSERT(str_id != NULL || label != NULL);
     if (str_id == NULL)
         str_id = label;
     if (label == NULL)
@@ -2669,7 +2669,7 @@ bool SliderFloat(const char* label, float* v, float v_min, float v_max, const ch
         if (g.SliderAsInputTextId == 0)
         {
             // First frame
-            IM_ASSERT(g.ActiveId == id);	// InputText ID should match the Slider ID (else we'd need to store them both)
+            ZELO_ASSERT(g.ActiveId == id);	// InputText ID should match the Slider ID (else we'd need to store them both)
             g.SliderAsInputTextId = g.ActiveId;
             g.ActiveId = id;
             g.HoveredId = id;
@@ -2896,7 +2896,7 @@ static void Plot(ImGuiPlotType plot_type, const char* label, const float* values
     {
         const float t = ImClamp((g.IO.MousePos.x - graph_bb.Min.x) / (graph_bb.Max.x - graph_bb.Min.x), 0.0f, 0.9999f);
         const int v_idx = (int)(t * (values_count + ((plot_type == ImGuiPlotType_Lines) ? -1 : 0)));
-        IM_ASSERT(v_idx >= 0 && v_idx < values_count);
+        ZELO_ASSERT(v_idx >= 0 && v_idx < values_count);
 
         const float v0 = values[(v_idx + values_offset) % values_count];
         const float v1 = values[(v_idx + 1 + values_offset) % values_count];
@@ -2920,7 +2920,7 @@ static void Plot(ImGuiPlotType plot_type, const char* label, const float* values
     {
         const float t1 = t0 + t_step;
         const int v_idx = (int)(t0 * values_count);
-        IM_ASSERT(v_idx >= 0 && v_idx < values_count);
+        ZELO_ASSERT(v_idx >= 0 && v_idx < values_count);
         const float v1 = values[(v_idx + values_offset + 1) % values_count];
         const ImVec2 p1 = ImVec2( t1, 1.0f - ImSaturate((v1 - scale_min) / (scale_max - scale_min)) );
 
@@ -3147,7 +3147,7 @@ ImVec2 ImGuiTextEditState::CalcDisplayOffsetFromCharIdx(int i) const
 {
     const char* text_start = GetTextPointerClipped(Font, FontSize, Text, ScrollX, NULL);
     const char* text_end = (Text+i >= text_start) ? Text+i : text_start;					// Clip if requested character is outside of display
-    IM_ASSERT(text_end >= text_start);
+    ZELO_ASSERT(text_end >= text_start);
 
     const ImVec2 offset = Font->CalcTextSize(FontSize, Width, text_start, text_end, NULL);
     return offset;
@@ -4546,11 +4546,11 @@ bool	ImBitmapFont::LoadFromMemory(const void* data, int data_size)
         switch (block_type)
         {
             case 1:
-                IM_ASSERT(Info == NULL);
+                ZELO_ASSERT(Info == NULL);
                 Info = (FntInfo*)p;
                 break;
             case 2:
-                IM_ASSERT(Common == NULL);
+                ZELO_ASSERT(Common == NULL);
                 Common = (FntCommon*)p;
                 break;
             case 3:
@@ -4558,12 +4558,12 @@ bool	ImBitmapFont::LoadFromMemory(const void* data, int data_size)
                     Filenames.push_back((const char*)s);
                 break;
             case 4:
-                IM_ASSERT(Glyphs == NULL && GlyphsCount == 0);
+                ZELO_ASSERT(Glyphs == NULL && GlyphsCount == 0);
                 Glyphs = (FntGlyph*)p;
                 GlyphsCount = block_size / sizeof(FntGlyph);
                 break;
             default:
-                IM_ASSERT(Kerning == NULL && KerningCount == 0);
+                ZELO_ASSERT(Kerning == NULL && KerningCount == 0);
                 Kerning = (FntKerning*)p;
                 KerningCount = block_size / sizeof(FntKerning);
                 break;
