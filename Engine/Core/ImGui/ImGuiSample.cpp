@@ -3,8 +3,8 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ImGuiSample.h"
-#include "ImGui.h"
 #include "ImUtil.h"
+#include "ImGuiInternal.h"
 
 //-----------------------------------------------------------------------------
 // HELP
