@@ -17,9 +17,6 @@ namespace ImGui {
     void		NewFrame();
     void		Render();
     void		Shutdown();
-    void		ShowUserGuide();
-    void		ShowStyleEditor(ImGuiStyle* ref = NULL);
-    void		ShowTestWindow(bool* open = NULL);
 
     // Window
     bool		Begin(const char* name = "Debug", bool* open = NULL, ImVec2 size = ImVec2(0,0), float fill_alpha = -1.0f, ImGuiWindowFlags flags = 0);
