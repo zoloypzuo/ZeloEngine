@@ -11,7 +11,7 @@
 enum InputEvent {
     IE_PRESSED,
     IE_RELEASED,
-    IE_REPEAT
+    IE_REPEAT,
 };
 
 struct AxisValuePair {
@@ -31,7 +31,9 @@ public:
 
     void handleMouseWheelEvent(Sint32 x, Sint32 y);
 
-    void handleMultigesture(SDL_MultiGestureEvent multigestureEvent);
+    void handleMultiGesture(SDL_MultiGestureEvent multiGestureEvent);
+
+    void handleTextEdit(const char *text);
 
     bool isPressed(SDL_Keycode key);
 
@@ -60,6 +62,8 @@ public:
     void bindAction(const std::string &action, InputEvent state, std::function<void()> handler);
 
     void bindAxis(const std::string &axis, std::function<void(float)> handler);
+
+    void bindTextEdit(std::function<void(const char*)>handler);
 
     bool unbindAction(const std::string &action);
 
@@ -90,6 +94,7 @@ private:
     std::map<SDL_Keycode, AxisValuePair> m_keyToAxis;
     std::map<std::string, std::map<InputEvent, std::function<void()>>> m_actionInputEventHandler;
     std::map<std::string, std::function<void(float)>> m_axisHandler;
+    std::vector<std::function<void(const char*)>> m_textEditHandler;
 };
 
 #endif //ZELOENGINE_INPUT_H

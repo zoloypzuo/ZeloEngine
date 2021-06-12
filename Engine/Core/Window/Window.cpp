@@ -106,7 +106,6 @@ void Window::update() {
                 break;
             case SDL_KEYDOWN:
             case SDL_KEYUP:
-//                m_guiManager->setKeyEvent(event.key.keysym.sym & ~SDLK_SCANCODE_MASK, event.type == SDL_KEYDOWN);
                 m_input.handleKeyboardEvent(event.key);
                 break;
             case SDL_MOUSEBUTTONDOWN:
@@ -118,10 +117,10 @@ void Window::update() {
                 mouseWheelEvent = true;
                 break;
             case SDL_TEXTINPUT:
-//                m_guiManager->addInputCharactersUTF8(event.text.text);
+                m_input.handleTextEdit(event.text.text);
                 break;
             case SDL_MULTIGESTURE:
-                m_input.handleMultigesture(event.mgesture);
+                m_input.handleMultiGesture(event.mgesture);
                 break;
             case SDL_QUIT:
                 m_quit = true;

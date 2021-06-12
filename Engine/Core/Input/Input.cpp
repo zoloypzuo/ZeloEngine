@@ -4,6 +4,8 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Input.h"
 
+#include <utility>
+
 Input::Input() {
     m_mouseDelta = glm::vec2(0, 0);
     m_mousePosition = glm::vec2(0, 0);
@@ -80,7 +82,7 @@ void Input::handleMouseWheelEvent(Sint32 x, Sint32 y) {
     m_mouseWheel.y = y;
 }
 
-void Input::handleMultigesture(SDL_MultiGestureEvent multigestureEvent) {
+void Input::handleMultiGesture(SDL_MultiGestureEvent multiGestureEvent) {
 }
 
 bool Input::isPressed(SDL_Keycode key) {
@@ -134,11 +136,11 @@ void Input::releaseMouse() {
 }
 
 void Input::bindAction(const std::string &action, InputEvent state, std::function<void()> handler) {
-    m_actionInputEventHandler[action][state] = handler;
+    m_actionInputEventHandler[action][state] = std::move(handler);
 }
 
 void Input::bindAxis(const std::string &axis, std::function<void(float)> handler) {
-    m_axisHandler[axis] = handler;
+    m_axisHandler[axis] = std::move(handler);
 }
 
 bool Input::unbindAction(const std::string &action) {
@@ -186,4 +188,14 @@ Input *Input::getSingletonPtr() {
 Input &Input::getSingleton() {
     assert(msSingleton);
     return *msSingleton;
+}
+
+void Input::handleTextEdit(const char *text) {
+    for (auto &handler: m_textEditHandler) {
+        handler(text);
+    }
+}
+
+void Input::bindTextEdit(std::function<void(const char *)> handler) {
+    m_textEditHandler.push_back(std::move(handler));
 }

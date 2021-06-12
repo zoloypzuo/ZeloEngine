@@ -16,7 +16,7 @@ class Window : public IRuntimeModule {
 public:
     Window();
 
-    ~Window();
+    ~Window() override;
 
     void initialize() override;
 

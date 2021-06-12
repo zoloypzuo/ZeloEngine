@@ -20,33 +20,6 @@ static void ImImpl_SetClipboardTextFn(const char *text, const char *text_end) {
     ImGuiManager::getSingletonPtr()->setClipboardText(text, text_end);
 }
 
-// TODO
-//    glfwSetKeyCallback(window, glfw_key_callback);
-//    glfwSetScrollCallback(window, glfw_scroll_callback);
-//    glfwSetCharCallback(window, glfw_char_callback);
-//static void glfw_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-//{
-//    mouse_wheel = (float)yoffset;
-//}
-//
-//static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-//{
-//    ImGuiIO& io = ImGui::GetIO();
-//    if (action == GLFW_PRESS)
-//        io.KeysDown[key] = true;
-//    if (action == GLFW_RELEASE)
-//        io.KeysDown[key] = false;
-//    io.KeyCtrl = (mods & GLFW_MOD_CONTROL) != 0;
-//    io.KeyShift = (mods & GLFW_MOD_SHIFT) != 0;
-//}
-
-//static void glfw_char_callback(GLFWwindow* window, unsigned int c)
-//{
-//    if (c > 0 && c <= 255)
-//        ImGui::GetIO().AddInputCharacter((char)c);
-//}
-
-
 ImGuiManager::ImGuiManager() = default;
 
 ImGuiManager::~ImGuiManager() = default;
@@ -62,6 +35,7 @@ void ImGuiManager::finalize() {
 
 void ImGuiManager::update() {
     auto *window = Engine::getSingletonPtr()->getWindow();
+    auto *input = window->getInput();
 
     ImGuiIO &io = ImGui::GetIO();
 
@@ -71,17 +45,17 @@ void ImGuiManager::update() {
 
     io.DeltaTime = static_cast<bool>(deltaTime) ? deltaTime : io.DeltaTime;
 
-    glm::vec2 mousePos = window->getInput()->getMousePosition();
+    glm::vec2 mousePos = input->getMousePosition();
     io.MousePos = ImVec2(mousePos.x, mousePos.y);
 
-    io.MouseDown[0] = window->getInput()->mouseIsPressed(SDL_BUTTON_LEFT);
-    io.MouseDown[1] = window->getInput()->mouseIsPressed(SDL_BUTTON_RIGHT);
+    io.MouseDown[0] = input->mouseIsPressed(SDL_BUTTON_LEFT);
+    io.MouseDown[1] = input->mouseIsPressed(SDL_BUTTON_RIGHT);
 //    io.MouseDown[2] = window->getInput()->mouseIsPressed(SDL_BUTTON_MIDDLE);
 
-    io.MouseWheel = static_cast<int>(window->getInput()->getMouseWheel().y / 15.0f);
+    io.MouseWheel = static_cast<int>(input->getMouseWheel().y / 15.0f);
 
-    io.KeyShift = (window->getInput()->getKeyModState() & KMOD_SHIFT) != 0;
-    io.KeyCtrl = (window->getInput()->getKeyModState() & KMOD_CTRL) != 0;
+    io.KeyShift = (input->getKeyModState() & KMOD_SHIFT) != 0;
+    io.KeyCtrl = (input->getKeyModState() & KMOD_CTRL) != 0;
 //    io.KeyAlt = (window->getInput()->getKeyModState() & KMOD_ALT) != 0;
 //    io.KeySuper = (window->getInput()->getKeyModState() & KMOD_GUI) != 0;
 
@@ -171,6 +145,13 @@ void ImGuiManager::initGL() {
 void ImGuiManager::initImGui() {
     (void) this;
     auto *window = Engine::getSingletonPtr()->getWindow();
+    auto *input = window->getInput();
+
+    input->bindTextEdit([](const char *text) {
+        char c = text[0];
+        if (c > 0 && c <= 255)
+            ImGui::GetIO().AddInputCharacter((char) c);
+    });
 
     ImGuiIO &io = ImGui::GetIO();
     auto displaySize = window->getDisplaySize();
