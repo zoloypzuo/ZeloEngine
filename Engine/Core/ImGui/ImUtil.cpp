@@ -152,6 +152,8 @@ void ImConvertColorHSVtoRGB(float h, float s, float v, float &out_r, float &out_
 
 //-----------------------------------------------------------------------------
 
+ImGuiOncePerFrame::ImGuiOncePerFrame() : LastFrame(-1) {}
+
 bool ImGuiOncePerFrame::TryIsNewFrame() const {
     const int current_frame = ImGui::GetFrameCount();
     if (LastFrame == current_frame) return false;

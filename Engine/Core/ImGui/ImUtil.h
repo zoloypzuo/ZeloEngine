@@ -66,7 +66,7 @@ void ImConvertColorHSVtoRGB(float h, float s, float v, float &out_r, float &out_
 #define IMGUI_ONCE_UPON_A_FRAME static ImGuiOncePerFrame im = ImGuiOncePerFrame()
 struct ImGuiOncePerFrame
 {
-    ImGuiOncePerFrame() : LastFrame(-1) {}
+    ImGuiOncePerFrame();
     explicit operator bool() const;
 
 private:
