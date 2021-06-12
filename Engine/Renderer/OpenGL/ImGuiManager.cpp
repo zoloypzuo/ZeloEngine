@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ImGuiManager.h"
+#include "Core/ImGui/ImGuiSample.h"
 
 #include "Engine.h"
 
