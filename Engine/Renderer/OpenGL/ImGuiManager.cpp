@@ -4,6 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ImGuiManager.h"
 #include "Core/ImGui/ImGuiSample.h"
+#include "Core/ImGui/Common/ImDrawList.h"
 
 #include "Engine.h"
 
