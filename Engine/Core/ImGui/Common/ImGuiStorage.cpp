@@ -10,12 +10,12 @@ void ImGuiStorage::Clear() {
 
 // std::lower_bound but without the bullshit
 ImVector<ImGuiStorage::Pair>::iterator LowerBound(ImVector<ImGuiStorage::Pair> &data, ImU32 key) {
-    ImVector<ImGuiStorage::Pair>::iterator first = data.begin();
-    ImVector<ImGuiStorage::Pair>::iterator last = data.end();
+    auto first = data.begin();
+    auto last = data.end();
     int count = last - first;
     while (count > 0) {
         int count2 = count / 2;
-        ImVector<ImGuiStorage::Pair>::iterator mid = first + count2;
+        auto mid = first + count2;
         if (mid->key < key) {
             first = ++mid;
             count -= count2 + 1;
@@ -27,7 +27,7 @@ ImVector<ImGuiStorage::Pair>::iterator LowerBound(ImVector<ImGuiStorage::Pair> &
 }
 
 int *ImGuiStorage::Find(ImU32 key) {
-    ImVector<Pair>::iterator it = LowerBound(Data, key);
+    auto it = LowerBound(Data, key);
     if (it == Data.end())
         return NULL;
     if (it->key != key)
@@ -43,9 +43,9 @@ int ImGuiStorage::GetInt(ImU32 key, int default_val) {
 }
 
 // FIXME-OPT: We are wasting time because all SetInt() are preceeded by GetInt() calls so we should have the result from lower_bound already in place.
-// However we only use SetInt() on explicit user action (so that's maximum once a frame) so the optimisation isn't much needed.
+//   However we only use SetInt() on explicit user action (so that's maximum once a frame) so the optimisation isn't much needed.
 void ImGuiStorage::SetInt(ImU32 key, int val) {
-    ImVector<Pair>::iterator it = LowerBound(Data, key);
+    auto it = LowerBound(Data, key);
     if (it != Data.end() && it->key == key) {
         it->val = val;
     } else {
