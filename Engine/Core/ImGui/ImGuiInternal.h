@@ -8,7 +8,37 @@
 #include "ImGuiPrerequisites.h"
 #include "ImGui.h"
 #include "ImGuiAabb.h"
+#include "ImGuiTextEdit.h"
+
 // @formatter:off
+//-------------------------------------------------------------------------
+// Forward Declarations
+//-------------------------------------------------------------------------
+
+namespace ImGui
+{
+
+bool			ButtonBehaviour(const ImGuiAabb& bb, const ImGuiID& id, bool* out_hovered = NULL, bool* out_held = NULL, bool repeat = false);
+void			RenderFrame(ImVec2 p_min, ImVec2 p_max, ImU32 fill_col, bool border = true, float rounding = 0.0f);
+void			RenderText(ImVec2 pos, const char* text, const char* text_end = NULL, bool hide_text_after_hash = true);
+ImVec2		CalcTextSize(const char* text, const char* text_end = NULL, bool hide_text_after_hash = true);
+void			LogText(const ImVec2& ref_pos, const char* text, const char* text_end = NULL);
+
+void			ItemSize(ImVec2 size, ImVec2* adjust_start_offset = NULL);
+void			ItemSize(const ImGuiAabb& aabb, ImVec2* adjust_start_offset = NULL);
+void			PushColumnClipRect(int column_index = -1);
+bool			IsClipped(const ImGuiAabb& aabb);
+bool			ClipAdvance(const ImGuiAabb& aabb, bool skip_columns = false);
+
+bool			IsMouseHoveringBox(const ImGuiAabb& box);
+bool			IsKeyPressedMap(ImGuiKey key, bool repeat = true);
+
+bool			CloseWindowButton(bool* open = NULL);
+void			FocusWindow(ImGuiWindow* window);
+ImGuiWindow* FindHoveredWindow(ImVec2 pos, bool excluding_childs);
+
+}; // namespace ImGui
+
 struct ImGuiColMod	// Color/style modifier, backup of modified data so we can restore it
 {
     ImGuiCol	Col;
@@ -130,7 +160,7 @@ struct ImGuiState
     }
 };
 
-static ImGuiState	GImGui;
+extern ImGuiState	GImGui;
 
 struct ImGuiWindow
 {
@@ -182,7 +212,7 @@ public:
     float		TitleBarHeight() const					{ return (Flags & ImGuiWindowFlags_NoTitleBar) ? 0 : FontSize() + GImGui.Style.FramePadding.y * 2.0f; }
     ImGuiAabb	TitleBarAabb() const					{ return ImGuiAabb(Pos, Pos + ImVec2(SizeFull.x, TitleBarHeight())); }
     ImVec2		WindowPadding() const					{ return ((Flags & ImGuiWindowFlags_ChildWindow) && !(Flags & ImGuiWindowFlags_ShowBorders)) ? ImVec2(1,1) : GImGui.Style.WindowPadding; }
-    ImU32		Color(ImGuiCol idx, float a=1.f) const	{ ImVec4 c = GImGui.Style.Colors[idx]; c.w *= a; return ImConvertColorFloat4ToU32(c); }
+    ImU32		Color(ImGuiCol idx, float a=1.f) const;
 };
 
 static ImGuiWindow*	GetCurrentWindow()

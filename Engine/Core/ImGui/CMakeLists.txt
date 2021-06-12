@@ -4,5 +4,8 @@ add_library(ImGui
         ImGui.cpp
         ImWidget.cpp
         ImUtil.cpp
-        ImGuiAabb.h
+        ImGuiAabb.cpp
+        ImGuiSample.cpp
+        ImGuiInternal.cpp
+        ImGuiTextEdit.cpp
         )

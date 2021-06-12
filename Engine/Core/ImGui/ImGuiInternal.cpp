@@ -1,9 +1,12 @@
-// ImGuiInternal.cpp.cc
+// ImGuiInternal.cpp
 // created on 2021/6/12
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ImGuiInternal.h"
 #include "ImUtil.h"
+
+ImGuiState GImGui;
+
 
 // Pass in translated ASCII characters for text input.
 // - with glfw you can get those from the callback set in glfwSetCharCallback()
@@ -83,4 +86,103 @@ ImGuiStyle::ImGuiStyle()
     Colors[ImGuiCol_TextSelectedBg]			= ImVec4(0.00f, 0.00f, 1.00f, 0.35f);
     Colors[ImGuiCol_TooltipBg]				= ImVec4(0.05f, 0.05f, 0.10f, 0.90f);
 }
+
 // @formatter:on
+ImGuiWindow::ImGuiWindow(const char *name, ImVec2 default_pos, ImVec2 default_size) {
+    Name = strdup(name);
+    ID = GetID(name);
+    IDStack.push_back(ID);
+
+    PosFloat = default_pos;
+    Pos = ImVec2((float) (int) PosFloat.x, (float) (int) PosFloat.y);
+    Size = SizeFull = default_size;
+    SizeContentsFit = ImVec2(0.0f, 0.0f);
+    ScrollY = 0.0f;
+    NextScrollY = 0.0f;
+    ScrollbarY = false;
+    Visible = false;
+    Collapsed = false;
+    AutoFitFrames = -1;
+    LastFrameDrawn = -1;
+    ItemWidthDefault = 0.0f;
+    FontScale = 1.0f;
+
+    if (ImLength(Size) < 0.001f)
+        AutoFitFrames = 3;
+
+    FocusIdxCounter = -1;
+    FocusIdxRequestCurrent = INT_MAX;
+    FocusIdxRequestNext = INT_MAX;
+
+    DrawList = new ImDrawList();
+}
+
+ImGuiWindow::~ImGuiWindow() {
+    delete DrawList;
+    DrawList = NULL;
+    free(Name);
+    Name = NULL;
+}
+
+ImGuiID ImGuiWindow::GetID(const char *str) {
+    const ImGuiID seed = IDStack.empty() ? 0 : IDStack.back();
+    const ImGuiID id = crc32(str, strlen(str), seed);
+    RegisterAliveId(id);
+    return id;
+}
+
+ImGuiID ImGuiWindow::GetID(const void *ptr) {
+    const ImGuiID seed = IDStack.empty() ? 0 : IDStack.back();
+    const ImGuiID id = crc32(&ptr, sizeof(void *), seed);
+    RegisterAliveId(id);
+    return id;
+}
+
+bool ImGuiWindow::FocusItemRegister(bool is_active, int *out_idx) {
+    FocusIdxCounter++;
+    if (out_idx)
+        *out_idx = FocusIdxCounter;
+
+    ImGuiState &g = GImGui;
+    ImGuiWindow *window = GetCurrentWindow();
+    if (!window->DC.AllowKeyboardFocus.back())
+        return false;
+
+    // Process input at this point: TAB, Shift-TAB switch focus
+    if (FocusIdxRequestNext == INT_MAX && is_active && ImGui::IsKeyPressedMap(ImGuiKey_Tab)) {
+        // Modulo on index will be applied at the end of frame once we've got the total counter of items.
+        FocusIdxRequestNext = FocusIdxCounter + (g.IO.KeyShift ? -1 : +1);
+    }
+
+    const bool focus_requested = (FocusIdxCounter == FocusIdxRequestCurrent);
+    return focus_requested;
+}
+
+void ImGuiWindow::FocusItemUnregister() {
+    FocusIdxCounter--;
+}
+
+void ImGuiWindow::AddToRenderList() {
+    ImGuiState &g = GImGui;
+
+    if (!DrawList->commands.empty() && !DrawList->vtx_buffer.empty())
+        g.RenderDrawLists.push_back(DrawList);
+    for (size_t i = 0; i < DC.ChildWindows.size(); i++) {
+        ImGuiWindow *child = DC.ChildWindows[i];
+        ZELO_ASSERT(child->Visible);    // Shouldn't be in this list if we are not active this frame
+        child->AddToRenderList();
+    }
+}
+
+ImU32 ImGuiWindow::Color(ImGuiCol idx, float a) const {
+    ImVec4 c = GImGui.Style.Colors[idx];
+    c.w *= a;
+    return ImConvertColorFloat4ToU32(c);
+}
+
+
+bool ImGui::IsKeyPressedMap(ImGuiKey key, bool repeat) {
+    ImGuiState &g = GImGui;
+    const int key_index = g.IO.KeyMap[key];
+    return ImGui::IsKeyPressed(key_index, repeat);
+}
