@@ -96,7 +96,7 @@ struct ImGuiIniData
     ImVec2	Size{};
     bool	Collapsed{};
 
-    ImGuiIniData() { memset(this, 0, sizeof(*this)); }
+    ImGuiIniData() = default;
     ~ImGuiIniData() { if (Name) { free(Name); Name = NULL; } }
 };
 
