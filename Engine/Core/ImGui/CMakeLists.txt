@@ -9,7 +9,6 @@ add_library(ImGui
         Common/ImGuiTextFilter.cpp
 
         ImGui.cpp
-        ImWidget.cpp
         ImUtil.cpp
         ImGuiSample.cpp
         ImGuiInternal.cpp
