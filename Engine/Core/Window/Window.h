@@ -6,25 +6,25 @@
 #define ZELOENGINE_WINDOW_H
 
 #include "ZeloPrerequisites.h"
-#include <glm/glm.hpp>
 #include "Core/Input/Input.h"
-//#include "InGameEditor/GuiManager.h"
 
 #if _WIN32
 #undef main
 #endif
 
-class Window//: public IRuntimeModule
-{
+class Window : public IRuntimeModule {
 public:
     Window();
 
     ~Window();
 
-    void initialize();
+    void initialize() override;
 
-    void update();
+    void update() override;
 
+    void finalize() override;
+
+public:
     void swapBuffer();
 
     int getWidth() const;
@@ -37,7 +37,6 @@ public:
 
     glm::ivec2 getDrawableSize() const;
 
-//    GuiManager *getGuiManager() const;
 
     static const char *getClipboardText();
 
@@ -60,7 +59,6 @@ public:
 private:
     SDL_Window *m_window;
     SDL_GLContext m_glContext;
-//    std::unique_ptr<GuiManager> m_guiManager;
 
     int m_width{};
     int m_height{};

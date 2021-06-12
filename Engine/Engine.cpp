@@ -90,6 +90,11 @@ void Engine::initConfig() {
 
 void Engine::finalize() {
     shutdownPlugins();
+    m_imguiManager->finalize();
+//    m_game->finalize();
+//    m_renderer->finalize();
+    m_window->finalize();
+    m_luaScriptManager->finalize();
 }
 
 void Engine::update() {

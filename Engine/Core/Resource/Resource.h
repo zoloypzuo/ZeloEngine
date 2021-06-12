@@ -46,9 +46,15 @@ public:
 
     ~Resource();
 
+public:
+    IOStream *getIOStream() const;
+
+    size_t getFileSize() const;
+
+public:
     const char *read() const;
 
-    IOStream *getIOStream() const;
+    const char *readCopy() const;
 
 private:
     char *m_buffer;

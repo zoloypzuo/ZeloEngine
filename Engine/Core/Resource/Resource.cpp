@@ -118,3 +118,15 @@ const char *Zelo::Resource::read() const {
 Zelo::IOStream *Zelo::Resource::getIOStream() const {
     return m_ioStream;
 }
+
+size_t Zelo::Resource::getFileSize() const {
+    return m_fileSize;
+}
+
+const char *Zelo::Resource::readCopy() const {
+    const char* data = read();
+    auto size = m_fileSize;
+    void *buffer = new char[size];
+    memcpy(buffer, data, size);
+    return static_cast<const char*>(buffer);
+}
