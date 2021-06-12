@@ -29,17 +29,14 @@ struct ImGuiTextEditState {
 
     ImGuiTextEditState() { memset(this, 0, sizeof(*this)); }
 
-    void
-    CursorAnimReset() { CursorAnim = -0.30f; }                                                // After a user-input the cursor stays on for a while without blinking
+    // After a user-input the cursor stays on for a while without blinking
+    void CursorAnimReset() { CursorAnim = -0.30f; }
+
     bool CursorIsVisible() const { return CursorAnim <= 0.0f || fmodf(CursorAnim, 1.20f) <= 0.80f; }        // Blinking
+
     bool HasSelection() const { return StbState.select_start != StbState.select_end; }
 
-    void SelectAll() {
-        StbState.select_start = 0;
-        StbState.select_end = strlen(Text);
-        StbState.cursor = StbState.select_end;
-        StbState.has_preferred_x = false;
-    }
+    void SelectAll();
 
     void OnKeyboardPressed(int key);
 
@@ -51,8 +48,10 @@ struct ImGuiTextEditState {
     static const char *
     GetTextPointerClipped(ImFont font, float font_size, const char *text, float width, ImVec2 *out_text_size = NULL);
 
-    static void RenderTextScrolledClipped(ImFont font, float font_size, const char *buf, ImVec2 pos_base, float width,
-                                          float scroll_x);
+    static void RenderTextScrolledClipped(
+            ImFont font, float font_size, const char *buf,
+            ImVec2 pos_base, float width, float scroll_x
+    );
 };
 
 // Wrapper for stb_textedit.h to edit text (our wrapper is for: statically sized buffer, single-line, ASCII, fixed-width font)
@@ -72,7 +71,7 @@ static bool is_white(char c);
 
 static bool is_separator(char c);
 
-#define    STB_TEXTEDIT_IS_SPACE(c)                                                                (is_white(c) || is_separator(c))
+#define STB_TEXTEDIT_IS_SPACE(c) (is_white(c) || is_separator(c))
 
 void STB_TEXTEDIT_DELETECHARS(STB_TEXTEDIT_STRING *obj, int idx, int n);
 

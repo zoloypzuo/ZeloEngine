@@ -49,9 +49,9 @@ const char *ImGuiTextEditState::GetTextPointerClipped(ImFont font, float font_si
 }
 
 // [Static]
-void
-ImGuiTextEditState::RenderTextScrolledClipped(ImFont font, float font_size, const char *buf, ImVec2 pos, float width,
-                                              float scroll_x) {
+void ImGuiTextEditState::RenderTextScrolledClipped(
+        ImFont font, float font_size, const char *buf,
+        ImVec2 pos, float width, float scroll_x) {
     // NB- We start drawing at character boundary
     ImVec2 text_size;
     const char *text_start = GetTextPointerClipped(font, font_size, buf, scroll_x, NULL);
@@ -64,7 +64,9 @@ ImGuiTextEditState::RenderTextScrolledClipped(ImFont font, float font_size, cons
     const float clip_end = (text_end[0] != '\0' && text_end > text_start) ? symbol_w : 0.0f;
 
     // Draw text
-    ImGui::RenderText(pos + ImVec2(clip_begin, 0), text_start + (clip_begin ? 1 : 0), text_end - (clip_end ? 1 : 0),
+    ImGui::RenderText(pos + ImVec2(clip_begin, 0),
+                      text_start + (clip_begin ? 1 : 0),
+                      text_end - (clip_end ? 1 : 0),
                       false);//, &text_params_with_clipping);
 
     // Draw the clip symbol
@@ -73,6 +75,13 @@ ImGuiTextEditState::RenderTextScrolledClipped(ImFont font, float font_size, cons
         ImGui::RenderText(pos, s);
     if (clip_end > 0.0f)
         ImGui::RenderText(pos + ImVec2(width - clip_end, 0.0f), s);
+}
+
+void ImGuiTextEditState::SelectAll() {
+    StbState.select_start = 0;
+    StbState.select_end = strlen(Text);
+    StbState.cursor = StbState.select_end;
+    StbState.has_preferred_x = false;
 }
 
 bool ImGui::InputText(const char *label, char *buf, size_t buf_size, ImGuiInputTextFlags flags) {
@@ -325,8 +334,10 @@ char STB_TEXTEDIT_KEYTOTEXT(int key) { return key >= 0x10000 ? 0 : (char) key; }
 
 void STB_TEXTEDIT_LAYOUTROW(StbTexteditRow *r, ImGuiTextEditState *obj, int line_start_idx) {
     const char *text_remaining = NULL;
-    const ImVec2 size = obj->Font->CalcTextSize(obj->FontSize, FLT_MAX, obj->Text + line_start_idx, NULL,
-                                                &text_remaining);
+    const ImVec2 size = obj->Font->CalcTextSize(
+            obj->FontSize, FLT_MAX,
+            obj->Text + line_start_idx, NULL,
+            &text_remaining);
     r->x0 = 0.0f;
     r->x1 = size.x;
     r->baseline_y_delta = size.y;
