@@ -5,6 +5,7 @@
 #include "ImGuiSample.h"
 #include "ImUtil.h"
 #include "ImGuiInternal.h"
+#include "Core/ImGui/Widget/ImGuiTextFilter.h"
 
 //-----------------------------------------------------------------------------
 // HELP

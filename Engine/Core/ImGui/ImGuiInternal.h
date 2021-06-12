@@ -14,7 +14,6 @@
 #include "Core/ImGui/Common/ImGuiAabb.h"
 #include "Core/ImGui/Common/ImGuiStorage.h"
 #include "Core/ImGui/Common/ImGuiTextBuffer.h"
-#include "Core/ImGui/Common/ImGuiTextFilter.h"
 
 // @formatter:off
 //-------------------------------------------------------------------------
