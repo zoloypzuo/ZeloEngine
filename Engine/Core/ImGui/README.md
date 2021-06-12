@@ -6,3 +6,5 @@
 * ImWidget，控件类实现
 * ImUtil，工具函数
 * ImGuiManager，集成RHI后端，作为引擎模块与引擎对接
+* ImGuiInternal，内部接口
+* ImGuiSample，示例接口
