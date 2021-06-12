@@ -49,4 +49,6 @@ bool ImGuiAabb::Contains(const ImGuiAabb &r) const {
     return r.Min.x >= Min.x && r.Min.y >= Min.y && r.Max.x <= Max.x && r.Max.y <= Max.y;
 }
 
-bool ImGuiAabb::Contains(ImVec2 p) const { return p.x >= Min.x && p.y >= Min.y && p.x <= Max.x && p.y <= Max.y; }
+bool ImGuiAabb::Contains(ImVec2 p) const {
+    return p.x >= Min.x && p.y >= Min.y && p.x <= Max.x && p.y <= Max.y;
+}
