@@ -24,7 +24,7 @@ void ImGuiTextFilter::Draw(const char *label, float width) {
     Build();
 }
 
-void ImGuiTextFilter::TextRange::split(char separator, ImVector <TextRange> &out) const {
+void ImGuiTextFilter::TextRange::split(char separator, ImVector<TextRange> &out) const {
     out.resize(0);
     const char *wb = b;
     const char *we = wb;

@@ -9,7 +9,7 @@ void ImGuiStorage::Clear() {
 }
 
 // std::lower_bound but without the bullshit
-ImVector<ImGuiStorage::Pair>::iterator LowerBound(ImVector <ImGuiStorage::Pair> &data, ImU32 key) {
+ImVector<ImGuiStorage::Pair>::iterator LowerBound(ImVector<ImGuiStorage::Pair> &data, ImU32 key) {
     ImVector<ImGuiStorage::Pair>::iterator first = data.begin();
     ImVector<ImGuiStorage::Pair>::iterator last = data.end();
     int count = last - first;

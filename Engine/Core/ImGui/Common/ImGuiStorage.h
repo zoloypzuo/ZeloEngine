@@ -16,7 +16,7 @@ struct ImGuiStorage {
         ImU32 key;
         int val;
     };
-    ImVector <Pair> Data;
+    ImVector<Pair> Data;
 
     void Clear();
 
