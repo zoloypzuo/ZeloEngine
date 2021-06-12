@@ -5,10 +5,16 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "ImGuiPrerequisites.h"
-#include "ImGui.h"
-#include "ImGuiAabb.h"
-#include "ImGuiTextEdit.h"
+#include "Core/ImGui/ImGuiPrerequisites.h"
+#include "Core/ImGui/ImGui.h"
+#include "Core/ImGui/ImGuiTextEdit.h"
+
+#include "Core/ImGui/Common/ImBitmapFont.h"
+#include "Core/ImGui/Common/ImDrawList.h"
+#include "Core/ImGui/Common/ImGuiAabb.h"
+#include "Core/ImGui/Common/ImGuiStorage.h"
+#include "Core/ImGui/Common/ImGuiTextBuffer.h"
+#include "Core/ImGui/Common/ImGuiTextFilter.h"
 
 // @formatter:off
 //-------------------------------------------------------------------------
@@ -215,15 +221,7 @@ public:
     ImU32		Color(ImGuiCol idx, float a=1.f) const;
 };
 
-static ImGuiWindow*	GetCurrentWindow()
-{
-    GImGui.CurrentWindow->Accessed = true;
-    return GImGui.CurrentWindow;
-}
+ImGuiWindow*	GetCurrentWindow();
 
-static void RegisterAliveId(const ImGuiID& id)
-{
-    if (GImGui.ActiveId == id)
-        GImGui.ActiveIdIsAlive = true;
-}
+void RegisterAliveId(const ImGuiID& id);
 // @formatter:on

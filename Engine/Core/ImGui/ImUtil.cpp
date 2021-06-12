@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ImUtil.h"
+#include "ImGuiInternal.h"
 
 int ImStricmp(const char *str1, const char *str2) {
     int d;
@@ -148,3 +149,14 @@ void ImConvertColorHSVtoRGB(float h, float s, float v, float &out_r, float &out_
             break;
     }
 }
+
+//-----------------------------------------------------------------------------
+
+bool ImGuiOncePerFrame::TryIsNewFrame() const {
+    const int current_frame = ImGui::GetFrameCount();
+    if (LastFrame == current_frame) return false;
+    LastFrame = current_frame;
+    return true;
+}
+
+ImGuiOncePerFrame::operator bool() const { return TryIsNewFrame(); }

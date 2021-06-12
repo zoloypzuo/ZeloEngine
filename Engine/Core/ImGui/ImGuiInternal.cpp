@@ -186,3 +186,13 @@ bool ImGui::IsKeyPressedMap(ImGuiKey key, bool repeat) {
     const int key_index = g.IO.KeyMap[key];
     return ImGui::IsKeyPressed(key_index, repeat);
 }
+
+ImGuiWindow *GetCurrentWindow() {
+    GImGui.CurrentWindow->Accessed = true;
+    return GImGui.CurrentWindow;
+}
+
+void RegisterAliveId(const ImGuiID &id) {
+    if (GImGui.ActiveId == id)
+        GImGui.ActiveIdIsAlive = true;
+}

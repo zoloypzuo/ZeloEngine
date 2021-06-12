@@ -60,4 +60,18 @@ ImU32 ImConvertColorFloat4ToU32(const ImVec4 &in);
 void ImConvertColorRGBtoHSV(float r, float g, float b, float &out_h, float &out_s, float &out_v);
 
 void ImConvertColorHSVtoRGB(float h, float s, float v, float &out_r, float &out_g, float &out_b);
+
+// Helper: execute a block of code once a frame only
+// Usage: if (IMGUI_ONCE_UPON_A_FRAME) {/*do something once a frame*/)
+#define IMGUI_ONCE_UPON_A_FRAME static ImGuiOncePerFrame im = ImGuiOncePerFrame()
+struct ImGuiOncePerFrame
+{
+    ImGuiOncePerFrame() : LastFrame(-1) {}
+    explicit operator bool() const;
+
+private:
+    mutable int LastFrame;
+    bool		TryIsNewFrame() const;
+};
+
 // @formatter:on
