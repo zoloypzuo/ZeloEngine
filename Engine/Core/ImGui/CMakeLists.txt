@@ -3,10 +3,10 @@
 add_library(ImGui
         Common/ImGuiAabb.cpp
         Common/ImGuiStorage.cpp
-        Common/ImGuiTextBuffer.cpp
         Common/ImBitmapFont.cpp
         Common/ImDrawList.cpp
 
+        Widget/ImGuiTextBuffer.cpp
         Widget/ImGuiTextFilter.cpp
 
         ImGui.cpp
