@@ -13,6 +13,7 @@
 #include "Core/ImGui/Common/ImDrawList.h"
 #include "Core/ImGui/Common/ImGuiAabb.h"
 #include "Core/ImGui/Common/ImGuiStorage.h"
+#include "Core/ImGui/Common/ImGuiTextBuffer.h"
 
 // @formatter:off
 //-------------------------------------------------------------------------

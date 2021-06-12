@@ -5,8 +5,8 @@ add_library(ImGui
         Common/ImGuiStorage.cpp
         Common/ImBitmapFont.cpp
         Common/ImDrawList.cpp
+        Common/ImGuiTextBuffer.cpp
 
-        Widget/ImGuiTextBuffer.cpp
         Widget/ImGuiTextFilter.cpp
 
         ImGui.cpp
