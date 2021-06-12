@@ -30,8 +30,8 @@ void ImBitmapFont::Clear() {
 
 bool ImBitmapFont::LoadFromFile(const char *filename) {
     // Load file
-    FILE * f{};
-    if ((f = fopen(filename, "rb")) == NULL)
+    FILE * f = fopen(filename, "rb");
+    if (f == NULL)
         return false;
     if (fseek(f, 0, SEEK_END))
         return false;
@@ -57,7 +57,15 @@ bool ImBitmapFont::LoadFromMemory(const void *data, int data_size) {
     Data = (unsigned char *) data;
     DataSize = data_size;
 
-    // Parse data
+    if (parseData()) {
+        BuildLookupTable();
+        return true;
+    } else {
+        return false;
+    }
+}
+
+bool ImBitmapFont::parseData() {
     if (DataSize < 4 || Data[0] != 'B' || Data[1] != 'M' || Data[2] != 'F' || Data[3] != 0x03)
         return false;
     for (const unsigned char *p = Data + 4; p < Data + DataSize;) {
@@ -94,7 +102,6 @@ bool ImBitmapFont::LoadFromMemory(const void *data, int data_size) {
         p += block_size;
     }
 
-    BuildLookupTable();
     return true;
 }
 
@@ -144,14 +151,14 @@ ImVec2 ImBitmapFont::CalcTextSize(float size, float max_width, const char *text_
             line_width = 0;
         }
         if (const FntGlyph *glyph = FindGlyph((unsigned short) c)) {
-            const float char_width = (glyph->XAdvance + Info->SpacingHoriz) * scale;
-            const float char_extend = (glyph->XOffset + glyph->Width * scale);
+            const float char_width = static_cast<float>(glyph->XAdvance + Info->SpacingHoriz) * scale;
+//            const float char_extend = (glyph->XOffset + glyph->Width * scale);
             if (line_width + char_width >= max_width)
                 break;
             line_width += char_width;
         } else if (c == '\t') {
-            if (const FntGlyph *glyph = FindGlyph((unsigned short) ' '))
-                line_width += (glyph->XAdvance + Info->SpacingHoriz) * 4 * scale;
+            if (const FntGlyph *glyph_tab = FindGlyph((unsigned short) ' '))
+                line_width += static_cast<float>(glyph_tab->XAdvance + Info->SpacingHoriz) * 4 * scale;
         }
 
         s += 1;
@@ -174,18 +181,18 @@ void ImBitmapFont::RenderText(float size, ImVec2 pos, ImU32 col, const ImVec4 &c
     if (!text_end)
         text_end = text_begin + strlen(text_begin);
 
-    const float line_height = (float) Info->FontSize;
-    const float scale = size / (float) Info->FontSize;
-    const float tex_scale_x = 1.0f / (float) Common->ScaleW;
-    const float tex_scale_y = 1.0f / (float) (Common->ScaleH);
-    const float outline = (float) Info->Outline;
+    const float line_height = Info->FontSize;
+    const float scale = size / static_cast<float>(Info->FontSize);
+    const float tex_scale_x = 1.0f / static_cast<float>(Common->ScaleW);
+    const float tex_scale_y = 1.0f / static_cast<float>(Common->ScaleH);
+    const float outline = Info->Outline;
 
     // Align to be pixel perfect
     pos.x = (float) (int) pos.x + 0.5f;
     pos.y = (float) (int) pos.y + 0.5f;
 
     ImVec2 text_size = ImVec2(0, 0);
-    float line_width = 0.0f;
+//    float line_width = 0.0f;
     const ImVec4 clip_rect = clip_rect_ref;
 
     float x = pos.x;
@@ -199,29 +206,38 @@ void ImBitmapFont::RenderText(float size, ImVec2 pos, ImU32 col, const ImVec4 &c
         }
 
         if (const FntGlyph *glyph = FindGlyph((unsigned short) c)) {
-            const float char_width = (glyph->XAdvance + Info->SpacingHoriz) * scale;
-            const float char_extend = (glyph->XOffset + glyph->Width * scale);
+            const float char_width = static_cast<float>(glyph->XAdvance + Info->SpacingHoriz) * scale;
+//            const float char_extend = (glyph->XOffset + glyph->Width * scale);
 
-            if (c != ' ' && c != '\n') {
+            if (c != ' ') {
                 // Clipping due to Y limits is more likely
-                const float y1 = (float) (y + (glyph->YOffset + outline * 2) * scale);
-                const float y2 = (float) (y1 + glyph->Height * scale);
+                float yOffset = glyph->YOffset;
+                float height = glyph->Height;
+
+                const float y1 = y + (yOffset + outline * 2) * scale;
+                const float y2 = y1 + height * scale;
                 if (y1 > clip_rect.w || y2 < clip_rect.y) {
                     x += char_width;
                     continue;
                 }
 
-                const float x1 = (float) (x + (glyph->XOffset + outline) * scale);
-                const float x2 = (float) (x1 + glyph->Width * scale);
+                float xOffset = glyph->XOffset;
+                float width = glyph->Width;
+
+                const float x1 = (x + (xOffset + outline) * scale);
+                const float x2 = (x1 + width * scale);
                 if (x1 > clip_rect.z || x2 < clip_rect.x) {
                     x += char_width;
                     continue;
                 }
 
-                const float s1 = (0.0f + glyph->X) * tex_scale_x;
-                const float t1 = (0.0f + glyph->Y) * tex_scale_y;
-                const float s2 = (0.0f + glyph->X + glyph->Width) * tex_scale_x;
-                const float t2 = (0.0f + glyph->Y + glyph->Height) * tex_scale_y;
+                float x3 = glyph->X;
+                float y3 = glyph->Y;
+
+                const float s1 = (0.0f + x3) * tex_scale_x;
+                const float t1 = (0.0f + y3) * tex_scale_y;
+                const float s2 = (0.0f + x3 + width) * tex_scale_x;
+                const float t2 = (0.0f + y3 + height) * tex_scale_y;
 
                 out_vertices[0].pos = ImVec2(x1, y1);
                 out_vertices[0].uv = ImVec2(s1, t1);
@@ -247,8 +263,8 @@ void ImBitmapFont::RenderText(float size, ImVec2 pos, ImU32 col, const ImVec4 &c
 
             x += char_width;
         } else if (c == '\t') {
-            if (const FntGlyph *glyph = FindGlyph((unsigned short) ' '))
-                x += (glyph->XAdvance + Info->SpacingHoriz) * 4 * scale;
+            if (const FntGlyph *glyph_tab = FindGlyph((unsigned short) ' '))
+                x += static_cast<float>(glyph_tab->XAdvance + Info->SpacingHoriz) * 4 * scale;
         }
     }
 }

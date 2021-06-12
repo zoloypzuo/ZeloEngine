@@ -61,14 +61,14 @@ struct ImBitmapFont {
 #pragma pack(pop)
 
     unsigned char*			Data;				// Raw data, content of .fnt file
-    int						DataSize;			//
+    int						DataSize{};			//
     bool					DataOwned;			//
     const FntInfo*			Info;				// (point into raw data)
     const FntCommon*		Common;				// (point into raw data)
     const FntGlyph*			Glyphs;				// (point into raw data)
     size_t					GlyphsCount;		//
-    const FntKerning*		Kerning;			// (point into raw data)
-    size_t					KerningCount;		//
+    const FntKerning*		Kerning{};			// (point into raw data)
+    size_t					KerningCount{};		//
     int						TabCount;			// FIXME: mishandled (add fixed amount instead of aligning to column)
     ImVector<const char*>	Filenames;			// (point into raw data)
     ImVector<int>			IndexLookup;		// (built)
@@ -97,4 +97,7 @@ struct ImBitmapFont {
     void RenderText(float size, ImVec2 pos, ImU32 col, const ImVec4 &clip_rect,
                     const char *text_begin, const char *text_end,
                     ImDrawVert *&out_vertices) const;
+
+private:
+    bool parseData();
 };
