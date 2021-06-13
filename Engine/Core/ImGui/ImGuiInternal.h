@@ -241,11 +241,9 @@ public:
 
     ImVec2 CursorPos() const { return DC.CursorPos; }
 
-    float TitleBarHeight() const {
-        return (Flags & ImGuiWindowFlags_NoTitleBar) ? 0 : FontSize() + GImGui.Style.FramePadding.y * 2.0f;
-    }
+    float TitleBarHeight() const;
 
-    ImGuiAabb TitleBarAabb() const { return ImGuiAabb(Pos, Pos + ImVec2(SizeFull.x, TitleBarHeight())); }
+    ImGuiAabb TitleBarAabb() const;
 
     ImVec2 WindowPadding() const;
 

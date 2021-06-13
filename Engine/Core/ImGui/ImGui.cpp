@@ -6,7 +6,6 @@
 #include "Core/ImGui/ImUtil.h"
 #include "Core/ImGui/ImGuiInternal.h"
 #include "Core/Resource/Resource.h"
-#include "ImGuiInternal.h"
 
 namespace ImGui {
 

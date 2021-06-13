@@ -5,13 +5,9 @@
 #include "Core/Resource/Resource.h"
 #include "Core/ImGui/ImGuiInternal.h"
 #include "Core/ImGui/ImUtil.h"
-#include "Core/ImGui/ImGui.h"
 #include "ZeloPreCompiledHeader.h"
-#include "ImGuiInternal.h"
-#include "ImUtil.h"
 
 ImGuiState GImGui;
-
 
 // Pass in translated ASCII characters for text input.
 // - with glfw you can get those from the callback set in glfwSetCharCallback()
@@ -189,6 +185,12 @@ ImVec2 ImGuiWindow::WindowPadding() const {
     bool flagMatch = (Flags & ImGuiWindowFlags_ChildWindow) && !(Flags & ImGuiWindowFlags_ShowBorders);
     return flagMatch ? ImVec2(1, 1) : GImGui.Style.WindowPadding;
 }
+
+float ImGuiWindow::TitleBarHeight() const {
+    return (Flags & ImGuiWindowFlags_NoTitleBar) ? 0 : FontSize() + GImGui.Style.FramePadding.y * 2.0f;
+}
+
+ImGuiAabb ImGuiWindow::TitleBarAabb() const { return ImGuiAabb(Pos, Pos + ImVec2(SizeFull.x, TitleBarHeight())); }
 
 
 bool ImGui::IsKeyPressedMap(ImGuiKey key, bool repeat) {
