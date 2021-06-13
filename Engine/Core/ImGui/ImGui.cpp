@@ -1152,9 +1152,10 @@ const char *GetStyleColorName(ImGuiCol idx) {
             return "TextSelectedBg";
         case ImGuiCol_TooltipBg:
             return "TooltipBg";
+        default:
+            ZELO_ASSERT(0);
+            return "Unknown";
     }
-    ZELO_ASSERT(0);
-    return "Unknown";
 }
 
 bool GetWindowIsFocused() {
@@ -2929,7 +2930,7 @@ void Columns(int columns_count, const char *id, bool border) {
         for (int i = 1; i < window->DC.ColumnsCount; i++) {
             float x = window->Pos.x + GetColumnOffset(i);
 
-            const ImGuiID column_id = ImGuiID(window->DC.ColumnsSetID + i);
+            const auto column_id = ImGuiID(window->DC.ColumnsSetID + i);
             const ImGuiAabb column_aabb(ImVec2(x - 4, y1), ImVec2(x + 4, y2));
 
             if (IsClipped(column_aabb))
