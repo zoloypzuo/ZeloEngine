@@ -223,4 +223,14 @@ public:
 ImGuiWindow*	GetCurrentWindow();
 
 void RegisterAliveId(const ImGuiID& id);
+
+ImGuiIniData *FindWindowSettings(const char *name);
+
+// Zero-tolerance, poor-man .ini parsing
+// FIXME: Write something less rubbish
+void LoadSettings();
+
+void SaveSettings();
+
+void MarkSettingsDirty();
 // @formatter:on

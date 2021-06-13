@@ -196,3 +196,115 @@ void RegisterAliveId(const ImGuiID &id) {
     if (GImGui.ActiveId == id)
         GImGui.ActiveIdIsAlive = true;
 }
+
+void LoadSettings() {
+    ImGuiState &g = GImGui;
+    const char *filename = g.IO.IniFilename;
+    if (!filename)
+        return;
+
+    // Load file
+    FILE * f{};
+    if ((f = fopen(filename, "rt")) == NULL)
+        return;
+    if (fseek(f, 0, SEEK_END))
+        return;
+    long f_size = ftell(f);
+    if (f_size == -1)
+        return;
+    if (fseek(f, 0, SEEK_SET))
+        return;
+    char *f_data = new char[f_size + 1];
+    f_size = fread(f_data, 1, f_size, f);    // Text conversion alter read size so let's not be fussy about return value
+    fclose(f);
+    if (f_size == 0) {
+        delete[] f_data;
+        return;
+    }
+    f_data[f_size] = 0;
+
+    ImGuiIniData *settings = NULL;
+    const char *buf_end = f_data + f_size;
+    for (const char *line_start = f_data; line_start < buf_end;) {
+        const char *line_end = line_start;
+        while (line_end < buf_end && *line_end != '\n' && *line_end != '\r')
+            line_end++;
+
+        if (line_start[0] == '[' && line_end > line_start && line_end[-1] == ']') {
+            char name[64];
+            ImFormatString(name, ARRAYSIZE(name), "%.*s", line_end - line_start - 2, line_start + 1);
+            settings = FindWindowSettings(name);
+        } else if (settings) {
+            float x{}, y{};
+            int i{};
+            if (sscanf(line_start, "Pos=%f,%f", &x, &y) == 2)
+                settings->Pos = ImVec2(x, y);
+            else if (sscanf(line_start, "Size=%f,%f", &x, &y) == 2)
+                settings->Size = ImMax(ImVec2(x, y), g.Style.WindowMinSize);
+            else if (sscanf(line_start, "Collapsed=%d", &i) == 1)
+                settings->Collapsed = (i != 0);
+        }
+
+        line_start = line_end + 1;
+    }
+
+    delete[] f_data;
+}
+
+void SaveSettings() {
+    ImGuiState &g = GImGui;
+    const char *filename = g.IO.IniFilename;
+    if (!filename)
+        return;
+
+    // Gather data from windows that were active during this session
+    for (size_t i = 0; i != g.Windows.size(); i++) {
+        ImGuiWindow *window = g.Windows[i];
+        if (window->Flags & (ImGuiWindowFlags_ChildWindow | ImGuiWindowFlags_Tooltip))
+            continue;
+        ImGuiIniData *settings = FindWindowSettings(window->Name);
+        settings->Pos = window->Pos;
+        settings->Size = window->SizeFull;
+        settings->Collapsed = window->Collapsed;
+    }
+
+    // Write .ini file
+    // If a window wasn't opened in this session we preserve its settings
+    FILE * f = fopen(filename, "wt");
+    if (!f)
+        return;
+    for (size_t i = 0; i != g.Settings.size(); i++) {
+        const ImGuiIniData *ini = g.Settings[i];
+        fprintf(f, "[%s]\n", ini->Name);
+        fprintf(f, "Pos=%d,%d\n", (int) ini->Pos.x, (int) ini->Pos.y);
+        fprintf(f, "Size=%d,%d\n", (int) ini->Size.x, (int) ini->Size.y);
+        fprintf(f, "Collapsed=%d\n", ini->Collapsed);
+        fprintf(f, "\n");
+    }
+
+    fclose(f);
+}
+
+void MarkSettingsDirty() {
+    ImGuiState &g = GImGui;
+
+    if (g.SettingsDirtyTimer <= 0.0f)
+        g.SettingsDirtyTimer = g.IO.IniSavingRate;
+}
+
+ImGuiIniData *FindWindowSettings(const char *name) {
+    ImGuiState &g = GImGui;
+
+    for (size_t i = 0; i != g.Settings.size(); i++) {
+        ImGuiIniData *ini = g.Settings[i];
+        if (ImStricmp(ini->Name, name) == 0)
+            return ini;
+    }
+    auto *ini = new ImGuiIniData();
+    ini->Name = _strdup(name);
+    ini->Collapsed = false;
+    ini->Pos = ImVec2(FLT_MAX, FLT_MAX);
+    ini->Size = ImVec2(0, 0);
+    g.Settings.push_back(ini);
+    return ini;
+}
