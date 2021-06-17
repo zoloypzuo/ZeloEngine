@@ -43,6 +43,7 @@ It is all about game engine.
       * [x] 上帝相机
 * [ ] 跨平台支持
    * [x] Windows 10
+   * [x] Linux
    * [ ] Mac OS X
    * [ ] Android
    * [ ] IOS
@@ -69,9 +70,13 @@ It is all about game engine.
 
 # 构建
 
-目前以VS2019 Win32 Debug为主，使用vcpkg来管理C++第三方库依赖。
+目前以VS2019 Win32 Debug日常开发为主，使用vcpkg来管理C++第三方库依赖。
 
 引擎本体将所有代码编译为一个可执行文件，避免动态链接。
+
+其他平台和编译器尽可能去维护，主要是增强代码的跨平台兼容性，了解平台差异。
+
+构建脚本在`Tools/`下，每个目标平台对应一个`buildxxx`脚本。
 
 安装:
 * vcpkg
@@ -86,7 +91,7 @@ It is all about game engine.
 * stb
 * yaml-cpp
 * imgui
-* TODO 维护此列表
+* glad
 
 运行`Tools\build_vs2019.bat`
 
