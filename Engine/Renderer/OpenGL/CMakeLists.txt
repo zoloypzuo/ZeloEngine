@@ -24,7 +24,7 @@ add_library(OpenGLRenderer
         GLVertexArray.cpp
         )
 
-target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)
+#target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)
 
 # GLEW replaced by GLAD
 find_package(glad CONFIG REQUIRED)
