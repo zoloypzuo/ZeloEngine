@@ -4,9 +4,9 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLUtil.h"
 
-void /*APIENTRY*/ __stdcall debugCallback(GLenum source, GLenum type, GLuint id,
-                                          GLenum severity, GLsizei length,
-                                          const GLchar *msg, const void *param) {
+void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
+                                 GLenum severity, GLsizei length,
+                                 const GLchar *msg, const void *param) {
 
     std::string sourceStr;
     switch (source) {

@@ -1,9 +1,7 @@
 // ZeloPlatform.h
 // created on 2021/3/28
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_ZELOPLATFORM_H
-#define ZELOENGINE_ZELOPLATFORM_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 
@@ -36,7 +34,6 @@
 #error "Android is not supported!"
 #elif defined(__linux__)
 #define ZELO_PLATFORM_LINUX
-#error "Linux is not supported!"
 #else
 /* Unknown compiler/platform */
 //#error "Unknown platform!"
@@ -45,14 +42,6 @@
 
 /* Initial platform/compiler-related stuff to set.
 */
-#define ZELO_PLATFORM_WIN32 1
-#define ZELO_PLATFORM_LINUX 2
-#define ZELO_PLATFORM_APPLE 3
-#define ZELO_PLATFORM_APPLE_IOS 4
-#define ZELO_PLATFORM_ANDROID 5
-#define ZELO_PLATFORM_WINRT 7
-#define ZELO_PLATFORM_EMSCRIPTEN 8
-
 #define ZELO_COMPILER_MSVC 1
 #define ZELO_COMPILER_GNUC 2
 #define ZELO_COMPILER_BORL 3
@@ -100,5 +89,13 @@
 
 #endif
 
-
-#endif //ZELOENGINE_ZELOPLATFORM_H
+// call convention
+#ifndef ZELO_CALLBACK
+#  if defined(__MINGW32__) || defined(__CYGWIN__)
+#    define ZELO_CALLBACK __stdcall
+#  elif (_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED) || defined(__BORLANDC__)
+#    define ZELO_CALLBACK __stdcall
+#  else
+#    define ZELO_CALLBACK
+#  endif
+#endif

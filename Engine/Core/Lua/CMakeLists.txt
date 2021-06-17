@@ -7,6 +7,8 @@ set(SRC_LIB src/lauxlib.c src/lbaselib.c src/ldblib.c src/liolib.c
 include_directories(include)
 add_library(Lua ${SRC_CORE} ${SRC_LIB})
 
-set(SRC_LUA src/lua.c)
-add_executable(LuaInterpreter ${SRC_LUA})
-target_link_libraries(LuaInterpreter Lua)
+if (BuildLuaInterpreter)
+    set(SRC_LUA src/lua.c)
+    add_executable(LuaInterpreter ${SRC_LUA})
+    target_link_libraries(LuaInterpreter Lua)
+endif ()

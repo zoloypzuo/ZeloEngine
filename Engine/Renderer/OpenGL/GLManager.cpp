@@ -5,8 +5,6 @@
 #include "GLManager.h"
 #include "GLUtil.h"
 
-#include <utility>
-
 GLManager::GLManager(Renderer *renderer, const glm::ivec2 &windowSize) {
 #ifndef ANDROID
     // Load the OpenGL functions.

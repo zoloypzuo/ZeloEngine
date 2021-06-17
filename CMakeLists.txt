@@ -4,28 +4,42 @@ cmake_minimum_required(VERSION 3.18.4)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
+if (UNIX)  # fix std::filesystem link error
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    link_libraries(stdc++fs)
+endif ()
+
 project(ZeloEngine)
 
 # vcpkg import third party
 if (WIN32)
     set(VCPKG_TARGET_TRIPLET x86-windows)
-else ()
+    set(VcpkgDir "D:/vcpkg" CACHE STRING "vcpkg install directory")
+    message(STATUS include=${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
+    include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
+elseif (UNIX)
     set(VCPKG_TARGET_TRIPLET x64-windows)
+    message(STATUS CMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE})
 endif ()
-
-set(VcpkgDir "D:/vcpkg" CACHE STRING "vcpkg install directory")
-message(STATUS VcpkgDir=${VcpkgDir})
-
-include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
 
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
 
-find_package(glm CONFIG REQUIRED)
-link_libraries(glm)
+if (WIN32)
+    find_package(glm CONFIG REQUIRED)
+    link_libraries(glm)
+elseif (UNIX)
+    find_package(glm CONFIG REQUIRED)
+    link_libraries(glm::glm)
+endif ()
 
-find_package(SDL2 CONFIG REQUIRED)
-link_libraries(SDL2::SDL2 SDL2::SDL2main)
+if (WIN32)
+    find_package(SDL2 CONFIG REQUIRED)
+    link_libraries(SDL2::SDL2 SDL2::SDL2main)
+elseif (UNIX)
+    find_package(SDL2 CONFIG REQUIRED)
+    link_libraries(SDL2::SDL2main SDL2::SDL2-static)
+endif ()
 
 find_package(assimp CONFIG REQUIRED)
 link_libraries(assimp::assimp)
@@ -37,7 +51,7 @@ find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
 
 # memory leak check
-option(DetectMemoryLeak "DetectMemoryLeak" ON)
+option(DetectMemoryLeak "DetectMemoryLeak" OFF)
 message(STATUS DetectMemoryLeak=${DetectMemoryLeak})
 
 if (DetectMemoryLeak)
