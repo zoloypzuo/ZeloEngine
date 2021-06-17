@@ -1,9 +1,7 @@
 // ZeloPlatform.h
 // created on 2021/3/28
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_ZELOPLATFORM_H
-#define ZELOENGINE_ZELOPLATFORM_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 
@@ -91,5 +89,13 @@
 
 #endif
 
-
-#endif //ZELOENGINE_ZELOPLATFORM_H
+// call convention
+#ifndef ZELO_CALLBACK
+#  if defined(__MINGW32__) || defined(__CYGWIN__)
+#    define ZELO_CALLBACK __stdcall
+#  elif (_MSC_VER >= 800) || defined(_STDCALL_SUPPORTED) || defined(__BORLANDC__)
+#    define ZELO_CALLBACK __stdcall
+#  else
+#    define ZELO_CALLBACK
+#  endif
+#endif
