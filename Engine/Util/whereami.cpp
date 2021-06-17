@@ -160,7 +160,7 @@ int wai_getModulePath(char *out, int capacity, int *dirname_length) {
 #endif
 
 WAI_FUNCSPEC
-int WAI_PREFIX(getExecutablePath)(char* out, int capacity, int* dirname_length)
+int wai_getExecutablePath(char* out, int capacity, int* dirname_length)
 {
   char buffer[PATH_MAX];
   char* resolved = NULL;
@@ -213,7 +213,7 @@ int WAI_PREFIX(getExecutablePath)(char* out, int capacity, int* dirname_length)
 
 WAI_NOINLINE
 WAI_FUNCSPEC
-int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
+int wai_getModulePath(char* out, int capacity, int* dirname_length)
 {
   int length = -1;
   FILE* maps = NULL;
@@ -330,7 +330,7 @@ int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
 #include <dlfcn.h>
 
 WAI_FUNCSPEC
-int WAI_PREFIX(getExecutablePath)(char* out, int capacity, int* dirname_length)
+int wai_getExecutablePath(char* out, int capacity, int* dirname_length)
 {
   char buffer1[PATH_MAX];
   char buffer2[PATH_MAX];
@@ -383,7 +383,7 @@ int WAI_PREFIX(getExecutablePath)(char* out, int capacity, int* dirname_length)
 
 WAI_NOINLINE
 WAI_FUNCSPEC
-int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
+int wai_getModulePath(char* out, int capacity, int* dirname_length)
 {
   char buffer[PATH_MAX];
   char* resolved = NULL;
@@ -439,7 +439,7 @@ int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
 #endif
 
 WAI_FUNCSPEC
-int WAI_PREFIX(getExecutablePath)(char* out, int capacity, int* dirname_length)
+int wai_getExecutablePath(char* out, int capacity, int* dirname_length)
 {
   char buffer1[PATH_MAX];
   char buffer2[PATH_MAX];
@@ -489,111 +489,7 @@ int WAI_PREFIX(getExecutablePath)(char* out, int capacity, int* dirname_length)
 }
 
 WAI_FUNCSPEC
-int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
-{
-  char buffer[PATH_MAX];
-  char* resolved = NULL;
-  int length = -1;
-
-  for(;;)
-  {
-    Dl_info info;
-
-    if (dladdr(WAI_RETURN_ADDRESS(), &info))
-    {
-      resolved = realpath(info.dli_fname, buffer);
-      if (!resolved)
-        break;
-
-      length = (int)strlen(resolved);
-      if (length <= capacity)
-      {
-        memcpy(out, resolved, length);
-
-        if (dirname_length)
-        {
-          int i;
-
-          for (i = length - 1; i >= 0; --i)
-          {
-            if (out[i] == '/')
-            {
-              *dirname_length = i;
-              break;
-            }
-          }
-        }
-      }
-    }
-
-    break;
-  }
-
-  return length;
-}
-
-#elif defined(__FreeBSD__)
-
-#include <limits.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/sysctl.h>
-#include <dlfcn.h>
-
-WAI_FUNCSPEC
-int WAI_PREFIX(getExecutablePath)(char* out, int capacity, int* dirname_length)
-{
-  char buffer1[PATH_MAX];
-  char buffer2[PATH_MAX];
-  char* path = buffer1;
-  char* resolved = NULL;
-  int length = -1;
-
-  for (;;)
-  {
-    int mib[4] = { CTL_KERN, KERN_PROC, KERN_PROC_PATHNAME, -1 };
-    size_t size = sizeof(buffer1);
-
-    if (sysctl(mib, (u_int)(sizeof(mib) / sizeof(mib[0])), path, &size, NULL, 0) != 0)
-        break;
-
-    resolved = realpath(path, buffer2);
-    if (!resolved)
-      break;
-
-    length = (int)strlen(resolved);
-    if (length <= capacity)
-    {
-      memcpy(out, resolved, length);
-
-      if (dirname_length)
-      {
-        int i;
-
-        for (i = length - 1; i >= 0; --i)
-        {
-          if (out[i] == '/')
-          {
-            *dirname_length = i;
-            break;
-          }
-        }
-      }
-    }
-
-    break;
-  }
-
-  if (path != buffer1)
-    WAI_FREE(path);
-
-  return length;
-}
-
-WAI_NOINLINE
-WAI_FUNCSPEC
-int WAI_PREFIX(getModulePath)(char* out, int capacity, int* dirname_length)
+int wai_getModulePath(char* out, int capacity, int* dirname_length)
 {
   char buffer[PATH_MAX];
   char* resolved = NULL;
