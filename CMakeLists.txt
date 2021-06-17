@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.18.4)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+link_libraries(stdc++fs)
+
 project(ZeloEngine)
 
 # vcpkg import third party
@@ -20,8 +23,13 @@ endif ()
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
 
-find_package(glm CONFIG REQUIRED)
-link_libraries(glm)
+if (WIN32)
+    find_package(glm CONFIG REQUIRED)
+    link_libraries(glm)
+elseif (UNIX)
+    find_package(glm CONFIG REQUIRED)
+    link_libraries(glm::glm)
+endif ()
 
 if (WIN32)
     find_package(SDL2 CONFIG REQUIRED)
