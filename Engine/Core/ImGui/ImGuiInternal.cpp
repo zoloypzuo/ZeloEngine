@@ -313,7 +313,7 @@ ImGuiIniData *FindWindowSettings(const char *name) {
             return ini;
     }
     auto *ini = new ImGuiIniData();
-    ini->Name = _strdup(name);
+    ini->Name = strdup(name);
     ini->Collapsed = false;
     ini->Pos = ImVec2(FLT_MAX, FLT_MAX);
     ini->Size = ImVec2(0, 0);
