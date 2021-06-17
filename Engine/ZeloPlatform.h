@@ -36,7 +36,6 @@
 #error "Android is not supported!"
 #elif defined(__linux__)
 #define ZELO_PLATFORM_LINUX
-#error "Linux is not supported!"
 #else
 /* Unknown compiler/platform */
 //#error "Unknown platform!"
@@ -45,14 +44,6 @@
 
 /* Initial platform/compiler-related stuff to set.
 */
-#define ZELO_PLATFORM_WIN32 1
-#define ZELO_PLATFORM_LINUX 2
-#define ZELO_PLATFORM_APPLE 3
-#define ZELO_PLATFORM_APPLE_IOS 4
-#define ZELO_PLATFORM_ANDROID 5
-#define ZELO_PLATFORM_WINRT 7
-#define ZELO_PLATFORM_EMSCRIPTEN 8
-
 #define ZELO_COMPILER_MSVC 1
 #define ZELO_COMPILER_GNUC 2
 #define ZELO_COMPILER_BORL 3
