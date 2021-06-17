@@ -38,7 +38,7 @@ find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
 
 # memory leak check
-option(DetectMemoryLeak "DetectMemoryLeak" ON)
+option(DetectMemoryLeak "DetectMemoryLeak" OFF)
 message(STATUS DetectMemoryLeak=${DetectMemoryLeak})
 
 if (DetectMemoryLeak)
