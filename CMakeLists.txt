@@ -9,12 +9,13 @@ project(ZeloEngine)
 # vcpkg import third party
 if (WIN32)
     set(VCPKG_TARGET_TRIPLET x86-windows)
-else ()
+    set(VcpkgDir "D:/vcpkg" CACHE STRING "vcpkg install directory")
+    message(STATUS VcpkgDir=${VcpkgDir})
+elseif (UNIX)
     set(VCPKG_TARGET_TRIPLET x64-windows)
+    set(VcpkgDir "/home/zuoyiping01/vcpkg" CACHE STRING "vcpkg install directory")
+    message(STATUS VcpkgDir=${VcpkgDir})
 endif ()
-
-set(VcpkgDir "D:/vcpkg" CACHE STRING "vcpkg install directory")
-message(STATUS VcpkgDir=${VcpkgDir})
 
 include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
 
