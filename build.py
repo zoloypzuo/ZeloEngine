@@ -2,6 +2,7 @@ import os
 import shutil
 import sys
 
+print "build.py start"
 engine_dir = sys.argv[1]
 exe_dir = sys.argv[2]
 
@@ -21,3 +22,5 @@ vld_ini_src_path = os.path.join(engine_dir, "Config/vld.ini")
 vld_ini_dest_path = os.path.join(exe_dir, "vld.ini")
 print "copy to %s => %s" % (vld_ini_src_path, vld_ini_dest_path)
 shutil.copy(vld_ini_src_path, vld_ini_dest_path)
+
+print "build.py end"
