@@ -4,7 +4,8 @@ cmake_minimum_required(VERSION 3.18.4)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-if (UNIX)  # fix std::filesystem link error
+if(APPLE)
+elseif (UNIX)  # fix std::filesystem link error
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     link_libraries(stdc++fs)
 endif ()
