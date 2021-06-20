@@ -44,7 +44,7 @@ It is all about game engine.
 * [ ] 跨平台支持
    * [x] Windows 10
    * [x] Linux
-   * [ ] Mac OS X
+   * [x] Mac OS X
    * [ ] Android
    * [ ] IOS
 * [x] 游戏逻辑框架
@@ -94,6 +94,19 @@ It is all about game engine.
 * glad
 
 运行`Tools\build_vs2019.bat`
+
+## Mac OSX构建问题
+
+* assimp
+   * vcpkg的带了irrich引擎编译不通过，已知BUG，没人修
+   * brew安装的导致多个链接错误
+   * 一个解决方法是自己编译，挂git submodule，其实这是引擎依赖管理最稳妥的方法
+
+## Linux和Mac OS X构建小结
+
+1. 每个平台，OSX，IPhone，Android都需要维护，成本很高
+2. 跨平台封装要统一处理（ZeloPlatform.h，以及Core的抽象），或者一个库已经是跨平台的，逻辑代码里放很多平台宏是非常坑的，因为测不到
+3. 构建系统，引擎需要提供平台宏区分每一个平台，CMake检测OSX太坑了，UNIX=True，APPLE=True
 
 # Feature
 
