@@ -33,7 +33,7 @@
 #include <signal.h>
 #define ZELO_DEBUGBREAK() raise(SIGTRAP)
 #else
-#error "Platform doesn't support debugbreak yet!"
+#define ZELO_DEBUGBREAK() __asm {int 3}
 #endif
 #define ZELO_ENABLE_ASSERTS
 #else
