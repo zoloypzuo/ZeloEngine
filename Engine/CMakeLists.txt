@@ -42,7 +42,10 @@ endif ()
 # build engine
 include_directories(./)
 
-add_compile_definitions(ZELO_DEBUG)
+if(APPLE)  # TODO fix osx ZELO_ASSERT
+else()
+    add_compile_definitions(ZELO_DEBUG)
+endif()
 add_compile_definitions(DEBUG_SHADOWMAP)
 
 add_subdirectory(Core)
