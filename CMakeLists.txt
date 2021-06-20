@@ -41,8 +41,13 @@ elseif (UNIX)
     link_libraries(SDL2::SDL2main SDL2::SDL2-static)
 endif ()
 
-find_package(assimp CONFIG REQUIRED)
-link_libraries(assimp::assimp)
+
+if(APPLE)
+    message(WARNING "Mac OSX vcpkg install assimp failed, please run apt-get install assimp")
+else()
+    find_package(assimp CONFIG REQUIRED)
+    link_libraries(assimp::assimp)
+endif()
 
 find_path(STB_INCLUDE_DIRS "stb.h")
 include_directories(${STB_INCLUDE_DIRS})
