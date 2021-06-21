@@ -44,7 +44,7 @@ It is all about game engine.
 * [ ] 跨平台支持
    * [x] Windows 10
    * [x] Linux
-   * [x] Mac OS X
+   * [x] ~~Mac OS X~~
    * [ ] Android
    * [ ] IOS
 * [x] 游戏逻辑框架
@@ -70,7 +70,9 @@ It is all about game engine.
 
 # 构建
 
-目前以VS2019 Win32 Debug日常开发为主，使用vcpkg来管理C++第三方库依赖。
+目前以VS2019 Win32 Debug日常开发为主。
+
+使用vcpkg来管理C++第三方库依赖，主要是方便，成本低。
 
 引擎本体将所有代码编译为一个可执行文件，避免动态链接。
 
@@ -95,18 +97,13 @@ It is all about game engine.
 
 运行`Tools\build_vs2019.bat`
 
-## Mac OSX构建问题
+## 相关笔记
 
-* assimp
-   * vcpkg的带了irrich引擎编译不通过，已知BUG，没人修
-   * brew安装的导致多个链接错误
-   * 一个解决方法是自己编译，挂git submodule，其实这是引擎依赖管理最稳妥的方法
+[【ZeloEngine】构建概述 & 构建问题汇总](https://blog.csdn.net/zolo_mario/article/details/117652524)
 
-## Linux和Mac OS X构建小结
+[【ZeloEngine】跨平台构建](https://blog.csdn.net/zolo_mario/article/details/118087054)
 
-1. 每个平台，OSX，IPhone，Android都需要维护，成本很高
-2. 跨平台封装要统一处理（ZeloPlatform.h，以及Core的抽象），或者一个库已经是跨平台的，逻辑代码里放很多平台宏是非常坑的，因为测不到
-3. 构建系统，引擎需要提供平台宏区分每一个平台，CMake检测OSX太坑了，UNIX=True，APPLE=True
+长期更新中
 
 # Feature
 
