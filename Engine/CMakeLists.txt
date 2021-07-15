@@ -34,6 +34,10 @@ add_compile_definitions(UNICODE)
 add_compile_definitions(GLM_FORCE_SWIZZLE)
 add_compile_definitions(GLM_FORCE_RADIANS)
 
+# rttr
+find_package(rttr CONFIG REQUIRED)
+link_libraries(RTTR::Core)
+
 # swig runtime debug log
 if (0)  # too much log
     add_compile_definitions(SWIGRUNTIME_DEBUG)
