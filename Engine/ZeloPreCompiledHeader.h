@@ -7,7 +7,6 @@
 
 #include "ZeloPlatform.h"
 #include "Core/Profile/Profiler.h"
-#include "G.h"
 #include "Core/Math/Mathf.h"
 
 // This ignores all warnings raised inside External headers
