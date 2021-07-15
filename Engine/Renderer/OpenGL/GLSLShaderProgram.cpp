@@ -461,7 +461,7 @@ void GLSLShaderProgram::findUniformLocations() {
 
 void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     auto asset = Zelo::Resource(fileName);
-    sol::state lua;
+    sol::state lua;  // TODO 一个资源管理器维护一个lua
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
