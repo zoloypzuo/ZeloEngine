@@ -17,44 +17,46 @@ It is all about game engine.
 # 目标
 
 ## v1
+
 * DSL驱动引擎
     * [ ] 多种脚本语言
-      * [x] Lua
-      * [ ] Python
-      * [ ] C#
+        * [x] Lua
+        * [ ] Python
+        * [ ] C#
     * [x] DSL驱动引擎模块，避免编辑器
-      * [x] 行为树
-      * [x] 状态机
+        * [x] 行为树
+        * [x] 状态机
     * [ ] DSL驱动渲染管线
-      * [ ] 可编程渲染管线
+        * [ ] 可编程渲染管线
 * [ ] 渲染器原型
-   * [ ] RHI
-      * [x] OpenGL
-      * [ ] OpenGLES
-      * [ ] DirectX11
-      * [ ] DirectX12
-      * [ ] Vulkan
-   * [x] 前向渲染
-      * [x] 场景树
-      * [x] 模型加载
-      * [x] 应用贴图
-      * [x] 基本光照
-      * [x] 基本阴影
-      * [x] 上帝相机
+    * [ ] RHI
+        * [x] OpenGL
+        * [ ] OpenGLES
+        * [ ] DirectX11
+        * [ ] DirectX12
+        * [ ] Vulkan
+    * [x] 前向渲染
+        * [x] 场景树
+        * [x] 模型加载
+        * [x] 应用贴图
+        * [x] 基本光照
+        * [x] 基本阴影
+        * [x] 上帝相机
 * [ ] 跨平台支持
-   * [x] Windows 10
-   * [x] Linux
-   * [x] ~~Mac OS X~~
-   * [ ] Android
-   * [ ] IOS
+    * [x] Windows 10
+    * [x] Linux
+    * [x] ~~Mac OS X~~
+    * [ ] Android
+    * [ ] IOS
 * [x] 游戏逻辑框架
 * [x] 脚本支持
 * [x] 物理
-   * [x] 刚体动力学
-   * [x] 碰撞检测 
+    * [x] 刚体动力学
+    * [x] 碰撞检测
 * [x] 寻路
 
 ## v2
+
 * 多线程引擎架构
 * 跨平台渲染架构
 * 网络引擎
@@ -81,11 +83,13 @@ It is all about game engine.
 构建脚本在`Tools/`下，每个目标平台对应一个`buildxxx`脚本。
 
 安装:
+
 * vcpkg
 * cmake
 * VS2019
 
 使用vcpkg安装依赖：
+
 * spdlog
 * glm
 * SDL2

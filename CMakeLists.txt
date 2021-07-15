@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.18.4)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-if(APPLE)
+if (APPLE)
 elseif (UNIX)  # fix std::filesystem link error
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     link_libraries(stdc++fs)
@@ -43,12 +43,12 @@ elseif (UNIX)
 endif ()
 
 
-if(APPLE)
+if (APPLE)
     message(WARNING "Mac OSX vcpkg install assimp failed, please run apt-get install assimp")
-else()
+else ()
     find_package(assimp CONFIG REQUIRED)
     link_libraries(assimp::assimp)
-endif()
+endif ()
 
 find_path(STB_INCLUDE_DIRS "stb.h")
 include_directories(${STB_INCLUDE_DIRS})
