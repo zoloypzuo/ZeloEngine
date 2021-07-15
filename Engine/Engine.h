@@ -15,6 +15,7 @@
 #include "Plugin.h"
 #include "LuaScriptManager.h"
 #include "Renderer/OpenGL/ImGuiManager.h"
+#include <rttr/rttr_enable.h>
 
 class Engine : public Singleton<Engine>, public IRuntimeModule {
 public:
@@ -120,6 +121,7 @@ protected:
     */
     void shutdownPlugins();
 
+    RTTR_ENABLE()
 };
 
 #endif //ZELOENGINE_ENGINE_H
