@@ -1,5 +1,5 @@
 #### PR impact
 
- Impact                  | Issue/PR
+Impact                  | Issue/PR
 ------------------------ | ------
 Issues this solves       | None or #number(s)
