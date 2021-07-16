@@ -32,7 +32,7 @@ bool ISerializable::OnDeserialize(const YAML::Node &node) {
     auto type_name = node["__type"].as<std::string>();
 
     auto type = rttr::type::get_by_name(type_name);
-
+    return true;
 }
 }
 
