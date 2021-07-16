@@ -15,4 +15,6 @@ add_library(Core
         Input/Input.cpp
         Window/Window.cpp
         Math/Mathf.cpp
+
+        Interface/InterfaceDefaultImpl.cpp
         )
