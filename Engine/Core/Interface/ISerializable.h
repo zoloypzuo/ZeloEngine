@@ -8,6 +8,7 @@
 
 namespace Zelo::Core::Interface {
 class ISerializable {
+public:
     virtual ~ISerializable() = default;
 
     virtual void OnSerialize(YAML::Emitter &emitter);
