@@ -17,7 +17,10 @@
 #include "Renderer/OpenGL/ImGuiManager.h"
 #include <rttr/rttr_enable.h>
 
-class Engine : public Singleton<Engine>, public IRuntimeModule {
+class Engine :
+        public Singleton<Engine>,
+        public IRuntimeModule,
+        public Zelo::Core::Interface::ISerializable {
 public:
     typedef std::vector<std::unique_ptr<Plugin>> PluginInstanceList;
 
@@ -121,7 +124,7 @@ protected:
     */
     void shutdownPlugins();
 
-    RTTR_ENABLE()
+RTTR_ENABLE()
 };
 
 #endif //ZELOENGINE_ENGINE_H

@@ -8,21 +8,12 @@
 #include "MyGame.h"
 #include "Renderer/OpenGL/ForwardShadowRenderer.h"
 
-#include <rttr/registration>
-
 // enable vld
 #ifdef DETECT_MEMORY_LEAK
 
 #include <vld.h>
 
 #endif
-
-RTTR_REGISTRATION {
-    rttr::registration::class_<Engine>("Zelo::Engine")
-            .constructor<>()
-//            .property("window", &Engine::win)
-            .method("start", &Engine::start);
-}
 
 void Engine::initialize() {
     // init config and logger first
@@ -247,7 +238,15 @@ Engine &Engine::getSingleton() {
     return *msSingleton;
 }
 
-#include <rttr/type.h>
+#include <rttr/registration>
+
+RTTR_REGISTRATION {
+    rttr::registration::class_<Engine>("Zelo::Engine")
+            .constructor<>()
+            .property_readonly("engine_dir", &Engine::getEngineDir)
+            .method("start", &Engine::start);
+
+}
 
 void test_rttr(){
     // get type
