@@ -16,5 +16,6 @@ add_library(Core
         Window/Window.cpp
         Math/Mathf.cpp
 
-        Interface/InterfaceDefaultImpl.cpp
+        Interface/IRuntimeModule.cpp
+        Interface/ISerializable.cpp
         )
