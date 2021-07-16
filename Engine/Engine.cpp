@@ -237,3 +237,41 @@ Engine &Engine::getSingleton() {
     ZELO_ASSERT(msSingleton);
     return *msSingleton;
 }
+
+#include <rttr/registration>
+
+RTTR_REGISTRATION {
+    rttr::registration::class_<Engine>("Zelo::Engine")
+            .constructor<>()
+            .property_readonly("engine_dir", &Engine::getEngineDir)
+            .method("start", &Engine::start);
+
+}
+
+void test_rttr(){
+    // get type
+    auto t = rttr::type::get<Engine>();
+    auto t1 = rttr::type::get_by_name("Zelo::Engine");
+    auto e0 = Engine();
+    auto t2 = rttr::type::get(e0);
+
+    // ctor
+    auto e = t.create();
+    auto name = e.get_type().get_name();
+
+    auto ctor = t.get_constructor();
+    auto e2 = ctor.invoke();
+
+    // call method
+    auto m = t.get_method("start");
+    m.invoke(e);
+
+    // iterate member
+    for(const auto& prop:t.get_properties()){
+        spdlog::error("name: {}", prop.get_name().to_string());
+    }
+
+    for(const auto& meth:t.get_methods()){
+        spdlog::error("name: {}", meth.get_name().to_string());
+    }
+}
