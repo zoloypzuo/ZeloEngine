@@ -16,6 +16,7 @@ project(ZeloEngine)
 option(UsePreCompiledHeader "UsePreCompiledHeader" OFF)  # 预编译头
 option(DetectMemoryLeak "DetectMemoryLeak" OFF)  # 内存泄漏检测
 option(BuildTest "BuildTest" OFF)  # 构建测试
+option(BuildCycloneDemo "BuildCycloneDemo" OFF)  # 构建物理Demo
 
 # vcpkg import third party
 if (WIN32)

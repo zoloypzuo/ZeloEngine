@@ -18,20 +18,6 @@ add_library(cyclone
         world.cpp
         )
 
-if (BuildSwig)  # build swig in win32 release
-    add_library(cyclone_py SHARED
-            cyclone_wrapper.cxx
-            )
-
-    target_include_directories(cyclone_py PRIVATE $ENV{PYTHON_INCLUDE})
-    target_link_libraries(cyclone_py
-            $ENV{PYTHON_LIB}
-            cyclone
-            )
-endif ()
-
-option(BuildDemo "BuildDemo" OFF)
-message(STATUS BuildDemo=${BuildDemo})
-if (BuildDemo)
+if (BuildCycloneDemo)
     add_subdirectory(demos)
 endif ()
