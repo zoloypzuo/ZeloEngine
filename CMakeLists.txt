@@ -4,13 +4,18 @@ cmake_minimum_required(VERSION 3.18.4)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
-if (APPLE)
-elseif (UNIX)  # fix std::filesystem link error
+if (UNIX)  # fix std::filesystem link error
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     link_libraries(stdc++fs)
 endif ()
 
 project(ZeloEngine)
+
+# options
+
+option(UsePreCompiledHeader "UsePreCompiledHeader" OFF)  # 预编译头
+option(DetectMemoryLeak "DetectMemoryLeak" OFF)  # 内存泄漏检测
+option(BuildTest "BuildTest" OFF)  # 构建测试
 
 # vcpkg import third party
 if (WIN32)
@@ -42,7 +47,6 @@ elseif (UNIX)
     link_libraries(SDL2::SDL2main SDL2::SDL2-static)
 endif ()
 
-
 if (APPLE)
     message(WARNING "Mac OSX vcpkg install assimp failed, please run apt-get install assimp")
 else ()
@@ -57,9 +61,6 @@ find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
 
 # memory leak check
-option(DetectMemoryLeak "DetectMemoryLeak" OFF)
-message(STATUS DetectMemoryLeak=${DetectMemoryLeak})
-
 if (DetectMemoryLeak)
     add_compile_definitions(DETECT_MEMORY_LEAK)
     set(VldIncludeDir "C:/Program Files (x86)/Visual Leak Detector/include")
@@ -73,9 +74,6 @@ if (DetectMemoryLeak)
 endif ()
 
 # use precompiled header
-option(UsePreCompiledHeader "UsePreCompiledHeader" OFF)
-message(STATUS UsePreCompiledHeader=${UsePreCompiledHeader})
-
 if (UsePreCompiledHeader)
     set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
     include(cotire)
@@ -87,22 +85,22 @@ add_subdirectory(Engine)
 link_libraries(Common)
 
 # build main
-add_executable(hello main.cpp)
+add_executable(Hello main.cpp)
+
 if (UsePreCompiledHeader)
     set_target_properties(hello PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "Engine/ZeloPreCompiledHeader.h")
-    cotire(hello)
+    cotire(Hello)
 endif ()
 
 # after build main, copy config file to exe directory
 message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
-add_custom_command(TARGET hello PRE_BUILD
-        COMMAND python ${CMAKE_CURRENT_SOURCE_DIR}/build.py ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE_DIR:hello>)
+add_custom_command(
+        TARGET Hello PRE_BUILD COMMAND
+        py ${CMAKE_CURRENT_SOURCE_DIR}/build.py ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE_DIR:Hello>
+)
 
 # build test
-option(BuildTest "BuildTest" OFF)
-message(STATUS BuildTest=${BuildTest})
-
 if (BuildTest)
     find_package(gtest CONFIG REQUIRED)
 
