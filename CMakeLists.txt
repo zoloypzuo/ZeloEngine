@@ -12,11 +12,11 @@ endif ()
 project(ZeloEngine)
 
 # options
-
 option(UsePreCompiledHeader "UsePreCompiledHeader" OFF)  # 预编译头
-option(DetectMemoryLeak "DetectMemoryLeak" OFF)  # 内存泄漏检测
-option(BuildTest "BuildTest" OFF)  # 构建测试
-option(BuildCycloneDemo "BuildCycloneDemo" OFF)  # 构建物理Demo
+option(DetectMemoryLeak     "DetectMemoryLeak"     OFF)  # 内存泄漏检测
+option(BuildTest            "BuildTest"            OFF)  # 构建测试
+option(BuildCycloneDemo     "BuildCycloneDemo"     OFF)  # 构建物理Demo
+option(PlayImGui            "PlayImGui"            OFF)  # 探索ImGui实现
 
 # vcpkg import third party
 if (WIN32)
