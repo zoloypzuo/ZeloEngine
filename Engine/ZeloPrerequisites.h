@@ -51,16 +51,9 @@
 #undef main
 #endif
 
-class IRuntimeModule {
-public:
-    virtual ~IRuntimeModule() = default;
-
-    virtual void initialize() = 0;
-
-    virtual void finalize() = 0;
-
-    virtual void update() = 0;
-};
+// interface
+#include "Core/Interface/IRuntimeModule.h"
+#include "Core/Interface/ISerializable.h"
 
 template<typename T>
 using Scope = std::unique_ptr<T>;
