@@ -14,7 +14,6 @@
 #include "Util/IniReader.h"
 #include "Plugin.h"
 #include "LuaScriptManager.h"
-#include "Renderer/OpenGL/ImGuiManager.h"
 #include <rttr/rttr_enable.h>
 
 class Engine :
@@ -97,7 +96,7 @@ protected:
     std::unique_ptr<GLManager> m_glManager;
     std::unique_ptr<Renderer> m_renderer;
     std::unique_ptr<INIReader> m_config;
-    std::unique_ptr<ImGuiManager> m_imguiManager;
+//    std::unique_ptr<ImGuiManager> m_imguiManager;
     std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
     std::chrono::microseconds m_deltaTime{};
     std::filesystem::path m_engineDir{};

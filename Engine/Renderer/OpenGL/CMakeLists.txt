@@ -19,7 +19,7 @@ add_library(OpenGLRenderer
         GLUtil.cpp
         skybox.cpp
         DeferredRenderer.cpp
-        ImGuiManager.cpp
+#        ImGuiManager.cpp/
         GLBuffer.cpp
         GLVertexArray.cpp
         )

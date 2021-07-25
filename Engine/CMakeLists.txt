@@ -46,17 +46,22 @@ endif ()
 # build engine
 include_directories(./)
 
-if(APPLE)  # TODO fix osx ZELO_ASSERT
-else()
+if (APPLE)  # TODO fix osx ZELO_ASSERT
+else ()
     add_compile_definitions(ZELO_DEBUG)
-endif()
+endif ()
 add_compile_definitions(DEBUG_SHADOWMAP)
 
 add_subdirectory(Core)
 link_libraries(Core)
 
-add_subdirectory(Core/ImGui) # use my own ImGui implementation
-link_libraries(ImGui)
+if (PlayImGui)
+    add_subdirectory(Core/ImGui) # use my own ImGui implementation
+    link_libraries(ImGui)
+else ()
+    find_package(imgui CONFIG REQUIRED)
+    link_libraries(imgui::imgui)
+endif ()
 
 add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
