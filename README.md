@@ -14,53 +14,6 @@ It is all about game engine.
 * 熟悉游戏引擎架构
 * 动手实现一些引擎模块和技术
 
-# 目标
-
-## v1
-
-* DSL驱动引擎
-    * [ ] 多种脚本语言
-        * [x] Lua
-        * [ ] Python
-        * [ ] C#
-    * [x] DSL驱动引擎模块，避免编辑器
-        * [x] 行为树
-        * [x] 状态机
-    * [ ] DSL驱动渲染管线
-        * [ ] 可编程渲染管线
-* [ ] 渲染器原型
-    * [ ] RHI
-        * [x] OpenGL
-        * [ ] OpenGLES
-        * [ ] DirectX11
-        * [ ] DirectX12
-        * [ ] Vulkan
-    * [x] 前向渲染
-        * [x] 场景树
-        * [x] 模型加载
-        * [x] 应用贴图
-        * [x] 基本光照
-        * [x] 基本阴影
-        * [x] 上帝相机
-* [ ] 跨平台支持
-    * [x] Windows 10
-    * [x] Linux
-    * [x] ~~Mac OS X~~
-    * [ ] Android
-    * [ ] IOS
-* [x] 游戏逻辑框架
-* [x] 脚本支持
-* [x] 物理
-    * [x] 刚体动力学
-    * [x] 碰撞检测
-* [x] 寻路
-
-## v2
-
-* 多线程引擎架构
-* 跨平台渲染架构
-* 网络引擎
-
 # 权衡
 
 * 开发效率优先
@@ -68,17 +21,36 @@ It is all about game engine.
 
 尽可能多的铺功能点，支持更多的平台，渲染接口，来验证架构和接口的扩展性。
 
-把事情做对，不只是把事情做了。
+不追求最先进的技术，踏实地实践可以完成的功能，把一样东西搞清楚。
 
-# 构建
+# 特性列表
+
+* Lua脚本
+* 前向渲染管线
+* 阴影
+* 游戏编辑器
+
+# 模块列表
+
+* Core，引擎抽象层
+* ImGui，立即绘制UI
+* Input，输入
+* Lua，脚本
+* Math，数学
+* Physics，物理
+* Profile，性能剖析
+* Resource，资源加载
+* RHI，抽象渲染层
+* Window，窗口
+* ECS，实体组件
+
+# 构建 & 依赖管理
 
 目前以VS2019 Win32 Debug日常开发为主。
 
 使用vcpkg来管理C++第三方库依赖，主要是方便，成本低。
 
 引擎本体将所有代码编译为一个可执行文件，避免动态链接。
-
-其他平台和编译器尽可能去维护，主要是增强代码的跨平台兼容性，了解平台差异。
 
 构建脚本在`Tools/`下，每个目标平台对应一个`buildxxx`脚本。
 
@@ -101,7 +73,7 @@ It is all about game engine.
 
 运行`Tools\build_vs2019.bat`
 
-## 相关笔记
+## 构建相关笔记
 
 [【ZeloEngine】构建概述 & 构建问题汇总](https://blog.csdn.net/zolo_mario/article/details/117652524)
 
@@ -109,7 +81,7 @@ It is all about game engine.
 
 长期更新中
 
-# Feature
+# Roadmap
 
 ## Python Prototype
 
@@ -132,14 +104,62 @@ It is all about game engine.
     * bullet
     * cyclone
 
-## C++ Core
+## C++ Runtime
 
 * forward renderer
 * lua script support
-* scene & transoform tree
+* scene & transform tree
 
 # Demo
 
 * cyclone physics demo
 * forward renderer demo
 * TPS AI demo
+
+# 特性规划
+
+* [ ] DSL驱动引擎
+    * [x] 多种脚本语言
+        * [x] Lua
+        * [ ] ~~Python~~
+        * [ ] ~~C#~~
+    * [x] DSL驱动引擎模块，避免编辑器
+        * [x] 行为树
+        * [x] 状态机
+    * [ ] DSL驱动渲染管线
+        * [ ] 可编程渲染管线
+        * [ ] 可编程后处理脚本
+* [ ] 渲染器原型
+    * [ ] RHI
+        * [x] OpenGL
+        * [ ] OpenGLES
+        * [ ] DirectX11
+        * [ ] ~~DirectX12~~
+        * [ ] ~~Vulkan~~
+    * [x] 前向渲染
+        * [x] 场景树
+        * [x] 模型加载
+        * [x] 应用贴图
+        * [x] 基本光照
+        * [x] 基本阴影
+        * [x] 上帝相机
+    * [ ] 进阶阴影优化
+    * [ ] 材质编辑器
+    * [ ] PBR
+* [ ] 跨平台支持
+    * [x] Windows 10
+    * [x] Linux
+    * [x] ~~Mac OS X~~
+    * [ ] Android
+    * [ ] ~~IOS~~
+* [x] 游戏逻辑框架
+* [x] 脚本支持
+* [x] 物理
+    * [x] 刚体动力学
+    * [x] 碰撞检测
+* [x] 寻路
+* [ ] 骨骼动画  
+* [ ] 多线程引擎架构
+* [ ] 跨平台渲染架构
+* [ ] 网络引擎
+* [ ] 使用引擎完成一个游戏
