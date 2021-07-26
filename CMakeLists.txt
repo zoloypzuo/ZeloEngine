@@ -12,11 +12,22 @@ endif ()
 project(ZeloEngine)
 
 # options
-option(UsePreCompiledHeader "UsePreCompiledHeader" OFF)  # 预编译头
+# @formatter:off
 option(DetectMemoryLeak     "DetectMemoryLeak"     OFF)  # 内存泄漏检测
-option(BuildTest            "BuildTest"            OFF)  # 构建测试
+
 option(BuildCycloneDemo     "BuildCycloneDemo"     OFF)  # 构建物理Demo
+option(BuildCyclone         "BuildCyclone"         OFF)  # 构建物理
 option(PlayImGui            "PlayImGui"            OFF)  # 探索ImGui实现
+# @formatter:on
+
+# engine option
+if (APPLE)  # TODO fix osx ZELO_ASSERT
+else ()
+    add_compile_definitions(ZELO_DEBUG)
+endif ()
+add_compile_definitions(DEBUG_SHADOWMAP)  # 调试shadow-map，在右上角显示shadow-map
+add_compile_definitions(SWIGRUNTIME_DEBUG)  # Swig运行时DebugLog，量很大，你忍一下
+
 
 # vcpkg import third party
 if (WIN32)
@@ -74,12 +85,6 @@ if (DetectMemoryLeak)
     link_directories(${VldLibDir})
 endif ()
 
-# use precompiled header
-if (UsePreCompiledHeader)
-    set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake")
-    include(cotire)
-endif ()
-
 # build engine
 include_directories(Engine)
 add_subdirectory(Engine)
@@ -88,11 +93,6 @@ link_libraries(Common)
 # build main
 add_executable(Hello main.cpp)
 
-if (UsePreCompiledHeader)
-    set_target_properties(hello PROPERTIES COTIRE_CXX_PREFIX_HEADER_INIT "Engine/ZeloPreCompiledHeader.h")
-    cotire(Hello)
-endif ()
-
 # after build main, copy config file to exe directory
 message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
@@ -100,12 +100,3 @@ add_custom_command(
         TARGET Hello PRE_BUILD COMMAND
         py ${CMAKE_CURRENT_SOURCE_DIR}/build.py ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE_DIR:Hello>
 )
-
-# build test
-if (BuildTest)
-    find_package(gtest CONFIG REQUIRED)
-
-    include(CTest)
-    enable_testing()
-    add_subdirectory(Engine/Test)
-endif ()
