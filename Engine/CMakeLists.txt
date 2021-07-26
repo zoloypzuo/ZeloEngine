@@ -23,7 +23,7 @@ link_libraries(
         Window
 )
 
-add_subdirectory(Renderer/OpenGL)
+add_subdirectory(Renderer)
 link_libraries(OpenGLRenderer)
 
 file(GLOB CommonSrc *.cpp *.cxx)
