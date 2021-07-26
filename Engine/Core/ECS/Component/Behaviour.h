@@ -4,10 +4,12 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
+#include "Core/ECS/Component.h"
 
-
-namespace Zelo::ECS::Component {
-class Behaviour {
+namespace Zelo::Core::ECS::Component {
+// Lua Script Behaviour
+// Unity's MonoBehaviour
+class Behaviour : public ::Component {
 
 };
 }
