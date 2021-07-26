@@ -1,21 +1,13 @@
 # created on 2021/6/2
 # author @zoloypzuo
-add_library(Core
-        Resource/Resource.cpp
 
-        RHI/Shader.cpp
-        RHI/Texture.cpp
-        RHI/RenderCommand.cpp
-        RHI/Framebuffer.cpp
-        RHI/Buffer.cpp
-        RHI/VertexArray.cpp
-        RHI/BufferLayout.cpp
-        RHI/ShaderType.cpp
-
-        Input/Input.cpp
-        Window/Window.cpp
-        Math/Mathf.cpp
-
-        Interface/IRuntimeModule.cpp
-        Interface/ISerializable.cpp
-        )
+add_subdirectory(ECS)
+#add_subdirectory(ImGui)
+add_subdirectory(Input)
+add_subdirectory(Interface)
+add_subdirectory(Math)
+#add_subdirectory(Physics)
+add_subdirectory(Profiler)
+add_subdirectory(Resource)
+add_subdirectory(RHI)
+add_subdirectory(Window)

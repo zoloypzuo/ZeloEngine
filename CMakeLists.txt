@@ -112,6 +112,10 @@ add_compile_definitions(GLM_FORCE_RADIANS)
 find_package(rttr CONFIG REQUIRED)
 link_libraries(RTTR::Core)
 
+# imgui
+find_package(imgui CONFIG REQUIRED)
+link_libraries(imgui::imgui)
+
 # memory leak check
 if (DetectMemoryLeak)
     add_compile_definitions(DETECT_MEMORY_LEAK)
