@@ -2,6 +2,7 @@
 # author @zoloypzuo
 
 add_subdirectory(ECS)
+add_subdirectory(Event)
 add_subdirectory(Game)
 #add_subdirectory(ImGui)
 add_subdirectory(Input)
@@ -18,6 +19,7 @@ add_subdirectory(RHI)
 add_subdirectory(Window)
 
 set_target_properties(ECS PROPERTIES FOLDER "Core")
+set_target_properties(Event PROPERTIES FOLDER "Core")
 set_target_properties(Game PROPERTIES FOLDER "Core")
 #set_target_properties(ImGui PROPERTIES FOLDER "Core")
 set_target_properties(Input PROPERTIES FOLDER "Core")
