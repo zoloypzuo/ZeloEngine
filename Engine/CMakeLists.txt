@@ -11,6 +11,7 @@ link_libraries(
         Input
         Interface
         Math
+        LuaScript
         #Physics
         Profiler
         Resource

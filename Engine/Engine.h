@@ -13,7 +13,7 @@
 #include "Renderer/OpenGL/ForwardRenderer.h"
 #include "Util/IniReader.h"
 #include "Plugin.h"
-#include "LuaScriptManager.h"
+#include "Core/LuaScript/LuaScriptManager.h"
 #include <rttr/rttr_enable.h>
 
 class Engine :
