@@ -1,6 +1,8 @@
 # created on 2019/9/23
 # author @zoloypzuo
 cmake_minimum_required(VERSION 3.18.4)
+
+# C++ standard option
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
@@ -8,6 +10,9 @@ if (UNIX)  # fix std::filesystem link error
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
     link_libraries(stdc++fs)
 endif ()
+
+# cmake option
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)  # Visual Studio中将target划分到目录中
 
 project(ZeloEngine)
 
@@ -136,6 +141,7 @@ link_libraries(Engine)
 
 # build main
 add_executable(Hello main.cpp)
+set_target_properties(Hello PROPERTIES FOLDER "Main")
 
 # after build main, copy config file to exe directory
 message(STATUS ${CMAKE_COMMAND})
