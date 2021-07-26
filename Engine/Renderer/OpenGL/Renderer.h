@@ -7,7 +7,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
-#include "Entity.h"
+#include "Core/ECS/Entity.h"
 #include "Renderer/OpenGL/Camera.h"
 #include "Renderer/OpenGL/Light.h"
 

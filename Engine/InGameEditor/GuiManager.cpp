@@ -6,7 +6,7 @@
 
 #include "Renderer/OpenGL/Shader.h"
 #include "Renderer/OpenGL/GLTexture.h"
-#include "Component.h"
+#include "Core/ECS/Component.h"
 #include "Engine.h"
 
 TextureData *m_textureData;

@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Game.h"
 
-#include "Entity.h"
+#include "Core/ECS/Entity.h"
 #include "Engine.h"
 
 void Game::update() {

@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
-#include "Component.h"
+#include "Core/ECS/Component.h"
 
 class FreeMove : public Component {
 public:

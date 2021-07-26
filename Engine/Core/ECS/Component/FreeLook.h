@@ -6,7 +6,7 @@
 #define ZELOENGINE_FREELOOK_H
 
 #include "ZeloPrerequisites.h"
-#include "Component.h"
+#include "Core/ECS/Component.h"
 #include "Engine.h"
 
 class FreeLook : public Component {

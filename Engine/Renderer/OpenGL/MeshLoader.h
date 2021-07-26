@@ -10,7 +10,7 @@
 #include "GLTexture.h"
 #include "GLMesh.h"
 #include "Material.h"
-#include "Entity.h"
+#include "Core/ECS/Entity.h"
 
 #include <assimp/scene.h>
 #include <assimp/IOSystem.hpp>

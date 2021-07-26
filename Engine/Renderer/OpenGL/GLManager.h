@@ -13,7 +13,7 @@
 #include "ForwardRenderer.h"
 #include "GLSLShaderProgram.h"
 #include "MeshManager.h"
-#include "Entity.h"
+#include "Core/ECS/Entity.h"
 #include "Core/Window/Window.h"
 #include "Camera.h"
 #include "Light.h"

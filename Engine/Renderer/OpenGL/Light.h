@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Component.h"
+#include "Core/ECS/Component.h"
 #include "GLSLShaderProgram.h"
 #include "Attenuation.h"
 

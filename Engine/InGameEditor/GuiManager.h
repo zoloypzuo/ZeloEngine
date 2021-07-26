@@ -5,7 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Entity.h"
+#include "Core/ECS/Entity.h"
 
 #include <imgui.h>
 
