@@ -5,4 +5,4 @@ add_library(ECS
         Entity.cpp
         Component/FreeMove.cpp
         Component/FreeLook.cpp
-        )
+        Component/Behaviour.cpp Component/Behaviour.h Component/Behaviour.inl)
