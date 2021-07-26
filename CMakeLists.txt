@@ -49,7 +49,7 @@ add_subdirectory(ThirdParty)
 
 # lua
 set(LUA_LIBRARIES Lua)
-set(LUA_INCLUDE_DIR Lua/include)
+set(LUA_INCLUDE_DIR ThirdParty/Lua/include)
 include_directories(${LUA_INCLUDE_DIR})
 link_libraries(${LUA_LIBRARIES})
 
