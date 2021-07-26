@@ -38,19 +38,8 @@ add_compile_definitions(GLM_FORCE_RADIANS)
 find_package(rttr CONFIG REQUIRED)
 link_libraries(RTTR::Core)
 
-# swig runtime debug log
-if (0)  # too much log
-    add_compile_definitions(SWIGRUNTIME_DEBUG)
-endif ()
-
 # build engine
 include_directories(./)
-
-if (APPLE)  # TODO fix osx ZELO_ASSERT
-else ()
-    add_compile_definitions(ZELO_DEBUG)
-endif ()
-add_compile_definitions(DEBUG_SHADOWMAP)
 
 add_subdirectory(Core)
 link_libraries(Core)
@@ -67,9 +56,8 @@ add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
 
 file(GLOB CommonSrc *.cpp *.cxx Component/*.cpp Util/*.cpp)
-add_library(Common ${CommonSrc})
+add_library(Engine ${CommonSrc})
 
-
-if (0)  # not used for now
+if (BuildCyclone)  # not used for now
     add_subdirectory(Core/Physics)
 endif ()

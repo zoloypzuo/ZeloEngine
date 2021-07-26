@@ -88,7 +88,7 @@ endif ()
 # build engine
 include_directories(Engine)
 add_subdirectory(Engine)
-link_libraries(Common)
+link_libraries(Engine)
 
 # build main
 add_executable(Hello main.cpp)
