@@ -12,7 +12,7 @@
 #include "Renderer/OpenGL/GLManager.h"
 #include "Renderer/OpenGL/ForwardRenderer.h"
 #include "Util/IniReader.h"
-#include "Plugin.h"
+#include "Core/Plugin/Plugin.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 #include <rttr/rttr_enable.h>
 

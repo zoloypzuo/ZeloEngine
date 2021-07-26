@@ -13,6 +13,7 @@ link_libraries(
         Math
         LuaScript
         #Physics
+        Plugin
         Profiler
         Resource
         RHI
