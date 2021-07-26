@@ -6,8 +6,6 @@
 
 #include <rttr/type>
 
-// TODO 递归，处理类型问题
-// TODO 返回varient，看下怎么定接口比较好
 namespace Zelo::Core::Interface {
 void ISerializable::OnSerialize(YAML::Emitter &emitter) {
     emitter << YAML::BeginMap;
