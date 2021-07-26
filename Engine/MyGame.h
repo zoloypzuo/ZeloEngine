@@ -5,7 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Game.h"
+#include "Core/Game/Game.h"
 
 class MyGame : public Game {
 public:

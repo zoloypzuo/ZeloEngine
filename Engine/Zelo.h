@@ -14,7 +14,7 @@
 #include "Renderer/OpenGL/MeshLoader.h"
 #include "Core/ECS/Component/FreeMove.h"
 #include "Core/ECS/Component/FreeLook.h"
-#include "Game.h"
+#include "Core/Game/Game.h"
 #include "Core/Math/Mathf.h"
 #include "Engine.h"
 
