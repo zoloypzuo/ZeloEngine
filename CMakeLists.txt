@@ -11,6 +11,20 @@ endif ()
 
 project(ZeloEngine)
 
+# C++ or platform options
+if (WIN32)
+    # ignore warning
+    add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
+    # avoid some bugs with Windows...
+    add_compile_definitions(NOMINMAX)
+    # We do this to speed up the build process,
+    # it reduces the size of the Win32 header files by excluding some of the less used APIs.
+    add_compile_definitions(WIN32_LEAN_AND_MEAN)
+endif ()
+
+# use unicode, wstring and etc
+add_compile_definitions(UNICODE)
+
 # options
 # @formatter:off
 option(DetectMemoryLeak     "DetectMemoryLeak"     OFF)  # 内存泄漏检测
@@ -28,6 +42,16 @@ endif ()
 add_compile_definitions(DEBUG_SHADOWMAP)  # 调试shadow-map，在右上角显示shadow-map
 add_compile_definitions(SWIGRUNTIME_DEBUG)  # Swig运行时DebugLog，量很大，你忍一下
 
+# build third party
+add_subdirectory(ThirdParty)
+
+# import third party
+
+# lua
+set(LUA_LIBRARIES Lua)
+set(LUA_INCLUDE_DIR Lua/include)
+include_directories(${LUA_INCLUDE_DIR})
+link_libraries(${LUA_LIBRARIES})
 
 # vcpkg import third party
 if (WIN32)
@@ -71,6 +95,22 @@ include_directories(${STB_INCLUDE_DIRS})
 
 find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
+
+# vcpkg import sol
+find_package(sol2 CONFIG REQUIRED)
+link_libraries(sol2::sol2)
+# sol enable safety check
+add_compile_definitions(SOL_ALL_SAFETIES_ON)
+# sol fix link error
+add_compile_definitions(SOL_USING_CXX_LUA=0)
+
+# glm
+add_compile_definitions(GLM_FORCE_SWIZZLE)
+add_compile_definitions(GLM_FORCE_RADIANS)
+
+# rttr
+find_package(rttr CONFIG REQUIRED)
+link_libraries(RTTR::Core)
 
 # memory leak check
 if (DetectMemoryLeak)
