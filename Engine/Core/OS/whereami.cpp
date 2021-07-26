@@ -4,7 +4,7 @@
 // in case you want to #include "whereami.c" in a larger compilation unit
 #if !defined(WHEREAMI_H)
 
-#include <Util/whereami.h>
+#include <Core/OS/whereami.h>
 
 #endif
 
@@ -52,7 +52,7 @@
 #pragma warning(push, 3)
 #endif
 
-#include <windows.h>
+#include <Windows.h>
 #include <intrin.h>  // _ReturnAddress
 
 #if defined(_MSC_VER)

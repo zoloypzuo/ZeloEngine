@@ -11,8 +11,10 @@ link_libraries(
         #ImGui
         Input
         Interface
-        Math
         LuaScript
+        Math
+        OS
+        Parser
         #Physics
         Plugin
         Profiler
@@ -24,5 +26,5 @@ link_libraries(
 add_subdirectory(Renderer/OpenGL)
 link_libraries(OpenGLRenderer)
 
-file(GLOB CommonSrc *.cpp *.cxx Util/*.cpp)
+file(GLOB CommonSrc *.cpp *.cxx)
 add_library(Engine ${CommonSrc})
