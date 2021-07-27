@@ -1,4 +1,4 @@
-// LuaScriptManager.cpp.cc
+// LuaScriptManager.cpp
 // created on 2021/5/5
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"

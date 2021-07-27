@@ -1,4 +1,4 @@
-// DeferredRenderer.cpp.cc
+// DeferredRenderer.cpp
 // created on 2021/4/28
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"

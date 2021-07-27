@@ -1,4 +1,4 @@
-// GLUtil.cpp.cc
+// GLUtil.cpp
 // created on 2021/4/24
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"

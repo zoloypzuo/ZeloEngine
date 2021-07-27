@@ -1,4 +1,4 @@
-// ImGuiTextEdit.cpp.cc
+// ImGuiTextEdit.cpp
 // created on 2021/6/12
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
