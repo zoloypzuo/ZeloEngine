@@ -1,5 +1,4 @@
 
-
 #include <algorithm>
 
 #include "Core/ECS/Actor.h"
@@ -105,11 +104,9 @@ int64_t Actor::GetID() const {
 void Actor::SetParent(Actor &parent) {
     DetachFromParent();
 
-
     m_parent = &parent;
     m_parentID = parent.m_actorID;
 //    transform.SetParent(parent.transform);
-
 
     parent.m_children.push_back(this);
 
@@ -118,7 +115,6 @@ void Actor::SetParent(Actor &parent) {
 
 void Actor::DetachFromParent() {
     DettachEvent.Invoke(*this);
-
 
     if (m_parent) {
         m_parent->m_children.erase(

@@ -31,5 +31,4 @@ private:
     bool m_moveForwards, m_sprinting;
 };
 
-
 #endif //ZELOENGINE_FREEMOVE_H

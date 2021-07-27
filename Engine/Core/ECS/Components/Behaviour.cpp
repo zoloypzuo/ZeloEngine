@@ -1,10 +1,5 @@
 #include "ZeloPreCompiledHeader.h"
-//#include <UI/Widgets/Texts/TextColored.h>
-//#include <Debug/Utils/Logger.h>
-
-#include "Core/ECS/Actor.h"
 #include "Core/ECS/Components/Behaviour.h"
-//#include "Core/Scripting/LuaBinder.h"
 
 using namespace Zelo::Core;
 using namespace Zelo::Core::ECS;
@@ -86,52 +81,3 @@ void Behaviour::OnFixedUpdate(float deltaTime) {
 void Behaviour::OnLateUpdate(float deltaTime) {
     LuaCall("OnLateUpdate", deltaTime);
 }
-
-//void Behaviour::OnCollisionEnter(Components::CPhysicalObject &otherObject) {
-//    LuaCall("OnCollisionStart", otherObject);
-//    LuaCall("OnCollisionEnter", otherObject);
-//}
-//
-//void Behaviour::OnCollisionStay(Components::CPhysicalObject &otherObject) {
-//    LuaCall("OnCollisionStay", otherObject);
-//}
-//
-//void Behaviour::OnCollisionExit(Components::CPhysicalObject &otherObject) {
-//    LuaCall("OnCollisionStop", otherObject);
-//    LuaCall("OnCollisionExit", otherObject);
-//}
-//
-//void Behaviour::OnTriggerEnter(Components::CPhysicalObject &otherObject) {
-//    LuaCall("OnTriggerStart", otherObject);
-//    LuaCall("OnTriggerEnter", otherObject);
-//}
-//
-//void Behaviour::OnTriggerStay(Components::CPhysicalObject &otherObject) {
-//    LuaCall("OnTriggerStay", otherObject);
-//}
-//
-//void Behaviour::OnTriggerExit(Components::CPhysicalObject &otherObject) {
-//    LuaCall("OnTriggerStop", otherObject);
-//    LuaCall("OnTriggerExit", otherObject);
-//}
-
-//void Behaviour::OnSerialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *node) {
-//}
-//
-//void Behaviour::OnDeserialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *node) {
-//}
-
-//void Behaviour::OnInspector(OvUI::Internal::WidgetContainer &root) {
-//    using namespace Zelo::Maths;
-//    using namespace Zelo::Core::Helpers;
-//
-//    if (m_object.valid()) {
-//        root.CreateWidget<OvUI::Widgets::Texts::TextColored>("Ready", OvUI::Types::Color::Green);
-//        root.CreateWidget<OvUI::Widgets::Texts::TextColored>("Your script gets interpreted by the engine with success",
-//                                                             OvUI::Types::Color::White);
-//    } else {
-//        root.CreateWidget<OvUI::Widgets::Texts::TextColored>("Compilation failed!", OvUI::Types::Color::Red);
-//        root.CreateWidget<OvUI::Widgets::Texts::TextColored>("Check the console for more information",
-//                                                             OvUI::Types::Color::White);
-//    }
-//}

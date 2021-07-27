@@ -55,5 +55,4 @@ protected:
     Entity *m_parentEntity;
 };
 
-
 #endif //ZELOENGINE_COMPONENT_H
