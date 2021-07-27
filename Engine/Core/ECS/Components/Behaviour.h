@@ -57,22 +57,22 @@ public:
     virtual void OnLateUpdate(float deltaTime) override;
 
 
-    virtual void OnCollisionEnter(Components::CPhysicalObject &otherObject) override;
-
-
-    virtual void OnCollisionStay(Components::CPhysicalObject &otherObject) override;
-
-
-    virtual void OnCollisionExit(Components::CPhysicalObject &otherObject) override;
-
-
-    virtual void OnTriggerEnter(Components::CPhysicalObject &otherObject) override;
-
-
-    virtual void OnTriggerStay(Components::CPhysicalObject &otherObject) override;
-
-
-    virtual void OnTriggerExit(Components::CPhysicalObject &otherObject) override;
+//    virtual void OnCollisionEnter(Components::CPhysicalObject &otherObject) override;
+//
+//
+//    virtual void OnCollisionStay(Components::CPhysicalObject &otherObject) override;
+//
+//
+//    virtual void OnCollisionExit(Components::CPhysicalObject &otherObject) override;
+//
+//
+//    virtual void OnTriggerEnter(Components::CPhysicalObject &otherObject) override;
+//
+//
+//    virtual void OnTriggerStay(Components::CPhysicalObject &otherObject) override;
+//
+//
+//    virtual void OnTriggerExit(Components::CPhysicalObject &otherObject) override;
 
 
 //    virtual void OnSerialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *node) override;

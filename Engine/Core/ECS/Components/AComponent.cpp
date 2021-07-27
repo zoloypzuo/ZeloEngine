@@ -1,10 +1,13 @@
 #include "Core/ECS/Components/AComponent.h"
 #include "Core/ECS/Actor.h"
 
-OvCore::ECS::Components::AComponent::AComponent(ECS::Actor &owner) : owner(owner) {
+using namespace Zelo::Core::ECS;
+using namespace Zelo::Core::ECS::Components;
+
+AComponent::AComponent(Actor &owner) : owner(owner) {
 }
 
-OvCore::ECS::Components::AComponent::~AComponent() {
+AComponent::~AComponent() {
     if (owner.IsActive()) {
         OnDisable();
         OnDestroy();

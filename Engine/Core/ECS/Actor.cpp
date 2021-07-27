@@ -4,19 +4,19 @@
 
 #include "Core/ECS/Actor.h"
 
-#include "Core/ECS/Components/CPhysicalBox.h"
-#include "Core/ECS/Components/CPhysicalSphere.h"
-#include "Core/ECS/Components/CPhysicalCapsule.h"
-#include "Core/ECS/Components/CCamera.h"
-#include "Core/ECS/Components/CModelRenderer.h"
-#include "Core/ECS/Components/CMaterialRenderer.h"
-#include "Core/ECS/Components/CAudioSource.h"
-#include "Core/ECS/Components/CAudioListener.h"
-#include "Core/ECS/Components/CPointLight.h"
-#include "Core/ECS/Components/CDirectionalLight.h"
-#include "Core/ECS/Components/CSpotLight.h"
-#include "Core/ECS/Components/CAmbientBoxLight.h"
-#include "Core/ECS/Components/CAmbientSphereLight.h"
+//#include "Core/ECS/Components/CPhysicalBox.h"
+//#include "Core/ECS/Components/CPhysicalSphere.h"
+//#include "Core/ECS/Components/CPhysicalCapsule.h"
+//#include "Core/ECS/Components/CCamera.h"
+//#include "Core/ECS/Components/CModelRenderer.h"
+//#include "Core/ECS/Components/CMaterialRenderer.h"
+//#include "Core/ECS/Components/CAudioSource.h"
+//#include "Core/ECS/Components/CAudioListener.h"
+//#include "Core/ECS/Components/CPointLight.h"
+//#include "Core/ECS/Components/CDirectionalLight.h"
+//#include "Core/ECS/Components/CSpotLight.h"
+//#include "Core/ECS/Components/CAmbientBoxLight.h"
+//#include "Core/ECS/Components/CAmbientSphereLight.h"
 
 using namespace Zelo::Core;
 using namespace Zelo::Core::ECS;
@@ -108,7 +108,7 @@ void Actor::SetParent(Actor &parent) {
 
     m_parent = &parent;
     m_parentID = parent.m_actorID;
-    transform.SetParent(parent.transform);
+//    transform.SetParent(parent.transform);
 
 
     parent.m_children.push_back(this);
@@ -130,7 +130,7 @@ void Actor::DetachFromParent() {
     m_parent = nullptr;
     m_parentID = 0;
 
-    transform.RemoveParent();
+//    transform.RemoveParent();
 }
 
 bool Actor::HasParent() const {

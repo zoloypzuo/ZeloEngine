@@ -1,6 +1,7 @@
 #pragma once
 
 //#include "Core/API/IInspectorItem.h"
+#include "ZeloPrerequisites.h"
 
 namespace Zelo::Core::ECS { class Actor; }
 
@@ -41,22 +42,22 @@ public:
     virtual void OnLateUpdate(float deltaTime) {}
 
 
-    virtual void OnCollisionEnter(Components::CPhysicalObject &otherObject) {}
-
-
-    virtual void OnCollisionStay(Components::CPhysicalObject &otherObject) {}
-
-
-    virtual void OnCollisionExit(Components::CPhysicalObject &otherObject) {}
-
-
-    virtual void OnTriggerEnter(Components::CPhysicalObject &otherObject) {}
-
-
-    virtual void OnTriggerStay(Components::CPhysicalObject &otherObject) {}
-
-
-    virtual void OnTriggerExit(Components::CPhysicalObject &otherObject) {}
+//    virtual void OnCollisionEnter(Components::CPhysicalObject &otherObject) {}
+//
+//
+//    virtual void OnCollisionStay(Components::CPhysicalObject &otherObject) {}
+//
+//
+//    virtual void OnCollisionExit(Components::CPhysicalObject &otherObject) {}
+//
+//
+//    virtual void OnTriggerEnter(Components::CPhysicalObject &otherObject) {}
+//
+//
+//    virtual void OnTriggerStay(Components::CPhysicalObject &otherObject) {}
+//
+//
+//    virtual void OnTriggerExit(Components::CPhysicalObject &otherObject) {}
 
 
     virtual std::string GetName() = 0;

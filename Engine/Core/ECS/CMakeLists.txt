@@ -10,5 +10,5 @@ add_library(ECS
 
         Actor.cpp Actor.h Actor.inl
 
-        ${ComponentsSrc}
         )
+target_link_libraries(ECS PRIVATE ECS_Components)
