@@ -1,21 +1,5 @@
-
-#include <algorithm>
-
+#include "ZeloPreCompiledHeader.h"
 #include "Core/ECS/Actor.h"
-
-//#include "Core/ECS/Components/CPhysicalBox.h"
-//#include "Core/ECS/Components/CPhysicalSphere.h"
-//#include "Core/ECS/Components/CPhysicalCapsule.h"
-//#include "Core/ECS/Components/CCamera.h"
-//#include "Core/ECS/Components/CModelRenderer.h"
-//#include "Core/ECS/Components/CMaterialRenderer.h"
-//#include "Core/ECS/Components/CAudioSource.h"
-//#include "Core/ECS/Components/CAudioListener.h"
-//#include "Core/ECS/Components/CPointLight.h"
-//#include "Core/ECS/Components/CDirectionalLight.h"
-//#include "Core/ECS/Components/CSpotLight.h"
-//#include "Core/ECS/Components/CAmbientBoxLight.h"
-//#include "Core/ECS/Components/CAmbientSphereLight.h"
 
 using namespace Zelo::Core;
 using namespace Zelo::Core::ECS;
@@ -23,7 +7,7 @@ using namespace Zelo::Core::ECS;
 EventSystem::Event<Actor &> Actor::DestroyedEvent;
 EventSystem::Event<Actor &> Actor::CreatedEvent;
 EventSystem::Event<Actor &, Actor &> Actor::AttachEvent;
-EventSystem::Event<Actor &> Actor::DettachEvent;
+EventSystem::Event<Actor &> Actor::DetachEvent;
 
 Actor::Actor(int64_t actorID, const std::string &name, const std::string &tag, bool &playing) :
         m_actorID(actorID),
@@ -39,7 +23,7 @@ Actor::~Actor() {
         if (IsActive())
             OnDisable();
 
-        if (m_awaked && m_started)
+        if (m_awake && m_started)
             OnDestroy();
     }
 
@@ -114,7 +98,7 @@ void Actor::SetParent(Actor &parent) {
 }
 
 void Actor::DetachFromParent() {
-    DettachEvent.Invoke(*this);
+    DetachEvent.Invoke(*this);
 
     if (m_parent) {
         m_parent->m_children.erase(
@@ -161,7 +145,7 @@ void Actor::SetSleeping(bool sleeping) {
 }
 
 void Actor::OnAwake() {
-    m_awaked = true;
+    m_awake = true;
     std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnAwake(); });
     std::for_each(m_behaviours.begin(), m_behaviours.end(), [](auto &element) { element.second.OnAwake(); });
 }
@@ -212,46 +196,6 @@ void Actor::OnLateUpdate(float deltaTime) {
                       [&](auto &element) { element.second.OnLateUpdate(deltaTime); });
     }
 }
-
-//void Actor::OnCollisionEnter(Components::CPhysicalObject &otherObject) {
-//    std::for_each(m_components.begin(), m_components.end(),
-//                  [&](auto element) { element->OnCollisionEnter(otherObject); });
-//    std::for_each(m_behaviours.begin(), m_behaviours.end(),
-//                  [&](auto &element) { element.second.OnCollisionEnter(otherObject); });
-//}
-//
-//void Actor::OnCollisionStay(Components::CPhysicalObject &otherObject) {
-//    std::for_each(m_components.begin(), m_components.end(),
-//                  [&](auto element) { element->OnCollisionStay(otherObject); });
-//    std::for_each(m_behaviours.begin(), m_behaviours.end(),
-//                  [&](auto &element) { element.second.OnCollisionStay(otherObject); });
-//}
-//
-//void Actor::OnCollisionExit(Components::CPhysicalObject &otherObject) {
-//    std::for_each(m_components.begin(), m_components.end(),
-//                  [&](auto element) { element->OnCollisionExit(otherObject); });
-//    std::for_each(m_behaviours.begin(), m_behaviours.end(),
-//                  [&](auto &element) { element.second.OnCollisionExit(otherObject); });
-//}
-//
-//void Actor::OnTriggerEnter(Components::CPhysicalObject &otherObject) {
-//    std::for_each(m_components.begin(), m_components.end(),
-//                  [&](auto element) { element->OnTriggerEnter(otherObject); });
-//    std::for_each(m_behaviours.begin(), m_behaviours.end(),
-//                  [&](auto &element) { element.second.OnTriggerEnter(otherObject); });
-//}
-//
-//void Actor::OnTriggerStay(Components::CPhysicalObject &otherObject) {
-//    std::for_each(m_components.begin(), m_components.end(), [&](auto element) { element->OnTriggerStay(otherObject); });
-//    std::for_each(m_behaviours.begin(), m_behaviours.end(),
-//                  [&](auto &element) { element.second.OnTriggerStay(otherObject); });
-//}
-//
-//void Actor::OnTriggerExit(Components::CPhysicalObject &otherObject) {
-//    std::for_each(m_components.begin(), m_components.end(), [&](auto element) { element->OnTriggerExit(otherObject); });
-//    std::for_each(m_behaviours.begin(), m_behaviours.end(),
-//                  [&](auto &element) { element.second.OnTriggerExit(otherObject); });
-//}
 
 bool Actor::RemoveComponent(Components::AComponent &component) {
     for (auto it = m_components.begin(); it != m_components.end(); ++it) {
@@ -318,131 +262,12 @@ std::unordered_map<std::string, Components::Behaviour> &Actor::GetBehaviours() {
     return m_behaviours;
 }
 
-//void Actor::OnSerialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *actorsRoot) {
-//    tinyxml2::XMLNode *actorNode = doc.NewElement("actor");
-//    actorsRoot->InsertEndChild(actorNode);
-//
-//    OvCore::Helpers::Serializer::SerializeString(doc, actorNode, "name", m_name);
-//    OvCore::Helpers::Serializer::SerializeString(doc, actorNode, "tag", m_tag);
-//    OvCore::Helpers::Serializer::SerializeBoolean(doc, actorNode, "active", m_active);
-//    OvCore::Helpers::Serializer::SerializeInt64(doc, actorNode, "id", m_actorID);
-//    OvCore::Helpers::Serializer::SerializeInt64(doc, actorNode, "parent", m_parentID);
-//
-//    tinyxml2::XMLNode *componentsNode = doc.NewElement("components");
-//    actorNode->InsertEndChild(componentsNode);
-//
-//    for (auto &component : m_components) {
-//
-//        tinyxml2::XMLNode *componentNode = doc.NewElement("component");
-//        componentsNode->InsertEndChild(componentNode);
-//
-//
-//        OvCore::Helpers::Serializer::SerializeString(doc, componentNode, "type", typeid(*component).name());
-//
-//
-//        tinyxml2::XMLElement *data = doc.NewElement("data");
-//        componentNode->InsertEndChild(data);
-//
-//
-//        component->OnSerialize(doc, data);
-//    }
-//
-//    tinyxml2::XMLNode *behavioursNode = doc.NewElement("behaviours");
-//    actorNode->InsertEndChild(behavioursNode);
-//
-//    for (auto &behaviour : m_behaviours) {
-//
-//        tinyxml2::XMLNode *behaviourNode = doc.NewElement("behaviour");
-//        behavioursNode->InsertEndChild(behaviourNode);
-//
-//
-//        OvCore::Helpers::Serializer::SerializeString(doc, behaviourNode, "type", behaviour.first);
-//
-//
-//        tinyxml2::XMLElement *data = doc.NewElement("data");
-//        behaviourNode->InsertEndChild(data);
-//
-//
-//        behaviour.second.OnSerialize(doc, data);
-//    }
-//}
-//
-//void Actor::OnDeserialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *actorsRoot) {
-//    OvCore::Helpers::Serializer::DeserializeString(doc, actorsRoot, "name", m_name);
-//    OvCore::Helpers::Serializer::DeserializeString(doc, actorsRoot, "tag", m_tag);
-//    OvCore::Helpers::Serializer::DeserializeBoolean(doc, actorsRoot, "active", m_active);
-//    OvCore::Helpers::Serializer::DeserializeInt64(doc, actorsRoot, "id", m_actorID);
-//    OvCore::Helpers::Serializer::DeserializeInt64(doc, actorsRoot, "parent", m_parentID);
-//
-//    {
-//        tinyxml2::XMLNode *componentsRoot = actorsRoot->FirstChildElement("components");
-//        if (componentsRoot) {
-//            tinyxml2::XMLElement *currentComponent = componentsRoot->FirstChildElement("component");
-//
-//            while (currentComponent) {
-//                std::string componentType = currentComponent->FirstChildElement("type")->GetText();
-//                Components::AComponent *component = nullptr;
-//
-//                if (componentType == typeid(Components::CTransform).name()) component = &transform;
-//                else if (componentType == typeid(Components::CPhysicalBox).name())
-//                    component = &AddComponent<Components::CPhysicalBox>();
-//                else if (componentType == typeid(Components::CPhysicalSphere).name())
-//                    component = &AddComponent<Components::CPhysicalSphere>();
-//                else if (componentType == typeid(Components::CPhysicalCapsule).name())
-//                    component = &AddComponent<Components::CPhysicalCapsule>();
-//                else if (componentType == typeid(Components::CModelRenderer).name())
-//                    component = &AddComponent<Components::CModelRenderer>();
-//                else if (componentType == typeid(Components::CCamera).name())
-//                    component = &AddComponent<Components::CCamera>();
-//                else if (componentType == typeid(Components::CMaterialRenderer).name())
-//                    component = &AddComponent<Components::CMaterialRenderer>();
-//                else if (componentType == typeid(Components::CAudioSource).name())
-//                    component = &AddComponent<Components::CAudioSource>();
-//                else if (componentType == typeid(Components::CAudioListener).name())
-//                    component = &AddComponent<Components::CAudioListener>();
-//                else if (componentType == typeid(Components::CPointLight).name())
-//                    component = &AddComponent<Components::CPointLight>();
-//                else if (componentType == typeid(Components::CDirectionalLight).name())
-//                    component = &AddComponent<Components::CDirectionalLight>();
-//                else if (componentType == typeid(Components::CSpotLight).name())
-//                    component = &AddComponent<Components::CSpotLight>();
-//                else if (componentType == typeid(Components::CAmbientBoxLight).name())
-//                    component = &AddComponent<Components::CAmbientBoxLight>();
-//                else if (componentType == typeid(Components::CAmbientSphereLight).name())
-//                    component = &AddComponent<Components::CAmbientSphereLight>();
-//
-//                if (component)
-//                    component->OnDeserialize(doc, currentComponent->FirstChildElement("data"));
-//
-//                currentComponent = currentComponent->NextSiblingElement("component");
-//            }
-//        }
-//    }
-//
-//    {
-//        tinyxml2::XMLNode *behavioursRoot = actorsRoot->FirstChildElement("behaviours");
-//
-//        if (behavioursRoot) {
-//            tinyxml2::XMLElement *currentBehaviour = behavioursRoot->FirstChildElement("behaviour");
-//
-//            while (currentBehaviour) {
-//                std::string behaviourType = currentBehaviour->FirstChildElement("type")->GetText();
-//
-//                auto &behaviour = AddBehaviour(behaviourType);
-//                behaviour.OnDeserialize(doc, currentBehaviour->FirstChildElement("data"));
-//
-//                currentBehaviour = currentBehaviour->NextSiblingElement("behaviour");
-//            }
-//        }
-//    }
-//}
-
 void Actor::RecursiveActiveUpdate() {
     bool isActive = IsActive();
 
     if (!m_sleeping) {
         if (!m_wasActive && isActive) {
-            if (!m_awaked)
+            if (!m_awake)
                 OnAwake();
 
             OnEnable();

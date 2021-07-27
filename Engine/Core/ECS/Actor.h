@@ -1,24 +1,22 @@
 #pragma once
 
-#include <unordered_map>
-#include <memory>
-
+#include "ZeloPrerequisites.h"
 #include "Core/EventSystem/Event.h"
 #include "Core/Interface/ISerializable.h"
 
 #include "Core/ECS/Components/AComponent.h"
 #include "Core/ECS/Components/CTransform.h"
 #include "Core/ECS/Components/Behaviour.h"
-//#include "Core/API/ISerializable.h"
 
 namespace Zelo::Core::ECS {
 
 class Actor : public Interface::ISerializable {
 public:
-
     Actor(int64_t actorID, const std::string &name, const std::string &tag, bool &playing);
 
-    virtual ~Actor() override;
+    Actor(const Actor &actor) = delete;
+
+    ~Actor() override;
 
     const std::string &GetName() const;
 
@@ -72,23 +70,6 @@ public:
 
     void OnLateUpdate(float deltaTime);
 
-//    void OnCollisionEnter(Components::CPhysicalObject &otherObject);
-//
-//
-//    void OnCollisionStay(Components::CPhysicalObject &otherObject);
-//
-//
-//    void OnCollisionExit(Components::CPhysicalObject &otherObject);
-//
-//
-//    void OnTriggerEnter(Components::CPhysicalObject &otherObject);
-//
-//
-//    void OnTriggerStay(Components::CPhysicalObject &otherObject);
-//
-//
-//    void OnTriggerExit(Components::CPhysicalObject &otherObject);
-
     template<typename T, typename ... Args>
     T &AddComponent(Args &&... args);
 
@@ -112,20 +93,12 @@ public:
 
     std::unordered_map<std::string, Components::Behaviour> &GetBehaviours();
 
-//    virtual void OnSerialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *actorsRoot) override;
-
-//    virtual void OnDeserialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *actorsRoot) override;
-
 private:
-
-    Actor(const Actor &actor) = delete;
-
     void RecursiveActiveUpdate();
 
     void RecursiveWasActiveUpdate();
 
 public:
-
     EventSystem::Event<Components::AComponent &> ComponentAddedEvent;
     EventSystem::Event<Components::AComponent &> ComponentRemovedEvent;
     EventSystem::Event<Components::Behaviour &> BehaviourAddedEvent;
@@ -134,7 +107,7 @@ public:
     static EventSystem::Event<Actor &> DestroyedEvent;
     static EventSystem::Event<Actor &> CreatedEvent;
     static EventSystem::Event<Actor &, Actor &> AttachEvent;
-    static EventSystem::Event<Actor &> DettachEvent;
+    static EventSystem::Event<Actor &> DetachEvent;
 
 private:
 
@@ -146,7 +119,7 @@ private:
     int64_t m_actorID;
     bool m_destroyed = false;
     bool m_sleeping = true;
-    bool m_awaked = false;
+    bool m_awake = false;
     bool m_started = false;
     bool m_wasActive = false;
 
