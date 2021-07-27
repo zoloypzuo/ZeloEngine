@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ZeloPrerequisites.h"
 #include <sol/sol.hpp>
 
 //#include "Core/ECS/Components/CPhysicalObject.h"

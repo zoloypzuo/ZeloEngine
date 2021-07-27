@@ -1,3 +1,4 @@
+#include "ZeloPreCompiledHeader.h"
 //#include <UI/Widgets/Texts/TextColored.h>
 //#include <Debug/Utils/Logger.h>
 
@@ -5,6 +6,7 @@
 #include "Core/ECS/Components/Behaviour.h"
 //#include "Core/Scripting/LuaBinder.h"
 
+using namespace Zelo::Core;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::ECS::Components;
 
@@ -25,13 +27,12 @@ std::string Behaviour::GetName() {
 }
 
 bool Behaviour::RegisterToLuaContext(sol::state &luaState, const std::string &scriptFolder) {
-    using namespace Zelo::Core::Scripting;
 
     auto result = luaState.safe_script_file(scriptFolder + name + ".lua", &sol::script_pass_on_error);
 
     if (!result.valid()) {
         sol::error err = result;
-        OVLOG_ERROR(err.what());
+        ZELO_CORE_ERROR(err.what());
         return false;
     } else {
         if (result.return_count() == 1 && result[0].is<sol::table>()) {
@@ -39,7 +40,7 @@ bool Behaviour::RegisterToLuaContext(sol::state &luaState, const std::string &sc
             m_object["owner"] = &owner;
             return true;
         } else {
-            OVLOG_ERROR(" missing return expression");
+            ZELO_CORE_ERROR(" missing return expression");
             return false;
         }
     }
