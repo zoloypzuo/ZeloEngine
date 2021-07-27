@@ -216,7 +216,7 @@ void LoadSettings() {
         return;
 
     // Load file
-    FILE * f{};
+    FILE *f{};
     if ((f = fopen(filename, "rt")) == NULL)
         return;
     if (fseek(f, 0, SEEK_END))
@@ -282,7 +282,7 @@ void SaveSettings() {
 
     // Write .ini file
     // If a window wasn't opened in this session we preserve its settings
-    FILE * f = fopen(filename, "wt");
+    FILE *f = fopen(filename, "wt");
     if (!f)
         return;
     for (size_t i = 0; i != g.Settings.size(); i++) {

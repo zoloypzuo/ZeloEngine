@@ -25,7 +25,7 @@ inline bool Actor::RemoveComponent() {
     static_assert(std::is_base_of<Components::AComponent, T>::value, "T should derive from AComponent");
     static_assert(!std::is_same<Components::CTransform, T>::value, "You can't remove a CTransform from an actor");
 
-    std::shared_ptr <T> result(nullptr);
+    std::shared_ptr<T> result(nullptr);
 
     for (auto it = m_components.begin(); it != m_components.end(); ++it) {
         result = std::dynamic_pointer_cast<T>(*it);
@@ -43,7 +43,7 @@ template<typename T>
 inline T *Actor::GetComponent() {
     static_assert(std::is_base_of<Components::AComponent, T>::value, "T should derive from AComponent");
 
-    std::shared_ptr <T> result(nullptr);
+    std::shared_ptr<T> result(nullptr);
 
     for (auto it = m_components.begin(); it != m_components.end(); ++it) {
         result = std::dynamic_pointer_cast<T>(*it);

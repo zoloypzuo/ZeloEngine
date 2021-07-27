@@ -25,8 +25,7 @@ struct AABB {
 
 === Section 4.2.1: =============================================================
 
-int TestAABBAABB(AABB a, AABB b)
-{
+int TestAABBAABB(AABB a, AABB b) {
     // Exit with no intersection if separated along an axis
     if (a.max[0] < b.min[0] || a.min[0] > b.max[0]) return 0;
     if (a.max[1] < b.min[1] || a.min[1] > b.max[1]) return 0;
@@ -37,8 +36,7 @@ int TestAABBAABB(AABB a, AABB b)
 
 --------------------------------------------------------------------------------
 
-int TestAABBAABB(AABB a, AABB b)
-{
+int TestAABBAABB(AABB a, AABB b) {
     float t;
     if ((t = a.min[0] - b.min[0]) > b.d[0] || -t > a.d[0]) return 0;
     if ((t = a.min[1] - b.min[1]) > b.d[1] || -t > a.d[1]) return 0;
@@ -48,8 +46,7 @@ int TestAABBAABB(AABB a, AABB b)
 
 --------------------------------------------------------------------------------
 
-int TestAABBAABB(AABB a, AABB b)
-{
+int TestAABBAABB(AABB a, AABB b) {
     if (Abs(a.c[0] - b.c[0]) > (a.r[0] + b.r[0])) return 0;
     if (Abs(a.c[1] - b.c[1]) > (a.r[1] + b.r[1])) return 0;
     if (Abs(a.c[2] - b.c[2]) > (a.r[2] + b.r[2])) return 0;
@@ -58,16 +55,18 @@ int TestAABBAABB(AABB a, AABB b)
 
 --------------------------------------------------------------------------------
 
-overlap = (unsigned int)(B - C) <= (B - A) + (D - C);
+overlap = (unsigned int) (B - C) <= (B - A) + (D - C);
 
 --------------------------------------------------------------------------------
 
-int TestAABBAABB(AABB a, AABB b)
-{
+int TestAABBAABB(AABB a, AABB b) {
     int r;
-    r = a.r[0] + b.r[0]; if ((unsigned int)(a.c[0] - b.c[0] + r) > r + r) return 0;
-    r = a.r[1] + b.r[1]; if ((unsigned int)(a.c[1] - b.c[1] + r) > r + r) return 0;
-    r = a.r[2] + b.r[2]; if ((unsigned int)(a.c[2] - b.c[2] + r) > r + r) return 0;
+    r = a.r[0] + b.r[0];
+    if ((unsigned int) (a.c[0] - b.c[0] + r) > r + r) return 0;
+    r = a.r[1] + b.r[1];
+    if ((unsigned int) (a.c[1] - b.c[1] + r) > r + r) return 0;
+    r = a.r[2] + b.r[2];
+    if ((unsigned int) (a.c[2] - b.c[2] + r) > r + r) return 0;
     return 1;
 }
 
@@ -75,8 +74,7 @@ int TestAABBAABB(AABB a, AABB b)
 
 // Returns indices imin and imax into pt[] array of the least and
 // most, respectively, distant points along the direction dir
-void ExtremePointsAlongDirection(Vector dir, Point pt[], int n, int *imin, int *imax)
-{
+void ExtremePointsAlongDirection(Vector dir, Point pt[], int n, int *imin, int *imax) {
     float minproj = FLT_MAX, maxproj = -FLT_MAX;
     for (int i = 0; i < n; i++) {
         // Project vector from origin to point onto direction vector
@@ -96,16 +94,21 @@ void ExtremePointsAlongDirection(Vector dir, Point pt[], int n, int *imin, int *
 
 === Section 4.2.6: =============================================================
 
-B.max[0] = max(m[0][0] * A.min[0], m[0][0] * A.max[0])
-         + max(m[0][1] * A.min[1], m[0][1] * A.max[1])
-         + max(m[0][2] * A.min[2], m[0][2] * A.max[2]) + t[0];
+B.max[0] =
+max(m[0][0]
+* A.min[0], m[0][0] * A.max[0])
++
+max(m[0][1]
+* A.min[1], m[0][1] * A.max[1])
++
+max(m[0][2]
+* A.min[2], m[0][2] * A.max[2]) + t[0];
 
 --------------------------------------------------------------------------------
 
 // Transform AABB a by the matrix m and translation t,
 // find maximum extents, and store result into AABB b.
-void UpdateAABB(AABB a, float m[3][3], float t[3], AABB &b)
-{
+void UpdateAABB(AABB a, float m[3][3], float t[3], AABB &b) {
     // For all three axes
     for (int i = 0; i < 3; i++) {
         // Start by adding in translation
@@ -129,8 +132,7 @@ void UpdateAABB(AABB a, float m[3][3], float t[3], AABB &b)
 
 // Transform AABB a by the matrix m and translation t,
 // find maximum extents, and store result into AABB b.
-void UpdateAABB(AABB a, float m[3][3], float t[3], AABB &b)
-{
+void UpdateAABB(AABB a, float m[3][3], float t[3], AABB &b) {
     for (int i = 0; i < 3; i++) {
         b.c[i] = t[i];
         b.r[i] = 0.0f;
@@ -151,10 +153,10 @@ struct Sphere {
 
 === Section 4.3.1: =============================================================
 
-int TestSphereSphere(Sphere a, Sphere b)
-{
+int TestSphereSphere(Sphere a, Sphere b) {
     // Calculate squared distance between centers
-    Vector d = a.c – b.c;
+    Vector
+    d = a.c ï¿½ b.c;
     float dist2 = Dot(d, d);
     // Spheres intersect if squared distance is less than squared sum of radii
     float radiusSum = a.r + b.r;
@@ -165,8 +167,7 @@ int TestSphereSphere(Sphere a, Sphere b)
 
 // Compute indices to the two most separated points of the (up to) six points
 // defining the AABB encompassing the point set. Return these as min and max.
-void MostSeparatedPointsOnAABB(int &min, int &max, Point pt[], int numPts)
-{
+void MostSeparatedPointsOnAABB(int &min, int &max, Point pt[], int numPts) {
     // First find most extreme points along principal axes
     int minx = 0, maxx = 0, miny = 0, maxy = 0, minz = 0, maxz = 0;
     for (int i = 1; i < numPts; i++) {
@@ -179,9 +180,9 @@ void MostSeparatedPointsOnAABB(int &min, int &max, Point pt[], int numPts)
     }
 
     // Compute the squared distances for the three pairs of points
-    float dist2x = Dot(pt[maxx] – pt[minx], pt[maxx] – pt[minx]);
-    float dist2y = Dot(pt[maxy] – pt[miny], pt[maxy] – pt[miny]);
-    float dist2z = Dot(pt[maxz] – pt[minz], pt[maxz] – pt[minz]);
+    float dist2x = Dot(pt[maxx] ï¿½ pt[minx], pt[maxx] ï¿½ pt[minx]);
+    float dist2y = Dot(pt[maxy] ï¿½ pt[miny], pt[maxy] ï¿½ pt[miny]);
+    float dist2z = Dot(pt[maxz] ï¿½ pt[minz], pt[maxz] ï¿½ pt[minz]);
     // Pick the pair (min,max) of points most distant
     min = minx;
     max = maxx;
@@ -195,8 +196,7 @@ void MostSeparatedPointsOnAABB(int &min, int &max, Point pt[], int numPts)
     }
 }
 
-void SphereFromDistantPoints(Sphere &s, Point pt[], int numPts)
-{
+void SphereFromDistantPoints(Sphere &s, Point pt[], int numPts) {
     // Find the most separated point pair defining the encompassing AABB
     int min, max;
     MostSeparatedPointsOnAABB(min, max, pt, numPts);
@@ -210,10 +210,10 @@ void SphereFromDistantPoints(Sphere &s, Point pt[], int numPts)
 --------------------------------------------------------------------------------
 
 // Given Sphere s and Point p, update s (if needed) to just encompass p
-void SphereOfSphereAndPt(Sphere &s, Point &p)
-{
+void SphereOfSphereAndPt(Sphere &s, Point &p) {
     // Compute squared distance between point and sphere center
-    Vector d = p – s.c;
+    Vector
+    d = p ï¿½ s.c;
     float dist2 = Dot(d, d);
     // Only update s if point p is outside it
     if (dist2 > s.r * s.r) {
@@ -227,8 +227,7 @@ void SphereOfSphereAndPt(Sphere &s, Point &p)
 
 --------------------------------------------------------------------------------
 
-void RitterSphere(Sphere &s, Point pt[], int numPts)
-{
+void RitterSphere(Sphere &s, Point pt[], int numPts) {
     // Get sphere encompassing two approximately most distant points
     SphereFromDistantPoints(s, pt, numPts);
 
@@ -240,8 +239,7 @@ void RitterSphere(Sphere &s, Point pt[], int numPts)
 === Section 4.3.3: =============================================================
 
 // Compute variance of a set of 1D values
-float Variance(float x[], int n)
-{
+float Variance(float x[], int n) {
     float u = 0.0f;
     for (int i = 0; i < n; i++)
         u += x[i];
@@ -254,9 +252,8 @@ float Variance(float x[], int n)
 
 --------------------------------------------------------------------------------
 
-void CovarianceMatrix(Matrix33 &cov, Point pt[], int numPts)
-{
-    float oon = 1.0f / (float)numPts;
+void CovarianceMatrix(Matrix33 &cov, Point pt[], int numPts) {
+    float oon = 1.0f / (float) numPts;
     Point c = Point(0.0f, 0.0f, 0.0f);
     float e00, e11, e22, e01, e02, e12;
 
@@ -264,7 +261,7 @@ void CovarianceMatrix(Matrix33 &cov, Point pt[], int numPts)
     for (int i = 0; i < numPts; i++)
         c += pt[i];
     c *= oon;
-    
+
     // Compute covariance elements
     e00 = e11 = e22 = e01 = e02 = e12 = 0.0f;
     for (int i = 0; i < numPts; i++) {
@@ -294,16 +291,15 @@ void CovarianceMatrix(Matrix33 &cov, Point pt[], int numPts)
 // (s, c) that will serve to form a Jacobi rotation matrix.
 //
 // See Golub, Van Loan, Matrix Computations, 3rd ed, p428
-void SymSchur2(Matrix33 &a, int p, int q, float &c, float &s)
-{
+void SymSchur2(Matrix33 &a, int p, int q, float &c, float &s) {
     if (Abs(a[p][q]) > 0.0001f) {
         float r = (a[q][q] - a[p][p]) / (2.0f * a[p][q]);
         float t;
         if (r >= 0.0f)
-            t = 1.0f / (r + Sqrt(1.0f + r*r));
+            t = 1.0f / (r + Sqrt(1.0f + r * r));
         else
-            t = -1.0f / (-r + Sqrt(1.0f + r*r));
-        c = 1.0f / Sqrt(1.0f + t*t);
+            t = -1.0f / (-r + Sqrt(1.0f + r * r));
+        c = 1.0f / Sqrt(1.0f + t * t);
         s = t * c;
     } else {
         c = 1.0f;
@@ -321,8 +317,7 @@ void SymSchur2(Matrix33 &a, int p, int q, float &c, float &s)
 // of a are the corresponding eigenvalues.
 //
 // See Golub, Van Loan, Matrix Computations, 3rd ed, p428
-void Jacobi(Matrix33 &a, Matrix33 &v)
-{
+void Jacobi(Matrix33 &a, Matrix33 &v) {
     int i, j, n, p, q;
     float prevoff, c, s;
     Matrix33 J, b, t;
@@ -337,7 +332,8 @@ void Jacobi(Matrix33 &a, Matrix33 &v)
     const int MAX_ITERATIONS = 50;
     for (n = 0; n < MAX_ITERATIONS; n++) {
         // Find largest off-diagonal absolute element a[p][q]
-        p = 0; q = 1;
+        p = 0;
+        q = 1;
         for (i = 0; i < 3; i++) {
             for (j = 0; j < 3; j++) {
                 if (i == j) continue;
@@ -355,15 +351,17 @@ void Jacobi(Matrix33 &a, Matrix33 &v)
             J[i][0] = J[i][1] = J[i][2] = 0.0f;
             J[i][i] = 1.0f;
         }
-        J[p][p] =  c; J[p][q] = s;
-        J[q][p] = -s; J[q][q] = c;
+        J[p][p] = c;
+        J[p][q] = s;
+        J[q][p] = -s;
+        J[q][q] = c;
 
         // Cumulate rotations into what will contain the eigenvectors
         v = v * J;
 
         // Make 'a' more diagonal, until just eigenvalues remain on diagonal
         a = (J.Transpose() * a) * J;
-    
+
         // Compute "norm" of off-diagonal elements
         float off = 0.0f;
         for (i = 0; i < 3; i++) {
@@ -377,15 +375,14 @@ void Jacobi(Matrix33 &a, Matrix33 &v)
         // Stop when norm no longer decreasing
         if (n > 2 && off >= prevoff)
             return;
-        
+
         prevoff = off;
     }
 }
 
 --------------------------------------------------------------------------------
 
-void EigenSphere(Sphere &eigSphere, Point pt[], int numPts)
-{
+void EigenSphere(Sphere &eigSphere, Point pt[], int numPts) {
     Matrix33 m, v;
 
     // Compute the covariance matrix m
@@ -416,8 +413,7 @@ void EigenSphere(Sphere &eigSphere, Point pt[], int numPts)
 
 --------------------------------------------------------------------------------
 
-void RitterEigenSphere(Sphere &s, Point pt[], int numPts)
-{
+void RitterEigenSphere(Sphere &s, Point pt[], int numPts) {
     // Start with sphere from maximum spread
     EigenSphere(s, pt, numPts);
 
@@ -428,15 +424,14 @@ void RitterEigenSphere(Sphere &s, Point pt[], int numPts)
 
 === Section 4.3.4: =============================================================
 
-void RitterIterative(Sphere &s, Point pt[], int numPts)
-{
+void RitterIterative(Sphere &s, Point pt[], int numPts) {
     const int NUM_ITER = 8;
     RitterSphere(s, pt, numPts);
     Sphere s2 = s;
     for (int k = 0; k < NUM_ITER; k++) {
         // Shrink sphere somewhat to make it an underestimate (not bound)
         s2.r = s2.r * 0.95f;
-	
+
         // Make sphere bound data again
         for (int i = 0; i < numPts; i++) {
             // Swap pt[i] with pt[j], where j randomly from interval [i+1,numPts-1]
@@ -451,17 +446,21 @@ void RitterIterative(Sphere &s, Point pt[], int numPts)
 
 === Section 4.3.5: =============================================================
 
-Sphere WelzlSphere(Point pt[], unsigned int numPts, Point sos[], unsigned int numSos)
-{
+Sphere WelzlSphere(Point pt[], unsigned int numPts, Point sos[], unsigned int numSos) {
     // if no input points, the recursion has bottomed out. Now compute an
     // exact sphere based on points in set of support (zero through four points)
     if (numPts == 0) {
         switch (numSos) {
-        case 0: return Sphere();
-        case 1: return Sphere(sos[0]);
-        case 2: return Sphere(sos[0], sos[1]);
-        case 3: return Sphere(sos[0], sos[1], sos[2]);
-        case 4: return Sphere(sos[0], sos[1], sos[2], sos[3]);
+            case 0:
+                return Sphere();
+            case 1:
+                return Sphere(sos[0]);
+            case 2:
+                return Sphere(sos[0], sos[1]);
+            case 3:
+                return Sphere(sos[0], sos[1], sos[2]);
+            case 4:
+                return Sphere(sos[0], sos[1], sos[2], sos[3]);
         }
     }
     // Pick a point at "random" (here just the last point of the input set)
@@ -469,7 +468,7 @@ Sphere WelzlSphere(Point pt[], unsigned int numPts, Point sos[], unsigned int nu
     // Recursively compute the smallest bounding sphere of the remaining points
     Sphere smallestSphere = WelzlSphere(pt, numPts - 1, sos, numSos); // (*)
     // If the selected point lies inside this sphere, it is indeed the smallest
-    if(PointInsideSphere(pt[index], smallestSphere))
+    if (PointInsideSphere(pt[index], smallestSphere))
         return smallestSphere;
     // Otherwise, update set of support to additionally contain the new point
     sos[numSos] = pt[index];
@@ -488,8 +487,7 @@ struct OBB {
 
 === Section 4.4.1: =============================================================
 
-int TestOBBOBB(OBB &a, OBB &b)
-{
+int TestOBBOBB(OBB &a, OBB &b) {
     float ra, rb;
     Matrix33 R, AbsR;
 
@@ -577,16 +575,16 @@ int TestOBBOBB(OBB &a, OBB &b)
 
 // Compute the center point, 'c', and axis orientation, u[0] and u[1], of
 // the minimum area rectangle in the xy plane containing the points pt[].
-float MinAreaRect(Point2D pt[], int numPts, Point2D &c, Vector2D u[2])
-{
+float MinAreaRect(Point2D pt[], int numPts, Point2D &c, Vector2D u[2]) {
     float minArea = FLT_MAX;
 
     // Loop through all edges; j trails i by 1, modulo numPts
     for (int i = 0, j = numPts - 1; i < numPts; j = i, i++) {
         // Get current edge e0 (e0x,e0y), normalized
-        Vector2D e0 = pt[i] – pt[j];
+        Vector2D
+        e0 = pt[i] ï¿½ pt[j];
         e0 /= Length(e0);
-        
+
         // Get an axis e1 orthogonal to edge e0
         Vector2D e1 = Vector2D(-e0.y, e0.x); // = Perp2D(e0)
 
@@ -595,7 +593,8 @@ float MinAreaRect(Point2D pt[], int numPts, Point2D &c, Vector2D u[2])
         for (int k = 0; k < numPts; k++) {
             // Project points onto axes e0 and e1 and keep track
             // of minimum and maximum values along both axes
-            Vector2D d = pt[k] – pt[j];
+            Vector2D
+            d = pt[k] ï¿½ pt[j];
             float dot = Dot2D(d, e0);
             if (dot < min0) min0 = dot;
             if (dot > max0) max0 = dot;
@@ -604,12 +603,13 @@ float MinAreaRect(Point2D pt[], int numPts, Point2D &c, Vector2D u[2])
             if (dot > max1) max1 = dot;
         }
         float area = (max0 - min0) * (max1 - min1);
-    
+
         // If best so far, remember area, center, and axes
         if (area < minArea) {
             minArea = area;
             c = pt[j] + 0.5f * ((min0 + max0) * e0 + (min1 + max1) * e1);
-            u[0] = e0; u[1] = e1;
+            u[0] = e0;
+            u[1] = e1;
         }
     }
     return minArea;
@@ -633,8 +633,7 @@ struct Lozenge {
 
 === Section 4.5.1: =============================================================
 
-int TestSphereCapsule(Sphere s, Capsule capsule)
-{
+int TestSphereCapsule(Sphere s, Capsule capsule) {
     // Compute (squared) distance between sphere center and capsule line segment
     float dist2 = SqDistPointSegment(capsule.a, capsule.b, s.c);
 
@@ -643,8 +642,7 @@ int TestSphereCapsule(Sphere s, Capsule capsule)
     return dist2 <= radius * radius;
 }
 
-int TestCapsuleCapsule(Capsule capsule1, Capsule capsule2)
-{
+int TestCapsuleCapsule(Capsule capsule1, Capsule capsule2) {
     // Compute (squared) distance between the inner structures of the capsules
     float s, t;
     Point c1, c2;
@@ -674,8 +672,7 @@ struct DOP8 {
 
 === Section 4.6.3: =============================================================
 
-int TestKDOPKDOP(KDOP &a, KDOP &b, int k)
-{
+int TestKDOPKDOP(KDOP &a, KDOP &b, int k) {
     // Check if any intervals are non-overlapping, return if so
     for (int i = 0; i < k / 2; i++)
         if (a.min[i] > b.max[i] || a.max[i] < b.min[i])
@@ -689,8 +686,7 @@ int TestKDOPKDOP(KDOP &a, KDOP &b, int k)
 
 // Compute 8-DOP for object vertices v[] in world space
 // using the axes (1,1,1), (1,1,-1), (1,-1,1) and (-1,1,1)
-void ComputeDOP8(Point v[], int numPts, DOP8 &dop8)
-{
+void ComputeDOP8(Point v[], int numPts, DOP8 &dop8) {
     // Initialize 8-DOP to an empty volume
     dop8.min[0] = dop8.min[1] = dop8.min[2] = dop8.min[3] = FLT_MAX;
     dop8.max[0] = dop8.max[1] = dop8.max[2] = dop8.max[3] = -FLT_MAX;

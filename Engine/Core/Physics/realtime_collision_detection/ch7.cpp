@@ -3,15 +3,19 @@
 
 // Cell position
 struct Cell {
-    Cell(int32 px, int32 py, int32 pz) { x = px; y = py; z = pz; }
+    Cell(int32 px, int32 py, int32 pz) {
+        x = px;
+        y = py;
+        z = pz;
+    }
+
     int32 x, y, z;
 };
 
 #define NUM_BUCKETS 1024
 
 // Computes hash bucket index in range [0, NUM_BUCKETS-1]
-int32 ComputeHashBucketIndex(Cell cellPos)
-{
+int32 ComputeHashBucketIndex(Cell cellPos) {
     const int32 h1 = 0x8da6b343; // Large multiplicative constants;
     const int32 h2 = 0xd8163841; // here arbitrarily chosen primes
     const int32 h3 = 0xcb1ab31f;
@@ -23,11 +27,11 @@ int32 ComputeHashBucketIndex(Cell cellPos)
 
 === Section 7.1.5: =============================================================
 
-b = (r[i] & c[j]) | (r[i] & c[j+1]) | (r[i+1] & c[j]) | (r[i+1] & c[j+1]);
+b = (r[i] & c[j]) | (r[i] & c[j + 1]) | (r[i + 1] & c[j]) | (r[i + 1] & c[j + 1]);
 
 --------------------------------------------------------------------------------
 
-b = (r[i] | r[i+1]) & (c[j] | c[j+1]);
+b = (r[i] | r[i + 1]) & (c[j] | c[j + 1]);
 
 --------------------------------------------------------------------------------
 
@@ -36,8 +40,7 @@ const int NUM_OBJECTS_DIV_32 = (NUM_OBJECTS + 31) / 32; // Round up
 int32 rowBitArray[GRID_HEIGHT][NUM_OBJECTS_DIV_32];
 int32 columnBitArray[GRID_WIDTH][NUM_OBJECTS_DIV_32];
 
-void TestObjectAgainstGrid(Object *pObject)
-{
+void TestObjectAgainstGrid(Object *pObject) {
     // Allocate temporary bit arrays for all objects and clear them
     int32 mergedRowArray[NUM_OBJECTS_DIV_32];
     int32 mergedColumnArray[NUM_OBJECTS_DIV_32];
@@ -47,10 +50,10 @@ void TestObjectAgainstGrid(Object *pObject)
     // Compute the extent of grid cells the bounding sphere of A overlaps.
     // Test assumes objects have been inserted in all rows/columns overlapped
     float ooCellWidth = 1.0f / CELL_WIDTH;
-    int x1 = (int)floorf((pObject->x - pObject->radius) * ooCellWidth);
-    int x2 = (int)floorf((pObject->x + pObject->radius) * ooCellWidth);
-    int y1 = (int)floorf((pObject->y - pObject->radius) * ooCellWidth);
-    int y2 = (int)floorf((pObject->y + pObject->radius) * ooCellWidth);
+    int x1 = (int) floorf((pObject->x - pObject->radius) * ooCellWidth);
+    int x2 = (int) floorf((pObject->x + pObject->radius) * ooCellWidth);
+    int y1 = (int) floorf((pObject->y - pObject->radius) * ooCellWidth);
+    int y2 = (int) floorf((pObject->y + pObject->radius) * ooCellWidth);
     assert(x1 >= 0 && y1 >= 0 && x2 < GRID_WIDTH && y2 < GRID_HEIGHT);
 
     // Compute the merged (bitwise-or'ed) bit array of all overlapped grid rows.
@@ -66,7 +69,7 @@ void TestObjectAgainstGrid(Object *pObject)
     // those objects having their corresponding bit set
     for (int i = 0; i < NUM_OBJECTS_DIV_32; i++) {
         int32 objectsMask = mergedRowArray[i] & mergedColumnArray[i];
-        while (objectsMask ) {
+        while (objectsMask) {
             // Clears all but lowest bit set (eg. 01101010 -> 00000010)
             int32 objectMask = objectsMask & (objectsMask - 1);
             // Get index number of set bit, test against corresponding object
@@ -83,46 +86,86 @@ void TestObjectAgainstGrid(Object *pObject)
 
 // Objects placed in single cell based on their bounding sphere center.
 // Checking object's cell and all 8 neighboring grid cells:
-check object's cell
-check northwest neighbor cell
-check north neighbor cell
-check northeast neighbor cell
-check west neighbor cell
-check east neighbor cell
-check southwest neighbor cell
-check south neighbor cell
-check southeast neighbor cell
+check object
+'s cell
+check northwest
+neighbor cell
+check north
+neighbor cell
+check northeast
+neighbor cell
+check west
+neighbor cell
+check east
+neighbor cell
+check southwest
+neighbor cell
+check south
+neighbor cell
+check southeast
+neighbor cell
 
 --------------------------------------------------------------------------------
 
 // Objects placed in single cell based on AABB minimum corner vertex.
 // Checking object's "minimum corner" cell and up to all 8 neighboring grid cells:
-check object's "minimum corner" cell
-check north neighbor cell
-check northwest neighbor cell
-check west neighbor cell
-if (object overlaps east cell border) {
-    check northeast neighbor cell
-    check east neighbor cell
+check object
+'s "minimum corner" cell
+check north
+neighbor cell
+check northwest
+neighbor cell
+check west
+neighbor cell
+if (
+object overlaps
+east cell
+border) {
+check northeast
+neighbor cell
+check east
+neighbor cell
 }
-if (object overlaps south cell border) {
-    check southwest neighbor cell
-    check south neighbor cell
-    if (object overlaps east cell border)
-        check southeast neighbor cell
+if (
+object overlaps
+south cell
+border) {
+check southwest
+neighbor cell
+check south
+neighbor cell
+if (
+object overlaps
+east cell
+border)
+check southeast
+neighbor cell
 }
 
 --------------------------------------------------------------------------------
 
 // Objects placed in all cells overlapped by their AABB.
 // Checking object's "minimum corner" cell and up to 3 neighboring grid cells:
-check object's "minimum corner" cell
-if (object overlaps east cell border)
-    check east neighbor cell
-if (object overlaps south cell border) {
-    check south neighbor cell
-    if (object overlaps east cell border)
-        check southeast neighbor cell
+check object
+'s "minimum corner" cell
+if (
+object overlaps
+east cell
+border)
+check east
+neighbor cell
+if (
+object overlaps
+south cell
+border) {
+check south
+neighbor cell
+if (
+object overlaps
+east cell
+border)
+check southeast
+neighbor cell
 }
 
 === Section 7.1.6.2: ===========================================================
@@ -131,11 +174,16 @@ if (object overlaps south cell border) {
 // All objects are checked for collisions at the same time, so collisions
 // in the opposite direction will be handled when checking the objects
 // existing in those cells.
-check object's cell
-check east neighbor cell
-check southwest neighbor cell
-check south neighbor cell
-check southeast neighbor cell
+check object
+'s cell
+check east
+neighbor cell
+check southwest
+neighbor cell
+check south
+neighbor cell
+check southeast
+neighbor cell
 
 --------------------------------------------------------------------------------
 
@@ -143,14 +191,28 @@ check southeast neighbor cell
 // All objects are checked for collisions at the same time, so collisions
 // in the opposite direction will be handled when checking the objects
 // existing in those cells.
-check object's "minimum corner" cell
-check southwest neighbor cell
-if (object overlaps east cell border)
-    check east neighbor cell
-if (object overlaps south cell border) {
-    check south neighbor cell
-    if (object overlaps east cell border)
-        check southeast neighbor cell
+check object
+'s "minimum corner" cell
+check southwest
+neighbor cell
+if (
+object overlaps
+east cell
+border)
+check east
+neighbor cell
+if (
+object overlaps
+south cell
+border) {
+check south
+neighbor cell
+if (
+object overlaps
+east cell
+border)
+check southeast
+neighbor cell
 }
 
 === Section 7.2.1: =============================================================
@@ -176,7 +238,7 @@ struct Object {
 
 --------------------------------------------------------------------------------
 
-const float SPHERE_TO_CELL_RATIO = 1.0f/4.0f; // Largest sphere in cell is 1/4*cell size
+const float SPHERE_TO_CELL_RATIO = 1.0f / 4.0f; // Largest sphere in cell is 1/4*cell size
 
 --------------------------------------------------------------------------------
 
@@ -184,8 +246,7 @@ const float CELL_TO_CELL_RATIO = 2.0f; // Cells at next level are 2*side of curr
 
 --------------------------------------------------------------------------------
 
-void AddObjectToHGrid(HGrid *grid, Object *obj)
-{
+void AddObjectToHGrid(HGrid *grid, Object *obj) {
     // Find lowest level where object fully fits inside cell, taking RATIO into account
     int level;
     float size = MIN_CELL_SIZE, diameter = 2.0f * obj->radius;
@@ -197,9 +258,9 @@ void AddObjectToHGrid(HGrid *grid, Object *obj)
 
     // Add object to grid square, and remember cell and level numbers,
     // treating level as a third dimension coordinate
-    Cell cellPos((int)(obj->pos.x / size), (int)(obj->pos.y / size), level);
+    Cell cellPos((int) (obj->pos.x / size), (int) (obj->pos.y / size), level);
     int bucket = ComputeHashBucketIndex(cellPos);
-    obj->bucket= bucket;
+    obj->bucket = bucket;
     obj->level = level;
     obj->pNextObject = grid->objectBucket[bucket];
     grid->objectBucket[bucket] = obj;
@@ -211,14 +272,13 @@ void AddObjectToHGrid(HGrid *grid, Object *obj)
 
 --------------------------------------------------------------------------------
 
-void RemoveObjectFromHGrid(HGrid *grid, Object *obj)
-{
+void RemoveObjectFromHGrid(HGrid *grid, Object *obj) {
     // One less object on this grid level. Mark level as unused if no objects left
     if (--grid->objectsAtLevel[obj->level] == 0)
         grid->occupiedLevelsMask &= ~(1 << obj->level);
 
     // Now scan through list and unlink object 'obj'
-    int bucket= obj->bucket;
+    int bucket = obj->bucket;
     Object *p = grid->objectBucket[bucket];
     // Special-case updating list header when object is first in list
     if (p == obj) {
@@ -242,8 +302,7 @@ void RemoveObjectFromHGrid(HGrid *grid, Object *obj)
 
 // Test collisions between object and all objects in hgrid
 void CheckObjAgainstGrid(HGrid *grid, Object *obj,
-                         void (*pCallbackFunc)(Object *pA, Object *pB))
-{
+                         void (*pCallbackFunc)(Object *pA, Object *pB)) {
     float size = MIN_CELL_SIZE;
     int startLevel = 0;
     uint32 occupiedLevelsMask = grid->occupiedLevelsMask;
@@ -261,7 +320,7 @@ void CheckObjAgainstGrid(HGrid *grid, Object *obj,
     grid->tick++;
 
     for (int level = startLevel; level < HGRID_MAX_LEVELS;
-                     size *= CELL_TO_CELL_RATIO, occupiedLevelsMask >>= 1, level++) {
+         size *= CELL_TO_CELL_RATIO, occupiedLevelsMask >>= 1, level++) {
         // If no objects in rest of grid, stop now
         if (occupiedLevelsMask == 0) break;
         // If no objects at this level, go on to the next level
@@ -272,8 +331,8 @@ void CheckObjAgainstGrid(HGrid *grid, Object *obj,
         // the maximum object overlap: size * SPHERE_TO_CELL_RATIO
         float delta = obj->radius + size * SPHERE_TO_CELL_RATIO + EPSILON;
         float ooSize = 1.0f / size;
-        int x1 = (int)floorf((pos.x - delta) * ooSize);
-        int y1 = (int)floorf((pos.y - delta) * ooSize);
+        int x1 = (int) floorf((pos.x - delta) * ooSize);
+        int y1 = (int) floorf((pos.y - delta) * ooSize);
         int x2 = (int) ceilf((pos.x + delta) * ooSize);
         int y2 = (int) ceilf((pos.y + delta) * ooSize);
 
@@ -287,7 +346,7 @@ void CheckObjAgainstGrid(HGrid *grid, Object *obj,
                 // Has this hash bucket already been checked for this object?
                 if (grid->timeStamp[bucket] == grid->tick) continue;
                 grid->timeStamp[bucket] = grid->tick;
-                    
+
                 // Loop through all objects in the bucket to find nearby objects
                 Object *p = grid->objectBucket[bucket];
                 while (p) {
@@ -316,8 +375,7 @@ struct Node {
 === Section 7.3.2: =============================================================
 
 // Preallocates an octree down to a specific depth
-Node *BuildOctree(Point center, float halfWidth, int stopDepth)
-{
+Node *BuildOctree(Point center, float halfWidth, int stopDepth) {
     if (stopDepth < 0) return NULL;
     else {
         // Construct and fill in 'root' of this subtree
@@ -350,8 +408,7 @@ struct Object {
 
 --------------------------------------------------------------------------------
 
-void InsertObject(Node *pTree, Object *pObject)
-{
+void InsertObject(Node *pTree, Object *pObject) {
     int index = 0, straddle = 0;
     // Compute the octant number [0..7] the object sphere center is in
     // If straddling any of the dividing x, y, or z planes, exit directly
@@ -377,21 +434,27 @@ void InsertObject(Node *pTree, Object *pObject)
 --------------------------------------------------------------------------------
 
 if (!straddle) {
-    if (pTree->pChild[index] == NULL) {
-        pTree->pChild[index] = new Node;
-        ...initialize node contents here...
-    }
-    InsertObject(pTree->pChild[index], pObject);
+if (pTree->pChild[index] == NULL) {
+pTree->pChild[index] = new
+Node;
+...
+initialize node
+contents here
+...
+}
+InsertObject(pTree
+->pChild[index], pObject);
 } else {
-    ...same as before...
+...
+same as
+before...
 }
 
 --------------------------------------------------------------------------------
 
 // Tests all objects that could possibly overlap due to cell ancestry and coexistence
 // in the same cell. Assumes objects exist in a single cell only, and fully inside it
-void TestAllCollisions(Node *pTree)
-{
+void TestAllCollisions(Node * pTree) {
     // Keep track of all ancestor object lists in a stack
     const int MAX_DEPTH = 40;
     static Node *ancestorStack[MAX_DEPTH];
@@ -434,8 +497,7 @@ struct Node {
 
 --------------------------------------------------------------------------------
 
-int NodeDepth(unsigned int key)
-{
+int NodeDepth(unsigned int key) {
     // Keep shifting off three bits at a time, increasing depth counter
     for (int d = 0; key; d++) {
         // If only sentinel bit remains, exit with node depth
@@ -447,8 +509,7 @@ int NodeDepth(unsigned int key)
 
 --------------------------------------------------------------------------------
 
-void VisitLinearOctree(Node *pTree)
-{
+void VisitLinearOctree(Node * pTree) {
     // For all eight possible children
     for (int i = 0; i < 8; i++) {
         // See if the ith child exist
@@ -456,7 +517,7 @@ void VisitLinearOctree(Node *pTree)
             // Compute new Morton key for the child
             int key = (pTree->key << 3) + i;
             // Using key, look child up in hash table and recursively visit subtree
-            Node *pChild = HashTableLookup(gHashTable, key);
+            Node * pChild = HashTableLookup(gHashTable, key);
             VisitLinearOctree(pChild);
         }
     }
@@ -465,8 +526,7 @@ void VisitLinearOctree(Node *pTree)
 === Section 7.3.5: =============================================================
 
 // Takes three 10-bit numbers and bit-interleaves them into one number
-uint32 Morton3(uint32 x, uint32 y, uint32 z)
-{
+uint32 Morton3(uint32 x, uint32 y, uint32 z) {
     // z--z--z--z--z--z--z--z--z--z-- : Part1By2(z) << 2
     // -y--y--y--y--y--y--y--y--y--y- : Part1By2(y) << 1
     // --x--x--x--x--x--x--x--x--x--x : Part1By2(x)
@@ -477,47 +537,43 @@ uint32 Morton3(uint32 x, uint32 y, uint32 z)
 --------------------------------------------------------------------------------
 
 // Separates low 10 bits of input by two bits
-uint32 Part1By2(uint32 n)
-{
+uint32 Part1By2(uint32 n) {
     // n = ----------------------9876543210 : Bits initially
     // n = ------98----------------76543210 : After (1)
     // n = ------98--------7654--------3210 : After (2)
     // n = ------98----76----54----32----10 : After (3)
     // n = ----9--8--7--6--5--4--3--2--1--0 : After (4)
     n = (n ^ (n << 16)) & 0xff0000ff; // (1)
-    n = (n ^ (n <<  8)) & 0x0300f00f; // (2)
-    n = (n ^ (n <<  4)) & 0x030c30c3; // (3)
-    n = (n ^ (n <<  2)) & 0x09249249; // (4)
+    n = (n ^ (n << 8)) & 0x0300f00f; // (2)
+    n = (n ^ (n << 4)) & 0x030c30c3; // (3)
+    n = (n ^ (n << 2)) & 0x09249249; // (4)
     return n;
 }
 
 --------------------------------------------------------------------------------
 
 // Takes two 16-bit numbers and bit-interleaves them into one number
-uint32 Morton2(uint32 x, uint32 y)
-{
+uint32 Morton2(uint32 x, uint32 y) {
     return (Part1By1(y) << 1) + Part1By1(x);
 }
 
 // Separates low 16 bits of input by one bit
-uint32 Part1By1(uint32 n)
-{
+uint32 Part1By1(uint32 n) {
     // n = ----------------fedcba9876543210 : Bits initially
     // n = --------fedcba98--------76543210 : After (1)
     // n = ----fedc----ba98----7654----3210 : After (2)
     // n = --fe--dc--ba--98--76--54--32--10 : After (3)
     // n = -f-e-d-c-b-a-9-8-7-6-5-4-3-2-1-0 : After (4)
-    n = (n ^ (n <<  8)) & 0x00ff00ff; // (1)
-    n = (n ^ (n <<  4)) & 0x0f0f0f0f; // (2)
-    n = (n ^ (n <<  2)) & 0x33333333; // (3)
-    n = (n ^ (n <<  1)) & 0x55555555; // (4)
+    n = (n ^ (n << 8)) & 0x00ff00ff; // (1)
+    n = (n ^ (n << 4)) & 0x0f0f0f0f; // (2)
+    n = (n ^ (n << 2)) & 0x33333333; // (3)
+    n = (n ^ (n << 1)) & 0x55555555; // (4)
     return n;
 }
 
 --------------------------------------------------------------------------------
 
-uint32 Morton2(uint32 x, uint32 y)
-{
+uint32 Morton2(uint32 x, uint32 y) {
     // Merge the two 16-bit inputs into one 32-bit value
     uint32 xy = (y << 16) + x;
     // Separate bits of 32-bit value by one, giving 64-bit value
@@ -536,8 +592,7 @@ struct KDNode {
 };
 
 // Visit k-d tree nodes overlapped by sphere. Call with volNearPt = s->c
-void VisitOverlappedNodes(KDNode *pNode, Sphere *s, Point &volNearPt)
-{
+void VisitOverlappedNodes(KDNode *pNode, Sphere *s, Point &volNearPt) {
     if (pNode == NULL) return;
 
     // Visiting current node, perform work here
@@ -565,8 +620,7 @@ void VisitOverlappedNodes(KDNode *pNode, Sphere *s, Point &volNearPt)
 === Section 7.4.1: =============================================================
 
 // Visit all k-d tree nodes intersected by segment S = a + t * d, 0 <= t < tmax
-void VisitNodes(KDNode *pNode, Point a, Vector d, float tmax)
-{
+void VisitNodes(KDNode *pNode, Point a, Vector d, float tmax) {
     if (pNode == NULL) return;
 
     // Visiting current node, perform actual work here
@@ -597,18 +651,17 @@ void VisitNodes(KDNode *pNode, Point a, Vector d, float tmax)
 
 === Section 7.4.2: =============================================================
 
-void VisitCellsOverlapped(float x1, float y1, float x2, float y2)
-{
+void VisitCellsOverlapped(float x1, float y1, float x2, float y2) {
     // Side dimensions of the square cell
     const float CELL_SIDE = 30.0f;
 
     // Determine start grid cell coordinates (i, j)
-    int i = (int)floorf(x1 / CELL_SIDE);
-    int j = (int)floorf(y1 / CELL_SIDE);
+    int i = (int) floorf(x1 / CELL_SIDE);
+    int j = (int) floorf(y1 / CELL_SIDE);
 
     // Determine end grid cell coordinates (iend, jend)
-    int iend = (int)floorf(x2 / CELL_SIDE);
-    int jend = (int)floorf(y2 / CELL_SIDE);
+    int iend = (int) floorf(x2 / CELL_SIDE);
+    int jend = (int) floorf(y2 / CELL_SIDE);
 
     // Determine in which primary direction to step
     int di = ((x1 < x2) ? 1 : ((x1 > x2) ? -1 : 0));
@@ -618,9 +671,9 @@ void VisitCellsOverlapped(float x1, float y1, float x2, float y2)
     // (x1,y1)-(x2,y2) crosses the first horizontal and vertical cell
     // boundaries, respectively. Min(tx, ty) indicates how far one can
     // travel along the segment and still remain in the current cell
-    float minx = CELL_SIDE * floorf(x1/CELL_SIDE), maxx = minx + CELL_SIDE;
+    float minx = CELL_SIDE * floorf(x1 / CELL_SIDE), maxx = minx + CELL_SIDE;
     float tx = ((x1 > x2) ? (x1 - minx) : (maxx - x1)) / Abs(x2 - x1);
-    float miny = CELL_SIDE * floorf(y1/CELL_SIDE), maxy = miny + CELL_SIDE;
+    float miny = CELL_SIDE * floorf(y1 / CELL_SIDE), maxy = miny + CELL_SIDE;
     float ty = ((y1 > y2) ? (y1 - miny) : (maxy - y1)) / Abs(y2 - y1);
 
     // Determine deltax/deltay, how far (in units of t) one must step
@@ -647,20 +700,31 @@ void VisitCellsOverlapped(float x1, float y1, float x2, float y2)
 --------------------------------------------------------------------------------
 
 for (;;) {
-    VisitCell(i, j, k);
-    if (tx <= ty && tx <= tz) {        // tx smallest, step in x
-        if (i == iend) break;
-        tx += deltatx;
-        i += di;
-    } else if (ty <= tx && ty <= tz) { // ty smallest, step in y
-        if (j == jend) break;
-        ty += deltaty;
-        j += dj;
-    } else {                           // tz smallest, step in z
-        if (k == kend) break;
-        tz += deltatz;
-        k += dk;
-    }
+VisitCell(i, j, k
+);
+if (tx <=
+ty &&tx
+<= tz) {        // tx smallest, step in x
+if (i == iend) break;
+tx +=
+deltatx;
+i +=
+di;
+} else if (ty <=
+tx &&ty
+<= tz) { // ty smallest, step in y
+if (j == jend) break;
+ty +=
+deltaty;
+j +=
+dj;
+} else {                           // tz smallest, step in z
+if (k == kend) break;
+tz +=
+deltatz;
+k +=
+dk;
+}
 }
 
 === Section 7.5.1: =============================================================
@@ -670,13 +734,13 @@ struct AABB {
     Elem *pMax[3];  // Pointers to the three maximum interval values (one for each axis)
     Object *pObj;   // Pointer to the actual object contained in the AABB
 };
-                    
+
 struct Elem {
     AABB *pAABB;    // Back pointer to AABB object (to find matching max/min element)
     Elem *pLeft;    // Pointer to the previous linked list element
     Elem *pRight;   // Pointer to the next linked list element
     float value;    // The actual min or max coordinate value
-    int   minmax:1; // A min value or a max value?
+    int minmax: 1; // A min value or a max value?
 };
 
 --------------------------------------------------------------------------------
@@ -696,7 +760,7 @@ struct Elem {
     Elem *pLeft[3];  // Pointers to the previous linked list element (one for each axis)
     Elem *pRight[3]; // Pointers to the next linked list element (one for each axis)
     float value[3];  // All min or all max coordinate values (one for each axis)
-    int   minmax:1;  // All min values or all max values?
+    int minmax: 1;  // All min values or all max values?
 };
 
 --------------------------------------------------------------------------------
@@ -711,14 +775,13 @@ struct Elem {
     Elem *pLeft[3];  // Pointers to the previous linked list element (one for each axis)
     Elem *pRight[3]; // Pointers to the next linked list element (one for each axis)
     float value[3];  // All min or all max coordinate values (one for each axis)
-    int   minmax:1;  // All min values or all max values?
+    int minmax: 1;  // All min values or all max values?
 };
 
 --------------------------------------------------------------------------------
 
-AABB *GetAABB(Elem *pElem)
-{
-    return (AABB *)(pElem->minmax ? (pElem - 1) : pElem);
+AABB *GetAABB(Elem *pElem) {
+    return (AABB *) (pElem->minmax ? (pElem - 1) : pElem);
 }
 
 --------------------------------------------------------------------------------
@@ -730,23 +793,33 @@ enum {
 
 // Initialize the lists, with start and end sentinels
 AABB *pSentinel = new AABB;
-for (int i = 0; i < 3; i++) {
-    pSentinel->min.pLeft[i] = NULL; // not strictly needed
-    pSentinel->min.pRight[i] = &pSentinel->max;
-    pSentinel->max.pLeft[i] = &pSentinel->min;
-    pSentinel->max.pRight[i] = NULL; // not strictly needed
-    pSentinel->min.value[i] = -FLT_MAX;
-    pSentinel->max.value[i] = FLT_MAX;
-    gListHead[i] = &pSentinel->min;
+for (
+int i = 0;
+i < 3; i++) {
+pSentinel->min.pLeft[i] =
+NULL; // not strictly needed
+pSentinel->min.pRight[i] = &pSentinel->
+max;
+pSentinel->max.pLeft[i] = &pSentinel->
+min;
+pSentinel->max.pRight[i] =
+NULL; // not strictly needed
+pSentinel->min.value[i] = -
+FLT_MAX;
+pSentinel->max.value[i] =
+FLT_MAX;
+gListHead[i] = &pSentinel->
+min;
 }
 // Note backwardness of initializing these two
-pSentinel->min.minmax = MAX_ELEM;
-pSentinel->max.minmax = MIN_ELEM;
+pSentinel->min.
+minmax = MAX_ELEM;
+pSentinel->max.
+minmax = MIN_ELEM;
 
 --------------------------------------------------------------------------------
 
-void InsertAABBIntoList(AABB *pAABB)
-{
+void InsertAABBIntoList(AABB *pAABB) {
     // For all three axes
     for (int i = 0; i < 3; i++) {
         // Search from start of list
@@ -774,7 +847,7 @@ void InsertAABBIntoList(AABB *pAABB)
     // Now scan through list and add overlap pairs for all objects that
     // this AABB intersects. This pair tracking could be incorporated into
     // the loops above, but is not done here to simplify the code
-    for (Elem *pElem = gListHead[0]; ; ) {
+    for (Elem *pElem = gListHead[0];;) {
         if (pElem->minmax == MIN_ELEM) {
             if (pElem->value[0] > pAABB->max.value[0])
                 break;
@@ -788,8 +861,7 @@ void InsertAABBIntoList(AABB *pAABB)
 --------------------------------------------------------------------------------
 
 // This updating code assumes all other elements of list are sorted
-void UpdateAABBPosition(AABB *pAABB)
-{
+void UpdateAABBPosition(AABB *pAABB) {
     // For all three axes
     for (int i = 0; i < 3; i++) {
         Elem *pMin = &pAABB->min, *pMax = &pAABB->max, *t;
@@ -836,8 +908,7 @@ void UpdateAABBPosition(AABB *pAABB)
 
 --------------------------------------------------------------------------------
 
-void MoveElement(int i, Elem *pElem, Elem *pDest)
-{
+void MoveElement(int i, Elem *pElem, Elem *pDest) {
     // Unlink element...
     pElem->pLeft[i]->pRight[i] = pElem->pRight[i];
     pElem->pRight[i]->pLeft[i] = pElem->pLeft[i];
@@ -866,11 +937,10 @@ int gSortAxis = 0; // Specifies axis (0/1/2) to sort on (here arbitrarily initia
 
 // Comparison function for qsort. Given two arguments A and B must return a
 // value of less than zero if A < B, zero if A = B, and greater than zero if A > B
-int cmpAABBs(const void *a, const void *b)
-{
+int cmpAABBs(const void *a, const void *b) {
     // Sort on minimum value along either x, y or z (specified in gSortAxis)
-    float minA = (*(AABB **)a)->min[gSortAxis];
-    float minB = (*(AABB **)b)->min[gSortAxis];
+    float minA = (*(AABB **) a)->min[gSortAxis];
+    float minB = (*(AABB **) b)->min[gSortAxis];
     if (minA < minB) return -1;
     if (minA > minB) return 1;
     return 0;
@@ -878,13 +948,12 @@ int cmpAABBs(const void *a, const void *b)
 
 --------------------------------------------------------------------------------
 
-void SortAndSweepAABBArray(void)
-{
+void SortAndSweepAABBArray(void) {
     // Sort the array on currently selected sorting axis (gSortAxis)
     qsort(gAABBArray, MAX_OBJECTS, sizeof(AABB *), cmpAABBs);
 
     // Sweep the array for collisions
-    float s[3] = { 0.0f, 0.0f, 0.0f }, s2[3] = { 0.0f, 0.0f, 0.0f }, v[3];
+    float s[3] = {0.0f, 0.0f, 0.0f}, s2[3] = {0.0f, 0.0f, 0.0f}, v[3];
     for (int i = 0; i < MAX_OBJECTS; i++) {
         // Determine AABB center point
         Point p = 0.5f * (gAABBArray[i]->min + gAABBArray[i]->max);
@@ -915,37 +984,55 @@ void SortAndSweepAABBArray(void)
 
 === Section 7.6: ===============================================================
 
-RenderCell(ClipRegion r, Cell *c)
+RenderCell(ClipRegion
+r,
+Cell *c
+)
 {
-    // If the cell has not already been visited this frame...
-    if (c->lastFrameVisited != currentFrameNumber) {
-        // ...timestamp it to make sure it is not visited several
-        // times due to multiple traversal paths through the cells
-        c->lastFrameVisited = currentFrameNumber;
-        // Recursively visit all connected cells with visible portals
-        for (Portal *pl = c->pPortalList; pl != NULL; pl = pl->pNextPortal) {
-            // Clip the portal region against the current clipping region
-            ClipRegion visiblePart = ProjectAndIntersectRegion(r, pl->boundary);
-            // If portal is not completely clipped its contents must be partially
-            // visible, so recursively render other side through the reduced portal
-            if (!EmptyRegion(visiblePart))
-                RenderCell(visiblePart, pl->pAdjoiningCell);
-        }
-        // Now render all polygons (done last, for back-to-front rendering)
-        for (Polygon *p = c.pPolygonList; p != NULL; p = p->pNextPolygon)
-            RenderPolygon(p);
-    }
+// If the cell has not already been visited this frame...
+if (c->lastFrameVisited != currentFrameNumber) {
+// ...timestamp it to make sure it is not visited several
+// times due to multiple traversal paths through the cells
+c->
+lastFrameVisited = currentFrameNumber;
+// Recursively visit all connected cells with visible portals
+for (
+Portal *pl = c->pPortalList;
+pl !=
+NULL;
+pl = pl->pNextPortal
+) {
+// Clip the portal region against the current clipping region
+ClipRegion visiblePart = ProjectAndIntersectRegion(r, pl->boundary);
+// If portal is not completely clipped its contents must be partially
+// visible, so recursively render other side through the reduced portal
+if (!
+EmptyRegion(visiblePart)
+)
+RenderCell(visiblePart, pl
+->pAdjoiningCell);
+}
+// Now render all polygons (done last, for back-to-front rendering)
+for (
+Polygon *p = c.pPolygonList;
+p !=
+NULL;
+p = p->pNextPolygon
+)
+RenderPolygon(p);
+}
 }
 
 === Section 7.7.1: =============================================================
 
 // Allocate enough words to hold a bit flag for each object pair
 const int32 MAX_OBJECTS = 1000;
-const int32 MAX_OBJECT_PAIRS = MAX_OBJECTS * (MAX_OBJECTS – 1) / 2;
+const int32 MAX_OBJECT_PAIRS = MAX_OBJECTS * (MAX_OBJECTS
+ï¿½ 1) / 2;
 int32 bitflags[(MAX_OBJECT_PAIRS + 31) / 32];
 ...
-void TestObjectPair(int32 index0, int32 index1)
-{
+
+void TestObjectPair(int32 index0, int32 index1) {
     assert(index0 != index1);
     // Find which object index is smaller and which is larger
     int32 min = index0, max = index1;
@@ -978,24 +1065,32 @@ void TestObjectPair(int32 index0, int32 index1)
 
 blockToClear = 0;
 tickCounter = 0;
-for (i = 0; i < MAX_OBJECTS; i++)
-    object[i].timeStamp = tickCounter;
+for (
+i = 0;
+i<MAX_OBJECTS;
+i++)
+object[i].
+timeStamp = tickCounter;
 
 --------------------------------------------------------------------------------
 
 // Increment the global time stamp counter
 tickCounter++;
 // Do any and all object testing required for the frame
-for (i = 0; i < MAX_OBJECTS; i++) {
-    if (object[i].timeStamp == tickCounter) {
-        // Already processed this object this frame, do nothing
-        continue;
-    } else {
-        // Process object for intersection here
-        ...
-        // Mark object as processed
-        object[i].timeStamp = tickCounter;
-    }
+for (
+i = 0;
+i<MAX_OBJECTS;
+i++) {
+if (object[i].timeStamp == tickCounter) {
+// Already processed this object this frame, do nothing
+continue;
+} else {
+// Process object for intersection here
+...
+// Mark object as processed
+object[i].
+timeStamp = tickCounter;
+}
 }
 
 --------------------------------------------------------------------------------
@@ -1003,11 +1098,15 @@ for (i = 0; i < MAX_OBJECTS; i++) {
 // Reset the time stamp for all objects in the current block to be cleared
 from = blockToClear * MAX_OBJECTS / MAX_COUNTER_VALUE;
 to = (blockToClear + 1) * MAX_OBJECTS / MAX_COUNTER_VALUE;
-for (i = from; i < to; i++)
-    object[i].timeStamp = tickCounter;
+for (
+i = from;
+i<to;
+i++)
+object[i].
+timeStamp = tickCounter;
 // Indicate that the next block should be cleared the next frame
 if (++blockToClear >= NUM_BLOCKS)
-    blockToClear = 0;
+blockToClear = 0;
 // Wrap the global time stamp counter when it exceeds its maximum value
 if (tickCounter >= MAX_COUNTER_VALUE - 1)
-    tickCounter = 0;
+tickCounter = 0;

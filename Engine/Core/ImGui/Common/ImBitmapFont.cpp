@@ -30,7 +30,7 @@ void ImBitmapFont::Clear() {
 
 bool ImBitmapFont::LoadFromFile(const char *filename) {
     // Load file
-    FILE * f = fopen(filename, "rb");
+    FILE *f = fopen(filename, "rb");
     if (f == NULL)
         return false;
     if (fseek(f, 0, SEEK_END))

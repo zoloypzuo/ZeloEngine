@@ -124,9 +124,9 @@ size_t Zelo::Resource::getFileSize() const {
 }
 
 const char *Zelo::Resource::readCopy() const {
-    const char* data = read();
+    const char *data = read();
     auto size = m_fileSize;
     void *buffer = new char[size];
     memcpy(buffer, data, size);
-    return static_cast<const char*>(buffer);
+    return static_cast<const char *>(buffer);
 }

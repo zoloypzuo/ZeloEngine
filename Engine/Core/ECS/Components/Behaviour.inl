@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ZeloPrerequisites.h"
 
 namespace Zelo::Core::ECS::Components {

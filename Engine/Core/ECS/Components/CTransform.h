@@ -12,7 +12,7 @@ namespace Zelo::Core::ECS::Components {
 
 class CTransform : public AComponent {
 public:
-    CTransform(ECS::Actor & owner);
+    CTransform(ECS::Actor &owner);
 
 //    CTransform(ECS::Actor &owner, struct OvMaths::FVector3 localPosition = OvMaths::FVector3(0.0f, 0.0f, 0.0f),
 //               OvMaths::FQuaternion localRotation = OvMaths::FQuaternion::Identity,

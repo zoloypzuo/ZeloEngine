@@ -63,7 +63,7 @@ public:
 
     void bindAxis(const std::string &axis, std::function<void(float)> handler);
 
-    void bindTextEdit(std::function<void(const char*)>handler);
+    void bindTextEdit(std::function<void(const char *)> handler);
 
     bool unbindAction(const std::string &action);
 
@@ -94,7 +94,7 @@ private:
     std::map<SDL_Keycode, AxisValuePair> m_keyToAxis;
     std::map<std::string, std::map<InputEvent, std::function<void()>>> m_actionInputEventHandler;
     std::map<std::string, std::function<void(float)>> m_axisHandler;
-    std::vector<std::function<void(const char*)>> m_textEditHandler;
+    std::vector<std::function<void(const char *)>> m_textEditHandler;
 };
 
 #endif //ZELOENGINE_INPUT_H

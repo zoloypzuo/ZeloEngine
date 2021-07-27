@@ -2,8 +2,7 @@
 === Section 9.3.1: =============================================================
 
 // Given a set s of vertices, compute a maximal set of independent vertices
-Set IndependentSet(Set s)
-{
+Set IndependentSet(Set s) {
     // Initialize i to the empty set
     Set i = EmptySet();
     // Loop over all vertices in the input set
