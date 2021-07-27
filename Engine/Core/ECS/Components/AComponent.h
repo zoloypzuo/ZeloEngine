@@ -12,7 +12,7 @@ class CPhysicalObject;
 class AComponent /*: public API::IInspectorItem*/ {
 public:
 
-    AComponent(ECS::Actor &owner);
+    explicit AComponent(ECS::Actor &owner);
 
 
     virtual ~AComponent();

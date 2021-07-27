@@ -1,9 +1,10 @@
-
+#include "ZeloPreCompiledHeader.h"
 
 //#include <UI/Widgets/Texts/Text.h>
 //#include <UI/Widgets/Drags/DragMultipleFloats.h>
 
 #include "Core/ECS/Components/CTransform.h"
+#include "Core/ECS/Actor.h"
 using namespace Zelo::Core::ECS::Components;
 
 //CTransform::CTransform(ECS::Actor &owner, OvMaths::FVector3 localPosition,
@@ -14,6 +15,10 @@ using namespace Zelo::Core::ECS::Components;
 //
 std::string CTransform::GetName() {
     return "Transform";
+}
+
+CTransform::CTransform(Zelo::Core::ECS::Actor &owner) : AComponent(owner) {
+
 }
 //
 //void CTransform::SetParent(CTransform &parent) {
