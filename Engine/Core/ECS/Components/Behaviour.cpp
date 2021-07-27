@@ -1,20 +1,21 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Core/ECS/Components/Behaviour.h"
+#include "Core/ECS/Actor.h"
 
 using namespace Zelo::Core;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::ECS::Components;
 
-EventSystem::Event<Behaviour *> Behaviour::CreatedEvent;
-EventSystem::Event<Behaviour *> Behaviour::DestroyedEvent;
+EventSystem::Event<Behaviour *> Behaviour::s_CreatedEvent;
+EventSystem::Event<Behaviour *> Behaviour::s_DestroyedEvent;
 
 Behaviour::Behaviour(ECS::Actor &owner, const std::string &name) :
         name(name), AComponent(owner) {
-    CreatedEvent.Invoke(this);
+    s_CreatedEvent.Invoke(this);
 }
 
 Behaviour::~Behaviour() {
-    DestroyedEvent.Invoke(this);
+    s_DestroyedEvent.Invoke(this);
 }
 
 std::string Behaviour::GetName() {

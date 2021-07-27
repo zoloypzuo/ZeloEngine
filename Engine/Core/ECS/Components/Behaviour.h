@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
+#include "Core/ECS/Components/AComponent.h"
+#include "Core/EventSystem/Event.h"
 #include <sol/sol.hpp>
 
 namespace Zelo::Core::ECS { class Actor; }
@@ -12,7 +14,7 @@ public:
 
     Behaviour(ECS::Actor &owner, const std::string &name);
 
-    ~Behaviour();
+    ~Behaviour() override;
 
     std::string GetName() override;
 
@@ -42,8 +44,8 @@ public:
     void OnLateUpdate(float deltaTime) override;
 
 public:
-    static EventSystem::Event<Behaviour *> CreatedEvent;
-    static EventSystem::Event<Behaviour *> DestroyedEvent;
+    static EventSystem::Event<Behaviour *> s_CreatedEvent;
+    static EventSystem::Event<Behaviour *> s_DestroyedEvent;
 
     const std::string name;
 
