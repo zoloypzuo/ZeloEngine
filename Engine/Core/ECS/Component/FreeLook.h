@@ -28,5 +28,4 @@ private:
     bool m_look;
 };
 
-
 #endif //ZELOENGINE_FREELOOK_H

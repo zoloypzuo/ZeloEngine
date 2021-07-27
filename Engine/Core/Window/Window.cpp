@@ -133,7 +133,6 @@ void Window::update() {
     }
 }
 
-
 void Window::finalize() {
     SDL_GL_DeleteContext(m_glContext);
     SDL_DestroyWindow(m_window);

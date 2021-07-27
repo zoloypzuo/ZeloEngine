@@ -192,7 +192,6 @@ float ImGuiWindow::TitleBarHeight() const {
 
 ImGuiAabb ImGuiWindow::TitleBarAabb() const { return ImGuiAabb(Pos, Pos + ImVec2(SizeFull.x, TitleBarHeight())); }
 
-
 bool ImGui::IsKeyPressedMap(ImGuiKey key, bool repeat) {
     ImGuiState &g = GImGui;
     const int key_index = g.IO.KeyMap[key];
@@ -216,7 +215,7 @@ void LoadSettings() {
         return;
 
     // Load file
-    FILE * f{};
+    FILE *f{};
     if ((f = fopen(filename, "rt")) == NULL)
         return;
     if (fseek(f, 0, SEEK_END))
@@ -282,7 +281,7 @@ void SaveSettings() {
 
     // Write .ini file
     // If a window wasn't opened in this session we preserve its settings
-    FILE * f = fopen(filename, "wt");
+    FILE *f = fopen(filename, "wt");
     if (!f)
         return;
     for (size_t i = 0; i != g.Settings.size(); i++) {
@@ -501,7 +500,6 @@ void PushColumnClipRect(int column_index) {
     const float x2 = window->Pos.x + ImGui::GetColumnOffset(column_index + 1) - 1;
     ImGui::PushClipRect(ImVec4(x1, -FLT_MAX, x2, +FLT_MAX));
 }
-
 
 bool IsClipped(const ImGuiAabb &bb) {
     ImGuiState &g = GImGui;

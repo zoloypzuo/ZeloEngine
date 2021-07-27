@@ -2,8 +2,7 @@
 === Section 6.2.1: =============================================================
 
 // Construct a top-down tree. Rearranges object[] array during construction
-void TopDownBVTree(Node **tree, Object object[], int numObjects)
-{
+void TopDownBVTree(Node **tree, Object object[], int numObjects) {
     assert(numObjects > 0);
 
     const int MIN_OBJECTS_PER_LEAF = 1;
@@ -15,7 +14,7 @@ void TopDownBVTree(Node **tree, Object object[], int numObjects)
         pNode->type = LEAF;
         pNode->numObjects = numObjects;
         pNode->object = &object[0]; // Pointer to first object in leaf
-    } else {        
+    } else {
         pNode->type = NODE;
         // Based on some partitioning strategy, arrange objects into
         // two partitions: object[0..k-1], and object[k..numObjects-1]
@@ -29,8 +28,7 @@ void TopDownBVTree(Node **tree, Object object[], int numObjects)
 
 === Section 6.2.2: =============================================================
 
-Node *BottomUpBVTree(Object object[], int numObjects)
-{
+Node *BottomUpBVTree(Object object[], int numObjects) {
     assert(numObjects != 0);
 
     int i, j;
@@ -73,9 +71,8 @@ Node *BottomUpBVTree(Object object[], int numObjects)
 
 === Section 6.2.2.1: ===========================================================
 
-Node *BottomUpBVTree(Object object[], int numObjects)
-{
-    PriorityQueue<Pair> q;
+Node *BottomUpBVTree(Object object[], int numObjects) {
+    PriorityQueue <Pair> q;
     InsertionBVTree t;
 
     // Bound all objects in BV, forming leaf nodes. Insert leaf nodes into a
@@ -126,8 +123,7 @@ Node *BottomUpBVTree(Object object[], int numObjects)
 
 // Generic recursive BVH traversal code.
 // Assumes that leaves too have BVs
-void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
-{
+void BVHCollision(CollisionResult *r, BVTree a, BVTree b) {
     if (!BVOverlap(a, b)) return;
     if (IsLeaf(a) && IsLeaf(b)) {
         // At leaf nodes. Perform collision tests on leaf node contents
@@ -145,29 +141,25 @@ void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
 
 --------------------------------------------------------------------------------
 
-// ‘Descend A’ descent rule
-bool DescendA(BVTree a, BVTree b)
-{
+// ï¿½Descend Aï¿½ descent rule
+bool DescendA(BVTree a, BVTree b) {
     return !IsLeaf(a);
 }
 
-// ‘Descend B’ descent rule
-bool DescendA(BVTree a, BVTree b)
-{
+// ï¿½Descend Bï¿½ descent rule
+bool DescendA(BVTree a, BVTree b) {
     return IsLeaf(b);
 }
 
-// ‘Descend larger’ descent rule
-bool DescendA(BVTree a, BVTree b)
-{
+// ï¿½Descend largerï¿½ descent rule
+bool DescendA(BVTree a, BVTree b) {
     return IsLeaf(b) || (!IsLeaf(a) && (SizeOfBV(a) >= SizeOfBV(b)));
 }
 
 --------------------------------------------------------------------------------
 
 // Non-recursive version
-void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
-{
+void BVHCollision(CollisionResult *r, BVTree a, BVTree b) {
     Stack s = NULL;
     Push(s, a, b);
     while (!IsEmpty(s)) {
@@ -193,8 +185,7 @@ void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
 --------------------------------------------------------------------------------
 
 // Stack-use optimized, non-recursive version
-void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
-{
+void BVHCollision(CollisionResult *r, BVTree a, BVTree b) {
     Stack s = NULL;
     while (1) {
         if (BVOverlap(a, b)) {
@@ -222,13 +213,12 @@ void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
 === Section 6.3.3: =============================================================
 
 // Recursive, simultaneous traversal
-void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
-{
+void BVHCollision(CollisionResult *r, BVTree a, BVTree b) {
 
     if (!BVOverlap(a, b)) return;
     if (IsLeaf(a)) {
         if (IsLeaf(b)) {
-           // At leaf nodes. Perform collision tests on leaf node contents
+            // At leaf nodes. Perform collision tests on leaf node contents
             CollidePrimitives(r, a, b);
             // Could have an exit rule here (eg. exit on first hit)
         } else {
@@ -253,9 +243,8 @@ void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
 // This routine recurses over the first hierarchy, into its leaves.
 // The leaves are transformed once, and then passed off along with
 // second hierarchy to a support routine
-void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
-{
-    if (!BVOverlap(a, b)) return; 
+void BVHCollision(CollisionResult *r, BVTree a, BVTree b) {
+    if (!BVOverlap(a, b)) return;
     if (!IsLeaf(a)) {
         BVHCollision(a->left, b);
         BVHCollision(a->right, b);
@@ -268,8 +257,7 @@ void BVHCollision(CollisionResult *r, BVTree a, BVTree b)
 // The support routine takes what is known to be a leaf and a full
 // hierarchy, recursing over the hierarchy, performing the low-level
 // leaf-leaf collision tests once the hierarchy leaves are reached
-void BVHCollision2(CollisionResult *r, BVTree a, BVTree b)
-{
+void BVHCollision2(CollisionResult *r, BVTree a, BVTree b) {
     if (!BVOverlap(a, b)) return;
     if (!IsLeaf(b)) {
         BVHCollision2(a, b->left);
@@ -283,8 +271,7 @@ void BVHCollision2(CollisionResult *r, BVTree a, BVTree b)
 === Section 6.5.1: =============================================================
 
 // Computes the AABB a of AABBs a0 and a1
-void AABBEnclosingAABBs(AABB &a, AABB a0, AABB a1)
-{
+void AABBEnclosingAABBs(AABB &a, AABB a0, AABB a1) {
     for (int i = 0; i < 2; i++) {
         a.min[i] = Min(a0.min[i], a1.min[i]);
         a.max[i] = Max(a0.max[i], a1.max[i]);
@@ -294,8 +281,7 @@ void AABBEnclosingAABBs(AABB &a, AABB a0, AABB a1)
 === Section 6.5.2: =============================================================
 
 // Computes the bounding sphere s of spheres s0 and s1
-void SphereEnclosingSpheres(Sphere &s, Sphere s0, Sphere s1)
-{
+void SphereEnclosingSpheres(Sphere &s, Sphere s0, Sphere s1) {
     // Compute the squared distance between the sphere centers
     Vector d = s1.c - s0.c;
     float dist2 = Dot(d, d);
@@ -320,8 +306,7 @@ void SphereEnclosingSpheres(Sphere &s, Sphere s0, Sphere s1)
 === Section 6.5.4: =============================================================
 
 // Computes the KDOP d of KDOPs d0 and d1
-void KDOPEnclosingKDOPs(KDOP &d, KDOP d0, KDOP d1, int k)
-{
+void KDOPEnclosingKDOPs(KDOP &d, KDOP d0, KDOP d1, int k) {
     for (int i = 0; i < k / 2; i++) {
         d.min[i] = Min(d0.min[i], d1.min[i]);
         d.max[i] = Max(d0.max[i], d1.max[i]);
@@ -343,8 +328,7 @@ array[3] = *(root->left->left);
 
 // Given a tree t, outputs its nodes in breadth-first traversal order
 // into the node array n. Call with i = 0.
-void BreadthFirstOrderOutput(Tree *t, Tree n[], int i)
-{
+void BreadthFirstOrderOutput(Tree *t, Tree n[], int i) {
     // Copy over contents from tree node to breadth-first tree
     n[i].nodeData = t->nodeData;
     // If tree has a left node, copy its subtree recursively
@@ -359,14 +343,13 @@ void BreadthFirstOrderOutput(Tree *t, Tree n[], int i)
 
 // Given a tree t, outputs its nodes in preorder traversal order
 // into the node array n. Call with i = 0.
-int PreorderOutput(Tree *t, Tree n[], int i)
-{
+int PreorderOutput(Tree *t, Tree n[], int i) {
     // Implement a simple stack of parent nodes.
-    // Note that the stack pointer ‘sp’ is automatically reset between calls
+    // Note that the stack pointer ï¿½spï¿½ is automatically reset between calls
     const int STACK_SIZE = 100;
     static int parentStack[STACK_SIZE];
     static int sp = 0;
-    
+
     // Copy over contents from tree node to PTO tree
     n[i].nodeData = t->nodeData;
     // Set the flag indicating whether there is a left child
@@ -393,20 +376,20 @@ int PreorderOutput(Tree *t, Tree n[], int i)
 === Section 6.6.6: =============================================================
 
 #include <setjmp.h>
+
 jmp_buf gJmpBuf;
 
-int BVHTestCollision(BVTree a, BVTree b)
-{
+int BVHTestCollision(BVTree a, BVTree b) {
     int r = setjmp(gJmpBuf);
     if (r == 0) {
         BVHTestCollisionR(a, b);
         return 0;
     } else return r - 1;
 }
+
 // Generic recursive BVH traversal code
 // assumes that leaves too have BVs
-void BVHTestCollisionR(BVTree a, BVTree b)
-{
+void BVHTestCollisionR(BVTree a, BVTree b) {
     if (!BVOverlap(a, b))
         longjmp(gJmpBuf, 0 + 1); /* false */
     if (IsLeaf(a) && IsLeaf(b)) {
@@ -427,19 +410,26 @@ void BVHTestCollisionR(BVTree a, BVTree b)
 
 Sphere s[NUM_SPHERES];
 ...
-for (int i = 0; i < NUM_SPHERES; i++)
-    if (SphereTreeCollision(s[i], worldHierarchy))
-        ...
+for (
+int i = 0;
+i<NUM_SPHERES;
+i++)
+if (
+SphereTreeCollision(s[i], worldHierarchy
+))
+...
 
 --------------------------------------------------------------------------------
 
-bool SphereTreeCollision(Sphere s, Tree *root)
-{
+bool SphereTreeCollision(Sphere s, Tree *root) {
     // If an alternative start node has been set, use it;
     // if not, use the provided start root node
     if (gStartNode != NULL) root = gStartNode;
 
-    ...original code goes here...
+    ...original
+    code
+    goes
+    here...
 }
 
 --------------------------------------------------------------------------------
@@ -448,8 +438,7 @@ bool SphereTreeCollision(Sphere s, Tree *root)
 Tree *gStartNode = NULL;
 
 // Set a new alternative start node
-void BeginGroupedQueryTestVolume(Sphere *s, Tree *root)
-{
+void BeginGroupedQueryTestVolume(Sphere *s, Tree *root) {
     // Descend into the hierarchy as long as the given sphere
     // overlaps either child bounding sphere (but not both)
     while (root != NULL) {
@@ -464,8 +453,7 @@ void BeginGroupedQueryTestVolume(Sphere *s, Tree *root)
 }
 
 // Reset the alternative start node
-void EndGroupedQueryTestVolume(void)
-{
+void EndGroupedQueryTestVolume(void) {
     gStartNode = NULL;
 }
 
@@ -475,19 +463,26 @@ Sphere s[NUM_SPHERES];
 ...
 // Compute a bounding sphere for the query spheres
 Sphere bs = BoundingSphere(&s[0], NUM_SPHERES);
-BeginGroupedQueryTestVolume(bs, worldHierarchy);
+BeginGroupedQueryTestVolume(bs, worldHierarchy
+);
 // Do the original queries just as before
-for (int i = 0; i < NUM_SPHERES; i++)
-    if (SphereTreeCollision(s[i], worldHierarchy))
-        ...
+for (
+int i = 0;
+i<NUM_SPHERES;
+i++)
+if (
+SphereTreeCollision(s[i], worldHierarchy
+))
+...
+
 // Reset everything back to not used a grouped query
 EndGroupedQueryTestVolume();
+
 ...
 
 === Section 6.7.1: =============================================================
 
-int ObjectsCollidingWithCache(Object a, Object b)
-{
+int ObjectsCollidingWithCache(Object a, Object b) {
     // Check to see if this pair of objects is already in cache
     pair = FindObjectPairInCache(a, b);
     if (pair != NULL) {
@@ -498,11 +493,12 @@ int ObjectsCollidingWithCache(Object a, Object b)
         else DeleteObjectPairFromCache(a, b);
     }
     // Do a full collision query, that caches the result
-    return ObjectCollidingCachePrims(Object a, Object b)
+    return ObjectCollidingCachePrims(Object
+    a, Object
+    b)
 }
 
-int ObjectCollidingCachePrims(Object a, Object b)
-{
+int ObjectCollidingCachePrims(Object a, Object b) {
     if (BVOverlap(a, b)) {
         if (IsLeaf(a) && IsLeaf(b) {
             if (CollidePrimitives(a, b)) {

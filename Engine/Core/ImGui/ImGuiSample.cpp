@@ -1,4 +1,4 @@
-// ImGuiSample.cpp.cc
+// ImGuiSample.cpp
 // created on 2021/6/12
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"

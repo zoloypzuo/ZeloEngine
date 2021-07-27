@@ -18,7 +18,6 @@
 #include <stdio.h>
 #include <cassert>
 
-
 /**
  * The main demo class definition.
  */

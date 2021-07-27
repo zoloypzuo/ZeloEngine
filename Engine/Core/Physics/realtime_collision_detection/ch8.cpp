@@ -2,8 +2,7 @@
 === Section 8.3: ===============================================================
 
 // Constructs BSP tree from an input vector of polygons. Pass 'depth' as 0 on entry
-BSPNode *BuildBSPTree(std::vector<Polygon *> &polygons, int depth)
-{
+BSPNode *BuildBSPTree(std::vector<Polygon *> &polygons, int depth) {
     // Return NULL tree if there are no polygons
     if (polygons.empty()) return NULL;
 
@@ -12,37 +11,37 @@ BSPNode *BuildBSPTree(std::vector<Polygon *> &polygons, int depth)
 
     // If criterion for a leaf is matched, create a leaf node from remaining polygons
     if (depth >= MAX_DEPTH || numPolygons <= MIN_LEAF_SIZE) || ...etc...)
-        return new BSPNode(polygons);
+    return new BSPNode(polygons);
 
     // Select best possible partitioning plane based on the input geometry
     Plane splitPlane = PickSplittingPlane(polygons);
 
-    std::vector<Polygon *> frontList, backList;
+    std::vector < Polygon * > frontList, backList;
 
     // Test each polygon against the dividing plane, adding them
     // to the front list, back list, or both, as appropriate
     for (int i = 0; i < numPolygons; i++) {
         Polygon *poly = polygons[i], *frontPart, *backPart;
         switch (ClassifyPolygonToPlane(poly, splitPlane)) {
-        case COPLANAR_WITH_PLANE:
-            // What's done in this case depends on what type of tree is being
-            // built. For a node-storing tree, the polygon is stored inside
-            // the node at this level (along with all other polygons coplanar
-            // with the plane). Here, for a leaf-storing tree, coplanar polygons
-            // are sent to either side of the plane. In this case, to the front
-            // side, by falling through to the next case
-        case IN_FRONT_OF_PLANE:
-            frontList.push_back(poly);
-            break;
-        case BEHIND_PLANE:
-            backList.push_back(poly);
-            break;
-        case STRADDLING_PLANE:
-            // Split polygon to plane and send a part to each side of the plane
-            SplitPolygon(*poly, splitPlane, &frontPart, &backPart);
-            frontList.push_back(frontPart);
-            backList.push_back(backPart);
-            break;
+            case COPLANAR_WITH_PLANE:
+                // What's done in this case depends on what type of tree is being
+                // built. For a node-storing tree, the polygon is stored inside
+                // the node at this level (along with all other polygons coplanar
+                // with the plane). Here, for a leaf-storing tree, coplanar polygons
+                // are sent to either side of the plane. In this case, to the front
+                // side, by falling through to the next case
+            case IN_FRONT_OF_PLANE:
+                frontList.push_back(poly);
+                break;
+            case BEHIND_PLANE:
+                backList.push_back(poly);
+                break;
+            case STRADDLING_PLANE:
+                // Split polygon to plane and send a part to each side of the plane
+                SplitPolygon(*poly, splitPlane, &frontPart, &backPart);
+                frontList.push_back(frontPart);
+                backList.push_back(backPart);
+                break;
         }
     }
 
@@ -55,8 +54,7 @@ BSPNode *BuildBSPTree(std::vector<Polygon *> &polygons, int depth)
 === Section 8.3.2: =============================================================
 
 // Given a vector of polygons, attempts to compute a good splitting plane
-Plane PickSplittingPlane(std::vector<Polygon *> &polygons)
-{
+Plane PickSplittingPlane(std::vector<Polygon *> &polygons) {
     // Blend factor for optimizing for balance or splits (should be tweaked)
     const float K = 0.8f;
     // Variables for tracking best splitting plane seen so far
@@ -73,17 +71,17 @@ Plane PickSplittingPlane(std::vector<Polygon *> &polygons)
             if (i == j) continue;
             // Keep standing count of the various poly-plane relationships
             switch (ClassifyPolygonToPlane(polygons[j], plane)) {
-            case POLYGON_COPLANAR_WITH_PLANE:
-                /* Coplanar polygons treated as being in front of plane */
-            case POLYGON_IN_FRONT_OF_PLANE:
-                numInFront++;
-                break;
-            case POLYGON_BEHIND_PLANE:
-                numBehind++;
-                break;
-            case POLYGON_STRADDLING_PLANE:
-                numStraddling++;
-                break;
+                case POLYGON_COPLANAR_WITH_PLANE:
+                    /* Coplanar polygons treated as being in front of plane */
+                case POLYGON_IN_FRONT_OF_PLANE:
+                    numInFront++;
+                    break;
+                case POLYGON_BEHIND_PLANE:
+                    numBehind++;
+                    break;
+                case POLYGON_STRADDLING_PLANE:
+                    numStraddling++;
+                    break;
             }
         }
         // Compute score as a weighted combination (based on K, with K in range
@@ -115,8 +113,7 @@ int ClassifyPointToPlane(Point p, Plane plane) {
 
 // Return value specifying whether the polygon 'poly' lies in front of,
 // behind of, on, or straddles the plane 'plane'
-int ClassifyPolygonToPlane(Polygon *poly, Plane plane)
-{
+int ClassifyPolygonToPlane(Polygon *poly, Plane plane) {
     // Loop over all polygon vertices and count how many vertices
     // lie in front of and how many lie behind of the thickened plane
     int numInFront = 0, numBehind = 0;
@@ -124,12 +121,12 @@ int ClassifyPolygonToPlane(Polygon *poly, Plane plane)
     for (int i = 0; i < numVerts; i++) {
         Point p = poly->GetVertex(i);
         switch (ClassifyPointToPlane(p, plane)) {
-        case POINT_IN_FRONT_OF_PLANE:
-            numInFront++;
-            break;
-        case POINT_BEHIND_PLANE:
-            numBehind++;
-            break;
+            case POINT_IN_FRONT_OF_PLANE:
+                numInFront++;
+                break;
+            case POINT_BEHIND_PLANE:
+                numBehind++;
+                break;
         }
     }
     // If vertices on both sides of the plane, the polygon is straddling
@@ -155,7 +152,8 @@ void SplitPolygon(Polygon &poly, Plane plane, Polygon **frontPoly, Polygon **bac
 
     // Test all edges (a, b) starting with edge from last to first vertex
     int numVerts = poly.NumVertices();
-    Point a = poly.GetVertex(numVerts – 1);
+    Point
+    a = poly.GetVertex(numVerts ï¿½ 1);
     int aSide = ClassifyPointToPlane(a, plane);
 
     // Loop over all edges given by vertex pair (n-1, n)
@@ -178,7 +176,7 @@ void SplitPolygon(Polygon &poly, Plane plane, Polygon **frontPoly, Polygon **bac
                 assert(ClassifyPointToPlane(i, plane) == POINT_ON_PLANE);
                 frontVerts[numFront++] = backVerts[numBack++] = i;
             } else if (aSide == POINT_ON_PLANE) {
-                // Output a when edge (a, b) goes from ‘on’ to ‘behind’ plane
+                // Output a when edge (a, b) goes from ï¿½onï¿½ to ï¿½behindï¿½ plane
                 backVerts[numBack++] = a;
             }
             // In all three cases, output b to the back side
@@ -202,21 +200,20 @@ void SplitPolygon(Polygon &poly, Plane plane, Polygon **frontPoly, Polygon **bac
 
 === Section 8.3.5: =============================================================
 
-        ...
-        if (bSide == POINT_IN_FRONT_OF_PLANE) {
-            if (aSide == POINT_BEHIND_PLANE) {
-                // Edge (a, b) straddles, output intersection point to both sides.
-                // Consistently clip edge as ordered going from in front -> behind
-                Point i = IntersectEdgeAgainstPlane(b, a, plane);
-                ...
-            }
-            ...
+...
+if (bSide == POINT_IN_FRONT_OF_PLANE) {
+if (aSide == POINT_BEHIND_PLANE) {
+// Edge (a, b) straddles, output intersection point to both sides.
+// Consistently clip edge as ordered going from in front -> behind
+Point i = IntersectEdgeAgainstPlane(b, a, plane);
+...
+}
+...
 
 === Section 8.4: ===============================================================
 
 // Render node-storing BSP tree back-to-front w/ respect to cameraPos
-void RenderBSP(BSPNode *node, Point cameraPos)
-{
+void RenderBSP(BSPNode *node, Point cameraPos) {
     // Get index of which child to visit first (0 = front, 1 = back)
     int index = ClassifyPointToPlane(cameraPos, node->plane) == POINT_IN_FRONT_OF_PLANE;
 
@@ -230,8 +227,7 @@ void RenderBSP(BSPNode *node, Point cameraPos)
 
 === Section 8.4.1: =============================================================
 
-int PointInSolidSpace(BSPNode *node, Point p)
-{
+int PointInSolidSpace(BSPNode *node, Point p) {
     while (!node->IsLeaf()) {
         // Compute distance of point to dividing plane
         float dist = Dot(node->plane.n, p) - node->plane.d;
@@ -255,8 +251,7 @@ int PointInSolidSpace(BSPNode *node, Point p)
 
 --------------------------------------------------------------------------------
 
-int PointInSolidSpace(BSPNode *node, Point p)
-{
+int PointInSolidSpace(BSPNode *node, Point p) {
     while (!node->IsLeaf()) {
         // Compute distance of point to dividing plane
         float dist = Dot(node->plane.n, p) - node->plane.d;
@@ -271,9 +266,8 @@ int PointInSolidSpace(BSPNode *node, Point p)
 
 // Intersect ray/segment R(t) = p + t*d, tmin <= t <= tmax, against bsp tree
 // 'node', returning time thit of first intersection with a solid leaf, if any
-int RayIntersect(BSPNode *node, Point p, Vector d, float tmin, float tmax, float *thit)
-{
-    std::stack<BSPNode *> nodeStack;
+int RayIntersect(BSPNode *node, Point p, Vector d, float tmin, float tmax, float *thit) {
+    std::stack < BSPNode * > nodeStack;
     std::stack<float> timeStack;
 
     assert(node != NULL);
@@ -298,7 +292,7 @@ int RayIntersect(BSPNode *node, Point p, Vector d, float tmin, float tmax, float
             }
             node = node->child[nearIndex];
         } else {
-            // Now at a leaf. If it is solid, there’s a hit at time tmin, so exit
+            // Now at a leaf. If it is solid, thereï¿½s a hit at time tmin, so exit
             if (node->IsSolid()) {
                 *thit = tmin;
                 return 1;
@@ -306,8 +300,10 @@ int RayIntersect(BSPNode *node, Point p, Vector d, float tmin, float tmax, float
             // Exit if no more subtrees to visit, else pop off a node and continue
             if (nodeStack.empty()) break;
             tmin = tmax;
-            node = nodeStack.top(); nodeStack.pop();
-            tmax = timeStack.top(); timeStack.pop();
+            node = nodeStack.top();
+            nodeStack.pop();
+            tmax = timeStack.top();
+            timeStack.pop();
         }
     }
 
@@ -318,23 +314,22 @@ int RayIntersect(BSPNode *node, Point p, Vector d, float tmin, float tmax, float
 === Section 8.4.3: =============================================================
 
 // Intersect polygon 'p' against the solid-leaf BSP tree 'node'
-int PolygonInSolidSpace(Polygon *p, BSPNode *node)
-{
+int PolygonInSolidSpace(Polygon *p, BSPNode *node) {
     Polygon *frontPart, *backPart;
     while (!node->IsLeaf()) {
         switch (ClassifyPolygonToPlane(p, node->plane)) {
-        case POLYGON_IN_FRONT_OF_PLANE:
-            node = node->child[0];
-            break;
-        case POLYGON_BEHIND_PLANE:
-            node = node->child[1];
-            break;
-        case POLYGON_STRADDLING_PLANE:
-            SplitPolygon(*p, node->plane, &frontPart, &backPart);
-            if (PolygonInSolidSpace(frontPart, node->child[0])) return 1;
-            if (PolygonInSolidSpace(backPart, node->child[1])) return 1;
-            // No collision
-            return 0;
+            case POLYGON_IN_FRONT_OF_PLANE:
+                node = node->child[0];
+                break;
+            case POLYGON_BEHIND_PLANE:
+                node = node->child[1];
+                break;
+            case POLYGON_STRADDLING_PLANE:
+                SplitPolygon(*p, node->plane, &frontPart, &backPart);
+                if (PolygonInSolidSpace(frontPart, node->child[0])) return 1;
+                if (PolygonInSolidSpace(backPart, node->child[1])) return 1;
+                // No collision
+                return 0;
         }
     }
     // Now at a leaf, inside/outside status determined by solid flag

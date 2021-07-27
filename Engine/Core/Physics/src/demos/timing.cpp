@@ -12,7 +12,6 @@
 
 #include "timing.h"
 
-
 // Hold internal timing data for the performance counter.
 static bool qpcFlag;
 
@@ -34,7 +33,6 @@ typedef unsigned long long	LONGLONG;
 
 static double qpcFrequency;
 #endif
-
 
 // Internal time and clock access functions
 unsigned systemTime() {
@@ -95,7 +93,6 @@ unsigned long systemClock() {
         if (qpcFlag) qpcFrequency = 1000.0 / time;
 #endif
     }
-
 
 // Holds the global frame time that is passed around
     static TimingData *timingData = NULL;

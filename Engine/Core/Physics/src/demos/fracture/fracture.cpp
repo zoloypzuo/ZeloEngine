@@ -357,7 +357,6 @@ void FractureDemo::reset() {
     blocks[0].body->setAwake(true);
     blocks[0].body->setCanSleep(true);
 
-
     ball_active = true;
 
     // Set up the ball

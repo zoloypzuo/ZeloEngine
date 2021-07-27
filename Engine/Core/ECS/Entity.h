@@ -113,5 +113,4 @@ private:
     std::map<std::type_index, std::vector<std::shared_ptr<Component>>> componentsByTypeid;
 };
 
-
 #endif //ZELOENGINE_ENTITY_H

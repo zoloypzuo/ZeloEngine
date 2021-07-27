@@ -220,7 +220,6 @@ class ExplosionDemo : public RigidBodyApplication {
     /** Holds the ball data. */
     Ball ballData[balls];
 
-
     /** Detonates the explosion. */
     void fire();
 
@@ -374,7 +373,6 @@ void ExplosionDemo::updateObjects(cyclone::real duration) {
     }
 }
 
-
 void ExplosionDemo::initGraphics() {
     GLfloat lightAmbient[] = {0.8f, 0.8f, 0.8f, 1.0f};
     GLfloat lightDiffuse[] = {0.9f, 0.95f, 1.0f, 1.0f};
@@ -501,7 +499,6 @@ void ExplosionDemo::mouseDrag(int x, int y) {
     last_x = x;
     last_y = y;
 }
-
 
 void ExplosionDemo::key(unsigned char key) {
     switch (key) {

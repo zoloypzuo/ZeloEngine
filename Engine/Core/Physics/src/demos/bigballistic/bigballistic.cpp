@@ -160,7 +160,6 @@ public:
     }
 };
 
-
 /**
  * The main demo class definition.
  */
@@ -225,7 +224,6 @@ BigBallisticDemo::BigBallisticDemo()
     pauseSimulation = false;
     reset();
 }
-
 
 void BigBallisticDemo::initGraphics() {
     GLfloat lightAmbient[] = {0.8f, 0.8f, 0.8f, 1.0f};
@@ -387,7 +385,6 @@ void BigBallisticDemo::generateContacts() {
     for (Box *box = boxData; box < boxData + boxes; box++) {
         if (!cData.hasMoreContacts()) return;
         cyclone::CollisionDetector::boxAndHalfSpace(*box, plane, &cData);
-
 
         // Check for collisions with each shot
         for (AmmoRound *shot = ammo; shot < ammo + ammoRounds; shot++) {

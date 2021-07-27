@@ -1,4 +1,4 @@
-// GLBuffer.cpp.cc
+// GLBuffer.cpp
 // created on 2021/6/6
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
@@ -53,7 +53,6 @@ void GLVertexBuffer::setData(const void *data, uint32_t size) {
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // IndexBuffer //////////////////////////////////////////////////////////////

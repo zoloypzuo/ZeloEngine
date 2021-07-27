@@ -1,49 +1,60 @@
 
 === Section 11.2.2: ============================================================
 
-float a = 1.0e20; float b = 1.0e-20;
+float a = 1.0e20;
+float b = 1.0e-20;
 float c = a / b; // gives c = +INF
 float d = -a / b; // gives d = -INF 
 
 --------------------------------------------------------------------------------
 
-float a = 0.0f; float b = a / a; // gives b = NaN (and _not_ 1.0f) 
+float a = 0.0f;
+float b = a / a; // gives b = NaN (and _not_ 1.0f)
 
 --------------------------------------------------------------------------------
 
-if (a > b) x; else y;
+if (a > b)
+x;
+else
+y;
 
 --------------------------------------------------------------------------------
 
-if (a <= b) y; else x;
+if (a <= b)
+y;
+else
+x;
 
 --------------------------------------------------------------------------------
 
 // Test if val is in the range [min..max]  int NumberInRange(float val, float min, float max)
 {
-    if (val < min || val > max) return 0;
-    // Here val assumed to be in [min..max] range, but could actually be NaN
-    ...
-    return 1;
-} 
+if (
+val<min || val> max
+) return 0;
+// Here val assumed to be in [min..max] range, but could actually be NaN
+...
+return 1;
+}
 
 --------------------------------------------------------------------------------
 
 // Test if val is in the range [min..max] int NumberInRange(float val, float min, float max)
 {
-    if (val >= min && val <= max) {
-        // Here val guaranteed to be in [min..max] range (and not be NaN)
-        ...
-        return 1;
-    } else return 0;
-} 
+if (val >=
+min &&val
+<= max) {
+// Here val guaranteed to be in [min..max] range (and not be NaN)
+...
+return 1;
+} else return 0;
+}
 
 --------------------------------------------------------------------------------
 
 // Test if segment AB intersects plane p. If so, return 1, along with 
 // the intersection t value and the intersection point Q. If not, return 0
-int IntersectSegmentPlane(Point a, Point b, Plane p, float &t, Point &q)
-{
+int IntersectSegmentPlane(Point a, Point b, Plane p, float &t, Point &q) {
     // Compute t value at which the directed line ab intersects the plane
     Vector ab = b - a;
     t = (p.d - Dot(p.n, a)) / Dot(p.n, ab);
@@ -59,24 +70,27 @@ int IntersectSegmentPlane(Point a, Point b, Plane p, float &t, Point &q)
 
 === Section 11.2.3: ============================================================
 
-float tenth = 0.1f; if (tenth * 10.0f > 1.0f)
-    printf("Greater than\n");
+float tenth = 0.1f;
+if (tenth * 10.0f > 1.0f)
+printf("Greater than\n");
 else if (tenth * 10.0f < 1.0f)
-    printf("Less than\n");
+printf("Less than\n");
 else if (tenth * 10.0f == 1.0f)
-    printf("Equal\n");
+printf("Equal\n");
 else
-    printf("Huh?\n"); 
+printf("Huh?\n");
 
 --------------------------------------------------------------------------------
 
-float a = 9876543.0f; float b = -9876547.0f;
+float a = 9876543.0f;
+float b = -9876547.0f;
 float c = 3.45f;
 
 --------------------------------------------------------------------------------
 
-(a + b) + c = (9876543.0f + -9876547.0f) + 3.45f = -4.0f + 3.45f = -0.55f
-a + (b + c) = 9876543.0f + (-9876547.0f + 3.45f) = 9876543.0f + -9876544.0f = -1.0f 
+(a + b) +
+c = (9876543.0f + -9876547.0f) + 3.45f = -4.0f + 3.45f = -0.55f
+a + (b + c) = 9876543.0f + (-9876547.0f + 3.45f) = 9876543.0f + -9876544.0f = -1.0f
 
 === Section 11.3.1: ============================================================
 
@@ -84,35 +98,61 @@ if (x == 0.0f) ...
 
 --------------------------------------------------------------------------------
 
-if (Abs(x) <= epsilon) ...
+if (
+Abs(x)
+<= epsilon) ...
 
 --------------------------------------------------------------------------------
 
-if (Abs(x - y) <= epsilon) ... // Absolute tolerance comparison
+if (
+Abs(x
+- y) <= epsilon) ... // Absolute tolerance comparison
 
 --------------------------------------------------------------------------------
 
-if (Abs(x / y - 1.0f) <= epsilon) ...
+if (
+Abs(x
+/ y - 1.0f) <= epsilon) ...
 
 --------------------------------------------------------------------------------
 
-if (Abs((x - y) / y) <= epsilon) ...
+if (
+Abs((x
+- y) / y) <= epsilon) ...
 
 --------------------------------------------------------------------------------
 
-if (Abs(x - y) <= epsilon * Abs(y)) ...
+if (
+Abs(x
+- y) <=
+epsilon *Abs(y)
+) ...
 
 --------------------------------------------------------------------------------
 
-if (Abs(x - y) <= epsilon * Max(Abs(x), Abs(y))) ... // Relative tolerance comparison 
+if (
+Abs(x
+- y) <=
+epsilon *Max(Abs(x), Abs(y))
+) ... // Relative tolerance comparison
 
 --------------------------------------------------------------------------------
 
-if (Abs(x - y) <= epsilon * Max(Abs(x), Abs(y), 1.0f)) ... // Combined comparison 
+if (
+Abs(x
+- y) <=
+epsilon *Max(Abs(x), Abs(y), 1.0f)
+) ... // Combined comparison
 
 --------------------------------------------------------------------------------
 
-if (Abs(x - y) <= epsilon * (Abs(x) + Abs(y) + 1.0f)) ... // Combined comparison
+if (
+Abs(x
+- y) <=
+epsilon *(Abs(x)
++
+Abs(y)
++ 1.0f)) ... // Combined comparison
 
 === Section 11.5.1: ============================================================
 
@@ -138,19 +178,17 @@ bool overflow = ((a ^ b) >= 0 && (b ^ c) < 0);
 
 typedef uint32 uint64[2];
 
-void Uadd64(uint64 x, uint64 y, uint64 res)
-{
+void Uadd64(uint64 x, uint64 y, uint64 res) {
     uint32 a = x[1] + y[1]; // Compute sum of higher 32 bits
     uint32 b = x[0] + y[0]; // Compute sum of lower 32 bits
     if (b < x[0]) a++;      // Carry if low sum overflowed
-    res[0] = b; 
+    res[0] = b;
     res[1] = a;
 }
 
 --------------------------------------------------------------------------------
 
-void Umult32to64(uint32 x, uint32 y, uint64 res)
-{
+void Umult32to64(uint32 x, uint32 y, uint64 res) {
     uint16 xh = x >> 16, xl = x & 0xffff;
     uint16 yh = y >> 16, yl = y & 0xffff;
     uint32 a = xh * yh;
@@ -169,8 +207,7 @@ void Umult32to64(uint32 x, uint32 y, uint64 res)
 === Section 11.5.2: ============================================================
 
 // Compare rational numbers a/b and c/d
-int Order(int a, int b, int c, int d)
-{
+int Order(int a, int b, int c, int d) {
     // Make c and d be nonnegative
     if (c < 0) b = -b, c = -c;
     if (d < 0) a = -a, d = -d;
@@ -178,7 +215,10 @@ int Order(int a, int b, int c, int d)
     // Handle a and/or b being negative
     if (a < 0 && b < 0) {
         int olda = a, oldb = b;
-        a = c; b = d; c = -olda; d = -oldb;
+        a = c;
+        b = d;
+        c = -olda;
+        d = -oldb;
     }
     if (a < 0) return LESS_THAN;
     if (b < 0) return GREATER_THAN;
@@ -187,7 +227,10 @@ int Order(int a, int b, int c, int d)
     if (a > b) {
         if (c < d) return GREATER_THAN;
         int olda = a, oldb = b;
-        a = d; b = c; c = oldb; d = olda;
+        a = d;
+        b = c;
+        c = oldb;
+        d = olda;
     }
     if (c > d) return LESS_THAN;
 
@@ -200,7 +243,10 @@ int Order(int a, int b, int c, int d)
             if (m > n) return GREATER_THAN;
         }
         int olda = a, oldb = b;
-        a = d % c; b = c; c = oldb % olda; d = olda;
+        a = d % c;
+        b = c;
+        c = oldb % olda;
+        d = olda;
     }
     if (a == 0) return c == 0 ? EQUAL : LESS_THAN;
     return GREATER_THAN;
@@ -210,8 +256,7 @@ int Order(int a, int b, int c, int d)
 
 // Test if segment ab intersects plane p. If so, return 1, along with
 // an adjusted intersection point q. If not, return 0
-int TestSegmentPlane(Point a, Point b, Plane p, Point &q)
-{
+int TestSegmentPlane(Point a, Point b, Plane p, Point &q) {
     // Compute t value, t=tnom/tdenom, for directed segment ab intersecting plane p
     Vector ab = b - a;
     int64 tnom = p.d - Dot(p.n, a);
@@ -231,8 +276,9 @@ int TestSegmentPlane(Point a, Point b, Plane p, Point &q)
 
     // Line segment is definitely intersecting plane. Compute vector d to adjust
     // the computation of q, biasing the result to lie on the side of point a
-    Vector d(0,0,0);
-    int64 k = tdenom – 1;
+    Vector d(0, 0, 0);
+    int64
+    k = tdenom ï¿½ 1;
     // If a lies behind plane p, round division other way
     if (tdenom > 0) k = -k;
     if (p.n.x > 0) d.x = k; else if (p.n.x < 0) d.x = -k;

@@ -1,4 +1,4 @@
-// DeferredRenderer.cpp.cc
+// DeferredRenderer.cpp
 // created on 2021/4/28
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
@@ -25,7 +25,6 @@ void DeferredRenderer::render(const Entity &scene, std::shared_ptr<Camera> activ
     glFlush();
     pass2(scene, activeCamera, pointLights, directionalLights, spotLights);
 
-
 }
 
 void DeferredRenderer::pass2(const Entity &scene, const std::shared_ptr<Camera> &activeCamera,
@@ -50,7 +49,6 @@ void DeferredRenderer::pass2(const Entity &scene, const std::shared_ptr<Camera> 
                                          glm::mat3(glm::vec3(mv[0]), glm::vec3(mv[1]), glm::vec3(mv[2])));
     m_deferredShader->setUniformMatrix4f("MVP", projection * mv);
 
-
     // Render the quad
     glBindVertexArray(quad);
     glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -64,7 +62,6 @@ void DeferredRenderer::pass1(const std::shared_ptr<Camera> &activeCamera) const 
 
     auto view = activeCamera->getViewMatrix();
     auto projection = activeCamera->getProjectionMatrix();
-
 
     m_deferredShader->setUniformVec4f("Light.Position", glm::vec4(0.0f, 0.0f, 0.0f, 1.0f));
     m_deferredShader->setUniformVec3f("Material.Kd", glm::vec3(0.9f, 0.9f, 0.9f));

@@ -112,7 +112,6 @@ void Engine::update() {
     m_window->swapBuffer();
 }
 
-
 void Engine::start() {
     ZELO_PROFILE_BEGIN_SESSION("Startup", "ZeloProfile-Startup.json");
     initialize();

@@ -81,4 +81,5 @@
 #define ZELO_CORE_ASSERT(...)
 #endif
 
+// TODO move ZELO_ERROR to ZeloPrerequisite.h
 #endif //ZELOENGINE_ZELOPRECOMPILEDHEADER_H

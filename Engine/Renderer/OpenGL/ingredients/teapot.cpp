@@ -212,7 +212,6 @@ void Teapot::computeBasisFunctions( std::vector<GLfloat> & B, std::vector<GLfloa
     }
 }
 
-
 vec3 Teapot::evaluate( int gridU, int gridV, std::vector<GLfloat> & B, vec3 patch[][4] )
 {
     vec3 p(0.0f,0.0f,0.0f);

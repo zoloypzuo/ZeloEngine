@@ -53,7 +53,6 @@ void CustomIOStream::Flush() {
     m_iostream->flush();
 }
 
-
 CustomIOSystem::CustomIOSystem() = default;
 
 CustomIOSystem::~CustomIOSystem() = default;
@@ -78,7 +77,6 @@ Assimp::IOStream *CustomIOSystem::Open(const char *pFile, const char *pMode) {
 void CustomIOSystem::Close(Assimp::IOStream *pFile) {
     delete pFile;
 }
-
 
 MeshLoader::MeshLoader(const std::string &file) {
     m_fileName = file;

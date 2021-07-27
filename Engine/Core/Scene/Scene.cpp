@@ -135,5 +135,4 @@ template<>
 void Scene::OnComponentAdded<NativeScriptComponent>(Entity entity, NativeScriptComponent &component) {
 }
 
-
 }

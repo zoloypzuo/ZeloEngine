@@ -14,7 +14,6 @@
 
 using namespace cyclone;
 
-
 void ParticleForceRegistry::updateForces(real duration) {
     Registry::iterator i = registrations.begin();
     for (; i != registrations.end(); i++) {

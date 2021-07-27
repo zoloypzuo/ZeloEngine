@@ -12,7 +12,7 @@ void ISerializable::OnSerialize(YAML::Emitter &emitter) {
     auto t = rttr::type::get(*this);
 
     // type name
-    emitter << YAML::Key<< "__type";
+    emitter << YAML::Key << "__type";
     emitter << YAML::Value << t.get_name().to_string();
 
     // iterate member
@@ -24,7 +24,7 @@ void ISerializable::OnSerialize(YAML::Emitter &emitter) {
 }
 
 bool ISerializable::OnDeserialize(const YAML::Node &node) {
-    if(!node["__type"])
+    if (!node["__type"])
         return false;
 
     auto type_name = node["__type"].as<std::string>();
@@ -37,8 +37,8 @@ bool ISerializable::OnDeserialize(const YAML::Node &node) {
 // register rttr serializer
 #include <rttr/registration>
 
-namespace Zelo{
-std::string std_file_system_path_to_string(const std::filesystem::path& path, bool& ok){
+namespace Zelo {
+std::string std_file_system_path_to_string(const std::filesystem::path &path, bool &ok) {
     ok = true;
     return path.string();
 }
