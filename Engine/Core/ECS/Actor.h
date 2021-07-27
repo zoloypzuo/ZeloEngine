@@ -3,7 +3,8 @@
 #include <unordered_map>
 #include <memory>
 
-#include <Tools/Eventing/Event.h>
+#include "Core/Event/Event.h"
+#include "Core/Interface/ISerializable.h"
 
 #include "Core/ECS/Components/AComponent.h"
 #include "Core/ECS/Components/CTransform.h"
@@ -12,8 +13,7 @@
 
 namespace Zelo::Core::ECS {
 
-class Actor //: public API::ISerializable
-{
+class Actor : public Interface::ISerializable {
 public:
 
     Actor(int64_t actorID, const std::string &name, const std::string &tag, bool &playing);
@@ -100,22 +100,22 @@ public:
     void OnLateUpdate(float deltaTime);
 
 
-    void OnCollisionEnter(Components::CPhysicalObject &otherObject);
-
-
-    void OnCollisionStay(Components::CPhysicalObject &otherObject);
-
-
-    void OnCollisionExit(Components::CPhysicalObject &otherObject);
-
-
-    void OnTriggerEnter(Components::CPhysicalObject &otherObject);
-
-
-    void OnTriggerStay(Components::CPhysicalObject &otherObject);
-
-
-    void OnTriggerExit(Components::CPhysicalObject &otherObject);
+//    void OnCollisionEnter(Components::CPhysicalObject &otherObject);
+//
+//
+//    void OnCollisionStay(Components::CPhysicalObject &otherObject);
+//
+//
+//    void OnCollisionExit(Components::CPhysicalObject &otherObject);
+//
+//
+//    void OnTriggerEnter(Components::CPhysicalObject &otherObject);
+//
+//
+//    void OnTriggerStay(Components::CPhysicalObject &otherObject);
+//
+//
+//    void OnTriggerExit(Components::CPhysicalObject &otherObject);
 
 
     template<typename T, typename ... Args>
@@ -126,7 +126,7 @@ public:
     bool RemoveComponent();
 
 
-    bool RemoveComponent(OvCore::ECS::Components::AComponent &component);
+    bool RemoveComponent(Components::AComponent &component);
 
 
     template<typename T>
@@ -151,10 +151,10 @@ public:
     std::unordered_map<std::string, Components::Behaviour> &GetBehaviours();
 
 
-    virtual void OnSerialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *actorsRoot) override;
+//    virtual void OnSerialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *actorsRoot) override;
 
 
-    virtual void OnDeserialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *actorsRoot) override;
+//    virtual void OnDeserialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *actorsRoot) override;
 
 private:
 
@@ -166,16 +166,16 @@ private:
 
 public:
 
-    OvTools::Eventing::Event<Components::AComponent &> ComponentAddedEvent;
-    OvTools::Eventing::Event<Components::AComponent &> ComponentRemovedEvent;
-    OvTools::Eventing::Event<Components::Behaviour &> BehaviourAddedEvent;
-    OvTools::Eventing::Event<Components::Behaviour &> BehaviourRemovedEvent;
+    Event::Event<Components::AComponent &> ComponentAddedEvent;
+    Event::Event<Components::AComponent &> ComponentRemovedEvent;
+    Event::Event<Components::Behaviour &> BehaviourAddedEvent;
+    Event::Event<Components::Behaviour &> BehaviourRemovedEvent;
 
 
-    static OvTools::Eventing::Event<Actor &> DestroyedEvent;
-    static OvTools::Eventing::Event<Actor &> CreatedEvent;
-    static OvTools::Eventing::Event<Actor &, Actor &> AttachEvent;
-    static OvTools::Eventing::Event<Actor &> DettachEvent;
+    static Event::Event<Actor &> DestroyedEvent;
+    static Event::Event<Actor &> CreatedEvent;
+    static Event::Event<Actor &, Actor &> AttachEvent;
+    static Event::Event<Actor &> DettachEvent;
 
 private:
 

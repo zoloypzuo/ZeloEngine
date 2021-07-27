@@ -1,101 +1,97 @@
-
-
 #pragma once
 
-#include <sol.hpp>
+#include <sol/sol.hpp>
 
-#include "Core/ECS/Components/CPhysicalObject.h"
+//#include "Core/ECS/Components/CPhysicalObject.h"
 
 namespace Zelo::Core::ECS { class Actor; }
 
-namespace Zelo::Core::ECS::Components
-{
-	
-	class Behaviour : public AComponent
-	{
-	public:
-		
-		Behaviour(ECS::Actor& owner, const std::string& name);
+namespace Zelo::Core::ECS::Components {
 
-		
-		~Behaviour();
+class Behaviour : public AComponent {
+public:
 
-		
-		virtual std::string GetName() override;
+    Behaviour(ECS::Actor &owner, const std::string &name);
 
-		
-		bool RegisterToLuaContext(sol::state& luaState, const std::string& scriptFolder);
 
-		
-		void UnregisterFromLuaContext();
+    ~Behaviour();
 
-		
-		template<typename... Args>
-		void LuaCall(const std::string& functionName, Args&&... args);
 
-		
-		sol::table& GetTable();
+    virtual std::string GetName() override;
 
-		
-		virtual void OnAwake() override;
 
-		
-		virtual void OnStart() override;
+    bool RegisterToLuaContext(sol::state &luaState, const std::string &scriptFolder);
 
-		
-		virtual void OnEnable() override;
 
-		
-		virtual void OnDisable() override;
+    void UnregisterFromLuaContext();
 
-		
-		virtual void OnDestroy() override;
 
-		
-		virtual void OnUpdate(float deltaTime) override;
+    template<typename... Args>
+    void LuaCall(const std::string &functionName, Args &&... args);
 
-		
-		virtual void OnFixedUpdate(float deltaTime) override;
 
-		
-		virtual void OnLateUpdate(float deltaTime) override;
+    sol::table &GetTable();
 
-		
-		virtual void OnCollisionEnter(Components::CPhysicalObject& otherObject) override;
 
-		
-		virtual void OnCollisionStay(Components::CPhysicalObject& otherObject) override;
+    virtual void OnAwake() override;
 
-		
-		virtual void OnCollisionExit(Components::CPhysicalObject& otherObject) override;
 
-		
-		virtual void OnTriggerEnter(Components::CPhysicalObject& otherObject) override;
+    virtual void OnStart() override;
 
-		
-		virtual void OnTriggerStay(Components::CPhysicalObject& otherObject) override;
 
-		
-		virtual void OnTriggerExit(Components::CPhysicalObject& otherObject) override;
+    virtual void OnEnable() override;
 
-		
-		virtual void OnSerialize(tinyxml2::XMLDocument & doc, tinyxml2::XMLNode * node) override;
 
-		
-		virtual void OnDeserialize(tinyxml2::XMLDocument & doc, tinyxml2::XMLNode * node) override;
+    virtual void OnDisable() override;
 
-		
-		virtual void OnInspector(OvUI::Internal::WidgetContainer & root) override;
 
-	public:
-		static OvTools::Eventing::Event<Behaviour*> CreatedEvent;
-		static OvTools::Eventing::Event<Behaviour*> DestroyedEvent;
+    virtual void OnDestroy() override;
 
-		const std::string name;
 
-	private:
-		sol::table m_object = sol::nil;
-	};
+    virtual void OnUpdate(float deltaTime) override;
+
+
+    virtual void OnFixedUpdate(float deltaTime) override;
+
+
+    virtual void OnLateUpdate(float deltaTime) override;
+
+
+    virtual void OnCollisionEnter(Components::CPhysicalObject &otherObject) override;
+
+
+    virtual void OnCollisionStay(Components::CPhysicalObject &otherObject) override;
+
+
+    virtual void OnCollisionExit(Components::CPhysicalObject &otherObject) override;
+
+
+    virtual void OnTriggerEnter(Components::CPhysicalObject &otherObject) override;
+
+
+    virtual void OnTriggerStay(Components::CPhysicalObject &otherObject) override;
+
+
+    virtual void OnTriggerExit(Components::CPhysicalObject &otherObject) override;
+
+
+//    virtual void OnSerialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *node) override;
+//
+//
+//    virtual void OnDeserialize(tinyxml2::XMLDocument &doc, tinyxml2::XMLNode *node) override;
+//
+//
+//    virtual void OnInspector(OvUI::Internal::WidgetContainer &root) override;
+
+public:
+    static Event::Event<Behaviour *> CreatedEvent;
+    static Event::Event<Behaviour *> DestroyedEvent;
+
+    const std::string name;
+
+private:
+    sol::table m_object = sol::nil;
+};
 }
 
 #include "Core/ECS/Components/Behaviour.inl"
