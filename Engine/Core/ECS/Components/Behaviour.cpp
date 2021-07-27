@@ -10,8 +10,8 @@ using namespace Zelo::Core;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::ECS::Components;
 
-Event::Event<Behaviour *> Behaviour::CreatedEvent;
-Event::Event<Behaviour *> Behaviour::DestroyedEvent;
+EventSystem::Event<Behaviour *> Behaviour::CreatedEvent;
+EventSystem::Event<Behaviour *> Behaviour::DestroyedEvent;
 
 Behaviour::Behaviour(ECS::Actor &owner, const std::string &name) :
         name(name), AComponent(owner) {

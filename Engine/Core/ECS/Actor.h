@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <memory>
 
-#include "Core/Event/Event.h"
+#include "Core/EventSystem/Event.h"
 #include "Core/Interface/ISerializable.h"
 
 #include "Core/ECS/Components/AComponent.h"
@@ -166,16 +166,16 @@ private:
 
 public:
 
-    Event::Event<Components::AComponent &> ComponentAddedEvent;
-    Event::Event<Components::AComponent &> ComponentRemovedEvent;
-    Event::Event<Components::Behaviour &> BehaviourAddedEvent;
-    Event::Event<Components::Behaviour &> BehaviourRemovedEvent;
+    EventSystem::Event<Components::AComponent &> ComponentAddedEvent;
+    EventSystem::Event<Components::AComponent &> ComponentRemovedEvent;
+    EventSystem::Event<Components::Behaviour &> BehaviourAddedEvent;
+    EventSystem::Event<Components::Behaviour &> BehaviourRemovedEvent;
 
 
-    static Event::Event<Actor &> DestroyedEvent;
-    static Event::Event<Actor &> CreatedEvent;
-    static Event::Event<Actor &, Actor &> AttachEvent;
-    static Event::Event<Actor &> DettachEvent;
+    static EventSystem::Event<Actor &> DestroyedEvent;
+    static EventSystem::Event<Actor &> CreatedEvent;
+    static EventSystem::Event<Actor &, Actor &> AttachEvent;
+    static EventSystem::Event<Actor &> DettachEvent;
 
 private:
 

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Zelo::Core::Event {
+namespace Zelo::Core::EventSystem {
 template<class... ArgTypes>
 ListenerID Event<ArgTypes...>::AddListener(Callback callback) {
     ListenerID listenerID = m_availableListenerID++;

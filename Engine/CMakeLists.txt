@@ -7,7 +7,7 @@ include_directories(./)
 add_subdirectory(Core)
 link_libraries(
         ECS
-        Event
+        EventSystem
         Game
         #ImGui
         Input

@@ -3,7 +3,7 @@
 #include <functional>
 
 
-namespace Zelo::Core::Event {
+namespace Zelo::Core::EventSystem {
 
 using ListenerID = uint64_t;
 
@@ -41,4 +41,4 @@ private:
 };
 }
 
-#include "Core/Event/Event.inl"
+#include "Core/EventSystem//Event.inl"

@@ -21,10 +21,10 @@
 using namespace Zelo::Core;
 using namespace Zelo::Core::ECS;
 
-Event::Event<Actor &> Actor::DestroyedEvent;
-Event::Event<Actor &> Actor::CreatedEvent;
-Event::Event<Actor &, Actor &> Actor::AttachEvent;
-Event::Event<Actor &> Actor::DettachEvent;
+EventSystem::Event<Actor &> Actor::DestroyedEvent;
+EventSystem::Event<Actor &> Actor::CreatedEvent;
+EventSystem::Event<Actor &, Actor &> Actor::AttachEvent;
+EventSystem::Event<Actor &> Actor::DettachEvent;
 
 Actor::Actor(int64_t actorID, const std::string &name, const std::string &tag, bool &playing) :
         m_actorID(actorID),

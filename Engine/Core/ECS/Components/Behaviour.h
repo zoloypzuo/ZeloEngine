@@ -85,8 +85,8 @@ public:
 //    virtual void OnInspector(OvUI::Internal::WidgetContainer &root) override;
 
 public:
-    static Event::Event<Behaviour *> CreatedEvent;
-    static Event::Event<Behaviour *> DestroyedEvent;
+    static EventSystem::Event<Behaviour *> CreatedEvent;
+    static EventSystem::Event<Behaviour *> DestroyedEvent;
 
     const std::string name;
 
