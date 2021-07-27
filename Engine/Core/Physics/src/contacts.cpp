@@ -136,7 +136,6 @@ Vector3 Contact::calculateLocalVelocity(unsigned bodyIndex, real duration) {
     return contactVelocity;
 }
 
-
 void Contact::calculateDesiredDeltaVelocity(real duration) {
     const static real velocityLimit = (real) 0.25f;
 
@@ -165,7 +164,6 @@ void Contact::calculateDesiredDeltaVelocity(real duration) {
             -contactVelocity.x
             - thisRestitution * (contactVelocity.x - velocityFromAcc);
 }
-
 
 void Contact::calculateInternals(real duration) {
     // Check if the first object is NULL, and swap if it is.
@@ -472,8 +470,6 @@ void Contact::applyPositionChange(Vector3 linearChange[2],
             if (!body[i]->getAwake()) body[i]->calculateDerivedData();
         }
 }
-
-
 
 
 

@@ -127,7 +127,6 @@ void GLManager::renderScene(Entity *scene) {
     m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
 }
 
-
 template<> GLManager *Singleton<GLManager>::msSingleton = nullptr;
 
 GLManager *GLManager::getSingletonPtr() {

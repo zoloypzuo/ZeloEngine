@@ -22,7 +22,6 @@
 #define PLATFORM_COUNT 10
 #define BLOB_RADIUS 0.4f
 
-
 /**
  * Platforms are two dimensional: lines on which the
  * particles can rest. Platforms are also contact generators for the physics.
@@ -328,7 +327,6 @@ void BlobDemo::display() {
     gluLookAt(pos.x, pos.y, 6.0, pos.x, pos.y, 0.0, 0.0, 1.0, 0.0);
 
     glColor3f(0, 0, 0);
-
 
     glBegin(GL_LINES);
     glColor3f(0, 0, 1);

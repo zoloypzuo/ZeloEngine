@@ -14,7 +14,6 @@
 
 using namespace cyclone;
 
-
 /*
  * Definition of the sleep epsilon extern.
  */

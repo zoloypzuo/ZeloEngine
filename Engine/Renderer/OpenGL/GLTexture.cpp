@@ -8,7 +8,6 @@
 
 #include <stb_image.h>
 
-
 TextureData::TextureData(const unsigned char *data, int width, int height, bool filter_nearest) {
     createTexture(data, width, height, filter_nearest);
 }
@@ -18,7 +17,6 @@ TextureData::~TextureData() {
 }
 
 void TextureData::createTexture(const unsigned char *data, int width, int height, bool filter_nearest) {
-
 
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);

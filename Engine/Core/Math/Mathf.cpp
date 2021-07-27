@@ -6,7 +6,6 @@
 #include <cmath>  // for float computation
 #include "Mathf.h"
 
-
 float Mathf::Deg2Rad = static_cast<float>(M_2_PI) / 360.0f;
 float Mathf::Epsilon = 1.401298e-45f;
 float Mathf::Infinity = 1.0f / 0.0f;

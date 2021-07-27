@@ -243,7 +243,6 @@ void Render() {
     g.RenderDrawLists.resize(0);
 }
 
-
 void RenderCollapseTriangle(ImVec2 p_min, bool open, float scale = 1.0f, bool shadow = false) {
     ImGuiState &g = GImGui;
     ImGuiWindow *window = GetCurrentWindow();
@@ -1167,7 +1166,6 @@ bool SmallButton(const char *label) {
     return pressed;
 }
 
-
 void LogToTTY(int max_depth) {
     ImGuiState &g = GImGui;
     if (g.LogEnabled)
@@ -1996,7 +1994,6 @@ bool InputInt(const char *label, int *v, int step, int step_fast) {
     return value_changed;
 }
 
-
 bool InputFloat3(const char *label, float v[3], int decimal_precision) {
     ImGuiState &g = GImGui;
     ImGuiWindow *window = GetCurrentWindow();
@@ -2429,7 +2426,6 @@ void NextColumn() {
     }
 }
 
-
 // Gets back to previous line and continue with horizontal layout
 //		column_x == 0	: follow on previous item
 //		columm_x != 0	: align to specified column
@@ -2493,7 +2489,6 @@ float GetColumnWidth(int column_index) {
     const float w = GetColumnOffset(column_index + 1) - GetColumnOffset(column_index);
     return w;
 }
-
 
 void Columns(int columns_count, const char *id, bool border) {
     ImGuiState &g = GImGui;

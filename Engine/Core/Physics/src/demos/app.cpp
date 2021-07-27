@@ -52,7 +52,6 @@ void Application::update() {
 void Application::key(unsigned char key) {
 }
 
-
 void Application::resize(int width, int height) {
     // Avoid the divide by zero.
     if (height <= 0) height = 1;
@@ -113,7 +112,6 @@ void Application::renderText(float x, float y, const char *text, void *font) {
 
     glEnable(GL_DEPTH_TEST);
 }
-
 
 MassAggregateApplication::MassAggregateApplication(unsigned int particleCount)
         :

@@ -1,7 +1,6 @@
 #include "ZeloPreCompiledHeader.h"
 #include "skybox.h"
 
-
 SkyBox::SkyBox()
 {
     float side = 50.0f;

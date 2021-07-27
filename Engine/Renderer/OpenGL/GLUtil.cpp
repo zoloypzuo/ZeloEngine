@@ -88,7 +88,6 @@ void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
                   id, msg);
 }
 
-
 int checkForOpenGLError(const char *file, int line) {
     //
     // Returns 1 if an OpenGL error occurred, 0 otherwise.
@@ -152,7 +151,6 @@ void dumpGLInfo(bool dumpExtensions) {
         }
     }
 }
-
 
 const char *getTypeString(GLenum type) {
     // There are many more types than are covered here, but

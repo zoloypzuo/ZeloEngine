@@ -29,7 +29,6 @@ void ObjMesh::render() const {
     }
 }
 
-
 std::unique_ptr<ObjMesh> ObjMesh::load( const char * fileName, bool center, bool genTangents ) {
 
     std::unique_ptr<ObjMesh> mesh(new ObjMesh());

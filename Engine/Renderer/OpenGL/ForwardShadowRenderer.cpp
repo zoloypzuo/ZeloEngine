@@ -8,7 +8,6 @@ const unsigned int SHADOW_WIDTH = 1024, SHADOW_HEIGHT = 1024;
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
-
 void ForwardShadowRenderer::initializeShadowMap() {
     // configure depth map FBO
     // -----------------------
@@ -92,7 +91,6 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     m_skyboxShader->setUniform1i("DrawSkyBox", true);
     m_skybox->render();
     m_skyboxShader->setUniform1i("DrawSkyBox", false);
-
 
     m_forwardAmbient->bind();
     m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
@@ -238,7 +236,6 @@ void ForwardShadowRenderer::renderScene(GLSLShaderProgram *shader) const {
     model = glm::scale(model, glm::vec3(0.5f));
     shader->setUniformMatrix4f("World", model);
 
-
     renderCube();
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(-1.0f, 0.0f, 2.0));
@@ -247,7 +244,6 @@ void ForwardShadowRenderer::renderScene(GLSLShaderProgram *shader) const {
     shader->setUniformMatrix4f("World", model);
     renderCube();
 }
-
 
 void ForwardShadowRenderer::renderCube() const {
     static unsigned int cubeVAO = 0;

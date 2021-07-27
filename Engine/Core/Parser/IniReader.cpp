@@ -38,7 +38,6 @@ const char *INIReader::Section::GetCString(const std::string &name, const std::s
     return GetString(name, default_value).c_str();
 }
 
-
 INIReader::INIReader(const std::string &filename) {
     _error = ini_parse(filename.c_str(), ValueHandler, this);
 }

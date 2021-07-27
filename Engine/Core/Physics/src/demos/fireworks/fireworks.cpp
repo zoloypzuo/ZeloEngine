@@ -157,7 +157,6 @@ struct FireworkRule {
 
         firework->setDamping(damping);
 
-
         firework->clearAccumulator();
     }
 };

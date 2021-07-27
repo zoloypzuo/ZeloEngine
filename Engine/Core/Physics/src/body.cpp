@@ -16,7 +16,6 @@
 
 using namespace cyclone;
 
-
 /*
  * --------------------------------------------------------------------------
  * INTERNAL OR HELPER FUNCTIONS:
@@ -384,7 +383,6 @@ Matrix4 RigidBody::getTransform() const {
     return transformMatrix;
 }
 
-
 Vector3 RigidBody::getPointInLocalSpace(const Vector3 &point) const {
     return transformMatrix.transformInverse(point);
 }
@@ -400,7 +398,6 @@ Vector3 RigidBody::getDirectionInLocalSpace(const Vector3 &direction) const {
 Vector3 RigidBody::getDirectionInWorldSpace(const Vector3 &direction) const {
     return transformMatrix.transformDirection(direction);
 }
-
 
 void RigidBody::setVelocity(const Vector3 &velocity) {
     RigidBody::velocity = velocity;
@@ -464,7 +461,6 @@ void RigidBody::setCanSleep(const bool canSleep) {
 
     if (!canSleep && !isAwake) setAwake();
 }
-
 
 void RigidBody::getLastFrameAcceleration(Vector3 *acceleration) const {
     *acceleration = lastFrameAcceleration;

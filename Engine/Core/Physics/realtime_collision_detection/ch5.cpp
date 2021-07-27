@@ -250,7 +250,6 @@ Point ClosestPtPointTriangle(Point p, Point a, Point b, Point c) {
     if (sdenom <= 0.0f && unom <= 0.0f) return b; // Vertex region early out
     if (tdenom <= 0.0f && udenom <= 0.0f) return c; // Vertex region early out
 
-
     // P is outside (or on) AB if the triple scalar product [N PA PB] <= 0
     Vector n = Cross(b - a, c - a);
     float vc = Dot(n, Cross(a - p, b - p));

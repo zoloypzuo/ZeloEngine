@@ -240,7 +240,6 @@ unsigned CollisionDetector::sphereAndSphere(
     return 1;
 }
 
-
 /*
  * This function checks if the two boxes overlap
  * along the given axis, returning the ammount of overlap.
@@ -265,7 +264,6 @@ static inline real penetrationOnAxis(
     // overlap, negative indicates separation).
     return oneProject + twoProject - distance;
 }
-
 
 static inline bool tryAxis(
         const CollisionBox &one,
@@ -500,7 +498,6 @@ unsigned CollisionDetector::boxAndBox(
 }
 
 #undef CHECK_OVERLAP
-
 
 unsigned CollisionDetector::boxAndPoint(
         const CollisionBox &box,

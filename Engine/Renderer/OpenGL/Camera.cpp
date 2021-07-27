@@ -4,13 +4,11 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Camera.h"
 
-
 #include <glm/gtx/transform.hpp>
 
 glm::mat4 Camera::getViewMatrix() const {
     return glm::inverse(m_parentEntity->getWorldMatrix());
 }
-
 
 PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float zNear, float zFar) {
     m_fov = fov;

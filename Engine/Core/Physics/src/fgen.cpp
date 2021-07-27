@@ -28,7 +28,6 @@ void ForceRegistry::add(RigidBody *body, ForceGenerator *fg) {
     registrations.push_back(registration);
 }
 
-
 void ForceRegistry::remove(RigidBody *body, ForceGenerator *fg) {
     // @zoloypzuo BUG-53-���� LNK2019 �޷��������ⲿ����
 }
@@ -36,7 +35,6 @@ void ForceRegistry::remove(RigidBody *body, ForceGenerator *fg) {
 void ForceRegistry::clear() {
     // @zoloypzuo BUG-53-���� LNK2019 �޷��������ⲿ����
 }
-
 
 Buoyancy::Buoyancy(const Vector3 &cOfB, real maxDepth, real volume,
                    real waterHeight, real liquidDensity /* = 1000.0f */) {
