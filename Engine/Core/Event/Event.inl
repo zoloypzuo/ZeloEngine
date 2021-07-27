@@ -1,28 +1,26 @@
 #pragma once
 
-#include "Core/Event/Event.h"
-
 namespace Zelo::Core::Event {
 template<class... ArgTypes>
-ListenerID Event<ArgTypes...>::AddListener(Callback p_callback) {
+ListenerID Event<ArgTypes...>::AddListener(Callback callback) {
     ListenerID listenerID = m_availableListenerID++;
-    m_callbacks.emplace(listenerID, p_callback);
+    m_callbacks.emplace(listenerID, callback);
     return listenerID;
 }
 
 template<class... ArgTypes>
-ListenerID Event<ArgTypes...>::operator+=(Callback p_callback) {
-    return AddListener(p_callback);
+ListenerID Event<ArgTypes...>::operator+=(Callback callback) {
+    return AddListener(callback);
 }
 
 template<class... ArgTypes>
-bool Event<ArgTypes...>::RemoveListener(ListenerID p_listenerID) {
-    return m_callbacks.erase(p_listenerID) != 0;
+bool Event<ArgTypes...>::RemoveListener(ListenerID listenerID) {
+    return m_callbacks.erase(listenerID) != 0;
 }
 
 template<class... ArgTypes>
-bool Event<ArgTypes...>::operator-=(ListenerID p_listenerID) {
-    return RemoveListener(p_listenerID);
+bool Event<ArgTypes...>::operator-=(ListenerID listenerID) {
+    return RemoveListener(listenerID);
 }
 
 template<class... ArgTypes>
@@ -36,8 +34,8 @@ uint64_t Event<ArgTypes...>::GetListenerCount() {
 }
 
 template<class... ArgTypes>
-void Event<ArgTypes...>::Invoke(ArgTypes... p_args) {
+void Event<ArgTypes...>::Invoke(ArgTypes... args) {
     for (auto const&[key, value] : m_callbacks)
-        value(p_args...);
+        value(args...);
 }
 }
