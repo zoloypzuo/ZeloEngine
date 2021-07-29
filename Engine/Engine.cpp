@@ -37,21 +37,21 @@ void Engine::initialize() {
 
     m_window->makeCurrentContext();
 
-    m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
-
-    m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
-
+//    m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
+//
+//    m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
+//
 //    m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
 //        m_window->getGuiManager()->togglePropertyEditor();
 //    });
-
-    m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
-        m_fireRay = true;
-    });
-
-    m_window->getInput()->bindAction("fireRay", IE_RELEASED, [this]() {
-        m_fireRay = false;
-    });
+//
+//    m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
+//        m_fireRay = true;
+//    });
+//
+//    m_window->getInput()->bindAction("fireRay", IE_RELEASED, [this]() {
+//        m_fireRay = false;
+//    });
 
     initialisePlugins();
 
@@ -138,10 +138,6 @@ Engine *Engine::getSingletonPtr() {
 
 const std::chrono::microseconds &Engine::getDeltaTime() {
     return m_deltaTime;
-}
-
-Window *Engine::getWindow() {
-    return m_window.get();
 }
 
 INIReader *Engine::getConfig() {

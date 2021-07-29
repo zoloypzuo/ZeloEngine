@@ -47,8 +47,6 @@ public:
 
     const std::chrono::microseconds &getDeltaTime();
 
-    Window *getWindow();
-
     INIReader *getConfig();
 
     std::filesystem::path getEngineDir();
