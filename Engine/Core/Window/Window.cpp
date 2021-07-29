@@ -1,14 +1,11 @@
 // Window.cpp
 // created on 2021/3/28
 // author @zoloypzuo
-
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
-#include "Engine.h"
 
-Window::Window() : m_quit(false) {
+Window::Window(const INIReader::Section &windowConfig) : m_quit(false) {
     spdlog::info("start initialize window");
-    auto config = Engine::getSingletonPtr()->getConfig()->GetSection("Window");
 
     if (SDL_Init(SDL_INIT_EVERYTHING & ~(SDL_INIT_TIMER | SDL_INIT_HAPTIC)) != 0) {
         spdlog::error("SDL_Init error: {}", SDL_GetError());
@@ -49,7 +46,7 @@ Window::Window() : m_quit(false) {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 #endif
 
-    m_fullscreen = config.GetBoolean("fullscreen");
+    m_fullscreen = windowConfig.GetBoolean("fullscreen");
 
     uint32_t flags = SDL_WINDOW_OPENGL;
 
@@ -58,11 +55,11 @@ Window::Window() : m_quit(false) {
     }
 
     m_window = SDL_CreateWindow(
-            config.GetCString("title"),
+            windowConfig.GetCString("title"),
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            config.GetInteger("windowed_width"),
-            config.GetInteger("windowed_height"),
+            windowConfig.GetInteger("windowed_width"),
+            windowConfig.GetInteger("windowed_height"),
             flags);
     if (m_window == nullptr) {
         spdlog::error("SDL_CreateWindow error: {}", SDL_GetError());
@@ -73,7 +70,7 @@ Window::Window() : m_quit(false) {
         spdlog::error("SDL_GL_CreateContext error: {}", SDL_GetError());
     }
 
-    m_vSync = config.GetBoolean("vsync");
+    m_vSync = windowConfig.GetBoolean("vsync");
     SDL_GL_SetSwapInterval(m_vSync ? 1 : 0);
 
     int display_w{};
