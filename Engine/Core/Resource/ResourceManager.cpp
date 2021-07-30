@@ -17,7 +17,7 @@ ResourceManager &ResourceManager::getSingleton() {
     return *msSingleton;
 }
 
-void ResourceManager::ProvideAssetPaths(const std::string &p_projectAssetsPath, const std::string &p_engineAssetsPath) {
-    __PROJECT_ASSETS_PATH	= p_projectAssetsPath;
-    __ENGINE_ASSETS_PATH	= p_engineAssetsPath;
+void ResourceManager::ProvideAssetPaths(const std::string &projectAssetsPath, const std::string &engineAssetsPath) {
+    PROJECT_ASSETS_PATH	= projectAssetsPath;
+    ENGINE_ASSETS_PATH	= engineAssetsPath;
 }

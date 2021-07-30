@@ -13,11 +13,11 @@ public:
 
     static ResourceManager &getSingleton();
 
-    static void ProvideAssetPaths(const std::string &p_projectAssetsPath, const std::string &p_engineAssetsPath);
+    static void ProvideAssetPaths(const std::string &projectAssetsPath, const std::string &engineAssetsPath);
 
 private:
-    inline static std::string __PROJECT_ASSETS_PATH = "";
-    inline static std::string __ENGINE_ASSETS_PATH = "";
+    inline static std::string PROJECT_ASSETS_PATH;
+    inline static std::string ENGINE_ASSETS_PATH;
 };
 }
 
