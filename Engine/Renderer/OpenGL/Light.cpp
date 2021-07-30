@@ -79,7 +79,7 @@ float PointLight::getRange() {
     float a = m_attenuation->getExponent();
     float b = m_attenuation->getLinear();
     float c = m_attenuation->getConstant() -
-            8 * getIntensity() * glm::max(m_color.x, glm::max(m_color.y, m_color.z));
+              8 * getIntensity() * glm::max(m_color.x, glm::max(m_color.y, m_color.z));
 
     m_range = (-b + glm::sqrt(b * b - 4 * a * c)) / (2 * a);
     return m_range;

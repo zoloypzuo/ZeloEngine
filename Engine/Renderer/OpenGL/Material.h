@@ -13,7 +13,8 @@ class Material {
 public:
     Material(std::shared_ptr<GLTexture> diffuseMap,
              std::shared_ptr<GLTexture> normalMap = std::make_shared<GLTexture>(Zelo::Resource("default_normal.jpg")),
-             std::shared_ptr<GLTexture> specularMap = std::make_shared<GLTexture>(Zelo::Resource("default_specular.jpg")));
+             std::shared_ptr<GLTexture> specularMap = std::make_shared<GLTexture>(
+                     Zelo::Resource("default_specular.jpg")));
 
     ~Material();
 
