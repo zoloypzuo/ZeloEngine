@@ -29,13 +29,6 @@ public:
 
     explicit Engine(Game *game);
 
-    Engine(
-            Game *game,
-            const std::string &engineDir,
-            const std::string &configDir,
-            const std::string &assetDir
-    );
-
     ~Engine() override;
 
     void initialize() override;
@@ -93,6 +86,8 @@ protected:
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};
     bool m_configInitialized{};
+
+    
 
     std::unique_ptr<LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Zelo::Core::Resource::ResourceManager> m_resourceManager{};
