@@ -22,6 +22,7 @@ void Engine::initialize() {
         initConfig();
     }
     m_configInitialized = true;
+    m_resouceManager = std::make_unique<Zelo::Core::Resource::ResourceManager>();
 
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();
@@ -144,14 +145,6 @@ INIReader *Engine::getConfig() {
     return m_config.get();
 }
 
-std::filesystem::path Engine::getEngineDir() {
-    return m_engineDir;
-}
-
-std::filesystem::path Engine::getAssetDir() {
-    return m_assertDir;
-}
-
 Engine::Engine(Game *game) : m_game(game) {
 }
 
@@ -224,26 +217,18 @@ std::filesystem::path Engine::getConfigDir() {
     return m_configDir;
 }
 
-std::filesystem::path Engine::getScriptDir() {
-    return m_scriptDir;
-}
-
-Engine &Engine::getSingleton() {
-    ZELO_ASSERT(msSingleton);
-    return *msSingleton;
-}
 
 #include <rttr/registration>
 
 RTTR_REGISTRATION {
     rttr::registration::class_<Engine>("Zelo::Engine")
             .constructor<>()
-            .property_readonly("engine_dir", &Engine::getEngineDir)
+//            .property_readonly("engine_dir", &Engine::getEngineDir)
             .method("start", &Engine::start);
 
 }
 
-void test_rttr(){
+void test_rttr() {
     // get type
     auto t = rttr::type::get<Engine>();
     auto t1 = rttr::type::get_by_name("Zelo::Engine");
@@ -262,11 +247,11 @@ void test_rttr(){
     m.invoke(e);
 
     // iterate member
-    for(const auto& prop:t.get_properties()){
+    for (const auto &prop:t.get_properties()) {
         spdlog::error("name: {}", prop.get_name().to_string());
     }
 
-    for(const auto& meth:t.get_methods()){
+    for (const auto &meth:t.get_methods()) {
         spdlog::error("name: {}", meth.get_name().to_string());
     }
 }

@@ -14,6 +14,7 @@
 #include "Core/Parser/IniReader.h"
 #include "Core/Plugin/Plugin.h"
 #include "Core/LuaScript/LuaScriptManager.h"
+#include "Core/Resource/ResourceManager.h"
 #include <rttr/rttr_enable.h>
 
 class Engine :
@@ -48,15 +49,6 @@ public:
     const std::chrono::microseconds &getDeltaTime();
 
     INIReader *getConfig();
-
-    std::filesystem::path getEngineDir();
-
-    std::filesystem::path getConfigDir();
-
-    std::filesystem::path getAssetDir();
-
-    std::filesystem::path getScriptDir();
-
 
     /** Install a new plugin.
     @remarks
@@ -97,16 +89,13 @@ protected:
 //    std::unique_ptr<ImGuiManager> m_imguiManager;
     std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
     std::chrono::microseconds m_deltaTime{};
-    std::filesystem::path m_engineDir{};
-    std::filesystem::path m_configDir{};
-    std::filesystem::path m_assertDir{};
-    std::filesystem::path m_scriptDir{};
     bool m_fireRay{};
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};
     bool m_configInitialized{};
 
     std::unique_ptr<LuaScriptManager> m_luaScriptManager{};
+    std::unique_ptr<Zelo::Core::Resource::ResourceManager> m_resourceManager{};
 
 protected:
     void initConfig();

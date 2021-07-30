@@ -17,7 +17,18 @@ ResourceManager &ResourceManager::getSingleton() {
     return *msSingleton;
 }
 
-void ResourceManager::ProvideAssetPaths(const std::string &projectAssetsPath, const std::string &engineAssetsPath) {
-    PROJECT_ASSETS_PATH	= projectAssetsPath;
-    ENGINE_ASSETS_PATH	= engineAssetsPath;
+std::filesystem::path ResourceManager::getEngineDir() {
+    return m_engineDir;
+}
+
+std::filesystem::path ResourceManager::getAssetDir() {
+    return m_assertDir;
+}
+
+std::filesystem::path ResourceManager::getConfigDir() {
+    return m_configDir;
+}
+
+std::filesystem::path ResourceManager::getScriptDir() {
+    return m_scriptDir;
 }

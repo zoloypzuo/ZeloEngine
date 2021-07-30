@@ -13,11 +13,20 @@ public:
 
     static ResourceManager &getSingleton();
 
-    static void ProvideAssetPaths(const std::string &projectAssetsPath, const std::string &engineAssetsPath);
+public:
+    std::filesystem::path getEngineDir();
 
+    std::filesystem::path getConfigDir();
+
+    std::filesystem::path getAssetDir();
+
+    std::filesystem::path getScriptDir();
 private:
-    inline static std::string PROJECT_ASSETS_PATH;
-    inline static std::string ENGINE_ASSETS_PATH;
+
+    std::filesystem::path m_engineDir{};
+    std::filesystem::path m_configDir{};
+    std::filesystem::path m_assertDir{};
+    std::filesystem::path m_scriptDir{};
 };
 }
 
