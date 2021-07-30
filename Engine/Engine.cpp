@@ -16,6 +16,7 @@
 #endif
 
 using namespace Zelo;
+using namespace Zelo::Core::OS::TimeSystem;
 
 void Engine::initialize() {
     // init config and logger first
@@ -60,7 +61,8 @@ void Engine::initialize() {
 
     initialisePlugins();
 
-    m_time = std::chrono::high_resolution_clock::now();
+    m_timeSystem = std::make_unique<Time>();
+    m_timeSystem->initialize();
 
     mIsInitialised = true;
 }
@@ -103,11 +105,7 @@ void Engine::finalize() {
 }
 
 void Engine::update() {
-    // time
-    m_lastTime = m_time;
-    m_time = std::chrono::high_resolution_clock::now();
-    m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
-
+    m_timeSystem->update();
     m_window->update();  // input poll events
 //    m_window->getGuiManager()->tick(m_deltaTime);
 //    m_imguiManager->update();

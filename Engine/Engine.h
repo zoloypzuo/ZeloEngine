@@ -15,6 +15,7 @@
 #include "Core/Plugin/Plugin.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
+#include "Core/OS/Time.h"
 #include <rttr/rttr_enable.h>
 
 namespace Zelo {
@@ -91,6 +92,7 @@ protected:
 
     std::unique_ptr<LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
+    std::unique_ptr<Core::OS::TimeSystem::Time> m_timeSystem{};
 
 protected:
     void initConfig();
