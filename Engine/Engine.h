@@ -41,7 +41,7 @@ public:
 
     /** Install a new plugin.
     @remarks
-        This installs a new extension to OGRE. The plugin itself may be loaded
+        This installs a new extension to Zelo. The plugin itself may be loaded
         from a DLL / DSO, or it might be statically linked into your own
         application. Either way, something has to call this method to get
         it registered and functioning. You should only call this method directly
@@ -53,7 +53,7 @@ public:
 
     /** Uninstall an existing plugin.
     @remarks
-        This uninstalls an extension to OGRE. Plugins are automatically
+        This uninstalls an extension to Zelo. Plugins are automatically
         uninstalled at shutdown but this lets you remove them early.
         If the plugin was loaded from a DLL / DSO you should call unloadPlugin
         which should result in this method getting called anyway (if the DLL
