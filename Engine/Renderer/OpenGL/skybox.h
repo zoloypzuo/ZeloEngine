@@ -6,8 +6,7 @@
 //#include "drawable.h"
 
 //class SkyBox : public Drawable
-class SkyBox
-{
+class SkyBox {
 private:
     unsigned int vaoHandle{};
 

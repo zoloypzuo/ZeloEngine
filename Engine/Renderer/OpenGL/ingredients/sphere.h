@@ -3,8 +3,7 @@
 #include "trianglemesh.h"
 #include "cookbookogl.h"
 
-class Sphere : public TriangleMesh
-{
+class Sphere : public TriangleMesh {
 public:
     Sphere(float rad, GLuint sl, GLuint st);
 };

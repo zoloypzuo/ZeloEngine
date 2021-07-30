@@ -1,7 +1,6 @@
 #pragma once
 
-class Drawable
-{
+class Drawable {
 public:
     virtual void render() const = 0;
 };

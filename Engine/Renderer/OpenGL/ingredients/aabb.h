@@ -13,12 +13,12 @@ public:
         reset();
     }
 
-    Aabb( const glm::vec3 & pt ) {
+    Aabb(const glm::vec3 &pt) {
         reset();
         add(pt);
     }
 
-    void add( glm::vec3 & pt ) {
+    void add(glm::vec3 &pt) {
         min.x = std::fmin(min.x, pt.x);
         min.y = std::fmin(min.y, pt.y);
         min.z = std::fmin(min.z, pt.z);
@@ -28,7 +28,7 @@ public:
         max.z = std::fmax(max.z, pt.z);
     }
 
-    void add(const Aabb & other) {
+    void add(const Aabb &other) {
         min.x = std::fmin(min.x, other.min.x);
         min.y = std::fmin(min.y, other.min.y);
         min.z = std::fmin(min.z, other.min.z);
@@ -39,7 +39,7 @@ public:
     }
 
     void reset() {
-        min = glm::vec3( std::numeric_limits<float>::max());
+        min = glm::vec3(std::numeric_limits<float>::max());
         max = glm::vec3(-std::numeric_limits<float>::max());
     }
 
