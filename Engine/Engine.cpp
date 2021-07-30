@@ -139,6 +139,11 @@ Engine *Engine::getSingletonPtr() {
     return msSingleton;
 }
 
+Engine &Engine::getSingleton() {
+    assert(msSingleton);
+    return *msSingleton;
+}
+
 const std::chrono::microseconds &Engine::getDeltaTime() {
     return m_deltaTime;
 }
@@ -195,11 +200,6 @@ void Engine::uninstallPlugin(Plugin *plugin) {
 Engine::Engine() {
     m_game = std::make_unique<MyGame>();
 }
-
-std::filesystem::path Engine::getConfigDir() {
-    return m_configDir;
-}
-
 
 #include <rttr/registration>
 
