@@ -3,12 +3,10 @@
 
 add_subdirectory(Components)
 add_library(ECS
-        Component.cpp
         Entity.cpp
         Component/FreeMove.cpp
         Component/FreeLook.cpp
 
         Actor.cpp Actor.h Actor.inl
-
         )
 target_link_libraries(ECS PRIVATE ECS_Components)

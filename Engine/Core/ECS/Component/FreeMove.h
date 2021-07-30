@@ -6,9 +6,10 @@
 #define ZELOENGINE_FREEMOVE_H
 
 #include "ZeloPrerequisites.h"
+#include "Core/ECS/Entity.h"
+
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
-#include "Core/ECS/Component.h"
 
 class FreeMove : public Component {
 public:

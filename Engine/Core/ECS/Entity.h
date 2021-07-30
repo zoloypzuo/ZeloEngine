@@ -10,7 +10,54 @@
 #include "Core/Math/Transform.h"
 #include "Renderer/OpenGL/GLSLShaderProgram.h"
 #include "Core/Input/Input.h"
-#include "Core/ECS/Component.h"
+
+class Entity;
+class Component;
+
+enum class PropertyType {
+    FLOAT,
+    FLOAT3,
+    BOOLEAN,
+    ANGLE,
+    COLOR
+};
+
+struct Property {
+    PropertyType type;
+    void *p;
+    float min;
+    float max;
+};
+
+class Component {
+public:
+    virtual ~Component() = default;;
+
+    virtual void update(Input *input, std::chrono::microseconds delta) {};
+
+    virtual void render(GLSLShaderProgram *shader) {};
+
+    virtual void registerWithEngine() {};
+
+    virtual void deregisterFromEngine() {};
+
+    virtual const char *getType() = 0;
+
+    void setProperty(const char *name, PropertyType type, void *p, float min, float max);
+
+    void setProperty(const char *name, PropertyType type, void *p);
+
+    void setParent(Entity *parentEntity);
+
+    Entity *getParent() const;
+
+    Transform &getTransform() const;
+
+    std::map<const char *, Property> m_properties;
+
+protected:
+    Entity *m_parentEntity;
+};
 
 class Entity {
 public:

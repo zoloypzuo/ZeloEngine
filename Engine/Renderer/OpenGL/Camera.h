@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Core/ECS/Component.h"
+#include "Core/ECS/Entity.h"
 
 class Camera : public Component {
 public:
