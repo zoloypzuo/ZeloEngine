@@ -39,8 +39,6 @@ public:
 
     void start();
 
-    const std::chrono::microseconds &getDeltaTime();
-
     /** Install a new plugin.
     @remarks
         This installs a new extension to OGRE. The plugin itself may be loaded
@@ -77,9 +75,6 @@ protected:
     std::unique_ptr<GLManager> m_glManager;
     std::unique_ptr<Renderer> m_renderer;
     std::unique_ptr<INIReader> m_config;
-//    std::unique_ptr<ImGuiManager> m_imguiManager;
-    std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
-    std::chrono::microseconds m_deltaTime{};
     bool m_fireRay{};
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};

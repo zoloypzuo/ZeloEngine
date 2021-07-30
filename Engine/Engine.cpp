@@ -145,10 +145,6 @@ Engine &Engine::getSingleton() {
     return *msSingleton;
 }
 
-const std::chrono::microseconds &Engine::getDeltaTime() {
-    return m_deltaTime;
-}
-
 void Engine::initialisePlugins() {
     for (auto &plugin: mPlugins) {
         plugin->initialise();
