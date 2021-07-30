@@ -1,8 +1,7 @@
 %module(directors="1") Zelo
 
 %{
-#include "ZeloPreCompiledHeader.h"
-#include "Zelo.h"
+// #include "Zelo.h"
 %}
 
 //%include std_shared_ptr.i
@@ -42,16 +41,5 @@ using namespace std;
 // stringinterface internal
 %rename("$ignore", regextarget=1) "^Cmd+";
 
-%include "ZeloPrerequisites.h"
-%include "ZeloPlatform.h"
-%include "ZeloSingleton.h"
-%include "Engine.h"
-%include "Component.h"
-%include "Engine.h"
-%include "Entity.h"
-%include "Game.h"
-%include "Transform.h"
-%include "ZeloPrerequisites.h"
-
-
-%template(SingletonEngine) Singleton<Engine>;
+// %include "Engine.h"
+// %template(SingletonEngine) Singleton<Engine>;
