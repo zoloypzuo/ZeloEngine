@@ -12,6 +12,7 @@
 #include "Core/Input/Input.h"
 
 class Entity;
+
 class Component;
 
 enum class PropertyType {
