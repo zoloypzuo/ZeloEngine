@@ -3,7 +3,6 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Game.h"
-#include "Core/ECS/Entity.h"
 #include "Core/OS/Time.h"
 
 using namespace Zelo::Core::OS::TimeSystem;

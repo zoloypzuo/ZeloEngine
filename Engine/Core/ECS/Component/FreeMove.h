@@ -7,7 +7,6 @@
 
 #include "ZeloPrerequisites.h"
 #include "Core/ECS/Entity.h"
-
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 

@@ -3,7 +3,6 @@
 //
 #include "ZeloPreCompiledHeader.h"
 #include "FreeMove.h"
-#include "Core/ECS/Entity.h"
 
 FreeMove::FreeMove(bool moveForwards, float speed) {
     m_speed = speed;

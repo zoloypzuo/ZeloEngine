@@ -3,7 +3,6 @@
 //
 #include "ZeloPreCompiledHeader.h"
 #include "FreeLook.h"
-#include "Core/ECS/Entity.h"
 
 FreeLook::FreeLook(float speed) {
     m_speed = speed;
