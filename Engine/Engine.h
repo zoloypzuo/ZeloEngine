@@ -27,8 +27,6 @@ public:
 public:
     Engine();
 
-    explicit Engine(Game *game);
-
     ~Engine() override;
 
     void initialize() override;

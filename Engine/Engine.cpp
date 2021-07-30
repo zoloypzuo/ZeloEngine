@@ -148,9 +148,6 @@ const std::chrono::microseconds &Engine::getDeltaTime() {
     return m_deltaTime;
 }
 
-Engine::Engine(Game *game) : m_game(game) {
-}
-
 void Engine::initialisePlugins() {
     for (auto &plugin: mPlugins) {
         plugin->initialise();
