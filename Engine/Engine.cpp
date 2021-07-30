@@ -101,18 +101,19 @@ void Engine::finalize() {
 }
 
 void Engine::update() {
+    // time
     m_lastTime = m_time;
     m_time = std::chrono::high_resolution_clock::now();
     m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
 
-    m_window->update();
+    m_window->update();  // input poll events
 //    m_window->getGuiManager()->tick(m_deltaTime);
 //    m_imguiManager->update();
 //    m_game->update();
 //    m_glManager->renderScene(m_game->getRootNode().get());
 //    m_window->getGuiManager()->render(m_game->getRootNode().get());
 //    m_imguiManager->render();
-    m_window->swapBuffer();
+    m_window->swapBuffer();  // swap buffer
 }
 
 void Engine::start() {
