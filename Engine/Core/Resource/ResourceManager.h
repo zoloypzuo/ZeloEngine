@@ -24,6 +24,7 @@ public:
     std::filesystem::path getAssetDir();
 
     std::filesystem::path getScriptDir();
+
 private:
 
     std::filesystem::path m_engineDir{};
