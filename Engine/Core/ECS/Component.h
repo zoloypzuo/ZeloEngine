@@ -5,7 +5,6 @@
 #ifndef ZELOENGINE_COMPONENT_H
 #define ZELOENGINE_COMPONENT_H
 
-#include <Renderer/OpenGL/GLSLShaderProgram.h>
 #include "ZeloPrerequisites.h"
 #include "Core/Input/Input.h"
 #include "Core/Math/Transform.h"

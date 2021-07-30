@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Camera.h"
+#include "Core/ECS/Entity.h"
 
 #include <glm/gtx/transform.hpp>
 
