@@ -46,12 +46,7 @@ using namespace std;
 %include "ZeloPlatform.h"
 %include "ZeloSingleton.h"
 %include "Engine.h"
-%include "Component.h"
-%include "Engine.h"
-%include "Entity.h"
-%include "Game.h"
-%include "Transform.h"
-%include "ZeloPrerequisites.h"
+
 
 
 %template(SingletonEngine) Singleton<Engine>;
