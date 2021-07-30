@@ -22,7 +22,9 @@ void Engine::initialize() {
         initConfig();
     }
     m_configInitialized = true;
-    m_resouceManager = std::make_unique<Zelo::Core::Resource::ResourceManager>();
+    m_resourceManager = std::make_unique<Zelo::Core::Resource::ResourceManager>(
+            m_engineDir, m_configDir, m_assertDir, m_scriptDir
+    );
 
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();

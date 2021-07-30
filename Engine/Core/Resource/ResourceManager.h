@@ -9,6 +9,9 @@
 namespace Zelo::Core::Resource {
 class ResourceManager : public Singleton<ResourceManager> {
 public:
+    ResourceManager(std::filesystem::path mEngineDir, std::filesystem::path mConfigDir,
+                    std::filesystem::path mAssertDir, std::filesystem::path mScriptDir);
+
     static ResourceManager *getSingletonPtr();
 
     static ResourceManager &getSingleton();

@@ -87,7 +87,10 @@ protected:
     bool mIsInitialised{};
     bool m_configInitialized{};
 
-    
+    std::filesystem::path m_engineDir{};
+    std::filesystem::path m_configDir{};
+    std::filesystem::path m_assertDir{};
+    std::filesystem::path m_scriptDir{};
 
     std::unique_ptr<LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Zelo::Core::Resource::ResourceManager> m_resourceManager{};

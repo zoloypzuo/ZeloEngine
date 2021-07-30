@@ -32,3 +32,10 @@ std::filesystem::path ResourceManager::getConfigDir() {
 std::filesystem::path ResourceManager::getScriptDir() {
     return m_scriptDir;
 }
+
+ResourceManager::ResourceManager(std::filesystem::path mEngineDir, std::filesystem::path mConfigDir,
+                                 std::filesystem::path mAssertDir, std::filesystem::path mScriptDir)
+        : m_engineDir(std::move(mEngineDir)), m_configDir(std::move(mConfigDir)),
+        m_assertDir(std::move(mAssertDir)), m_scriptDir(std::move(mScriptDir)) {
+
+}
