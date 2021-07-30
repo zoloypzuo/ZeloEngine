@@ -4,6 +4,9 @@
 #include "ZeloPreCompiledHeader.h"
 #include "LuaScriptManager.h"
 #include "Engine.h"
+#include "Core/Resource/ResourceManager.h"
+
+using namespace Zelo::Core::Resource;
 
 extern "C" {
 extern int luaopen_Zelo(lua_State *L);
@@ -42,9 +45,9 @@ void LuaScriptManager::initialize() {
     );
     require("Zelo", luaopen_Zelo);
 
-    set("SCRIPT_DIR", Engine::getSingletonPtr()->getScriptDir().string());
+    set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
 
-    auto mainLuaPath = Engine::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
+    auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
     do_file(mainLuaPath.string());
 }
 
