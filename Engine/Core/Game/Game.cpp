@@ -3,12 +3,11 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Game.h"
-
 #include "Core/ECS/Entity.h"
 #include "Engine.h"
 
 void Game::update() {
-    rootScene->updateAll(Input::getSingletonPtr(), Engine::getSingletonPtr()->getDeltaTime());
+    rootScene->updateAll(Input::getSingletonPtr(), Zelo::Engine::getSingletonPtr()->getDeltaTime());
 }
 
 template<> Game *Singleton<Game>::msSingleton = nullptr;

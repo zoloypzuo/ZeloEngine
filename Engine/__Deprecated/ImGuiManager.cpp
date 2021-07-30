@@ -6,8 +6,6 @@
 #include "Core/ImGui/ImGuiSample.h"
 #include "Core/ImGui/Common/ImDrawList.h"
 
-#include "Engine.h"
-
 static void ImImpl_RenderDrawLists(ImDrawList **const draw_lists, int count) {
     ImGuiManager::getSingletonPtr()->renderDrawLists(draw_lists, count);
 }

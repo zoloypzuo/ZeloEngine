@@ -5,10 +5,14 @@
 #ifndef ZELOENGINE_COMPONENT_H
 #define ZELOENGINE_COMPONENT_H
 
+#include <Renderer/OpenGL/GLSLShaderProgram.h>
 #include "ZeloPrerequisites.h"
 #include "Core/Input/Input.h"
-#include "Entity.h"
 #include "Core/Math/Transform.h"
+
+class Entity;
+
+class GLSLShaderProgram;
 
 enum class PropertyType {
     FLOAT,
@@ -33,9 +37,9 @@ public:
 
     virtual void render(GLSLShaderProgram *shader) {};
 
-    virtual void registerWithEngine(Engine *engine) {};
+    virtual void registerWithEngine() {};
 
-    virtual void deregisterFromEngine(Engine *engine) {};
+    virtual void deregisterFromEngine() {};
 
     virtual const char *getType() = 0;
 

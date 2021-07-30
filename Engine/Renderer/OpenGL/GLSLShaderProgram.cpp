@@ -6,6 +6,7 @@
 #include "Light.h"
 #include "GLUtil.h"
 #include "sol/sol.hpp"
+#include "Core/ECS/Entity.h"
 
 struct shader_file_extension {
     const std::string &ext;

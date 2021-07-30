@@ -3,8 +3,8 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Resource.h"
-#include "Engine.h"
 #include "Core/Resource/ResourceManager.h"
+#include "Core/LuaScript/LuaScriptManager.h"
 
 using namespace Zelo::Core::Resource;
 

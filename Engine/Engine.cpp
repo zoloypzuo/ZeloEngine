@@ -15,6 +15,8 @@
 
 #endif
 
+using namespace Zelo;
+
 void Engine::initialize() {
     // init config and logger first
     spdlog::set_level(spdlog::level::debug);
@@ -22,7 +24,7 @@ void Engine::initialize() {
         initConfig();
     }
     m_configInitialized = true;
-    m_resourceManager = std::make_unique<Zelo::Core::Resource::ResourceManager>(
+    m_resourceManager = std::make_unique<Core::Resource::ResourceManager>(
             m_engineDir, m_configDir, m_assertDir, m_scriptDir
     );
 

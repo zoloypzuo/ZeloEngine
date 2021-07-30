@@ -3,8 +3,7 @@
 //
 #include "ZeloPreCompiledHeader.h"
 #include "FreeMove.h"
-#include "Engine.h"
-#include "Core/Input/Input.h"
+#include "Core/ECS/Entity.h"
 
 FreeMove::FreeMove(bool moveForwards, float speed) {
     m_speed = speed;
@@ -22,7 +21,7 @@ FreeMove::FreeMove(bool moveForwards, float speed) {
 
 FreeMove::~FreeMove() = default;
 
-void FreeMove::registerWithEngine(Engine *engine) {
+void FreeMove::registerWithEngine() {
     auto input = Input::getSingletonPtr();
     input->registerKeyToAction(SDLK_LSHIFT, "sprint");
     input->registerKeysToAxis(SDLK_w, SDLK_s, -1.f, 1.f, "forwards");
@@ -43,7 +42,7 @@ void FreeMove::registerWithEngine(Engine *engine) {
     });
 }
 
-void FreeMove::deregisterFromEngine(Engine *engine) {
+void FreeMove::deregisterFromEngine() {
     auto input = Input::getSingletonPtr();
     input->unbindAction("sprint");
     input->unbindAxis("forwards");

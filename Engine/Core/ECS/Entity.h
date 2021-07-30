@@ -10,10 +10,7 @@
 #include "Core/Math/Transform.h"
 #include "Renderer/OpenGL/GLSLShaderProgram.h"
 #include "Core/Input/Input.h"
-
-class Engine;
-
-class Component;
+#include "Core/ECS/Component.h"
 
 class Entity {
 public:
@@ -44,7 +41,7 @@ public:
 
     void renderAll(GLSLShaderProgram *shader) const;
 
-    void registerWithEngineAll(Engine *engine);
+    void registerWithEngineAll();
 
     void deregisterFromEngineAll();
 
@@ -103,8 +100,6 @@ private:
     glm::mat4 worldMatrix{};
 
     std::string m_tag;
-
-    Engine *m_engine{};
 
     static void setTag(Entity *entity, const std::string &tag);
 

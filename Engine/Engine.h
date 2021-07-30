@@ -17,6 +17,7 @@
 #include "Core/Resource/ResourceManager.h"
 #include <rttr/rttr_enable.h>
 
+namespace Zelo {
 class Engine :
         public Singleton<Engine>,
         public IRuntimeModule,
@@ -89,7 +90,7 @@ protected:
     std::filesystem::path m_scriptDir{};
 
     std::unique_ptr<LuaScriptManager> m_luaScriptManager{};
-    std::unique_ptr<Zelo::Core::Resource::ResourceManager> m_resourceManager{};
+    std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
 
 protected:
     void initConfig();
@@ -106,5 +107,6 @@ protected:
 
 RTTR_ENABLE()
 };
+}
 
 #endif //ZELOENGINE_ENGINE_H

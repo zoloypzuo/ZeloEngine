@@ -18,9 +18,9 @@ public:
 
     void update(Input *input, std::chrono::microseconds delta) override;
 
-    void registerWithEngine(Engine *engine) override;
+    void registerWithEngine() override;
 
-    void deregisterFromEngine(Engine *engine) override;
+    void deregisterFromEngine() override;
 
     inline const char *getType() override { return "FREE_MOVE"; }
 

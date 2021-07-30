@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Component.h"
+#include "Entity.h"
 
 void Component::setParent(Entity *parentEntity) {
     m_parentEntity = parentEntity;

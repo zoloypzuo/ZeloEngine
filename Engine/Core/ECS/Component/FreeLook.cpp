@@ -3,7 +3,7 @@
 //
 #include "ZeloPreCompiledHeader.h"
 #include "FreeLook.h"
-#include "Core/Input/Input.h"
+#include "Core/ECS/Entity.h"
 
 FreeLook::FreeLook(float speed) {
     m_speed = speed;
@@ -16,7 +16,7 @@ FreeLook::FreeLook(float speed) {
 FreeLook::~FreeLook() {
 }
 
-void FreeLook::registerWithEngine(Engine *engine) {
+void FreeLook::registerWithEngine() {
     auto input = Input::getSingletonPtr();
 
     input->registerButtonToAction(SDL_BUTTON_RIGHT, "look");
@@ -29,7 +29,7 @@ void FreeLook::registerWithEngine(Engine *engine) {
     });
 }
 
-void FreeLook::deregisterFromEngine(Engine *engine) {
+void FreeLook::deregisterFromEngine() {
     auto input = Input::getSingletonPtr();
 
     input->unbindAction("look");
