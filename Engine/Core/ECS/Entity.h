@@ -76,8 +76,8 @@ public:
         components.push_back(component);
     }
 
-    template<class T, class... _Types>
-    inline void addComponent(_Types &&... _Args) {
+    template<class T, class... Types>
+    inline void addComponent(Types &&... _Args) {
         auto component = std::make_shared<T>(_Args...);
         component->setParent(this);
         componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
