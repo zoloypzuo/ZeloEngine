@@ -6,8 +6,7 @@
 #define ZELOENGINE_FREELOOK_H
 
 #include "ZeloPrerequisites.h"
-#include "Core/ECS/Component.h"
-#include "Engine.h"
+#include "Core/ECS/Entity.h"
 
 class FreeLook : public Component {
 public:
@@ -17,9 +16,9 @@ public:
 
     void update(Input *input, std::chrono::microseconds delta) override;
 
-    void registerWithEngine(Engine *engine) override;
+    void registerWithEngine() override;
 
-    void deregisterFromEngine(Engine *engine) override;
+    void deregisterFromEngine() override;
 
     inline const char *getType() override { return "FREE_LOOK"; }
 

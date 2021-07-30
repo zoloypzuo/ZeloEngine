@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ZeloPrerequisites.h"
 
 namespace Zelo::Core::ECS { class Actor; }
@@ -6,7 +7,7 @@ namespace Zelo::Core::ECS { class Actor; }
 namespace Zelo::Core::ECS::Components {
 class CPhysicalObject;
 
-class AComponent{
+class AComponent {
 public:
 
     explicit AComponent(ECS::Actor &owner);

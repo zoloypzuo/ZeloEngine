@@ -4,6 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Light.h"
 #include "GLManager.h"
+#include "Core/ECS/Entity.h"
 
 BaseLight::BaseLight(glm::vec3 color, float intensity) {
     m_color = color;
@@ -27,11 +28,11 @@ float BaseLight::getIntensity() const {
 DirectionalLight::DirectionalLight(glm::vec3 color, float intensity) : BaseLight(color, intensity) {
 }
 
-void DirectionalLight::registerWithEngine(Engine *engine) {
+void DirectionalLight::registerWithEngine() {
     GLManager::getSingletonPtr()->addDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
-void DirectionalLight::deregisterFromEngine(Engine *engine) {
+void DirectionalLight::deregisterFromEngine() {
     GLManager::getSingletonPtr()->removeDirectionalLight(
             std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
@@ -58,11 +59,11 @@ PointLight::PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenua
 PointLight::~PointLight() {
 }
 
-void PointLight::registerWithEngine(Engine *engine) {
+void PointLight::registerWithEngine() {
     GLManager::getSingletonPtr()->addPointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
-void PointLight::deregisterFromEngine(Engine *engine) {
+void PointLight::deregisterFromEngine() {
     GLManager::getSingletonPtr()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
@@ -78,7 +79,7 @@ float PointLight::getRange() {
     float a = m_attenuation->getExponent();
     float b = m_attenuation->getLinear();
     float c = m_attenuation->getConstant() -
-            8 * getIntensity() * glm::max(m_color.x, glm::max(m_color.y, m_color.z));
+              8 * getIntensity() * glm::max(m_color.x, glm::max(m_color.y, m_color.z));
 
     m_range = (-b + glm::sqrt(b * b - 4 * a * c)) / (2 * a);
     return m_range;
@@ -90,11 +91,11 @@ SpotLight::SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared
     setProperty("cutoff", PropertyType::FLOAT, &m_cutoff, 0, 1);
 }
 
-void SpotLight::registerWithEngine(Engine *engine) {
+void SpotLight::registerWithEngine() {
     GLManager::getSingletonPtr()->addSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
 }
 
-void SpotLight::deregisterFromEngine(Engine *engine) {
+void SpotLight::deregisterFromEngine() {
     GLManager::getSingletonPtr()->removeSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
 }
 

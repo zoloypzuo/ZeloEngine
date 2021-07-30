@@ -14,8 +14,11 @@
 #include "Core/Parser/IniReader.h"
 #include "Core/Plugin/Plugin.h"
 #include "Core/LuaScript/LuaScriptManager.h"
+#include "Core/Resource/ResourceManager.h"
+#include "Core/OS/Time.h"
 #include <rttr/rttr_enable.h>
 
+namespace Zelo {
 class Engine :
         public Singleton<Engine>,
         public IRuntimeModule,
@@ -25,15 +28,6 @@ public:
 
 public:
     Engine();
-
-    explicit Engine(Game *game);
-
-    Engine(
-            Game *game,
-            const std::string &engineDir,
-            const std::string &configDir,
-            const std::string &assetDir
-    );
 
     ~Engine() override;
 
@@ -45,24 +39,9 @@ public:
 
     void start();
 
-    const std::chrono::microseconds &getDeltaTime();
-
-    Window *getWindow();
-
-    INIReader *getConfig();
-
-    std::filesystem::path getEngineDir();
-
-    std::filesystem::path getConfigDir();
-
-    std::filesystem::path getAssetDir();
-
-    std::filesystem::path getScriptDir();
-
-
     /** Install a new plugin.
     @remarks
-        This installs a new extension to OGRE. The plugin itself may be loaded
+        This installs a new extension to Zelo. The plugin itself may be loaded
         from a DLL / DSO, or it might be statically linked into your own
         application. Either way, something has to call this method to get
         it registered and functioning. You should only call this method directly
@@ -74,7 +53,7 @@ public:
 
     /** Uninstall an existing plugin.
     @remarks
-        This uninstalls an extension to OGRE. Plugins are automatically
+        This uninstalls an extension to Zelo. Plugins are automatically
         uninstalled at shutdown but this lets you remove them early.
         If the plugin was loaded from a DLL / DSO you should call unloadPlugin
         which should result in this method getting called anyway (if the DLL
@@ -96,19 +75,19 @@ protected:
     std::unique_ptr<GLManager> m_glManager;
     std::unique_ptr<Renderer> m_renderer;
     std::unique_ptr<INIReader> m_config;
-//    std::unique_ptr<ImGuiManager> m_imguiManager;
-    std::chrono::high_resolution_clock::time_point m_time, m_lastTime;
-    std::chrono::microseconds m_deltaTime{};
-    std::filesystem::path m_engineDir{};
-    std::filesystem::path m_configDir{};
-    std::filesystem::path m_assertDir{};
-    std::filesystem::path m_scriptDir{};
     bool m_fireRay{};
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};
     bool m_configInitialized{};
 
+    std::filesystem::path m_engineDir{};
+    std::filesystem::path m_configDir{};
+    std::filesystem::path m_assertDir{};
+    std::filesystem::path m_scriptDir{};
+
     std::unique_ptr<LuaScriptManager> m_luaScriptManager{};
+    std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
+    std::unique_ptr<Core::OS::TimeSystem::Time> m_timeSystem{};
 
 protected:
     void initConfig();
@@ -125,5 +104,6 @@ protected:
 
 RTTR_ENABLE()
 };
+}
 
 #endif //ZELOENGINE_ENGINE_H

@@ -6,6 +6,7 @@
 #define ZELOENGINE_WINDOW_H
 
 #include "ZeloPrerequisites.h"
+#include "Core/Parser/IniReader.h"
 #include "Core/Input/Input.h"
 
 #if _WIN32
@@ -14,7 +15,7 @@
 
 class Window : public IRuntimeModule {
 public:
-    Window();
+    explicit Window(const INIReader::Section &windowConfig);
 
     ~Window() override;
 

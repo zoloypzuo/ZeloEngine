@@ -1,7 +1,6 @@
 // Engine.cpp
 // created on 2021/3/28
 // author @zoloypzuo
-
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
 #include "Core/OS/whereami.h"
@@ -15,6 +14,9 @@
 
 #endif
 
+using namespace Zelo;
+using namespace Zelo::Core::OS::TimeSystem;
+
 void Engine::initialize() {
     // init config and logger first
     spdlog::set_level(spdlog::level::debug);
@@ -22,10 +24,13 @@ void Engine::initialize() {
         initConfig();
     }
     m_configInitialized = true;
+    m_resourceManager = std::make_unique<Core::Resource::ResourceManager>(
+            m_engineDir, m_configDir, m_assertDir, m_scriptDir
+    );
 
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();
-    m_window = std::make_unique<Window>();
+    m_window = std::make_unique<Window>(m_config->GetSection("Window"));
     m_renderer = std::make_unique<ForwardShadowRenderer>();
     m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
 //    m_renderer->initialize();
@@ -37,25 +42,26 @@ void Engine::initialize() {
 
     m_window->makeCurrentContext();
 
-    m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
-
-    m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
-
+//    m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
+//
+//    m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
+//
 //    m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
 //        m_window->getGuiManager()->togglePropertyEditor();
 //    });
-
-    m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
-        m_fireRay = true;
-    });
-
-    m_window->getInput()->bindAction("fireRay", IE_RELEASED, [this]() {
-        m_fireRay = false;
-    });
+//
+//    m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
+//        m_fireRay = true;
+//    });
+//
+//    m_window->getInput()->bindAction("fireRay", IE_RELEASED, [this]() {
+//        m_fireRay = false;
+//    });
 
     initialisePlugins();
 
-    m_time = std::chrono::high_resolution_clock::now();
+    m_timeSystem = std::make_unique<Time>();
+    m_timeSystem->initialize();
 
     mIsInitialised = true;
 }
@@ -98,18 +104,15 @@ void Engine::finalize() {
 }
 
 void Engine::update() {
-    m_lastTime = m_time;
-    m_time = std::chrono::high_resolution_clock::now();
-    m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
-
-    m_window->update();
+    m_timeSystem->update();
+    m_window->update();  // input poll events
 //    m_window->getGuiManager()->tick(m_deltaTime);
 //    m_imguiManager->update();
 //    m_game->update();
 //    m_glManager->renderScene(m_game->getRootNode().get());
 //    m_window->getGuiManager()->render(m_game->getRootNode().get());
 //    m_imguiManager->render();
-    m_window->swapBuffer();
+    m_window->swapBuffer();  // swap buffer
 }
 
 void Engine::start() {
@@ -136,27 +139,9 @@ Engine *Engine::getSingletonPtr() {
     return msSingleton;
 }
 
-const std::chrono::microseconds &Engine::getDeltaTime() {
-    return m_deltaTime;
-}
-
-Window *Engine::getWindow() {
-    return m_window.get();
-}
-
-INIReader *Engine::getConfig() {
-    return m_config.get();
-}
-
-std::filesystem::path Engine::getEngineDir() {
-    return m_engineDir;
-}
-
-std::filesystem::path Engine::getAssetDir() {
-    return m_assertDir;
-}
-
-Engine::Engine(Game *game) : m_game(game) {
+Engine &Engine::getSingleton() {
+    assert(msSingleton);
+    return *msSingleton;
 }
 
 void Engine::initialisePlugins() {
@@ -205,49 +190,17 @@ Engine::Engine() {
     m_game = std::make_unique<MyGame>();
 }
 
-Engine::Engine(
-        Game *game,
-        const std::string &engineDir,
-        const std::string &configDir,
-        const std::string &assetDir
-) : m_game(game),
-    m_engineDir(engineDir),
-    m_configDir(configDir),
-    m_assertDir(assetDir) {
-    auto engineIniPath = m_configDir / "Engine.ini";
-    m_config = std::make_unique<INIReader>(engineIniPath.string());
-    if (m_config->ParseError()) {
-        spdlog::error("Engine.ini not found, path={}", engineIniPath.string());
-        ZELO_CORE_ASSERT(false, "Engine.ini not found");
-        return;
-    }
-    m_configInitialized = true;
-}
-
-std::filesystem::path Engine::getConfigDir() {
-    return m_configDir;
-}
-
-std::filesystem::path Engine::getScriptDir() {
-    return m_scriptDir;
-}
-
-Engine &Engine::getSingleton() {
-    ZELO_ASSERT(msSingleton);
-    return *msSingleton;
-}
-
 #include <rttr/registration>
 
 RTTR_REGISTRATION {
     rttr::registration::class_<Engine>("Zelo::Engine")
             .constructor<>()
-            .property_readonly("engine_dir", &Engine::getEngineDir)
+//            .property_readonly("engine_dir", &Engine::getEngineDir)
             .method("start", &Engine::start);
 
 }
 
-void test_rttr(){
+void test_rttr() {
     // get type
     auto t = rttr::type::get<Engine>();
     auto t1 = rttr::type::get_by_name("Zelo::Engine");
@@ -266,11 +219,11 @@ void test_rttr(){
     m.invoke(e);
 
     // iterate member
-    for(const auto& prop:t.get_properties()){
+    for (const auto &prop:t.get_properties()) {
         spdlog::error("name: {}", prop.get_name().to_string());
     }
 
-    for(const auto& meth:t.get_methods()){
+    for (const auto &meth:t.get_methods()) {
         spdlog::error("name: {}", meth.get_name().to_string());
     }
 }

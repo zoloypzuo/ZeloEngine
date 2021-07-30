@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Core/ECS/Component.h"
+#include "Core/ECS/Entity.h"
 #include "GLSLShaderProgram.h"
 #include "Attenuation.h"
 
@@ -17,7 +17,7 @@ public:
 
     virtual ~BaseLight();
 
-    virtual void registerWithEngine(Engine *engine) {};
+    virtual void registerWithEngine() {};
 
     glm::vec3 getColor() const;
 
@@ -34,9 +34,9 @@ class DirectionalLight : public BaseLight {
 public:
     DirectionalLight(glm::vec3 color, float intensity);
 
-    virtual void registerWithEngine(Engine *engine);
+    virtual void registerWithEngine();
 
-    virtual void deregisterFromEngine(Engine *engine);
+    virtual void deregisterFromEngine();
 
     virtual void updateShader(GLSLShaderProgram *shader);
 
@@ -49,9 +49,9 @@ public:
 
     virtual ~PointLight();
 
-    virtual void registerWithEngine(Engine *engine);
+    virtual void registerWithEngine();
 
-    virtual void deregisterFromEngine(Engine *engine);
+    virtual void deregisterFromEngine();
 
     virtual void updateShader(GLSLShaderProgram *shader);
 
@@ -71,9 +71,9 @@ class SpotLight : public PointLight {
 public:
     SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared_ptr<Attenuation> attenuation);
 
-    virtual void registerWithEngine(Engine *engine);
+    virtual void registerWithEngine();
 
-    virtual void deregisterFromEngine(Engine *engine);
+    virtual void deregisterFromEngine();
 
     inline virtual const char *getType() { return "SPOT_LIGHT"; }
 

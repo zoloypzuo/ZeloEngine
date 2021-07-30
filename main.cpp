@@ -1,6 +1,6 @@
 #include "Zelo.h"
 
 int main() {
-    Engine().start();
+    Zelo::Engine().start();
     return 0;
 }

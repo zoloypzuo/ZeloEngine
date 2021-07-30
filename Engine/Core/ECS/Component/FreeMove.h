@@ -6,9 +6,9 @@
 #define ZELOENGINE_FREEMOVE_H
 
 #include "ZeloPrerequisites.h"
+#include "Core/ECS/Entity.h"
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
-#include "Core/ECS/Component.h"
 
 class FreeMove : public Component {
 public:
@@ -18,9 +18,9 @@ public:
 
     void update(Input *input, std::chrono::microseconds delta) override;
 
-    void registerWithEngine(Engine *engine) override;
+    void registerWithEngine() override;
 
-    void deregisterFromEngine(Engine *engine) override;
+    void deregisterFromEngine() override;
 
     inline const char *getType() override { return "FREE_MOVE"; }
 

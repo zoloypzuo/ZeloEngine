@@ -11,9 +11,54 @@
 #include "Renderer/OpenGL/GLSLShaderProgram.h"
 #include "Core/Input/Input.h"
 
-class Engine;
+class Entity;
 
 class Component;
+
+enum class PropertyType {
+    FLOAT,
+    FLOAT3,
+    BOOLEAN,
+    ANGLE,
+    COLOR
+};
+
+struct Property {
+    PropertyType type;
+    void *p;
+    float min;
+    float max;
+};
+
+class Component {
+public:
+    virtual ~Component() = default;;
+
+    virtual void update(Input *input, std::chrono::microseconds delta) {};
+
+    virtual void render(GLSLShaderProgram *shader) {};
+
+    virtual void registerWithEngine() {};
+
+    virtual void deregisterFromEngine() {};
+
+    virtual const char *getType() = 0;
+
+    void setProperty(const char *name, PropertyType type, void *p, float min, float max);
+
+    void setProperty(const char *name, PropertyType type, void *p);
+
+    void setParent(Entity *parentEntity);
+
+    Entity *getParent() const;
+
+    Transform &getTransform() const;
+
+    std::map<const char *, Property> m_properties;
+
+protected:
+    Entity *m_parentEntity;
+};
 
 class Entity {
 public:
@@ -32,8 +77,8 @@ public:
         components.push_back(component);
     }
 
-    template<class T, class... _Types>
-    inline void addComponent(_Types &&... _Args) {
+    template<class T, class... Types>
+    inline void addComponent(Types &&... _Args) {
         auto component = std::make_shared<T>(_Args...);
         component->setParent(this);
         componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
@@ -44,7 +89,7 @@ public:
 
     void renderAll(GLSLShaderProgram *shader) const;
 
-    void registerWithEngineAll(Engine *engine);
+    void registerWithEngineAll();
 
     void deregisterFromEngineAll();
 
@@ -103,8 +148,6 @@ private:
     glm::mat4 worldMatrix{};
 
     std::string m_tag;
-
-    Engine *m_engine{};
 
     static void setTag(Entity *entity, const std::string &tag);
 

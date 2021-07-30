@@ -3,14 +3,17 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Resource.h"
-#include "Engine.h"
+#include "Core/Resource/ResourceManager.h"
+#include "Core/LuaScript/LuaScriptManager.h"
+
+using namespace Zelo::Core::Resource;
 
 Zelo::IOStream::IOStream(const std::string &fileName) : m_fileName(fileName) {
     spdlog::debug("IOStream {}", fileName);
     // fallback search
     std::filesystem::path filePath{};
     std::filesystem::path resourceDir{};
-    auto resourceConfigLuaPath = Engine::getSingletonPtr()->getConfigDir() / "resource_config.lua";
+    auto resourceConfigLuaPath = ResourceManager::getSingletonPtr()->getConfigDir() / "resource_config.lua";
     sol::table resourceDirList = LuaScriptManager::getSingletonPtr()->require_file(
             resourceConfigLuaPath.string(),
             resourceConfigLuaPath.string());
@@ -23,11 +26,11 @@ Zelo::IOStream::IOStream(const std::string &fileName) : m_fileName(fileName) {
         };
     }
     if (filePath.empty()) {
-        auto engineAssetPath = Engine::getSingletonPtr()->getAssetDir() / fileName;
+        auto engineAssetPath = ResourceManager::getSingletonPtr()->getAssetDir() / fileName;
         if (std::filesystem::exists(engineAssetPath)) {
             filePath = engineAssetPath;
         } else {
-            auto enginePath = Engine::getSingletonPtr()->getEngineDir() / fileName;
+            auto enginePath = ResourceManager::getSingletonPtr()->getEngineDir() / fileName;
             ZELO_ASSERT(std::filesystem::exists(enginePath));
             filePath = enginePath;
         }

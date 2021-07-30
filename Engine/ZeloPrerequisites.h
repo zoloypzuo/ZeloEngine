@@ -19,6 +19,7 @@
 #include <utility>
 #include <typeindex>
 #include <filesystem>
+#include <utility>
 
 // containers
 #include <string>
@@ -72,7 +73,7 @@ constexpr Ref<T> CreateRef(Args &&... args) {
 }
 
 // forward declaration
-class Engine;
+namespace Zelo { class Engine; }
 
 class GLManager;
 

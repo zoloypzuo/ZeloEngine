@@ -60,7 +60,7 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
             case ShaderDataType::Float2:
             case ShaderDataType::Float3:
             case ShaderDataType::Float4:
-            case ShaderDataType::UByte:{
+            case ShaderDataType::UByte: {
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, size, type, normalized, stride, pointer);
                 index++;

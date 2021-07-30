@@ -3,7 +3,6 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Entity.h"
-#include "Component.h"
 
 std::map<std::string, std::vector<Entity *>> Entity::taggedEntities;
 
@@ -39,9 +38,7 @@ void Entity::addChild(const std::shared_ptr<Entity> &child) {
     children.push_back(child);
 
     // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
-    if (m_engine) {
-        child->registerWithEngineAll(m_engine);
-    }
+    child->registerWithEngineAll();
 }
 
 void Entity::updateAll(Input *input, std::chrono::microseconds delta) {
@@ -70,28 +67,25 @@ void Entity::renderAll(GLSLShaderProgram *shader) const {
     }
 }
 
-void Entity::registerWithEngineAll(Engine *engine) {
-    m_engine = engine;
+void Entity::registerWithEngineAll() {
 
     for (const auto &component : components) {
-        component->registerWithEngine(engine);
+        component->registerWithEngine();
     }
 
     for (const auto &child : children) {
-        child->registerWithEngineAll(engine);
+        child->registerWithEngineAll();
     }
 }
 
 void Entity::deregisterFromEngineAll() {
     for (const auto &component : components) {
-        component->deregisterFromEngine(m_engine);
+        component->deregisterFromEngine();
     }
 
     for (const auto &child : children) {
         child->deregisterFromEngineAll();
     }
-
-    m_engine = nullptr;
 }
 
 Transform &Entity::getTransform() {
@@ -125,4 +119,36 @@ glm::vec4 Entity::getDirection() {
     } else {
         return glm::normalize(parentEntity->worldMatrix * transform.getDirection());
     }
+}
+
+void Component::setParent(Entity *parentEntity) {
+    m_parentEntity = parentEntity;
+}
+
+Entity *Component::getParent() const {
+    return m_parentEntity;
+}
+
+Transform &Component::getTransform() const {
+    return m_parentEntity->getTransform();
+}
+
+void Component::setProperty(const char *name, PropertyType type, void *p, float min, float max) {
+    Property prop;
+
+    prop.type = type;
+    prop.p = p;
+    prop.min = min;
+    prop.max = max;
+
+    m_properties[name] = prop;
+}
+
+void Component::setProperty(const char *name, PropertyType type, void *p) {
+    Property prop;
+
+    prop.type = type;
+    prop.p = p;
+
+    m_properties[name] = prop;
 }

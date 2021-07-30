@@ -3,8 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "MeshRenderer.h"
-
-#include <utility>
+#include "Core/ECS/Entity.h"
 
 MeshRenderer::MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Material> material) {
     this->m_mesh = std::move(mesh);

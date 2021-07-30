@@ -21,7 +21,7 @@ void SimpleRenderer::render(const Entity &scene, std::shared_ptr<Camera> activeC
     scene.renderAll(m_simple.get());
 }
 
-void SimpleRenderer::renderLine(const Line &line, const std::shared_ptr<Camera>& activeCamera) const {
+void SimpleRenderer::renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const {
     m_simple->bind();
 
     m_simple->setUniformMatrix4f("World", glm::mat4());

@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Core/ECS/Components/AComponent.h"
 
 namespace Zelo::Core::ECS { class Actor; }
