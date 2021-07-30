@@ -148,10 +148,6 @@ const std::chrono::microseconds &Engine::getDeltaTime() {
     return m_deltaTime;
 }
 
-INIReader *Engine::getConfig() {
-    return m_config.get();
-}
-
 Engine::Engine(Game *game) : m_game(game) {
 }
 

@@ -41,8 +41,6 @@ public:
 
     const std::chrono::microseconds &getDeltaTime();
 
-    INIReader *getConfig();
-
     /** Install a new plugin.
     @remarks
         This installs a new extension to OGRE. The plugin itself may be loaded
