@@ -33,7 +33,6 @@ private:
     std::unique_ptr<GLSLShaderProgram> m_simple;
 };
 
-
 class ForwardRenderer : public Renderer {
 public:
     ForwardRenderer();
@@ -55,6 +54,5 @@ protected:
     std::unique_ptr<GLSLShaderProgram> m_forwardPoint;
     std::unique_ptr<GLSLShaderProgram> m_forwardSpot;
 };
-
 
 #endif //ZELOENGINE_FORWARDRENDERER_H

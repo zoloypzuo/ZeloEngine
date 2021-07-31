@@ -47,13 +47,11 @@ class ParticleContactResolver;
 class ParticleContact {
     // ... Other ParticleContact code as before ...
 
-
     /**
      * The contact resolver object needs access into the contacts to
      * set and effect the contact.
      */
     friend class ParticleContactResolver;
-
 
 public:
     /**
@@ -191,7 +189,6 @@ public:
     };
 
 };
-
 
 } // namespace cyclone
 

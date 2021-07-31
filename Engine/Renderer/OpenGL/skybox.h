@@ -16,5 +16,4 @@ public:
     void render() const;
 };
 
-
 #endif // SKYBOX_H

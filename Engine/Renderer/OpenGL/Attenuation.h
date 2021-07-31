@@ -8,7 +8,6 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
-
 class Attenuation {
 public:
     Attenuation(float constant, float linear, float exponent);
@@ -24,6 +23,5 @@ public:
     float m_linear;
     float m_exponent;
 };
-
 
 #endif //ZELOENGINE_ATTENUATION_H

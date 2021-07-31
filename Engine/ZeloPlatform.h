@@ -38,7 +38,6 @@
 //#error "Unknown platform!"
 #endif // End of platform detection
 
-
 /* Initial platform/compiler-related stuff to set.
 */
 #define ZELO_COMPILER_MSVC 1

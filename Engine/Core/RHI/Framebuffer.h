@@ -6,7 +6,6 @@
 
 #include "ZeloPrerequisites.h"
 
-
 class Framebuffer {
 
     virtual void bind() = 0;
@@ -17,5 +16,4 @@ class Framebuffer {
 
     virtual uint32_t getColorAttachmentRendererID() const = 0;
 };
-
 

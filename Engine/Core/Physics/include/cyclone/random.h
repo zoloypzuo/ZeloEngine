@@ -22,7 +22,6 @@
 
 namespace cyclone {
 
-
 /**
  * Keeps track of one random stream: i.e. a seed and its output.
  * This is used to get random numbers. Rather than a funcion, this

@@ -38,7 +38,6 @@ public:
 
     glm::ivec2 getDrawableSize() const;
 
-
     static const char *getClipboardText();
 
     static void setClipboardText(const char *text);
@@ -71,6 +70,5 @@ private:
 
     bool m_vSync{};
 };
-
 
 #endif //ZELOENGINE_WINDOW_H

@@ -33,5 +33,4 @@ private:
     std::shared_ptr<Entity> rootScene;
 };
 
-
 #endif //ZELOENGINE_GAME_H

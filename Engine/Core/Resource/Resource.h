@@ -63,5 +63,4 @@ private:
 };
 }
 
-
 #endif //ZELOENGINE_RESOURCE_H

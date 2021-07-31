@@ -179,9 +179,7 @@ public:
     Vector3(const real x, const real y, const real z)
             : x(x), y(y), z(z) {}
 
-
     // ... Other Vector3 code as before ...
-
 
     real operator[](unsigned i) const {
         if (i == 0) return x;
@@ -567,7 +565,6 @@ public:
     real data[12];
 
     // ... Other Matrix4 code as before ...
-
 
     /**
      * Creates an identity matrix.

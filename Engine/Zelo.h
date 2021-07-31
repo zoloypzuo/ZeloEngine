@@ -18,5 +18,4 @@
 #include "Core/Math/Mathf.h"
 #include "Engine.h"
 
-
 #endif //ZELOENGINE_ZELO_H

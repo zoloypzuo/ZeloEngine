@@ -10,7 +10,6 @@
 #include "GLTexture.h"
 #include "skybox.h"
 
-
 class ForwardShadowRenderer : public ForwardRenderer {
 
 public:
@@ -49,5 +48,4 @@ protected:
 
     void initializeSkybox();
 };
-
 

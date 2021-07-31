@@ -2,7 +2,6 @@
 
 #include "ZeloPrerequisites.h"
 
-
 namespace Zelo {
 
 class ImGuiLayer {

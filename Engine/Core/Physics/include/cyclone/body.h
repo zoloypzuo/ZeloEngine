@@ -44,7 +44,6 @@ public:
 
     // ... Other RigidBody code as before ...
 
-
 protected:
     /**
      * @name Characteristic Data and State
@@ -145,7 +144,6 @@ protected:
 
     /*@}*/
 
-
     /**
      * @name Derived Data
      *
@@ -195,7 +193,6 @@ protected:
     Matrix4 transformMatrix;
 
     /*@}*/
-
 
     /**
      * @name Force and Torque Accumulators
@@ -248,7 +245,6 @@ public:
 
     /*@}*/
 
-
     /**
      * @name Integration and Simulation Functions
      *
@@ -281,7 +277,6 @@ public:
     void integrate(real duration);
 
     /*@}*/
-
 
     /**
      * @name Accessor Functions for the Rigid Body's State
@@ -831,7 +826,6 @@ public:
 
     /*@}*/
 
-
     /**
      * @name Retrieval Functions for Dynamic Quantities
      *
@@ -869,7 +863,6 @@ public:
     Vector3 getLastFrameAcceleration() const;
 
     /*@}*/
-
 
     /**
      * @name Force, Torque and Acceleration Set-up Functions

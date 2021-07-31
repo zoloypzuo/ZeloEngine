@@ -4,7 +4,6 @@
 #include "Framework/Scene/Scene.h"
 #include "Framework/Scene/Entity.h"
 
-
 namespace Zelo {
 
 //class SceneHierarchyPanel {

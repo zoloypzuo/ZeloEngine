@@ -58,7 +58,6 @@
 #define ZELO_ERROR(...)         spdlog::error(__VA_ARGS__)
 #define ZELO_CRITICAL(...)      spdlog::critical(__VA_ARGS__)
 
-
 // assert
 #include <filesystem>
 

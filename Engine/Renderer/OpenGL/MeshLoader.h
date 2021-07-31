@@ -75,5 +75,4 @@ private:
     std::shared_ptr<Entity> m_entity;
 };
 
-
 #endif //ZELOENGINE_MESHLOADER_H

@@ -50,5 +50,4 @@ public:
     glm::vec3 m_scale{};
 };
 
-
 #endif //ZELOENGINE_TRANSFORM_H

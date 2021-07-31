@@ -26,7 +26,6 @@ struct Vertex {
     }
 };
 
-
 class MeshData {
 public:
     MeshData(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
@@ -65,6 +64,5 @@ public:
 
     static std::shared_ptr<GLMesh> getMesh();
 };
-
 
 #endif //ZELOENGINE_GLMESH_H

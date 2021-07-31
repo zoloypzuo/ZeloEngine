@@ -26,5 +26,4 @@ struct Mathf {
     static float Cos(float f);
 };
 
-
 #endif //ZELOSPEED_MATHF_H

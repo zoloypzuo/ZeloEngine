@@ -14,7 +14,6 @@
 #include <map>
 #include <string>
 
-
 class SwigDirector_ParticleContactGenerator : public cyclone::ParticleContactGenerator, public Swig::Director {
 
 public:
@@ -60,7 +59,6 @@ private:
 
 };
 
-
 class SwigDirector_ParticleForceGenerator : public cyclone::ParticleForceGenerator, public Swig::Director {
 
 public:
@@ -105,6 +103,5 @@ private:
 #endif
 
 };
-
 
 #endif

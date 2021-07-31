@@ -15,5 +15,4 @@ public:
     std::wstring SaveFile(const wchar_t *filter, void *windowHandle);
 };
 
-
 #endif //ZELOENGINE_FILEDIALOGS_H

@@ -339,5 +339,4 @@ public:
 };
 }
 
-
 #endif // CYCLONE_FGEN_H

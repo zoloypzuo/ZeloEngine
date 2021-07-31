@@ -26,5 +26,4 @@ private:
     std::shared_ptr<GLTexture> m_normalMap;
 };
 
-
 #endif //ZELOENGINE_MATERIAL_H

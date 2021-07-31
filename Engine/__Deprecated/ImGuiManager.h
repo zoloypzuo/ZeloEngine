@@ -60,4 +60,3 @@ private:
     Zelo::RenderCommand * m_renderCommand{};
 };
 
-

@@ -51,4 +51,3 @@ protected:
     bool m_initialized{};
 };
 
-

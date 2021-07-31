@@ -24,5 +24,4 @@ private:
     GLuint vbo{};
 };
 
-
 #endif //ZELOENGINE_LINE_H

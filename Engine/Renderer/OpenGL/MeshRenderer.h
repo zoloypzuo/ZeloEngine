@@ -27,5 +27,4 @@ private:
     std::shared_ptr<Material> m_material;
 };
 
-
 #endif //ZELOENGINE_MESHRENDERER_H

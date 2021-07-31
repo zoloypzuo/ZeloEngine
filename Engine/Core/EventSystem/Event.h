@@ -2,11 +2,9 @@
 
 #include <functional>
 
-
 namespace Zelo::Core::EventSystem {
 
 using ListenerID = uint64_t;
-
 
 template<class... ArgTypes>
 class Event {
@@ -14,24 +12,17 @@ public:
 
     using Callback = std::function<void(ArgTypes...)>;
 
-
     ListenerID AddListener(Callback callback);
-
 
     ListenerID operator+=(Callback callback);
 
-
     bool RemoveListener(ListenerID listenerID);
-
 
     bool operator-=(ListenerID listenerID);
 
-
     void RemoveAllListeners();
 
-
     uint64_t GetListenerCount();
-
 
     void Invoke(ArgTypes... args);
 

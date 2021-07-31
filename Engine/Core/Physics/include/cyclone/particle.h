@@ -38,7 +38,6 @@ public:
 
     // ... Other Particle code as before ...
 
-
 protected:
     /**
      * @name Characteristic Data and State
@@ -164,7 +163,6 @@ public:
     void integrate(real duration);
 
     /*@}*/
-
 
     /**
      * @name Accessor Functions for the Particle's State
@@ -364,7 +362,6 @@ public:
      * @param force The force to apply.
      */
     void addForce(const Vector3 &force);
-
 
 };
 }

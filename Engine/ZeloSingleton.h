@@ -7,7 +7,6 @@
 
 #include "ZeloPrerequisites.h"
 
-
 #if ZELO_COMPILER == ZELO_COMPILER_MSVC
 #   pragma warning (push)
 #   pragma warning ( disable: 4661)
@@ -63,6 +62,5 @@ public:
 #if ZELO_COMPILER == ZELO_COMPILER_MSVC
 #   pragma warning (pop)
 #endif
-
 
 #endif //ZELOENGINE_ZELOSINGLETON_H

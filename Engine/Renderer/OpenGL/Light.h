@@ -85,5 +85,4 @@ private:
     float m_cutoff;
 };
 
-
 #endif //ZELOENGINE_LIGHT_H

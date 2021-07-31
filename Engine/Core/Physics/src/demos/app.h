@@ -109,7 +109,6 @@ public:
      */
     virtual void key(unsigned char key);
 
-
     /**
      * Notifies the application that the window has changed size.
      * The new size is given.

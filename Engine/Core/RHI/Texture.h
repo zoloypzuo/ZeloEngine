@@ -6,7 +6,6 @@
 
 #include "ZeloPrerequisites.h"
 
-
 class Texture {
 public:
     virtual void bind(uint32_t slot) const = 0;

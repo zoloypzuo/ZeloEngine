@@ -471,8 +471,6 @@ void Contact::applyPositionChange(Vector3 linearChange[2],
         }
 }
 
-
-
 // Contact resolver implementation
 
 ContactResolver::ContactResolver(unsigned iterations,

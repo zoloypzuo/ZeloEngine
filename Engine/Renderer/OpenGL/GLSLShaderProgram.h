@@ -77,5 +77,4 @@ private:
     void addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const;
 };
 
-
 #endif //ZELOENGINE_GLSLSHADERPROGRAM_H

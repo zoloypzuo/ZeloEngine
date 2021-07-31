@@ -6,7 +6,6 @@
 
 #include "ZeloPrerequisites.h"
 
-
 class Plugin {
 public:
     Plugin();
@@ -60,5 +59,4 @@ public:
     */
     virtual void uninstall() = 0;
 };
-
 

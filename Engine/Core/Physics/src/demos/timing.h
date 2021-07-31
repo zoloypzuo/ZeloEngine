@@ -98,7 +98,6 @@ struct TimingData {
      */
     static unsigned long getClock();
 
-
 private:
     // These are private to stop instances being created: use get().
     TimingData() {}
@@ -108,7 +107,5 @@ private:
     TimingData &operator=(const TimingData &);
 };
 
-
 #endif // CYCLONE_DEMO_TIMING_H
-
 
