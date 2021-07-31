@@ -17,4 +17,4 @@ print("package.path", package.path)
 --print("PATH", os.getenv("PATH"))
 --print("SCRIPT_DIR", SCRIPT_DIR)
 
-require("engine")
+--require("engine")

@@ -10,6 +10,8 @@ using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::ECS::Components;
 
+void LuaBind_Main(sol::state &luaState);
+
 extern "C" {
 extern int luaopen_Zelo(lua_State *L);
 }
@@ -26,7 +28,7 @@ void LuaScriptManager::initialize() {
     Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
         behaviour->RegisterToLuaContext(*this);
     };
-    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour){
+    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
         behaviour->UnregisterFromLuaContext();
     };
 
@@ -59,6 +61,8 @@ void LuaScriptManager::initLuaContext() {
             // library for handling utf8: new to Lua
             sol::lib::utf8
     );
+
+    LuaBind_Main(*this);
     require("Zelo", luaopen_Zelo);
 
     set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());

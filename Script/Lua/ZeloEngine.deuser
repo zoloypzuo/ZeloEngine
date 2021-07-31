@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+  <command></command>
+  <working_directory></working_directory>
+  <symbols_directory></symbols_directory>
+  <command_arguments></command_arguments>
+  <scc>
+    <provider></provider>
+    <user></user>
+    <project_name></project_name>
+    <local_path></local_path>
+    <aux_project_path></aux_project_path>
+  </scc>
+</project>
