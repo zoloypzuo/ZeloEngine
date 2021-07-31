@@ -1,9 +1,7 @@
 // Transform.cpp
 // created on 2021/3/28
 // author @zoloypzuo
-#include "ZeloPreCompiledHeader.h"
 #include "Transform.h"
-#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
@@ -13,8 +11,7 @@ Transform::Transform(const glm::vec3 &position, const glm::quat &rotation, const
     this->m_scale = scale;
 }
 
-Transform::~Transform() {
-}
+Transform::~Transform() = default;
 
 Transform &Transform::rotate(const glm::vec3 &axis, float angle) {
     m_rotation = glm::rotate(m_rotation, angle, axis);

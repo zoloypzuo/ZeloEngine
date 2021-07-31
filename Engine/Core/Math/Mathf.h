@@ -5,7 +5,6 @@
 #ifndef ZELOSPEED_MATHF_H
 #define ZELOSPEED_MATHF_H
 
-// A collection of common math functions.
 struct Mathf {
     static float Deg2Rad;  // Degrees-to-radians conversion constant (Read Only).
     static float Epsilon;  // A tiny floating point value (Read Only).
