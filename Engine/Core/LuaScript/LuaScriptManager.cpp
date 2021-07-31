@@ -4,9 +4,11 @@
 #include "ZeloPreCompiledHeader.h"
 #include "LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
+#include "Core/ECS/Components/Behaviour.h"
 
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
+using namespace Zelo::Core::ECS::Components;
 
 extern "C" {
 extern int luaopen_Zelo(lua_State *L);
@@ -19,6 +21,20 @@ LuaScriptManager *LuaScriptManager::getSingletonPtr() {
 }
 
 void LuaScriptManager::initialize() {
+    initLuaContext();
+
+    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
+        behaviour->RegisterToLuaContext(*this);
+    };
+    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour){
+        behaviour->UnregisterFromLuaContext();
+    };
+
+    auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
+    do_file(mainLuaPath.string());
+}
+
+void LuaScriptManager::initLuaContext() {
     open_libraries(
             // print, assert, and other base functions
             sol::lib::base,
@@ -46,9 +62,6 @@ void LuaScriptManager::initialize() {
     require("Zelo", luaopen_Zelo);
 
     set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
-
-    auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-    do_file(mainLuaPath.string());
 }
 
 void LuaScriptManager::finalize() {

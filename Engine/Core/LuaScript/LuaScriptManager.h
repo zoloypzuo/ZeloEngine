@@ -6,7 +6,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 
-#include <sol/sol.hpp>
+#include <sol/sol.hpp> // sol::state
 
 namespace Zelo::Core::LuaScript {
 class LuaScriptManager :
@@ -22,5 +22,8 @@ public:
     void finalize() override;
 
     void update() override;
+
+private:
+    void initLuaContext();
 };
 }

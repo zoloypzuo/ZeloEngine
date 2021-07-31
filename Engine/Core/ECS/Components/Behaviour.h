@@ -18,7 +18,7 @@ public:
 
     std::string GetName() override;
 
-    bool RegisterToLuaContext(sol::state &luaState, const std::string &scriptFolder);
+    bool RegisterToLuaContext(sol::state &luaState);
 
     void UnregisterFromLuaContext();
 

@@ -1,10 +1,12 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Core/ECS/Components/Behaviour.h"
 #include "Core/ECS/Actor.h"
+#include "Core/Resource/ResourceManager.h"
 
 using namespace Zelo::Core;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::ECS::Components;
+using namespace Zelo::Core::Resource;
 
 EventSystem::Event<Behaviour *> Behaviour::s_CreatedEvent;
 EventSystem::Event<Behaviour *> Behaviour::s_DestroyedEvent;
@@ -22,9 +24,10 @@ std::string Behaviour::GetName() {
     return "Behaviour";
 }
 
-bool Behaviour::RegisterToLuaContext(sol::state &luaState, const std::string &scriptFolder) {
-
-    auto result = luaState.safe_script_file(scriptFolder + name + ".lua", &sol::script_pass_on_error);
+bool Behaviour::RegisterToLuaContext(sol::state &luaState) {
+    auto scriptFolder = ResourceManager::getSingletonPtr()->getScriptDir();
+    const auto &scriptPath = scriptFolder / name / ".lua";
+    auto result = luaState.safe_script_file(scriptPath.string(), &sol::script_pass_on_error);
 
     if (!result.valid()) {
         sol::error err = result;
