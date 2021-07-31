@@ -1,6 +1,6 @@
 #pragma once
 
-#include <functional>
+#include <functional>  // std::function
 
 namespace Zelo::Core::EventSystem {
 
@@ -32,4 +32,4 @@ private:
 };
 }
 
-#include "Core/EventSystem//Event.inl"
+#include "Core/EventSystem/Event.inl"
