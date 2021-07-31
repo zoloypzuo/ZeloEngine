@@ -6,6 +6,7 @@
 #include "Core/Resource/ResourceManager.h"
 
 using namespace Zelo::Core::Resource;
+using namespace Zelo::Core::LuaScript;
 
 extern "C" {
 extern int luaopen_Zelo(lua_State *L);

@@ -85,7 +85,7 @@ protected:
     std::filesystem::path m_assertDir{};
     std::filesystem::path m_scriptDir{};
 
-    std::unique_ptr<LuaScriptManager> m_luaScriptManager{};
+    std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
     std::unique_ptr<Core::OS::TimeSystem::Time> m_timeSystem{};
 

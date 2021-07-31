@@ -7,6 +7,7 @@
 #include "Core/LuaScript/LuaScriptManager.h"
 
 using namespace Zelo::Core::Resource;
+using namespace Zelo::Core::LuaScript;
 
 Zelo::IOStream::IOStream(const std::string &fileName) : m_fileName(fileName) {
     spdlog::debug("IOStream {}", fileName);

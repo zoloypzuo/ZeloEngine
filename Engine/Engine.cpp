@@ -16,6 +16,8 @@
 
 using namespace Zelo;
 using namespace Zelo::Core::OS::TimeSystem;
+using namespace Zelo::Core::Resource;
+using namespace Zelo::Core::LuaScript;
 
 void Engine::initialize() {
     // init config and logger first
@@ -24,7 +26,7 @@ void Engine::initialize() {
         initConfig();
     }
     m_configInitialized = true;
-    m_resourceManager = std::make_unique<Core::Resource::ResourceManager>(
+    m_resourceManager = std::make_unique<ResourceManager>(
             m_engineDir, m_configDir, m_assertDir, m_scriptDir
     );
 
