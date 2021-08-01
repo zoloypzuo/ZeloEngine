@@ -119,4 +119,4 @@ void GLRenderSystem::renderScene(Entity *scene) {
     m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
 }
 
-#include "Renderer/OpenGL/GLRenderCommand.cpp" // NOLINT(bugprone-suspicious-include)
+#include "Renderer/OpenGL/GLRenderCommand.inl"

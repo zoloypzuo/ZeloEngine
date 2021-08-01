@@ -1,4 +1,4 @@
-// GLRenderCommand.cpp
+// GLRenderCommand.inl
 // created on 2021/8/1
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
