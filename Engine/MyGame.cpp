@@ -5,6 +5,8 @@
 #include "MyGame.h"
 #include "Zelo.h"
 #include "Plane.h"
+#include "MeshLoader.h"
+#include "Material.h"
 
 void MyGame::initialize() {
     Game::initialize();
@@ -13,7 +15,7 @@ void MyGame::initialize() {
     input->registerKeyToAction(SDLK_c, "swapCamera");
 
     input->bindAction("fire", IE_PRESSED, [this]() {
-        MeshLoader cube("cube.obj");
+        Zelo::Parser::MeshLoader cube("cube.obj");
         cube.getEntity()->getTransform().setPosition(primary_camera->getParent()->getPosition());
         addToScene(cube.getEntity());
         auto dir = primary_camera->getParent()->getDirection();
@@ -27,9 +29,9 @@ void MyGame::initialize() {
 //        GLRenderSystem::getSingletonPtr()->setActiveCamera(primary_camera);
     });
 
-    auto brickMat = std::make_shared<Material>(std::make_shared<GLTexture>(Zelo::Resource("bricks2.jpg")),
-                                               std::make_shared<GLTexture>(Zelo::Resource("bricks2_normal.jpg")),
-                                               std::make_shared<GLTexture>(Zelo::Resource("bricks2_specular.png")));
+    auto brickMat = std::make_shared<Zelo::Core::RHI::Material>(std::make_shared<GLTexture>(Zelo::Resource("bricks2.jpg")),
+                                                                std::make_shared<GLTexture>(Zelo::Resource("bricks2_normal.jpg")),
+                                                                std::make_shared<GLTexture>(Zelo::Resource("bricks2_specular.png")));
     auto planeMesh = Plane::getMesh();
     // ground
     {
@@ -157,12 +159,12 @@ void MyGame::initialize() {
     }*/
 
     for (int i = 0; i < 10; i++) {
-        MeshLoader ml("AncientUgandan.obj");
+        Zelo::Parser::MeshLoader ml("AncientUgandan.obj");
         ml.getEntity()->getTransform().setPosition(glm::vec3(0, i * 3, -2.5));
         addToScene(ml.getEntity());
     }
 
-    MeshLoader money("monkey3.obj");
+    Zelo::Parser::MeshLoader money("monkey3.obj");
     money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
     money.getEntity()->addComponent<PerspectiveCamera>(Mathf::PI / 2.0f, 800.0f / 600.0f,
                                                        0.05f, 100.0f);
@@ -170,7 +172,7 @@ void MyGame::initialize() {
                                                std::make_shared<Attenuation>(0.0f, 0.0f, 0.2f));
     addToScene(money.getEntity());
 
-    MeshLoader money2("monkey3.obj");
+    Zelo::Parser::MeshLoader money2("monkey3.obj");
     money2.getEntity()->addComponent<PerspectiveCamera>(Mathf::PI / 2.0f, 800.0f / 600.0f,
                                                         0.8f, 100.0f);
     money2.getEntity()->addComponent<FreeMove>();
@@ -187,7 +189,7 @@ void MyGame::initialize() {
 
     primary_camera = money2.getEntity()->getComponent<PerspectiveCamera>();
 
-    MeshLoader light("monkey3.obj");
+    Zelo::Parser::MeshLoader light("monkey3.obj");
     light.getEntity()->getTransform().setPosition(glm::vec3(-2.0f, 4.0f, -1.0f));
     light.getEntity()->addComponent<DirectionalLight>(glm::vec3(1), 2.8f);
 

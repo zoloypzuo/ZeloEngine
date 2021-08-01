@@ -11,10 +11,11 @@
 #include "Renderer/OpenGL/Resource/GLMesh.h"
 #include "Core/RHI/Resource/Material.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
+#include "Material.h"
 
 class MeshRenderer : public Component {
 public:
-    MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Material> material);
+    MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Zelo::Core::RHI::Material> material);
 
     virtual ~MeshRenderer();
 
@@ -24,7 +25,7 @@ public:
 
 private:
     std::shared_ptr<GLMesh> m_mesh;
-    std::shared_ptr<Material> m_material;
+    std::shared_ptr<Zelo::Core::RHI::Material> m_material;
 };
 
 #endif //ZELOENGINE_MESHRENDERER_H

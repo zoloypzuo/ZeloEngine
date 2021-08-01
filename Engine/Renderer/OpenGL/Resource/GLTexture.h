@@ -10,6 +10,7 @@
 
 #include "Core/RHI/Resource/Texture.h"
 #include "Core/Resource/Resource.h"
+#include "Texture.h"
 
 class TextureData {
 public:
@@ -28,7 +29,7 @@ private:
     void createTexture(const unsigned char *data, int width, int height, bool filter_nearest);
 };
 
-class GLTexture : public Texture {
+class GLTexture : public Zelo::Core::RHI::Texture {
 public:
     explicit GLTexture(const Zelo::Resource &file);
 
@@ -44,7 +45,7 @@ private:
     std::shared_ptr<TextureData> m_textureData;
 };
 
-class GLTexture3D : public Texture3D {
+class GLTexture3D : public Zelo::Core::RHI::Texture3D {
 public:
     explicit GLTexture3D(const std::string &name);
 

@@ -7,7 +7,9 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "Core/RHI/Resource/Texture.h"
+#include "Texture.h"
 
+namespace Zelo::Core::RHI {
 class Material {
 public:
     Material(std::shared_ptr<Texture> diffuseMap,
@@ -23,5 +25,6 @@ private:
     std::shared_ptr<Texture> m_specularMap;
     std::shared_ptr<Texture> m_normalMap;
 };
+}
 
 #endif //ZELOENGINE_MATERIAL_H

@@ -5,14 +5,10 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "Core/RHI/Resource/Material.h"
-#include "Core/RHI/Resource/Mesh.h"
+#include "Core/RHI/Resource/MeshRendererData.h"
 
 namespace Zelo::Core::RHI {
-struct MeshRendererData {
-    std::shared_ptr<Mesh> mesh;
-    std::shared_ptr<Material> material;
-};
+
 
 class MeshManager : public Singleton<MeshManager> {
 public:
@@ -23,4 +19,3 @@ public:
 
 };
 }
-

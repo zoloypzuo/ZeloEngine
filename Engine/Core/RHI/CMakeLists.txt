@@ -9,6 +9,7 @@ add_library(RHI
         Resource/Material.cpp
         Resource/MeshManager.cpp Resource/MeshManager.h
         Resource/Mesh.cpp Resource/Mesh.h
+        Resource/MeshRendererData.h
 
         Buffer/Framebuffer.h
         Buffer/Buffer.h

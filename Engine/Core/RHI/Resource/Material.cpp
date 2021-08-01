@@ -3,6 +3,9 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Material.h"
+#include "Texture.h"
+
+using namespace Zelo::Core::RHI;
 
 Material::Material(std::shared_ptr<Texture> diffuseMap,
                    std::shared_ptr<Texture> normalMap,

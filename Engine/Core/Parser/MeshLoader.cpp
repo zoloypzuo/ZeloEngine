@@ -10,8 +10,57 @@
 #include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Buffer/Vertex.h"
 
+#include <assimp/scene.h>
+#include <assimp/IOSystem.hpp>
+#include <assimp/IOStream.hpp>
+
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
+
+using namespace Zelo::Core::RHI;
+
+class CustomIOStream : public Assimp::IOStream {
+    friend class CustomIOSystem;
+
+protected:
+    // Constructor protected for private usage by CustomIOSystem
+    CustomIOStream(const char *pFile, const char *pMode);
+
+public:
+    ~CustomIOStream() override;
+
+    size_t Read(void *pvBuffer, size_t pSize, size_t pCount) override;
+
+    size_t Write(const void *pvBuffer, size_t pSize, size_t pCount) override;
+
+    aiReturn Seek(size_t pOffset, aiOrigin pOrigin) override;
+
+    size_t Tell() const override;
+
+    size_t FileSize() const override;
+
+    void Flush() override;
+
+private:
+    Zelo::IOStream *m_ioStream;
+};
+
+class CustomIOSystem : public Assimp::IOSystem {
+public:
+    CustomIOSystem();
+
+    ~CustomIOSystem() override;
+
+    bool ComparePaths(const char *one, const char *second) const override;
+
+    bool Exists(const char *pFile) const override;
+
+    char getOsSeparator() const override;
+
+    Assimp::IOStream *Open(const char *pFile, const char *pMode) override;
+
+    void Close(Assimp::IOStream *pFile) override;
+};
 
 CustomIOStream::CustomIOStream(const char *pFile, const char *pMode) {
     (void) pMode;
@@ -81,7 +130,7 @@ void CustomIOSystem::Close(Assimp::IOStream *pFile) {
     delete pFile;
 }
 
-MeshLoader::MeshLoader(const std::string &file) {
+Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
     m_fileName = file;
     auto *mesh_m = MeshManager::getSingletonPtr();
     if (!mesh_m->sceneMeshRendererDataCache[m_fileName].empty()) {
@@ -109,13 +158,9 @@ MeshLoader::MeshLoader(const std::string &file) {
     }
 }
 
-MeshLoader::~MeshLoader() = default;
+Zelo::Parser::MeshLoader::~MeshLoader() = default;
 
-std::shared_ptr<Entity> MeshLoader::getEntity() const {
-    return m_entity;
-}
-
-void MeshLoader::loadScene(const aiScene *scene) {
+void Zelo::Parser::MeshLoader::loadScene(const aiScene *scene) {
     m_entity = std::make_shared<Entity>();
 
     for (unsigned int i = 0; i < scene->mNumMeshes; i++) {
@@ -190,6 +235,15 @@ void MeshLoader::loadScene(const aiScene *scene) {
         meshRenderData.material = std::make_shared<Material>(diffuseMap, normalMap, specularMap);
 
         MeshManager::getSingletonPtr()->sceneMeshRendererDataCache[m_fileName].push_back(meshRenderData);
-        m_entity->Entity::addComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
+        m_entity->Entity::addComponent<MeshRenderer>(meshRenderData.m
+        esh, meshRenderData.material);
     }
+}
+
+std::shared_ptr<MeshRendererData> Zelo::Parser::MeshLoader::getMeshRendererData() {
+    return m_meshRendererData;
+}
+
+std::string Zelo::Parser::MeshLoader::getFileName() {
+    return m_fileName;
 }
