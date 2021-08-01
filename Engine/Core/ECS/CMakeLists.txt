@@ -7,6 +7,6 @@ add_library(ECS
         Component/FreeMove.cpp
         Component/FreeLook.cpp
 
-        Actor.cpp Actor.h Actor.inl
+        Actor.cpp Actor.h
         )
 target_link_libraries(ECS PRIVATE ECS_Components)

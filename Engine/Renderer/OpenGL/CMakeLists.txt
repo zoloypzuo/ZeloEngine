@@ -20,7 +20,6 @@ add_library(OpenGLRenderer
         skybox.cpp
 
         GLRenderSystem.cpp GLRenderSystem.h
-        GLRenderCommand.cpp
 
         Renderer.h
         ForwardRenderer.cpp
