@@ -15,9 +15,9 @@ class BaseLight : public Component, public std::enable_shared_from_this<BaseLigh
 public:
     BaseLight(glm::vec3 color, float intensity);
 
-    virtual ~BaseLight();
+    ~BaseLight() override;
 
-    virtual void registerWithEngine() {};
+    void registerWithEngine() override {};
 
     glm::vec3 getColor() const;
 
@@ -34,28 +34,28 @@ class DirectionalLight : public BaseLight {
 public:
     DirectionalLight(glm::vec3 color, float intensity);
 
-    virtual void registerWithEngine();
+    void registerWithEngine() override;
 
-    virtual void deregisterFromEngine();
+    void deregisterFromEngine() override;
 
-    virtual void updateShader(GLSLShaderProgram *shader);
+    void updateShader(GLSLShaderProgram *shader) override;
 
-    inline virtual const char *getType() { return "DIRECTIONAL_LIGHT"; }
+    inline const char *getType() override { return "DIRECTIONAL_LIGHT"; }
 };
 
 class PointLight : public BaseLight {
 public:
     PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenuation> attenuation);
 
-    virtual ~PointLight();
+    ~PointLight() override;
 
-    virtual void registerWithEngine();
+    void registerWithEngine() override;
 
-    virtual void deregisterFromEngine();
+    void deregisterFromEngine() override;
 
-    virtual void updateShader(GLSLShaderProgram *shader);
+    void updateShader(GLSLShaderProgram *shader) override;
 
-    inline virtual const char *getType() { return "POINT_LIGHT"; }
+    inline const char *getType() override { return "POINT_LIGHT"; }
 
     std::shared_ptr<Attenuation> getAttenuation() const;
 
@@ -71,13 +71,13 @@ class SpotLight : public PointLight {
 public:
     SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared_ptr<Attenuation> attenuation);
 
-    virtual void registerWithEngine();
+    void registerWithEngine() override;
 
-    virtual void deregisterFromEngine();
+    void deregisterFromEngine() override;
 
-    inline virtual const char *getType() { return "SPOT_LIGHT"; }
+    inline const char *getType() override { return "SPOT_LIGHT"; }
 
-    virtual void updateShader(GLSLShaderProgram *shader);
+    void updateShader(GLSLShaderProgram *shader) override;
 
     float getCutoff() const;
 

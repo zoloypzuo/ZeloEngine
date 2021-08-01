@@ -30,10 +30,6 @@ public:
 
     void setDrawSize(const glm::ivec2 &size);
 
-    void bindRenderTarget() const;
-
-    void renderScene();
-
     void setActiveCamera(std::shared_ptr<Camera> camera);
 
     void addDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
