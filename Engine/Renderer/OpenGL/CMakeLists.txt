@@ -24,7 +24,6 @@ add_library(OpenGLRenderer
         Renderer.h
         ForwardRenderer.cpp
         ForwardShadowRenderer.cpp
-        DeferredRenderer.cpp
         )
 
 # GLEW replaced by GLAD
