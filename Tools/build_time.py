@@ -9,4 +9,4 @@ import timeit
 if __name__ == '__main__':
     argv = sys.argv
     if len(argv) > 1:
-        timeit.timeit("os.system(%s)" % repr(argv[1]), setup="import os", number=1)
+        print(timeit.timeit("os.system(%s)" % repr(argv[1]), setup="import os", number=1))

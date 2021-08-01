@@ -15,4 +15,3 @@ cmake -DCMAKE_GENERATOR_PLATFORM=win32 -G  "Visual Studio 16" ..
 cmake --build . --config debug
 
 cd %CurrentDir%
-pause
