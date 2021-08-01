@@ -7,6 +7,7 @@ add_library(OpenGLRenderer
         Resource/GLMesh.cpp
         Resource/GLTexture.cpp
         Resource/GLSLShaderProgram.cpp
+        Resource/GLMaterial.cpp Resource/GLMaterial.h
 
         Drawable/skybox.cpp
         Drawable/MeshRenderer.cpp

@@ -5,25 +5,13 @@
 #define ZELOENGINE_MATERIAL_H
 
 #include "ZeloPrerequisites.h"
-#include "ZeloGLPrerequisites.h"
-#include "Core/RHI/Resource/Texture.h"
-#include "Texture.h"
 
 namespace Zelo::Core::RHI {
 class Material {
 public:
-    Material(std::shared_ptr<Texture> diffuseMap,
-             std::shared_ptr<Texture> normalMap,
-             std::shared_ptr<Texture> specularMap);
+    virtual ~Material();
 
-    ~Material();
-
-    void bind() const;
-
-private:
-    std::shared_ptr<Texture> m_diffuseMap;
-    std::shared_ptr<Texture> m_specularMap;
-    std::shared_ptr<Texture> m_normalMap;
+    virtual void bind() const = 0;
 };
 }
 
