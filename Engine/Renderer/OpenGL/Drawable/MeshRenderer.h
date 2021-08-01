@@ -11,7 +11,6 @@
 #include "Renderer/OpenGL/Resource/GLMesh.h"
 #include "Core/RHI/Resource/Material.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
-#include "Material.h"
 
 class MeshRenderer : public Component {
 public:

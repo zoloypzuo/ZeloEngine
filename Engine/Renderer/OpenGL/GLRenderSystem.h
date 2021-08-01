@@ -130,7 +130,7 @@ public: // RenderCommand
 private:
     class Renderer *m_renderer{};
 
-    std::unique_ptr<MeshManager> m_meshManager;
+    std::unique_ptr<Core::RHI::MeshManager> m_meshManager;
 
     std::shared_ptr<Camera> m_activeCamera;
 

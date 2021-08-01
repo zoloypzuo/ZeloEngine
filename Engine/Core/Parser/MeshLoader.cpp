@@ -145,7 +145,7 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
 
     spdlog::info("Loading mesh: {}", file);
 
-    auto scene = importer.ReadFile(file,
+    const auto *scene = importer.ReadFile(file,
                                    aiProcess_Triangulate |
                                    aiProcess_GenSmoothNormals |
                                    aiProcess_FlipUVs |
