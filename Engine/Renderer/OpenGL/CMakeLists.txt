@@ -19,7 +19,8 @@ add_library(OpenGLRenderer
         GLUtil.cpp
         skybox.cpp
 
-        GLRenderSystem.cpp
+        GLRenderSystem.cpp GLRenderSystem.h
+        GLRenderCommand.cpp
 
         Renderer.h
         ForwardRenderer.cpp

@@ -143,7 +143,7 @@ private:
     void initDebugCallback() const;
 
 private:
-    class Renderer *m_renderer;
+    class Renderer *m_renderer{};
 
     std::unique_ptr<SimpleRenderer> m_simpleRenderer;
     std::unique_ptr<MeshManager> m_meshManager;
