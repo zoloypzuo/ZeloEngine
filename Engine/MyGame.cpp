@@ -19,11 +19,11 @@ void MyGame::initialize() {
     });
 
     input->bindAction("swapCamera", IE_PRESSED, [this]() {
-        GLManager::getSingletonPtr()->setActiveCamera(primary_camera2);
+//        GLRenderSystem::getSingletonPtr()->setActiveCamera(primary_camera2);
     });
 
     input->bindAction("swapCamera", IE_RELEASED, [this]() {
-        GLManager::getSingletonPtr()->setActiveCamera(primary_camera);
+//        GLRenderSystem::getSingletonPtr()->setActiveCamera(primary_camera);
     });
 
     auto brickMat = std::make_shared<Material>(std::make_shared<GLTexture>(Zelo::Resource("bricks2.jpg")),
@@ -192,5 +192,5 @@ void MyGame::initialize() {
 
     addToScene(light.getEntity());
 
-    GLManager::getSingletonPtr()->setActiveCamera(primary_camera);
+//    GLRenderSystem::getSingletonPtr()->setActiveCamera(primary_camera);
 }

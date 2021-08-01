@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Light.h"
-#include "GLManager.h"
+#include "GLRenderSystem.h"
 #include "Core/ECS/Entity.h"
 
 BaseLight::BaseLight(glm::vec3 color, float intensity) {
@@ -29,12 +29,12 @@ DirectionalLight::DirectionalLight(glm::vec3 color, float intensity) : BaseLight
 }
 
 void DirectionalLight::registerWithEngine() {
-    GLManager::getSingletonPtr()->addDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
+//    GLRenderSystem::getSingletonPtr()->addDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
 void DirectionalLight::deregisterFromEngine() {
-    GLManager::getSingletonPtr()->removeDirectionalLight(
-            std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
+//    GLRenderSystem::getSingletonPtr()->removeDirectionalLight(
+//            std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
 void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
@@ -60,11 +60,11 @@ PointLight::~PointLight() {
 }
 
 void PointLight::registerWithEngine() {
-    GLManager::getSingletonPtr()->addPointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
+//    GLRenderSystem::getSingletonPtr()->addPointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
 void PointLight::deregisterFromEngine() {
-    GLManager::getSingletonPtr()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
+//    GLRenderSystem::getSingletonPtr()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
 void PointLight::updateShader(GLSLShaderProgram *shader) {
@@ -92,11 +92,11 @@ SpotLight::SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared
 }
 
 void SpotLight::registerWithEngine() {
-    GLManager::getSingletonPtr()->addSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
+//    GLRenderSystem::getSingletonPtr()->addSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
 }
 
 void SpotLight::deregisterFromEngine() {
-    GLManager::getSingletonPtr()->removeSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
+//    GLRenderSystem::getSingletonPtr()->removeSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
 }
 
 void SpotLight::updateShader(GLSLShaderProgram *shader) {

@@ -4,8 +4,9 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
 #include "Core/OS/whereami.h"
-#include "MyGame.h"
+#include "Renerder/OpenGL/GLRenderSysytem.h"
 #include "Renderer/OpenGL/ForwardShadowRenderer.h"
+#include "MyGame.h"
 
 // enable vld
 #ifdef DETECT_MEMORY_LEAK
@@ -18,6 +19,8 @@ using namespace Zelo;
 using namespace Zelo::Core::OS::TimeSystem;
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
+using namespace Zelo::Core::RHI;
+using namespace Zelo::Renderer::OpenGL;
 
 void Engine::initialize() {
     // init config and logger first
@@ -33,8 +36,8 @@ void Engine::initialize() {
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>(m_config->GetSection("Window"));
-    m_renderer = std::make_unique<ForwardShadowRenderer>();
-    m_glManager = std::make_unique<GLManager>(m_renderer.get(), m_window->getDrawableSize());
+//    m_renderer = std::make_unique<ForwardShadowRenderer>();
+//    m_renderSystem = std::make_unique<GLRenderSystem>(m_renderer.get(), m_window->getDrawableSize());
 //    m_renderer->initialize();
 //    m_imguiManager = std::make_unique<ImGuiManager>();
 //    m_imguiManager->initialize();

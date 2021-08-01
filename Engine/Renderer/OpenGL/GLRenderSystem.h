@@ -1,9 +1,9 @@
-// GLManager.h
+// GLRenderSystem.h
 // created on 2021/3/29
 // author @zoloypzuo
 
-#ifndef ZELOENGINE_GLMANAGER_H
-#define ZELOENGINE_GLMANAGER_H
+#ifndef ZELOENGINE_GLRENDERSYSTEM_H
+#define ZELOENGINE_GLRENDERSYSTEM_H
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
@@ -19,12 +19,14 @@
 #include "Light.h"
 #include "Line.h"
 #include "Core/RHI/RenderCommand.h"
+#include "Core/RHI/RenderSystem.h"
 
-class GLManager : public Singleton<GLManager>, public Zelo::RenderCommand {
+namespace Zelo::Renderer::OpenGL {
+class GLRenderSystem : public Core::RHI::RenderSystem {
 public:
-    GLManager(Renderer *renderer, const glm::ivec2 &windowSize);
+    GLRenderSystem(Renderer *renderer, const glm::ivec2 &windowSize);
 
-    ~GLManager();
+    ~GLRenderSystem();
 
     void setDrawSize(const glm::ivec2 &size);
 
@@ -80,7 +82,7 @@ public:
     void setDepthTestEnabled(bool enabled) override;
 
 public:
-    static GLManager *getSingletonPtr();
+    static GLRenderSystem *getSingletonPtr();
 
 private:
     Renderer *m_renderer;
@@ -93,5 +95,5 @@ private:
     std::vector<std::shared_ptr<PointLight>> m_pointLights;
     std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 };
-
-#endif //ZELOENGINE_GLMANAGER_H
+}
+#endif //ZELOENGINE_GLRENDERSYSTEM_H

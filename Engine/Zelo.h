@@ -10,7 +10,7 @@
 #include "Renderer/OpenGL/Material.h"
 #include "Renderer/OpenGL/GLTexture.h"
 #include "Renderer/OpenGL/MeshRenderer.h"
-#include "Renderer/OpenGL/GLManager.h"
+#include "Renderer/OpenGL/GLRenderSystem.h"
 #include "Renderer/OpenGL/MeshLoader.h"
 #include "Core/ECS/Component/FreeMove.h"
 #include "Core/ECS/Component/FreeLook.h"

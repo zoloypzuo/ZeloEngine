@@ -9,7 +9,8 @@
 namespace Zelo::Core::RHI {
 class RenderSystem :
         public Singleton<RenderSystem>,
-        IRuntimeModule {
+        IRuntimeModule,
+        RenderCommand {
 public:
     struct FrameInfo {
         uint64_t batchCount = 0;
