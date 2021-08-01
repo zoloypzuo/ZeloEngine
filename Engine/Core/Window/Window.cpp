@@ -136,6 +136,12 @@ void Window::finalize() {
     SDL_Quit();
 }
 
+template<> Window *Singleton<Window>::msSingleton = nullptr;
+
+Window *Window::getSingletonPtr() {
+    return msSingleton;
+}
+
 void Window::swapBuffer() {
     SDL_GL_SwapWindow(m_window);
 }

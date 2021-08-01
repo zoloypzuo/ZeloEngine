@@ -4,13 +4,47 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLRenderSystem.h"
 #include "GLUtil.h"
+#include "Core/Game/Game.h"
+#include "Core/Window/Window.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
-GLRenderSystem::GLRenderSystem(class Renderer *renderer, const glm::ivec2 &windowSize) {
-#ifndef ANDROID
-    // Load the OpenGL functions.
+void GLRenderSystem::initialize() {
+    initGL();
+    initDebugCallback();
+
+    m_renderer = nullptr;
+    m_simpleRenderer = std::make_unique<SimpleRenderer>();
+    m_simpleRenderer->initialize();
+    m_meshManager = std::make_unique<MeshManager>();
+
+    setClearColor({0.0f, 0.0f, 0.0f, 1.0f});
+
+    setCapabilityEnabled(ERenderingCapability::DEPTH_TEST, true);
+    setDepthAlgorithm(EComparaisonAlgorithm::LESS);
+    setCapabilityEnabled(ERenderingCapability::MULTISAMPLE, true);
+    setCapabilityEnabled(ERenderingCapability::CULL_FACE, true);
+
+    auto windowSize = Window::getSingletonPtr()->getDrawableSize();
+    setDrawSize(windowSize);
+
+}
+
+void GLRenderSystem::initDebugCallback() const {
+    int flags{};
+    glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT && glDebugMessageCallback) {
+        // initialize debug output
+        spdlog::debug("GL debug context initialized, hook glDebugMessageCallback");
+        glDebugMessageCallback(debugCallback, NULL);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+        glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
+                             GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Start debugging");
+    }
+}
+
+void GLRenderSystem::initGL() const {// Load the OpenGL functions.
     spdlog::info("start initializing GLAD");
     if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
         spdlog::error("GLAD failed to initialize");
@@ -18,43 +52,18 @@ GLRenderSystem::GLRenderSystem(class Renderer *renderer, const glm::ivec2 &windo
     }
 
     dumpGLInfo();
-#endif
+}
 
-#ifndef __APPLE__
-    int flags{};
-    glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT && glDebugMessageCallback) {
-        // initialize debug output 
-        spdlog::debug("GL debug context initialized, hook glDebugMessageCallback");
-        glDebugMessageCallback(debugCallback, NULL);
-        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
-        glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
-                             GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Start debugging");
-    }
-#endif
 
-    m_renderer = renderer;
-    m_simpleRenderer = std::make_unique<SimpleRenderer>();
-    m_simpleRenderer->initialize();
-    m_meshManager = std::make_unique<MeshManager>();
+void GLRenderSystem::update() {
+    renderScene(Game::getSingletonPtr()->getRootNode().get());
+}
 
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+GLRenderSystem::GLRenderSystem() {
 
-    glClearDepthf(1.0f);
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-
-    glEnable(GL_MULTISAMPLE); // Enabled by default on some drivers, but not all so always enable to make sure
-
-    glEnable(GL_CULL_FACE);
-
-    setDrawSize(windowSize);
-
-    glGenBuffers(1, &lineBuffer);
 }
 
 GLRenderSystem::~GLRenderSystem() {
-    glDeleteBuffers(1, &lineBuffer);
 }
 
 void GLRenderSystem::setDrawSize(const glm::ivec2 &size) {
@@ -107,10 +116,6 @@ glm::mat4 GLRenderSystem::getProjectionMatrix() {
     return m_activeCamera->getProjectionMatrix();
 }
 
-void GLRenderSystem::drawLine(const Line &line) {
-    m_simpleRenderer->renderLine(line, m_activeCamera);
-}
-
 void GLRenderSystem::drawEntity(Entity *entity) {
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE);
@@ -125,7 +130,7 @@ void GLRenderSystem::drawEntity(Entity *entity) {
 }
 
 void GLRenderSystem::renderScene(Entity *scene) {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    clear(true, true, false);
 
     m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
 }
@@ -344,4 +349,5 @@ void GLRenderSystem::applyStateMask(uint8_t mask) {
         m_state = mask;
     }
 }
+
 

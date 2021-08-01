@@ -24,9 +24,13 @@
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {
 public:
-    GLRenderSystem(class Renderer *renderer, const glm::ivec2 &windowSize);
+    GLRenderSystem();
 
     ~GLRenderSystem() override;
+
+    void initialize() override;
+
+    void update() override;
 
     void setDrawSize(const glm::ivec2 &size);
 
@@ -54,13 +58,8 @@ public:
 
     void drawEntity(Entity *entity);
 
-    void drawLine(const Line &line);
-
     int m_width{};
     int m_height{};
-
-    GLuint lineBuffer{};
-    GLuint VertexArrayID{};
 
 public: // RenderCommand
     void setViewport(int32_t x, int32_t y, int32_t width, int32_t height) override;
@@ -95,7 +94,8 @@ public: // RenderCommand
 
     void setStencilMask(uint32_t mask) override;
 
-    void setStencilOperations(Core::RHI::EOperation stencilFail, Core::RHI::EOperation depthFail,Core::RHI:: EOperation bothPass) override;
+    void setStencilOperations(Core::RHI::EOperation stencilFail, Core::RHI::EOperation depthFail,
+                              Core::RHI::EOperation bothPass) override;
 
     void setCullFace(Core::RHI::ECullFace cullFace) override;
 
@@ -133,14 +133,18 @@ public: // RenderCommand
 
     std::string getString(uint32_t/*GLenum*/ parameter, uint32_t index) override;
 
-//    void Draw(Resources::IMesh& mesh, EPrimitiveMode primitiveMode = EPrimitiveMode::TRIANGLES, uint32_t instances = 1)override;
     uint8_t fetchGLState() override;
 
     void applyStateMask(uint8_t mask) override;
 
-public:
+private:
+    void initGL() const;
+
+    void initDebugCallback() const;
+
 private:
     class Renderer *m_renderer;
+
     std::unique_ptr<SimpleRenderer> m_simpleRenderer;
     std::unique_ptr<MeshManager> m_meshManager;
 
@@ -150,7 +154,9 @@ private:
     std::vector<std::shared_ptr<PointLight>> m_pointLights;
     std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 
-    uint8_t m_state;
+    uint8_t m_state{};
+
+
 };
 }
 #endif //ZELOENGINE_GLRENDERSYSTEM_H
