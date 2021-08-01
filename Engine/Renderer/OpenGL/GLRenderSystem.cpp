@@ -8,7 +8,7 @@
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
-GLRenderSystem::GLRenderSystem(Renderer *renderer, const glm::ivec2 &windowSize) {
+GLRenderSystem::GLRenderSystem(class Renderer *renderer, const glm::ivec2 &windowSize) {
 #ifndef ANDROID
     // Load the OpenGL functions.
     spdlog::info("start initializing GLAD");

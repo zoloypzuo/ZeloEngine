@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
 #include "Core/OS/whereami.h"
-#include "Renerder/OpenGL/GLRenderSysytem.h"
+#include "Renderer/OpenGL/GLRenderSystem.h"
 #include "Renderer/OpenGL/ForwardShadowRenderer.h"
 #include "MyGame.h"
 

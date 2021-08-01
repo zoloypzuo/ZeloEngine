@@ -24,7 +24,7 @@
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {
 public:
-    GLRenderSystem(Renderer *renderer, const glm::ivec2 &windowSize);
+    GLRenderSystem(class Renderer *renderer, const glm::ivec2 &windowSize);
 
     ~GLRenderSystem() override;
 
@@ -140,7 +140,7 @@ public: // RenderCommand
 
 public:
 private:
-    Renderer *m_renderer;
+    class Renderer *m_renderer;
     std::unique_ptr<SimpleRenderer> m_simpleRenderer;
     std::unique_ptr<MeshManager> m_meshManager;
 
