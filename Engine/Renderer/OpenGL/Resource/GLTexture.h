@@ -10,7 +10,6 @@
 
 #include "Core/RHI/Resource/Texture.h"
 #include "Core/Resource/Resource.h"
-#include "Texture.h"
 
 class TextureData {
 public:

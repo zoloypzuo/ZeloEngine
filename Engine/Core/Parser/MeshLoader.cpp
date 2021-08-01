@@ -9,6 +9,7 @@
 
 #include "Renderer/OpenGL/Resource/GLTexture.h"
 #include "Renderer/OpenGL/Resource/GLMesh.h"
+#include "Renderer/OpenGL/Resource/GLMaterial.h"
 
 #include <assimp/scene.h>
 #include <assimp/IOSystem.hpp>
@@ -18,6 +19,7 @@
 #include <assimp/postprocess.h>
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Renderer::OpenGL;
 
 class CustomIOStream : public Assimp::IOStream {
     friend class CustomIOSystem;
@@ -91,6 +93,7 @@ aiReturn CustomIOStream::Seek(size_t pOffset, aiOrigin pOrigin) {
             break;
     }
     ZELO_ASSERT(false, "unreachable");
+    return aiReturn_FAILURE;
 }
 
 size_t CustomIOStream::Tell() const {
@@ -223,7 +226,7 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
         meshRenderData.mesh = std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()),
                                                        &vertices[0],
                                                        vertices.size(), &indices[0], indices.size());
-        meshRenderData.material = std::make_shared<Material>(diffuseMap, normalMap, specularMap);
+        meshRenderData.material = std::make_shared<GLMaterial>(diffuseMap, normalMap, specularMap);
 
         mesh_m->sceneMeshRendererDataCache[m_fileName].push_back(meshRenderData);
     }

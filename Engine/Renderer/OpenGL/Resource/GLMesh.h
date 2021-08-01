@@ -7,6 +7,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "Core/RHI/Buffer/Vertex.h"
+#include "Core/RHI/Resource/Mesh.h"
 
 class GLMeshData {
 public:
@@ -26,7 +27,7 @@ private:
     int m_indexSize{}, m_vertSize{};
 };
 
-class GLMesh {
+class GLMesh : public Zelo::Core::RHI::Mesh{
 public:
     GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
 
