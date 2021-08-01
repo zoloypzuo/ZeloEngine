@@ -1,8 +1,10 @@
-//
-// Created by zuoyiping01 on 2021/4/1.
-//
-
+// MeshManager.cpp
+// created on 2021/8/1
+// author @zoloypzuo
+#include "ZeloPreCompiledHeader.h"
 #include "MeshManager.h"
+
+using namespace Zelo::Core::RHI;
 
 template<> MeshManager *Singleton<MeshManager>::msSingleton = nullptr;
 

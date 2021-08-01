@@ -8,7 +8,8 @@ add_library(RHI
         Resource/Texture.h
         Resource/Material.cpp
         Resource/MeshLoader.cpp
-        Resource/MeshManager.cpp
+        Resource/MeshManager.cpp Resource/MeshManager.h
+        Resource/Mesh.cpp Resource/Mesh.h
 
         Buffer/Framebuffer.h
         Buffer/Buffer.h
@@ -20,4 +21,4 @@ add_library(RHI
         MeshGen/Plane.cpp MeshGen/Plane.h
 
         RenderSystem.cpp RenderSystem.h
-        MeshGen/IMeshGen.h)
+        )

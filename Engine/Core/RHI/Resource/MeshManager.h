@@ -1,18 +1,16 @@
-//
-// Created by zuoyiping01 on 2021/4/1.
-//
-
-#ifndef ZELOENGINE_MESHMANAGER_H
-#define ZELOENGINE_MESHMANAGER_H
+// MeshManager.h
+// created on 2021/8/1
+// author @zoloypzuo
+#pragma once
 
 #include "ZeloPrerequisites.h"
-#include "ZeloGLPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "Renderer/OpenGL/Resource/GLMesh.h"
 #include "Core/RHI/Resource/Material.h"
+#include "Core/RHI/Resource/Mesh.h"
 
+namespace Zelo::Core::RHI {
 struct MeshRendererData {
-    std::shared_ptr<GLMesh> mesh;
+    std::shared_ptr<Mesh> mesh;
     std::shared_ptr<Material> material;
 };
 
@@ -23,8 +21,6 @@ public:
 
     static MeshManager *getSingletonPtr();
 
-public:
-
 };
+}
 
-#endif //ZELOENGINE_MESHMANAGER_H
