@@ -16,4 +16,3 @@ rd /s/q build_vs2019
 rd /s/q cmake-build-debug
 
 cd %CurrentDir%
-pause
