@@ -29,3 +29,17 @@ void RenderSystem::ClearFrameInfo() {
     m_frameInfo.instanceCount = 0;
     m_frameInfo.polyCount = 0;
 }
+
+template<> RenderSystem *Singleton<RenderSystem>::msSingleton = nullptr;
+
+RenderSystem *RenderSystem::getSingletonPtr() {
+    return msSingleton;
+
+}
+
+RenderSystem &RenderSystem::getSingleton() {
+    assert(msSingleton);
+    return *msSingleton;
+}
+
+}

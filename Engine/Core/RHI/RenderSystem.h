@@ -27,6 +27,10 @@ public:
 
     void finalize() override;
 
+    static RenderSystem *getSingletonPtr();
+
+    static RenderSystem &getSingleton();
+
 public:
     const FrameInfo &GetFrameInfo() const;
 
