@@ -12,7 +12,7 @@ using namespace Zelo::Renderer::OpenGL;
 
 void GLRenderSystem::initialize() {
     initGL();
-    initDebugCallback();
+    ::initDebugCallback();
 
     m_renderer = nullptr;
     m_simpleRenderer = std::make_unique<SimpleRenderer>();
@@ -29,19 +29,6 @@ void GLRenderSystem::initialize() {
     auto windowSize = Window::getSingletonPtr()->getDrawableSize();
     setDrawSize(windowSize);
 
-}
-
-void GLRenderSystem::initDebugCallback() const {
-    int flags{};
-    glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT && glDebugMessageCallback) {
-        // initialize debug output
-        spdlog::debug("GL debug context initialized, hook glDebugMessageCallback");
-        glDebugMessageCallback(debugCallback, NULL);
-        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
-        glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
-                             GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Start debugging");
-    }
 }
 
 void GLRenderSystem::initGL() const {// Load the OpenGL functions.

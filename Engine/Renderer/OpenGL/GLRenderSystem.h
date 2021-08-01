@@ -140,8 +140,6 @@ public: // RenderCommand
 private:
     void initGL() const;
 
-    void initDebugCallback() const;
-
 private:
     class Renderer *m_renderer{};
 
@@ -155,8 +153,6 @@ private:
     std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 
     uint8_t m_state{};
-
-
 };
 }
 #endif //ZELOENGINE_GLRENDERSYSTEM_H
