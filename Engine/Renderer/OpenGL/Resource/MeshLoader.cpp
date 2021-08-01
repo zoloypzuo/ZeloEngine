@@ -5,6 +5,8 @@
 #include "Core/Resource/Resource.h"
 #include "MeshLoader.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
+#include "Renderer/OpenGL/Resource/GLTexture.h"
+#include "Renderer/OpenGL/Resource/GLMesh.h"
 #include "MeshManager.h"
 
 #include <assimp/Importer.hpp>
@@ -38,7 +40,7 @@ aiReturn CustomIOStream::Seek(size_t pOffset, aiOrigin pOrigin) {
         case _AI_ORIGIN_ENFORCE_ENUM_SIZE:
             break;
     }
-    throw "unreachable";
+    ZELO_ASSERT(false, "unreachable");
 }
 
 size_t CustomIOStream::Tell() const {

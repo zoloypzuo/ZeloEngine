@@ -7,8 +7,6 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Renderer/OpenGL/Resource/GLTexture.h"
-#include "Renderer/OpenGL/Resource/GLMesh.h"
 #include "Core/ECS/Entity.h"
 
 #include <assimp/scene.h>
