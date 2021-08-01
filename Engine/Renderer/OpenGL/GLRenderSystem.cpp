@@ -28,7 +28,7 @@ void GLRenderSystem::initialize() {
 }
 
 void GLRenderSystem::update() {
-    renderScene(Game::getSingletonPtr()->getRootNode().get());
+    renderScene();
 }
 
 GLRenderSystem::GLRenderSystem() = default;
@@ -85,9 +85,10 @@ glm::mat4 GLRenderSystem::getProjectionMatrix() {
     return m_activeCamera->getProjectionMatrix();
 }
 
-void GLRenderSystem::renderScene(Entity *scene) {
+void GLRenderSystem::renderScene() {
     clear(true, true, false);
 
+    auto scene = Game::getSingletonPtr()->getRootNode();
 //    m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
 }
 

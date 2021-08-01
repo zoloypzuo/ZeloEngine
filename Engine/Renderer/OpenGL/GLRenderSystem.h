@@ -9,16 +9,13 @@
 #include "ZeloGLPrerequisites.h"
 #include "ZeloSingleton.h"
 
+#include "Core/RHI/RenderCommand.h"
+#include "Core/RHI/RenderSystem.h"
 #include "Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Resource/MeshManager.h"
-#include "Core/ECS/Entity.h"
-#include "Core/Window/Window.h"
-#include "Camera.h"
-#include "Light.h"
-#include "Renderer/OpenGL/Drawable/Line.h"
-#include "Core/RHI/RenderCommand.h"
-#include "Core/RHI/RenderSystem.h"
+#include "Renderer/OpenGL/Camera.h"
+#include "Renderer/OpenGL/Light.h"
 
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {
@@ -35,7 +32,7 @@ public:
 
     void bindRenderTarget() const;
 
-    void renderScene(Entity *entity);
+    void renderScene();
 
     void setActiveCamera(std::shared_ptr<Camera> camera);
 
