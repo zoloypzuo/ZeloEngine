@@ -345,7 +345,3 @@ void GLRenderSystem::applyStateMask(uint8_t mask) {
     }
 }
 
-void GLRenderSystem::setState(uint8_t state) {
-    m_state = state;
-}
-

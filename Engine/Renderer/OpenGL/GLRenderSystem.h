@@ -138,8 +138,6 @@ public: // RenderCommand
 
     void applyStateMask(uint8_t mask) override;
 
-    void setState(uint8_t state) override;
-
 public:
 private:
     Renderer *m_renderer;

@@ -1,7 +1,6 @@
 // RenderCommand.h
 // created on 2021/6/3
 // author @zoloypzuo
-
 #pragma once
 
 #include "ZeloPrerequisites.h"
@@ -9,7 +8,6 @@
 #include "Core/RHI/Const/ERenderingCapability.h"
 
 namespace Zelo::Core::RHI {
-// TODO 看需要扩展和实现渲染命令
 class RenderCommand {
 public:
     virtual void setViewport(int32_t x, int32_t y, int32_t width, int32_t height) = 0;
@@ -78,12 +76,10 @@ public:
 
     virtual std::string getString(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
 
-//    virtual void Draw(Resources::IMesh& mesh, EPrimitiveMode primitiveMode = EPrimitiveMode::TRIANGLES, uint32_t instances = 1)=0;
     virtual uint8_t fetchGLState() = 0;
 
     virtual void applyStateMask(uint8_t mask) = 0;
 
-    virtual void setState(uint8_t state) = 0;
 };
 }
 
