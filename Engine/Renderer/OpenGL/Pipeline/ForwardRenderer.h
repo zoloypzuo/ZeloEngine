@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
-#include "Renderer/OpenGL/Renderer.h"
+#include "Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 

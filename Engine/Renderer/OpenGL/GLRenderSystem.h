@@ -11,7 +11,7 @@
 
 #include "Core/RHI/RenderCommand.h"
 #include "Core/RHI/RenderSystem.h"
-#include "Renderer.h"
+#include "Renderer/OpenGL/Pipeline/Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Resource/MeshManager.h"
 #include "Renderer/OpenGL/Camera.h"

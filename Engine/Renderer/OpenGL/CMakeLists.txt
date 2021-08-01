@@ -22,7 +22,7 @@ add_library(OpenGLRenderer
 
         GLRenderSystem.cpp GLRenderSystem.h
 
-        Renderer.h
+        Pipeline/Renderer.h
         Pipeline/ForwardRenderer.cpp
         Pipeline/ForwardShadowRenderer.cpp
         )
