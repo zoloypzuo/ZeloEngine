@@ -10,7 +10,7 @@
 
 #include "Core/RHI/Resource/Shader.h"
 #include "Core/Resource/Resource.h"
-#include "Attenuation.h"
+#include "Renderer/OpenGL/Attenuation.h"
 #include "Core/RHI/Const/EShaderType.h"
 
 class GLSLShaderProgram : public Shader {

@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "GLTexture.h"
+#include "Renderer/OpenGL/Resource/GLTexture.h"
 
 class Material {
 public:

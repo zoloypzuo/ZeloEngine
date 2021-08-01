@@ -1,13 +1,9 @@
-//
-// Created by zuoyiping01 on 2021/3/31.
-//
-
 #ifndef ZELOENGINE_LINE_H
 #define ZELOENGINE_LINE_H
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "GLSLShaderProgram.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 class Line {
 public:
@@ -18,9 +14,7 @@ public:
     void render(GLSLShaderProgram *shader) const;
 
 private:
-#if !defined(GLES2)
     GLuint vao{};
-#endif
     GLuint vbo{};
 };
 

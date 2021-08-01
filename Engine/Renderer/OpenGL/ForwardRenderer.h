@@ -9,8 +9,8 @@
 #include "ZeloGLPrerequisites.h"
 
 #include "Renderer.h"
-#include "GLSLShaderProgram.h"
-#include "Line.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
+#include "Renderer/OpenGL/Resource/Line.h"
 
 class SimpleRenderer : public Renderer {
 public:

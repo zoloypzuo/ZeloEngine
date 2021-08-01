@@ -8,9 +8,9 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
-#include "GLMesh.h"
-#include "Material.h"
-#include "GLSLShaderProgram.h"
+#include "Renderer/OpenGL/Resource/GLMesh.h"
+#include "Renderer/OpenGL/Resource/Material.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 class MeshRenderer : public Component {
 public:

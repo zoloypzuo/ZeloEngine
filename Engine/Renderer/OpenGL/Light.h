@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
-#include "GLSLShaderProgram.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Attenuation.h"
 
 class BaseLight : public Component, public std::enable_shared_from_this<BaseLight> {

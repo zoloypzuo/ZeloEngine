@@ -4,24 +4,24 @@ add_library(OpenGLRenderer
         GLRenderSystem.cpp
         ForwardRenderer.cpp
         ForwardShadowRenderer.cpp
-        GLMesh.cpp
-        Material.cpp
-        GLTexture.cpp
+        Resource/GLMesh.cpp
+        Resource/Material.cpp
+        Resource/GLTexture.cpp
         MeshRenderer.cpp
-        GLSLShaderProgram.cpp
+        Resource/GLSLShaderProgram.cpp
         Light.cpp
         Attenuation.cpp
         Camera.cpp
-        MeshLoader.cpp
+        Resource/MeshLoader.cpp
         Line.cpp
-        MeshManager.cpp
+        Resource/MeshManager.cpp
         Renderer.cpp Renderer.h
         GLUtil.cpp
         skybox.cpp
         DeferredRenderer.cpp
         #        ImGuiManager.cpp/
-        GLBuffer.cpp
-        GLVertexArray.cpp
+        Buffer/GLBuffer.cpp
+        Buffer/GLVertexArray.cpp
         )
 
 #target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)

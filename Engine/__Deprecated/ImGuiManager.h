@@ -9,10 +9,10 @@
 #include "Core/ImGui/ImGui.h"
 #include "Core/RHI/RenderCommand.h"
 
-#include "Renderer/OpenGL/GLSLShaderProgram.h"
-#include "Renderer/OpenGL/GLTexture.h"
-#include "Renderer/OpenGL/GLVertexArray.h"
-#include "Renderer/OpenGL/GLBuffer.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
+#include "Renderer/OpenGL/Resource/GLTexture.h"
+#include "Renderer/OpenGL/Buffer/GLVertexArray.h"
+#include "Renderer/OpenGL/Buffer/GLBuffer.h"
 
 class ImGuiManager : public Singleton<ImGuiManager>, public IRuntimeModule {
 public:

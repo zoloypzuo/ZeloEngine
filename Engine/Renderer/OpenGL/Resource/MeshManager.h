@@ -8,8 +8,8 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "GLMesh.h"
-#include "Material.h"
+#include "Renderer/OpenGL/Resource/GLMesh.h"
+#include "Renderer/OpenGL/Resource/Material.h"
 
 struct MeshRendererData {
     std::shared_ptr<GLMesh> mesh;

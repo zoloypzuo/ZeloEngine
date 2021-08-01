@@ -11,13 +11,13 @@
 
 #include "Renderer.h"
 #include "ForwardRenderer.h"
-#include "GLSLShaderProgram.h"
-#include "MeshManager.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
+#include "Renderer/OpenGL/Resource/MeshManager.h"
 #include "Core/ECS/Entity.h"
 #include "Core/Window/Window.h"
 #include "Camera.h"
 #include "Light.h"
-#include "Line.h"
+#include "Renderer/OpenGL/Resource/Line.h"
 #include "Core/RHI/RenderCommand.h"
 #include "Core/RHI/RenderSystem.h"
 

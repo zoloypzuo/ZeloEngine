@@ -5,7 +5,7 @@
 #include "GuiManager.h"
 
 #include "Renderer/OpenGL/Shader.h"
-#include "Renderer/OpenGL/GLTexture.h"
+#include "Renderer/OpenGL/Resource/GLTexture.h"
 
 TextureData *m_textureData;
 Shader *m_shader;
