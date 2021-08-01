@@ -8,7 +8,7 @@
 #include "ZeloGLPrerequisites.h"
 #include "ForwardRenderer.h"
 #include "Renderer/OpenGL/Resource/GLTexture.h"
-#include "skybox.h"
+#include "Renderer/OpenGL/Drawable/skybox.h"
 
 class ForwardShadowRenderer : public ForwardRenderer {
 

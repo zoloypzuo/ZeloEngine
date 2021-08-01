@@ -11,19 +11,20 @@ add_library(OpenGLRenderer
         Resource/GLTexture.cpp
         Resource/GLSLShaderProgram.cpp
 
-        MeshRenderer.cpp
+        Drawable/skybox.cpp
+        Drawable/MeshRenderer.cpp
+        Drawable/Line.cpp
+
         Light.cpp
         Attenuation.cpp
         Camera.cpp
-        Line.cpp
         GLUtil.cpp
-        skybox.cpp
 
         GLRenderSystem.cpp GLRenderSystem.h
 
         Renderer.h
-        ForwardRenderer.cpp
-        ForwardShadowRenderer.cpp
+        Pipeline/ForwardRenderer.cpp
+        Pipeline/ForwardShadowRenderer.cpp
         )
 
 # GLEW replaced by GLAD

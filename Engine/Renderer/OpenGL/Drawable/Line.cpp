@@ -1,5 +1,5 @@
 #include "ZeloPreCompiledHeader.h"
-#include "Renderer/OpenGL/Resource/Line.h"
+#include "Renderer/OpenGL/Drawable/Line.h"
 
 Line::Line(glm::vec3 v1, glm::vec3 v2) {
     glm::vec3 vertices[] = {v1, v2};

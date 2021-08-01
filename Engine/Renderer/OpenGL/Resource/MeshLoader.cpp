@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Core/Resource/Resource.h"
 #include "MeshLoader.h"
-#include "Renderer/OpenGL/MeshRenderer.h"
+#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 #include "MeshManager.h"
 
 #include <assimp/Importer.hpp>
