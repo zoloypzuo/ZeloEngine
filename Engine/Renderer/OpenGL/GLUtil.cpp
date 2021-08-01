@@ -4,6 +4,8 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLUtil.h"
 
+using namespace Zelo::Core::RHI;
+
 void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
                                  GLenum severity, GLsizei length,
                                  const GLchar *msg, const void *param) {
@@ -152,6 +154,17 @@ void dumpGLInfo(bool dumpExtensions) {
     }
 }
 
+void loadGL() {
+    // Load the OpenGL functions.
+    spdlog::info("start initializing GLAD");
+    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
+        spdlog::error("GLAD failed to initialize");
+        ZELO_ASSERT(false, "GLAD failed to initialize");
+    }
+
+    dumpGLInfo(false);
+}
+
 const char *getTypeString(GLenum type) {
     // There are many more types than are covered here, but
     // these are the most common in these examples.
@@ -268,4 +281,17 @@ uint32_t ShaderDataTypeSize(ShaderDataType type) {
 
     ZELO_CORE_ASSERT(false, "Unknown ShaderDataType!");
     return 0;
+}
+
+void initDebugCallback() {
+    int flags{};
+    glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT && glDebugMessageCallback) {
+        // initialize debug output
+        spdlog::debug("GL debug context initialized, hook glDebugMessageCallback");
+        glDebugMessageCallback(debugCallback, NULL);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
+        glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
+                             GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Start debugging");
+    }
 }

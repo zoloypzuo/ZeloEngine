@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 
 #include "Core/Math/Transform.h"
-#include "Renderer/OpenGL/GLSLShaderProgram.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Core/Input/Input.h"
 
 class Entity;

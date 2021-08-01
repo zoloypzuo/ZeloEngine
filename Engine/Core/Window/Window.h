@@ -1,11 +1,11 @@
 // Window.h
 // created on 2021/3/28
 // author @zoloypzuo
-
 #ifndef ZELOENGINE_WINDOW_H
 #define ZELOENGINE_WINDOW_H
 
 #include "ZeloPrerequisites.h"
+#include "ZeloSingleton.h"
 #include "Core/Parser/IniReader.h"
 #include "Core/Input/Input.h"
 
@@ -13,7 +13,9 @@
 #undef main
 #endif
 
-class Window : public IRuntimeModule {
+class Window :
+        public Singleton<Window>,
+        public IRuntimeModule {
 public:
     explicit Window(const INIReader::Section &windowConfig);
 
@@ -24,6 +26,8 @@ public:
     void update() override;
 
     void finalize() override;
+
+    static Window *Window::getSingletonPtr();
 
 public:
     void swapBuffer();

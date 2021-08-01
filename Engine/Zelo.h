@@ -7,11 +7,11 @@
 
 // INCLUDE HEADERS HERE
 #include "Renderer/OpenGL/Light.h"
-#include "Renderer/OpenGL/Material.h"
-#include "Renderer/OpenGL/GLTexture.h"
-#include "Renderer/OpenGL/MeshRenderer.h"
-#include "Renderer/OpenGL/GLManager.h"
-#include "Renderer/OpenGL/MeshLoader.h"
+#include "Core/RHI/Resource/Material.h"
+#include "Renderer/OpenGL/Resource/GLTexture.h"
+#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
+#include "Renderer/OpenGL/GLRenderSystem.h"
+#include "Core/Parser/MeshLoader.h"
 #include "Core/ECS/Component/FreeMove.h"
 #include "Core/ECS/Component/FreeLook.h"
 #include "Core/Game/Game.h"

@@ -1,30 +1,29 @@
 # created on 2021/3/29
 # author @zoloypzuo
 add_library(OpenGLRenderer
-        GLManager.cpp
-        ForwardRenderer.cpp
-        ForwardShadowRenderer.cpp
-        GLMesh.cpp
-        Material.cpp
-        GLTexture.cpp
-        MeshRenderer.cpp
-        GLSLShaderProgram.cpp
+        Buffer/GLBuffer.cpp
+        Buffer/GLVertexArray.cpp
+
+        Resource/GLMesh.cpp
+        Resource/GLTexture.cpp
+        Resource/GLSLShaderProgram.cpp
+        Resource/GLMaterial.cpp Resource/GLMaterial.h
+
+        Drawable/skybox.cpp
+        Drawable/MeshRenderer.cpp
+        Drawable/Line.cpp
+
         Light.cpp
         Attenuation.cpp
         Camera.cpp
-        MeshLoader.cpp
-        Line.cpp
-        MeshManager.cpp
-        Renderer.cpp Renderer.h
         GLUtil.cpp
-        skybox.cpp
-        DeferredRenderer.cpp
-        #        ImGuiManager.cpp/
-        GLBuffer.cpp
-        GLVertexArray.cpp
-        )
 
-#target_link_libraries(OpenGLRenderer PRIVATE SDL2::SDL2 SDL2::SDL2main)
+        GLRenderSystem.cpp GLRenderSystem.h
+
+        Pipeline/Renderer.h
+        Pipeline/ForwardRenderer.cpp
+        Pipeline/ForwardShadowRenderer.cpp
+        )
 
 # GLEW replaced by GLAD
 find_package(glad CONFIG REQUIRED)

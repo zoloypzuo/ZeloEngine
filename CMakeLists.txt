@@ -45,7 +45,7 @@ else ()
     add_compile_definitions(ZELO_DEBUG)
 endif ()
 add_compile_definitions(DEBUG_SHADOWMAP)  # 调试shadow-map，在右上角显示shadow-map
-add_compile_definitions(SWIGRUNTIME_DEBUG)  # Swig运行时DebugLog，量很大，你忍一下
+#add_compile_definitions(SWIGRUNTIME_DEBUG)  # Swig运行时DebugLog，量很大，你忍一下
 
 # build third party
 add_subdirectory(ThirdParty)

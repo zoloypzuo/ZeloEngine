@@ -75,8 +75,6 @@ constexpr Ref<T> CreateRef(Args &&... args) {
 // forward declaration
 namespace Zelo { class Engine; }
 
-class GLManager;
-
 class Input;
 
 class DirectionalLight;
