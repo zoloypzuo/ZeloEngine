@@ -16,13 +16,12 @@
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
 #include "Core/OS/Time.h"
-#include <rttr/rttr_enable.h>
 
 namespace Zelo {
 class Engine :
         public Singleton<Engine>,
         public IRuntimeModule,
-        public Zelo::Core::Interface::ISerializable {
+        public Core::Interface::ISerializable {
 public:
     typedef std::vector<std::unique_ptr<Plugin>> PluginInstanceList;
 
@@ -39,29 +38,10 @@ public:
 
     void start();
 
-    /** Install a new plugin.
-    @remarks
-        This installs a new extension to Zelo. The plugin itself may be loaded
-        from a DLL / DSO, or it might be statically linked into your own
-        application. Either way, something has to call this method to get
-        it registered and functioning. You should only call this method directly
-        if your plugin is not in a DLL that could otherwise be loaded with
-        loadPlugin, since the DLL function dllStartPlugin should call this
-        method when the DLL is loaded.
-    */
     void installPlugin(Plugin *plugin);
 
-    /** Uninstall an existing plugin.
-    @remarks
-        This uninstalls an extension to Zelo. Plugins are automatically
-        uninstalled at shutdown but this lets you remove them early.
-        If the plugin was loaded from a DLL / DSO you should call unloadPlugin
-        which should result in this method getting called anyway (if the DLL
-        is well behaved).
-    */
     void uninstallPlugin(Plugin *plugin);
 
-    /** Gets a read-only list of the currently installed plugins. */
     const PluginInstanceList &getInstalledPlugins() const { return mPlugins; }
 
 public:
@@ -75,7 +55,10 @@ protected:
     std::unique_ptr<GLManager> m_glManager;
     std::unique_ptr<Renderer> m_renderer;
     std::unique_ptr<INIReader> m_config;
-    bool m_fireRay{};
+    std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
+    std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
+    std::unique_ptr<Core::OS::TimeSystem::Time> m_timeSystem{};
+
     std::vector<std::unique_ptr<Plugin>> mPlugins;
     bool mIsInitialised{};
     bool m_configInitialized{};
@@ -85,24 +68,13 @@ protected:
     std::filesystem::path m_assertDir{};
     std::filesystem::path m_scriptDir{};
 
-    std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
-    std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
-    std::unique_ptr<Core::OS::TimeSystem::Time> m_timeSystem{};
-
 protected:
     void initConfig();
 
-    /** Initialise all loaded plugins - allows plugins to perform actions
-        once the renderer is initialised.
-    */
     void initialisePlugins();
 
-    /** Shuts down all loaded plugins - allows things to be tidied up whilst
-        all plugins are still loaded.
-    */
     void shutdownPlugins();
 
-RTTR_ENABLE()
 };
 }
 
