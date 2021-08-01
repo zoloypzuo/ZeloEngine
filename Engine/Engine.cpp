@@ -5,7 +5,6 @@
 #include "Engine.h"
 #include "Core/OS/whereami.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
-#include "Renderer/OpenGL/ForwardShadowRenderer.h"
 #include "MyGame.h"
 
 // enable vld
@@ -36,9 +35,8 @@ void Engine::initialize() {
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>(m_config->GetSection("Window"));
-//    m_renderer = std::make_unique<ForwardShadowRenderer>();
-//    m_renderSystem = std::make_unique<GLRenderSystem>(m_renderer.get(), m_window->getDrawableSize());
-//    m_renderer->initialize();
+    m_renderSystem = std::make_unique<GLRenderSystem>();
+    m_renderSystem->initialize();
 //    m_imguiManager = std::make_unique<ImGuiManager>();
 //    m_imguiManager->initialize();
 //    m_game = std::make_unique<Game>(); game is newed by app
@@ -101,9 +99,6 @@ void Engine::initConfig() {
 
 void Engine::finalize() {
     shutdownPlugins();
-//    m_imguiManager->finalize();
-//    m_game->finalize();
-//    m_renderer->finalize();
     m_window->finalize();
     m_luaScriptManager->finalize();
 }

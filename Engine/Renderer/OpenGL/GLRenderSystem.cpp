@@ -39,7 +39,7 @@ void GLRenderSystem::setDrawSize(const glm::ivec2 &size) {
     this->m_width = size.x;
     this->m_height = size.y;
 
-    glViewport(0, 0, this->m_width, this->m_height);
+    setViewport(0, 0, this->m_width, this->m_height);
 }
 
 void GLRenderSystem::bindRenderTarget() const {
@@ -88,7 +88,7 @@ glm::mat4 GLRenderSystem::getProjectionMatrix() {
 void GLRenderSystem::renderScene(Entity *scene) {
     clear(true, true, false);
 
-    m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
+//    m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
 }
 
 #include "Renderer/OpenGL/GLRenderCommand.inl"
