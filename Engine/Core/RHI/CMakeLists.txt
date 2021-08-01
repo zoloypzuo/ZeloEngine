@@ -6,6 +6,7 @@ add_library(RHI
 
         Resource/Shader.h
         Resource/Texture.h
+        Resource/Material.cpp
 
         Buffer/Framebuffer.h
         Buffer/Buffer.h

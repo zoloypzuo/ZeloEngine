@@ -9,7 +9,7 @@
 #include "ZeloGLPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Renderer/OpenGL/Resource/GLMesh.h"
-#include "Renderer/OpenGL/Resource/Material.h"
+#include "Core/RHI/Resource/Material.h"
 
 struct MeshRendererData {
     std::shared_ptr<GLMesh> mesh;
@@ -22,6 +22,8 @@ public:
     std::map<std::string, std::vector<MeshRendererData>> sceneMeshRendererDataCache;
 
     static MeshManager *getSingletonPtr();
+
+public:
 
 };
 

@@ -9,7 +9,7 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
 #include "Renderer/OpenGL/Resource/GLMesh.h"
-#include "Renderer/OpenGL/Resource/Material.h"
+#include "Core/RHI/Resource/Material.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 class MeshRenderer : public Component {
