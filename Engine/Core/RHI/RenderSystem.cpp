@@ -41,5 +41,3 @@ RenderSystem &RenderSystem::getSingleton() {
     assert(msSingleton);
     return *msSingleton;
 }
-
-}
