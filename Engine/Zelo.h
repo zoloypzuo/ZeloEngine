@@ -11,7 +11,7 @@
 #include "Renderer/OpenGL/Resource/GLTexture.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
-#include "Renderer/OpenGL/Resource/MeshLoader.h"
+#include "Core/RHI/Resource/MeshLoader.h"
 #include "Core/ECS/Component/FreeMove.h"
 #include "Core/ECS/Component/FreeLook.h"
 #include "Core/Game/Game.h"

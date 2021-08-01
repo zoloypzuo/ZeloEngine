@@ -4,6 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "MyGame.h"
 #include "Zelo.h"
+#include "Plane.h"
 
 void MyGame::initialize() {
     Game::initialize();

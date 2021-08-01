@@ -4,16 +4,16 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLMesh.h"
 
-MeshData::MeshData(Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
+GLMeshData::GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
     createMesh(vertices, vertSize, indices, indexSize);
 }
 
-MeshData::~MeshData() {
+GLMeshData::~GLMeshData() {
     glDeleteBuffers(1, &m_vbo);
     glDeleteVertexArrays(1, &m_vao);
 }
 
-void MeshData::createMesh(Vertex *vertices, int vertSize, unsigned int *indices, int indexSize) {
+void GLMeshData::createMesh(Zelo::Core::RHI::Vertex *vertices, int vertSize, unsigned int *indices, int indexSize) {
     m_vertSize = vertSize;
     m_indexSize = indexSize;
 
@@ -22,41 +22,41 @@ void MeshData::createMesh(Vertex *vertices, int vertSize, unsigned int *indices,
 
     glGenBuffers(1, &m_vbo);
     glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertSize * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertSize * sizeof(Zelo::Core::RHI::Vertex), vertices, GL_STATIC_DRAW);
 
     glGenBuffers(1, &m_ibo);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * sizeof(unsigned int), indices, GL_STATIC_DRAW);
 
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex), 0);
 
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *) sizeof(glm::vec3));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex), (GLvoid *) sizeof(glm::vec3));
 
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2)));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex), (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2)));
 
     glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex),
                           (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
 
     glBindVertexArray(0);
 }
 
-void MeshData::render() const {
+void GLMeshData::render() const {
     glBindVertexArray(m_vao);
     glDrawElements(GL_TRIANGLES, m_indexSize, GL_UNSIGNED_INT, (void *) 0);
     glBindVertexArray(0);
 }
 
-std::map<std::string, std::weak_ptr<MeshData>> m_meshCache;
+std::map<std::string, std::weak_ptr<GLMeshData>> m_meshCache;
 
-GLMesh::GLMesh(const std::string &identifier, Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
+GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
     auto it = m_meshCache.find(identifier);
 
     if (it == m_meshCache.end() || !(m_meshData = it->second.lock())) {
-        m_meshData = std::make_shared<MeshData>(vertices, vertSize, indices, indexSize);
+        m_meshData = std::make_shared<GLMeshData>(vertices, vertSize, indices, indexSize);
         m_meshCache[identifier] = m_meshData;
     }
 }
@@ -68,21 +68,4 @@ void GLMesh::render() const {
     m_meshData->render();
 }
 
-Vertex vertices[] = {
-        Vertex(glm::vec3(-0.5, 0, 0.5), glm::vec2(0, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0)),
-        Vertex(glm::vec3(0.5, 0, 0.5), glm::vec2(1, 0), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0)),
-        Vertex(glm::vec3(0.5, 0, -0.5), glm::vec2(1, 1), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0)),
-        Vertex(glm::vec3(-0.5, 0, -0.5), glm::vec2(0, 1), glm::vec3(0, 1, 0), glm::vec3(1, 0, 0))
-};
 
-unsigned int indices[] = {
-        0, 1, 2,
-        0, 2, 3
-};
-
-Plane::Plane() {
-}
-
-std::shared_ptr<GLMesh> Plane::getMesh() {
-    return std::make_shared<GLMesh>("BUILTIN_plane", vertices, 4, indices, 6);
-}

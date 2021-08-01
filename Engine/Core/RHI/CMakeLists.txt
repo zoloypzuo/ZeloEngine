@@ -7,12 +7,16 @@ add_library(RHI
         Resource/Shader.h
         Resource/Texture.h
         Resource/Material.cpp
+        Resource/MeshLoader.cpp
+        Resource/MeshManager.cpp
 
         Buffer/Framebuffer.h
         Buffer/Buffer.h
         Buffer/VertexArray.h
         Buffer/BufferLayout.cpp
+        Buffer/Vertex.h
 
-        RenderSystem.h
+        MeshGen/Plane.cpp MeshGen/Plane.h
+
         RenderSystem.cpp RenderSystem.h
         )

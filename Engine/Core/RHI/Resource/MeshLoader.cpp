@@ -8,6 +8,7 @@
 #include "Renderer/OpenGL/Resource/GLTexture.h"
 #include "Renderer/OpenGL/Resource/GLMesh.h"
 #include "MeshManager.h"
+#include "Core/RHI/Buffer/Vertex.h"
 
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
@@ -120,7 +121,7 @@ void MeshLoader::loadScene(const aiScene *scene) {
     for (unsigned int i = 0; i < scene->mNumMeshes; i++) {
         const aiMesh *model = scene->mMeshes[i];
 
-        std::vector<Vertex> vertices;
+        std::vector<Zelo::Core::RHI::Vertex> vertices;
         std::vector<unsigned int> indices;
 
         const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
@@ -132,10 +133,10 @@ void MeshLoader::loadScene(const aiScene *scene) {
             const aiVector3D *pTangent = model->HasTangentsAndBitangents() ? &(model->mTangents[idxVertex])
                                                                            : &aiZeroVector;
 
-            Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
-                        glm::vec2(pTexCoord->x, pTexCoord->y),
-                        glm::vec3(pNormal->x, pNormal->y, pNormal->z),
-                        glm::vec3(pTangent->x, pTangent->y, pTangent->z));
+            Zelo::Core::RHI::Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
+                                         glm::vec2(pTexCoord->x, pTexCoord->y),
+                                         glm::vec3(pNormal->x, pNormal->y, pNormal->z),
+                                         glm::vec3(pTangent->x, pTangent->y, pTangent->z));
 
             vertices.push_back(vert);
         }

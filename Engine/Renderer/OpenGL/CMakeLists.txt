@@ -5,8 +5,6 @@ add_library(OpenGLRenderer
         Buffer/GLVertexArray.cpp
 
         Resource/GLMesh.cpp
-        Resource/MeshLoader.cpp
-        Resource/MeshManager.cpp
         Resource/GLTexture.cpp
         Resource/GLSLShaderProgram.cpp
 

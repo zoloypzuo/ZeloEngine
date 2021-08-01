@@ -13,7 +13,7 @@
 #include "Core/RHI/RenderSystem.h"
 #include "Renderer/OpenGL/Pipeline/Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
-#include "Renderer/OpenGL/Resource/MeshManager.h"
+#include "Core/RHI/Resource/MeshManager.h"
 #include "Renderer/OpenGL/Camera.h"
 #include "Renderer/OpenGL/Light.h"
 
