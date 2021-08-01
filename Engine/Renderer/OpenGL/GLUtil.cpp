@@ -154,6 +154,17 @@ void dumpGLInfo(bool dumpExtensions) {
     }
 }
 
+void loadGL() {
+    // Load the OpenGL functions.
+    spdlog::info("start initializing GLAD");
+    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
+        spdlog::error("GLAD failed to initialize");
+        ZELO_ASSERT(false, "GLAD failed to initialize");
+    }
+
+    dumpGLInfo(false);
+}
+
 const char *getTypeString(GLenum type) {
     // There are many more types than are covered here, but
     // these are the most common in these examples.

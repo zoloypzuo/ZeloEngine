@@ -8,7 +8,7 @@
 
 int checkForOpenGLError(const char *, int);
 
-void dumpGLInfo(bool dumpExtensions = false);
+void loadGL();
 
 void initDebugCallback();
 

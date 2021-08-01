@@ -56,8 +56,6 @@ public:
 
     glm::mat4 getProjectionMatrix();
 
-    void drawEntity(Entity *entity);
-
     int m_width{};
     int m_height{};
 
@@ -138,12 +136,8 @@ public: // RenderCommand
     void applyStateMask(uint8_t mask) override;
 
 private:
-    void initGL() const;
-
-private:
     class Renderer *m_renderer{};
 
-    std::unique_ptr<SimpleRenderer> m_simpleRenderer;
     std::unique_ptr<MeshManager> m_meshManager;
 
     std::shared_ptr<Camera> m_activeCamera;

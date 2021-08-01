@@ -11,13 +11,10 @@ using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
 void GLRenderSystem::initialize() {
-    initGL();
+    ::loadGL();
     ::initDebugCallback();
 
     m_renderer = nullptr;
-    m_simpleRenderer = std::make_unique<SimpleRenderer>();
-    m_simpleRenderer->initialize();
-    m_meshManager = std::make_unique<MeshManager>();
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});
 
@@ -28,19 +25,7 @@ void GLRenderSystem::initialize() {
 
     auto windowSize = Window::getSingletonPtr()->getDrawableSize();
     setDrawSize(windowSize);
-
 }
-
-void GLRenderSystem::initGL() const {// Load the OpenGL functions.
-    spdlog::info("start initializing GLAD");
-    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
-        spdlog::error("GLAD failed to initialize");
-        ZELO_ASSERT(false, "GLAD failed to initialize");
-    }
-
-    dumpGLInfo();
-}
-
 
 void GLRenderSystem::update() {
     renderScene(Game::getSingletonPtr()->getRootNode().get());
@@ -98,19 +83,6 @@ glm::mat4 GLRenderSystem::getViewMatrix() {
 
 glm::mat4 GLRenderSystem::getProjectionMatrix() {
     return m_activeCamera->getProjectionMatrix();
-}
-
-void GLRenderSystem::drawEntity(Entity *entity) {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDepthMask(GL_FALSE);
-    glDepthFunc(GL_EQUAL);
-
-    m_simpleRenderer->render(*entity, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
-
-    glDepthFunc(GL_LESS);
-    glDepthMask(GL_TRUE);
-    glDisable(GL_BLEND);
 }
 
 void GLRenderSystem::renderScene(Entity *scene) {
