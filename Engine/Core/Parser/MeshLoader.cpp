@@ -7,7 +7,7 @@
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 #include "Renderer/OpenGL/Resource/GLTexture.h"
 #include "Renderer/OpenGL/Resource/GLMesh.h"
-#include "MeshManager.h"
+#include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Buffer/Vertex.h"
 
 #include <assimp/Importer.hpp>
@@ -15,29 +15,29 @@
 
 CustomIOStream::CustomIOStream(const char *pFile, const char *pMode) {
     (void) pMode;
-    m_iostream = new Zelo::IOStream(std::string(pFile));
+    m_ioStream = new Zelo::IOStream(std::string(pFile));
 }
 
 CustomIOStream::~CustomIOStream() {
-    delete m_iostream;
+    delete m_ioStream;
 }
 
 size_t CustomIOStream::Read(void *pvBuffer, size_t pSize, size_t pCount) {
-    return m_iostream->read(pvBuffer, pSize, pCount);
+    return m_ioStream->read(pvBuffer, pSize, pCount);
 }
 
 size_t CustomIOStream::Write(const void *pvBuffer, size_t pSize, size_t pCount) {
-    return m_iostream->write(pvBuffer, pSize, pCount);
+    return m_ioStream->write(pvBuffer, pSize, pCount);
 }
 
 aiReturn CustomIOStream::Seek(size_t pOffset, aiOrigin pOrigin) {
     switch (pOrigin) {
         case aiOrigin_SET:
-            return m_iostream->seek(pOffset, Zelo::Origin_SET) ? AI_SUCCESS : AI_FAILURE;
+            return m_ioStream->seek(pOffset, Zelo::Origin_SET) ? AI_SUCCESS : AI_FAILURE;
         case aiOrigin_CUR:
-            return m_iostream->seek(pOffset, Zelo::Origin_CUR) ? AI_SUCCESS : AI_FAILURE;
+            return m_ioStream->seek(pOffset, Zelo::Origin_CUR) ? AI_SUCCESS : AI_FAILURE;
         case aiOrigin_END:
-            return m_iostream->seek(pOffset, Zelo::Origin_END) ? AI_SUCCESS : AI_FAILURE;
+            return m_ioStream->seek(pOffset, Zelo::Origin_END) ? AI_SUCCESS : AI_FAILURE;
         case _AI_ORIGIN_ENFORCE_ENUM_SIZE:
             break;
     }
@@ -45,15 +45,15 @@ aiReturn CustomIOStream::Seek(size_t pOffset, aiOrigin pOrigin) {
 }
 
 size_t CustomIOStream::Tell() const {
-    return m_iostream->tell();
+    return m_ioStream->tell();
 }
 
 size_t CustomIOStream::FileSize() const {
-    return m_iostream->fileSize();
+    return m_ioStream->fileSize();
 }
 
 void CustomIOStream::Flush() {
-    m_iostream->flush();
+    m_ioStream->flush();
 }
 
 CustomIOSystem::CustomIOSystem() = default;

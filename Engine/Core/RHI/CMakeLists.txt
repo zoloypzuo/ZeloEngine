@@ -7,7 +7,6 @@ add_library(RHI
         Resource/Shader.h
         Resource/Texture.h
         Resource/Material.cpp
-        Resource/MeshLoader.cpp
         Resource/MeshManager.cpp Resource/MeshManager.h
         Resource/Mesh.cpp Resource/Mesh.h
 

@@ -36,7 +36,7 @@ public:
     void Flush() override;
 
 private:
-    Zelo::IOStream *m_iostream;
+    Zelo::IOStream *m_ioStream;
 };
 
 class CustomIOSystem : public Assimp::IOSystem {
