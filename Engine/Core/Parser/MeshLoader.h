@@ -19,12 +19,12 @@ public:
 
     std::string getFileName();
 
-    std::shared_ptr<Core::RHI::MeshRendererData> getMeshRendererData();
+    std::vector<Core::RHI::MeshRendererData> getMeshRendererData();
 
 private:
     std::string m_fileName;
 
-    std::shared_ptr<Core::RHI::MeshRendererData> m_meshRendererData{};
+    std::vector<Core::RHI::MeshRendererData> m_meshRendererData{};
 };
 }
 

@@ -2,13 +2,13 @@
 // created on 2021/3/31
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "Core/Resource/Resource.h"
 #include "MeshLoader.h"
-#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
-#include "Renderer/OpenGL/Resource/GLTexture.h"
-#include "Renderer/OpenGL/Resource/GLMesh.h"
+#include "Core/Resource/Resource.h"
 #include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Buffer/Vertex.h"
+
+#include "Renderer/OpenGL/Resource/GLTexture.h"
+#include "Renderer/OpenGL/Resource/GLMesh.h"
 
 #include <assimp/scene.h>
 #include <assimp/IOSystem.hpp>
@@ -134,40 +134,30 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
     m_fileName = file;
     auto *mesh_m = MeshManager::getSingletonPtr();
     if (!mesh_m->sceneMeshRendererDataCache[m_fileName].empty()) {
-        m_entity = std::make_shared<Entity>();
-        for (const auto &meshRenderData : mesh_m->sceneMeshRendererDataCache[m_fileName]) {
-            m_entity->Entity::addComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
-        }
-    } else {
-        Assimp::Importer importer;
-        importer.SetIOHandler(new CustomIOSystem());
-
-        spdlog::info("Loading mesh: {}", file.c_str());
-
-        const aiScene *scene = importer.ReadFile(file,
-                                                 aiProcess_Triangulate |
-                                                 aiProcess_GenSmoothNormals |
-                                                 aiProcess_FlipUVs |
-                                                 aiProcess_CalcTangentSpace);
-
-        if (!scene) {
-            spdlog::error("Failed to load mesh: {}", file.c_str());
-        } else {
-            loadScene(scene);
-        }
+        m_meshRendererData = mesh_m->sceneMeshRendererDataCache[m_fileName];
+        return;
     }
-}
+    Assimp::Importer importer;
+    importer.SetIOHandler(new CustomIOSystem());
 
-Zelo::Parser::MeshLoader::~MeshLoader() = default;
+    spdlog::info("Loading mesh: {}", file);
 
-void Zelo::Parser::MeshLoader::loadScene(const aiScene *scene) {
-    m_entity = std::make_shared<Entity>();
+    auto scene = importer.ReadFile(file,
+                                   aiProcess_Triangulate |
+                                   aiProcess_GenSmoothNormals |
+                                   aiProcess_FlipUVs |
+                                   aiProcess_CalcTangentSpace);
+
+    if (!scene) {
+        spdlog::error("Failed to load mesh: {}", file);
+        return;
+    }
 
     for (unsigned int i = 0; i < scene->mNumMeshes; i++) {
         const aiMesh *model = scene->mMeshes[i];
 
-        std::vector<Zelo::Core::RHI::Vertex> vertices;
-        std::vector<unsigned int> indices;
+        std::vector<Vertex> vertices;
+        std::vector<uint32_t> indices;
 
         const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
         for (unsigned int idxVertex = 0; idxVertex < model->mNumVertices; idxVertex++) {
@@ -178,10 +168,10 @@ void Zelo::Parser::MeshLoader::loadScene(const aiScene *scene) {
             const aiVector3D *pTangent = model->HasTangentsAndBitangents() ? &(model->mTangents[idxVertex])
                                                                            : &aiZeroVector;
 
-            Zelo::Core::RHI::Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
-                                         glm::vec2(pTexCoord->x, pTexCoord->y),
-                                         glm::vec3(pNormal->x, pNormal->y, pNormal->z),
-                                         glm::vec3(pTangent->x, pTangent->y, pTangent->z));
+            Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
+                        glm::vec2(pTexCoord->x, pTexCoord->y),
+                        glm::vec3(pNormal->x, pNormal->y, pNormal->z),
+                        glm::vec3(pTangent->x, pTangent->y, pTangent->z));
 
             vertices.push_back(vert);
         }
@@ -230,17 +220,19 @@ void Zelo::Parser::MeshLoader::loadScene(const aiScene *scene) {
         }
 
         MeshRendererData meshRenderData;
-        meshRenderData.mesh = std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()), &vertices[0],
+        meshRenderData.mesh = std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()),
+                                                       &vertices[0],
                                                        vertices.size(), &indices[0], indices.size());
         meshRenderData.material = std::make_shared<Material>(diffuseMap, normalMap, specularMap);
 
-        MeshManager::getSingletonPtr()->sceneMeshRendererDataCache[m_fileName].push_back(meshRenderData);
-        m_entity->Entity::addComponent<MeshRenderer>(meshRenderData.m
-        esh, meshRenderData.material);
+        mesh_m->sceneMeshRendererDataCache[m_fileName].push_back(meshRenderData);
     }
+    m_meshRendererData = mesh_m->sceneMeshRendererDataCache[m_fileName];
 }
 
-std::shared_ptr<MeshRendererData> Zelo::Parser::MeshLoader::getMeshRendererData() {
+Zelo::Parser::MeshLoader::~MeshLoader() = default;
+
+std::vector<MeshRendererData> Zelo::Parser::MeshLoader::getMeshRendererData() {
     return m_meshRendererData;
 }
 

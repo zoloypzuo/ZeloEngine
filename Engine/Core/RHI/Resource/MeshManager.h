@@ -8,14 +8,11 @@
 #include "Core/RHI/Resource/MeshRendererData.h"
 
 namespace Zelo::Core::RHI {
-
-
 class MeshManager : public Singleton<MeshManager> {
 public:
-    // TODO(Engine): need to come back and refactor this, make it load on a separate thread.
-    std::map<std::string, std::vector<MeshRendererData>> sceneMeshRendererDataCache;
-
     static MeshManager *getSingletonPtr();
 
+    // TODO(Engine): need to come back and refactor this, make it load on a separate thread.
+    std::map<std::string, std::vector<MeshRendererData>> sceneMeshRendererDataCache;
 };
 }
