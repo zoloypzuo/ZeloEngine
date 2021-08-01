@@ -9,4 +9,4 @@ add_library(RHI
         VertexArray.cpp
         BufferLayout.cpp
         ShaderType.cpp
-        RenderSystem.cpp RenderSystem.h)
+        RenderSystem.cpp RenderSystem.h Const/ERenderingCapability.h)

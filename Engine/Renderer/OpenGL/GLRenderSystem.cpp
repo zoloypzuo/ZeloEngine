@@ -5,6 +5,7 @@
 #include "GLRenderSystem.h"
 #include "GLUtil.h"
 
+using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
 GLRenderSystem::GLRenderSystem(Renderer *renderer, const glm::ivec2 &windowSize) {
@@ -129,8 +130,10 @@ void GLRenderSystem::renderScene(Entity *scene) {
     m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
 }
 
-void GLRenderSystem::clear() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+void GLRenderSystem::clear(bool colorBuffer, bool depthBuffer, bool stencilBuffer) {
+    glClear((colorBuffer ? GL_COLOR_BUFFER_BIT : 0) |
+            (depthBuffer ? GL_DEPTH_BUFFER_BIT : 0) |
+            (stencilBuffer ? GL_STENCIL_BUFFER_BIT : 0));
 }
 
 void GLRenderSystem::setClearColor(const glm::vec4 &color) {
@@ -175,4 +178,12 @@ void GLRenderSystem::setDepthTestEnabled(bool enabled) {
         glEnable(GL_DEPTH_TEST);
     else
         glDisable(GL_DEPTH_TEST);
+}
+
+void GLRenderSystem::setCapabilityEnabled(ERenderingCapability capability, bool value) {
+    (value ? glEnable : glDisable)(static_cast<GLenum>(capability));
+}
+
+bool GLRenderSystem::getCapabilityEnabled(ERenderingCapability capability) {
+    return glIsEnabled(static_cast<GLenum>(capability));
 }

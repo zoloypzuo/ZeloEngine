@@ -18,6 +18,10 @@ public:
         uint64_t polyCount = 0;
     };
 
+    struct RenderState{
+
+    };
+
 public:
     ~RenderSystem() override;
 

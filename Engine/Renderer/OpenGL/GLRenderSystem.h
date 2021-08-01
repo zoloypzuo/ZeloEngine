@@ -62,28 +62,34 @@ public:
     GLuint lineBuffer{};
     GLuint VertexArrayID{};
 
-public:
+public: // RenderCommand
     void setViewport(int32_t x, int32_t y, int32_t width, int32_t height) override;
 
     void setClearColor(const glm::vec4 &color) override;
 
-    void clear() override;
+    void clear(bool colorBuffer, bool depthBuffer, bool stencilBuffer) override;
 
     void drawIndexed(const Ref<Zelo::VertexArray> &vertexArray, int32_t indexCount) override;
 
     void drawArray(const Ref<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) override;
 
+    // TODO remove it
     void setBlendEnabled(bool enabled) override;
 
+    // TODO remove it
     void setBlendFunc() override;
 
+    // TODO remove it
     void setCullFaceEnabled(bool enabled) override;
 
+    // TODO remove it
     void setDepthTestEnabled(bool enabled) override;
 
-public:
-    static GLRenderSystem *getSingletonPtr();
+    void setCapabilityEnabled(Core::RHI::ERenderingCapability capability, bool value) override;
 
+    bool getCapabilityEnabled(Core::RHI::ERenderingCapability capability) override;
+
+public:
 private:
     Renderer *m_renderer;
     std::unique_ptr<SimpleRenderer> m_simpleRenderer;

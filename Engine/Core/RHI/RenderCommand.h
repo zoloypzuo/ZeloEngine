@@ -6,8 +6,9 @@
 
 #include "ZeloPrerequisites.h"
 #include "Core/RHI/VertexArray.h"
+#include "Core/RHI/Const/ERenderingCapability.h"
 
-namespace Zelo {
+namespace Zelo::Core::RHI {
 // TODO 看需要扩展和实现渲染命令
 class RenderCommand {
 public:
@@ -15,7 +16,7 @@ public:
 
     virtual void setClearColor(const glm::vec4 &color) = 0;
 
-    virtual void clear() = 0;
+    virtual void clear(bool colorBuffer, bool depthBuffer, bool stencilBuffer) = 0;
 
     virtual void drawIndexed(const Ref<VertexArray> &vertexArray, int32_t indexCount) = 0;
 
@@ -28,6 +29,12 @@ public:
     virtual void setCullFaceEnabled(bool enabled) = 0;
 
     virtual void setDepthTestEnabled(bool enabled) = 0;
+
+    virtual void setCapabilityEnabled(ERenderingCapability capability, bool value) = 0;
+
+    virtual bool getCapabilityEnabled(ERenderingCapability capability) = 0;
+
+    virtual void 
 };
 }
 
