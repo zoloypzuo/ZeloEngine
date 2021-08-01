@@ -4,6 +4,9 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLVertexArray.h"
 #include "Renderer/OpenGL/GLUtil.h"
+#include "Core/RHI/Const/EShaderType.h"
+
+using namespace Zelo::Core::RHI;
 
 namespace Zelo {
 

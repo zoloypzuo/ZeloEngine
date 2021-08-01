@@ -8,37 +8,38 @@
 #include "sol/sol.hpp"
 #include "Core/ECS/Entity.h"
 
+using namespace Zelo::Core::RHI;
 struct shader_file_extension {
     const std::string &ext;
-    ShaderType type;
+    EShaderType type;
 };
 
 const struct shader_file_extension extensions[] =
         {
-                {".vs",   ShaderType::VERTEX},
-                {".vert", ShaderType::VERTEX},
-                {".gs",   ShaderType::GEOMETRY},
-                {".geom", ShaderType::GEOMETRY},
-                {".tcs",  ShaderType::TESS_CONTROL},
-                {".tes",  ShaderType::TESS_EVALUATION},
-                {".fs",   ShaderType::FRAGMENT},
-                {".frag", ShaderType::FRAGMENT},
-                {".cs",   ShaderType::COMPUTE}
+                {".vs",   EShaderType::VERTEX},
+                {".vert", EShaderType::VERTEX},
+                {".gs",   EShaderType::GEOMETRY},
+                {".geom", EShaderType::GEOMETRY},
+                {".tcs",  EShaderType::TESS_CONTROL},
+                {".tes",  EShaderType::TESS_EVALUATION},
+                {".fs",   EShaderType::FRAGMENT},
+                {".frag", EShaderType::FRAGMENT},
+                {".cs",   EShaderType::COMPUTE}
         };
 
-static GLenum GetGLShaderType(const ShaderType &shaderType) {
+static GLenum GetGLShaderType(const EShaderType &shaderType) {
     switch (shaderType) {
-        case ShaderType::VERTEX:
+        case EShaderType::VERTEX:
             return GL_VERTEX_SHADER;
-        case ShaderType::FRAGMENT:
+        case EShaderType::FRAGMENT:
             return GL_FRAGMENT_SHADER;
-        case ShaderType::GEOMETRY:
+        case EShaderType::GEOMETRY:
             return GL_GEOMETRY_SHADER;
-        case ShaderType::TESS_CONTROL:
+        case EShaderType::TESS_CONTROL:
             return GL_TESS_CONTROL_SHADER;
-        case ShaderType::TESS_EVALUATION:
+        case EShaderType::TESS_EVALUATION:
             return GL_TESS_EVALUATION_SHADER;
-        case ShaderType::COMPUTE:
+        case EShaderType::COMPUTE:
             return GL_COMPUTE_SHADER;
         default:
             ZELO_ASSERT(false, "unhandled shader type");
@@ -354,7 +355,7 @@ void GLSLShaderProgram::printActiveAttributes() const {
 void GLSLShaderProgram::addShader(const std::string &fileName) const {
     // Check the file name's extension to determine the shader type
     auto ext = std::filesystem::path(fileName).extension();
-    auto shaderType = ShaderType::VERTEX;
+    auto shaderType = EShaderType::VERTEX;
     bool matchFound = false;
     int numExt = sizeof(extensions) / sizeof(shader_file_extension);
     for (int i = 0; i < numExt; i++) {
@@ -375,7 +376,7 @@ void GLSLShaderProgram::addShader(const std::string &fileName) const {
     addShader(fileName, shaderType);
 }
 
-void GLSLShaderProgram::addShader(const std::string &fileName, ShaderType shaderType) const {
+void GLSLShaderProgram::addShader(const std::string &fileName, EShaderType shaderType) const {
     spdlog::debug("addShader {} {}", fileName, getShaderTypeString(static_cast<GLenum>(shaderType)));
     const Zelo::Resource &asset = Zelo::Resource(fileName);
     const char *c_code = asset.read();
@@ -384,7 +385,7 @@ void GLSLShaderProgram::addShader(const std::string &fileName, ShaderType shader
 }
 
 void
-GLSLShaderProgram::addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const {
+GLSLShaderProgram::addShaderSrc(const std::string &fileName, const EShaderType &shaderType, const char *c_code) const {
     GLuint shaderHandle = glCreateShader(GetGLShaderType(shaderType));
 
     glShaderSource(shaderHandle, 1, &c_code, NULL);
@@ -466,8 +467,8 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
-    addShaderSrc(fileName, ShaderType::VERTEX, vertex_src.c_str());
-    addShaderSrc(fileName, ShaderType::FRAGMENT, fragment_src.c_str());
+    addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
+    addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
 }
 
 void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) {

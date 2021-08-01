@@ -5,6 +5,8 @@
 #include "BufferLayout.h"
 #include "Renderer/OpenGL/GLUtil.h"
 
+using namespace Zelo::Core::RHI;
+
 BufferElement::BufferElement(
         ShaderDataType type,
         const std::string &name,

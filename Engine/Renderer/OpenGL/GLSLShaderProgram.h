@@ -11,7 +11,7 @@
 #include "Core/RHI/Shader.h"
 #include "Core/Resource/Resource.h"
 #include "Attenuation.h"
-#include "Core/RHI/ShaderType.h"
+#include "Core/RHI/Const/EShaderType.h"
 
 class GLSLShaderProgram : public Shader {
 public:
@@ -26,7 +26,7 @@ public:
 
     void addShader(const std::string &fileName) const override;
 
-    void addShader(const std::string &fileName, ShaderType shaderType) const override;
+    void addShader(const std::string &fileName, Zelo::Core::RHI::EShaderType shaderType) const override;
 
     void link() override;
 
@@ -74,7 +74,7 @@ private:
 private:
     void createUniform(const std::string &name);
 
-    void addShaderSrc(const std::string &fileName, const ShaderType &shaderType, const char *c_code) const;
+    void addShaderSrc(const std::string &fileName, const Zelo::Core::RHI::EShaderType &shaderType, const char *c_code) const;
 };
 
 #endif //ZELOENGINE_GLSLSHADERPROGRAM_H

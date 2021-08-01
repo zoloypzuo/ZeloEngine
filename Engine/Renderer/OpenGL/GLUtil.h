@@ -7,7 +7,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloPlatform.h"  // ZELO_CALLBACK
 #include "ZeloGLPrerequisites.h"
-#include "Core/RHI/ShaderType.h"
+#include "Core/RHI/Const/EShaderType.h"
 
 int checkForOpenGLError(const char *, int);
 
@@ -21,6 +21,6 @@ const char *getTypeString(GLenum type);
 
 std::string getShaderTypeString(GLenum shaderType);
 
-GLenum ShaderDataTypeToOpenGLBaseType(const ShaderDataType &type);
+GLenum ShaderDataTypeToOpenGLBaseType(const Zelo::Core::RHI::ShaderDataType &type);
 
-uint32_t ShaderDataTypeSize(ShaderDataType type);
+uint32_t ShaderDataTypeSize(Zelo::Core::RHI::ShaderDataType type);

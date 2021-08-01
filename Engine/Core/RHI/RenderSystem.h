@@ -5,6 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
+#include "Core/RHI/RenderCommand.h"
 
 namespace Zelo::Core::RHI {
 class RenderSystem :

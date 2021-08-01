@@ -1,17 +1,16 @@
 // BufferLayout.h
 // created on 2021/6/6
 // author @zoloypzuo
-
 #ifndef ZELOENGINE_BUFFERLAYOUT_H
 #define ZELOENGINE_BUFFERLAYOUT_H
 
 #include "ZeloPrerequisites.h"
-#include "Core/RHI/ShaderType.h"
+#include "Core/RHI/Const/EShaderType.h"
 
 // TODO OPTIMIZE pack alignment
 struct BufferElement {
     std::string Name{};
-    ShaderDataType Type{};
+    Zelo::Core::RHI::ShaderDataType Type{};
     uint32_t Size{};
     size_t Offset{};
     bool Normalized{};
@@ -19,7 +18,7 @@ struct BufferElement {
     BufferElement() = default;
 
     BufferElement(
-            ShaderDataType type,
+            Zelo::Core::RHI::ShaderDataType type,
             const std::string &name,
             bool normalized = false
     );

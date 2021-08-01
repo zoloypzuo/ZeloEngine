@@ -1,6 +1,9 @@
 # created on 2021/7/26
 # author @zoloypzuo
 add_library(RHI
+        Const/ERenderingCapability.h
+        Const/EShaderType.h
+
         Shader.cpp
         Texture.cpp
         RenderCommand.cpp
@@ -8,5 +11,5 @@ add_library(RHI
         Buffer.cpp
         VertexArray.cpp
         BufferLayout.cpp
-        ShaderType.cpp
-        RenderSystem.cpp RenderSystem.h Const/ERenderingCapability.h)
+        RenderSystem.cpp RenderSystem.h
+        )

@@ -1,11 +1,10 @@
 // Shader.h
 // created on 2021/6/2
 // author @zoloypzuo
-
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Core/RHI/ShaderType.h"
+#include "Core/RHI/Const/EShaderType.h"
 
 class Shader {
 public:
@@ -13,7 +12,7 @@ public:
 
     virtual void addShader(const std::string &fileName) const = 0;
 
-    virtual void addShader(const std::string &fileName, ShaderType shaderType) const = 0;
+    virtual void addShader(const std::string &fileName, Zelo::Core::RHI::EShaderType shaderType) const = 0;
 
     virtual void link() = 0;
 
