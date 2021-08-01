@@ -16,7 +16,8 @@ add_library(RHI
         Buffer/BufferLayout.cpp
         Buffer/Vertex.h
 
+        MeshGen/IMeshGen.h
         MeshGen/Plane.cpp MeshGen/Plane.h
 
         RenderSystem.cpp RenderSystem.h
-        )
+        MeshGen/IMeshGen.h)

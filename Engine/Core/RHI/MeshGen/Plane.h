@@ -4,14 +4,19 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "GLMesh.h"
+#include "Core/RHI/MeshGen/IMeshGen.h"
 
-
-class Plane {
+namespace Zelo::Core::RHI {
+class Plane : public IMeshGen {
 public:
     Plane();
 
-    ~Plane() = default;
+    ~Plane() override = default;
 
-    static std::shared_ptr<GLMesh> getMesh();
+    const std::string &getId() override;
+
+    std::vector<Vertex> getVertices() override;
+
+    std::vector<uint32_t> getIndices() override;
 };
+}
