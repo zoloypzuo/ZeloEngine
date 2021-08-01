@@ -50,42 +50,40 @@ public:
 
     virtual void setColorWriting(bool enable) = 0;
 
-    virtual void setViewPort(uint32_t x, uint32_t y, uint32_t width, uint32_t height) = 0;
-
     virtual void readPixels(uint32_t x, uint32_t y, uint32_t width, uint32_t height,
                             EPixelDataFormat format, EPixelDataType type,
                             void *data) = 0;
 
-    virtual bool GetBool(uint32_t/*GLenum*/ parameter) = 0;
+    virtual bool getBool(uint32_t/*GLenum*/ parameter) = 0;
 
-    virtual bool GetBool(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
+    virtual bool getBool(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
 
-    virtual int GetInt(uint32_t/*GLenum*/ parameter) = 0;
+    virtual int getInt(uint32_t/*GLenum*/ parameter) = 0;
 
-    virtual int GetInt(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
+    virtual int getInt(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
 
-    virtual float GetFloat(uint32_t/*GLenum*/ parameter) = 0;
+    virtual float getFloat(uint32_t/*GLenum*/ parameter) = 0;
 
-    virtual float GetFloat(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
+    virtual float getFloat(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
 
-    virtual double GetDouble(uint32_t/*GLenum*/ parameter) = 0;
+    virtual double getDouble(uint32_t/*GLenum*/ parameter) = 0;
 
-    virtual double GetDouble(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
+    virtual double getDouble(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
 
-    virtual int64_t GetInt64(uint32_t/*GLenum*/ parameter) = 0;
+    virtual int64_t getInt64(uint32_t/*GLenum*/ parameter) = 0;
 
-    virtual int64_t GetInt64(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
+    virtual int64_t getInt64(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
 
-    virtual std::string GetString(uint32_t/*GLenum*/ parameter) = 0;
+    virtual std::string getString(uint32_t/*GLenum*/ parameter) = 0;
 
-    virtual std::string GetString(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
+    virtual std::string getString(uint32_t/*GLenum*/ parameter, uint32_t index) = 0;
 
 //    virtual void Draw(Resources::IMesh& mesh, EPrimitiveMode primitiveMode = EPrimitiveMode::TRIANGLES, uint32_t instances = 1)=0;
-    virtual uint8_t FetchGLState() = 0;
+    virtual uint8_t fetchGLState() = 0;
 
-    virtual void ApplyStateMask(uint8_t mask) = 0;
+    virtual void applyStateMask(uint8_t mask) = 0;
 
-    virtual void SetState(uint8_t state) = 0;
+    virtual void setState(uint8_t state) = 0;
 };
 }
 

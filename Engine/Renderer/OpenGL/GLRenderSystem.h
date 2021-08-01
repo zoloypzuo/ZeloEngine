@@ -26,7 +26,7 @@ class GLRenderSystem : public Core::RHI::RenderSystem {
 public:
     GLRenderSystem(Renderer *renderer, const glm::ivec2 &windowSize);
 
-    ~GLRenderSystem();
+    ~GLRenderSystem() override;
 
     void setDrawSize(const glm::ivec2 &size);
 
@@ -89,6 +89,57 @@ public: // RenderCommand
 
     bool getCapabilityEnabled(Core::RHI::ERenderingCapability capability) override;
 
+    void setStencilAlgorithm(Core::RHI::EComparaisonAlgorithm algorithm, int32_t reference, uint32_t mask) override;
+
+    void setDepthAlgorithm(Core::RHI::EComparaisonAlgorithm algorithm) override;
+
+    void setStencilMask(uint32_t mask) override;
+
+    void setStencilOperations(Core::RHI::EOperation stencilFail, Core::RHI::EOperation depthFail,Core::RHI:: EOperation bothPass) override;
+
+    void setCullFace(Core::RHI::ECullFace cullFace) override;
+
+    void setDepthWriting(bool enable) override;
+
+    void setColorWriting(bool enableRed, bool enableGreen, bool enableBlue, bool enableAlpha) override;
+
+    void setColorWriting(bool enable) override;
+
+    void readPixels(uint32_t x, uint32_t y, uint32_t width, uint32_t height,
+                    Core::RHI::EPixelDataFormat format, Core::RHI::EPixelDataType type,
+                    void *data) override;
+
+    bool getBool(uint32_t/*GLenum*/ parameter) override;
+
+    bool getBool(uint32_t/*GLenum*/ parameter, uint32_t index) override;
+
+    int getInt(uint32_t/*GLenum*/ parameter) override;
+
+    int getInt(uint32_t/*GLenum*/ parameter, uint32_t index) override;
+
+    float getFloat(uint32_t/*GLenum*/ parameter) override;
+
+    float getFloat(uint32_t/*GLenum*/ parameter, uint32_t index) override;
+
+    double getDouble(uint32_t/*GLenum*/ parameter) override;
+
+    double getDouble(uint32_t/*GLenum*/ parameter, uint32_t index) override;
+
+    int64_t getInt64(uint32_t/*GLenum*/ parameter) override;
+
+    int64_t getInt64(uint32_t/*GLenum*/ parameter, uint32_t index) override;
+
+    std::string getString(uint32_t/*GLenum*/ parameter) override;
+
+    std::string getString(uint32_t/*GLenum*/ parameter, uint32_t index) override;
+
+//    void Draw(Resources::IMesh& mesh, EPrimitiveMode primitiveMode = EPrimitiveMode::TRIANGLES, uint32_t instances = 1)override;
+    uint8_t fetchGLState() override;
+
+    void applyStateMask(uint8_t mask) override;
+
+    void setState(uint8_t state) override;
+
 public:
 private:
     Renderer *m_renderer;
@@ -100,6 +151,8 @@ private:
     std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
     std::vector<std::shared_ptr<PointLight>> m_pointLights;
     std::vector<std::shared_ptr<SpotLight>> m_spotLights;
+
+    uint8_t m_state;
 };
 }
 #endif //ZELOENGINE_GLRENDERSYSTEM_H
