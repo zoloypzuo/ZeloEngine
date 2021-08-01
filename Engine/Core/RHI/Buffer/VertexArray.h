@@ -5,7 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Core/RHI/Buffer.h"
+#include "Buffer.h"
 
 namespace Zelo {
 

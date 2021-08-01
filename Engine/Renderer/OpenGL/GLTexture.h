@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
-#include "Core/RHI/Texture.h"
+#include "Core/RHI/Resource/Texture.h"
 #include "Core/Resource/Resource.h"
 
 class TextureData {

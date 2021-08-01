@@ -6,7 +6,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Core/RHI/VertexArray.h"
+#include "Core/RHI/Buffer/VertexArray.h"
 
 namespace Zelo {
 

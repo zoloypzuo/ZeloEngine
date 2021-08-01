@@ -5,7 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Core/RHI/BufferLayout.h"
+#include "BufferLayout.h"
 
 namespace Zelo {
 

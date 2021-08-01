@@ -8,7 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
-#include "Core/RHI/Shader.h"
+#include "Core/RHI/Resource/Shader.h"
 #include "Core/Resource/Resource.h"
 #include "Attenuation.h"
 #include "Core/RHI/Const/EShaderType.h"

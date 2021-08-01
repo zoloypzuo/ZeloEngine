@@ -6,7 +6,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Core/RHI/Buffer.h"
+#include "Core/RHI/Buffer/Buffer.h"
 
 namespace Zelo {
 

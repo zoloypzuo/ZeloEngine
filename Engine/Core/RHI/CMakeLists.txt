@@ -4,12 +4,14 @@ add_library(RHI
         Const/ERenderingCapability.h
         Const/EShaderType.h
 
-        Shader.cpp
-        Texture.cpp
-        RenderCommand.cpp
-        Framebuffer.cpp
-        Buffer.cpp
-        VertexArray.cpp
-        BufferLayout.cpp
+        Resource/Shader.cpp
+        Resource/Texture.cpp
+
+        Buffer/Framebuffer.cpp
+        Buffer/Buffer.cpp
+        Buffer/VertexArray.cpp
+        Buffer/BufferLayout.cpp
+
+        RenderCommand.cpp RenderSystem.h
         RenderSystem.cpp RenderSystem.h
         )

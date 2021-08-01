@@ -5,7 +5,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Core/RHI/VertexArray.h"
+#include "Core/RHI/Buffer/VertexArray.h"
 #include "Core/RHI/Const/ERenderingCapability.h"
 
 namespace Zelo::Core::RHI {
