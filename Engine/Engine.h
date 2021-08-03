@@ -41,7 +41,7 @@ public:
 
     void uninstallPlugin(Plugin *plugin);
 
-    const PluginInstanceList &getInstalledPlugins() const { return mPlugins; }
+    const PluginInstanceList &getInstalledPlugins() const { return m_plugins; }
 
 public:
     static Engine *getSingletonPtr();
@@ -58,9 +58,9 @@ protected:
     std::unique_ptr<Game> m_game;
     std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem;
 
-    std::vector<std::unique_ptr<Plugin>> mPlugins;
+    std::vector<std::unique_ptr<Plugin>> m_plugins;
     
-    bool mIsInitialised{};
+    bool m_isInitialised{};
     bool m_configInitialized{};
 
     std::filesystem::path m_engineDir{};

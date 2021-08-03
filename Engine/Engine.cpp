@@ -24,17 +24,19 @@ using namespace Zelo::Renderer::OpenGL;
 void Engine::initialize() {
     // init config and logger first
     spdlog::set_level(spdlog::level::debug);
+
     if (!m_configInitialized) {
         initConfig();
     }
     m_configInitialized = true;
+
     m_resourceManager = std::make_unique<ResourceManager>(
             m_engineDir, m_configDir, m_assertDir, m_scriptDir
     );
-
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>(m_config->GetSection("Window"));
+    m_window->initialize();
     m_renderSystem = std::make_unique<GLRenderSystem>();
     m_renderSystem->initialize();
 //    m_imguiManager = std::make_unique<ImGuiManager>();
@@ -66,7 +68,7 @@ void Engine::initialize() {
     m_timeSystem = std::make_unique<Time>();
     m_timeSystem->initialize();
 
-    mIsInitialised = true;
+    m_isInitialised = true;
 }
 
 void Engine::initConfig() {
@@ -89,7 +91,7 @@ void Engine::initConfig() {
     m_scriptDir = m_engineDir / "Script";
 
     auto engineIniPath = m_configDir / "Engine.ini";
-    m_config = std::make_unique<INIReader>(engineIniPath.string());
+     m_config = std::make_unique<INIReader>(engineIniPath.string());
     if (m_config->ParseError()) {
         spdlog::error("Engine.ini not found, path={}", engineIniPath.string());
         ZELO_CORE_ASSERT(false, "Engine.ini not found");
@@ -145,13 +147,13 @@ Engine &Engine::getSingleton() {
 }
 
 void Engine::initialisePlugins() {
-    for (auto &plugin: mPlugins) {
+    for (auto &plugin: m_plugins) {
         plugin->initialise();
     }
 }
 
 void Engine::shutdownPlugins() {
-    for (auto &plugin:mPlugins) {
+    for (auto &plugin:m_plugins) {
         plugin->shutdown();
     }
 }
@@ -159,11 +161,11 @@ void Engine::shutdownPlugins() {
 void Engine::installPlugin(Plugin *plugin) {
     spdlog::debug("installing plugin: {}", plugin->getName());
 
-    mPlugins.push_back(std::move(std::unique_ptr<Plugin>(plugin)));
+    m_plugins.push_back(std::move(std::unique_ptr<Plugin>(plugin)));
     plugin->install();
 
     // if rendersystem is already initialised, call rendersystem init too
-    if (mIsInitialised) {
+    if (m_isInitialised) {
         plugin->initialise();
     }
 
@@ -174,10 +176,10 @@ void Engine::uninstallPlugin(Plugin *plugin) {
     spdlog::debug("uninstalling plugin: {}", plugin->getName());
 
     auto i = std::find_if(
-            mPlugins.begin(), mPlugins.end(),
+            m_plugins.begin(), m_plugins.end(),
             [&](auto &item) { return item->getName() == plugin->getName(); });
-    if (i != mPlugins.end()) {
-        if (mIsInitialised) {
+    if (i != m_plugins.end()) {
+        if (m_isInitialised) {
             plugin->shutdown();
         }
         plugin->uninstall();
