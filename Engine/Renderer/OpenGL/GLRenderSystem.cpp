@@ -6,6 +6,7 @@
 #include "GLUtil.h"
 #include "Core/Game/Game.h"
 #include "Core/Window/Window.h"
+#include "Renderer/OpenGL/Pipeline/ForwardRenderer.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
@@ -14,7 +15,8 @@ void GLRenderSystem::initialize() {
     ::loadGL();
     ::initDebugCallback();
 
-    m_renderer = nullptr;
+    m_renderer = std::make_unique<ForwardRenderer>();
+    m_renderer->initialize();
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});
 
@@ -31,7 +33,7 @@ void GLRenderSystem::update() {
     clear(true, true, false);
 
     auto scene = Game::getSingletonPtr()->getRootNode();
-//    m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
+    m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
 }
 
 GLRenderSystem::GLRenderSystem() = default;

@@ -128,7 +128,7 @@ public: // RenderCommand
     void applyStateMask(uint8_t mask) override;
 
 private:
-    class Renderer *m_renderer{};
+    std::unique_ptr<class Renderer> m_renderer{};
 
     std::unique_ptr<Core::RHI::MeshManager> m_meshManager;
 
