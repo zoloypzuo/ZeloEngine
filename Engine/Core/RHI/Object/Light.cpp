@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Light.h"
-#include "GLRenderSystem.h"
+#include "Renderer/OpenGL/GLRenderSystem.h"
 #include "Core/ECS/Entity.h"
 
 BaseLight::BaseLight(glm::vec3 color, float intensity) {

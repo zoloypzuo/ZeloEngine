@@ -6,7 +6,7 @@
 #define ZELOENGINE_ZELO_H
 
 // INCLUDE HEADERS HERE
-#include "Renderer/OpenGL/Light.h"
+#include "Core/RHI/Object/Light.h"
 #include "Core/RHI/Resource/Material.h"
 #include "Renderer/OpenGL/Resource/GLTexture.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"

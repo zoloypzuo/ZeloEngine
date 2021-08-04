@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "GLSLShaderProgram.h"
-#include "Renderer/OpenGL/Light.h"
+#include "Core/RHI/Object/Light.h"
 #include "Renderer/OpenGL/GLUtil.h"
 #include "sol/sol.hpp"
 #include "Core/ECS/Entity.h"

@@ -22,5 +22,8 @@ add_library(RHI
         MeshGen/IMeshGen.h
         MeshGen/Plane.cpp MeshGen/Plane.h
 
+        Object/Camera.cpp
+        Object/Light.cpp
+
         RenderSystem.cpp RenderSystem.h
         )

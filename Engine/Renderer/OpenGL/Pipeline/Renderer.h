@@ -8,8 +8,8 @@
 #include "ZeloGLPrerequisites.h"
 
 #include "Core/ECS/Entity.h"
-#include "Renderer/OpenGL/Camera.h"
-#include "Renderer/OpenGL/Light.h"
+#include "Core/RHI/Object/Camera.h"
+#include "Core/RHI/Object/Light.h"
 
 class Renderer {
 public:

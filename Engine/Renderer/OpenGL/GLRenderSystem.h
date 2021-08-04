@@ -14,8 +14,8 @@
 #include "Renderer/OpenGL/Pipeline/Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Core/RHI/Resource/MeshManager.h"
-#include "Renderer/OpenGL/Camera.h"
-#include "Renderer/OpenGL/Light.h"
+#include "Core/RHI/Object/Camera.h"
+#include "Core/RHI/Object/Light.h"
 
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {

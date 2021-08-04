@@ -13,8 +13,6 @@ add_library(OpenGLRenderer
         Drawable/MeshRenderer.cpp
         Drawable/Line.cpp
 
-        Light.cpp
-        Camera.cpp
         GLUtil.cpp
 
         GLRenderSystem.cpp GLRenderSystem.h

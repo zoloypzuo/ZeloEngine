@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "Renderer/OpenGL/Camera.h"
+#include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Entity.h"
 
 class Game : public Singleton<Game>, public IRuntimeModule {
