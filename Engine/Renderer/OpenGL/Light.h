@@ -9,7 +9,22 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
-#include "Attenuation.h"
+
+class Attenuation {
+public:
+    Attenuation(float constant, float linear, float exponent);
+
+    float getConstant() const;
+
+    float getLinear() const;
+
+    float getExponent() const;
+
+// private:
+    float m_constant;
+    float m_linear;
+    float m_exponent;
+};
 
 class BaseLight : public Component, public std::enable_shared_from_this<BaseLight> {
 public:
@@ -84,5 +99,6 @@ public:
 private:
     float m_cutoff;
 };
+
 
 #endif //ZELOENGINE_LIGHT_H

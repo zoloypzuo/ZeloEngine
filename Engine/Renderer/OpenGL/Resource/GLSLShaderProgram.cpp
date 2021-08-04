@@ -7,6 +7,7 @@
 #include "Renderer/OpenGL/GLUtil.h"
 #include "sol/sol.hpp"
 #include "Core/ECS/Entity.h"
+#include "Light.h"
 
 using namespace Zelo::Core::RHI;
 struct shader_file_extension {

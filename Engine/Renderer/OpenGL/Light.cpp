@@ -106,3 +106,21 @@ void SpotLight::updateShader(GLSLShaderProgram *shader) {
 float SpotLight::getCutoff() const {
     return m_cutoff;
 }
+
+Attenuation::Attenuation(float constant, float linear, float exponent) {
+    m_constant = constant;
+    m_linear = linear;
+    m_exponent = exponent;
+}
+
+float Attenuation::getConstant() const {
+    return m_constant;
+}
+
+float Attenuation::getLinear() const {
+    return m_linear;
+}
+
+float Attenuation::getExponent() const {
+    return m_exponent;
+}

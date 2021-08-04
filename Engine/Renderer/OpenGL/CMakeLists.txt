@@ -14,7 +14,6 @@ add_library(OpenGLRenderer
         Drawable/Line.cpp
 
         Light.cpp
-        Attenuation.cpp
         Camera.cpp
         GLUtil.cpp
 
