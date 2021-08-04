@@ -3,6 +3,8 @@
 add_library(RHI
         Const/ERenderingCapability.h
         Const/EShaderType.h
+        Const/EProjectionMode.h
+        Const/ETextureFilteringMode.h
 
         Resource/Shader.h
         Resource/Texture.h
