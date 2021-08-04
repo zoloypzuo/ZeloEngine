@@ -40,27 +40,11 @@ void Engine::initialize() {
     m_renderSystem->initialize();
 //    m_imguiManager = std::make_unique<ImGuiManager>();
 //    m_imguiManager->initialize();
-//    m_game = std::make_unique<Game>(); game is newed by app
-//    m_game->initialize();
+    m_game = std::make_unique<Game>();
+    m_game->initialize();
 //    m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
 
     m_window->makeCurrentContext();
-
-//    m_window->getInput()->registerKeyToAction(SDLK_F1, "propertyEditor");
-//
-//    m_window->getInput()->registerButtonToAction(SDL_BUTTON_LEFT, "fireRay");
-//
-//    m_window->getInput()->bindAction("propertyEditor", IE_PRESSED, [this]() {
-//        m_window->getGuiManager()->togglePropertyEditor();
-//    });
-//
-//    m_window->getInput()->bindAction("fireRay", IE_PRESSED, [this]() {
-//        m_fireRay = true;
-//    });
-//
-//    m_window->getInput()->bindAction("fireRay", IE_RELEASED, [this]() {
-//        m_fireRay = false;
-//    });
 
     initialisePlugins();
 
@@ -90,7 +74,7 @@ void Engine::initConfig() {
     m_scriptDir = m_engineDir / "Script";
 
     auto engineIniPath = m_configDir / "Engine.ini";
-     m_config = std::make_unique<INIReader>(engineIniPath.string());
+    m_config = std::make_unique<INIReader>(engineIniPath.string());
     if (m_config->ParseError()) {
         spdlog::error("Engine.ini not found, path={}", engineIniPath.string());
         ZELO_CORE_ASSERT(false, "Engine.ini not found");
@@ -131,6 +115,8 @@ void Engine::start() {
     finalize();
     ZELO_PROFILE_END_SESSION();
 }
+
+Engine::Engine() = default;
 
 Engine::~Engine() = default;
 
@@ -187,9 +173,6 @@ void Engine::uninstallPlugin(Plugin *plugin) {
     spdlog::debug("plugin uninstalled successfully: {}", plugin->getName());
 }
 
-Engine::Engine() {
-    m_game = std::make_unique<Game>();
-}
 
 //#include <rttr/registration>
 
