@@ -206,8 +206,6 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
         std::shared_ptr<GLTexture> normalMap;
         std::shared_ptr<GLTexture> specularMap;
 
-        aiString Path;
-
         auto diffuseMapPath = getTexturePathFromMaterial(pMaterial, aiTextureType_DIFFUSE, "default_normal.jpg");
         diffuseMap = std::make_shared<GLTexture>(Zelo::Resource(diffuseMapPath));
 
@@ -217,10 +215,11 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
         auto specularMapPath = getTexturePathFromMaterial(pMaterial, aiTextureType_SPECULAR, "default_specular.jpg");
         specularMap = std::make_shared<GLTexture>(Zelo::Resource(specularMapPath));
 
-        m_meshRendererData.emplace_back(std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()),
-                                                                 &vertices[0],
-                                                                 vertices.size(), &indices[0], indices.size()),
-                                        std::make_shared<GLMaterial>(diffuseMap, normalMap, specularMap)
+        m_meshRendererData.emplace_back(
+                std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()),
+                                         &vertices[0],
+                                         vertices.size(), &indices[0], indices.size()),
+                std::make_shared<GLMaterial>(diffuseMap, normalMap, specularMap)
         );
     }
 }
