@@ -5,7 +5,6 @@
 #include "Engine.h"
 #include "Core/OS/whereami.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
-#include "MyGame.h"
 
 // enable vld
 #ifdef DETECT_MEMORY_LEAK
@@ -189,7 +188,7 @@ void Engine::uninstallPlugin(Plugin *plugin) {
 }
 
 Engine::Engine() {
-    m_game = std::make_unique<MyGame>();
+    m_game = std::make_unique<Game>();
 }
 
 //#include <rttr/registration>
