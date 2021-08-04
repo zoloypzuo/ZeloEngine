@@ -53,7 +53,7 @@ public:
 
     void deregisterFromEngine() override;
 
-    void updateShader(GLSLShaderProgram *shader) override;
+//    void updateShader(GLSLShaderProgram *shader) override;
 
     inline const char *getType() override { return "DIRECTIONAL_LIGHT"; }
 };
@@ -68,7 +68,7 @@ public:
 
     void deregisterFromEngine() override;
 
-    void updateShader(GLSLShaderProgram *shader) override;
+//    void updateShader(GLSLShaderProgram *shader) override;
 
     inline const char *getType() override { return "POINT_LIGHT"; }
 
@@ -92,7 +92,7 @@ public:
 
     inline const char *getType() override { return "SPOT_LIGHT"; }
 
-    void updateShader(GLSLShaderProgram *shader) override;
+//    void updateShader(GLSLShaderProgram *shader) override;
 
     float getCutoff() const;
 

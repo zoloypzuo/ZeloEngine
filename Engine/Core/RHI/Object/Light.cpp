@@ -37,9 +37,9 @@ void DirectionalLight::deregisterFromEngine() {
 //            std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
-void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
-    shader->updateUniformDirectionalLight("directionalLight", this);
-}
+//void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
+//    shader->updateUniformDirectionalLight("directionalLight", this);
+//}
 
 PointLight::PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenuation> attenuation) : BaseLight(color,
                                                                                                                intensity) {
@@ -67,9 +67,9 @@ void PointLight::deregisterFromEngine() {
 //    GLRenderSystem::getSingletonPtr()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
-void PointLight::updateShader(GLSLShaderProgram *shader) {
-    shader->updateUniformPointLight("pointLight", this);
-}
+//void PointLight::updateShader(GLSLShaderProgram *shader) {
+//    shader->updateUniformPointLight("pointLight", this);
+//}
 
 std::shared_ptr<Attenuation> PointLight::getAttenuation() const {
     return m_attenuation;
@@ -99,9 +99,9 @@ void SpotLight::deregisterFromEngine() {
 //    GLRenderSystem::getSingletonPtr()->removeSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
 }
 
-void SpotLight::updateShader(GLSLShaderProgram *shader) {
-    shader->updateUniformSpotLight("spotLight", this);
-}
+//void SpotLight::updateShader(GLSLShaderProgram *shader) {
+//    shader->updateUniformSpotLight("spotLight", this);
+//}
 
 float SpotLight::getCutoff() const {
     return m_cutoff;
