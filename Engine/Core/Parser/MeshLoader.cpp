@@ -4,7 +4,6 @@
 #include "ZeloPreCompiledHeader.h"
 #include "MeshLoader.h"
 #include "Core/Resource/Resource.h"
-#include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Buffer/Vertex.h"
 
 #include "Renderer/OpenGL/Resource/GLTexture.h"
