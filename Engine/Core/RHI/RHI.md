@@ -40,3 +40,5 @@ Framebuffer，RTT
 Resource，资源抽象，可以解析的对象
 Shader，Texture，有对应独立的GL对象
 Model，对应VertexArray
+
+Object，低阶渲染对象，Camera，Light
