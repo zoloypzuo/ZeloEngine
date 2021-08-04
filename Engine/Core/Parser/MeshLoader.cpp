@@ -133,23 +133,36 @@ void CustomIOSystem::Close(Assimp::IOStream *pFile) {
     delete pFile;
 }
 
+std::string getTexturePathFromMaterial(const aiMaterial *pMaterial,
+                                       aiTextureType textureType,
+                                       std::string defaultPath) {
+    aiString Path{};
+    if (pMaterial->GetTextureCount(textureType) > 0 &&
+        pMaterial->GetTexture(textureType,
+                              0,
+                              &Path,
+                              nullptr, nullptr,
+                              nullptr, nullptr,
+                              nullptr) == AI_SUCCESS) {
+        return Path.data;
+    } else {
+        return defaultPath;
+    }
+}
+
 Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
     m_fileName = file;
-    auto *mesh_m = MeshManager::getSingletonPtr();
-    if (!mesh_m->sceneMeshRendererDataCache[m_fileName].empty()) {
-        m_meshRendererData = mesh_m->sceneMeshRendererDataCache[m_fileName];
-        return;
-    }
+
     Assimp::Importer importer;
     importer.SetIOHandler(new CustomIOSystem());
 
     spdlog::info("Loading mesh: {}", file);
 
-    const auto *scene = importer.ReadFile(file,
-                                   aiProcess_Triangulate |
-                                   aiProcess_GenSmoothNormals |
-                                   aiProcess_FlipUVs |
-                                   aiProcess_CalcTangentSpace);
+    auto pFlags = aiProcess_Triangulate |
+                  aiProcess_GenSmoothNormals |
+                  aiProcess_FlipUVs |
+                  aiProcess_CalcTangentSpace;
+    const auto *scene = importer.ReadFile(file, pFlags);
 
     if (!scene) {
         spdlog::error("Failed to load mesh: {}", file);
@@ -195,43 +208,23 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
 
         aiString Path;
 
-        if (pMaterial->GetTextureCount(aiTextureType_DIFFUSE) > 0
-            && pMaterial->GetTexture(
-                aiTextureType_DIFFUSE, 0, &Path,
-                nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            diffuseMap = std::make_shared<GLTexture>(Zelo::Resource(Path.data));
-        } else {
-            diffuseMap = std::make_shared<GLTexture>(Zelo::Resource("default_normal.jpg"));
-        }
+        auto diffuseMapPath = getTexturePathFromMaterial(pMaterial, aiTextureType_DIFFUSE, "default_normal.jpg");
+        diffuseMap = std::make_shared<GLTexture>(Zelo::Resource(diffuseMapPath));
 
-        if (pMaterial->GetTextureCount(aiTextureType_HEIGHT) > 0
-            && pMaterial->GetTexture(
-                aiTextureType_HEIGHT, 0, &Path,
-                nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            normalMap = std::make_shared<GLTexture>(Zelo::Resource(Path.data));
-        } else {
-            normalMap = std::make_shared<GLTexture>(Zelo::Resource("default_normal.jpg"));
-        }
+        auto normalMapPath = getTexturePathFromMaterial(pMaterial, aiTextureType_HEIGHT, "default_normal.jpg");
+        normalMap = std::make_shared<GLTexture>(Zelo::Resource(normalMapPath));
 
-        if (pMaterial->GetTextureCount(aiTextureType_SPECULAR) > 0
-            && pMaterial->GetTexture(
-                aiTextureType_SPECULAR, 0, &Path,
-                nullptr, nullptr, nullptr, nullptr, nullptr) == AI_SUCCESS) {
-            specularMap = std::make_shared<GLTexture>(Zelo::Resource(Path.data));
-        } else {
-            specularMap = std::make_shared<GLTexture>(Zelo::Resource("default_specular.jpg"));
-        }
+        auto specularMapPath = getTexturePathFromMaterial(pMaterial, aiTextureType_SPECULAR, "default_specular.jpg");
+        specularMap = std::make_shared<GLTexture>(Zelo::Resource(specularMapPath));
 
-        MeshRendererData meshRenderData;
-        meshRenderData.mesh = std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()),
-                                                       &vertices[0],
-                                                       vertices.size(), &indices[0], indices.size());
-        meshRenderData.material = std::make_shared<GLMaterial>(diffuseMap, normalMap, specularMap);
-
-        mesh_m->sceneMeshRendererDataCache[m_fileName].push_back(meshRenderData);
+        m_meshRendererData.emplace_back(std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()),
+                                                                 &vertices[0],
+                                                                 vertices.size(), &indices[0], indices.size()),
+                                        std::make_shared<GLMaterial>(diffuseMap, normalMap, specularMap)
+        );
     }
-    m_meshRendererData = mesh_m->sceneMeshRendererDataCache[m_fileName];
 }
+
 
 Zelo::Parser::MeshLoader::~MeshLoader() = default;
 

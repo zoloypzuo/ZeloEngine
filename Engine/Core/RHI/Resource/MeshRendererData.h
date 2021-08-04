@@ -9,6 +9,8 @@
 
 namespace Zelo::Core::RHI {
 struct MeshRendererData {
+    MeshRendererData(const std::shared_ptr<Mesh> &mesh) : mesh(mesh) {}
+
     std::shared_ptr<Mesh> mesh;
     std::shared_ptr<Material> material;
 };
