@@ -1,14 +1,12 @@
 // Light.h
 // created on 2021/3/31
 // author @zoloypzuo
-
 #ifndef ZELOENGINE_LIGHT_H
 #define ZELOENGINE_LIGHT_H
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
-#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 class Attenuation {
 public:
@@ -38,7 +36,7 @@ public:
 
     float getIntensity() const;
 
-    virtual void updateShader(GLSLShaderProgram *shader) = 0;
+//    virtual void updateShader(GLSLShaderProgram *shader) = 0;
 
 protected:
     glm::vec3 m_color;

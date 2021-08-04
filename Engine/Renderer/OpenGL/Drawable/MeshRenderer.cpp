@@ -12,7 +12,7 @@ MeshRenderer::MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Zelo::C
 MeshRenderer::~MeshRenderer() {
 }
 
-void MeshRenderer::render(GLSLShaderProgram *shader) {
+void MeshRenderer::render(Shader *shader) {
     shader->setUniformMatrix4f("World", m_parentEntity->getWorldMatrix());
 
     m_material->bind();

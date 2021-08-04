@@ -4,10 +4,9 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLSLShaderProgram.h"
 #include "Core/RHI/Object/Light.h"
-#include "Renderer/OpenGL/GLUtil.h"
-#include "sol/sol.hpp"
 #include "Core/ECS/Entity.h"
-#include "Light.h"
+#include "Renderer/OpenGL/GLUtil.h"
+#include <sol/sol.hpp>
 
 using namespace Zelo::Core::RHI;
 struct shader_file_extension {

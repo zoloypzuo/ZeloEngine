@@ -119,7 +119,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     glBindTexture(GL_TEXTURE_2D, m_depthMap);
 
     for (const auto &light : directionalLights) {
-        light->updateShader(m_forwardDirectional.get());
+//        light->updateShader(m_forwardDirectional.get());
 
         scene.renderAll(m_forwardDirectional.get());
 
@@ -134,7 +134,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     m_forwardPoint->setUniform1f("specularIntensity", 0.5);
     m_forwardPoint->setUniform1f("specularPower", 10);
     for (const auto &light : pointLights) {
-        light->updateShader(m_forwardPoint.get());
+//        light->updateShader(m_forwardPoint.get());
 
         scene.renderAll(m_forwardPoint.get());
     }
@@ -147,7 +147,7 @@ void ForwardShadowRenderer::render(const Entity &scene, std::shared_ptr<Camera> 
     m_forwardSpot->setUniform1f("specularIntensity", 0.5);
     m_forwardSpot->setUniform1f("specularPower", 10);
     for (const auto &light : spotLights) {
-        light->updateShader(m_forwardSpot.get());
+//        light->updateShader(m_forwardSpot.get());
 
         scene.renderAll(m_forwardSpot.get());
     }

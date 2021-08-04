@@ -1,15 +1,13 @@
 // Entity.h
 // created on 2021/3/28
 // author @zoloypzuo
-
 #ifndef ZELOENGINE_ENTITY_H
 #define ZELOENGINE_ENTITY_H
 
 #include "ZeloPrerequisites.h"
-
+#include "Core/Input/Input.h"  // TODO remove it
 #include "Core/Math/Transform.h"
-#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
-#include "Core/Input/Input.h"
+#include "Core/RHI/Resource/Shader.h"
 
 class Entity;
 
@@ -36,7 +34,7 @@ public:
 
     virtual void update(Input *input, std::chrono::microseconds delta) {};
 
-    virtual void render(GLSLShaderProgram *shader) {};
+    virtual void render(Shader *shader) {};
 
     virtual void registerWithEngine() {};
 
@@ -87,7 +85,7 @@ public:
 
     void updateAll(Input *input, std::chrono::microseconds delta);
 
-    void renderAll(GLSLShaderProgram *shader) const;
+    void renderAll(Shader *shader) const;
 
     void registerWithEngineAll();
 

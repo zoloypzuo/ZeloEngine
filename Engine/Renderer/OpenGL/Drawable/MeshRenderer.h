@@ -18,7 +18,7 @@ public:
 
     virtual ~MeshRenderer();
 
-    void render(GLSLShaderProgram *shader) override;
+    void render(Shader *shader) override;
 
     inline const char *getType() override { return "MESH_RENDERER"; }
 
