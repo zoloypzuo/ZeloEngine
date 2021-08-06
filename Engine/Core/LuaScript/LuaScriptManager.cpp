@@ -64,7 +64,6 @@ void LuaScriptManager::initLuaContext() {
             sol::lib::utf8
     );
 
-    set_function("print", LuaScriptManager::luaPrint);
     LuaBind_Main(*this);
     require("Zelo", luaopen_Zelo);
 
@@ -80,8 +79,9 @@ void LuaScriptManager::update() {
 }
 
 void LuaScriptManager::luaPrint(sol::variadic_args va) {
+    auto &logger = LuaScriptManager::getSingletonPtr()->m_logger;
     for (auto v : va) {
         std::string value = v; // get argument out (implicit conversion)
-        LuaScriptManager::getSingletonPtr()->m_logger->debug(value);
+        logger->debug(value);
     }
 }

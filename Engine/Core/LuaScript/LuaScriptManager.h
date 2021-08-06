@@ -24,10 +24,11 @@ public:
 
     void update() override;
 
+public:
+    static void luaPrint(sol::variadic_args va);
+
 private:
     void initLuaContext();
-
-    static void luaPrint(sol::variadic_args va);
 
     std::shared_ptr<spdlog::logger> m_logger{};
 };
