@@ -9,10 +9,12 @@
 #include "Core/Math/Transform.h"
 #include "Core/RHI/Resource/Shader.h"
 
+// TODO 解开Entity和场景图的依赖关系，不要在Entity类里递归，和注册
 class Entity;
 
 class Component;
 
+// TODO use lua type
 enum class PropertyType {
     FLOAT,
     FLOAT3,
@@ -32,16 +34,22 @@ class Component {
 public:
     virtual ~Component() = default;;
 
+    // TODO remove input
+    // TODO change delta to float
     virtual void update(Input *input, std::chrono::microseconds delta) {};
 
+    // TODO remove it
     virtual void render(Shader *shader) {};
 
+    // TODO remove it
     virtual void registerWithEngine() {};
 
+    // TODO remove it
     virtual void deregisterFromEngine() {};
 
     virtual const char *getType() = 0;
 
+    // TODO remove it
     void setProperty(const char *name, PropertyType type, void *p, float min, float max);
 
     void setProperty(const char *name, PropertyType type, void *p);
