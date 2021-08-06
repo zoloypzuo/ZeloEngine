@@ -121,6 +121,10 @@ glm::vec4 Entity::getDirection() {
     }
 }
 
+const std::string &Entity::getTag() const {
+    return m_tag;
+}
+
 void Component::setParent(Entity *parentEntity) {
     m_parentEntity = parentEntity;
 }

@@ -99,6 +99,8 @@ public:
 
     void deregisterFromEngineAll();
 
+    const std::string &getTag() const;
+
     Transform &getTransform();
 
     std::vector<std::shared_ptr<Entity>> getChildren();
