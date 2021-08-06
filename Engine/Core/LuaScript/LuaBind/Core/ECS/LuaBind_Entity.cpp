@@ -19,6 +19,8 @@
 //#include "Core/ECS/Components/CAudioSource.h"
 //#include "Core/ECS/Components/CAudioListener.h"
 
+#include "Core/ECS/Entity.h"
+
 void LuaBind_Entity(sol::state &luaState) {
     using namespace Zelo::Core::ECS;
     using namespace Zelo::Core::ECS::Components;
@@ -344,4 +346,14 @@ void LuaBind_Entity(sol::state &luaState) {
 //            "AudioListener",
 //            sol::base_classes, sol::bases<AComponent>()
 //    );
+
+    luaState.new_usertype<Entity>(
+            "Entity",
+            sol::constructors<
+                Entity(),
+                Entity(const std::string&)
+                >(),
+            "addChild", &Entity::addChild
+            // TODO add component
+    );
 }
