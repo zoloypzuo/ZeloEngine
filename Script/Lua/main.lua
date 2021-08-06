@@ -21,7 +21,7 @@ do
     -- Entity
     local e = Entity.new("test_tag")
     print(e.tag)
-    --local e_child = Entity.new("test_child_tag")
-    --e.addChild(e_child)
+    local e_child = Entity.new("test_child_tag")
+    e:addChild(e_child)
 end
 
