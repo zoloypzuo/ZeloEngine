@@ -35,7 +35,16 @@ void LuaScriptManager::initialize() {
     };
 
     auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-    do_file(mainLuaPath.string());
+    auto script_result = safe_script_file(mainLuaPath.string(), [](lua_State*, sol::protected_function_result pfr) {
+        // pfr will contain things that went wrong, for either loading or executing the script
+        // Can throw your own custom error
+        // You can also just return it, and let the call-site handle the error if necessary.
+        return pfr;
+        });
+    if (!script_result.valid()) {
+        sol::error err = script_result;
+        m_logger->error("failed to dofile main.lua \n{}", err.what());
+    }
 }
 
 void LuaScriptManager::initLuaContext() {
