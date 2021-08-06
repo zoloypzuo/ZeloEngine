@@ -355,6 +355,6 @@ void LuaBind_Entity(sol::state &luaState) {
                 Entity(const std::string&)
                 >(),
             "tag", sol::property(&Entity::getTag),
-//            "addChild", &Entity::addChild
+            "addChild", &Entity::addChild
     );
 }

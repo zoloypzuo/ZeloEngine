@@ -28,3 +28,4 @@ if true then
     end
 end
 
+require("main_function")
