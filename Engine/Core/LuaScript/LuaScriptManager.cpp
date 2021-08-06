@@ -45,6 +45,12 @@ void LuaScriptManager::initialize() {
         sol::error err = script_result;
         m_logger->error("failed to dofile main.lua \n{}", err.what());
     }
+
+    m_luaInitializeFn = get<sol::function>("initialize");
+    m_luaFinalizeFn = get<sol::function>("finalize");
+    m_luaUpdateFn = get<sol::function>("update");
+
+    m_luaInitializeFn();
 }
 
 void LuaScriptManager::initLuaContext() {

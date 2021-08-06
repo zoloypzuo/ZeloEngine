@@ -1,4 +1,4 @@
--- main_functions
+-- main_function
 -- created on 2021/8/6
 -- author @zoloypzuo
 

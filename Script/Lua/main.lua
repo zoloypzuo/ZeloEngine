@@ -3,6 +3,7 @@
 -- author @zoloypzuo
 
 -- amend LUA_PATH
+package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/common/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/engine/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/scriptlibs/?.lua"
