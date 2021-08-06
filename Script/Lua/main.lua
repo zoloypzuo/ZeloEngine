@@ -17,11 +17,14 @@ print("package.path", package.path)
 --print("PATH", os.getenv("PATH"))
 --print("SCRIPT_DIR", SCRIPT_DIR)
 
-do
-    -- Entity
-    local e = Entity.new("test_tag")
-    print(e.tag)
-    local e_child = Entity.new("test_child_tag")
-    e:addChild(e_child)
+if true then
+    print("=== Start Test sol2")
+    do
+        print("=== Entity")
+        local e = Entity.new("test_tag")
+        print(e.tag)
+        local e_child = Entity.new("test_child_tag")
+        --e:addChild(e_child)
+    end
 end
 
