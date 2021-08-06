@@ -23,6 +23,8 @@ LuaScriptManager *LuaScriptManager::getSingletonPtr() {
 }
 
 void LuaScriptManager::initialize() {
+    m_logger = spdlog::default_logger()->clone("lua");
+
     initLuaContext();
 
     Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
@@ -62,6 +64,7 @@ void LuaScriptManager::initLuaContext() {
             sol::lib::utf8
     );
 
+    set_function("print", LuaScriptManager::luaPrint);
     LuaBind_Main(*this);
     require("Zelo", luaopen_Zelo);
 
@@ -74,4 +77,11 @@ void LuaScriptManager::finalize() {
 
 void LuaScriptManager::update() {
 
+}
+
+void LuaScriptManager::luaPrint(sol::variadic_args va) {
+    for (auto v : va) {
+        std::string value = v; // get argument out (implicit conversion)
+        LuaScriptManager::getSingletonPtr()->m_logger->debug(value);
+    }
 }
