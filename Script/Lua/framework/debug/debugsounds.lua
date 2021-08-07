@@ -18,14 +18,14 @@ local nearbySounds = {}
 local loopingSounds = {}
 local soundCount = 0
 local listenerPos = nil
- 
-TheSim:LoadPrefabs({"sounddebugicon"})
+
+TheSim:LoadPrefabs({ "sounddebugicon" })
 
 SoundEmitter.PlaySound = function(emitter, event, name, volume, ...)
     local ent = emitter:GetEntity()
     if ent and ent.Transform and listenerPos then
-        local pos = Vector3(ent.Transform:GetWorldPosition() )
-        local dist = math.sqrt(distsq(pos, listenerPos) )
+        local pos = Vector3(ent.Transform:GetWorldPosition())
+        local dist = math.sqrt(distsq(pos, listenerPos))
         if dist < maxDistance or name then
             local soundIcon = nil
             if name and loopingSounds[ent] and loopingSounds[ent][name] then
@@ -34,9 +34,9 @@ SoundEmitter.PlaySound = function(emitter, event, name, volume, ...)
                 soundIcon = SpawnPrefab("sounddebugicon")
             end
             if soundIcon then
-                soundIcon.Transform:SetPosition(pos:Get() )
+                soundIcon.Transform:SetPosition(pos:Get())
             end
-            local soundInfo = {event=event, owner=ent, guid=ent.GUID, prefab=ent.prefab or "", position=pos, dist=dist, volume=volume or 1, icon=soundIcon}
+            local soundInfo = { event = event, owner = ent, guid = ent.GUID, prefab = ent.prefab or "", position = pos, dist = dist, volume = volume or 1, icon = soundIcon }
             if name then
                 --add to looping sounds list
                 soundInfo.params = {}
@@ -54,16 +54,16 @@ SoundEmitter.PlaySound = function(emitter, event, name, volume, ...)
             else
                 --add to oneshot sound list
                 soundCount = soundCount + 1
-                local index = (soundCount % maxRecentSounds)+1
+                local index = (soundCount % maxRecentSounds) + 1
                 soundInfo.count = soundCount
                 nearbySounds[index] = soundInfo
                 if soundIcon then
-                    soundIcon.Label:SetText(tostring(soundCount) )
+                    soundIcon.Label:SetText(tostring(soundCount))
                 end
             end
         end
     end
-    
+
     playsound(emitter, event, name, volume, ...)
 end
 
@@ -81,7 +81,7 @@ end
 SoundEmitter.KillAllSounds = function(emitter, ...)
     local sounds = loopingSounds[emitter:GetEntity()]
     if sounds then
-        for k,v in pairs(sounds) do
+        for k, v in pairs(sounds) do
             if v.icon then
                 v.icon:Remove()
             end
@@ -114,23 +114,23 @@ Sim.SetListener = function(sim, x, y, z, ...)
 end
 
 local function DoUpdate()
-    for ent,sounds in pairs(loopingSounds) do
+    for ent, sounds in pairs(loopingSounds) do
         if not next(sounds) then
             loopingSounds[ent] = nil
         else
-            for name,info in pairs(sounds) do
+            for name, info in pairs(sounds) do
                 if not ent:IsValid() or not ent.SoundEmitter or not ent.SoundEmitter:PlayingSound(name) then
                     if info.icon then
                         info.icon:Remove()
                     end
                     sounds[name] = nil
                 else
-                    local pos = Vector3(ent.Transform:GetWorldPosition() )
-                    local dist = math.sqrt(distsq(pos, listenerPos) )
+                    local pos = Vector3(ent.Transform:GetWorldPosition())
+                    local dist = math.sqrt(distsq(pos, listenerPos))
                     info.dist = dist
                     info.pos = pos
                     if info.icon then
-                        info.icon.Transform:SetPosition(pos:Get() )
+                        info.icon.Transform:SetPosition(pos:Get())
                     end
                 end
             end
@@ -143,25 +143,25 @@ function GetSoundDebugString()
     local lines = {}
     table.insert(lines, "-------SOUND DEBUG-------")
     table.insert(lines, "Looping Sounds")
-    for ent,sounds in pairs(loopingSounds) do
-        for name,info in pairs(sounds) do
+    for ent, sounds in pairs(loopingSounds) do
+        for name, info in pairs(sounds) do
             if info.dist < maxDistance then
                 local params = ""
-                for k,v in pairs(info.params) do
-                    params = params.." "..k.."="..v
+                for k, v in pairs(info.params) do
+                    params = params .. " " .. k .. "=" .. v
                 end
                 table.insert(lines, string.format("[%s] %s owner:%d %s pos:%s dist:%2.2f volume:%d params:{%s}",
-                        name, info.event, info.guid, info.prefab, tostring(info.pos), info.dist, info.volume, params) )
+                        name, info.event, info.guid, info.prefab, tostring(info.pos), info.dist, info.volume, params))
             end
         end
     end
     table.insert(lines, "Recent Sounds")
-    for i = soundCount-maxRecentSounds+1, soundCount do
-        local index = (i % maxRecentSounds)+1
+    for i = soundCount - maxRecentSounds + 1, soundCount do
+        local index = (i % maxRecentSounds) + 1
         if nearbySounds[index] then
             local soundInfo = nearbySounds[index]
             table.insert(lines, string.format("[%d] %s owner:%d %s pos:%s dist:%2.2f volume:%d",
-                soundInfo.count, soundInfo.event, soundInfo.guid, soundInfo.prefab, tostring(soundInfo.pos), soundInfo.dist, soundInfo.volume) )
+                    soundInfo.count, soundInfo.event, soundInfo.guid, soundInfo.prefab, tostring(soundInfo.pos), soundInfo.dist, soundInfo.volume))
         end
     end
     return table.concat(lines, "\n")

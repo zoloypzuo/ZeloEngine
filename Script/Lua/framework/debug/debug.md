@@ -1,5 +1,5 @@
 # debug
 
 * CHEATS_ENABLED
-  * debugcommands
-  * debugkeys
+    * debugcommands
+    * debugkeys
