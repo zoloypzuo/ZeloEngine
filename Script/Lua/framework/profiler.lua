@@ -1,5 +1,4 @@
 local os = {}
-os.clock = walltime
 
 --[[
 

@@ -20,7 +20,7 @@ if false then
 end
 
 -- global require
-require("strict")
+--require("strict")
 
 --require("debugprint")
 -- add our print loggers
@@ -67,6 +67,7 @@ require("brain")
 --require("mathutil")
 
 --debug key init
+global("CHEATS_ENABLED")
 if CHEATS_ENABLED then
     require "debugcommands"
     require "debugkeys"
