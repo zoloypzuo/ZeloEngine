@@ -1,0 +1,24 @@
+# jetbrain
+**/.idea/
+
+# mac os
+.DS_Store
+
+# py binary
+__pycache__/
+*.pyc
+
+# build and binary
+build*/**
+bin*/**
+**/lib/**
+
+# game resource
+**/assets/
+**/media/
+
+# archived
+**/**_ARHIVED/
+
+# scriptlib
+scriptlibs/
