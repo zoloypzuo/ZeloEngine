@@ -67,7 +67,9 @@ require("brain")
 --require("mathutil")
 
 --debug key init
+global = function(name)  end
 global("CHEATS_ENABLED")
+CHEATS_ENABLED = false
 if CHEATS_ENABLED then
     require "debugcommands"
     require "debugkeys"
@@ -129,5 +131,6 @@ if true then
         local e_child = Entity.new("test_child_tag")
         --e:addChild(e_child)
     end
+    print("=== End Test sol2")
 end
 
