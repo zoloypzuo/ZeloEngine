@@ -11,5 +11,5 @@ function finalize()
 end
 
 function update()
-    print("update")
+    --print("update")
 end

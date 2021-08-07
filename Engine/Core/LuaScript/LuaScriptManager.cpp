@@ -86,11 +86,11 @@ void LuaScriptManager::initLuaContext() {
 }
 
 void LuaScriptManager::finalize() {
-
+    m_luaFinalizeFn();
 }
 
 void LuaScriptManager::update() {
-
+    m_luaUpdateFn();
 }
 
 void LuaScriptManager::luaPrint(sol::variadic_args va) {

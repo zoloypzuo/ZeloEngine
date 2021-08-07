@@ -94,6 +94,7 @@ void Engine::update() {
 //    m_window->getGuiManager()->tick(m_deltaTime);
 //    m_imguiManager->update();
 //    m_game->update();
+    m_luaScriptManager->update();
     m_renderSystem->update();
 //    m_window->getGuiManager()->render(m_game->getRootNode().get());
 //    m_imguiManager->render();
