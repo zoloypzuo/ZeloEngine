@@ -16,7 +16,7 @@ class MeshRenderer : public Component {
 public:
     MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Zelo::Core::RHI::Material> material);
 
-    virtual ~MeshRenderer();
+    ~MeshRenderer() override;
 
     void render(Shader *shader) override;
 

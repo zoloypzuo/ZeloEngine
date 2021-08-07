@@ -9,8 +9,7 @@ MeshRenderer::MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Zelo::C
     this->m_material = std::move(material);
 }
 
-MeshRenderer::~MeshRenderer() {
-}
+MeshRenderer::~MeshRenderer() = default;
 
 void MeshRenderer::render(Shader *shader) {
     shader->setUniformMatrix4f("World", m_parentEntity->getWorldMatrix());
