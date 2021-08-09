@@ -68,6 +68,8 @@ protected:
 
 class Entity {
 public:
+    explicit Entity(int guid);
+
     explicit Entity(const std::string &tag);
 
     Entity();
@@ -98,6 +100,7 @@ public:
     void registerWithEngineAll();
 
     void deregisterFromEngineAll();
+
 
     const std::string &getTag() const;
 
@@ -145,10 +148,17 @@ public:
 
     static std::vector<Entity *> findByTag(const std::string &tag);
 
-private:
-    Transform transform;
+public:
+    int GetGUID() const;
 
-    Entity *parentEntity;
+    void AddTag(const std::string & tag);
+
+private:
+    int m_guid{};
+
+    Entity *parentEntity{};
+
+    Transform transform;
 
     std::vector<std::shared_ptr<Entity>> children;
     std::vector<std::shared_ptr<Component>> components;
@@ -162,6 +172,7 @@ private:
     static std::map<std::string, std::vector<Entity *>> taggedEntities;
 
     std::map<std::type_index, std::vector<std::shared_ptr<Component>>> componentsByTypeid;
+
 };
 
 #endif //ZELOENGINE_ENTITY_H

@@ -347,14 +347,10 @@ void LuaBind_Entity(sol::state &luaState) {
 //            sol::base_classes, sol::bases<AComponent>()
 //    );
 
-    // TODO add component
-    luaState.new_usertype<Entity>(
-            "Entity",
-            sol::constructors<
-                Entity(),
-                Entity(const std::string&)
-                >(),
-            "tag", sol::property(&Entity::getTag),
-            "addChild", &Entity::addChild
-    );
+// @formatter:off
+luaState.new_usertype<Entity>("Entity",
+"GetGUID", &Entity::GetGUID,
+"AddTag", &Entity::AddTag
+);
+// @formatter: on
 }

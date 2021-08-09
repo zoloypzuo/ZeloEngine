@@ -29,8 +29,10 @@ public:
 
     void addToScene(const std::shared_ptr<Entity> &entity);
 
+    Entity *CreateEntity();
 private:
     std::shared_ptr<Entity> rootScene;
+    int m_entityGuid{};
 };
 
 #endif //ZELOENGINE_GAME_H

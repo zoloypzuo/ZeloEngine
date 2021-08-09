@@ -6,6 +6,10 @@
 
 std::map<std::string, std::vector<Entity *>> Entity::taggedEntities;
 
+Entity::Entity(int guid) : m_guid(guid) {
+
+}
+
 Entity::Entity(const std::string &tag) {
     Entity::setTag(this, tag);
 
@@ -121,8 +125,16 @@ glm::vec4 Entity::getDirection() {
     }
 }
 
+int Entity::GetGUID() const {
+    return m_guid;
+}
+
 const std::string &Entity::getTag() const {
     return m_tag;
+}
+
+void Entity::AddTag(const std::string & tag) {
+    setTag(this, tag);
 }
 
 void Component::setParent(Entity *parentEntity) {
