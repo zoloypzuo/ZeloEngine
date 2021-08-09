@@ -1,7 +1,3 @@
-require("class")
---require("entityscript")
---PREFABS.LUA
-
 Prefab = Class(function(self, name, fn, assets, deps)
     self.name = name or ""
     self.path = name or nil
