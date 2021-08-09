@@ -12,10 +12,6 @@ using namespace Zelo::Core::ECS::Components;
 
 void LuaBind_Main(sol::state &luaState);
 
-extern "C" {
-extern int luaopen_Zelo(lua_State *L);
-}
-
 template<> LuaScriptManager *Singleton<LuaScriptManager>::msSingleton = nullptr;
 
 LuaScriptManager *LuaScriptManager::getSingletonPtr() {
@@ -80,9 +76,6 @@ void LuaScriptManager::initLuaContext() {
     );
 
     LuaBind_Main(*this);
-    require("Zelo", luaopen_Zelo);
-
-    set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
 }
 
 void LuaScriptManager::finalize() {
