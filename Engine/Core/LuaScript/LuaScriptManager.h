@@ -28,7 +28,12 @@ public:
     static void luaPrint(sol::variadic_args va);
 
 private:
+    void initEvents();
     void initLuaContext();
+
+    void loadLuaMain();
+
+    void initHookFromLua();
 
     std::shared_ptr<spdlog::logger> m_logger{};
 

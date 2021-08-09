@@ -9,6 +9,6 @@ using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
 
 void LuaBind_Global(sol::state &luaState){
-    set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
+    luaState.set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
     luaState.set_function("print", LuaScriptManager::luaPrint);
 }

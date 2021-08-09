@@ -21,30 +21,13 @@ LuaScriptManager *LuaScriptManager::getSingletonPtr() {
 void LuaScriptManager::initialize() {
     m_logger = spdlog::default_logger()->clone("lua");
 
+    initEvents();
+
     initLuaContext();
 
-    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
-        behaviour->RegisterToLuaContext(*this);
-    };
-    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
-        behaviour->UnregisterFromLuaContext();
-    };
+    loadLuaMain();
 
-    auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-    auto script_result = safe_script_file(mainLuaPath.string(), [](lua_State*, sol::protected_function_result pfr) {
-        // pfr will contain things that went wrong, for either loading or executing the script
-        // Can throw your own custom error
-        // You can also just return it, and let the call-site handle the error if necessary.
-        return pfr;
-        });
-    if (!script_result.valid()) {
-        sol::error err = script_result;
-        m_logger->error("failed to dofile main.lua \n{}", err.what());
-    }
-
-    m_luaInitializeFn = get<sol::function>("initialize");
-    m_luaFinalizeFn = get<sol::function>("finalize");
-    m_luaUpdateFn = get<sol::function>("update");
+    initHookFromLua();
 
     m_luaInitializeFn();
 }
@@ -93,3 +76,29 @@ void LuaScriptManager::luaPrint(sol::variadic_args va) {
         logger->debug(value);
     }
 }
+
+
+void LuaScriptManager::initEvents() {
+    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
+        behaviour->RegisterToLuaContext(*this);
+    };
+    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
+        behaviour->UnregisterFromLuaContext();
+    };
+}
+
+void LuaScriptManager::loadLuaMain() {
+    auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
+    sol::optional<sol::error> script_result = safe_script(mainLuaPath.string());
+    if (script_result.has_value()) {
+        m_logger->error("failed to dofile main.lua \n{}", script_result.value().what());
+        throw sol::error(script_result.value().what());
+    }
+}
+
+void LuaScriptManager::initHookFromLua() {
+    m_luaInitializeFn = get<sol::function>("initialize");
+    m_luaFinalizeFn = get<sol::function>("finalize");
+    m_luaUpdateFn = get<sol::function>("update");
+}
+
