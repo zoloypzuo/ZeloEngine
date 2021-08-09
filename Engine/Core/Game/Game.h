@@ -22,6 +22,8 @@ public:
 
     void update() override;
 
+    void SpawnPrefab(const std::string &name);
+
 public:
     static Game *getSingletonPtr();
 

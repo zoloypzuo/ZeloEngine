@@ -6,8 +6,12 @@
 
 void LuaBind_Game(sol::state &luaState) {
 // @formatter:off
-luaState.new_usertype<Game>("Sim",
-"CreateEntity", [](){ return Game::getSingletonPtr()->CreateEntity(); }
+luaState.new_usertype<Game>("Sim"
+,"CreateEntity", [](){ return Game::getSingletonPtr()->CreateEntity(); }
+,"SpawnPrefab", [](const std::string &name){ return Game::getSingletonPtr()->SpawnPrefab(name); }
+// TODO pimpl
+// TODO 维护prefab表，先调用fn，再用asset去构造Renderer组件
+//,"RegisterPrefab", [](const std::string &name){ return Game::getSingletonPtr()->SpawnPrefab(name); }
 );
 
 luaState.set("TheSim", Game::getSingletonPtr());

@@ -44,3 +44,7 @@ Entity *Game::CreateEntity() {
     return entity.get();
 }
 
+void Game::SpawnPrefab(const std::string &name) {
+
+}
+
