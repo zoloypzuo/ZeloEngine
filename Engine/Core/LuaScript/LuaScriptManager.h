@@ -29,6 +29,7 @@ public:
 
 private:
     void initEvents();
+
     void initLuaContext();
 
     void loadLuaMain();
