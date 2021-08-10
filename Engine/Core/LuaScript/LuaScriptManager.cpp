@@ -89,7 +89,7 @@ void LuaScriptManager::initEvents() {
 
 void LuaScriptManager::loadLuaMain() {
     auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-    sol::optional<sol::error> script_result = safe_script(mainLuaPath.string());
+    sol::optional<sol::error> script_result = safe_script_file(mainLuaPath.string());
     if (script_result.has_value()) {
         m_logger->error("failed to dofile main.lua \n{}", script_result.value().what());
         throw sol::error(script_result.value().what());
