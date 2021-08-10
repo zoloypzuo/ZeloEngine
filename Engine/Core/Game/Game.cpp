@@ -7,10 +7,6 @@
 
 using namespace Zelo::Core::OS::TimeSystem;
 
-struct Game::Impl{
-    
-};
-
 void Game::update() {
     rootScene->updateAll(Input::getSingletonPtr(), Time::getSingletonPtr()->getDeltaTime());
 }
@@ -49,6 +45,10 @@ Entity *Game::CreateEntity() {
 }
 
 void Game::SpawnPrefab(const std::string &name) {
+
+}
+
+void Game::RegisterPrefab(const std::string &name, sol::table &assets, sol::table &deps) {
 
 }
 

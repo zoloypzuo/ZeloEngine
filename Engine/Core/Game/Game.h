@@ -10,6 +10,8 @@
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Entity.h"
 
+#include <sol/sol.hpp>
+
 class Game : public Singleton<Game>, public IRuntimeModule {
 public:
     Game();
@@ -24,6 +26,8 @@ public:
 
     void SpawnPrefab(const std::string &name);
 
+    void RegisterPrefab(const std::string &name, sol::table &assets, sol::table &deps);
+
 public:
     static Game *getSingletonPtr();
 
@@ -34,8 +38,6 @@ public:
     Entity *CreateEntity();
 
 private:
-    struct Impl;
-    std::unique_ptr<Impl> pImpl{};
     std::shared_ptr<Entity> rootScene{};
     int m_entityGuid{};
 };

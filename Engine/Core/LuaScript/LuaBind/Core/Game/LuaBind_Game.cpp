@@ -9,7 +9,7 @@ void LuaBind_Game(sol::state &luaState) {
 luaState.new_usertype<Game>("Sim"
 ,"CreateEntity", [](){ return Game::getSingletonPtr()->CreateEntity(); }
 ,"SpawnPrefab", [](const std::string &name){ return Game::getSingletonPtr()->SpawnPrefab(name); }
-,"RegisterPrefab", [](const std::string &name){ return Game::getSingletonPtr()->SpawnPrefab(name); }
+,"RegisterPrefab", [](const std::string &name, sol::table& assets, sol::table& deps){ return Game::getSingletonPtr()->RegisterPrefab(name, assets, deps); }
 );
 
 luaState.set("TheSim", Game::getSingletonPtr());
