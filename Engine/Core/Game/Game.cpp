@@ -7,6 +7,10 @@
 
 using namespace Zelo::Core::OS::TimeSystem;
 
+struct Game::Impl{
+    
+};
+
 void Game::update() {
     rootScene->updateAll(Input::getSingletonPtr(), Time::getSingletonPtr()->getDeltaTime());
 }

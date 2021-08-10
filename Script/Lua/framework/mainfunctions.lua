@@ -37,7 +37,7 @@ function PrefabExists(name)
 end
 
 local renames = {
-    feather = "feather_crow",
+    --feather = "feather_crow",
 }
 
 function SpawnPrefab(name)

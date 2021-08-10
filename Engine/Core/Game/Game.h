@@ -32,8 +32,11 @@ public:
     void addToScene(const std::shared_ptr<Entity> &entity);
 
     Entity *CreateEntity();
+
 private:
-    std::shared_ptr<Entity> rootScene;
+    struct Impl;
+    std::unique_ptr<Impl> pImpl{};
+    std::shared_ptr<Entity> rootScene{};
     int m_entityGuid{};
 };
 

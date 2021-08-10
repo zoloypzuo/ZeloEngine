@@ -2,6 +2,7 @@
 -- created on 2021/8/9
 -- author @zoloypzuo
 local assets = {
+    Asset("MESH_GEN", "plane");
     Asset("TEX", "bricks2.jpg");
     Asset("TEX", "bricks2_normal.jpg");
     Asset("TEX", "bricks2_specular.png");
