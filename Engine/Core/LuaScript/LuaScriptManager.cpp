@@ -31,8 +31,6 @@ void LuaScriptManager::initialize() {
     initLuaContext();
 
     loadLuaMain();
-
-    initHookFromLua();
 }
 
 void LuaScriptManager::initLuaContext() {
@@ -65,11 +63,11 @@ void LuaScriptManager::initLuaContext() {
 }
 
 void LuaScriptManager::finalize() {
-    m_luaFinalizeFn();
+    doString("Finalize()");
 }
 
 void LuaScriptManager::update() {
-    m_luaUpdateFn();
+    doString("Update()");
 }
 
 void LuaScriptManager::luaPrint(sol::variadic_args va) {
@@ -91,24 +89,26 @@ void LuaScriptManager::initEvents() {
 
 void LuaScriptManager::loadLuaMain() {
     auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-    sol::optional<sol::error> script_result = safe_script_file(mainLuaPath.string());
-    if (script_result.has_value()) {
-        m_logger->error("failed to dofile main.lua \n{}", script_result.value().what());
-        throw sol::error(script_result.value().what());
-    }
-}
-
-void LuaScriptManager::initHookFromLua() {
-    m_luaInitializeFn = get<sol::function>("Initialize");
-    m_luaFinalizeFn = get<sol::function>("Finalize");
-    m_luaUpdateFn = get<sol::function>("Update");
+    doFile(mainLuaPath.string());
 }
 
 void LuaScriptManager::callLuaInitializeFn() {
     // m_luaInitializeFn();
-    sol::optional<sol::error> script_result = safe_script("Initialize()");
+    doString("Initialize()");
+}
+
+void LuaScriptManager::doString(const std::string &luaCode) {
+    sol::optional<sol::error> script_result = safe_script(luaCode);
     if (script_result.has_value()) {
-        m_logger->error("failed to Initialize() \n{}", script_result.value().what());
+        m_logger->error("failed to dostring {}\n{}", luaCode, script_result.value().what());
+        throw sol::error(script_result.value().what());
+    }
+}
+
+void LuaScriptManager::doFile(const std::string &luaFile) {
+    sol::optional<sol::error> script_result = safe_script_file(luaFile);
+    if (script_result.has_value()) {
+        m_logger->error("failed to dofile {}\n{}", luaFile, script_result.value().what());
         throw sol::error(script_result.value().what());
     }
 }

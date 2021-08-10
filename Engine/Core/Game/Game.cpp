@@ -51,8 +51,15 @@ int Game::SpawnPrefab(const std::string &name) {
     if(!L["PrefabExists"](name)){
         L["LoadPrefabFile"](name);
     }
-    Entity * entity = L["Prefabs"][name]["fn"]();
+//    Entity * entity = L["CallPrefabFn"](name);
+    auto * entity = CreateEntity();
     // TODO mesh renderer
+    auto prefab = m_luaPrefabMap.find(name)->second;
+    auto &assets = prefab.assets;
+    auto asset1 = assets[1];
+    std::string file = asset1["file"];
+    auto asset2 = assets[1];
+    auto asset3 = assets[1];
     return entity->GetGUID();
 }
 

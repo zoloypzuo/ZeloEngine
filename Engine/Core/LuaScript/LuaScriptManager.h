@@ -32,6 +32,10 @@ public:
 public:
     void callLuaInitializeFn();
 
+    void doString(const std::string &luaCode);
+
+    void doFile(const std::string &luaFile);
+
 private:
     void initEvents();
 
@@ -39,12 +43,6 @@ private:
 
     void loadLuaMain();
 
-    void initHookFromLua();
-
     std::shared_ptr<spdlog::logger> m_logger{};
-
-    sol::function m_luaInitializeFn{};
-    sol::function m_luaFinalizeFn{};
-    sol::function m_luaUpdateFn{};
 };
 }

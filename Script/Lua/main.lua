@@ -3,7 +3,7 @@
 -- author @zoloypzuo
 
 -- LUA_PATH
-package.path = ""
+--package.path = ""
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/common/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/engine/?.lua"

@@ -7,7 +7,6 @@ function Initialize()
     print("initialize")
     TheSim = Game.GetSingletonPtr()
     local plane = SpawnPrefab("plane")
-    print "initi end"
 end
 
 function Finalize()
@@ -20,7 +19,7 @@ end
 
 -- PREFABS AND ENTITY INSTANTIATION
 local function RegisterPrefabs(...)
-    -- 向C注册Prefab列表
+    -- register prefab list to C++
     for _, prefab in ipairs({ ... }) do
         print("Register " .. tostring(prefab))
         Prefabs[prefab.name] = prefab
@@ -30,13 +29,7 @@ end
 
 function LoadPrefabFile(filename)
     print("Loading prefab file " .. filename)
-    local fn, r = loadfile(filename)
-    assert(fn, "Could not load file " .. filename)
-    if type(fn) == "string" then
-        assert(false, "Error loading file " .. filename .. "\n" .. fn)
-    end
-    assert(type(fn) == "function", "Prefab file doesn't return a callable chunk: " .. filename)
-    local ret = { fn() }
+    local ret = { require(filename) }
 
     if ret then
         for i, val in ipairs(ret) do
@@ -60,13 +53,18 @@ local renames = {
 function SpawnPrefab(name)
 
     -- TheSim:ProfilerPush("SpawnPrefab "..name)
-
+    print(tostring(TheSim), tostring(TheSim.SpawnPrefab))
     name = string.sub(name, string.find(name, "[^/]*$"))
     name = renames[name] or name
     local guid = TheSim:SpawnPrefab(name)
 
     -- TheSim:ProfilerPop()
     return Ents[guid]
+end
+
+function CallPrefabFn(name)
+    local prefab = Prefabs[name]
+    return prefab.fn()
 end
 
 function SpawnSaveRecord(saved, newents)
