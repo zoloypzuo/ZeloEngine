@@ -14,6 +14,14 @@
 
 class Game : public Singleton<Game>, public IRuntimeModule {
 public:
+    struct LuaPrefab {
+        std::string name;
+        sol::table &assets;
+        sol::table &deps;
+    };
+
+    typedef std::map<std::string, LuaPrefab> LuaPrefabMap;
+public:
     Game();
 
     ~Game() override;
@@ -24,7 +32,7 @@ public:
 
     void update() override;
 
-    void SpawnPrefab(const std::string &name);
+    int SpawnPrefab(const std::string &name);
 
     void RegisterPrefab(const std::string &name, sol::table &assets, sol::table &deps);
 
@@ -40,6 +48,7 @@ public:
 private:
     std::shared_ptr<Entity> rootScene{};
     int m_entityGuid{};
+    LuaPrefabMap m_luaPrefabMap{};
 };
 
 #endif //ZELOENGINE_GAME_H

@@ -7,9 +7,10 @@ package.path = ""
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/common/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/engine/?.lua"
-package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/scriptlibs/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/framework/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/framework/debug/?.lua"
+package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/prefabs/?.lua"
+package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/scriptlibs/?.lua"
 
 if false then
     print("=== dump path info")

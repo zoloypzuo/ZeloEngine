@@ -17,6 +17,8 @@ class LuaScriptManager :
 public:
     static LuaScriptManager *getSingletonPtr();
 
+    static LuaScriptManager &getSingleton();
+
 public:
     void initialize() override;
 

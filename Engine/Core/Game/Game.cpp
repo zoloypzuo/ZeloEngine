@@ -4,8 +4,10 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Game.h"
 #include "Core/OS/Time.h"
+#include "Core/LuaScript/LuaScriptManager.h"
 
 using namespace Zelo::Core::OS::TimeSystem;
+using namespace Zelo::Core::LuaScript;
 
 void Game::update() {
     rootScene->updateAll(Input::getSingletonPtr(), Time::getSingletonPtr()->getDeltaTime());
@@ -44,11 +46,17 @@ Entity *Game::CreateEntity() {
     return entity.get();
 }
 
-void Game::SpawnPrefab(const std::string &name) {
-
+int Game::SpawnPrefab(const std::string &name) {
+    sol::state &L = LuaScriptManager::getSingleton();
+    if(!L["PrefabExists"](name)){
+        L["LoadPrefabFile"](name);
+    }
+    Entity * entity = L["Prefabs"][name]["fn"]();
+    // TODO mesh renderer
+    return entity->GetGUID();
 }
 
 void Game::RegisterPrefab(const std::string &name, sol::table &assets, sol::table &deps) {
-
+    m_luaPrefabMap.emplace(name, LuaPrefab{name, assets, deps});
 }
 

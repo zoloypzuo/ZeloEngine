@@ -18,6 +18,11 @@ LuaScriptManager *LuaScriptManager::getSingletonPtr() {
     return msSingleton;
 }
 
+LuaScriptManager &LuaScriptManager::getSingleton() {
+    assert(msSingleton);
+    return *msSingleton;
+}
+
 void LuaScriptManager::initialize() {
     m_logger = spdlog::default_logger()->clone("lua");
 
@@ -75,7 +80,6 @@ void LuaScriptManager::luaPrint(sol::variadic_args va) {
     }
 }
 
-
 void LuaScriptManager::initEvents() {
     Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
         behaviour->RegisterToLuaContext(*this);
@@ -95,9 +99,9 @@ void LuaScriptManager::loadLuaMain() {
 }
 
 void LuaScriptManager::initHookFromLua() {
-    m_luaInitializeFn = get<sol::function>("initialize");
-    m_luaFinalizeFn = get<sol::function>("finalize");
-    m_luaUpdateFn = get<sol::function>("update");
+    m_luaInitializeFn = get<sol::function>("Initialize");
+    m_luaFinalizeFn = get<sol::function>("Finalize");
+    m_luaUpdateFn = get<sol::function>("Update");
 }
 
 void LuaScriptManager::callLuaInitializeFn() {
