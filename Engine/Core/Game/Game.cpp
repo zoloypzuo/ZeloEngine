@@ -37,3 +37,18 @@ std::shared_ptr<Entity> Game::getRootNode() {
     return rootScene;
 }
 
+Entity *Game::CreateEntity() {
+    m_entityGuid++; // acc guid counter
+    const auto &entity = std::make_shared<Entity>(m_entityGuid);
+    addToScene(entity);
+    return entity.get();
+}
+
+void Game::SpawnPrefab(const std::string &name) {
+
+}
+
+void Game::RegisterPrefab(const std::string &name, sol::table &assets, sol::table &deps) {
+
+}
+

@@ -5,4 +5,5 @@ add_library(LuaBind
         LuaBind.cpp
         Core/LuaBind_Global.cpp
         Core/ECS/LuaBind_Entity.cpp
+        Core/Game/LuaBind_Game.cpp
         )

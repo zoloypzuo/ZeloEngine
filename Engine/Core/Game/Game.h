@@ -10,6 +10,8 @@
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Entity.h"
 
+#include <sol/sol.hpp>
+
 class Game : public Singleton<Game>, public IRuntimeModule {
 public:
     Game();
@@ -22,6 +24,10 @@ public:
 
     void update() override;
 
+    void SpawnPrefab(const std::string &name);
+
+    void RegisterPrefab(const std::string &name, sol::table &assets, sol::table &deps);
+
 public:
     static Game *getSingletonPtr();
 
@@ -29,8 +35,11 @@ public:
 
     void addToScene(const std::shared_ptr<Entity> &entity);
 
+    Entity *CreateEntity();
+
 private:
-    std::shared_ptr<Entity> rootScene;
+    std::shared_ptr<Entity> rootScene{};
+    int m_entityGuid{};
 };
 
 #endif //ZELOENGINE_GAME_H

@@ -33,7 +33,7 @@ require("config")
 require("main_function")
 --require("preloadsounds")
 --require("mods")
-require("json")
+--require("json")
 require("vector3")
 --require("tuning")
 --require("strings")
@@ -126,10 +126,7 @@ if true then
     print("=== Start Test sol2")
     do
         print("=== Entity")
-        local e = Entity.new("test_tag")
-        print(e.tag)
-        local e_child = Entity.new("test_child_tag")
-        --e:addChild(e_child)
+        local e = TheSim:CreateEntity()
     end
     print("=== End Test sol2")
 end
