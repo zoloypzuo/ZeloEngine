@@ -28,8 +28,6 @@ void LuaScriptManager::initialize() {
     loadLuaMain();
 
     initHookFromLua();
-
-    m_luaInitializeFn();
 }
 
 void LuaScriptManager::initLuaContext() {
@@ -102,3 +100,6 @@ void LuaScriptManager::initHookFromLua() {
     m_luaUpdateFn = get<sol::function>("update");
 }
 
+void LuaScriptManager::callLuaInitializeFn() {
+    m_luaInitializeFn();
+}

@@ -27,6 +27,9 @@ public:
 public:
     static void luaPrint(sol::variadic_args va);
 
+public:
+    void callLuaInitializeFn();
+
 private:
     void initEvents();
 

@@ -67,7 +67,8 @@ require("brain")
 --require("mathutil")
 
 --debug key init
-global = function(name)  end
+global = function(name)
+end
 global("CHEATS_ENABLED")
 CHEATS_ENABLED = false
 if CHEATS_ENABLED then
@@ -122,12 +123,4 @@ inGamePlay = false
 require "stacktrace"
 require "debughelpers"
 
-if true then
-    print("=== Start Test sol2")
-    do
-        print("=== Entity")
-        local e = TheSim:CreateEntity()
-    end
-    print("=== End Test sol2")
-end
 

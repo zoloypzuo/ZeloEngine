@@ -43,6 +43,7 @@ void Engine::initialize() {
     m_game = std::make_unique<Game>();
     m_game->initialize();
 //    m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
+    m_luaScriptManager->callLuaInitializeFn();
 
     m_window->makeCurrentContext();
 
