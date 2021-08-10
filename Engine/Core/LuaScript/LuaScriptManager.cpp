@@ -105,5 +105,10 @@ void LuaScriptManager::initHookFromLua() {
 }
 
 void LuaScriptManager::callLuaInitializeFn() {
-    m_luaInitializeFn();
+    // m_luaInitializeFn();
+    sol::optional<sol::error> script_result = safe_script("Initialize()");
+    if (script_result.has_value()) {
+        m_logger->error("failed to Initialize() \n{}", script_result.value().what());
+        throw sol::error(script_result.value().what());
+    }
 }
