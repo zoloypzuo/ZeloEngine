@@ -9,7 +9,6 @@ void LuaBind_Game(sol::state &luaState) {
 luaState.new_usertype<Game>("Game",
 "CreateEntity", &Game::CreateEntity,
 "SpawnPrefab", &Game::SpawnPrefab,
-"RegisterPrefab", &Game::RegisterPrefab,
 "GetSingletonPtr", &Game::getSingletonPtr,
 "Dummy", []{}
 );

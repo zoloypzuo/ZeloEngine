@@ -10,17 +10,9 @@
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Entity.h"
 
-#include <sol/sol.hpp>
+// #include <sol/sol.hpp>
 
 class Game : public Singleton<Game>, public IRuntimeModule {
-public:
-    struct LuaPrefab {
-        std::string name;
-        sol::table &assets;
-        sol::table &deps;
-    };
-
-    typedef std::map<std::string, LuaPrefab> LuaPrefabMap;
 public:
     Game();
 
@@ -34,8 +26,6 @@ public:
 
     int SpawnPrefab(const std::string &name);
 
-    void RegisterPrefab(const std::string &name, sol::table &assets, sol::table &deps);
-
 public:
     static Game *getSingletonPtr();
 
@@ -48,7 +38,6 @@ public:
 private:
     std::shared_ptr<Entity> rootScene{};
     int m_entityGuid{};
-    LuaPrefabMap m_luaPrefabMap{};
 };
 
 #endif //ZELOENGINE_GAME_H
