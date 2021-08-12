@@ -17,13 +17,18 @@ function Update()
     --print("update")
 end
 
+function GlobalErrorHandler(message)
+    print(message)
+    StackTraceToLog()
+    return message
+end
+
 -- PREFABS AND ENTITY INSTANTIATION
 local function RegisterPrefabs(...)
     -- register prefab list to C++
     for _, prefab in ipairs({ ... }) do
         print("Register " .. tostring(prefab))
         Prefabs[prefab.name] = prefab
-        TheSim:RegisterPrefab(prefab.name, prefab.assets, prefab.deps)
     end
 end
 
@@ -53,18 +58,17 @@ local renames = {
 function SpawnPrefab(name)
 
     -- TheSim:ProfilerPush("SpawnPrefab "..name)
-    print(tostring(TheSim), tostring(TheSim.SpawnPrefab))
     name = string.sub(name, string.find(name, "[^/]*$"))
     name = renames[name] or name
+
+    if not PrefabExists(name) then
+        LoadPrefabFile(name)
+    end
+
     local guid = TheSim:SpawnPrefab(name)
 
     -- TheSim:ProfilerPop()
     return Ents[guid]
-end
-
-function CallPrefabFn(name)
-    local prefab = Prefabs[name]
-    return prefab.fn()
 end
 
 function SpawnSaveRecord(saved, newents)
@@ -146,4 +150,23 @@ function PushEntityEvent(guid, event, data)
     if inst then
         inst:PushEvent(event, data)
     end
+end
+
+------TIME FUNCTIONS
+
+function GetTickTime()
+    -- return TheSim:GetTickTime()
+end
+
+local ticktime = GetTickTime()
+function GetTime()
+    -- return TheSim:GetTick() * ticktime
+end
+
+function GetTick()
+    -- return TheSim:GetTick()
+end
+
+function GetTimeReal()
+    -- return TheSim:GetRealTime()
 end
