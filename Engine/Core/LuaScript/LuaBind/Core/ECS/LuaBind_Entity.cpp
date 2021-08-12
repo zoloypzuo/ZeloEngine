@@ -166,6 +166,7 @@ luaState.new_usertype<Entity>("Entity",
 // @formatter:off
 luaState.new_usertype<Transform>("Transform",
 "SetPosition", &Transform::SetPosition,
+"SetScale", &Transform::SetScale,
 "Dummy", []{}
 );
 // @formatter: on

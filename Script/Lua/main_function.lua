@@ -6,7 +6,28 @@
 function Initialize()
     print("initialize")
     TheSim = Game.GetSingletonPtr()
-    local plane = SpawnPrefab("plane")
+    
+    do
+        local plane = SpawnPrefab("plane")
+        plane.components.transform:SetPosition(-5, -2, 0);
+        plane.components.transform:SetScale(10, 1, 10);
+    end
+    do
+        local plane = SpawnPrefab("plane")
+        plane.components.transform:SetPosition(5, -2, 0);
+        plane.components.transform:SetScale(10, 1, 10);
+    end
+    do
+        local plane = SpawnPrefab("plane")
+        plane.components.transform:SetPosition(-5, -2, 10);
+        plane.components.transform:SetScale(10, 1, 10);
+    end
+    do
+        local plane = SpawnPrefab("plane")
+        plane.components.transform:SetPosition(5, -2, 10);
+        plane.components.transform:SetScale(10, 1, 10);
+    end
+    
 end
 
 function Finalize()
