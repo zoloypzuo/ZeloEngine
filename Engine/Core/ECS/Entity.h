@@ -153,6 +153,8 @@ public:
 
     void AddTag(const std::string & tag);
 
+    Transform *AddTransform();
+
 private:
     int m_guid{};
 

@@ -20,6 +20,7 @@
 //#include "Core/ECS/Components/CAudioListener.h"
 
 #include "Core/ECS/Entity.h"
+#include "Core/Math/Transform.h"
 
 void LuaBind_Entity(sol::state &luaState) {
     using namespace Zelo::Core::ECS;
@@ -152,6 +153,23 @@ void LuaBind_Entity(sol::state &luaState) {
 //            "GetWorldUp", &CTransform::GetWorldUp,
 //            "GetWorldRight", &CTransform::GetWorldRight
     );
+
+// @formatter:off
+luaState.new_usertype<Entity>("Entity",
+"GetGUID", &Entity::GetGUID,
+"AddTag", &Entity::AddTag,
+"AddTransform", &Entity::AddTransform,
+"Dummy", []{}
+);
+// @formatter: on
+
+// @formatter:off
+luaState.new_usertype<Transform>("Transform",
+"SetPosition", &Transform::SetPosition,
+"Dummy", []{}
+);
+// @formatter: on
+}
 
 //    luaState.new_enum<CModelRenderer::EFrustumBehaviour>(
 //            "FrustumBehaviour",
@@ -346,11 +364,3 @@ void LuaBind_Entity(sol::state &luaState) {
 //            "AudioListener",
 //            sol::base_classes, sol::bases<AComponent>()
 //    );
-
-// @formatter:off
-luaState.new_usertype<Entity>("Entity",
-"GetGUID", &Entity::GetGUID,
-"AddTag", &Entity::AddTag
-);
-// @formatter: on
-}

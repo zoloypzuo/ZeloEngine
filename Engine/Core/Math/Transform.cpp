@@ -73,3 +73,7 @@ glm::vec4 Transform::getDirection() const {
 void Transform::lookAt(const glm::vec3 center) {
 
 }
+
+void Transform::SetPosition(float x, float y, float z){
+    setPosition(glm::vec3(x, y, z));
+}

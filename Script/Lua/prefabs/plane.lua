@@ -10,6 +10,8 @@ local assets = {
 
 local function fn()
     local inst = CreateEntity()
+    local trans = inst.entity:AddTransform()
+    trans:SetPosition(1, 2, 3);
     inst:AddTag("plane")
     return inst
 end
