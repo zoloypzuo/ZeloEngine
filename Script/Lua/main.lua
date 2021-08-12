@@ -43,7 +43,7 @@ require("vector3")
 --require("constants")
 require("class")
 --require("actions")
---require("debugtools")
+require("debug/debugtools")
 --require("simutil")
 --require("util")
 require("scheduler")
@@ -123,5 +123,3 @@ inGamePlay = false
 
 require "stacktrace"
 require "debughelpers"
-
-
