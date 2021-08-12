@@ -57,22 +57,25 @@ int Game::SpawnPrefab(const std::string &name) {
     auto &L = LuaScriptManager::getSingleton();
     sol::table prefab = L["Prefabs"][name];
     sol::protected_function fn(prefab["fn"], L["GlobalErrorHandler"]);
-    sol::table assets = prefab["assets"];
-    std::string name_ = prefab["name"];
 
     sol::protected_function_result result = fn();
     if (result.valid()) {
         // Call succeeded
         sol::table entityScript = result;
         Entity & entity = entityScript["entity"];
+        
+        sol::table assets = prefab["assets"];
+        std::string diffuseTexName = assets["diffuse"]["file"];
+        std::string normalTexName = assets["normal"]["file"];
+        std::string specularTexName = assets["specular"]["file"];
 
         auto planeMeshGen = Plane();
         
         auto planeMesh = std::make_shared<GLMesh>(planeMeshGen);
         auto brickMat = std::make_shared<GLMaterial>(
-            std::make_shared<GLTexture>(Zelo::Resource("bricks2.jpg")),
-            std::make_shared<GLTexture>(Zelo::Resource("bricks2_normal.jpg")),
-            std::make_shared<GLTexture>(Zelo::Resource("bricks2_specular.png")));
+            std::make_shared<GLTexture>(Zelo::Resource(diffuseTexName)),
+            std::make_shared<GLTexture>(Zelo::Resource(normalTexName)),
+            std::make_shared<GLTexture>(Zelo::Resource(specularTexName)));
 
         entity.addComponent<MeshRenderer>(planeMesh, brickMat);
         return entity.GetGUID();
