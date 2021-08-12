@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
-  <command></command>
-  <working_directory></working_directory>
+  <command>C:\Users\zoloypzuo\Documents\Github\ZeloEngine\build_vs2019\debug\Hello.exe</command>
+  <working_directory>C:\Users\zoloypzuo\Documents\Github\ZeloEngine\build_vs2019\debug</working_directory>
   <symbols_directory></symbols_directory>
   <command_arguments></command_arguments>
   <scc>
