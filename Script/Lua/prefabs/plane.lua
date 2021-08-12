@@ -2,13 +2,13 @@
 -- created on 2021/8/9
 -- author @zoloypzuo
 local assets = {
-    Asset("MESH_GEN", "plane");
-    Asset("TEX", "bricks2.jpg");
-    Asset("TEX", "bricks2_normal.jpg");
-    Asset("TEX", "bricks2_specular.png");
+    mesh_gen = Asset("MESH_GEN", "plane");
+    diffuse  = Asset("TEX", "bricks2.jpg");
+    normal   = Asset("TEX", "bricks2_normal.jpg");
+    specular = Asset("TEX", "bricks2_specular.png");
 }
 
-local function fn(Sim)
+local function fn()
     local inst = CreateEntity()
     inst:AddTag("plane")
     return inst
