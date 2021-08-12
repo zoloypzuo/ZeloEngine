@@ -1,21 +1,4 @@
-------TIME FUNCTIONS
 
-function GetTickTime()
-    return TheSim:GetTickTime()
-end
-
-local ticktime = GetTickTime()
-function GetTime()
-    return TheSim:GetTick() * ticktime
-end
-
-function GetTick()
-    return TheSim:GetTick()
-end
-
-function GetTimeReal()
-    return TheSim:GetRealTime()
-end
 
 ---SCRIPTING
 local Scripts = {}
