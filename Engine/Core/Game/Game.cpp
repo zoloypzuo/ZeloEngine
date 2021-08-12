@@ -65,6 +65,7 @@ int Game::SpawnPrefab(const std::string &name) {
         Entity & entity = entityScript["entity"];
         
         sol::table assets = prefab["assets"];
+        std::string meshGenName = assets["mesh_gen"]["file"];
         std::string diffuseTexName = assets["diffuse"]["file"];
         std::string normalTexName = assets["normal"]["file"];
         std::string specularTexName = assets["specular"]["file"];
