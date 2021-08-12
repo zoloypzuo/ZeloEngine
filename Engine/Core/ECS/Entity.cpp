@@ -30,6 +30,7 @@ Entity::~Entity() {
 }
 
 void Entity::setTag(Entity *entity, const std::string &tag) {
+    entity->m_tag = tag;
     Entity::taggedEntities[tag].push_back(entity);
 }
 
