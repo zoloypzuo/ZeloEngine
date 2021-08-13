@@ -86,11 +86,12 @@ public:
     }
 
     template<class T, class... Types>
-    inline void addComponent(Types &&... _Args) {
+    inline T *addComponent(Types &&... _Args) {
         auto component = std::make_shared<T>(_Args...);
         component->setParent(this);
         componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
         components.push_back(component);
+        return component.get();
     }
 
     void updateAll(Input *input, std::chrono::microseconds delta);
@@ -155,7 +156,7 @@ public:
 
     Transform *AddTransform();
 
-    PerspectiveCamera *AddCamera();
+    PerspectiveCamera *AddCamera(float fov, float aspect, float zNear, float zFar);
 
     FreeMove *AddFreeMove();
 
