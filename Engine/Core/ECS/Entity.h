@@ -88,7 +88,7 @@ public:
     }
 
     template<class T, class... Types>
-    inline T &addComponent(Types &&... _Args) {
+    inline T *addComponent(Types &&... _Args) {
         // create component
         auto component = std::make_shared<T>(_Args...);
         component->setParent(this);
@@ -96,11 +96,11 @@ public:
         components.push_back(component);
 
         // bind lua
-        auto pComponent = &component;
+        auto pComponent = std::dynamic_pointer_cast<Component>(component).get();
         auto &L = Zelo::Core::LuaScript::LuaScriptManager::getSingleton();
         sol::table entityScript = L["Ents"][m_guid];
         entityScript["components"][pComponent->getType()] = pComponent;
-        return pComponent;
+        return component.get();
     }
 
     void updateAll(Input *input, std::chrono::microseconds delta);

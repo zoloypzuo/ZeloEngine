@@ -159,11 +159,11 @@ luaState.new_usertype<Entity>("Entity",
 "GetGUID", &Entity::GetGUID,
 "AddTag", &Entity::AddTag,
 "AddTransform", &Entity::AddTransform,
-"AddCamera", &Entity::AddCamera,
-"AddFreeMove", &Entity::AddFreeMove,
-"AddFreeLook", &Entity::AddFreeLook,
-"AddSpotLight", &Entity::AddSpotLight,
-"AddDirectionalLight", &Entity::AddDirectionalLight,
+"AddCamera", &Entity::addComponent<PerspectiveCamera>,
+"AddFreeMove", &Entity::addComponent<FreeMove>,
+"AddFreeLook", &Entity::addComponent<FreeLook>,
+"AddSpotLight", &Entity::addComponent<SpotLight>,
+"AddDirectionalLight", &Entity::addComponent<DirectionalLight>,
 "Dummy", []{}
 );
 // @formatter: on
