@@ -11,10 +11,13 @@
 #include "Renderer/OpenGL/Resource/GLMesh.h"
 #include "Renderer/OpenGL/Resource/GLMaterial.h"
 
+#include "Core/Parser/MeshLoader.h"
+
 using namespace Zelo::Core::OS::TimeSystem;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
+using namespace Zelo::Parser;
 
 void Game::update() {
     rootScene->updateAll(Input::getSingletonPtr(), Time::getSingletonPtr()->getDeltaTime());
@@ -65,27 +68,42 @@ int Game::SpawnPrefab(const std::string &name) {
         Entity & entity = entityScript["entity"];
         
         sol::table assets = prefab["assets"];
-        std::string meshGenName = assets["mesh_gen"]["file"];
-        std::string diffuseTexName = assets["diffuse"]["file"];
-        std::string normalTexName = assets["normal"]["file"];
-        std::string specularTexName = assets["specular"]["file"];
+        sol::optional<sol::table> meshGenAsset = assets["mesh_gen"];
+        if(meshGenAsset.has_value()){
+            std::string meshGenFile = assets["mesh_gen"]["file"];
+            
+            auto planeMeshGen = Plane();
+            auto planeMesh = std::make_shared<GLMesh>(planeMeshGen);
+            
+            std::string diffuseTexName = assets["diffuse"]["file"];
+            std::string normalTexName = assets["normal"]["file"];
+            std::string specularTexName = assets["specular"]["file"];
 
-        auto planeMeshGen = Plane();
+            auto brickMat = std::make_shared<GLMaterial>(
+                std::make_shared<GLTexture>(Zelo::Resource(diffuseTexName)),
+                std::make_shared<GLTexture>(Zelo::Resource(normalTexName)),
+                std::make_shared<GLTexture>(Zelo::Resource(specularTexName))
+            );
+            
+            entity.addComponent<MeshRenderer>(planeMesh, brickMat);
+        }
+
+        sol::optional<sol::table> meshAsset = assets["mesh"];
+        if(meshAsset.has_value()){
+            std::string meshAssetFile = assets["mesh"]["file"];
+            MeshLoader meshLoader(meshAssetFile);
+            auto meshRenderDataList = meshLoader.getMeshRendererData();
+            for(auto &meshRenderData: meshRenderDataList){
+                entity.addComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
+            }
+        }
         
-        auto planeMesh = std::make_shared<GLMesh>(planeMeshGen);
-        auto brickMat = std::make_shared<GLMaterial>(
-            std::make_shared<GLTexture>(Zelo::Resource(diffuseTexName)),
-            std::make_shared<GLTexture>(Zelo::Resource(normalTexName)),
-            std::make_shared<GLTexture>(Zelo::Resource(specularTexName)));
-
-        entity.addComponent<MeshRenderer>(planeMesh, brickMat);
         return entity.GetGUID();
     }
     else {
         // Call failed
         sol::error err = result;
-        std::string what = err.what();
-        spdlog::error(what);
+        ZELO_ASSERT(false, err.what()); 
     }
     return 0;
 }
