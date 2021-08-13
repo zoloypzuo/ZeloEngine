@@ -40,6 +40,7 @@ end
 
 该文件中存了核心的全局函数，C从这个文件获取Lua函数执行
 
+# 完整原来Game代码
 ```c++
 Game::initialize();
 auto *input = Input::getSingletonPtr();
