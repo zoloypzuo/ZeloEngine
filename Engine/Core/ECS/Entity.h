@@ -155,6 +155,16 @@ public:
 
     Transform *AddTransform();
 
+    PerspectiveCamera *AddCamera();
+
+    FreeMove *AddFreeMove();
+
+    FreeLook *AddFreeLook();
+
+    SpotLight *AddSpotLight();
+
+    DirectionalLight *AddDirectionalLight();
+
 private:
     int m_guid{};
 
