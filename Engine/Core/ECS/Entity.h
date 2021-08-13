@@ -80,12 +80,13 @@ public:
 
     void addChild(const std::shared_ptr<Entity> &child);
 
-    template<class T>
-    inline void addComponent(std::shared_ptr<T> component) {
-        component->setParent(this);
-        componentsByTypeid[typeid(T)].push_back(component);
-        components.push_back(component);
-    }
+    // NOTE hard to sol::resolve template
+    // template<class T>
+    // inline void addComponent(std::shared_ptr<T> component) {
+    //     component->setParent(this);
+    //     componentsByTypeid[typeid(T)].push_back(component);
+    //     components.push_back(component);
+    // }
 
     template<class T, class... Types>
     inline T *addComponent(Types &&... _Args) {
