@@ -21,6 +21,10 @@
 
 #include "Core/ECS/Entity.h"
 #include "Core/Math/Transform.h"
+#include "Core/RHI/Object/Camera.h"
+#include "Core/ECS/Component/FreeMove.h"
+#include "Core/ECS/Component/FreeLook.h"
+#include "Core/RHI/Object/Light.h"
 
 void LuaBind_Entity(sol::state &luaState) {
     using namespace Zelo::Core::ECS;
