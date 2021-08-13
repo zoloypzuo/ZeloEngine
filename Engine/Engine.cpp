@@ -43,6 +43,7 @@ void Engine::initialize() {
     m_game = std::make_unique<Game>();
     m_game->initialize();
 //    m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
+    m_luaScriptManager->callLuaInitializeFn();
 
     m_window->makeCurrentContext();
 
@@ -94,6 +95,7 @@ void Engine::update() {
 //    m_window->getGuiManager()->tick(m_deltaTime);
 //    m_imguiManager->update();
 //    m_game->update();
+    m_luaScriptManager->update();
     m_renderSystem->update();
 //    m_window->getGuiManager()->render(m_game->getRootNode().get());
 //    m_imguiManager->render();

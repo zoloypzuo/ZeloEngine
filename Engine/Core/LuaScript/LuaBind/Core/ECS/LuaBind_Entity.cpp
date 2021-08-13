@@ -19,6 +19,13 @@
 //#include "Core/ECS/Components/CAudioSource.h"
 //#include "Core/ECS/Components/CAudioListener.h"
 
+#include "Core/ECS/Entity.h"
+#include "Core/Math/Transform.h"
+#include "Core/RHI/Object/Camera.h"
+#include "Core/ECS/Component/FreeMove.h"
+#include "Core/ECS/Component/FreeLook.h"
+#include "Core/RHI/Object/Light.h"
+
 void LuaBind_Entity(sol::state &luaState) {
     using namespace Zelo::Core::ECS;
     using namespace Zelo::Core::ECS::Components;
@@ -150,6 +157,62 @@ void LuaBind_Entity(sol::state &luaState) {
 //            "GetWorldUp", &CTransform::GetWorldUp,
 //            "GetWorldRight", &CTransform::GetWorldRight
     );
+
+// @formatter:off
+luaState.new_usertype<Entity>("Entity",
+"GetGUID", &Entity::GetGUID,
+"AddTag", &Entity::AddTag,
+"AddTransform", &Entity::AddTransform,
+"AddCamera", &Entity::addComponent<PerspectiveCamera>,
+"AddFreeMove", &Entity::addComponent<FreeMove>,
+"AddFreeLook", &Entity::addComponent<FreeLook>,
+"AddSpotLight", &Entity::addComponent<SpotLight>,
+"AddDirectionalLight", &Entity::addComponent<DirectionalLight>,
+"Dummy", []{}
+);
+// @formatter: on
+
+// @formatter:off
+luaState.new_usertype<Transform>("Transform",
+"SetPosition", &Transform::SetPosition,
+"SetScale", &Transform::SetScale,
+"Rotate", &Transform::Rotate,
+"Dummy", []{}
+);
+// @formatter: on
+
+// @formatter:off
+luaState.new_usertype<PerspectiveCamera>("Camera",
+"fov", &PerspectiveCamera::m_fov, 
+"aspect", &PerspectiveCamera::m_aspect, 
+"zNear", &PerspectiveCamera::m_zNear, 
+"zFar", &PerspectiveCamera::m_zFar,
+"Dummy", []{}
+);
+// @formatter:on
+
+// @formatter:off
+luaState.new_usertype<BaseLight>("BaseLight",
+"intensity", &BaseLight::m_intensity, 
+"Dummy", []{}
+);
+// @formatter:on
+
+// @formatter:off
+luaState.new_usertype<SpotLight>("SpotLight",
+sol::base_classes, sol::bases<BaseLight>(),
+"cutoff", &SpotLight::m_cutoff, 
+"Dummy", []{}
+);
+// @formatter:on
+
+// @formatter:off
+luaState.new_usertype<DirectionalLight>("DirectionalLight",
+sol::base_classes, sol::bases<BaseLight>(),
+"Dummy", []{}
+);
+// @formatter:on
+}
 
 //    luaState.new_enum<CModelRenderer::EFrustumBehaviour>(
 //            "FrustumBehaviour",
@@ -344,4 +407,3 @@ void LuaBind_Entity(sol::state &luaState) {
 //            "AudioListener",
 //            sol::base_classes, sol::bases<AComponent>()
 //    );
-}

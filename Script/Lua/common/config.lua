@@ -34,33 +34,3 @@ function Config:__tostring()
 
     return table.concat(str, "\n")
 end
-
-
--------------------------------------------------
-
-local defaults = {
-    hide_vignette = false,
-    force_netbookmode = false,
-}
-
-local platform_overrides = {
-
-    NACL = {
-        force_netbookmode = true,
-    },
-    ANDROID = {
-        hide_vignette = true,
-        force_netbookmode = true,
-    },
-    IOS = {
-        hide_vignette = true,
-        force_netbookmode = true,
-    },
-}
-
-TheConfig = Config(defaults)
-if platform_overrides[PLATFORM] then
-    TheConfig:SetOptions(platform_overrides[PLATFORM])
-end
-
-

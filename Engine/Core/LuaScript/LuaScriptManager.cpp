@@ -12,28 +12,25 @@ using namespace Zelo::Core::ECS::Components;
 
 void LuaBind_Main(sol::state &luaState);
 
-extern "C" {
-extern int luaopen_Zelo(lua_State *L);
-}
-
 template<> LuaScriptManager *Singleton<LuaScriptManager>::msSingleton = nullptr;
 
 LuaScriptManager *LuaScriptManager::getSingletonPtr() {
     return msSingleton;
 }
 
+LuaScriptManager &LuaScriptManager::getSingleton() {
+    assert(msSingleton);
+    return *msSingleton;
+}
+
 void LuaScriptManager::initialize() {
+    m_logger = spdlog::default_logger()->clone("lua");
+
+    initEvents();
+
     initLuaContext();
 
-    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
-        behaviour->RegisterToLuaContext(*this);
-    };
-    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
-        behaviour->UnregisterFromLuaContext();
-    };
-
-    auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-    do_file(mainLuaPath.string());
+    loadLuaMain();
 }
 
 void LuaScriptManager::initLuaContext() {
@@ -63,15 +60,55 @@ void LuaScriptManager::initLuaContext() {
     );
 
     LuaBind_Main(*this);
-    require("Zelo", luaopen_Zelo);
-
-    set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
 }
 
 void LuaScriptManager::finalize() {
-
+    doString("Finalize()");
 }
 
 void LuaScriptManager::update() {
+    doString("Update()");
+}
 
+void LuaScriptManager::luaPrint(sol::variadic_args va) {
+    auto &logger = LuaScriptManager::getSingletonPtr()->m_logger;
+    for (auto v : va) {
+        std::string value = v; // get argument out (implicit conversion)
+        logger->debug(value);
+    }
+}
+
+void LuaScriptManager::initEvents() {
+    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
+        behaviour->RegisterToLuaContext(*this);
+    };
+    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
+        behaviour->UnregisterFromLuaContext();
+    };
+}
+
+void LuaScriptManager::loadLuaMain() {
+    auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
+    doFile(mainLuaPath.string());
+}
+
+void LuaScriptManager::callLuaInitializeFn() {
+    // m_luaInitializeFn();
+    doString("Initialize()");
+}
+
+void LuaScriptManager::doString(const std::string &luaCode) {
+    sol::optional<sol::error> script_result = safe_script(luaCode);
+    if (script_result.has_value()) {
+        m_logger->error("failed to dostring {}\n{}", luaCode, script_result.value().what());
+        throw sol::error(script_result.value().what());
+    }
+}
+
+void LuaScriptManager::doFile(const std::string &luaFile) {
+    sol::optional<sol::error> script_result = safe_script_file(luaFile);
+    if (script_result.has_value()) {
+        m_logger->error("failed to dofile {}\n{}", luaFile, script_result.value().what());
+        throw sol::error(script_result.value().what());
+    }
 }

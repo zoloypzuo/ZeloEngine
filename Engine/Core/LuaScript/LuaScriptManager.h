@@ -7,6 +7,7 @@
 #include "ZeloSingleton.h"
 
 #include <sol/sol.hpp> // sol::state
+#include <spdlog/spdlog.h>  // logger
 
 namespace Zelo::Core::LuaScript {
 class LuaScriptManager :
@@ -16,6 +17,8 @@ class LuaScriptManager :
 public:
     static LuaScriptManager *getSingletonPtr();
 
+    static LuaScriptManager &getSingleton();
+
 public:
     void initialize() override;
 
@@ -23,7 +26,23 @@ public:
 
     void update() override;
 
+public:
+    static void luaPrint(sol::variadic_args va);
+
+public:
+    void callLuaInitializeFn();
+
+    void doString(const std::string &luaCode);
+
+    void doFile(const std::string &luaFile);
+
 private:
+    void initEvents();
+
     void initLuaContext();
+
+    void loadLuaMain();
+
+    std::shared_ptr<spdlog::logger> m_logger{};
 };
 }

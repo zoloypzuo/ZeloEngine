@@ -138,6 +138,7 @@ endif ()
 include_directories(Engine)
 add_subdirectory(Engine)
 link_libraries(Engine)
+set_target_properties(Engine PROPERTIES FOLDER "Main")
 
 # build main
 add_executable(Hello main.cpp)

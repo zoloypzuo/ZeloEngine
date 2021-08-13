@@ -61,6 +61,13 @@ GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[]
     }
 }
 
+GLMesh::GLMesh(Zelo::Core::RHI::IMeshGen& iMeshGen):GLMesh(iMeshGen.getId(), 
+    &iMeshGen.getVertices()[0], iMeshGen.getVertices().size(),
+    &iMeshGen.getIndices()[0], iMeshGen.getIndices().size()
+    )
+{
+}
+
 GLMesh::~GLMesh() {
 }
 

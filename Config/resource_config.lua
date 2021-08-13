@@ -2,7 +2,7 @@
 -- created on 2021/5/5
 -- author @zoloypzuo
 return {
-    "D:/ZeloEngineResourceSvnTrunk/EngineAssets";
-    "D:/ZeloEngineResourceSvnTrunk/GameAIAssets";
-    "D:/ZeloEngineResourceSvnTrunk/GLSLBookAssets";
+    "D:/ZeloEngineResource/EngineAssets";
+    "D:/ZeloEngineResource/GameAIAssets";
+    "D:/ZeloEngineResource/GLSLBookAssets";
 }

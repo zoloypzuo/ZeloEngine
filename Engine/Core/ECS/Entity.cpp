@@ -4,7 +4,16 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Entity.h"
 
+#include "Core/LuaScript/LuaScriptManager.h"
+#include <sol/sol.hpp>
+
+using namespace Zelo::Core::LuaScript;
+
 std::map<std::string, std::vector<Entity *>> Entity::taggedEntities;
+
+Entity::Entity(int guid) : m_guid(guid) {
+
+}
 
 Entity::Entity(const std::string &tag) {
     Entity::setTag(this, tag);
@@ -26,6 +35,7 @@ Entity::~Entity() {
 }
 
 void Entity::setTag(Entity *entity, const std::string &tag) {
+    entity->m_tag = tag;
     Entity::taggedEntities[tag].push_back(entity);
 }
 
@@ -119,6 +129,25 @@ glm::vec4 Entity::getDirection() {
     } else {
         return glm::normalize(parentEntity->worldMatrix * transform.getDirection());
     }
+}
+
+int Entity::GetGUID() const {
+    return m_guid;
+}
+
+const std::string &Entity::getTag() const {
+    return m_tag;
+}
+
+void Entity::AddTag(const std::string & tag) {
+    setTag(this, tag);
+}
+
+Transform *Entity::AddTransform() {
+    auto &L = LuaScriptManager::getSingleton();
+    sol::table entityScript = L["Ents"][m_guid];
+    entityScript["components"]["transform"] = &transform;
+    return &transform;
 }
 
 void Component::setParent(Entity *parentEntity) {

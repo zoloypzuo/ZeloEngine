@@ -9,10 +9,14 @@
 #include "Core/Math/Transform.h"
 #include "Core/RHI/Resource/Shader.h"
 
+#include "Core/LuaScript/LuaScriptManager.h"
+
+// TODO 解开Entity和场景图的依赖关系，不要在Entity类里递归，和注册
 class Entity;
 
 class Component;
 
+// TODO use lua type
 enum class PropertyType {
     FLOAT,
     FLOAT3,
@@ -32,16 +36,22 @@ class Component {
 public:
     virtual ~Component() = default;;
 
+    // TODO remove input
+    // TODO change delta to float
     virtual void update(Input *input, std::chrono::microseconds delta) {};
 
+    // TODO remove it
     virtual void render(Shader *shader) {};
 
+    // TODO remove it
     virtual void registerWithEngine() {};
 
+    // TODO remove it
     virtual void deregisterFromEngine() {};
 
     virtual const char *getType() = 0;
 
+    // TODO remove it
     void setProperty(const char *name, PropertyType type, void *p, float min, float max);
 
     void setProperty(const char *name, PropertyType type, void *p);
@@ -60,6 +70,8 @@ protected:
 
 class Entity {
 public:
+    explicit Entity(int guid);
+
     explicit Entity(const std::string &tag);
 
     Entity();
@@ -68,19 +80,28 @@ public:
 
     void addChild(const std::shared_ptr<Entity> &child);
 
-    template<class T>
-    inline void addComponent(std::shared_ptr<T> component) {
-        component->setParent(this);
-        componentsByTypeid[typeid(T)].push_back(component);
-        components.push_back(component);
-    }
+    // NOTE hard to sol::resolve template
+    // template<class T>
+    // inline void addComponent(std::shared_ptr<T> component) {
+    //     component->setParent(this);
+    //     componentsByTypeid[typeid(T)].push_back(component);
+    //     components.push_back(component);
+    // }
 
     template<class T, class... Types>
-    inline void addComponent(Types &&... _Args) {
+    inline T *addComponent(Types &&... _Args) {
+        // create component
         auto component = std::make_shared<T>(_Args...);
         component->setParent(this);
         componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
         components.push_back(component);
+
+        // bind lua
+        auto pComponent = std::dynamic_pointer_cast<Component>(component).get();
+        auto &L = Zelo::Core::LuaScript::LuaScriptManager::getSingleton();
+        sol::table entityScript = L["Ents"][m_guid];
+        entityScript["components"][pComponent->getType()] = pComponent;
+        return component.get();
     }
 
     void updateAll(Input *input, std::chrono::microseconds delta);
@@ -90,6 +111,9 @@ public:
     void registerWithEngineAll();
 
     void deregisterFromEngineAll();
+
+
+    const std::string &getTag() const;
 
     Transform &getTransform();
 
@@ -135,10 +159,18 @@ public:
 
     static std::vector<Entity *> findByTag(const std::string &tag);
 
-private:
-    Transform transform;
+public:
+    int GetGUID() const;
 
-    Entity *parentEntity;
+    void AddTag(const std::string & tag);
+
+    Transform *AddTransform();
+private:
+    int m_guid{};
+
+    Entity *parentEntity{};
+
+    Transform transform;
 
     std::vector<std::shared_ptr<Entity>> children;
     std::vector<std::shared_ptr<Component>> components;
@@ -152,6 +184,7 @@ private:
     static std::map<std::string, std::vector<Entity *>> taggedEntities;
 
     std::map<std::type_index, std::vector<std::shared_ptr<Component>>> componentsByTypeid;
+
 };
 
 #endif //ZELOENGINE_ENTITY_H
