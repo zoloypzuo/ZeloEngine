@@ -99,7 +99,7 @@ public:
         auto pComponent = &component;
         auto &L = Zelo::Core::LuaScript::LuaScriptManager::getSingleton();
         sol::table entityScript = L["Ents"][m_guid];
-        entityScript["components"][pComponent->getScriptName()] = pComponent;
+        entityScript["components"][pComponent->getType()] = pComponent;
         return pComponent;
     }
 
