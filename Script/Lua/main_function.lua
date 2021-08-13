@@ -115,6 +115,8 @@ function Initialize()
 
         avatar.entity:AddFreeMove()
         avatar.entity:AddFreeLook()
+
+        TheSim:SetActiveCamera(avatar.entity)
     end
 
     do

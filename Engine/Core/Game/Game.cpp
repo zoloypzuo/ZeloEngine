@@ -13,6 +13,8 @@
 
 #include "Core/Parser/MeshLoader.h"
 
+#include "Core/RHI/RenderSystem.h"
+
 using namespace Zelo::Core::OS::TimeSystem;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
@@ -106,4 +108,8 @@ int Game::SpawnPrefab(const std::string &name) {
         ZELO_ASSERT(false, err.what()); 
     }
     return 0;
+}
+
+void Game::SetActiveCamera(Entity *cameraEntity){
+    RenderSystem::getSingletonPtr()->setActiveCamera(cameraEntity->getComponent<Camera>());
 }

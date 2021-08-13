@@ -30,7 +30,7 @@ public:
 
     void setDrawSize(const glm::ivec2 &size);
 
-    void setActiveCamera(std::shared_ptr<Camera> camera);
+    void setActiveCamera(std::shared_ptr<Camera> camera) override;
 
     void addDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
 

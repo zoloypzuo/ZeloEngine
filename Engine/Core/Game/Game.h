@@ -33,7 +33,10 @@ public:
 
     void addToScene(const std::shared_ptr<Entity> &entity);
 
+public:
     Entity *CreateEntity();
+    
+    void SetActiveCamera(Entity *cameraEntity);
 
 private:
     std::shared_ptr<Entity> rootScene{};
