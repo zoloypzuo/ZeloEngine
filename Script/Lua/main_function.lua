@@ -91,10 +91,37 @@ function Initialize()
     end
 
     do
-        for i=0,10 do
-            local monkey = SpawnPrefab("monkey")
-            monkey.components.transform:SetPosition(0, i * 3, -2.5)
-        end
+        -- for i=0,10 do
+        --     local monkey = SpawnPrefab("monkey")
+        --     monkey.components.transform:SetPosition(0, i * 3, -2.5)
+        -- end
+    end
+
+    do
+        local avatar = SpawnPrefab("monkey")
+        avatar.components.transform:SetPosition(0, 0, 5)
+        avatar.components.transform:SetScale(0.8, 0.8, 0.8)
+        
+        local camera = avatar.entity:AddCamera()
+        camera.fov = PI / 2
+        camera.aspect = 800 / 600
+        camera.zNear = 0.05
+        camera.zFar=  100
+
+        --glm::vec3(1.0f, 1.0f, 1.0f), 2.8f, 0.7f,
+        --std::make_shared<Attenuation>(0.0f, 0.0f, 0.2f))
+        local spotLight = avatar.entity:AddSpotLight()
+        -- TODO
+
+        avatar.entity:AddFreeMove()
+        avatar.entity:AddFreeLook()
+    end
+
+    do
+        local sun = SpawnPrefab("monkey")
+        sun.components.transform:SetPosition(-2, 4, -1)
+        sun.entity:AddDirectionalLight()
+        -- glm::vec3(1), 2.8f
     end
 end
 
