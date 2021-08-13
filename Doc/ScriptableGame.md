@@ -62,19 +62,6 @@ input->bindAction("swapCamera", IE_RELEASED, [this]() {
     GLManager::getSingletonPtr()->setActiveCamera(primary_camera);
 });
 
-/*{
-  MeshLoader ml("Pregnant.obj");
-  ml.getEntity()->getTransform().setPosition(glm::vec3(0 + (i * 3), -2, -2.5));
-  ml.getEntity()->addComponent<Sphere>(1);
-  addToScene(ml.getEntity());
-}*/
-
-for (int i = 0; i < 10; i++) {
-    MeshLoader ml("AncientUgandan.obj");
-    ml.getEntity()->getTransform().setPosition(glm::vec3(0, i * 3, -2.5));
-    addToScene(ml.getEntity());
-}
-
 MeshLoader money("monkey3.obj");
 money.getEntity()->getTransform().setPosition(glm::vec3(0, 0, 8));
 money.getEntity()->addComponent<PerspectiveCamera>(Mathf::PI / 2.0f, 800.0f / 600.0f,

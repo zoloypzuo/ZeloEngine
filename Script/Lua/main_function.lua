@@ -88,7 +88,14 @@ function Initialize()
 
     do
         local monkey = SpawnPrefab("monkey")
+    end
 
+    do
+        for i=0,10 do
+            local monkey = SpawnPrefab("monkey")
+            monkey.component.transform:SetPosition(0, i * 3, -2.5)
+        end
+    end
 end
 
 function Finalize()
