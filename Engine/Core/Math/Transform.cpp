@@ -83,5 +83,5 @@ void Transform::SetScale(float x, float y, float z){
 }
 
 void Transform::Rotate(float axisX, float axisY, float axisZ, float angle){
-    rotate(glm::vec3(axisX, axisY, axisZ, angle));
+    rotate(glm::vec3(axisX, axisY, axisZ), angle);
 }
