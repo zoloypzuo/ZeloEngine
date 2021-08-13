@@ -163,7 +163,7 @@ luaState.new_usertype<Entity>("Entity",
 "GetGUID", &Entity::GetGUID,
 "AddTag", &Entity::AddTag,
 "AddTransform", &Entity::AddTransform,
-// "AddCamera", &Entity::addComponent<PerspectiveCamera>,
+"AddCamera", &Entity::addComponent<PerspectiveCamera>,
 "AddFreeMove", &Entity::addComponent<FreeMove>,
 "AddFreeLook", &Entity::addComponent<FreeLook>,
 // "AddSpotLight", &Entity::addComponent<SpotLight>,
@@ -180,6 +180,17 @@ luaState.new_usertype<Transform>("Transform",
 "Dummy", []{}
 );
 // @formatter: on
+
+// @formatter:off
+luaState.new_usertype<PerspectiveCamera>("Camera"
+"fov", &PerspectiveCamera::m_fov, 
+"aspect", &PerspectiveCamera::m_aspect, 
+"zNear", &PerspectiveCamera::m_zNear, 
+"zFar", &PerspectiveCamera::m_zFar,
+"Dummy", []{}
+);
+// @formatter:on
+
 }
 
 //    luaState.new_enum<CModelRenderer::EFrustumBehaviour>(

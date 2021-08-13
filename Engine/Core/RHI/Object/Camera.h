@@ -9,7 +9,8 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
 
-class Camera : public Component {
+class Camera : public Component
+{
 public:
     virtual ~Camera() {}
 
@@ -20,9 +21,19 @@ public:
     inline virtual const char *getType() { return "CAMERA"; }
 };
 
-class PerspectiveCamera : public Camera {
+class PerspectiveCamera : public Camera
+{
 public:
-    PerspectiveCamera(float fov, float aspect, float zNear, float zFar);
+    PerspectiveCamera()
+    {
+        setProperty("fov", PropertyType::ANGLE, &m_fov, 0, 180);
+        setProperty("aspect", PropertyType::FLOAT, &m_aspect, 0, 10);
+        setProperty("zNear", PropertyType::FLOAT, &m_zNear, 0, 1);
+        setProperty("zFar", PropertyType::FLOAT, &m_zFar, 0, 1000);
+    };
+
+    // NOTE sol cannot resolve template
+    // PerspectiveCamera(float fov, float aspect, float zNear, float zFar);
 
     virtual glm::mat4 getProjectionMatrix() const;
 
@@ -32,8 +43,8 @@ public:
 
     float getFov();
 
-private:
-    float m_fov, m_aspect, m_zNear, m_zFar;
+public:
+    float m_fov{}, m_aspect{}, m_zNear{}, m_zFar{};
 };
 
 #endif //ZELOENGINE_CAMERA_H
