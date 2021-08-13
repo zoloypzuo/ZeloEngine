@@ -49,6 +49,8 @@ public:
 
     void SetScale(float x, float y, float z);
 
+    void Rotate(float axisX, float axisY, float axisZ, float angle);
+
     // private:
     glm::vec3 m_position{};
     glm::quat m_rotation{};
