@@ -166,8 +166,8 @@ luaState.new_usertype<Entity>("Entity",
 "AddCamera", &Entity::addComponent<PerspectiveCamera>,
 "AddFreeMove", &Entity::addComponent<FreeMove>,
 "AddFreeLook", &Entity::addComponent<FreeLook>,
-// "AddSpotLight", &Entity::addComponent<SpotLight>,
-// "AddDirectionalLight", &Entity::addComponent<DirectionalLight>,
+"AddSpotLight", &Entity::addComponent<SpotLight>,
+"AddDirectionalLight", &Entity::addComponent<DirectionalLight>,
 "Dummy", []{}
 );
 // @formatter: on
@@ -182,7 +182,7 @@ luaState.new_usertype<Transform>("Transform",
 // @formatter: on
 
 // @formatter:off
-luaState.new_usertype<PerspectiveCamera>("Camera"
+luaState.new_usertype<PerspectiveCamera>("Camera",
 "fov", &PerspectiveCamera::m_fov, 
 "aspect", &PerspectiveCamera::m_aspect, 
 "zNear", &PerspectiveCamera::m_zNear, 
@@ -191,6 +191,27 @@ luaState.new_usertype<PerspectiveCamera>("Camera"
 );
 // @formatter:on
 
+// @formatter:off
+luaState.new_usertype<BaseLight>("BaseLight",
+"intensity", &BaseLight::m_intensity, 
+"Dummy", []{}
+);
+// @formatter:on
+
+// @formatter:off
+luaState.new_usertype<SpotLight>("SpotLight",
+sol::base_classes, sol::bases<BaseLight>(),
+"cutoff", &SpotLight::m_cutoff, 
+"Dummy", []{}
+);
+// @formatter:on
+
+// @formatter:off
+luaState.new_usertype<DirectionalLight>("DirectionalLight",
+sol::base_classes, sol::bases<BaseLight>(),
+"Dummy", []{}
+);
+// @formatter:on
 }
 
 //    luaState.new_enum<CModelRenderer::EFrustumBehaviour>(
