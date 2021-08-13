@@ -9,6 +9,8 @@
 #include "Core/Math/Transform.h"
 #include "Core/RHI/Resource/Shader.h"
 
+#include "Core/LuaScript/LuaScriptManager.h"
+
 // TODO 解开Entity和场景图的依赖关系，不要在Entity类里递归，和注册
 class Entity;
 
@@ -86,12 +88,19 @@ public:
     }
 
     template<class T, class... Types>
-    inline T *addComponent(Types &&... _Args) {
+    inline T &addComponent(Types &&... _Args) {
+        // create component
         auto component = std::make_shared<T>(_Args...);
         component->setParent(this);
         componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
         components.push_back(component);
-        return component.get();
+
+        // bind lua
+        auto pComponent = &component;
+        auto &L = Zelo::Core::LuaScript::LuaScriptManager::getSingleton();
+        sol::table entityScript = L["Ents"][m_guid];
+        entityScript["components"][pComponent->getScriptName()] = pComponent;
+        return pComponent;
     }
 
     void updateAll(Input *input, std::chrono::microseconds delta);
@@ -155,17 +164,6 @@ public:
     void AddTag(const std::string & tag);
 
     Transform *AddTransform();
-
-    PerspectiveCamera *AddCamera(float fov, float aspect, float zNear, float zFar);
-
-    FreeMove *AddFreeMove();
-
-    FreeLook *AddFreeLook();
-
-    SpotLight *AddSpotLight();
-
-    DirectionalLight *AddDirectionalLight();
-
 private:
     int m_guid{};
 

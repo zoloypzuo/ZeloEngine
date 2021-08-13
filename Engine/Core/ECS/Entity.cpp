@@ -150,31 +150,6 @@ Transform *Entity::AddTransform() {
     return &transform;
 }
 
-PerspectiveCamera *Entity::AddCamera(float fov, float aspect, float zNear, float zFar){
-    // TODO args
-    PerspectiveCamera *camera = addComponent<PerspectiveCamera>(fov, aspect, zNear, zFar);
-    auto &L = LuaScriptManager::getSingleton();
-    sol::table entityScript = L["Ents"][m_guid];
-    entityScript["components"]["camera"] = camera;
-    return camera;
-}
-
-FreeMove *Entity::AddFreeMove(){
-    return nullptr;
-}
-
-FreeLook *Entity::AddFreeLook(){
-    return nullptr;
-}
-
-SpotLight *Entity::AddSpotLight(){
-    return nullptr;
-}
-
-DirectionalLight *Entity::AddDirectionalLight(){
-    return nullptr;
-}
-
 void Component::setParent(Entity *parentEntity) {
     m_parentEntity = parentEntity;
 }
