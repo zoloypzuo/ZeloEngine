@@ -8,8 +8,9 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
 
-struct Attenuation
-{
+class GLSLShaderProgram;
+
+struct Attenuation {
 public:
     Attenuation() = default;
 
@@ -26,8 +27,7 @@ public:
     float m_exponent;
 };
 
-class BaseLight : public Component, public std::enable_shared_from_this<BaseLight>
-{
+class BaseLight : public Component, public std::enable_shared_from_this<BaseLight> {
 public:
     BaseLight() {
         setProperty("color", PropertyType::COLOR, &m_color.x, 0, 1);
@@ -38,23 +38,22 @@ public:
 
     ~BaseLight() override;
 
-    void registerWithEngine() override{};
+    void registerWithEngine() override {};
 
     glm::vec3 getColor() const;
 
     float getIntensity() const;
 
-    //    virtual void updateShader(GLSLShaderProgram *shader) = 0;
+    virtual void updateShader(GLSLShaderProgram *shader) = 0;
 
 public:
     glm::vec3 m_color{};
     float m_intensity{};
 };
 
-class DirectionalLight : public BaseLight
-{
+class DirectionalLight : public BaseLight {
 public:
-    DirectionalLight(): BaseLight() {}
+    DirectionalLight() : BaseLight() {}
 
     // DirectionalLight(glm::vec3 color, float intensity);
 
@@ -62,16 +61,15 @@ public:
 
     void deregisterFromEngine() override;
 
-    //    void updateShader(GLSLShaderProgram *shader) override;
+    void updateShader(GLSLShaderProgram *shader) override;
 
     inline const char *getType() override { return "DIRECTIONAL_LIGHT"; }
 };
 
-class PointLight : public BaseLight
-{
+class PointLight : public BaseLight {
 public:
-    PointLight() : BaseLight(){}
-    
+    PointLight() : BaseLight() {}
+
     // PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenuation> attenuation);
 
     ~PointLight() override;
@@ -80,7 +78,7 @@ public:
 
     void deregisterFromEngine() override;
 
-    //    void updateShader(GLSLShaderProgram *shader) override;
+    void updateShader(GLSLShaderProgram *shader) override;
 
     inline const char *getType() override { return "POINT_LIGHT"; }
 
@@ -94,8 +92,7 @@ public:
     float m_range{};
 };
 
-class SpotLight : public BaseLight
-{
+class SpotLight : public BaseLight {
 public:
     SpotLight() : BaseLight() {}
 
@@ -107,13 +104,15 @@ public:
 
     inline const char *getType() override { return "SPOT_LIGHT"; }
 
-    //    void updateShader(GLSLShaderProgram *shader) override;
+    void updateShader(GLSLShaderProgram *shader) override;
 
-    std::shared_ptr<Attenuation> getAttenuation() const { return std::make_shared<Attenuation>(
-        m_attenuation->m_constant,
-        m_attenuation->m_linear,
-        m_attenuation->m_exponent
-    ); }
+    std::shared_ptr<Attenuation> getAttenuation() const {
+        return std::make_shared<Attenuation>(
+                m_attenuation->m_constant,
+                m_attenuation->m_linear,
+                m_attenuation->m_exponent
+        );
+    }
 
     float getCutoff() const;
 

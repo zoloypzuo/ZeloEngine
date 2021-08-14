@@ -3,8 +3,10 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Light.h"
-#include "Renderer/OpenGL/GLRenderSystem.h"
-#include "Core/ECS/Entity.h"
+#include "Core/RHI/RenderSystem.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
+
+using namespace Zelo::Core::RHI;
 
 // BaseLight::BaseLight(glm::vec3 color, float intensity) {
 //     m_color = color;
@@ -14,8 +16,7 @@
 //     setProperty("intensity", PropertyType::FLOAT, &m_intensity, 0, 100);
 // }
 
-BaseLight::~BaseLight() {
-}
+BaseLight::~BaseLight() = default;
 
 glm::vec3 BaseLight::getColor() const {
     return m_color;
@@ -29,17 +30,17 @@ float BaseLight::getIntensity() const {
 // }
 
 void DirectionalLight::registerWithEngine() {
-//    GLRenderSystem::getSingletonPtr()->addDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
+    RenderSystem::getSingletonPtr()->addDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
 void DirectionalLight::deregisterFromEngine() {
-//    GLRenderSystem::getSingletonPtr()->removeDirectionalLight(
-//            std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
+    RenderSystem::getSingletonPtr()->removeDirectionalLight(
+            std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
-//void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
-//    shader->updateUniformDirectionalLight("directionalLight", this);
-//}
+void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
+    shader->updateUniformDirectionalLight("directionalLight", this);
+}
 
 // PointLight::PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenuation> attenuation) : BaseLight(color,
 //                                                                                                                intensity) {
@@ -56,20 +57,19 @@ void DirectionalLight::deregisterFromEngine() {
 //     // m_range = (-b + glm::sqrt(b * b - 4 * a * c)) / (2 * a);
 // }
 
-PointLight::~PointLight() {
-}
+PointLight::~PointLight() = default;
 
 void PointLight::registerWithEngine() {
-//    GLRenderSystem::getSingletonPtr()->addPointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
+    RenderSystem::getSingletonPtr()->addPointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
 void PointLight::deregisterFromEngine() {
-//    GLRenderSystem::getSingletonPtr()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
+    RenderSystem::getSingletonPtr()->removePointLight(std::dynamic_pointer_cast<PointLight>(shared_from_this()));
 }
 
-//void PointLight::updateShader(GLSLShaderProgram *shader) {
-//    shader->updateUniformPointLight("pointLight", this);
-//}
+void PointLight::updateShader(GLSLShaderProgram *shader) {
+    shader->updateUniformPointLight("pointLight", this);
+}
 
 std::shared_ptr<Attenuation> PointLight::getAttenuation() const {
     return m_attenuation;
@@ -92,16 +92,16 @@ float PointLight::getRange() {
 // }
 
 void SpotLight::registerWithEngine() {
-//    GLRenderSystem::getSingletonPtr()->addSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
+    RenderSystem::getSingletonPtr()->addSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
 }
 
 void SpotLight::deregisterFromEngine() {
-//    GLRenderSystem::getSingletonPtr()->removeSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
+    RenderSystem::getSingletonPtr()->removeSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
 }
 
-//void SpotLight::updateShader(GLSLShaderProgram *shader) {
-//    shader->updateUniformSpotLight("spotLight", this);
-//}
+void SpotLight::updateShader(GLSLShaderProgram *shader) {
+    shader->updateUniformSpotLight("spotLight", this);
+}
 
 float SpotLight::getCutoff() const {
     return m_cutoff;
