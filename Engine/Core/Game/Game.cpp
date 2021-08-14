@@ -43,10 +43,6 @@ void Game::finalize() {
 
 }
 
-void Game::addToScene(const std::shared_ptr<Entity> &entity) {
-    rootScene->addChild(entity);
-}
-
 std::shared_ptr<Entity> Game::getRootNode() {
     return rootScene;
 }
@@ -54,7 +50,7 @@ std::shared_ptr<Entity> Game::getRootNode() {
 Entity *Game::CreateEntity() {
     m_entityGuid++; // acc guid counter
     const auto &entity = std::make_shared<Entity>(m_entityGuid);
-    addToScene(entity);
+    rootScene->addChild(entity);
     return entity.get();
 }
 

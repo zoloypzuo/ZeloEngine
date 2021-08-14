@@ -31,8 +31,6 @@ public:
 
     std::shared_ptr<Entity> getRootNode();
 
-    void addToScene(const std::shared_ptr<Entity> &entity);
-
 public:
     Entity *CreateEntity();
     
