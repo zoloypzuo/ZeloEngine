@@ -142,6 +142,7 @@ public:
         }
     }
 
+    // TODO BUG cannot find
     template<class T>
     inline std::shared_ptr<T> getComponent() {
         auto i = componentsByTypeid.find(typeid(T));

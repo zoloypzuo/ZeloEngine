@@ -110,6 +110,7 @@ int Game::SpawnPrefab(const std::string &name) {
     return 0;
 }
 
-void Game::SetActiveCamera(Entity *cameraEntity){
-    RenderSystem::getSingletonPtr()->setActiveCamera(cameraEntity->getComponent<Camera>());
+// TODO fix sol base class 
+void Game::SetActiveCamera(PerspectiveCamera *camera){
+    RenderSystem::getSingletonPtr()->setActiveCamera(std::shared_ptr<Camera>(camera));
 }

@@ -42,8 +42,9 @@ void Engine::initialize() {
 //    m_imguiManager->initialize();
     m_game = std::make_unique<Game>();
     m_game->initialize();
-    m_game->getRootNode()->registerWithEngineAll();
     m_luaScriptManager->callLuaInitializeFn();
+    m_game->getRootNode()->registerWithEngineAll();
+
 
     m_window->makeCurrentContext();
 
