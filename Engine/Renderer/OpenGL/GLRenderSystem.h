@@ -11,11 +11,11 @@
 
 #include "Core/RHI/RenderCommand.h"
 #include "Core/RHI/RenderSystem.h"
-#include "Renderer/OpenGL/Pipeline/Renderer.h"
-#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Object/Camera.h"
 #include "Core/RHI/Object/Light.h"
+#include "Renderer/OpenGL/Pipeline/Renderer.h"
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {
@@ -30,24 +30,11 @@ public:
 
     void setDrawSize(const glm::ivec2 &size);
 
-    void setActiveCamera(std::shared_ptr<Camera> camera) override;
-
-    void addDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
-
-    void addPointLight(const std::shared_ptr<PointLight> &light);
-
-    void addSpotLight(const std::shared_ptr<SpotLight> &light);
-
-    void removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
-
-    void removePointLight(const std::shared_ptr<PointLight> &light);
-
-    void removeSpotLight(const std::shared_ptr<SpotLight> &light);
-
     glm::mat4 getViewMatrix();
 
     glm::mat4 getProjectionMatrix();
 
+private:
     int m_width{};
     int m_height{};
 
@@ -131,12 +118,6 @@ private:
     std::unique_ptr<class Renderer> m_renderer{};
 
     std::unique_ptr<Core::RHI::MeshManager> m_meshManager;
-
-    std::shared_ptr<Camera> m_activeCamera;
-
-    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
-    std::vector<std::shared_ptr<PointLight>> m_pointLights;
-    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
 
     uint8_t m_state{};
 };

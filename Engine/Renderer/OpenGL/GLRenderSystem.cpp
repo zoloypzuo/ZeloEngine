@@ -47,35 +47,6 @@ void GLRenderSystem::setDrawSize(const glm::ivec2 &size) {
     setViewport(0, 0, this->m_width, this->m_height);
 }
 
-void GLRenderSystem::setActiveCamera(std::shared_ptr<Camera> camera) {
-    m_activeCamera = std::move(camera);
-}
-
-void GLRenderSystem::addDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
-    m_directionalLights.push_back(light);
-}
-
-void GLRenderSystem::removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
-    m_directionalLights.erase(std::remove(m_directionalLights.begin(), m_directionalLights.end(), light),
-                              m_directionalLights.end());
-}
-
-void GLRenderSystem::addPointLight(const std::shared_ptr<PointLight> &light) {
-    m_pointLights.push_back(light);
-}
-
-void GLRenderSystem::removePointLight(const std::shared_ptr<PointLight> &light) {
-    m_pointLights.erase(std::remove(m_pointLights.begin(), m_pointLights.end(), light), m_pointLights.end());
-}
-
-void GLRenderSystem::addSpotLight(const std::shared_ptr<SpotLight> &light) {
-    m_spotLights.push_back(light);
-}
-
-void GLRenderSystem::removeSpotLight(const std::shared_ptr<SpotLight> &light) {
-    m_spotLights.erase(std::remove(m_spotLights.begin(), m_spotLights.end(), light), m_spotLights.end());
-}
-
 glm::mat4 GLRenderSystem::getViewMatrix() {
     return m_activeCamera->getViewMatrix();
 }

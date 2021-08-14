@@ -41,3 +41,32 @@ RenderSystem &RenderSystem::getSingleton() {
     assert(msSingleton);
     return *msSingleton;
 }
+
+void RenderSystem::setActiveCamera(std::shared_ptr<Camera> camera) {
+    m_activeCamera = std::move(camera);
+}
+
+void RenderSystem::addDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
+    m_directionalLights.push_back(light);
+}
+
+void RenderSystem::removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
+    m_directionalLights.erase(std::remove(m_directionalLights.begin(), m_directionalLights.end(), light),
+                              m_directionalLights.end());
+}
+
+void RenderSystem::addPointLight(const std::shared_ptr<PointLight> &light) {
+    m_pointLights.push_back(light);
+}
+
+void RenderSystem::removePointLight(const std::shared_ptr<PointLight> &light) {
+    m_pointLights.erase(std::remove(m_pointLights.begin(), m_pointLights.end(), light), m_pointLights.end());
+}
+
+void RenderSystem::addSpotLight(const std::shared_ptr<SpotLight> &light) {
+    m_spotLights.push_back(light);
+}
+
+void RenderSystem::removeSpotLight(const std::shared_ptr<SpotLight> &light) {
+    m_spotLights.erase(std::remove(m_spotLights.begin(), m_spotLights.end(), light), m_spotLights.end());
+}
