@@ -30,61 +30,61 @@ function Initialize()
         plane.components.transform:SetScale(10, 1, 10)
     end
     
-    -- front wall
-    do
-        local plane = SpawnPrefab("plane")
-        plane.components.transform:SetPosition(-5, 3, -5)
-        plane.components.transform:SetScale(10, 1, 10)
-        plane.components.transform:Rotate(1, 0, 0, PI / 2)
-    end
-    do
-        local plane = SpawnPrefab("plane")
-        plane.components.transform:SetPosition(5, 3, -5)
-        plane.components.transform:SetScale(10, 1, 10)
-        plane.components.transform:Rotate(1, 0, 0, PI / 2)
-    end
+    -- -- front wall
+    -- do
+    --     local plane = SpawnPrefab("plane")
+    --     plane.components.transform:SetPosition(-5, 3, -5)
+    --     plane.components.transform:SetScale(10, 1, 10)
+    --     plane.components.transform:Rotate(1, 0, 0, PI / 2)
+    -- end
+    -- do
+    --     local plane = SpawnPrefab("plane")
+    --     plane.components.transform:SetPosition(5, 3, -5)
+    --     plane.components.transform:SetScale(10, 1, 10)
+    --     plane.components.transform:Rotate(1, 0, 0, PI / 2)
+    -- end
 
-    -- back wall
-    do
-        local plane = SpawnPrefab("plane")
-        plane.components.transform:SetPosition(-5, 3, 15)
-        plane.components.transform:SetScale(10, 1, 10)
-        plane.components.transform:Rotate(1, 0, 0, -PI / 2)
-    end
-    do
-        local plane = SpawnPrefab("plane")
-        plane.components.transform:SetPosition(5, 3, 15)
-        plane.components.transform:SetScale(10, 1, 10)
-        plane.components.transform:Rotate(1, 0, 0, -PI / 2)
-    end
+    -- -- back wall
+    -- do
+    --     local plane = SpawnPrefab("plane")
+    --     plane.components.transform:SetPosition(-5, 3, 15)
+    --     plane.components.transform:SetScale(10, 1, 10)
+    --     plane.components.transform:Rotate(1, 0, 0, -PI / 2)
+    -- end
+    -- do
+    --     local plane = SpawnPrefab("plane")
+    --     plane.components.transform:SetPosition(5, 3, 15)
+    --     plane.components.transform:SetScale(10, 1, 10)
+    --     plane.components.transform:Rotate(1, 0, 0, -PI / 2)
+    -- end
 
-    -- left wall
-    do
-        local plane = SpawnPrefab("plane")
-        plane.components.transform:SetPosition(-10, 3, 0)
-        plane.components.transform:SetScale(10, 1, 10)
-        plane.components.transform:Rotate(0, 0, 1, -PI / 2)
-    end
-    do
-        local plane = SpawnPrefab("plane")
-        plane.components.transform:SetPosition(-10, 3, 10)
-        plane.components.transform:SetScale(10, 1, 10)
-        plane.components.transform:Rotate(0, 0, 1, -PI / 2)
-    end
+    -- -- left wall
+    -- do
+    --     local plane = SpawnPrefab("plane")
+    --     plane.components.transform:SetPosition(-10, 3, 0)
+    --     plane.components.transform:SetScale(10, 1, 10)
+    --     plane.components.transform:Rotate(0, 0, 1, -PI / 2)
+    -- end
+    -- do
+    --     local plane = SpawnPrefab("plane")
+    --     plane.components.transform:SetPosition(-10, 3, 10)
+    --     plane.components.transform:SetScale(10, 1, 10)
+    --     plane.components.transform:Rotate(0, 0, 1, -PI / 2)
+    -- end
 
-    -- right wall
-    do
-        local plane = SpawnPrefab("plane")
-        plane.components.transform:SetPosition(10, 3, 0)
-        plane.components.transform:SetScale(10, 1, 10)
-        plane.components.transform:Rotate(0, 0, 1, PI / 2)
-    end
-    do
-        local plane = SpawnPrefab("plane")
-        plane.components.transform:SetPosition(10, 3, 10)
-        plane.components.transform:SetScale(10, 1, 10)
-        plane.components.transform:Rotate(0, 0, 1, PI / 2)
-    end
+    -- -- right wall
+    -- do
+    --     local plane = SpawnPrefab("plane")
+    --     plane.components.transform:SetPosition(10, 3, 0)
+    --     plane.components.transform:SetScale(10, 1, 10)
+    --     plane.components.transform:Rotate(0, 0, 1, PI / 2)
+    -- end
+    -- do
+    --     local plane = SpawnPrefab("plane")
+    --     plane.components.transform:SetPosition(10, 3, 10)
+    --     plane.components.transform:SetScale(10, 1, 10)
+    --     plane.components.transform:Rotate(0, 0, 1, PI / 2)
+    -- end
 
     do
         local monkey = SpawnPrefab("monkey")
