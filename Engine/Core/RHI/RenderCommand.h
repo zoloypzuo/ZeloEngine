@@ -10,6 +10,9 @@
 namespace Zelo::Core::RHI {
 class RenderCommand {
 public:
+    virtual ~RenderCommand() = default;
+
+public:
     virtual void setViewport(int32_t x, int32_t y, int32_t width, int32_t height) = 0;
 
     virtual void setClearColor(const glm::vec4 &color) = 0;
