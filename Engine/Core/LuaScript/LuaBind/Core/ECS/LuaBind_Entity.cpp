@@ -5,19 +5,6 @@
 #include "Core/ECS/Actor.h"
 
 #include "Core/ECS/Components/CTransform.h"
-//#include "Core/ECS/Components/CCamera.h"
-//#include "Core/ECS/Components/CPhysicalBox.h"
-//#include "Core/ECS/Components/CPhysicalSphere.h"
-//#include "Core/ECS/Components/CPhysicalCapsule.h"
-//#include "Core/ECS/Components/CDirectionalLight.h"
-//#include "Core/ECS/Components/CPointLight.h"
-//#include "Core/ECS/Components/CSpotLight.h"
-//#include "Core/ECS/Components/CAmbientBoxLight.h"
-//#include "Core/ECS/Components/CAmbientSphereLight.h"
-//#include "Core/ECS/Components/CModelRenderer.h"
-//#include "Core/ECS/Components/CMaterialRenderer.h"
-//#include "Core/ECS/Components/CAudioSource.h"
-//#include "Core/ECS/Components/CAudioListener.h"
 
 #include "Core/ECS/Entity.h"
 #include "Core/Math/Transform.h"
@@ -25,6 +12,8 @@
 #include "Core/ECS/Component/FreeMove.h"
 #include "Core/ECS/Component/FreeLook.h"
 #include "Core/RHI/Object/Light.h"
+
+#include <glm/glm.hpp>
 
 void LuaBind_Entity(sol::state &luaState) {
     using namespace Zelo::Core::ECS;
@@ -48,22 +37,6 @@ void LuaBind_Entity(sol::state &luaState) {
 
 
             "GetTransform", &Actor::GetComponent<CTransform>,
-//            "GetPhysicalObject", &Actor::GetComponent<CPhysicalObject>,
-//            "GetPhysicalBox", &Actor::GetComponent<CPhysicalBox>,
-//            "GetPhysicalSphere", &Actor::GetComponent<CPhysicalSphere>,
-//            "GetPhysicalCapsule", &Actor::GetComponent<CPhysicalCapsule>,
-//            "GetCamera", &Actor::GetComponent<CCamera>,
-//            "GetLight", &Actor::GetComponent<CLight>,
-//            "GetPointLight", &Actor::GetComponent<CPointLight>,
-//            "GetSpotLight", &Actor::GetComponent<CSpotLight>,
-//            "GetDirectionalLight", &Actor::GetComponent<CDirectionalLight>,
-//            "GetAmbientBoxLight", &Actor::GetComponent<CAmbientBoxLight>,
-//            "GetAmbientSphereLight", &Actor::GetComponent<CAmbientSphereLight>,
-//            "GetModelRenderer", &Actor::GetComponent<CModelRenderer>,
-//            "GetMaterialRenderer", &Actor::GetComponent<CMaterialRenderer>,
-//            "GetAudioSource", &Actor::GetComponent<CAudioSource>,
-//            "GetAudioListener", &Actor::GetComponent<CAudioListener>,
-
 
             "GetBehaviour", [](Actor &actor,
                                const std::string &name) -> sol::table {
@@ -73,38 +46,6 @@ void LuaBind_Entity(sol::state &luaState) {
                 else
                     return sol::nil;
             },
-
-
-//            "AddTransform", &Actor::AddComponent<CTransform>,
-//            "AddModelRenderer", &Actor::AddComponent<CModelRenderer>,
-//            "AddPhysicalBox", &Actor::AddComponent<CPhysicalBox>,
-//            "AddPhysicalSphere", &Actor::AddComponent<CPhysicalSphere>,
-//            "AddPhysicalCapsule", &Actor::AddComponent<CPhysicalCapsule>,
-//            "AddCamera", &Actor::AddComponent<CCamera>,
-//            "AddPointLight", &Actor::AddComponent<CPointLight>,
-//            "AddSpotLight", &Actor::AddComponent<CSpotLight>,
-//            "AddDirectionalLight", &Actor::AddComponent<CDirectionalLight>,
-//            "AddAmbientBoxLight", &Actor::AddComponent<CAmbientBoxLight>,
-//            "AddAmbientSphereLight", &Actor::AddComponent<CAmbientSphereLight>,
-//            "AddMaterialRenderer", &Actor::AddComponent<CMaterialRenderer>,
-//            "AddAudioSource", &Actor::AddComponent<CAudioSource>,
-//            "AddAudioListener", &Actor::AddComponent<CAudioListener>,
-//
-//
-//            "RemoveModelRenderer", &Actor::RemoveComponent<CModelRenderer>,
-//            "RemovePhysicalBox", &Actor::RemoveComponent<CPhysicalBox>,
-//            "RemovePhysicalSphere", &Actor::RemoveComponent<CPhysicalSphere>,
-//            "RemovePhysicalCapsule", &Actor::RemoveComponent<CPhysicalCapsule>,
-//            "RemoveCamera", &Actor::RemoveComponent<CCamera>,
-//            "RemovePointLight", &Actor::RemoveComponent<CPointLight>,
-//            "RemoveSpotLight", &Actor::RemoveComponent<CSpotLight>,
-//            "RemoveDirectionalLight", &Actor::RemoveComponent<CDirectionalLight>,
-//            "RemoveAmbientBoxLight", &Actor::RemoveComponent<CAmbientBoxLight>,
-//            "RemoveAmbientSphereLight", &Actor::RemoveComponent<CAmbientSphereLight>,
-//            "RemoveMaterialRenderer", &Actor::RemoveComponent<CMaterialRenderer>,
-//            "RemoveAudioSource", &Actor::RemoveComponent<CAudioSource>,
-//            "RemoveAudioListener", &Actor::RemoveComponent<CAudioListener>,
-
 
             "AddBehaviour", &Actor::AddBehaviour,
             "RemoveBehaviour", sol::overload
@@ -192,7 +133,29 @@ luaState.new_usertype<PerspectiveCamera>("Camera",
 // @formatter:on
 
 // @formatter:off
+luaState.new_usertype<Attenuation>("Attenuation",
+"constant", &Attenuation::m_constant, 
+"linear", &Attenuation::m_linear, 
+"exponent", &Attenuation::m_exponent, 
+"Dummy", []{}
+);
+// @formatter:on
+
+// @formatter:off
+luaState.new_usertype<glm::vec3>("vec3",
+sol::constructors<
+        glm::vec3(), 
+        glm::vec3(float), 
+        glm::vec3(float, float, float)>(),
+"x", &glm::vec3::x,
+"y", &glm::vec3::y,
+"z", &glm::vec3::z
+);
+// @formatter:on
+
+// @formatter:off
 luaState.new_usertype<BaseLight>("BaseLight",
+"color", &BaseLight::m_color,
 "intensity", &BaseLight::m_intensity, 
 "Dummy", []{}
 );
@@ -201,6 +164,8 @@ luaState.new_usertype<BaseLight>("BaseLight",
 // @formatter:off
 luaState.new_usertype<SpotLight>("SpotLight",
 sol::base_classes, sol::bases<BaseLight>(),
+"attenuation", &SpotLight::m_attenuation,
+"range", &SpotLight::m_range,
 "cutoff", &SpotLight::m_cutoff, 
 "Dummy", []{}
 );

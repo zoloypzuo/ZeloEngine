@@ -150,7 +150,7 @@ void GLSLShaderProgram::updateUniformSpotLight(const std::string &name, SpotLigh
 
     setUniformAttenuation(name + ".pointLight.attenuation", spotLight->getAttenuation());
     setUniformVec3f(name + ".pointLight.position", spotLight->getParent()->getPosition());
-    setUniform1f(name + ".pointLight.range", spotLight->getRange());
+    setUniform1f(name + ".pointLight.range", spotLight->m_range);
 
     setUniformVec3f(name + ".direction", spotLight->getParent()->getDirection());
     setUniform1f(name + ".cutoff", spotLight->getCutoff());

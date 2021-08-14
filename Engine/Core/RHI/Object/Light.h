@@ -11,6 +11,8 @@
 struct Attenuation
 {
 public:
+    Attenuation() = default;
+
     Attenuation(float constant, float linear, float exponent);
 
     float getConstant() const;
@@ -92,10 +94,10 @@ public:
     float m_range{};
 };
 
-class SpotLight : public PointLight
+class SpotLight : public BaseLight
 {
 public:
-    SpotLight() : PointLight() {}
+    SpotLight() : BaseLight() {}
 
     // SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared_ptr<Attenuation> attenuation);
 
@@ -107,9 +109,17 @@ public:
 
     //    void updateShader(GLSLShaderProgram *shader) override;
 
+    std::shared_ptr<Attenuation> getAttenuation() const { return std::make_shared<Attenuation>(
+        m_attenuation->m_constant,
+        m_attenuation->m_linear,
+        m_attenuation->m_exponent
+    ); }
+
     float getCutoff() const;
 
 public:
+    Attenuation *m_attenuation{};
+    float m_range{};
     float m_cutoff{};
 };
 

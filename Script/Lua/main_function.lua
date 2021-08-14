@@ -107,11 +107,16 @@ function Initialize()
         camera.aspect = 800 / 600
         camera.zNear = 0.05
         camera.zFar=  100
-
-        --glm::vec3(1.0f, 1.0f, 1.0f), 2.8f, 0.7f,
-        --std::make_shared<Attenuation>(0.0f, 0.0f, 0.2f))
+        
+        local attenuation = Attenuation.new()
+        attenuation.constant=0
+        attenuation.linear=0
+        attenuation.exponent=0.2
         local spotLight = avatar.entity:AddSpotLight()
-        -- TODO
+        spotLight.color = vec3.new(1, 1, 1)
+        spotLight.intensity = 2.8
+        spotLight.cutoff = 0.7
+        spotLight.attenuation = attenuation
 
         avatar.entity:AddFreeMove()
         avatar.entity:AddFreeLook()
@@ -122,8 +127,9 @@ function Initialize()
     do
         local sun = SpawnPrefab("monkey")
         sun.components.transform:SetPosition(-2, 4, -1)
-        sun.entity:AddDirectionalLight()
-        -- glm::vec3(1), 2.8f
+        local light = sun.entity:AddDirectionalLight()
+        light.color = vec3.new(1)
+        light.intensity = 2.8
     end
 end
 

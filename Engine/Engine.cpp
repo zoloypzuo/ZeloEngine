@@ -42,7 +42,7 @@ void Engine::initialize() {
 //    m_imguiManager->initialize();
     m_game = std::make_unique<Game>();
     m_game->initialize();
-//    m_game->getRootNode()->registerWithEngineAll(Engine::getSingletonPtr());
+    m_game->getRootNode()->registerWithEngineAll();
     m_luaScriptManager->callLuaInitializeFn();
 
     m_window->makeCurrentContext();
@@ -92,12 +92,10 @@ void Engine::finalize() {
 void Engine::update() {
     m_timeSystem->update();
     m_window->update();  // input poll events
-//    m_window->getGuiManager()->tick(m_deltaTime);
 //    m_imguiManager->update();
-//    m_game->update();
+    m_game->update();
     m_luaScriptManager->update();
     m_renderSystem->update();
-//    m_window->getGuiManager()->render(m_game->getRootNode().get());
 //    m_imguiManager->render();
     m_window->swapBuffer();  // swap buffer
 }
