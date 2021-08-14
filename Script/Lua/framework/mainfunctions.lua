@@ -1,5 +1,3 @@
-
-
 ---SCRIPTING
 local Scripts = {}
 
@@ -17,16 +15,6 @@ function RunScript(filename)
     if fn then
         fn()
     end
-end
-
-function GetEntityString(guid)
-    local ent = Ents[guid]
-
-    if ent then
-        return ent:GetDebugString()
-    end
-
-    return ""
 end
 
 function OnEntitySleep(guid)
@@ -47,7 +35,7 @@ function OnEntitySleep(guid)
             EmitterManager:Hibernate(inst.emitter)
         end
 
-        for k, v in pairs(inst.components) do
+        for _, v in pairs(inst.components) do
 
             if v.OnEntitySleep then
                 v:OnEntitySleep()

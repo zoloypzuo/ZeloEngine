@@ -7,7 +7,7 @@ PI = 3.14
 function Initialize()
     print("initialize")
     TheSim = Game.GetSingletonPtr()
-    
+
     -- ground
     do
         local plane = SpawnPrefab("plane")
@@ -29,7 +29,7 @@ function Initialize()
         plane.components.transform:SetPosition(5, -2, 10)
         plane.components.transform:SetScale(10, 1, 10)
     end
-    
+
     -- front wall
     do
         local plane = SpawnPrefab("plane")
@@ -86,32 +86,32 @@ function Initialize()
         plane.components.transform:Rotate(0, 0, 1, PI / 2)
     end
 
-    do
-        local monkey = SpawnPrefab("monkey")
-    end
+    --do
+    --    local monkey = SpawnPrefab("monkey")
+    --end
 
-    do
+    --do
         -- for i=0,10 do
         --     local monkey = SpawnPrefab("monkey")
         --     monkey.components.transform:SetPosition(0, i * 3, -2.5)
         -- end
-    end
+    --end
 
     do
         local avatar = SpawnPrefab("monkey")
         avatar.components.transform:SetPosition(0, 0, 5)
         avatar.components.transform:SetScale(0.8, 0.8, 0.8)
-        
+
         local camera = avatar.entity:AddCamera()
         camera.fov = PI / 2
         camera.aspect = 800 / 600
         camera.zNear = 0.05
-        camera.zFar=  100
-        
+        camera.zFar = 100
+
         local attenuation = Attenuation.new()
-        attenuation.constant=0
-        attenuation.linear=0
-        attenuation.exponent=0.2
+        attenuation.constant = 0
+        attenuation.linear = 0
+        attenuation.exponent = 0.2
         local spotLight = avatar.entity:AddSpotLight()
         spotLight.color = vec3.new(1, 1, 1)
         spotLight.intensity = 2.8
@@ -161,7 +161,7 @@ function LoadPrefabFile(filename)
     local ret = { require(filename) }
 
     if ret then
-        for i, val in ipairs(ret) do
+        for _, val in ipairs(ret) do
             if type(val) == "table" and val.is_a and val:is_a(Prefab) then
                 RegisterPrefabs(val)
             end
