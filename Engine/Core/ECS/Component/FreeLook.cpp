@@ -34,8 +34,8 @@ void FreeLook::deregisterFromEngine() {
     input->unbindAction("look");
 }
 
-void FreeLook::update(Input *input, std::chrono::microseconds delta) {
-    float moveAmount = m_speed * std::chrono::duration_cast<std::chrono::duration<float>>(delta).count();
+void FreeLook::update(Input *input, float delta) {
+    float moveAmount = m_speed * delta;
 
     if (m_look) {
         input->grabMouse();

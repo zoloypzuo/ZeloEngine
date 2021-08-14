@@ -51,7 +51,7 @@ void Entity::addChild(const std::shared_ptr<Entity> &child) {
     child->registerWithEngineAll();
 }
 
-void Entity::updateAll(Input *input, std::chrono::microseconds delta) {
+void Entity::updateAll(Input *input, float delta) {
     if (parentEntity == nullptr) {
         worldMatrix = transform.getTransformMatrix();
     } else {

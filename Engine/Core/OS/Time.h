@@ -26,7 +26,7 @@ public:
     void update() override;
 
 public:
-    const std::chrono::microseconds &getDeltaTime();
+    float getDeltaTime();
 
 private:
     std::chrono::high_resolution_clock::time_point m_time{};

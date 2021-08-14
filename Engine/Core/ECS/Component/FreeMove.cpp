@@ -48,8 +48,8 @@ void FreeMove::deregisterFromEngine() {
     input->unbindAxis("strafe");
 }
 
-void FreeMove::update(Input *input, std::chrono::microseconds delta) {
-    float moveAmount = m_speed * std::chrono::duration_cast<std::chrono::duration<float>>(delta).count();
+void FreeMove::update(Input *input, float delta) {
+    float moveAmount = m_speed * delta;
 
     if (m_sprinting) {
         moveAmount *= 4.0f;

@@ -38,7 +38,7 @@ public:
 
     // TODO remove input
     // TODO change delta to float
-    virtual void update(Input *input, std::chrono::microseconds delta) {};
+    virtual void update(Input *input, float delta) {};
 
     // TODO remove it
     virtual void render(Shader *shader) {};
@@ -104,7 +104,7 @@ public:
         return component.get();
     }
 
-    void updateAll(Input *input, std::chrono::microseconds delta);
+    void updateAll(Input *input, float delta);
 
     void renderAll(Shader *shader) const;
 

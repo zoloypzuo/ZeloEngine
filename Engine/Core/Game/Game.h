@@ -1,7 +1,6 @@
 // Game.h
 // created on 2021/3/28
 // author @zoloypzuo
-
 #ifndef ZELOENGINE_GAME_H
 #define ZELOENGINE_GAME_H
 
@@ -9,8 +8,6 @@
 #include "ZeloSingleton.h"
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Entity.h"
-
-// #include <sol/sol.hpp>
 
 class Game : public Singleton<Game>, public IRuntimeModule {
 public:
@@ -24,16 +21,17 @@ public:
 
     void update() override;
 
-    int SpawnPrefab(const std::string &name);
-
 public:
     static Game *getSingletonPtr();
 
+public:
     std::shared_ptr<Entity> getRootNode();
 
 public:
+    int SpawnPrefab(const std::string &name);
+
     Entity *CreateEntity();
-    
+
     void SetActiveCamera(PerspectiveCamera *camera);
 
 private:

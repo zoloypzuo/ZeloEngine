@@ -14,7 +14,7 @@ public:
 
     ~FreeLook() override;
 
-    void update(Input *input, std::chrono::microseconds delta) override;
+    void update(Input *input, float delta) override;
 
     void registerWithEngine() override;
 

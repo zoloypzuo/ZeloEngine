@@ -39,6 +39,6 @@ void Time::update() {
     m_deltaTime = std::chrono::duration_cast<std::chrono::microseconds>(m_time - m_lastTime);
 }
 
-const std::chrono::microseconds &Time::getDeltaTime() {
-    return m_deltaTime;
+float Time::getDeltaTime() {
+    return std::chrono::duration_cast<std::chrono::duration<float>>(m_deltaTime).count();
 }
