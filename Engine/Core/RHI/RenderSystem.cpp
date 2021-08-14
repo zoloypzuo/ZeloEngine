@@ -42,8 +42,8 @@ RenderSystem &RenderSystem::getSingleton() {
     return *msSingleton;
 }
 
-void RenderSystem::setActiveCamera(std::shared_ptr<Camera> camera) {
-    m_activeCamera = std::move(camera);
+void RenderSystem::setActiveCamera(Camera *camera) {
+    m_activeCamera = camera;
 }
 
 void RenderSystem::addDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {

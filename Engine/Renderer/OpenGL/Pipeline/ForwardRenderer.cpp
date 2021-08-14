@@ -8,7 +8,7 @@ SimpleRenderer::SimpleRenderer() = default;
 
 SimpleRenderer::~SimpleRenderer() = default;
 
-void SimpleRenderer::render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
+void SimpleRenderer::render(const Entity &scene, Camera *activeCamera,
                             const std::vector<std::shared_ptr<PointLight>> &pointLights,
                             const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                             const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
@@ -45,7 +45,7 @@ ForwardRenderer::ForwardRenderer() = default;
 
 ForwardRenderer::~ForwardRenderer() = default;
 
-void ForwardRenderer::render(const Entity &scene, std::shared_ptr<Camera> activeCamera,
+void ForwardRenderer::render(const Entity &scene, Camera *activeCamera,
                              const std::vector<std::shared_ptr<PointLight>> &pointLights,
                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {

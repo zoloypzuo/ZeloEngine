@@ -108,5 +108,5 @@ int Game::SpawnPrefab(const std::string &name) {
 
 // TODO fix sol base class 
 void Game::SetActiveCamera(PerspectiveCamera *camera){
-    RenderSystem::getSingletonPtr()->setActiveCamera(std::shared_ptr<Camera>(camera));
+    RenderSystem::getSingletonPtr()->setActiveCamera(camera);
 }
