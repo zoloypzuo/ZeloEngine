@@ -13,11 +13,10 @@ FreeLook::FreeLook(float speed) {
     setProperty("look", PropertyType::BOOLEAN, &m_look);
 }
 
-FreeLook::~FreeLook() {
-}
+FreeLook::~FreeLook() = default;
 
 void FreeLook::registerWithEngine() {
-    auto input = Input::getSingletonPtr();
+    auto *input = Input::getSingletonPtr();
 
     input->registerButtonToAction(SDL_BUTTON_RIGHT, "look");
 
@@ -30,13 +29,13 @@ void FreeLook::registerWithEngine() {
 }
 
 void FreeLook::deregisterFromEngine() {
-    auto input = Input::getSingletonPtr();
+    auto *input = Input::getSingletonPtr();
 
     input->unbindAction("look");
 }
 
 void FreeLook::update(float delta) {
-    input = Input::getSingletonPtr();
+    auto *input = Input::getSingletonPtr();
     float moveAmount = m_speed * delta;
 
     if (m_look) {

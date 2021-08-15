@@ -22,7 +22,7 @@ using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Parser;
 
 void Game::update() {
-    rootScene->updateAll(Input::getSingletonPtr(), Time::getSingletonPtr()->getDeltaTime());
+    rootScene->updateAll(Time::getSingletonPtr()->getDeltaTime());
 }
 
 template<> Game *Singleton<Game>::msSingleton = nullptr;

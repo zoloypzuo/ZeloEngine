@@ -50,7 +50,7 @@ void FreeMove::deregisterFromEngine() {
 }
 
 void FreeMove::update(float delta) {
-    input = Input::getSingletonPtr();
+    auto *input = Input::getSingletonPtr();
 
     float moveAmount = m_speed * delta;
 

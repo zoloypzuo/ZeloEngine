@@ -87,22 +87,9 @@ public:
     // }
 
     template<class T, class... Types>
-    inline T *addComponent(Types &&... _Args) {
-        // create component
-        auto component = std::make_shared<T>(_Args...);
-        component->setParent(this);
-        m_componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
-        m_components.push_back(component);
+    inline T *addComponent(Types &&... Args);
 
-        // bind lua
-        auto pComponent = std::dynamic_pointer_cast<Component>(component).get();
-        auto &L = Zelo::Core::LuaScript::LuaScriptManager::getSingleton();
-        sol::table entityScript = L["Ents"][m_guid];
-        entityScript["m_components"][pComponent->getType()] = pComponent;
-        return component.get();
-    }
-
-    void updateAll(Input *input, float delta);
+    void updateAll(float delta);
 
     void renderAll(Shader *shader) const;
 
@@ -126,35 +113,11 @@ public:
     glm::vec4 getDirection();
 
     template<class T>
-    inline std::vector<std::shared_ptr<T>> getComponentsByType() {
-        auto i = m_componentsByTypeid.find(typeid(T));
-        if (i == m_componentsByTypeid.end()) {
-            return std::vector<std::shared_ptr<T>>();
-        } else {
-            auto vec = i->second;
-
-            std::vector<std::shared_ptr<T>> target(vec.size());
-            std::transform(vec.begin(), vec.end(), target.begin(),
-                           [](std::shared_ptr<Component> t) { return std::dynamic_pointer_cast<T>(t); });
-            return target;
-        }
-    }
+    inline std::vector<std::shared_ptr<T>> getComponentsByType();
 
     // TODO BUG cannot find
     template<class T>
-    inline std::shared_ptr<T> getComponent() {
-        auto i = m_componentsByTypeid.find(typeid(T));
-        if (i == m_componentsByTypeid.end()) {
-            return nullptr;
-        } else {
-            auto vec = i->second;
-            if (vec.size() > 0) {
-                return std::dynamic_pointer_cast<T>(vec[0]);
-            } else {
-                return nullptr;
-            }
-        }
-    }
+    inline std::shared_ptr<T> getComponent();
 
 public:
     static std::vector<Entity *> findByTag(const std::string &tag);
@@ -204,5 +167,7 @@ private:
 public:
     static std::map<std::string, std::vector<Entity *>> s_taggedEntities;
 };
+
+#include "Core/ECS/Entity.inl"
 
 #endif //ZELOENGINE_ENTITY_H

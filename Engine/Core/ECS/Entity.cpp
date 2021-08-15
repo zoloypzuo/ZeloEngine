@@ -50,7 +50,7 @@ void Entity::addChild(const std::shared_ptr<Entity> &child) {
     child->registerWithEngineAll();
 }
 
-void Entity::updateAll(Input *input, float delta) {
+void Entity::updateAll(float delta) {
     if (m_parentEntity == nullptr) {
         m_worldMatrix = m_transform.getTransformMatrix();
     } else {
@@ -62,7 +62,7 @@ void Entity::updateAll(Input *input, float delta) {
     }
 
     for (const auto &child : m_children) {
-        child->updateAll(input, delta);
+        child->updateAll(delta);
     }
 }
 
