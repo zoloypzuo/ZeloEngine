@@ -28,7 +28,7 @@ public:
     std::shared_ptr<Zelo::Core::ECS::Entity> getRootNode();
 
 public:
-    int SpawnPrefab(const std::string &name);
+    Zelo::GUID_t SpawnPrefab(const std::string &name);
 
     Zelo::Core::ECS::Entity *CreateEntity();
 
