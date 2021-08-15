@@ -84,8 +84,8 @@ public:
     // template<class T>
     // inline void addComponent(std::shared_ptr<T> component) {
     //     component->setParent(this);
-    //     componentsByTypeid[typeid(T)].push_back(component);
-    //     components.push_back(component);
+    //     m_componentsByTypeid[typeid(T)].push_back(component);
+    //     m_components.push_back(component);
     // }
 
     template<class T, class... Types>
@@ -93,14 +93,14 @@ public:
         // create component
         auto component = std::make_shared<T>(_Args...);
         component->setParent(this);
-        componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
-        components.push_back(component);
+        m_componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
+        m_components.push_back(component);
 
         // bind lua
         auto pComponent = std::dynamic_pointer_cast<Component>(component).get();
         auto &L = Zelo::Core::LuaScript::LuaScriptManager::getSingleton();
         sol::table entityScript = L["Ents"][m_guid];
-        entityScript["components"][pComponent->getType()] = pComponent;
+        entityScript["m_components"][pComponent->getType()] = pComponent;
         return component.get();
     }
 
@@ -129,8 +129,8 @@ public:
 
     template<class T>
     inline std::vector<std::shared_ptr<T>> getComponentsByType() {
-        auto i = componentsByTypeid.find(typeid(T));
-        if (i == componentsByTypeid.end()) {
+        auto i = m_componentsByTypeid.find(typeid(T));
+        if (i == m_componentsByTypeid.end()) {
             return std::vector<std::shared_ptr<T>>();
         } else {
             auto vec = i->second;
@@ -145,8 +145,8 @@ public:
     // TODO BUG cannot find
     template<class T>
     inline std::shared_ptr<T> getComponent() {
-        auto i = componentsByTypeid.find(typeid(T));
-        if (i == componentsByTypeid.end()) {
+        auto i = m_componentsByTypeid.find(typeid(T));
+        if (i == m_componentsByTypeid.end()) {
             return nullptr;
         } else {
             auto vec = i->second;
@@ -174,15 +174,15 @@ private:
     std::string m_name{};
     std::string m_tag;
     Zelo::GUID_t m_guid{};
-    Entity *parentEntity{};
-    Transform transform;
-    std::vector<std::shared_ptr<Entity>> children;
-    std::vector<std::shared_ptr<Component>> components;
-    glm::mat4 worldMatrix{};
-    std::map<std::type_index, std::vector<std::shared_ptr<Component>>> componentsByTypeid;
+    Entity *m_parentEntity{};
+    Transform m_transform;
+    std::vector<std::shared_ptr<Entity>> m_children;
+    std::vector<std::shared_ptr<Component>> m_components;
+    glm::mat4 m_worldMatrix{};
+    std::map<std::type_index, std::vector<std::shared_ptr<Component>>> m_componentsByTypeid;
 
 public:
-    static std::map<std::string, std::vector<Entity *>> taggedEntities;
+    static std::map<std::string, std::vector<Entity *>> s_taggedEntities;
 };
 
 #endif //ZELOENGINE_ENTITY_H

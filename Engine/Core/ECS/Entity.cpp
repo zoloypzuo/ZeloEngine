@@ -9,7 +9,7 @@
 
 using namespace Zelo::Core::LuaScript;
 
-std::map<std::string, std::vector<Entity *>> Entity::taggedEntities;
+std::map<std::string, std::vector<Entity *>> Entity::s_taggedEntities;
 
 Entity::Entity(Zelo::GUID_t guid) : m_guid(guid) {
 }
@@ -18,16 +18,16 @@ Entity::Entity(const std::string &tag) {
     Entity::setTag(this, tag);
 
     m_tag = tag;
-    parentEntity = nullptr;
+    m_parentEntity = nullptr;
 }
 
 Entity::Entity() {
-    parentEntity = nullptr;
+    m_parentEntity = nullptr;
 }
 
 Entity::~Entity() {
     if (!m_tag.empty()) {
-        auto *taggedEntitiesVec = &Entity::taggedEntities[m_tag];
+        auto *taggedEntitiesVec = &Entity::s_taggedEntities[m_tag];
         taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this),
                                  taggedEntitiesVec->end());
     }
@@ -35,98 +35,98 @@ Entity::~Entity() {
 
 void Entity::setTag(Entity *entity, const std::string &tag) {
     entity->m_tag = tag;
-    Entity::taggedEntities[tag].push_back(entity);
+    Entity::s_taggedEntities[tag].push_back(entity);
 }
 
 std::vector<Entity *> Entity::findByTag(const std::string &tag) {
-    return Entity::taggedEntities[tag];
+    return Entity::s_taggedEntities[tag];
 }
 
 void Entity::addChild(const std::shared_ptr<Entity> &child) {
-    child->parentEntity = this;
-    children.push_back(child);
+    child->m_parentEntity = this;
+    m_children.push_back(child);
 
     // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
     child->registerWithEngineAll();
 }
 
 void Entity::updateAll(Input *input, float delta) {
-    if (parentEntity == nullptr) {
-        worldMatrix = transform.getTransformMatrix();
+    if (m_parentEntity == nullptr) {
+        m_worldMatrix = m_transform.getTransformMatrix();
     } else {
-        worldMatrix = parentEntity->worldMatrix * transform.getTransformMatrix();
+        m_worldMatrix = m_parentEntity->m_worldMatrix * m_transform.getTransformMatrix();
     }
 
-    for (const auto &component : components) {
+    for (const auto &component : m_components) {
         component->update(input, delta);
     }
 
-    for (const auto &child : children) {
+    for (const auto &child : m_children) {
         child->updateAll(input, delta);
     }
 }
 
 void Entity::renderAll(Shader *shader) const {
-    for (const auto &component : components) {
+    for (const auto &component : m_components) {
         component->render(shader);
     }
 
-    for (const auto &child : children) {
+    for (const auto &child : m_children) {
         child->renderAll(shader);
     }
 }
 
 void Entity::registerWithEngineAll() {
 
-    for (const auto &component : components) {
+    for (const auto &component : m_components) {
         component->registerWithEngine();
     }
 
-    for (const auto &child : children) {
+    for (const auto &child : m_children) {
         child->registerWithEngineAll();
     }
 }
 
 void Entity::deregisterFromEngineAll() {
-    for (const auto &component : components) {
+    for (const auto &component : m_components) {
         component->deregisterFromEngine();
     }
 
-    for (const auto &child : children) {
+    for (const auto &child : m_children) {
         child->deregisterFromEngineAll();
     }
 }
 
 Transform &Entity::getTransform() {
-    return transform;
+    return m_transform;
 }
 
 std::vector<std::shared_ptr<Entity>> Entity::getChildren() {
-    return children;
+    return m_children;
 }
 
 std::vector<std::shared_ptr<Component>> Entity::getComponents() {
-    return components;
+    return m_components;
 }
 
 glm::mat4 &Entity::getWorldMatrix() {
-    return worldMatrix;
+    return m_worldMatrix;
 }
 
 glm::vec3 Entity::getPosition() {
-    if (parentEntity == nullptr) {
-        return transform.getPosition();
+    if (m_parentEntity == nullptr) {
+        return m_transform.getPosition();
     } else {
-        auto pos = transform.getPosition();
-        return (parentEntity->worldMatrix * glm::vec4(pos.x, pos.y, pos.z, 1));
+        auto pos = m_transform.getPosition();
+        return (m_parentEntity->m_worldMatrix * glm::vec4(pos.x, pos.y, pos.z, 1));
     }
 }
 
 glm::vec4 Entity::getDirection() {
-    if (parentEntity == nullptr) {
-        return transform.getDirection();
+    if (m_parentEntity == nullptr) {
+        return m_transform.getDirection();
     } else {
-        return glm::normalize(parentEntity->worldMatrix * transform.getDirection());
+        return glm::normalize(m_parentEntity->m_worldMatrix * m_transform.getDirection());
     }
 }
 
@@ -145,8 +145,8 @@ void Entity::AddTag(const std::string &tag) {
 Transform *Entity::AddTransform() {
     auto &L = LuaScriptManager::getSingleton();
     sol::table entityScript = L["Ents"][m_guid];
-    entityScript["components"]["transform"] = &transform;
-    return &transform;
+    entityScript["m_components"]["m_transform"] = &m_transform;
+    return &m_transform;
 }
 
 void Component::setParent(Entity *parentEntity) {
