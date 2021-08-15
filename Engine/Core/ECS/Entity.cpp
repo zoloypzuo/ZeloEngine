@@ -58,7 +58,7 @@ void Entity::updateAll(Input *input, float delta) {
     }
 
     for (const auto &component : m_components) {
-        component->update(input, delta);
+        component->update(delta);
     }
 
     for (const auto &child : m_children) {

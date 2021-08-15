@@ -5,7 +5,6 @@
 #define ZELOENGINE_ENTITY_H
 
 #include "ZeloPrerequisites.h"
-#include "Core/Input/Input.h"  // TODO remove it
 #include "Core/Math/Transform.h"
 #include "Core/RHI/Resource/Shader.h"
 
@@ -36,9 +35,8 @@ class Component {
 public:
     virtual ~Component() = default;;
 
-    // TODO remove input
     // TODO change delta to float
-    virtual void update(Input *input, float delta) {};
+    virtual void update(float delta) {};
 
     // TODO remove it
     virtual void render(Shader *shader) {};
@@ -158,28 +156,50 @@ public:
         }
     }
 
+public:
     static std::vector<Entity *> findByTag(const std::string &tag);
 
     static void setTag(Entity *entity, const std::string &tag);
 
-ZELO_SCRIPT_API:
-
+public:  // script api
     Zelo::GUID_t GetGUID() const;
 
     void AddTag(const std::string &tag);
 
     Transform *AddTransform();
 
+public:  // event
+    static Zelo::Core::EventSystem::Event<Actor &> DestroyedEvent;
+    static Zelo::Core::EventSystem::Event<Actor &> CreatedEvent;
+    static EventSystem::Event<Actor &, Actor &> AttachEvent;
+    static EventSystem::Event<Actor &> DetachEvent;
+
 private:
+    // basic
     std::string m_name{};
-    std::string m_tag;
+    std::string m_tag{};
     Zelo::GUID_t m_guid{};
-    Entity *m_parentEntity{};
+
+    // transform component
     Transform m_transform;
+
+    // parent and children
+    Entity *m_parentEntity{};
     std::vector<std::shared_ptr<Entity>> m_children;
+
+    // component
     std::vector<std::shared_ptr<Component>> m_components;
-    glm::mat4 m_worldMatrix{};
     std::map<std::type_index, std::vector<std::shared_ptr<Component>>> m_componentsByTypeid;
+
+    // computed world matrix
+    glm::mat4 m_worldMatrix{};
+
+    // state
+    bool m_destroyed = false;
+    bool m_sleeping = true;
+    bool m_awake = false;
+    bool m_started = false;
+    bool m_wasActive = false;
 
 public:
     static std::map<std::string, std::vector<Entity *>> s_taggedEntities;

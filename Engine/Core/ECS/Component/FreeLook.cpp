@@ -3,6 +3,7 @@
 //
 #include "ZeloPreCompiledHeader.h"
 #include "FreeLook.h"
+#include "Core/Input/Input.h"
 
 FreeLook::FreeLook(float speed) {
     m_speed = speed;
@@ -34,7 +35,8 @@ void FreeLook::deregisterFromEngine() {
     input->unbindAction("look");
 }
 
-void FreeLook::update(Input *input, float delta) {
+void FreeLook::update(float delta) {
+    input = Input::getSingletonPtr();
     float moveAmount = m_speed * delta;
 
     if (m_look) {

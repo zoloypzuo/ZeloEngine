@@ -3,6 +3,7 @@
 //
 #include "ZeloPreCompiledHeader.h"
 #include "FreeMove.h"
+#include "Core/Input/Input.h"
 
 FreeMove::FreeMove(bool moveForwards, float speed) {
     m_speed = speed;
@@ -48,7 +49,9 @@ void FreeMove::deregisterFromEngine() {
     input->unbindAxis("strafe");
 }
 
-void FreeMove::update(Input *input, float delta) {
+void FreeMove::update(float delta) {
+    input = Input::getSingletonPtr();
+
     float moveAmount = m_speed * delta;
 
     if (m_sprinting) {
