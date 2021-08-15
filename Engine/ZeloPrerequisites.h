@@ -41,6 +41,10 @@
 #include <cstdio>
 #include <cstring>
 
+// script API
+#define ZELO_SCRIPT_API  // do nothing
+
+// typedef
 namespace Zelo {
 typedef int64_t GUID_t;
 }
