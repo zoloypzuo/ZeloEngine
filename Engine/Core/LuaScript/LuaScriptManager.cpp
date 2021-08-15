@@ -101,7 +101,7 @@ void LuaScriptManager::callLuaInitializeFn() {
 }
 
 void LuaScriptManager::doString(const std::string &luaCode) {
-    sol::optional<sol::error> script_result = safe_script(luaCode);
+    sol::optional<sol::error> script_result = safe_script(luaCode, sol::script_pass_on_error);
     if (script_result.has_value()) {
         m_logger->error("failed to dostring {}\n{}", luaCode, script_result.value().what());
         throw sol::error(script_result.value().what());
