@@ -71,10 +71,6 @@ class Entity {
 public:
     explicit Entity(GUID_t guid);
 
-    explicit Entity(const std::string &tag);
-
-    Entity();
-
     ~Entity();
 
     void addChild(const std::shared_ptr<Entity> &child);
@@ -97,7 +93,6 @@ public:
     void registerWithEngineAll();
 
     void deregisterFromEngineAll();
-
 
     const std::string &getTag() const;
 

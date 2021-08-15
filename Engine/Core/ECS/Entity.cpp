@@ -15,17 +15,6 @@ std::map<std::string, std::vector<Entity *>> Entity::s_taggedEntities;
 Entity::Entity(Zelo::GUID_t guid) : m_guid(guid) {
 }
 
-Entity::Entity(const std::string &tag) {
-    Entity::setTag(this, tag);
-
-    m_tag = tag;
-    m_parentEntity = nullptr;
-}
-
-Entity::Entity() {
-    m_parentEntity = nullptr;
-}
-
 Entity::~Entity() {
     if (!m_tag.empty()) {
         auto *taggedEntitiesVec = &Entity::s_taggedEntities[m_tag];
