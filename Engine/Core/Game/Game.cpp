@@ -56,59 +56,53 @@ Entity *Game::CreateEntity() {
 }
 
 Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
-    try {
-        auto &L = LuaScriptManager::getSingleton();
-        sol::table prefab = L["Prefabs"][name];
-        sol::protected_function fn(prefab["fn"], L["GlobalErrorHandler"]);
+    auto &L = LuaScriptManager::getSingleton();
+    sol::table prefab = L["Prefabs"][name];
+    sol::protected_function fn(prefab["fn"], L["GlobalErrorHandler"]);
 
-        sol::protected_function_result result = fn();
-        if (result.valid()) {
-            // Call succeeded
-            sol::table entityScript = result;
-            Entity &entity = entityScript["entity"];
+    sol::protected_function_result result = fn();
+    if (result.valid()) {
+        // Call succeeded
+        sol::table entityScript = result;
+        Entity &entity = entityScript["entity"];
 
-            sol::table assets = prefab["assets"];
-            sol::optional<sol::table> meshGenAsset = assets["mesh_gen"];
-            if (meshGenAsset.has_value()) {
-                std::string meshGenFile = assets["mesh_gen"]["file"];
+        sol::table assets = prefab["assets"];
+        sol::optional<sol::table> meshGenAsset = assets["mesh_gen"];
+        if (meshGenAsset.has_value()) {
+            std::string meshGenFile = assets["mesh_gen"]["file"];
 
-                auto planeMeshGen = Plane();
-                auto planeMesh = std::make_shared<GLMesh>(planeMeshGen);
+            auto planeMeshGen = Plane();
+            auto planeMesh = std::make_shared<GLMesh>(planeMeshGen);
 
-                std::string diffuseTexName = assets["diffuse"]["file"];
-                std::string normalTexName = assets["normal"]["file"];
-                std::string specularTexName = assets["specular"]["file"];
+            std::string diffuseTexName = assets["diffuse"]["file"];
+            std::string normalTexName = assets["normal"]["file"];
+            std::string specularTexName = assets["specular"]["file"];
 
-                auto brickMat = std::make_shared<GLMaterial>(
-                        std::make_shared<GLTexture>(Zelo::Resource(diffuseTexName)),
-                        std::make_shared<GLTexture>(Zelo::Resource(normalTexName)),
-                        std::make_shared<GLTexture>(Zelo::Resource(specularTexName))
-                );
+            auto brickMat = std::make_shared<GLMaterial>(
+                    std::make_shared<GLTexture>(Zelo::Resource(diffuseTexName)),
+                    std::make_shared<GLTexture>(Zelo::Resource(normalTexName)),
+                    std::make_shared<GLTexture>(Zelo::Resource(specularTexName))
+            );
 
-                entity.addComponent<MeshRenderer>(planeMesh, brickMat);
-            }
-
-            sol::optional<sol::table> meshAsset = assets["mesh"];
-            if (meshAsset.has_value()) {
-                std::string meshAssetFile = assets["mesh"]["file"];
-                MeshLoader meshLoader(meshAssetFile);
-                auto meshRenderDataList = meshLoader.getMeshRendererData();
-                for (auto &meshRenderData: meshRenderDataList) {
-                    entity.addComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
-                }
-            }
-
-            return entity.GetGUID();
-        } else {
-            // Call failed
-            sol::error err = result;
-            ZELO_ASSERT(false, err.what());
+            entity.addComponent<MeshRenderer>(planeMesh, brickMat);
         }
-    }
-    catch (std::exception &e) {
-        spdlog::error(e.what());
-    }
 
+        sol::optional<sol::table> meshAsset = assets["mesh"];
+        if (meshAsset.has_value()) {
+            std::string meshAssetFile = assets["mesh"]["file"];
+            MeshLoader meshLoader(meshAssetFile);
+            auto meshRenderDataList = meshLoader.getMeshRendererData();
+            for (auto &meshRenderData: meshRenderDataList) {
+                entity.addComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
+            }
+        }
+
+        return entity.GetGUID();
+    } else {
+        // Call failed
+        sol::error err = result;
+        ZELO_ASSERT(false, err.what());
+    }
     return 0;
 }
 

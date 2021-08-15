@@ -107,7 +107,7 @@ link_libraries(sol2::sol2)
 # sol enable safety check
 add_compile_definitions(SOL_ALL_SAFETIES_ON)
 # sol fix link error
-add_compile_definitions(SOL_USING_CXX_LUA=0)
+add_compile_definitions(SOL_USING_CXX_LUA=1)
 
 # glm
 add_compile_definitions(GLM_FORCE_SWIZZLE)

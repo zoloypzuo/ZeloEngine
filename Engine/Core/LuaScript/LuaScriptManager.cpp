@@ -101,7 +101,7 @@ void LuaScriptManager::callLuaInitializeFn() {
 }
 
 void LuaScriptManager::doString(const std::string &luaCode) {
-    sol::optional<sol::error> script_result = safe_script(luaCode, sol::script_pass_on_error);
+    sol::optional<sol::error> script_result = safe_script(luaCode);
     if (script_result.has_value()) {
         m_logger->error("failed to dostring {}\n{}", luaCode, script_result.value().what());
         throw sol::error(script_result.value().what());
@@ -122,7 +122,7 @@ int LuaScriptManager::luaExceptionHandler(
         sol::string_view what) {
     std::shared_ptr<spdlog::logger> &logger = LuaScriptManager::getSingletonPtr()->m_logger;
     logger->error("[sol3] An exception occurred: {}", std::string(what.data(), what.size()));
-    lua_pushlstring(L, what.data(), what.size());
+    lua_pushlstring(L, what.data(), what.size()); // NOLINT(readability-container-size-empty)
     return 1;
 }
 
