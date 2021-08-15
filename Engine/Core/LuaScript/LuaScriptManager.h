@@ -43,6 +43,12 @@ private:
 
     void loadLuaMain();
 
+private:
+    static int luaExceptionHandler(lua_State* L, sol::optional<const std::exception&>, sol::string_view what);
+
+    static int luaAtPanic(lua_State* L);
+
+private:
     std::shared_ptr<spdlog::logger> m_logger{};
 };
 }

@@ -34,6 +34,9 @@ void LuaScriptManager::initialize() {
 }
 
 void LuaScriptManager::initLuaContext() {
+    set_exception_handler(luaExceptionHandler);
+    set_panic(luaAtPanic);
+
     open_libraries(
             // print, assert, and other base functions
             sol::lib::base,
@@ -111,4 +114,28 @@ void LuaScriptManager::doFile(const std::string &luaFile) {
         m_logger->error("failed to dofile {}\n{}", luaFile, script_result.value().what());
         throw sol::error(script_result.value().what());
     }
+}
+
+int LuaScriptManager::luaExceptionHandler(
+        lua_State *L,
+        sol::optional<const std::exception &>,
+        sol::string_view what) {
+    std::shared_ptr<spdlog::logger> &logger = LuaScriptManager::getSingletonPtr()->m_logger;
+    logger->error("[sol3] An exception occurred: {}", std::string(what.data(), what.size()));
+    lua_pushlstring(L, what.data(), what.size());
+    return 1;
+}
+
+int LuaScriptManager::luaAtPanic(lua_State *L) {
+    size_t message_size{};
+    const char* message = lua_tolstring(L, -1, &message_size);
+    if (message) {
+        std::string err(message, message_size);
+        lua_settop(L, 0);
+        std::shared_ptr<spdlog::logger> &logger = LuaScriptManager::getSingletonPtr()->m_logger;
+        logger->error("[sol3] An error occurred and panic has been invoked: {}", err);
+        throw sol::error(err);
+    }
+    lua_settop(L, 0);
+    throw sol::error(std::string("An unexpected error occurred and panic has been invoked"));
 }
