@@ -70,7 +70,7 @@ protected:
 
 class Entity {
 public:
-    explicit Entity(int guid);
+    explicit Entity(Zelo::GUID_t guid);
 
     explicit Entity(const std::string &tag);
 
@@ -160,32 +160,29 @@ public:
 
     static std::vector<Entity *> findByTag(const std::string &tag);
 
-public:
-    int GetGUID() const;
-
-    void AddTag(const std::string & tag);
-
-    Transform *AddTransform();
-private:
-    int m_guid{};
-
-    Entity *parentEntity{};
-
-    Transform transform;
-
-    std::vector<std::shared_ptr<Entity>> children;
-    std::vector<std::shared_ptr<Component>> components;
-
-    glm::mat4 worldMatrix{};
-
-    std::string m_tag;
-
     static void setTag(Entity *entity, const std::string &tag);
 
-    static std::map<std::string, std::vector<Entity *>> taggedEntities;
+ZELO_SCRIPT_API:
 
+    Zelo::GUID_t GetGUID() const;
+
+    void AddTag(const std::string &tag);
+
+    Transform *AddTransform();
+
+private:
+    std::string m_name{};
+    std::string m_tag;
+    Zelo::GUID_t m_guid{};
+    Entity *parentEntity{};
+    Transform transform;
+    std::vector<std::shared_ptr<Entity>> children;
+    std::vector<std::shared_ptr<Component>> components;
+    glm::mat4 worldMatrix{};
     std::map<std::type_index, std::vector<std::shared_ptr<Component>>> componentsByTypeid;
 
+public:
+    static std::map<std::string, std::vector<Entity *>> taggedEntities;
 };
 
 #endif //ZELOENGINE_ENTITY_H

@@ -36,7 +36,7 @@ public:
 
 private:
     std::shared_ptr<Entity> rootScene{};
-    int m_entityGuid{};
+    Zelo::GUID_t m_entityGuidCounter{};
 };
 
 #endif //ZELOENGINE_GAME_H

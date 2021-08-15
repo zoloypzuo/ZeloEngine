@@ -48,8 +48,8 @@ std::shared_ptr<Entity> Game::getRootNode() {
 }
 
 Entity *Game::CreateEntity() {
-    m_entityGuid++; // acc guid counter
-    const auto &entity = std::make_shared<Entity>(m_entityGuid);
+    m_entityGuidCounter++; // acc guid counter
+    const auto &entity = std::make_shared<Entity>(m_entityGuidCounter);
     rootScene->addChild(entity);
     return entity.get();
 }

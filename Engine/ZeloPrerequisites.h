@@ -41,7 +41,15 @@
 #include <cstdio>
 #include <cstring>
 
-// SDL
+// define
+#define ZELO_SCRIPT_API public
+#define ZELO_SCRIPT_PROPERTY public
+
+namespace Zelo {
+typedef int64_t GUID_t;
+}
+
+// fix SDL
 #ifndef SDL_MAIN_HANDLED
 #define SDL_MAIN_HANDLED
 #endif

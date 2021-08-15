@@ -11,8 +11,7 @@ using namespace Zelo::Core::LuaScript;
 
 std::map<std::string, std::vector<Entity *>> Entity::taggedEntities;
 
-Entity::Entity(int guid) : m_guid(guid) {
-
+Entity::Entity(Zelo::GUID_t guid) : m_guid(guid) {
 }
 
 Entity::Entity(const std::string &tag) {
@@ -28,7 +27,7 @@ Entity::Entity() {
 
 Entity::~Entity() {
     if (!m_tag.empty()) {
-        auto taggedEntitiesVec = &Entity::taggedEntities[m_tag];
+        auto *taggedEntitiesVec = &Entity::taggedEntities[m_tag];
         taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this),
                                  taggedEntitiesVec->end());
     }
@@ -131,7 +130,7 @@ glm::vec4 Entity::getDirection() {
     }
 }
 
-int Entity::GetGUID() const {
+Zelo::GUID_t Entity::GetGUID() const {
     return m_guid;
 }
 
@@ -139,7 +138,7 @@ const std::string &Entity::getTag() const {
     return m_tag;
 }
 
-void Entity::AddTag(const std::string & tag) {
+void Entity::AddTag(const std::string &tag) {
     setTag(this, tag);
 }
 
@@ -163,7 +162,7 @@ Transform &Component::getTransform() const {
 }
 
 void Component::setProperty(const char *name, PropertyType type, void *p, float min, float max) {
-    Property prop;
+    Property prop{};
 
     prop.type = type;
     prop.p = p;
@@ -174,7 +173,7 @@ void Component::setProperty(const char *name, PropertyType type, void *p, float 
 }
 
 void Component::setProperty(const char *name, PropertyType type, void *p) {
-    Property prop;
+    Property prop{};
 
     prop.type = type;
     prop.p = p;
