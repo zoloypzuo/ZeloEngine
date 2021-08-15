@@ -16,7 +16,7 @@ inline T *Entity::addComponent(Types &&... Args) {
     auto pComponent = std::dynamic_pointer_cast<Component>(component).get();
     auto &L = Zelo::Core::LuaScript::LuaScriptManager::getSingleton();
     sol::table entityScript = L["Ents"][m_guid];
-    entityScript["m_components"][pComponent->getType()] = pComponent;
+    entityScript["components"][pComponent->getType()] = pComponent;
     return component.get();
 }
 
