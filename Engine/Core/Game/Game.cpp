@@ -20,6 +20,7 @@ using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Parser;
+using namespace Zelo::Core::ECS;
 
 void Game::update() {
     rootScene->updateAll(Time::getSingletonPtr()->getDeltaTime());

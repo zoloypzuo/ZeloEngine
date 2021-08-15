@@ -8,6 +8,7 @@
 #include <sol/sol.hpp>
 
 using namespace Zelo::Core::LuaScript;
+using namespace Zelo::Core::ECS;
 
 std::map<std::string, std::vector<Entity *>> Entity::s_taggedEntities;
 
@@ -145,7 +146,7 @@ void Entity::AddTag(const std::string &tag) {
 Transform *Entity::AddTransform() {
     auto &L = LuaScriptManager::getSingleton();
     sol::table entityScript = L["Ents"][m_guid];
-    entityScript["m_components"]["m_transform"] = &m_transform;
+    entityScript["components"]["transform"] = &m_transform;
     return &m_transform;
 }
 

@@ -27,14 +27,9 @@ public:
     float m_exponent;
 };
 
-class BaseLight : public Component, public std::enable_shared_from_this<BaseLight> {
+class BaseLight : public Zelo::Core::ECS::Component, public std::enable_shared_from_this<BaseLight> {
 public:
-    BaseLight() {
-        setProperty("color", PropertyType::COLOR, &m_color.x, 0, 1);
-        setProperty("intensity", PropertyType::FLOAT, &m_intensity, 0, 100);
-    };
-
-    // BaseLight(glm::vec3 color, float intensity);
+    BaseLight();
 
     ~BaseLight() override;
 
@@ -53,9 +48,7 @@ public:
 
 class DirectionalLight : public BaseLight {
 public:
-    DirectionalLight() : BaseLight() {}
-
-    // DirectionalLight(glm::vec3 color, float intensity);
+    DirectionalLight();
 
     void registerWithEngine() override;
 
@@ -68,9 +61,7 @@ public:
 
 class PointLight : public BaseLight {
 public:
-    PointLight() : BaseLight() {}
-
-    // PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenuation> attenuation);
+    PointLight();
 
     ~PointLight() override;
 
@@ -94,9 +85,7 @@ public:
 
 class SpotLight : public BaseLight {
 public:
-    SpotLight() : BaseLight() {}
-
-    // SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared_ptr<Attenuation> attenuation);
+    SpotLight();
 
     void registerWithEngine() override;
 

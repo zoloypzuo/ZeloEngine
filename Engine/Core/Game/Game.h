@@ -25,17 +25,17 @@ public:
     static Game *getSingletonPtr();
 
 public:
-    std::shared_ptr<Entity> getRootNode();
+    std::shared_ptr<Zelo::Core::ECS::Entity> getRootNode();
 
 public:
     int SpawnPrefab(const std::string &name);
 
-    Entity *CreateEntity();
+    Zelo::Core::ECS::Entity *CreateEntity();
 
     void SetActiveCamera(PerspectiveCamera *camera);
 
 private:
-    std::shared_ptr<Entity> rootScene{};
+    std::shared_ptr<Zelo::Core::ECS::Entity> rootScene{};
     Zelo::GUID_t m_entityGuidCounter{};
 };
 

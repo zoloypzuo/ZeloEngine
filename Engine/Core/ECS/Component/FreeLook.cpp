@@ -5,6 +5,8 @@
 #include "FreeLook.h"
 #include "Core/Input/Input.h"
 
+using namespace Zelo::Core::ECS;
+
 FreeLook::FreeLook(float speed) {
     m_speed = speed;
     m_look = false;

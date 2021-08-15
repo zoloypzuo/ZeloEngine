@@ -7,14 +7,8 @@
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::ECS;
 
-// BaseLight::BaseLight(glm::vec3 color, float intensity) {
-//     m_color = color;
-//     m_intensity = intensity;
-
-//     setProperty("color", PropertyType::COLOR, &m_color.x, 0, 1);
-//     setProperty("intensity", PropertyType::FLOAT, &m_intensity, 0, 100);
-// }
 
 BaseLight::~BaseLight() = default;
 
@@ -26,11 +20,14 @@ float BaseLight::getIntensity() const {
     return m_intensity;
 }
 
-// DirectionalLight::DirectionalLight(glm::vec3 color, float intensity) : BaseLight(color, intensity) {
-// }
+BaseLight::BaseLight() {
+    setProperty("color", PropertyType::COLOR, &m_color.x, 0, 1);
+    setProperty("intensity", PropertyType::FLOAT, &m_intensity, 0, 100);
+}
 
 void DirectionalLight::registerWithEngine() {
-    RenderSystem::getSingletonPtr()->addDirectionalLight(std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
+    RenderSystem::getSingletonPtr()->addDirectionalLight(
+            std::dynamic_pointer_cast<DirectionalLight>(shared_from_this()));
 }
 
 void DirectionalLight::deregisterFromEngine() {
@@ -42,20 +39,13 @@ void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
     shader->updateUniformDirectionalLight("directionalLight", this);
 }
 
-// PointLight::PointLight(glm::vec3 color, float intensity, std::shared_ptr<Attenuation> attenuation) : BaseLight(color,
-//                                                                                                                intensity) {
-//     m_attenuation = attenuation;
+DirectionalLight::DirectionalLight() : BaseLight() {}
 
-//     // float a = attenuation->getExponent();
-//     // float b = attenuation->getLinear();
-//     // float c = attenuation->getConstant() - BITS_PER_CHANNEL * getIntensity() * glm::max(color.x, glm::max(color.y, color.z));
-
-//     setProperty("exp", PropertyType::FLOAT, &m_attenuation->m_exponent, 0, 0.5);
-//     setProperty("linear", PropertyType::FLOAT, &m_attenuation->m_linear, 0, 1);
-//     setProperty("const", PropertyType::FLOAT, &m_attenuation->m_constant, 0, 1);
-
-//     // m_range = (-b + glm::sqrt(b * b - 4 * a * c)) / (2 * a);
-// }
+PointLight::PointLight() : BaseLight() {
+    setProperty("exp", PropertyType::FLOAT, &m_attenuation->m_exponent, 0, 0.5);
+    setProperty("linear", PropertyType::FLOAT, &m_attenuation->m_linear, 0, 1);
+    setProperty("const", PropertyType::FLOAT, &m_attenuation->m_constant, 0, 1);
+}
 
 PointLight::~PointLight() = default;
 
@@ -85,11 +75,9 @@ float PointLight::getRange() {
     return m_range;
 }
 
-// SpotLight::SpotLight(glm::vec3 color, float intensity, float cutoff, std::shared_ptr<Attenuation> attenuation)
-//         : PointLight(color, intensity, attenuation) {
-//     m_cutoff = cutoff;
-//     setProperty("cutoff", PropertyType::FLOAT, &m_cutoff, 0, 1);
-// }
+SpotLight::SpotLight() : BaseLight() {
+    setProperty("cutoff", PropertyType::FLOAT, &m_cutoff, 0, 1);
+}
 
 void SpotLight::registerWithEngine() {
     RenderSystem::getSingletonPtr()->addSpotLight(std::dynamic_pointer_cast<SpotLight>(shared_from_this()));
@@ -106,6 +94,7 @@ void SpotLight::updateShader(GLSLShaderProgram *shader) {
 float SpotLight::getCutoff() const {
     return m_cutoff;
 }
+
 
 Attenuation::Attenuation(float constant, float linear, float exponent) {
     m_constant = constant;

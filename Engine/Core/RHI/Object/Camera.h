@@ -9,41 +9,32 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
 
-class Camera : public Component
+class Camera : public Zelo::Core::ECS::Component
 {
 public:
-    virtual ~Camera() {}
+    ~Camera() override = default;
 
     glm::mat4 getViewMatrix() const;
 
     virtual glm::mat4 getProjectionMatrix() const = 0;
 
-    inline virtual const char *getType() { return "CAMERA"; }
+    inline const char *getType() override { return "CAMERA"; }
 };
 
 class PerspectiveCamera : public Camera
 {
 public:
-    PerspectiveCamera()
-    {
-        setProperty("fov", PropertyType::ANGLE, &m_fov, 0, 180);
-        setProperty("aspect", PropertyType::FLOAT, &m_aspect, 0, 10);
-        setProperty("zNear", PropertyType::FLOAT, &m_zNear, 0, 1);
-        setProperty("zFar", PropertyType::FLOAT, &m_zFar, 0, 1000);
-    };
+    PerspectiveCamera();;
 
-    // NOTE sol cannot resolve template
-    // PerspectiveCamera(float fov, float aspect, float zNear, float zFar);
+    glm::mat4 getProjectionMatrix() const override;
 
-    virtual glm::mat4 getProjectionMatrix() const;
-
-    inline virtual const char *getType() { return "PERSPECTIVE_CAMERA"; }
+    inline const char *getType() override { return "PERSPECTIVE_CAMERA"; }
 
     void setFov(float fov);
 
-    float getFov();
+    float getFov() const;
 
-public:
+public:  // script property
     float m_fov{}, m_aspect{}, m_zNear{}, m_zFar{};
 };
 

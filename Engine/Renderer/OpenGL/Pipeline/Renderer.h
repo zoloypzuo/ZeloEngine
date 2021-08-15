@@ -17,7 +17,7 @@ public:
 
     virtual void initialize() = 0;
 
-    virtual void render(const Entity &scene, Camera *activeCamera,
+    virtual void render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
                         const std::vector<std::shared_ptr<PointLight>> &pointLights,
                         const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                         const std::vector<std::shared_ptr<SpotLight>> &spotLights) const = 0;

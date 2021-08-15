@@ -5,6 +5,8 @@
 #include "FreeMove.h"
 #include "Core/Input/Input.h"
 
+using namespace Zelo::Core::ECS;
+
 FreeMove::FreeMove(bool moveForwards, float speed) {
     m_speed = speed;
     m_moveForwards = moveForwards;

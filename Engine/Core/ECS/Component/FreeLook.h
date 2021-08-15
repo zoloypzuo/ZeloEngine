@@ -8,6 +8,7 @@
 #include "ZeloPrerequisites.h"
 #include "Core/ECS/Entity.h"
 
+namespace Zelo::Core::ECS {
 class FreeLook : public Component {
 public:
     explicit FreeLook(float speed = 1.f);
@@ -26,5 +27,6 @@ private:
     float m_speed;
     bool m_look;
 };
+}
 
 #endif //ZELOENGINE_FREELOOK_H

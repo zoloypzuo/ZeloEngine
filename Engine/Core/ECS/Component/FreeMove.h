@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 
+namespace Zelo::Core::ECS {
 class FreeMove : public Component {
 public:
     explicit FreeMove(bool moveForwards = true, float speed = 10.f);
@@ -30,5 +31,6 @@ private:
     float m_speed, m_forwardsVelocity, m_strafeVelocity;
     bool m_moveForwards, m_sprinting;
 };
+}
 
 #endif //ZELOENGINE_FREEMOVE_H

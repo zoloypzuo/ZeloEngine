@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #pragma once
 
+namespace Zelo::Core::ECS {
 template<class T, class... Types>
 inline T *Entity::addComponent(Types &&... Args) {
     // create component
@@ -47,4 +48,5 @@ inline std::shared_ptr<T> Entity::getComponent() {
             return nullptr;
         }
     }
+}
 }

@@ -10,6 +10,8 @@
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/EventSystem/Event.h"
 
+
+namespace Zelo::Core::ECS {
 // TODO 解开Entity和场景图的依赖关系，不要在Entity类里递归，和注册
 class Entity;
 
@@ -23,7 +25,6 @@ enum class PropertyType {
     ANGLE,
     COLOR
 };
-
 struct Property {
     PropertyType type;
     void *p;
@@ -68,7 +69,7 @@ protected:
 
 class Entity {
 public:
-    explicit Entity(Zelo::GUID_t guid);
+    explicit Entity(GUID_t guid);
 
     explicit Entity(const std::string &tag);
 
@@ -125,23 +126,23 @@ public:
     static void setTag(Entity *entity, const std::string &tag);
 
 public:  // script api
-    Zelo::GUID_t GetGUID() const;
+    GUID_t GetGUID() const;
 
     void AddTag(const std::string &tag);
 
     Transform *AddTransform();
 
 public:  // event
-    static Zelo::Core::EventSystem::Event<Entity &> s_DestroyedEvent;
-    static Zelo::Core::EventSystem::Event<Entity &> s_CreatedEvent;
-    static Zelo::Core::EventSystem::Event<Entity &, Entity &> s_AttachEvent;
-    static Zelo::Core::EventSystem::Event<Entity &> s_DetachEvent;
+    static EventSystem::Event<Entity &> s_DestroyedEvent;
+    static EventSystem::Event<Entity &> s_CreatedEvent;
+    static EventSystem::Event<Entity &, Entity &> s_AttachEvent;
+    static EventSystem::Event<Entity &> s_DetachEvent;
 
 private:
     // basic
     std::string m_name{};
     std::string m_tag{};
-    Zelo::GUID_t m_guid{};
+    GUID_t m_guid{};
 
     // transform component
     Transform m_transform;
@@ -167,6 +168,7 @@ private:
 public:
     static std::map<std::string, std::vector<Entity *>> s_taggedEntities;
 };
+}
 
 #include "Core/ECS/Entity.inl"
 

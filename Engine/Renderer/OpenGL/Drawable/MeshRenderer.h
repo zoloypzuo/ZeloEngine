@@ -12,7 +12,7 @@
 #include "Core/RHI/Resource/Material.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
-class MeshRenderer : public Component {
+class MeshRenderer : public Zelo::Core::ECS::Component {
 public:
     MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Zelo::Core::RHI::Material> material);
 
