@@ -7,8 +7,8 @@
 #include "ZeloPrerequisites.h"
 #include "Core/Math/Transform.h"
 #include "Core/RHI/Resource/Shader.h"
-
 #include "Core/LuaScript/LuaScriptManager.h"
+#include "Core/EventSystem/Event.h"
 
 // TODO 解开Entity和场景图的依赖关系，不要在Entity类里递归，和注册
 class Entity;
@@ -169,10 +169,10 @@ public:  // script api
     Transform *AddTransform();
 
 public:  // event
-    static Zelo::Core::EventSystem::Event<Actor &> DestroyedEvent;
-    static Zelo::Core::EventSystem::Event<Actor &> CreatedEvent;
-    static EventSystem::Event<Actor &, Actor &> AttachEvent;
-    static EventSystem::Event<Actor &> DetachEvent;
+    static Zelo::Core::EventSystem::Event<Entity &> s_DestroyedEvent;
+    static Zelo::Core::EventSystem::Event<Entity &> s_CreatedEvent;
+    static Zelo::Core::EventSystem::Event<Entity &, Entity &> s_AttachEvent;
+    static Zelo::Core::EventSystem::Event<Entity &> s_DetachEvent;
 
 private:
     // basic
