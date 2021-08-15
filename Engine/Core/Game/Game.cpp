@@ -37,7 +37,7 @@ Game::Game() = default;
 Game::~Game() = default;
 
 void Game::initialize() {
-    rootScene = std::make_unique<Entity>();
+    rootScene = std::make_unique<Entity>(m_entityGuidCounter);
 }
 
 void Game::finalize() {
@@ -88,7 +88,7 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
                 std::make_shared<GLTexture>(Zelo::Resource(specularTexName))
         );
 
-        entity.addComponent<MeshRenderer>(planeMesh, brickMat);
+        entity.AddComponent<MeshRenderer>(planeMesh, brickMat);
     }
 
     sol::optional<sol::table> meshAsset = assets["mesh"];
@@ -97,7 +97,7 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
         MeshLoader meshLoader(meshAssetFile);
         auto meshRenderDataList = meshLoader.getMeshRendererData();
         for (auto &meshRenderData: meshRenderDataList) {
-            entity.addComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
+            entity.AddComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
         }
     }
 

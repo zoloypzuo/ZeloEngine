@@ -4,17 +4,19 @@
 #pragma once
 
 namespace Zelo::Core::ECS {
-template<class T, class... Types>
-inline T *Entity::addComponent(Types &&... Args) {
+template<class T, class... Args>
+inline T *Entity::AddComponent(Args &&... args) {
+    static_assert(std::is_base_of<Component, T>::value, "T should derive from Core::ECS::Component");
+
     // create component
-    auto component = std::make_shared<T>(Args...);
+    auto component = std::make_shared<T>(args...);
     component->setParent(this);
     m_componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
     m_components.push_back(component);
 
     // bind lua
     auto pComponent = std::dynamic_pointer_cast<Component>(component).get();
-    auto &L = Zelo::Core::LuaScript::LuaScriptManager::getSingleton();
+    auto &L = Core::LuaScript::LuaScriptManager::getSingleton();
     sol::table entityScript = L["Ents"][m_guid];
     entityScript["components"][pComponent->getType()] = pComponent;
     return component.get();
@@ -36,17 +38,21 @@ inline std::vector<std::shared_ptr<T>> Entity::getComponentsByType() {
 }
 
 template<class T>
-inline std::shared_ptr<T> Entity::getComponent() {
-    auto i = m_componentsByTypeid.find(typeid(T));
-    if (i == m_componentsByTypeid.end()) {
-        return nullptr;
+inline T *Entity::getComponent() {
+    static_assert(std::is_base_of<Component, T>::value, "T should derive from Core::ECS::Component");
+
+    auto iterator = m_componentsByTypeid.find(typeid(T));
+    if (iterator != m_componentsByTypeid.end() && iterator->second.size() > 0) {
+        return std::dynamic_pointer_cast<T>(iterator->second[0]).get();
     } else {
-        auto vec = i->second;
-        if (vec.size() > 0) {
-            return std::dynamic_pointer_cast<T>(vec[0]);
-        } else {
-            return nullptr;
+        // fallback to linear search
+        for (auto it = m_components.begin(); it != m_components.end(); it++) {
+            auto result = std::dynamic_pointer_cast<T>(*it);
+            if (result) {
+                return result.get();
+            }
         }
+        return nullptr;
     }
 }
 }

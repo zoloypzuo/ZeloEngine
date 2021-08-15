@@ -73,18 +73,24 @@ public:
 
     ~Entity();
 
+public:
+#pragma region component management
+
+    template<class T, class... Args>
+    ZELO_SCRIPT_API inline T *AddComponent(Args &&... args);
+
+    template<class T>
+    inline std::vector<std::shared_ptr<T>> getComponentsByType();
+
+    // TODO BUG cannot find
+    template<class T>
+    inline T* getComponent();
+
+    std::vector<std::shared_ptr<Component>> getComponents();
+
+#pragma endregion
+
     void addChild(const std::shared_ptr<Entity> &child);
-
-    // NOTE hard to sol::resolve template
-    // template<class T>
-    // inline void addComponent(std::shared_ptr<T> component) {
-    //     component->setParent(this);
-    //     m_componentsByTypeid[typeid(T)].push_back(component);
-    //     m_components.push_back(component);
-    // }
-
-    template<class T, class... Types>
-    inline T *addComponent(Types &&... Args);
 
     void updateAll(float delta);
 
@@ -100,7 +106,6 @@ public:
 
     std::vector<std::shared_ptr<Entity>> getChildren();
 
-    std::vector<std::shared_ptr<Component>> getComponents();
 
     glm::mat4 &getWorldMatrix();
 
@@ -108,12 +113,6 @@ public:
 
     glm::vec4 getDirection();
 
-    template<class T>
-    inline std::vector<std::shared_ptr<T>> getComponentsByType();
-
-    // TODO BUG cannot find
-    template<class T>
-    inline std::shared_ptr<T> getComponent();
 
 public:
     static std::vector<Entity *> findByTag(const std::string &tag);
