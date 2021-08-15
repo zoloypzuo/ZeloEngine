@@ -95,10 +95,6 @@ std::vector<std::shared_ptr<Entity>> Entity::getChildren() {
     return m_children;
 }
 
-std::vector<std::shared_ptr<Component>> Entity::getComponents() {
-    return m_components;
-}
-
 glm::mat4 &Entity::getWorldMatrix() {
     return m_worldMatrix;
 }

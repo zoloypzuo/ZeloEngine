@@ -69,6 +69,10 @@ protected:
 
 class Entity {
 public:
+    typedef std::vector<std::shared_ptr<Component>> ComponentList;
+    typedef std::map<std::type_index, ComponentList> ComponentTypeMap;
+
+public:
     explicit Entity(GUID_t guid);
 
     ~Entity();
@@ -80,13 +84,10 @@ public:
     ZELO_SCRIPT_API inline T *AddComponent(Args &&... args);
 
     template<class T>
-    inline std::vector<std::shared_ptr<T>> getComponentsByType();
+    inline T *getComponent();
 
-    // TODO BUG cannot find
     template<class T>
-    inline T* getComponent();
-
-    std::vector<std::shared_ptr<Component>> getComponents();
+    inline std::vector<std::shared_ptr<T>> getComponentsByType();
 
 #pragma endregion
 
@@ -146,8 +147,8 @@ private:
     std::vector<std::shared_ptr<Entity>> m_children;
 
     // component
-    std::vector<std::shared_ptr<Component>> m_components;
-    std::map<std::type_index, std::vector<std::shared_ptr<Component>>> m_componentsByTypeid;
+    ComponentList m_components;
+    ComponentTypeMap m_componentsByTypeid;
 
     // computed world matrix
     glm::mat4 m_worldMatrix{};
