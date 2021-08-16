@@ -29,6 +29,9 @@ end
 --    TheSim:LuaPrint(...)
 --end)
 
+global = function(name)
+end
+
 require("config")
 --require("languages/language")
 require("main_function")
@@ -68,8 +71,6 @@ require("brain")
 --require("mathutil")
 
 --debug key init
-global = function(name)
-end
 global("CHEATS_ENABLED")
 CHEATS_ENABLED = false
 if CHEATS_ENABLED then
