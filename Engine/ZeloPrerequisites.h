@@ -91,4 +91,11 @@ class PointLight;
 
 class SpotLight;
 
+namespace Zelo::Core::ECS {
+class Entity;
+
+class Component;
+
+class Behaviour;
+}
 #endif //ZELOENGINE_ZELOPREREQUISITES_H
