@@ -9,13 +9,22 @@
 
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::ECS;
+using namespace Zelo::Core::EventSystem;
 
-std::map<std::string, std::vector<Entity *>> Entity::s_taggedEntities;
+Entity::EntityMap Entity::s_taggedEntities;
+
+Event<Entity &> s_DestroyedEvent;
+Event<Entity &> s_CreatedEvent;
+Event<Entity &, Entity &> s_AttachEvent;
+Event<Entity &> s_DetachEvent;
 
 Entity::Entity(Zelo::GUID_t guid) : m_guid(guid) {
+    s_CreatedEvent.Invoke(*this);
 }
 
 Entity::~Entity() {
+    s_DestroyedEvent.Invoke(*this);
+
     if (!m_tag.empty()) {
         auto *taggedEntitiesVec = &Entity::s_taggedEntities[m_tag];
         taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this),
@@ -135,16 +144,8 @@ Transform *Entity::AddTransform() {
     return &m_transform;
 }
 
-void Component::setParent(Entity *parentEntity) {
-    m_parentEntity = parentEntity;
-}
-
-Entity *Component::getParent() const {
-    return m_parentEntity;
-}
-
 Transform &Component::getTransform() const {
-    return m_parentEntity->getTransform();
+    return m_owner.getTransform();
 }
 
 void Component::setProperty(const char *name, PropertyType type, void *p, float min, float max) {
@@ -165,4 +166,21 @@ void Component::setProperty(const char *name, PropertyType type, void *p) {
     prop.p = p;
 
     m_properties[name] = prop;
+}
+
+
+Component::Component(Entity &owner) : m_owner(owner) {
+
+}
+
+Component::~Component() {
+    if(m_owner.isActive()){
+        OnDisable();
+        OnDestroy();
+    }
+}
+
+
+bool Entity::isActive() const {
+    return m_active && (m_parentEntity ? m_parentEntity->isActive() : true);
 }

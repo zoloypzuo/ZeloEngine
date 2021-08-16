@@ -1,7 +1,6 @@
 # created on 2021/7/26
 # author @zoloypzuo
 
-add_subdirectory(Components)
 add_library(ECS
         Entity.cpp
         Component/FreeMove.cpp
@@ -9,4 +8,3 @@ add_library(ECS
 
         Actor.cpp Actor.h
         )
-target_link_libraries(ECS PRIVATE ECS_Components)

@@ -19,7 +19,6 @@ add_subdirectory(RHI)
 add_subdirectory(Window)
 
 set_target_properties(ECS PROPERTIES FOLDER "Core")
-set_target_properties(ECS_Components PROPERTIES FOLDER "Core")
 set_target_properties(EventSystem PROPERTIES FOLDER "Core")
 set_target_properties(Game PROPERTIES FOLDER "Core")
 #set_target_properties(ImGui PROPERTIES FOLDER "Core")
