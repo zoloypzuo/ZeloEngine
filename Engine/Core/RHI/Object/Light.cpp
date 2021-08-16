@@ -20,7 +20,7 @@ float BaseLight::getIntensity() const {
     return m_intensity;
 }
 
-BaseLight::BaseLight() {
+BaseLight::BaseLight(Entity &owner):Component(owner) {
     setProperty("color", PropertyType::COLOR, &m_color.x, 0, 1);
     setProperty("intensity", PropertyType::FLOAT, &m_intensity, 0, 100);
 }
@@ -39,9 +39,9 @@ void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
     shader->updateUniformDirectionalLight("directionalLight", this);
 }
 
-DirectionalLight::DirectionalLight() : BaseLight() {}
+DirectionalLight::DirectionalLight(Entity &owner) : BaseLight(owner) {}
 
-PointLight::PointLight() : BaseLight() {
+PointLight::PointLight(Entity &owner) : BaseLight(owner) {
     setProperty("exp", PropertyType::FLOAT, &m_attenuation->m_exponent, 0, 0.5);
     setProperty("linear", PropertyType::FLOAT, &m_attenuation->m_linear, 0, 1);
     setProperty("const", PropertyType::FLOAT, &m_attenuation->m_constant, 0, 1);
@@ -75,7 +75,7 @@ float PointLight::getRange() {
     return m_range;
 }
 
-SpotLight::SpotLight() : BaseLight() {
+SpotLight::SpotLight(Entity &owner) : BaseLight(owner) {
     setProperty("cutoff", PropertyType::FLOAT, &m_cutoff, 0, 1);
 }
 

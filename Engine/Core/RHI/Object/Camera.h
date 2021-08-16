@@ -24,7 +24,7 @@ public:
 class PerspectiveCamera : public Camera
 {
 public:
-    PerspectiveCamera();;
+    PerspectiveCamera(Zelo::Core::ECS::Entity &owner);;
 
     glm::mat4 getProjectionMatrix() const override;
 

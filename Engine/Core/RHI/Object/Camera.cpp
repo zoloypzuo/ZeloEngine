@@ -24,7 +24,7 @@ float PerspectiveCamera::getFov() const {
     return m_fov;
 }
 
-PerspectiveCamera::PerspectiveCamera() {
+PerspectiveCamera::PerspectiveCamera(Entity &owner) : Component(owner) {
     setProperty("fov", PropertyType::ANGLE, &m_fov, 0, 180);
     setProperty("aspect", PropertyType::FLOAT, &m_aspect, 0, 10);
     setProperty("zNear", PropertyType::FLOAT, &m_zNear, 0, 1);
