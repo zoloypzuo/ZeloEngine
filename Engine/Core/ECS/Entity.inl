@@ -14,11 +14,21 @@ inline T *Entity::AddComponent(Args &&... args) {
     m_components.push_back(component);
 
     // bind lua
-    auto pComponent = std::dynamic_pointer_cast<Component>(component).get();
+    auto pComponent = component.get();
     auto &L = Core::LuaScript::LuaScriptManager::getSingleton();
     sol::table entityScript = L["Ents"][m_guid];
     entityScript["components"][pComponent->getType()] = pComponent;
-    return component.get();
+
+    // trigger event and callback
+    Component &rComponent = *pComponent;
+    ComponentAddedEvent.Invoke(rComponent);
+    if (IsActive()) {
+        rComponent.OnAwake();
+        rComponent.OnEnable();
+        rComponent.OnStart();
+    }
+
+    return pComponent;
 }
 
 template<class T>
