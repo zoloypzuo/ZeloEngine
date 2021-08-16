@@ -28,3 +28,7 @@ void UIManager::finalize() {
 void UIManager::update() {
 
 }
+
+void UIManager::draw() {
+
+}

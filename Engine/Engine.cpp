@@ -19,6 +19,7 @@ using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
+using namespace Zelo::Core::UI;
 
 void Engine::initialize() {
     // init config and logger first
@@ -40,6 +41,8 @@ void Engine::initialize() {
     m_renderSystem->initialize();
 //    m_imguiManager = std::make_unique<ImGuiManager>();
 //    m_imguiManager->initialize();
+    m_uiManager = std::make_unique<UIManager>();
+    m_uiManager->initialize();
     m_game = std::make_unique<Game>();
     m_game->initialize();
     m_luaScriptManager->callLuaInitializeFn();
@@ -96,10 +99,12 @@ void Engine::update() {
     m_timeSystem->update();
     m_window->update();  // input poll events
 //    m_imguiManager->update();
+    m_uiManager->update();
     m_game->update();
     m_luaScriptManager->update();
     m_renderSystem->update();
 //    m_imguiManager->render();
+    m_uiManager->draw();
     m_window->swapBuffer();  // swap buffer
 }
 

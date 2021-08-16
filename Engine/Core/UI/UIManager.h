@@ -5,11 +5,13 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
+#include "Core/Interface/IDrawable.h"
 
 namespace Zelo::Core::UI {
 class UIManager :
         public Singleton<UIManager>,
-        public IRuntimeModule {
+        public IRuntimeModule,
+        public IDrawable {
 public:
     UIManager() = default;
 
@@ -25,5 +27,8 @@ public:
     static UIManager *getSingletonPtr();
 
     static UIManager &getSingleton();
+
+public:
+    void draw() override;
 };
 }

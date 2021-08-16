@@ -21,6 +21,7 @@ link_libraries(
         Profiler
         Resource
         RHI
+        UI
         Window
 )
 

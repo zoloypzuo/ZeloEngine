@@ -15,6 +15,7 @@
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
 #include "Core/OS/Time.h"
+#include "Core/UI/UIManager.h"
 
 namespace Zelo {
 class Engine :
@@ -56,7 +57,8 @@ protected:
     std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
     std::unique_ptr<Game> m_game;
-    std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem;
+    std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem{};
+    std::unique_ptr<Core::UI::UIManager> m_uiManager{};
 
     std::vector<std::unique_ptr<Plugin>> m_plugins;
     
