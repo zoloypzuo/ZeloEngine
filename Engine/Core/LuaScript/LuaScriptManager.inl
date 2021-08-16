@@ -16,8 +16,10 @@ void LuaScriptManager::luaCall(sol::protected_function pfr, Args &&... args) {
 
 template<typename... Args>
 void LuaScriptManager::luaCall(const std::string &functionName, Args &&... args) {
-    sol::optional<sol::protected_function> pfr = get<sol::protected_function>("GlobalErrorHandler");
-    ZELO_ASSERT(pfr.has_value());
+    sol::optional<sol::protected_function> pfrResult = get<sol::protected_function>(functionName);
+    ZELO_ASSERT(pfrResult.has_value());
+    sol::protected_function pfr = pfrResult.value();
+    pfr.set_default_handler(get<sol::object>("GlobalErrorHandler"));
     luaCall(pfr, std::forward<Args>(args)...);
 }
 }
