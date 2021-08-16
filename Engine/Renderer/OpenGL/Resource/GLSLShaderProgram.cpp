@@ -128,7 +128,7 @@ void GLSLShaderProgram::updateUniformDirectionalLight(const std::string &name, D
     setUniformVec3f(name + ".base.color", directionalLight->getColor());
     setUniform1f(name + ".base.intensity", directionalLight->getIntensity());
 
-    setUniformVec3f(name + ".direction", directionalLight->getParent()->getDirection());
+    setUniformVec3f(name + ".direction", directionalLight->getOwner()->getDirection());
 }
 
 void GLSLShaderProgram::updateUniformPointLight(const std::string &name, PointLight *pointLight) {
@@ -138,7 +138,7 @@ void GLSLShaderProgram::updateUniformPointLight(const std::string &name, PointLi
     setUniform1f(name + ".base.intensity", pointLight->getIntensity());
 
     setUniformAttenuation(name + ".attenuation", pointLight->getAttenuation());
-    setUniformVec3f(name + ".position", pointLight->getParent()->getPosition());
+    setUniformVec3f(name + ".position", pointLight->getOwner()->getPosition());
     setUniform1f(name + ".range", pointLight->getRange());
 }
 
@@ -149,10 +149,10 @@ void GLSLShaderProgram::updateUniformSpotLight(const std::string &name, SpotLigh
     setUniform1f(name + ".pointLight.base.intensity", spotLight->getIntensity());
 
     setUniformAttenuation(name + ".pointLight.attenuation", spotLight->getAttenuation());
-    setUniformVec3f(name + ".pointLight.position", spotLight->getParent()->getPosition());
+    setUniformVec3f(name + ".pointLight.position", spotLight->getOwner()->getPosition());
     setUniform1f(name + ".pointLight.range", spotLight->m_range);
 
-    setUniformVec3f(name + ".direction", spotLight->getParent()->getDirection());
+    setUniformVec3f(name + ".direction", spotLight->getOwner()->getDirection());
     setUniform1f(name + ".cutoff", spotLight->getCutoff());
 }
 

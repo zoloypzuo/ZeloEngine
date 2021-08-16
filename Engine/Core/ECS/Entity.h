@@ -71,6 +71,8 @@ public:
 
     void setProperty(const char *name, PropertyType type, void *p);
 
+    Entity *getOwner() { return &m_owner; }
+
     Transform &getTransform() const;
 
     typedef std::map<const char *, Property> PropertyMap;

@@ -61,7 +61,7 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
 
     m_forwardDirectional->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardDirectional->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardDirectional->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
+    m_forwardDirectional->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
 
     m_forwardDirectional->setUniform1f("specularIntensity", 0.5);
     m_forwardDirectional->setUniform1f("specularPower", 10);
@@ -73,7 +73,7 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
 
     m_forwardPoint->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardPoint->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardPoint->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
+    m_forwardPoint->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
 
     m_forwardPoint->setUniform1f("specularIntensity", 0.5);
     m_forwardPoint->setUniform1f("specularPower", 10);
@@ -85,7 +85,7 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
 
     m_forwardSpot->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardSpot->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardSpot->setUniformVec3f("eyePos", activeCamera->getParent()->getPosition());
+    m_forwardSpot->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
 
     m_forwardSpot->setUniform1f("specularIntensity", 0.5);
     m_forwardSpot->setUniform1f("specularPower", 10);

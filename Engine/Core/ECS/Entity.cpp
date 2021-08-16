@@ -13,10 +13,10 @@ using namespace Zelo::Core::EventSystem;
 
 Entity::EntityMap Entity::s_taggedEntities;
 
-Event<Entity &> s_DestroyedEvent;
-Event<Entity &> s_CreatedEvent;
-Event<Entity &, Entity &> s_AttachEvent;
-Event<Entity &> s_DetachEvent;
+Event<Entity &> Entity::s_DestroyedEvent;
+Event<Entity &> Entity::s_CreatedEvent;
+Event<Entity &, Entity &> Entity::s_AttachEvent;
+Event<Entity &> Entity::s_DetachEvent;
 
 Entity::Entity(Zelo::GUID_t guid) : m_guid(guid) {
     s_CreatedEvent.Invoke(*this);

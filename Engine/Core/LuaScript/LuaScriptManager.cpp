@@ -4,11 +4,9 @@
 #include "ZeloPreCompiledHeader.h"
 #include "LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
-#include "Core/ECS/Components/Behaviour.h"
 
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
-using namespace Zelo::Core::ECS::Components;
 
 void LuaBind_Main(sol::state &luaState);
 
@@ -82,12 +80,7 @@ void LuaScriptManager::luaPrint(sol::variadic_args va) {
 }
 
 void LuaScriptManager::initEvents() {
-    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
-        behaviour->RegisterToLuaContext(*this);
-    };
-    Behaviour::s_CreatedEvent += [this](Behaviour *behaviour) {
-        behaviour->UnregisterFromLuaContext();
-    };
+
 }
 
 void LuaScriptManager::loadLuaMain() {
