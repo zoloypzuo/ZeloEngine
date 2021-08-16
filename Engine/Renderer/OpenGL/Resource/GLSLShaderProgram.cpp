@@ -3,12 +3,12 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "GLSLShaderProgram.h"
-#include "Core/RHI/Object/Light.h"
-#include "Core/ECS/Entity.h"
 #include "Renderer/OpenGL/GLUtil.h"
-#include <sol/sol.hpp>
+#include "Core/LuaScript/LuaScriptManager.h"
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::LuaScript;
+
 struct shader_file_extension {
     const std::string &ext;
     EShaderType type;
@@ -463,7 +463,7 @@ void GLSLShaderProgram::findUniformLocations() {
 
 void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     auto asset = Zelo::Resource(fileName);
-    sol::state lua;  // TODO 一个资源管理器维护一个lua
+    sol::state &lua = LuaScriptManager::getSingleton();  // TODO 一个资源管理器维护一个lua
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
