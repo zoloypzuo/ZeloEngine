@@ -112,6 +112,12 @@ public:
 
     void addChild(const std::shared_ptr<Entity> &child);
 
+    std::shared_ptr<Entity> getChild(int index);
+
+    void SetParent(Entity &parent);
+
+    void DetachFromParent();
+
     void updateAll(float delta);
 
     void renderAll(Shader *shader) const;
@@ -202,7 +208,7 @@ private:
     Transform m_transform;
 
     // parent and children
-    Entity *m_parentEntity{};
+    Entity *m_parent{};
     EntityList m_children;
 
     // component

@@ -45,7 +45,7 @@ bool m_wasActive = false;
 `IsActive`返回根到该Entity路径上是否都是active
 ```c++
 bool Entity::IsActive() const {
-    return m_active && (m_parentEntity ? m_parentEntity->IsActive() : true);
+    return m_active && (m_parent ? m_parent->IsActive() : true);
 }
 ```
 
@@ -81,3 +81,8 @@ if (!m_sleeping) {
         OnDisable();
 }
 ```
+
+# 构造，内存所有权和attach/detach
+
+* 维护children shared_ptr列表
+* TODO

@@ -51,19 +51,12 @@ std::vector<Entity *> Entity::findByTag(const std::string &tag) {
     return Entity::s_taggedEntities[tag];
 }
 
-void Entity::addChild(const std::shared_ptr<Entity> &child) {
-    child->m_parentEntity = this;
-    m_children.push_back(child);
-
-    // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
-    child->registerWithEngineAll();
-}
 
 void Entity::updateAll(float delta) {
-    if (m_parentEntity == nullptr) {
+    if (m_parent == nullptr) {
         m_worldMatrix = m_transform.getTransformMatrix();
     } else {
-        m_worldMatrix = m_parentEntity->m_worldMatrix * m_transform.getTransformMatrix();
+        m_worldMatrix = m_parent->m_worldMatrix * m_transform.getTransformMatrix();
     }
 
     for (const auto &component : m_components) {
@@ -119,19 +112,19 @@ glm::mat4 &Entity::getWorldMatrix() {
 }
 
 glm::vec3 Entity::getPosition() {
-    if (m_parentEntity == nullptr) {
+    if (m_parent == nullptr) {
         return m_transform.getPosition();
     } else {
         auto pos = m_transform.getPosition();
-        return (m_parentEntity->m_worldMatrix * glm::vec4(pos.x, pos.y, pos.z, 1));
+        return (m_parent->m_worldMatrix * glm::vec4(pos.x, pos.y, pos.z, 1));
     }
 }
 
 glm::vec4 Entity::getDirection() {
-    if (m_parentEntity == nullptr) {
+    if (m_parent == nullptr) {
         return m_transform.getDirection();
     } else {
-        return glm::normalize(m_parentEntity->m_worldMatrix * m_transform.getDirection());
+        return glm::normalize(m_parent->m_worldMatrix * m_transform.getDirection());
     }
 }
 
@@ -205,7 +198,7 @@ bool Entity::IsSelfActive() const {
 }
 
 bool Entity::IsActive() const {
-    return m_active && (m_parentEntity ? m_parentEntity->IsActive() : true);
+    return m_active && (m_parent ? m_parent->IsActive() : true);
 }
 
 void Entity::RecursiveActiveUpdate() {
@@ -289,4 +282,48 @@ bool Entity::IsDestroyed() const { return m_destroyed; }
 
 void Entity::SetSleeping(bool sleeping) {
     m_sleeping = sleeping;
+}
+
+void Entity::addChild(const std::shared_ptr<Entity> &child) {
+    child->m_parent = this;
+    m_children.push_back(child);
+
+    // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
+    child->registerWithEngineAll();
+}
+
+void Entity::SetParent(Entity &parent) {
+    s_DetachEvent.Invoke(*this);
+
+    ZELO_ASSERT(m_parent);
+    auto result = std::find_if(
+            m_parent->m_children.begin(), m_parent->m_children.end(),
+            [this](const std::shared_ptr<Entity>& element) {
+                return element.get() == this;
+            });
+    ZELO_ASSERT(result != m_parent->m_children.end());
+
+    parent.addChild(*result);
+
+    s_AttachEvent.Invoke(*this, parent);
+}
+
+void Entity::DetachFromParent() {
+    s_DetachEvent.Invoke(*this);
+
+    ZELO_ASSERT(m_parent);
+    const auto &result = std::remove_if(
+            m_parent->m_children.begin(), m_parent->m_children.end(),
+            [this](const std::shared_ptr<Entity>& element) {
+                return element.get() == this;
+            });
+    ZELO_ASSERT(result != m_parent->m_children.end());
+
+    m_parent->m_children.erase(m_parent->m_children.begin(), result);
+
+    m_parent = nullptr;
+}
+
+std::shared_ptr<Entity> Entity::getChild(int index) {
+    return m_children[index];
 }
