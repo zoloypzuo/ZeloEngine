@@ -91,10 +91,10 @@ function Initialize()
     --end
 
     --do
-        -- for i=0,10 do
-        --     local monkey = SpawnPrefab("monkey")
-        --     monkey.components.transform:SetPosition(0, i * 3, -2.5)
-        -- end
+    -- for i=0,10 do
+    --     local monkey = SpawnPrefab("monkey")
+    --     monkey.components.transform:SetPosition(0, i * 3, -2.5)
+    -- end
     --end
 
     do
@@ -295,4 +295,68 @@ end
 
 function GetTimeReal()
     -- return TheSim:GetRealTime()
+end
+
+---SCRIPTING
+local Scripts = {}
+
+function LoadScript(filename)
+    if not Scripts[filename] then
+        local scriptfn = loadfile("scripts/" .. filename)
+        assert(type(scriptfn) == "function", scriptfn)
+        Scripts[filename] = scriptfn()
+    end
+    return Scripts[filename]
+end
+
+function RunScript(filename)
+    local fn = LoadScript(filename)
+    if fn then
+        fn()
+    end
+end
+
+-- time scale & pause
+
+local paused = false
+local default_time_scale = 1
+
+function IsPaused()
+    return paused
+end
+
+global("PlayerPauseCheck")  -- function not defined when this file included
+
+
+function SetDefaultTimeScale(scale)
+    default_time_scale = scale
+    if not paused then
+        TheSim:SetTimeScale(default_time_scale)
+    end
+end
+
+function SetPause(val, reason)
+    if val ~= paused then
+        if val then
+            paused = true
+            TheSim:SetTimeScale(0)
+            TheMixer:PushMix("pause")
+        else
+            paused = false
+            TheSim:SetTimeScale(default_time_scale)
+            TheMixer:PopMix("pause")
+            --ShowHUD(true)
+        end
+        if GetWorld() then
+            GetWorld():PushEvent("pause", val)
+        end
+        if PlayerPauseCheck then
+            -- probably don't need this check
+            PlayerPauseCheck(val, reason)  -- must be done after SetTimeScale
+        end
+    end
+end
+
+function IsPaused()
+    return paused
 end
