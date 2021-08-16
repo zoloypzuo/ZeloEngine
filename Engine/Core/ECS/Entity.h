@@ -92,6 +92,8 @@ public:
 public:
     explicit Entity(GUID_t guid);
 
+    Entity(const Entity &entity) = delete;
+
     ~Entity();
 
 public:
@@ -130,11 +132,21 @@ public:
 
     glm::vec4 getDirection();
 
+#pragma region state
+
     void SetActive(bool active);
 
     bool IsSelfActive() const;
 
     bool IsActive() const;
+
+    void MarkAsDestroy();
+
+    bool IsDestroyed() const;
+
+    void SetSleeping(bool sleeping);
+
+#pragma endregion
 
 #pragma region callback
 
@@ -158,8 +170,6 @@ public:
 
 public:
     static std::vector<Entity *> findByTag(const std::string &tag);
-
-    static void setTag(Entity *entity, const std::string &tag);
 
 public:  // script api
     GUID_t GetGUID() const;

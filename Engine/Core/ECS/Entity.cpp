@@ -47,11 +47,6 @@ Entity::~Entity() {
     }
 }
 
-void Entity::setTag(Entity *entity, const std::string &tag) {
-    entity->m_tag = tag;
-    Entity::s_taggedEntities[tag].push_back(entity);
-}
-
 std::vector<Entity *> Entity::findByTag(const std::string &tag) {
     return Entity::s_taggedEntities[tag];
 }
@@ -149,7 +144,8 @@ const std::string &Entity::getTag() const {
 }
 
 void Entity::AddTag(const std::string &tag) {
-    setTag(this, tag);
+    m_tag = tag;
+    s_taggedEntities[tag].push_back(this);
 }
 
 Transform *Entity::AddTransform() {
@@ -280,4 +276,17 @@ void Entity::OnLateUpdate(float deltaTime) {
         std::for_each(m_components.begin(), m_components.end(),
                       [&](auto element) { element->OnLateUpdate(deltaTime); });
     }
+}
+
+void Entity::MarkAsDestroy() {
+    m_destroyed = true;
+
+    for (const auto &child : m_children)
+        child->MarkAsDestroy();
+}
+
+bool Entity::IsDestroyed() const { return m_destroyed; }
+
+void Entity::SetSleeping(bool sleeping) {
+    m_sleeping = sleeping;
 }

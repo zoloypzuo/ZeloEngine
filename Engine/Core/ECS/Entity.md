@@ -25,7 +25,12 @@ void OnFixedUpdate(float deltaTime);
 void OnLateUpdate(float deltaTime);
 ```
 
-# active
+# state
+
+* m_destroyed，标记销毁状态，下帧销毁
+* m_sleeping，标记不受active影响
+
+## active
 
 场景图上勾选某一Entity则激活它，这个是递归行为，影响该Entiity的子树
 
