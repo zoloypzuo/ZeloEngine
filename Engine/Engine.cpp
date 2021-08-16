@@ -90,6 +90,7 @@ void Engine::finalize() {
     m_timeSystem->finalize();
     shutdownPlugins();
     m_game->finalize();
+    m_uiManager->finalize();
     m_renderSystem->finalize();
     m_window->finalize();
     m_luaScriptManager->finalize();

@@ -52,6 +52,8 @@ public:
 
     SDL_Window *getSDLWindow();
 
+    SDL_GLContext getGLContext() { return m_glContext; }
+
     bool shouldQuit() const;
 
     void drawCursor(bool enabled);
