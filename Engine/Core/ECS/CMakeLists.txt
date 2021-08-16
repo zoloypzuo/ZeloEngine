@@ -5,6 +5,4 @@ add_library(ECS
         Entity.cpp
         Component/FreeMove.cpp
         Component/FreeLook.cpp
-
-        Actor.cpp Actor.h
         )
