@@ -9,8 +9,7 @@ inline T *Entity::AddComponent(Args &&... args) {
     static_assert(std::is_base_of<Component, T>::value, "T should derive from Core::ECS::Component");
 
     // create component
-    auto component = std::make_shared<T>(args...);
-    component->setParent(this);
+    auto component = std::make_shared<T>(*this, args...);
     m_componentsByTypeid[typeid(T)].push_back(std::dynamic_pointer_cast<Component>(component));
     m_components.push_back(component);
 

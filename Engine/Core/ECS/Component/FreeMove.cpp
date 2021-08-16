@@ -7,13 +7,7 @@
 
 using namespace Zelo::Core::ECS;
 
-FreeMove::FreeMove(bool moveForwards, float speed) {
-    m_speed = speed;
-    m_moveForwards = moveForwards;
-    m_sprinting = false;
-    m_forwardsVelocity = 0;
-    m_strafeVelocity = 0;
-
+FreeMove::FreeMove(Entity &owner): Component(owner) {
     setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 20);
     setProperty("forwards velocity", PropertyType::FLOAT, &m_forwardsVelocity, -1, 1);
     setProperty("strafe velocity", PropertyType::FLOAT, &m_strafeVelocity, -1, 1);
@@ -24,7 +18,7 @@ FreeMove::FreeMove(bool moveForwards, float speed) {
 FreeMove::~FreeMove() = default;
 
 void FreeMove::registerWithEngine() {
-    auto input = Input::getSingletonPtr();
+    auto *input = Input::getSingletonPtr();
     input->registerKeyToAction(SDLK_LSHIFT, "sprint");
     input->registerKeysToAxis(SDLK_w, SDLK_s, -1.f, 1.f, "forwards");
     input->registerKeysToAxis(SDLK_a, SDLK_d, -1.f, 1.f, "strafe");
@@ -45,7 +39,7 @@ void FreeMove::registerWithEngine() {
 }
 
 void FreeMove::deregisterFromEngine() {
-    auto input = Input::getSingletonPtr();
+    auto *input = Input::getSingletonPtr();
     input->unbindAction("sprint");
     input->unbindAxis("forwards");
     input->unbindAxis("strafe");
@@ -62,20 +56,20 @@ void FreeMove::update(float delta) {
 
     if (m_forwardsVelocity != 0) {
         if (m_moveForwards) {
-            Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, 0.0f, m_forwardsVelocity)),
+            Move(glm::rotate(m_owner.getTransform().getRotation(), glm::vec3(0.0f, 0.0f, m_forwardsVelocity)),
                  moveAmount);
         } else {
-            Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(0.0f, m_forwardsVelocity, 0.0f)),
+            Move(glm::rotate(m_owner.getTransform().getRotation(), glm::vec3(0.0f, m_forwardsVelocity, 0.0f)),
                  moveAmount);
         }
     }
 
     if (m_strafeVelocity != 0) {
-        Move(glm::rotate(m_parentEntity->getTransform().getRotation(), glm::vec3(m_strafeVelocity, 0.0f, 0.0f)),
+        Move(glm::rotate(m_owner.getTransform().getRotation(), glm::vec3(m_strafeVelocity, 0.0f, 0.0f)),
              moveAmount);
     }
 }
 
 void FreeMove::Move(const glm::vec3 &direction, float amount) {
-    m_parentEntity->getTransform().translate(direction * amount);
+    m_owner.getTransform().translate(direction * amount);
 }

@@ -7,10 +7,7 @@
 
 using namespace Zelo::Core::ECS;
 
-FreeLook::FreeLook(float speed) {
-    m_speed = speed;
-    m_look = false;
-
+FreeLook::FreeLook(Entity &owner): Component(owner) {
     setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 5);
     setProperty("look", PropertyType::BOOLEAN, &m_look);
 }
@@ -44,11 +41,11 @@ void FreeLook::update(float delta) {
         input->grabMouse();
         glm::vec2 pos = input->getMouseDelta();
         if (pos.y != 0) {
-            m_parentEntity->getTransform().rotate(glm::vec3(1, 0, 0), -pos.y * moveAmount);
+            m_owner.getTransform().rotate(glm::vec3(1, 0, 0), -pos.y * moveAmount);
         }
         if (pos.x != 0) {
-            m_parentEntity->getTransform().setRotation(glm::angleAxis(-pos.x * moveAmount, glm::vec3(0, 1, 0)) *
-                                                       m_parentEntity->getTransform().getRotation());
+            m_owner.getTransform().setRotation(glm::angleAxis(-pos.x * moveAmount, glm::vec3(0, 1, 0)) *
+                                                m_owner.getTransform().getRotation());
         }
     } else {
         input->releaseMouse();

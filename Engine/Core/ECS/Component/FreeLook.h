@@ -11,7 +11,7 @@
 namespace Zelo::Core::ECS {
 class FreeLook : public Component {
 public:
-    explicit FreeLook(float speed = 1.f);
+    explicit FreeLook(Entity &owner);
 
     ~FreeLook() override;
 
@@ -24,8 +24,8 @@ public:
     inline std::string getType() override { return "FREE_LOOK"; }
 
 private:
-    float m_speed;
-    bool m_look;
+    float m_speed{1.f};
+    bool m_look{};
 };
 }
 

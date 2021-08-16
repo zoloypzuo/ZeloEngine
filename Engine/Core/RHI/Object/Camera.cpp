@@ -9,7 +9,7 @@
 using namespace Zelo::Core::ECS;
 
 glm::mat4 Camera::getViewMatrix() const {
-    return glm::inverse(m_parentEntity->getWorldMatrix());
+    return glm::inverse(m_owner.getWorldMatrix());
 }
 
 glm::mat4 PerspectiveCamera::getProjectionMatrix() const {

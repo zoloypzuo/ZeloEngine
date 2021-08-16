@@ -14,7 +14,7 @@
 
 class MeshRenderer : public Zelo::Core::ECS::Component {
 public:
-    MeshRenderer(std::shared_ptr<GLMesh> mesh, std::shared_ptr<Zelo::Core::RHI::Material> material);
+    MeshRenderer(Zelo::Core::ECS::Entity &owner, std::shared_ptr<GLMesh> mesh, std::shared_ptr<Zelo::Core::RHI::Material> material);
 
     ~MeshRenderer() override;
 

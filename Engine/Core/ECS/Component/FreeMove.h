@@ -13,7 +13,7 @@
 namespace Zelo::Core::ECS {
 class FreeMove : public Component {
 public:
-    explicit FreeMove(bool moveForwards = true, float speed = 10.f);
+    explicit FreeMove(Entity &owner);
 
     ~FreeMove() override;
 
@@ -28,8 +28,11 @@ public:
 private:
     void Move(const glm::vec3 &direction, float amount);
 
-    float m_speed, m_forwardsVelocity, m_strafeVelocity;
-    bool m_moveForwards, m_sprinting;
+    float m_speed{10.f};
+    float m_forwardsVelocity{};
+    float m_strafeVelocity{};
+    bool m_moveForwards{true};
+    bool m_sprinting{};
 };
 }
 
