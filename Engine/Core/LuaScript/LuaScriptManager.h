@@ -36,6 +36,12 @@ public:
 
     void doFile(const std::string &luaFile);
 
+    template<typename... Args>
+    void luaCall(sol::protected_function pfr, Args &&... args);
+
+    template<typename... Args>
+    void luaCall(const std::string &functionName, Args &&... args);
+
 private:
     void initEvents();
 
@@ -52,3 +58,5 @@ private:
     std::shared_ptr<spdlog::logger> m_logger{};
 };
 }
+
+#include "Core/LuaScript/LuaScriptManager.inl"

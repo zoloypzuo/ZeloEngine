@@ -97,6 +97,7 @@ void LuaScriptManager::loadLuaMain() {
 
 void LuaScriptManager::callLuaInitializeFn() {
     // m_luaInitializeFn();
+    // TODO use lua call
     doString("Initialize()");
 }
 
