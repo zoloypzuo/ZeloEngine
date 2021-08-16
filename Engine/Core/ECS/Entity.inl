@@ -3,6 +3,8 @@
 // author @zoloypzuo
 #pragma once
 
+#include "Core/LuaScript/LuaScriptManager.h"
+
 namespace Zelo::Core::ECS {
 template<class T, class... Args>
 inline T *Entity::AddComponent(Args &&... args) {

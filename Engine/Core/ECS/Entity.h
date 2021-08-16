@@ -7,7 +7,6 @@
 #include "ZeloPrerequisites.h"
 #include "Core/Math/Transform.h"
 #include "Core/RHI/Resource/Shader.h"
-#include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/EventSystem/Event.h"
 
 namespace Zelo::Core::ECS {

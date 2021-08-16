@@ -4,9 +4,6 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Entity.h"
 
-#include "Core/LuaScript/LuaScriptManager.h"
-#include <sol/sol.hpp>
-
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::EventSystem;
@@ -37,7 +34,7 @@ Entity::~Entity() {
 
     // trigger component remove event
     std::for_each(m_components.begin(), m_components.end(),
-                  [&](std::shared_ptr<Component> component) { ComponentRemovedEvent.Invoke(*component); });
+                  [&](const std::shared_ptr<Component>& component) { ComponentRemovedEvent.Invoke(*component); });
 
     // cleanup component map
     if (!m_tag.empty()) {
@@ -298,7 +295,7 @@ void Entity::SetParent(Entity &parent) {
     ZELO_ASSERT(m_parent);
     auto result = std::find_if(
             m_parent->m_children.begin(), m_parent->m_children.end(),
-            [this](const std::shared_ptr<Entity>& element) {
+            [this](const std::shared_ptr<Entity> &element) {
                 return element.get() == this;
             });
     ZELO_ASSERT(result != m_parent->m_children.end());
@@ -314,7 +311,7 @@ void Entity::DetachFromParent() {
     ZELO_ASSERT(m_parent);
     const auto &result = std::remove_if(
             m_parent->m_children.begin(), m_parent->m_children.end(),
-            [this](const std::shared_ptr<Entity>& element) {
+            [this](const std::shared_ptr<Entity> &element) {
                 return element.get() == this;
             });
     ZELO_ASSERT(result != m_parent->m_children.end());
