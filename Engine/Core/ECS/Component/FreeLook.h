@@ -21,7 +21,7 @@ public:
 
     void deregisterFromEngine() override;
 
-    inline const char *getType() override { return "FREE_LOOK"; }
+    inline std::string getType() override { return "FREE_LOOK"; }
 
 private:
     float m_speed;

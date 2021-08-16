@@ -18,7 +18,7 @@ public:
 
     virtual glm::mat4 getProjectionMatrix() const = 0;
 
-    inline const char *getType() override { return "CAMERA"; }
+    inline std::string getType() override { return "CAMERA"; }
 };
 
 class PerspectiveCamera : public Camera
@@ -28,7 +28,7 @@ public:
 
     glm::mat4 getProjectionMatrix() const override;
 
-    inline const char *getType() override { return "PERSPECTIVE_CAMERA"; }
+    inline std::string getType() override { return "PERSPECTIVE_CAMERA"; }
 
     void setFov(float fov);
 

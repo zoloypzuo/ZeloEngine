@@ -56,7 +56,7 @@ public:
 
     void updateShader(GLSLShaderProgram *shader) override;
 
-    inline const char *getType() override { return "DIRECTIONAL_LIGHT"; }
+    inline std::string getType() override { return "DIRECTIONAL_LIGHT"; }
 };
 
 class PointLight : public BaseLight {
@@ -71,7 +71,7 @@ public:
 
     void updateShader(GLSLShaderProgram *shader) override;
 
-    inline const char *getType() override { return "POINT_LIGHT"; }
+    inline std::string getType() override { return "POINT_LIGHT"; }
 
     std::shared_ptr<Attenuation> getAttenuation() const;
 
@@ -91,7 +91,7 @@ public:
 
     void deregisterFromEngine() override;
 
-    inline const char *getType() override { return "SPOT_LIGHT"; }
+    inline std::string getType() override { return "SPOT_LIGHT"; }
 
     void updateShader(GLSLShaderProgram *shader) override;
 

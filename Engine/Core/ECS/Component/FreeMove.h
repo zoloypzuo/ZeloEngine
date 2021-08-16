@@ -23,7 +23,7 @@ public:
 
     void deregisterFromEngine() override;
 
-    inline const char *getType() override { return "FREE_MOVE"; }
+    inline std::string getType() override { return "FREE_MOVE"; }
 
 private:
     void Move(const glm::vec3 &direction, float amount);

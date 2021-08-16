@@ -20,7 +20,7 @@ public:
 
     void render(Shader *shader) override;
 
-    inline const char *getType() override { return "MESH_RENDERER"; }
+    inline std::string getType() override { return "MESH_RENDERER"; }
 
 private:
     std::shared_ptr<GLMesh> m_mesh;
