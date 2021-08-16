@@ -2,19 +2,19 @@
 // Created by zuoyiping01 on 2021/3/31.
 //
 #include "ZeloPreCompiledHeader.h"
-#include "FreeLook.h"
+#include "CFreeLook.h"
 #include "Core/Input/Input.h"
 
 using namespace Zelo::Core::ECS;
 
-FreeLook::FreeLook(Entity &owner): Component(owner) {
+CFreeLook::CFreeLook(Entity &owner): Component(owner) {
     setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 5);
     setProperty("look", PropertyType::BOOLEAN, &m_look);
 }
 
-FreeLook::~FreeLook() = default;
+CFreeLook::~CFreeLook() = default;
 
-void FreeLook::registerWithEngine() {
+void CFreeLook::registerWithEngine() {
     auto *input = Input::getSingletonPtr();
 
     input->registerButtonToAction(SDL_BUTTON_RIGHT, "look");
@@ -27,13 +27,13 @@ void FreeLook::registerWithEngine() {
     });
 }
 
-void FreeLook::deregisterFromEngine() {
+void CFreeLook::deregisterFromEngine() {
     auto *input = Input::getSingletonPtr();
 
     input->unbindAction("look");
 }
 
-void FreeLook::update(float delta) {
+void CFreeLook::update(float delta) {
     auto *input = Input::getSingletonPtr();
     float moveAmount = m_speed * delta;
 

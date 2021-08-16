@@ -2,12 +2,12 @@
 // Created by zuoyiping01 on 2021/3/31.
 //
 #include "ZeloPreCompiledHeader.h"
-#include "FreeMove.h"
+#include "CFreeMove.h"
 #include "Core/Input/Input.h"
 
 using namespace Zelo::Core::ECS;
 
-FreeMove::FreeMove(Entity &owner): Component(owner) {
+CFreeMove::CFreeMove(Entity &owner): Component(owner) {
     setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 20);
     setProperty("forwards velocity", PropertyType::FLOAT, &m_forwardsVelocity, -1, 1);
     setProperty("strafe velocity", PropertyType::FLOAT, &m_strafeVelocity, -1, 1);
@@ -15,9 +15,9 @@ FreeMove::FreeMove(Entity &owner): Component(owner) {
     setProperty("sprinting", PropertyType::BOOLEAN, &m_sprinting);
 }
 
-FreeMove::~FreeMove() = default;
+CFreeMove::~CFreeMove() = default;
 
-void FreeMove::registerWithEngine() {
+void CFreeMove::registerWithEngine() {
     auto *input = Input::getSingletonPtr();
     input->registerKeyToAction(SDLK_LSHIFT, "sprint");
     input->registerKeysToAxis(SDLK_w, SDLK_s, -1.f, 1.f, "forwards");
@@ -38,14 +38,14 @@ void FreeMove::registerWithEngine() {
     });
 }
 
-void FreeMove::deregisterFromEngine() {
+void CFreeMove::deregisterFromEngine() {
     auto *input = Input::getSingletonPtr();
     input->unbindAction("sprint");
     input->unbindAxis("forwards");
     input->unbindAxis("strafe");
 }
 
-void FreeMove::update(float delta) {
+void CFreeMove::update(float delta) {
     auto *input = Input::getSingletonPtr();
 
     float moveAmount = m_speed * delta;
@@ -70,6 +70,6 @@ void FreeMove::update(float delta) {
     }
 }
 
-void FreeMove::Move(const glm::vec3 &direction, float amount) {
+void CFreeMove::Move(const glm::vec3 &direction, float amount) {
     m_owner.getTransform().translate(direction * amount);
 }

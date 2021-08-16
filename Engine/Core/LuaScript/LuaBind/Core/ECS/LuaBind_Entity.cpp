@@ -6,8 +6,8 @@
 #include "Core/ECS/Entity.h"
 #include "Core/Math/Transform.h"
 #include "Core/RHI/Object/Camera.h"
-#include "Core/ECS/Component/FreeMove.h"
-#include "Core/ECS/Component/FreeLook.h"
+#include "Core/ECS/Component/CFreeMove.h"
+#include "Core/ECS/Component/CFreeLook.h"
 #include "Core/RHI/Object/Light.h"
 
 #include <glm/glm.hpp>
@@ -21,8 +21,8 @@ luaState.new_usertype<Entity>("Entity",
 "AddTag", &Entity::AddTag,
 "AddTransform", &Entity::AddTransform,
 "AddCamera", &Entity::AddComponent<PerspectiveCamera>,
-"AddFreeMove", &Entity::AddComponent<FreeMove>,
-"AddFreeLook", &Entity::AddComponent<FreeLook>,
+"AddFreeMove", &Entity::AddComponent<CFreeMove>,
+"AddFreeLook", &Entity::AddComponent<CFreeLook>,
 "AddSpotLight", &Entity::AddComponent<SpotLight>,
 "AddDirectionalLight", &Entity::AddComponent<DirectionalLight>,
 "Dummy", []{}

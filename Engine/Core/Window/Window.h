@@ -27,7 +27,7 @@ public:
 
     void finalize() override;
 
-    static Window *Window::getSingletonPtr();
+    static Window *getSingletonPtr();
 
 public:
     void swapBuffer();

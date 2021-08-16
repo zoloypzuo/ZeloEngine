@@ -3,6 +3,6 @@
 
 add_library(ECS
         Entity.cpp
-        Component/FreeMove.cpp
-        Component/FreeLook.cpp
+        Component/CFreeMove.cpp
+        Component/CFreeLook.cpp
         )

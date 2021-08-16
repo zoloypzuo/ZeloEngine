@@ -2,18 +2,18 @@
 // Created by zuoyiping01 on 2021/3/31.
 //
 
-#ifndef ZELOENGINE_FREELOOK_H
-#define ZELOENGINE_FREELOOK_H
+#ifndef ZELOENGINE_CFREELOOK_H
+#define ZELOENGINE_CFREELOOK_H
 
 #include "ZeloPrerequisites.h"
 #include "Core/ECS/Entity.h"
 
 namespace Zelo::Core::ECS {
-class FreeLook : public Component {
+class CFreeLook : public Component {
 public:
-    explicit FreeLook(Entity &owner);
+    explicit CFreeLook(Entity &owner);
 
-    ~FreeLook() override;
+    ~CFreeLook() override;
 
     void update(float delta) override;
 
@@ -29,4 +29,4 @@ private:
 };
 }
 
-#endif //ZELOENGINE_FREELOOK_H
+#endif //ZELOENGINE_CFREELOOK_H

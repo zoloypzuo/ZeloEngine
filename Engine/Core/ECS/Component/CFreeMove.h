@@ -2,8 +2,8 @@
 // Created by zuoyiping01 on 2021/3/31.
 //
 
-#ifndef ZELOENGINE_FREEMOVE_H
-#define ZELOENGINE_FREEMOVE_H
+#ifndef ZELOENGINE_CFREEMOVE_H
+#define ZELOENGINE_CFREEMOVE_H
 
 #include "ZeloPrerequisites.h"
 #include "Core/ECS/Entity.h"
@@ -11,11 +11,11 @@
 #include <glm/gtx/quaternion.hpp>
 
 namespace Zelo::Core::ECS {
-class FreeMove : public Component {
+class CFreeMove : public Component {
 public:
-    explicit FreeMove(Entity &owner);
+    explicit CFreeMove(Entity &owner);
 
-    ~FreeMove() override;
+    ~CFreeMove() override;
 
     void update(float delta) override;
 
@@ -36,4 +36,4 @@ private:
 };
 }
 
-#endif //ZELOENGINE_FREEMOVE_H
+#endif //ZELOENGINE_CFREEMOVE_H
