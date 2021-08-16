@@ -23,8 +23,23 @@ Entity::Entity(Zelo::GUID_t guid) : m_guid(guid) {
 }
 
 Entity::~Entity() {
+    // trigger entity callback
+    if (!m_sleeping) {
+        if (IsActive())
+            OnDisable();
+
+        if (m_awake && m_started)
+            OnDestroy();
+    }
+
+    // trigger global event
     s_DestroyedEvent.Invoke(*this);
 
+    // trigger component remove event
+    std::for_each(m_components.begin(), m_components.end(),
+                  [&](std::shared_ptr<Component> component) { ComponentRemovedEvent.Invoke(*component); });
+
+    // cleanup component map
     if (!m_tag.empty()) {
         auto *taggedEntitiesVec = &Entity::s_taggedEntities[m_tag];
         taggedEntitiesVec->erase(std::remove(taggedEntitiesVec->begin(), taggedEntitiesVec->end(), this),

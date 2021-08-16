@@ -2,6 +2,11 @@
 
 # callback
 
+* OnAwake和OnStart在创建/第一次激活时调用
+* Enable/Disable在激活状态切换时调用
+* OnDestroy在析构时调用，与OnAwake/OnStart配对，如果没有初始化过则不调用
+* OnUpdate/OnFixedUpdate/OnLateUpdate由引擎更新调用
+
 ```c++
 void OnAwake();
 

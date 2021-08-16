@@ -136,7 +136,8 @@ public:
 
     bool IsActive() const;
 
-    // region callback
+#pragma region callback
+
     void OnAwake();
 
     void OnStart();
@@ -152,6 +153,8 @@ public:
     void OnFixedUpdate(float deltaTime);
 
     void OnLateUpdate(float deltaTime);
+
+#pragma endregion
 
 public:
     static std::vector<Entity *> findByTag(const std::string &tag);
