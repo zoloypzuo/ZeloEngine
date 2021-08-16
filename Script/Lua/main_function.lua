@@ -142,6 +142,8 @@ function Update()
 end
 
 function GlobalErrorHandler(message)
+    -- handle lua error when C call lua function
+    -- print error and stack trace
     print(message)
     StackTraceToLog()
     return message
