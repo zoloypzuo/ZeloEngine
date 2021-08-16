@@ -130,7 +130,28 @@ public:
 
     glm::vec4 getDirection();
 
-    bool isActive() const;
+    void SetActive(bool active);
+
+    bool IsSelfActive() const;
+
+    bool IsActive() const;
+
+    // region callback
+    void OnAwake();
+
+    void OnStart();
+
+    void OnEnable();
+
+    void OnDisable();
+
+    void OnDestroy();
+
+    void OnUpdate(float deltaTime);
+
+    void OnFixedUpdate(float deltaTime);
+
+    void OnLateUpdate(float deltaTime);
 
 public:
     static std::vector<Entity *> findByTag(const std::string &tag);
@@ -145,13 +166,18 @@ public:  // script api
     Transform *AddTransform();
 
 public:  // event
-//    EventSystem::Event<Components::AComponent &> ComponentAddedEvent;
-//    EventSystem::Event<Components::AComponent &> ComponentRemovedEvent;
+    EventSystem::Event<Component &> ComponentAddedEvent;
+    EventSystem::Event<Component &> ComponentRemovedEvent;
 
     static EventSystem::Event<Entity &> s_DestroyedEvent;
     static EventSystem::Event<Entity &> s_CreatedEvent;
     static EventSystem::Event<Entity &, Entity &> s_AttachEvent;
     static EventSystem::Event<Entity &> s_DetachEvent;
+
+private:
+    void RecursiveActiveUpdate();
+
+    void RecursiveWasActiveUpdate();
 
 private:
     // basic
@@ -175,11 +201,11 @@ private:
 
     // state
     bool m_active = true;
+    bool m_wasActive = false;
     bool m_destroyed = false;
     bool m_sleeping = true;
     bool m_awake = false;
     bool m_started = false;
-    bool m_wasActive = false;
 
 public:
     static EntityMap s_taggedEntities;

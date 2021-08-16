@@ -174,13 +174,95 @@ Component::Component(Entity &owner) : m_owner(owner) {
 }
 
 Component::~Component() {
-    if(m_owner.isActive()){
+    if (m_owner.IsActive()) {
         OnDisable();
         OnDestroy();
     }
 }
 
 
-bool Entity::isActive() const {
-    return m_active && (m_parentEntity ? m_parentEntity->isActive() : true);
+void Entity::SetActive(bool active) {
+    if (active != m_active) {
+        RecursiveWasActiveUpdate();
+        m_active = active;
+        RecursiveActiveUpdate();
+    }
+}
+
+bool Entity::IsSelfActive() const {
+    return m_active;
+}
+
+bool Entity::IsActive() const {
+    return m_active && (m_parentEntity ? m_parentEntity->IsActive() : true);
+}
+
+void Entity::RecursiveActiveUpdate() {
+    bool isActive = IsActive();
+
+    if (!m_sleeping) {
+        if (!m_wasActive && isActive) {
+            if (!m_awake)
+                OnAwake();
+
+            OnEnable();
+
+            if (!m_started)
+                OnStart();
+        }
+
+        if (m_wasActive && !isActive)
+            OnDisable();
+    }
+
+    for (const auto &child : m_children)
+        child->RecursiveActiveUpdate();
+}
+
+void Entity::RecursiveWasActiveUpdate() {
+    m_wasActive = IsActive();
+    for (const auto &child : m_children)
+        child->RecursiveWasActiveUpdate();
+}
+
+void Entity::OnAwake() {
+    m_awake = true;
+    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnAwake(); });
+}
+
+void Entity::OnStart() {
+    m_started = true;
+    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnStart(); });
+}
+
+void Entity::OnEnable() {
+    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnEnable(); });
+}
+
+void Entity::OnDisable() {
+    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnDisable(); });
+}
+
+void Entity::OnDestroy() {
+    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnDestroy(); });
+}
+
+void Entity::OnUpdate(float deltaTime) {
+    if (IsActive()) {
+        std::for_each(m_components.begin(), m_components.end(), [&](auto element) { element->OnUpdate(deltaTime); });
+    }
+}
+
+void Entity::OnFixedUpdate(float deltaTime) {
+    if (IsActive()) {
+        std::for_each(m_components.begin(), m_components.end(),
+                      [&](auto element) { element->OnFixedUpdate(deltaTime); });
+    }
+}
+
+void Entity::OnLateUpdate(float deltaTime) {
+    if (IsActive()) {
+        std::for_each(m_components.begin(), m_components.end(),
+                      [&](auto element) { element->OnLateUpdate(deltaTime); });
+    }
 }
