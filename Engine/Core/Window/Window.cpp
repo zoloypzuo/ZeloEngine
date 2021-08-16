@@ -96,6 +96,8 @@ void Window::update() {
     bool mouseWheelEvent = false;
 
     while (SDL_PollEvent(&event)) {
+        // TODO Forward to Imgui
+//        ImGui_ImplSDL2_ProcessEvent(&event);
         switch (event.type) {
             case SDL_MOUSEMOTION:
                 m_input.setMouseDelta(event.motion.xrel, event.motion.yrel);
