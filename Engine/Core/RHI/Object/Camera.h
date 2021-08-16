@@ -9,9 +9,10 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
 
-class Camera : public Zelo::Core::ECS::Component
-{
+class Camera : public Zelo::Core::ECS::Component {
 public:
+    Camera(Zelo::Core::ECS::Entity &owner);;
+
     ~Camera() override = default;
 
     glm::mat4 getViewMatrix() const;
@@ -21,8 +22,7 @@ public:
     inline std::string getType() override { return "CAMERA"; }
 };
 
-class PerspectiveCamera : public Camera
-{
+class PerspectiveCamera : public Camera {
 public:
     PerspectiveCamera(Zelo::Core::ECS::Entity &owner);;
 

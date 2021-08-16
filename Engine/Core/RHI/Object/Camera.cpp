@@ -8,6 +8,8 @@
 
 using namespace Zelo::Core::ECS;
 
+Camera::Camera(Entity &owner) : Zelo::Core::ECS::Component(owner) {}
+
 glm::mat4 Camera::getViewMatrix() const {
     return glm::inverse(m_owner.getWorldMatrix());
 }
@@ -24,7 +26,7 @@ float PerspectiveCamera::getFov() const {
     return m_fov;
 }
 
-PerspectiveCamera::PerspectiveCamera(Entity &owner) : Component(owner) {
+PerspectiveCamera::PerspectiveCamera(Entity &owner) : Camera(owner) {
     setProperty("fov", PropertyType::ANGLE, &m_fov, 0, 180);
     setProperty("aspect", PropertyType::FLOAT, &m_aspect, 0, 10);
     setProperty("zNear", PropertyType::FLOAT, &m_zNear, 0, 1);
