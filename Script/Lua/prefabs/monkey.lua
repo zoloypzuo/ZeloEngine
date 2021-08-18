@@ -2,7 +2,7 @@
 -- created on 2021/8/9
 -- author @zoloypzuo
 local assets = {
-    mesh = Asset("MESH", "monkey3.obj");
+    mesh = "monkey3.obj";
 }
 
 local function fn()

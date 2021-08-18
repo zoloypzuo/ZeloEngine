@@ -2,10 +2,10 @@
 -- created on 2021/8/9
 -- author @zoloypzuo
 local assets = {
-    mesh_gen = Asset("MESH_GEN", "plane");
-    diffuse  = Asset("TEX", "bricks2.jpg");
-    normal   = Asset("TEX", "bricks2_normal.jpg");
-    specular = Asset("TEX", "bricks2_specular.png");
+    mesh_gen = "plane";
+    diffuse  = "bricks2";
+    normal   = "bricks2_normal";
+    specular = "bricks2_specular";
 }
 
 local function fn()
