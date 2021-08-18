@@ -237,7 +237,12 @@ function IsPaused()
     return paused
 end
 
-function LoadAsset(name)
+
+function RegisterResourceLoader(resource_type, loader)
+    ResourceLoaders[resource_type] = loader
+end
+
+function LoadResource(name)
     -- local function require (name)
     --     if not package.loaded[name] then -- module not loaded yet?
     --         local loader = findloader(name)
@@ -259,9 +264,9 @@ function LoadAsset(name)
         local asset_meta_script = require(name)
         local asset_type = asset_meta_script.type
         local asset_file = asset_meta_script.file
-        local loader == findloader(asset_type)
+        local loader = ResourceLoaders[asset_type]
         if loader == nil then
             error("unable to get loader" .. name)
         end
-
+    end
 end
