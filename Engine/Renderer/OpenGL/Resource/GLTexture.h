@@ -30,6 +30,8 @@ private:
 
 class GLTexture : public Zelo::Core::RHI::Texture {
 public:
+    explicit GLTexture(std::string texFilename);
+
     explicit GLTexture(const Zelo::Resource &file);
 
     GLTexture(const char *buffer, uint32_t size, bool filter_nearest, const std::string &name);
