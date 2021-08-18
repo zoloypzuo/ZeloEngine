@@ -104,6 +104,8 @@ NewWallUpdatingEnts = {}
 num_updating_ents = 0
 NumEnts = 0
 
+ResourceMap = {}
+
 TheGlobalInstance = nil
 
 global("TheCamera")
