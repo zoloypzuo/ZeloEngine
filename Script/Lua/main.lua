@@ -104,7 +104,13 @@ NewWallUpdatingEnts = {}
 num_updating_ents = 0
 NumEnts = 0
 
+
+MeshGenerators = {
+    plane = PlaneMeshGen;
+}
+
 ResourceMap = {}
+ResourceLoaders = {}
 
 TheGlobalInstance = nil
 
