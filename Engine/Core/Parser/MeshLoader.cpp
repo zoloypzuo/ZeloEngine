@@ -223,6 +223,57 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
     }
 }
 
+Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIndex) {
+    m_fileName = meshFileName;
+
+    Assimp::Importer importer;
+    importer.SetIOHandler(new CustomIOSystem());
+
+    spdlog::info("Loading mesh: {}", meshFileName);
+
+    auto pFlags = aiProcess_Triangulate |
+                  aiProcess_GenSmoothNormals |
+                  aiProcess_FlipUVs |
+                  aiProcess_CalcTangentSpace;
+    const auto *scene = importer.ReadFile(meshFileName, pFlags);
+
+    if (!scene) {
+        spdlog::error("Failed to load mesh: {}", meshFileName);
+        return;
+    }
+
+    ZELO_ASSERT(meshIndex < scene->mNumMeshes);
+
+    auto i = meshIndex;
+    const aiMesh *model = scene->mMeshes[i];
+
+    m_id = m_fileName + std::string(model->mName.C_Str());
+
+    const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
+    for (unsigned int idxVertex = 0; idxVertex < model->mNumVertices; idxVertex++) {
+        const aiVector3D *pPos = &(model->mVertices[idxVertex]);
+        const aiVector3D *pNormal = &(model->mNormals[idxVertex]);
+        const aiVector3D *pTexCoord = model->HasTextureCoords(0) ? &(model->mTextureCoords[0][idxVertex])
+                                                                    : &aiZeroVector;
+        const aiVector3D *pTangent = model->HasTangentsAndBitangents() ? &(model->mTangents[idxVertex])
+                                                                        : &aiZeroVector;
+
+        Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
+                    glm::vec2(pTexCoord->x, pTexCoord->y),
+                    glm::vec3(pNormal->x, pNormal->y, pNormal->z),
+                    glm::vec3(pTangent->x, pTangent->y, pTangent->z));
+
+        m_vertex.push_back(vert);
+    }
+
+    for (unsigned int idxFace = 0; idxFace < model->mNumFaces; idxFace++) {
+        const aiFace &face = model->mFaces[idxFace];
+        m_indice.push_back(face.mIndices[0]);
+        m_indice.push_back(face.mIndices[1]);
+        m_indice.push_back(face.mIndices[2]);
+    }
+}
+
 
 Zelo::Parser::MeshLoader::~MeshLoader() = default;
 
@@ -232,4 +283,16 @@ std::vector<MeshRendererData> Zelo::Parser::MeshLoader::getMeshRendererData() {
 
 std::string Zelo::Parser::MeshLoader::getFileName() {
     return m_fileName;
+}
+
+const std::string &Zelo::Parser::MeshLoader::getId() {
+    return m_id;
+}
+
+std::vector<Vertex> Zelo::Parser::MeshLoader::getVertices() {
+    return m_vertex;
+}
+
+std::vector<uint32_t> Zelo::Parser::MeshLoader::getIndices() {
+    return m_indice;
 }

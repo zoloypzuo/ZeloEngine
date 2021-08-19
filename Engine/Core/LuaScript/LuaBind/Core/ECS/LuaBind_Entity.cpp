@@ -131,14 +131,10 @@ sol::base_classes, sol::bases<Material>(),
 );
 
 luaState.new_usertype<MeshLoader>("MeshLoader",
-sol::constructors<MeshLoader(const std::string &)>(),
-"GetMeshRendererData", [](MeshLoader &this) { return sol::as_returns(std::move(this.getMeshRendererData())); }
+sol::constructors<MeshLoader(const std::string &, int)>(),
+sol::base_classes, sol::bases<IMeshGen>(),
 "Dummy", []{}
 );
 
-luaState.new_usertype<MeshRendererData>("MeshRendererData",
-"GetMeshRendererData", [](MeshLoader &this) { return sol::as_returns(std::move(this.getMeshRendererData())); }
-"Dummy", []{}
-);
 // @formatter:on
 }

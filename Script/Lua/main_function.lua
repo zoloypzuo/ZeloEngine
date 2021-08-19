@@ -238,18 +238,32 @@ function IsPaused()
 end
 
 
+-- Resource
+local function mesh_loader(name, data)
+    local mesh_loader = MeshLoader.new(name, data.mesh_index)
+    return Mesh.new(meshloader)
+end
+
+local function mesh_gen_loader(name)
+    return Mesh.new(MeshGenerators[name].new())
+end
+
+
 function RegisterResourceLoader(resource_type, loader)
     ResourceLoaders[resource_type] = loader
 end
 
+RegisterResourceLoader("MESH", mesh_loader)
+RegisterResourceLoader("MESH_GEN", mesh_gen_loader)
+
 function LoadResource(name)
     if not ResourceMap[name] then -- asset not loaded
-        local asset_meta_script = require(name)
-        local asset_type = asset_meta_script.type
-        local asset_file = asset_meta_script.file
+        local asset_meta_data = require(name)
+        local asset_type = asset_meta_data.type
+        local asset_file = asset_meta_data.file
         local loader = ResourceLoaders[asset_type]
         assert(loader ~= nil)
-        local res = loader(asset_file)
+        local res = loader(asset_file, asset_meta_data)
         assert(res ~= nil)
         ResourceMap[name] = res
     end

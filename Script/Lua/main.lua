@@ -109,24 +109,8 @@ MeshGenerators = {
     plane = PlaneMeshGen;
 }
 
-local function mesh_loader(name)
-    local mesh_loader = MeshLoader.new(assets.mesh);
-    local mesh_render_data_list = {mesh_loader:GetMeshRendererData()}
-    for _, render_data in ipairs(mesh_render_data_list) do
-        local mesh_renderer = inst.entity:AddMeshRenderer()
-        mesh_renderer.mesh = mesh
-        mesh_renderer.material = material
-    end
-end
-
-local function mesh_gen_loader(name)
-    return Mesh.new(MeshGenerators[name].new())
-end
-
 ResourceMap = {}
 ResourceLoaders = {
-    MESH = mesh_loader;
-    MESH_GEN = mesh_gen_loader;
     TEX = Texture.new;
 }
 

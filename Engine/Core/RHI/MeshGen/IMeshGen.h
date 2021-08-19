@@ -7,6 +7,7 @@
 #include "Core/RHI/Buffer/Vertex.h"
 
 namespace Zelo::Core::RHI {
+// TODO rename to IMesh
 class IMeshGen {
 public:
     virtual ~IMeshGen() = default;
