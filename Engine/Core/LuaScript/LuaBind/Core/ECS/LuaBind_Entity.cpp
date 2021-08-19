@@ -12,6 +12,21 @@
 
 #include <glm/glm.hpp>
 
+#include "Core/RHI/MeshGen/Plane.h"
+#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
+#include "Renderer/OpenGL/Resource/GLMesh.h"
+#include "Renderer/OpenGL/Resource/GLMaterial.h"
+
+#include "Core/Parser/MeshLoader.h"
+
+#include "Core/RHI/RenderSystem.h"
+
+using namespace Zelo::Core::LuaScript;
+using namespace Zelo::Core::RHI;
+using namespace Zelo::Renderer::OpenGL;
+using namespace Zelo::Parser;
+using namespace Zelo::Core::ECS;
+
 void LuaBind_Entity(sol::state &luaState) {
     using namespace Zelo::Core::ECS;
 
@@ -25,6 +40,7 @@ luaState.new_usertype<Entity>("Entity",
 "AddFreeLook", &Entity::AddComponent<CFreeLook>,
 "AddSpotLight", &Entity::AddComponent<SpotLight>,
 "AddDirectionalLight", &Entity::AddComponent<DirectionalLight>,
+"AddMeshRenderer", &Entity::AddComponent<MeshRenderer>,
 "Dummy", []{}
 );
 
@@ -84,5 +100,41 @@ luaState.new_usertype<DirectionalLight>("DirectionalLight",
 sol::base_classes, sol::bases<BaseLight>(),
 "Dummy", []{}
 );
+
+luaState.new_usertype<MeshRenderer>("MeshRenderer",
+//sol::base_classes, sol::bases<BaseLight>(),
+"mesh", sol::property(&MeshRenderer::GetMesh, &MeshRenderer::SetMesh),
+"material", sol::property(&MeshRenderer::GetMaterial, &MeshRenderer::SetMaterial),
+"Dummy", []{}
+);
+
+luaState.new_usertype<Plane>("PlaneMeshGen",
+sol::constructors<Plane()>(),
+sol::base_classes, sol::bases<IMeshGen>(),
+"Dummy", []{}
+);
+
+luaState.new_usertype<GLMesh>("Mesh",
+sol::constructors<GLMesh(IMeshGen &)>(),
+"Dummy", []{}
+);
+
+luaState.new_usertype<GLTexture>("Texture",
+sol::constructors<GLTexture(std::string )>(),
+"Dummy", []{}
+);
+
+luaState.new_usertype<GLMaterial>("Material",
+sol::constructors<GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap)>(),
+sol::base_classes, sol::bases<Material>(),
+"Dummy", []{}
+);
+
+luaState.new_usertype<MeshLoader>("MeshLoader",
+sol::constructors<MeshLoader(const std::string &, int)>(),
+sol::base_classes, sol::bases<IMeshGen>(),
+"Dummy", []{}
+);
+
 // @formatter:on
 }

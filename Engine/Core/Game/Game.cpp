@@ -67,40 +67,9 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
         return 0;
     }
     // call succeeded
-    sol::table entityScript = functionResult;
-    Entity &entity = entityScript["entity"];
-
-    sol::table assets = prefab["assets"];
-    sol::optional<sol::table> meshGenAsset = assets["mesh_gen"];
-    if (meshGenAsset.has_value()) {
-        std::string meshGenFile = assets["mesh_gen"]["file"];
-
-        auto planeMeshGen = Plane();
-        auto planeMesh = std::make_shared<GLMesh>(planeMeshGen);
-
-        std::string diffuseTexName = assets["diffuse"]["file"];
-        std::string normalTexName = assets["normal"]["file"];
-        std::string specularTexName = assets["specular"]["file"];
-
-        auto brickMat = std::make_shared<GLMaterial>(
-                std::make_shared<GLTexture>(Zelo::Resource(diffuseTexName)),
-                std::make_shared<GLTexture>(Zelo::Resource(normalTexName)),
-                std::make_shared<GLTexture>(Zelo::Resource(specularTexName))
-        );
-
-        entity.AddComponent<MeshRenderer>(planeMesh, brickMat);
-    }
-
-    sol::optional<sol::table> meshAsset = assets["mesh"];
-    if (meshAsset.has_value()) {
-        std::string meshAssetFile = assets["mesh"]["file"];
-        MeshLoader meshLoader(meshAssetFile);
-        auto meshRenderDataList = meshLoader.getMeshRendererData();
-        for (auto &meshRenderData: meshRenderDataList) {
-            entity.AddComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
-        }
-    }
-
+    // sol::table entityScript = functionResult;
+    // Entity &entity = entityScript["entity"];
+    // sol::table assets = prefab["assets"];
     return entity.GetGUID();
 }
 

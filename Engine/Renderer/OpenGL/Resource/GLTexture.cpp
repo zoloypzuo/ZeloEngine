@@ -37,6 +37,10 @@ uint32_t TextureData::getHandle() const { return m_textureId; }
 
 std::map<std::string, std::weak_ptr<TextureData>> m_textureCache;
 
+GLTexture::GLTexture(std::string texFilename) : GLTexture(Zelo::Resource(texFilename)) {
+
+}
+
 GLTexture::GLTexture(const Zelo::Resource &file)
         : GLTexture(
         file.read(),

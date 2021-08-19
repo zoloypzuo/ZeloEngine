@@ -4,6 +4,14 @@
 
 -- LUA_PATH
 --package.path = ""
+
+-- resource
+package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
+package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/?.lua"
+package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Models/?.lua"
+package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Textures/?.lua"
+
+-- script
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/common/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/engine/?.lua"
@@ -95,6 +103,16 @@ WallUpdatingEnts = {}
 NewWallUpdatingEnts = {}
 num_updating_ents = 0
 NumEnts = 0
+
+
+MeshGenerators = {
+    plane = PlaneMeshGen;
+}
+
+ResourceMap = {}
+ResourceLoaders = {
+    TEX = Texture.new;
+}
 
 TheGlobalInstance = nil
 

@@ -4,6 +4,12 @@
 #include "ZeloPreCompiledHeader.h"
 #include "MeshRenderer.h"
 
+using namespace Zelo::Core::RHI;
+
+MeshRenderer::MeshRenderer(Zelo::Core::ECS::Entity &owner) : Component(owner) {
+
+}
+
 MeshRenderer::MeshRenderer(
         Zelo::Core::ECS::Entity &owner,
         std::shared_ptr<GLMesh> mesh,
@@ -19,4 +25,12 @@ void MeshRenderer::render(Shader *shader) {
 
     m_material->bind();
     m_mesh->render();
+}
+
+void MeshRenderer::SetMesh(GLMesh &mesh) {
+    m_mesh = std::shared_ptr<GLMesh>(&mesh);
+}
+
+void MeshRenderer::SetMaterial(Material &material) {
+    m_material = std::shared_ptr<Material>(&material);
 }

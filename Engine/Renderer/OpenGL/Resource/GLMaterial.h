@@ -10,6 +10,10 @@
 namespace Zelo::Renderer::OpenGL {
 class GLMaterial : public Core::RHI::Material {
 public:
+    GLMaterial(GLTexture &diffuseMap,
+               GLTexture &normalMap,
+               GLTexture &specularMap);
+
     GLMaterial(std::shared_ptr<GLTexture> diffuseMap,
                std::shared_ptr<GLTexture> normalMap,
                std::shared_ptr<GLTexture> specularMap);

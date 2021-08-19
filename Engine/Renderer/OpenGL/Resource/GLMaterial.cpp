@@ -22,3 +22,9 @@ void GLMaterial::bind() const {
     m_specularMap->bind(2);
 }
 
+GLMaterial::GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap) {
+    m_diffuseMap = std::shared_ptr<GLTexture>(&diffuseMap);
+    m_normalMap = std::shared_ptr<GLTexture>(&normalMap);
+    m_specularMap = std::shared_ptr<GLTexture>(&specularMap);
+}
+

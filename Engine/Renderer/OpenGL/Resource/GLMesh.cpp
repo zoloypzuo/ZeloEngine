@@ -4,6 +4,8 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLMesh.h"
 
+#include "Core/Parser/MeshLoader.h"
+
 GLMeshData::GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
     createMesh(vertices, vertSize, indices, indexSize);
 }
@@ -61,7 +63,7 @@ GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[]
     }
 }
 
-GLMesh::GLMesh(Zelo::Core::RHI::IMeshGen& iMeshGen):GLMesh(iMeshGen.getId(), 
+GLMesh::GLMesh(Zelo::Core::RHI::IMeshGen& iMeshGen):GLMesh(iMeshGen.getId(),
     &iMeshGen.getVertices()[0], iMeshGen.getVertices().size(),
     &iMeshGen.getIndices()[0], iMeshGen.getIndices().size()
     )

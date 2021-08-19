@@ -69,6 +69,7 @@ protected:
     std::filesystem::path m_configDir{};
     std::filesystem::path m_assertDir{};
     std::filesystem::path m_scriptDir{};
+    std::filesystem::path m_resourceDir{};
 
 protected:
     void initConfig();
