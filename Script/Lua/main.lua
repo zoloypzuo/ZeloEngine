@@ -110,7 +110,11 @@ MeshGenerators = {
 }
 
 ResourceMap = {}
-ResourceLoaders = {}
+ResourceLoaders = {
+    MESH = Mesh.new;
+    MESH_GEN = function name do return Mesh.new(MeshGenerators[name].new()) end
+    TEX = Texture.new;
+}
 
 TheGlobalInstance = nil
 

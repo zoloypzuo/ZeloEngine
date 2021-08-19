@@ -2,7 +2,7 @@
 -- created on 2021/8/9
 -- author @zoloypzuo
 local assets = {
-    mesh_gen = "plane";
+    mesh_gen = "plane.mesh_gen";
     diffuse  = "bricks2.jpg";
     normal   = "bricks2_normal.jpg";
     specular = "bricks2_specular.png";
@@ -16,12 +16,12 @@ local function fn()
     local mesh_renderer = inst.entity:AddMeshRenderer()
     
     local mesh_gen = assets.mesh_gen
-    local mesh = Mesh.new(MeshGenerators[mesh_gen].new())
+    local mesh = LoadResource(mesh_gen)
     mesh_renderer.mesh = mesh
     
-    local tex_diffuse = Texture.new(assets.diffuse)
-    local tex_normal = Texture.new(assets.normal)
-    local tex_specular = Texture.new(assets.specular)
+    local tex_diffuse = LoadResource(assets.diffuse)
+    local tex_normal = LoadResource(assets.normal)
+    local tex_specular = LoadResource(assets.specular)
 
     local mat = Material.new(tex_diffuse, tex_normal, tex_specular)
     mesh_renderer.material = mat
