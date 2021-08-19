@@ -10,13 +10,20 @@ local function fn()
     local trans = inst.entity:AddTransform()
     inst:AddTag("monkey")
 
-    -- local mesh_loader = MeshLoader.new(assets.mesh);
-    -- local mesh_render_data_list = {mesh_loader:GetMeshRendererData()}
-    -- for _, render_data in ipairs(mesh_render_data_list) do
-    --     local mesh_renderer = inst.entity:AddMeshRenderer()
-    --     mesh_renderer.mesh = mesh
-    --     mesh_renderer.material = material
-    -- end
+    local mesh_renderer = inst.entity:AddMeshRenderer()
+    
+    local mesh = LoadResource(assets.mesh)
+    mesh_renderer.mesh = mesh
+
+    local mesh_meta_data = require(assets.mesh)
+    
+    local tex_diffuse = LoadResource(mesh_meta_data.diffuse)
+    local tex_normal = LoadResource(mesh_meta_data.normal)
+    local tex_specular = LoadResource(mesh_meta_data.specular)
+
+    local mat = Material.new(tex_diffuse, tex_normal, tex_specular)
+    mesh_renderer.material = mat
+
     return inst
 end
 
