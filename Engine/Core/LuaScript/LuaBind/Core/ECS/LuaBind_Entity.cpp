@@ -129,5 +129,16 @@ sol::constructors<GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLText
 sol::base_classes, sol::bases<Material>(),
 "Dummy", []{}
 );
+
+luaState.new_usertype<MeshLoader>("MeshLoader",
+sol::constructors<MeshLoader(const std::string &)>(),
+"GetMeshRendererData", [](MeshLoader &this) { return sol::as_returns(std::move(this.getMeshRendererData())); }
+"Dummy", []{}
+);
+
+luaState.new_usertype<MeshRendererData>("MeshRendererData",
+"GetMeshRendererData", [](MeshLoader &this) { return sol::as_returns(std::move(this.getMeshRendererData())); }
+"Dummy", []{}
+);
 // @formatter:on
 }
