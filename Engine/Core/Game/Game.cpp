@@ -67,21 +67,9 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
         return 0;
     }
     // call succeeded
-    sol::table entityScript = functionResult;
-    Entity &entity = entityScript["entity"];
-
-    sol::table assets = prefab["assets"];
-
-    sol::optional<std::string> meshAsset = assets["mesh"];
-    if (meshAsset.has_value()) {
-        std::string meshAssetFile = assets["mesh"];
-        MeshLoader meshLoader(meshAssetFile);
-        auto meshRenderDataList = meshLoader.getMeshRendererData();
-        for (auto &meshRenderData: meshRenderDataList) {
-            entity.AddComponent<MeshRenderer>(meshRenderData.mesh, meshRenderData.material);
-        }
-    }
-
+    // sol::table entityScript = functionResult;
+    // Entity &entity = entityScript["entity"];
+    // sol::table assets = prefab["assets"];
     return entity.GetGUID();
 }
 
