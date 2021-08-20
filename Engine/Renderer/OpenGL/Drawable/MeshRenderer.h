@@ -16,9 +16,6 @@ class MeshRenderer : public Zelo::Core::ECS::Component {
 public:
     explicit MeshRenderer(Zelo::Core::ECS::Entity &owner);
 
-    MeshRenderer(Zelo::Core::ECS::Entity &owner, std::shared_ptr<GLMesh> mesh,
-                 std::shared_ptr<Zelo::Core::RHI::Material> material);
-
     ~MeshRenderer() override;
 
     void render(Shader *shader) override;
@@ -35,8 +32,8 @@ public:
     ZELO_SCRIPT_API void SetMaterial(Zelo::Core::RHI::Material &material);
 
 private:
-    std::shared_ptr<GLMesh> m_mesh;
-    std::shared_ptr<Zelo::Core::RHI::Material> m_material;
+    GLMesh *m_mesh{};
+    Zelo::Core::RHI::Material *m_material{};
 };
 
 #endif //ZELOENGINE_MESHRENDERER_H
