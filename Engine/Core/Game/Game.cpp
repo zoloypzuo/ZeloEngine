@@ -67,9 +67,8 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
         return 0;
     }
     // call succeeded
-    // sol::table entityScript = functionResult;
-    // Entity &entity = entityScript["entity"];
-    // sol::table assets = prefab["assets"];
+    sol::table entityScript = functionResult;
+    Entity &entity = entityScript["entity"];
     return entity.GetGUID();
 }
 
