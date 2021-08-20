@@ -72,11 +72,18 @@ void LuaScriptManager::update() {
 }
 
 void LuaScriptManager::luaPrint(sol::variadic_args va) {
-    auto &logger = LuaScriptManager::getSingletonPtr()->m_logger;
+    auto &logger = LuaScriptManager::getSingleton().m_logger;
+
+    // " ".join(va)
+    std::vector<std::string> va_string;
     for (auto v : va) {
-        std::string value = v; // get argument out (implicit conversion)
-        logger->debug(value);
+        va_string.push_back(v.as<std::string>());
     }
+
+    std::ostringstream oss;
+    std::copy(va_string.begin(), va_string.end(), std::ostream_iterator<std::string>(oss, " "));
+
+    logger->debug(oss.str());
 }
 
 void LuaScriptManager::initEvents() {
@@ -120,7 +127,7 @@ int LuaScriptManager::luaExceptionHandler(
 
 int LuaScriptManager::luaAtPanic(lua_State *L) {
     size_t message_size{};
-    const char* message = lua_tolstring(L, -1, &message_size);
+    const char *message = lua_tolstring(L, -1, &message_size);
     if (message) {
         std::string err(message, message_size);
         lua_settop(L, 0);
