@@ -23,7 +23,12 @@ using namespace Zelo::Core::UI;
 
 void Engine::initialize() {
     // init config and logger first
-    spdlog::set_level(spdlog::level::debug);
+    spdlog::set_level(spdlog::level::debug);  // show all log
+    spdlog::set_pattern("[%T.%e] [%n] [%^%l%$] %v");  // remove datetime in ts
+
+    // set logger name
+    auto logger = spdlog::default_logger()->clone("root");
+    spdlog::set_default_logger(logger);
 
     if (!m_configInitialized) {
         initConfig();
