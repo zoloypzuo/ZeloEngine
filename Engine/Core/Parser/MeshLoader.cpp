@@ -152,7 +152,7 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIn
     auto i = meshIndex;
     const aiMesh *model = scene->mMeshes[i];
 
-    m_id = m_fileName + std::string(model->mName.C_Str());
+    m_id = meshFileName + std::string(model->mName.C_Str());
 
     const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
     for (unsigned int idxVertex = 0; idxVertex < model->mNumVertices; idxVertex++) {

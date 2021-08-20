@@ -26,6 +26,7 @@ using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Parser;
 using namespace Zelo::Core::ECS;
+using namespace Zelo::Core::Interface;
 
 void LuaBind_Entity(sol::state &luaState) {
     using namespace Zelo::Core::ECS;
@@ -110,12 +111,12 @@ luaState.new_usertype<MeshRenderer>("MeshRenderer",
 
 luaState.new_usertype<Plane>("PlaneMeshGen",
 sol::constructors<Plane()>(),
-sol::base_classes, sol::bases<IMeshGen>(),
+sol::base_classes, sol::bases<IMeshData>(),
 "Dummy", []{}
 );
 
 luaState.new_usertype<GLMesh>("Mesh",
-sol::constructors<GLMesh(IMeshGen &)>(),
+sol::constructors<GLMesh(IMeshData &)>(),
 "Dummy", []{}
 );
 
@@ -132,7 +133,7 @@ sol::base_classes, sol::bases<Material>(),
 
 luaState.new_usertype<MeshLoader>("MeshLoader",
 sol::constructors<MeshLoader(const std::string &, int)>(),
-sol::base_classes, sol::bases<IMeshGen>(),
+sol::base_classes, sol::bases<IMeshData>(),
 "Dummy", []{}
 );
 

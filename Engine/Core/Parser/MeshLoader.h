@@ -7,11 +7,11 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Core/RHI/MeshGen/IMeshGen.h"
+#include "Core/Interface/IMeshData.h"
 
 namespace Zelo::Parser {
 
-class MeshLoader : public Core::RHI::IMeshGen {
+class MeshLoader : public Core::Interface::IMeshData {
 public:
     MeshLoader(const std::string &meshFileName, int meshIndex);
 
