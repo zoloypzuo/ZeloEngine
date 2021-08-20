@@ -133,8 +133,6 @@ void CustomIOSystem::Close(Assimp::IOStream *pFile) {
 }
 
 Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIndex) {
-    m_fileName = meshFileName;
-
     Assimp::Importer importer;
     importer.SetIOHandler(new CustomIOSystem());
 
@@ -170,31 +168,27 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIn
                     glm::vec3(pNormal->x, pNormal->y, pNormal->z),
                     glm::vec3(pTangent->x, pTangent->y, pTangent->z));
 
-        m_vertex.push_back(vert);
+        m_vertices.push_back(vert);
     }
 
     for (unsigned int idxFace = 0; idxFace < model->mNumFaces; idxFace++) {
         const aiFace &face = model->mFaces[idxFace];
-        m_indice.push_back(face.mIndices[0]);
-        m_indice.push_back(face.mIndices[1]);
-        m_indice.push_back(face.mIndices[2]);
+        m_indices.push_back(face.mIndices[0]);
+        m_indices.push_back(face.mIndices[1]);
+        m_indices.push_back(face.mIndices[2]);
     }
 }
 
 Zelo::Parser::MeshLoader::~MeshLoader() = default;
-
-std::string Zelo::Parser::MeshLoader::getFileName() {
-    return m_fileName;
-}
 
 const std::string &Zelo::Parser::MeshLoader::getId() {
     return m_id;
 }
 
 std::vector<Vertex> Zelo::Parser::MeshLoader::getVertices() {
-    return m_vertex;
+    return m_vertices;
 }
 
 std::vector<uint32_t> Zelo::Parser::MeshLoader::getIndices() {
-    return m_indice;
+    return m_indices;
 }

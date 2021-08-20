@@ -13,12 +13,9 @@ namespace Zelo::Parser {
 
 class MeshLoader : public Core::RHI::IMeshGen {
 public:
-
     MeshLoader(const std::string &meshFileName, int meshIndex);
 
     ~MeshLoader() override;
-
-    std::string getFileName();
 
 public: // IMeshGen
     const std::string &getId() override;
@@ -28,12 +25,10 @@ public: // IMeshGen
     std::vector<uint32_t> getIndices() override;
 
 private:
-    std::string m_fileName;
-
     // IMeshGen
     std::string m_id{};
-    std::vector<Core::RHI::Vertex> m_vertex{};
-    std::vector<uint32_t> m_indice{};
+    std::vector<Core::RHI::Vertex> m_vertices{};
+    std::vector<uint32_t> m_indices{};
 };
 }
 
