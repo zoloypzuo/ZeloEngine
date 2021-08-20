@@ -7,23 +7,18 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Core/RHI/Resource/MeshRendererData.h"
 #include "Core/RHI/MeshGen/IMeshGen.h"
 
 namespace Zelo::Parser {
 
 class MeshLoader : public Core::RHI::IMeshGen {
 public:
-    explicit MeshLoader(const std::string &file);
 
     MeshLoader(const std::string &meshFileName, int meshIndex);
 
-    ~MeshLoader();
+    ~MeshLoader() override;
 
     std::string getFileName();
-
-    std::vector<Core::RHI::MeshRendererData> getMeshRendererData();
-
 
 public: // IMeshGen
     const std::string &getId() override;
@@ -34,8 +29,6 @@ public: // IMeshGen
 
 private:
     std::string m_fileName;
-
-    std::vector<Core::RHI::MeshRendererData> m_meshRendererData{};
 
     // IMeshGen
     std::string m_id{};

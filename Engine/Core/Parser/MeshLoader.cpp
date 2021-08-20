@@ -132,97 +132,6 @@ void CustomIOSystem::Close(Assimp::IOStream *pFile) {
     delete pFile;
 }
 
-std::string getTexturePathFromMaterial(const aiMaterial *pMaterial,
-                                       aiTextureType textureType,
-                                       std::string defaultPath) {
-    aiString Path{};
-    if (pMaterial->GetTextureCount(textureType) > 0 &&
-        pMaterial->GetTexture(textureType,
-                              0,
-                              &Path,
-                              nullptr, nullptr,
-                              nullptr, nullptr,
-                              nullptr) == AI_SUCCESS) {
-        return Path.data;
-    } else {
-        return defaultPath;
-    }
-}
-
-Zelo::Parser::MeshLoader::MeshLoader(const std::string &file) {
-    m_fileName = file;
-
-    Assimp::Importer importer;
-    importer.SetIOHandler(new CustomIOSystem());
-
-    spdlog::info("Loading mesh: {}", file);
-
-    auto pFlags = aiProcess_Triangulate |
-                  aiProcess_GenSmoothNormals |
-                  aiProcess_FlipUVs |
-                  aiProcess_CalcTangentSpace;
-    const auto *scene = importer.ReadFile(file, pFlags);
-
-    if (!scene) {
-        spdlog::error("Failed to load mesh: {}", file);
-        return;
-    }
-
-    for (unsigned int i = 0; i < scene->mNumMeshes; i++) {
-        const aiMesh *model = scene->mMeshes[i];
-
-        std::vector<Vertex> vertices;
-        std::vector<uint32_t> indices;
-
-        const aiVector3D aiZeroVector(0.0f, 0.0f, 0.0f);
-        for (unsigned int idxVertex = 0; idxVertex < model->mNumVertices; idxVertex++) {
-            const aiVector3D *pPos = &(model->mVertices[idxVertex]);
-            const aiVector3D *pNormal = &(model->mNormals[idxVertex]);
-            const aiVector3D *pTexCoord = model->HasTextureCoords(0) ? &(model->mTextureCoords[0][idxVertex])
-                                                                     : &aiZeroVector;
-            const aiVector3D *pTangent = model->HasTangentsAndBitangents() ? &(model->mTangents[idxVertex])
-                                                                           : &aiZeroVector;
-
-            Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
-                        glm::vec2(pTexCoord->x, pTexCoord->y),
-                        glm::vec3(pNormal->x, pNormal->y, pNormal->z),
-                        glm::vec3(pTangent->x, pTangent->y, pTangent->z));
-
-            vertices.push_back(vert);
-        }
-
-        for (unsigned int idxFace = 0; idxFace < model->mNumFaces; idxFace++) {
-            const aiFace &face = model->mFaces[idxFace];
-            indices.push_back(face.mIndices[0]);
-            indices.push_back(face.mIndices[1]);
-            indices.push_back(face.mIndices[2]);
-        }
-
-        const aiMaterial *pMaterial = scene->mMaterials[model->mMaterialIndex];
-        spdlog::info("tex num: {}", model->mMaterialIndex);
-
-        std::shared_ptr<GLTexture> diffuseMap;
-        std::shared_ptr<GLTexture> normalMap;
-        std::shared_ptr<GLTexture> specularMap;
-
-        auto diffuseMapPath = getTexturePathFromMaterial(pMaterial, aiTextureType_DIFFUSE, "default_normal.jpg");
-        diffuseMap = std::make_shared<GLTexture>(Zelo::Resource(diffuseMapPath));
-
-        auto normalMapPath = getTexturePathFromMaterial(pMaterial, aiTextureType_HEIGHT, "default_normal.jpg");
-        normalMap = std::make_shared<GLTexture>(Zelo::Resource(normalMapPath));
-
-        auto specularMapPath = getTexturePathFromMaterial(pMaterial, aiTextureType_SPECULAR, "default_specular.jpg");
-        specularMap = std::make_shared<GLTexture>(Zelo::Resource(specularMapPath));
-
-        m_meshRendererData.emplace_back(
-                std::make_shared<GLMesh>(m_fileName + std::string(model->mName.C_Str()),
-                                         &vertices[0],
-                                         vertices.size(), &indices[0], indices.size()),
-                std::make_shared<GLMaterial>(diffuseMap, normalMap, specularMap)
-        );
-    }
-}
-
 Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIndex) {
     m_fileName = meshFileName;
 
@@ -252,9 +161,9 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIn
         const aiVector3D *pPos = &(model->mVertices[idxVertex]);
         const aiVector3D *pNormal = &(model->mNormals[idxVertex]);
         const aiVector3D *pTexCoord = model->HasTextureCoords(0) ? &(model->mTextureCoords[0][idxVertex])
-                                                                    : &aiZeroVector;
+                                                                 : &aiZeroVector;
         const aiVector3D *pTangent = model->HasTangentsAndBitangents() ? &(model->mTangents[idxVertex])
-                                                                        : &aiZeroVector;
+                                                                       : &aiZeroVector;
 
         Vertex vert(glm::vec3(pPos->x, pPos->y, pPos->z),
                     glm::vec2(pTexCoord->x, pTexCoord->y),
@@ -272,12 +181,7 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIn
     }
 }
 
-
 Zelo::Parser::MeshLoader::~MeshLoader() = default;
-
-std::vector<MeshRendererData> Zelo::Parser::MeshLoader::getMeshRendererData() {
-    return m_meshRendererData;
-}
 
 std::string Zelo::Parser::MeshLoader::getFileName() {
     return m_fileName;
