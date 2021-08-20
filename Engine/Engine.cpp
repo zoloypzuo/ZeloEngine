@@ -63,35 +63,6 @@ void Engine::initialize() {
     m_isInitialised = true;
 }
 
-void Engine::initConfig() {
-    char exePathRaw[256];
-    auto length = 256;
-    wai_getExecutablePath(exePathRaw, length, &length);
-    exePathRaw[length] = '\0';
-
-    std::filesystem::path exePath(exePathRaw);
-    auto bootIniPath = exePath / "boot.ini";
-    auto bootConfig = std::make_unique<INIReader>(bootIniPath.string());
-    if (bootConfig->ParseError()) {
-        spdlog::error("boot.ini not found, path={}", bootIniPath.string());
-        ZELO_CORE_ASSERT(false, "boot.ini not found");
-        return;
-    }
-    m_engineDir = bootConfig->GetString("boot", "engineDir", "").c_str();
-    m_configDir = m_engineDir / "Config";
-    m_assertDir = m_engineDir / "assets";
-    m_scriptDir = m_engineDir / "Script";
-    m_resourceDir = m_engineDir / "Resource";
-
-    auto engineIniPath = m_configDir / "Engine.ini";
-    m_config = std::make_unique<INIReader>(engineIniPath.string());
-    if (m_config->ParseError()) {
-        spdlog::error("Engine.ini not found, path={}", engineIniPath.string());
-        ZELO_CORE_ASSERT(false, "Engine.ini not found");
-        return;
-    }
-}
-
 void Engine::finalize() {
     m_timeSystem->finalize();
     shutdownPlugins();
@@ -144,6 +115,35 @@ Engine *Engine::getSingletonPtr() {
 Engine &Engine::getSingleton() {
     assert(msSingleton);
     return *msSingleton;
+}
+
+void Engine::initConfig() {
+    char exePathRaw[256];
+    auto length = 256;
+    wai_getExecutablePath(exePathRaw, length, &length);
+    exePathRaw[length] = '\0';
+
+    std::filesystem::path exePath(exePathRaw);
+    auto bootIniPath = exePath / "boot.ini";
+    auto bootConfig = std::make_unique<INIReader>(bootIniPath.string());
+    if (bootConfig->ParseError()) {
+        spdlog::error("boot.ini not found, path={}", bootIniPath.string());
+        ZELO_CORE_ASSERT(false, "boot.ini not found");
+        return;
+    }
+    m_engineDir = bootConfig->GetString("boot", "engineDir", "").c_str();
+    m_configDir = m_engineDir / "Config";
+    m_assertDir = m_engineDir / "assets";
+    m_scriptDir = m_engineDir / "Script";
+    m_resourceDir = m_engineDir / "Resource";
+
+    auto engineIniPath = m_configDir / "Engine.ini";
+    m_config = std::make_unique<INIReader>(engineIniPath.string());
+    if (m_config->ParseError()) {
+        spdlog::error("Engine.ini not found, path={}", engineIniPath.string());
+        ZELO_CORE_ASSERT(false, "Engine.ini not found");
+        return;
+    }
 }
 
 void Engine::initialisePlugins() {
