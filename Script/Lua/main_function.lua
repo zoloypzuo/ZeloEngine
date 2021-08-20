@@ -239,25 +239,39 @@ end
 
 
 -- Resource
-local function mesh_loader(name, data)
-    local mesh_loader = MeshLoader.new(name, data.mesh_index)
-    return Mesh.new(meshloader)
+function ResourceMetaDataLoader(name)
+    local errmsg = ""
+    --local module_path = string.gsub(name, "%.", "/")
+    local module_path = name
+    for path in string.gmatch(package.path, "([^;]+)") do
+        local filename = string.gsub(path, "%?", module_path)
+        local file = io.open(filename, "rb")
+        if file then
+            -- Compile and return the module
+            return assert(loadstring(assert(file:read("*a")), filename))
+        end
+        errmsg = errmsg .. "\n\tno file '" .. filename .. "' (checked with ResourceMetaDataLoader)"
+    end
+    return errmsg
+    -- Install the loader so that it's called just before the normal Lua loader
 end
 
-local function mesh_gen_loader(name)
+function MeshResourceLoader(name, data)
+    local loader = MeshLoader.new(name, data.mesh_index)
+    return Mesh.new(loader)
+end
+
+function MeshGenResourceLoader(name)
     return Mesh.new(MeshGenerators[name].new())
 end
-
 
 function RegisterResourceLoader(resource_type, loader)
     ResourceLoaders[resource_type] = loader
 end
 
-RegisterResourceLoader("MESH", mesh_loader)
-RegisterResourceLoader("MESH_GEN", mesh_gen_loader)
-
 function LoadResource(name)
-    if not ResourceMap[name] then -- asset not loaded
+    if not ResourceMap[name] then
+        -- asset not loaded
         local asset_meta_data = require(name)
         local asset_type = asset_meta_data.type
         local asset_file = asset_meta_data.file

@@ -4,6 +4,11 @@
 global("TheSim")
 TheSim = Game.GetSingletonPtr()
 
+table.insert(package.loaders, 2, ResourceMetaDataLoader)
+
+RegisterResourceLoader("MESH", MeshResourceLoader)
+RegisterResourceLoader("MESH_GEN", MeshGenResourceLoader)
+
 -- ground
 do
     local plane = SpawnPrefab("plane")
