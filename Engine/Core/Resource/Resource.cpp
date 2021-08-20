@@ -36,10 +36,8 @@ Zelo::IOStream::IOStream(const std::string &fileName) : m_fileName(fileName) {
         }
     }
 
-    spdlog::debug("IOStream {} => {}", fileName, filePath);
-    m_file = new std::fstream(
-            filePath.c_str(),
-            std::ifstream::binary | std::fstream::in | std::fstream::out);
+    const auto mode = std::ifstream::binary | std::fstream::in | std::fstream::out;
+    m_file = new std::fstream(filePath.c_str(), mode);
 }
 
 Zelo::IOStream::~IOStream() {
