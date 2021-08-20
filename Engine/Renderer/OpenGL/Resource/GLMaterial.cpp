@@ -6,25 +6,18 @@
 
 using namespace Zelo::Renderer::OpenGL;
 
-GLMaterial::GLMaterial(std::shared_ptr<GLTexture> diffuseMap,
-                       std::shared_ptr<GLTexture> normalMap,
-                       std::shared_ptr<GLTexture> specularMap) {
-    m_diffuseMap = std::move(diffuseMap);
-    m_normalMap = std::move(normalMap);
-    m_specularMap = std::move(specularMap);
-}
-
 GLMaterial::~GLMaterial() = default;
 
 void GLMaterial::bind() const {
-    m_diffuseMap->bind(0);
-    m_normalMap->bind(1);
-    m_specularMap->bind(2);
+    m_diffuseMap.bind(0);
+    m_normalMap.bind(1);
+    m_specularMap.bind(2);
 }
 
-GLMaterial::GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap) {
-    m_diffuseMap = std::shared_ptr<GLTexture>(&diffuseMap);
-    m_normalMap = std::shared_ptr<GLTexture>(&normalMap);
-    m_specularMap = std::shared_ptr<GLTexture>(&specularMap);
+GLMaterial::GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap) :
+        m_diffuseMap(diffuseMap),
+        m_normalMap(normalMap),
+        m_specularMap(specularMap) {
+
 }
 

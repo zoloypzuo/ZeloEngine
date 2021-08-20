@@ -14,18 +14,14 @@ public:
                GLTexture &normalMap,
                GLTexture &specularMap);
 
-    GLMaterial(std::shared_ptr<GLTexture> diffuseMap,
-               std::shared_ptr<GLTexture> normalMap,
-               std::shared_ptr<GLTexture> specularMap);
-
     ~GLMaterial() override;
 
     void bind() const override;
 
 private:
-    std::shared_ptr<GLTexture> m_diffuseMap;
-    std::shared_ptr<GLTexture> m_specularMap;
-    std::shared_ptr<GLTexture> m_normalMap;
+    GLTexture &m_diffuseMap;
+    GLTexture &m_specularMap;
+    GLTexture &m_normalMap;
 };
 }
 
