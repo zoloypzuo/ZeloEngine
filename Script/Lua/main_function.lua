@@ -261,8 +261,12 @@ function MeshResourceLoader(name, data)
     return Mesh.new(loader)
 end
 
-function MeshGenResourceLoader(name)
+function MeshGenResourceLoader(name, _)
     return Mesh.new(MeshGenerators[name].new())
+end
+
+function TextureResourceLoader(name, _)
+    return Texture.new(name);
 end
 
 function RegisterResourceLoader(resource_type, loader)
@@ -272,6 +276,7 @@ end
 function LoadResource(name)
     if not ResourceMap[name] then
         -- asset not loaded
+        print("LoadResource", name)
         local asset_meta_data = require(name)
         local asset_type = asset_meta_data.type
         local asset_file = asset_meta_data.file

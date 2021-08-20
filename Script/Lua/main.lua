@@ -110,9 +110,7 @@ MeshGenerators = {
 }
 
 ResourceMap = {}
-ResourceLoaders = {
-    TEX = Texture.new;
-}
+ResourceLoaders = {}
 
 TheGlobalInstance = nil
 

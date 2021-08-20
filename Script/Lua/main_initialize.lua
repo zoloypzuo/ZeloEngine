@@ -4,10 +4,11 @@
 global("TheSim")
 TheSim = Game.GetSingletonPtr()
 
-table.insert(package.loaders, 2, ResourceMetaDataLoader)
+table.insert(package.loaders, 1, ResourceMetaDataLoader)
 
 RegisterResourceLoader("MESH", MeshResourceLoader)
 RegisterResourceLoader("MESH_GEN", MeshGenResourceLoader)
+RegisterResourceLoader("TEX", TextureResourceLoader)
 
 -- ground
 do
