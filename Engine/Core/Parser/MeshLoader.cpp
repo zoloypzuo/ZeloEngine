@@ -229,8 +229,6 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIn
     Assimp::Importer importer;
     importer.SetIOHandler(new CustomIOSystem());
 
-    spdlog::info("Loading mesh: {}", meshFileName);
-
     auto pFlags = aiProcess_Triangulate |
                   aiProcess_GenSmoothNormals |
                   aiProcess_FlipUVs |
