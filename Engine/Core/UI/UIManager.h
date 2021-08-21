@@ -13,6 +13,13 @@ class UIManager :
         public IRuntimeModule,
         public IDrawable {
 public:
+    enum class EStyle {
+        IM_CLASSIC_STYLE,
+        IM_DARK_STYLE,
+        IM_LIGHT_STYLE,
+        DUNE_DARK, ALTERNATIVE_DARK
+    };
+public:
     UIManager() = default;
 
     ~UIManager() override = default;
@@ -30,5 +37,7 @@ public:
 
 public:
     void draw() override;
+
+    ZELO_SCRIPT_API void ApplyStyle(EStyle style);
 };
 }

@@ -13,7 +13,5 @@ luaState.new_usertype<Game>("Game",
 "SetActiveCamera", &Game::SetActiveCamera,
 "Dummy", []{}
 );
-
-luaState.set("TheSim", Game::getSingletonPtr());
 // @formatter: on
 }

@@ -1,8 +1,10 @@
 -- main_initialize.lua
 -- created on 2021/8/18
 -- author @zoloypzuo
-global("TheSim")
 TheSim = Game.GetSingletonPtr()
+UI = UIManager.GetSingletonPtr()
+
+UI:ApplyStyle(EStyle.DUNE_DARK)
 
 table.insert(package.loaders, 1, ResourceMetaDataLoader)
 
