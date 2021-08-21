@@ -275,3 +275,7 @@ function LoadResource(name)
     end
     return ResourceMap[name]
 end
+
+function UnloadResource(name)
+    ResourceMap[name] = nil
+end

@@ -24,6 +24,7 @@ sol::constructors<Font(const std::string&, float)>()
 luaState.new_usertype<UIManager>("UIManager",
 "GetSingletonPtr", &UIManager::getSingletonPtr,
 "ApplyStyle", &UIManager::ApplyStyle,
+"UseFont", &UIManager::UseFont,
 "Dummy", []{}
 );
 

@@ -37,7 +37,7 @@ end)
 
 -- UI
 UI:ApplyStyle(EStyle.DUNE_DARK)
-LoadResource("Ruda-Bold.ttf")
+UI:UseFont(LoadResource("Ruda-Bold.ttf"))
 
 -- ground
 do

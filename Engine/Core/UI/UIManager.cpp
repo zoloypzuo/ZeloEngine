@@ -213,3 +213,7 @@ void UIManager::ApplyStyle(UIManager::EStyle style) {
         }
     }
 }
+
+void UIManager::UseFont(Font &font) {
+    ImGui::GetIO().FontDefault = font.getFont();
+}

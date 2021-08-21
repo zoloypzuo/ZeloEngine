@@ -6,6 +6,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Core/Interface/IDrawable.h"
+#include "Core/UI/Resource/Font.h"
 
 namespace Zelo::Core::UI {
 class UIManager :
@@ -39,5 +40,7 @@ public:
     void draw() override;
 
     ZELO_SCRIPT_API void ApplyStyle(EStyle style);
+
+    ZELO_SCRIPT_API void UseFont(Font &font);
 };
 }
