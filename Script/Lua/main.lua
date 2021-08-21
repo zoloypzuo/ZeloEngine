@@ -1,7 +1,7 @@
 -- main.lua
 -- created on 2021/5/5
 -- author @zoloypzuo
-
+--require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
 -- LUA_PATH
 -- resource
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
@@ -77,6 +77,7 @@ require("brain")
 --require("standardcomponents")
 --require("update")
 --require("mathutil")
+require("ui.ui_root")
 
 --debug key init
 global("CHEATS_ENABLED")
@@ -104,7 +105,6 @@ NewWallUpdatingEnts = {}
 num_updating_ents = 0
 NumEnts = 0
 
-
 MeshGenerators = {
     plane = PlaneMeshGen;
 }
@@ -112,29 +112,11 @@ MeshGenerators = {
 ResourceMap = {}
 ResourceLoaders = {}
 
-TheGlobalInstance = nil
-
 global("TheCamera")
 TheCamera = nil
-global("SplatManager")
-SplatManager = nil
-global("ShadowManager")
-ShadowManager = nil
-global("RoadManager")
-RoadManager = nil
-global("EnvelopeManager")
-EnvelopeManager = nil
-global("PostProcessor")
-PostProcessor = nil
 
-global("FontManager")
-FontManager = nil
-global("MapLayerManager")
-MapLayerManager = nil
-global("Roads")
-Roads = nil
 global("TheFrontEnd")
-TheFrontEnd = nil
+TheFrontEnd = UIRoot()
 
 inGamePlay = false
 
