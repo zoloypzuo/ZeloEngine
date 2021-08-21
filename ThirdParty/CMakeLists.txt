@@ -3,5 +3,7 @@
 # first we compile lua from source
 # lua <= sol <= engine object system
 add_subdirectory(Lua)
+add_subdirectory(ImGui)
 
 set_target_properties(Lua PROPERTIES FOLDER "ThirdParty")
+set_target_properties(ImGui PROPERTIES FOLDER "ThirdParty")
