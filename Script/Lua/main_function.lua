@@ -13,14 +13,14 @@ function Finalize()
     print("finalize")
 end
 
+local update = require("main_update").Update
 function Update()
-    --print("update")
+    update()
 end
 
 function GlobalErrorHandler(message)
     -- handle lua error when C call lua function
     -- print error and stack trace
-    print(message)
     StackTraceToLog()
     return message
 end

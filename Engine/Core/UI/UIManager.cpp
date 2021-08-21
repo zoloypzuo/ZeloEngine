@@ -60,7 +60,6 @@ void UIManager::update() {
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
     // Frame logic here...
-    ImGui::ShowDemoWindow();
 }
 
 void UIManager::draw() {
