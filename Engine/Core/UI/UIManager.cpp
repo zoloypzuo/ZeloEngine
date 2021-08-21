@@ -215,3 +215,14 @@ void UIManager::ApplyStyle(UIManager::EStyle style) {
 void UIManager::UseFont(Font &font) {
     ImGui::GetIO().FontDefault = font.getFont();
 }
+
+void UIManager::EnableDocking(bool value) {
+    m_enableDocking = value;
+
+    if (value) { ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable; }
+    else { ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_DockingEnable; }
+}
+
+bool UIManager::IsDockingEnabled() const {
+    return m_enableDocking;
+}

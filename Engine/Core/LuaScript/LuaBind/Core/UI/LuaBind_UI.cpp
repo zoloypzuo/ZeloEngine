@@ -25,6 +25,7 @@ luaState.new_usertype<UIManager>("UIManager",
 "GetSingletonPtr", &UIManager::getSingletonPtr,
 "ApplyStyle", &UIManager::ApplyStyle,
 "UseFont", &UIManager::UseFont,
+"enable_docking", sol::property(&UIManager::IsDockingEnabled, &UIManager::EnableDocking),
 "Dummy", []{}
 );
 

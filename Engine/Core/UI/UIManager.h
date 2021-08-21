@@ -42,5 +42,12 @@ public:
     ZELO_SCRIPT_API void ApplyStyle(EStyle style);
 
     ZELO_SCRIPT_API void UseFont(Font &font);
+
+    ZELO_SCRIPT_API void EnableDocking(bool value);
+
+    ZELO_SCRIPT_API bool IsDockingEnabled() const;
+
+private:
+    bool m_enableDocking{};
 };
 }
