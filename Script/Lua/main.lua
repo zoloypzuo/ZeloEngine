@@ -6,6 +6,7 @@
 -- resource
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/?.lua"
+package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Materials/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Models/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Textures/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Fonts/?.lua"
