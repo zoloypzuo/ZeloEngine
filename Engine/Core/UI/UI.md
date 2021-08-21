@@ -13,3 +13,11 @@
 Canvas Root > Panel > Widget
 
 Panel和Widget都有ID
+
+# Binding
+
+https://github-wiki-see.page/m/ocornut/imgui/wiki/Bindings
+
+https://github.com/MSeys/sol2_ImGui_Bindings
+
+https://github.com/cimgui/cimgui
