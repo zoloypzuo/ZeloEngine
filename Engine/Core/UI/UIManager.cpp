@@ -57,8 +57,7 @@ void UIManager::finalize() {
 void UIManager::update() {
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
-    auto *window = Window::getSingletonPtr()->getSDLWindow();
-    ImGui_ImplSDL2_NewFrame(window);
+    ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
     // Frame logic here...
     ImGui::ShowDemoWindow();
@@ -133,7 +132,7 @@ void UIManager::ApplyStyle(UIManager::EStyle style) {
             imStyle->Colors[ImGuiCol_PlotHistogram] = ImVec4(0.40f, 0.39f, 0.38f, 0.63f);
             imStyle->Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(0.25f, 1.00f, 0.00f, 1.00f);
             imStyle->Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.25f, 1.00f, 0.00f, 0.43f);
-            imStyle->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
+//            imStyle->Colors[ImGuiCol_ModalWindowDarkening] = ImVec4(1.00f, 0.98f, 0.95f, 0.73f);
 
             imStyle->Colors[ImGuiCol_Tab] = imStyle->Colors[ImGuiCol_TabUnfocused];
             break;

@@ -3,9 +3,11 @@
 // author @zoloypzuo
 #include <string>
 #include <imgui.h>
+#include <imgui_internal.h>
 #include <sol/sol.hpp>
 
 void LuaBind_ImGui(sol::state &luaState);
+
 
 namespace sol_ImGui
 {
@@ -1461,9 +1463,6 @@ inline bool BeginPopupModal(const std::string& name, bool open, int flags)						
 inline void EndPopup()																				{ ImGui::EndPopup(); }
 inline void OpenPopup(const std::string& str_id)													{ ImGui::OpenPopup(str_id.c_str()); }
 inline void OpenPopup(const std::string& str_id, int popup_flags)									{ ImGui::OpenPopup(str_id.c_str(), static_cast<ImGuiPopupFlags>(popup_flags)); }
-inline bool OpenPopupContextItem()																	{ return ImGui::OpenPopupContextItem(); }
-inline bool OpenPopupContextItem(const std::string& str_id)											{ return ImGui::OpenPopupContextItem(str_id.c_str()); }
-inline bool OpenPopupContextItem(const std::string& str_id, int popup_flags)						{ return ImGui::OpenPopupContextItem(str_id.c_str(), static_cast<ImGuiPopupFlags>(popup_flags)); }
 inline void CloseCurrentPopup()																		{ ImGui::CloseCurrentPopup(); }
 inline bool BeginPopupContextItem()																	{ return ImGui::BeginPopupContextItem(); }
 inline bool BeginPopupContextItem(const std::string& str_id)										{ return ImGui::BeginPopupContextItem(str_id.c_str()); }
@@ -1811,7 +1810,6 @@ inline void InitEnums(sol::state& lua)
                  "GrabMinSize"				, ImGuiStyleVar_GrabMinSize,
                  "GrabRounding"				, ImGuiStyleVar_GrabRounding,
                  "TabRounding"				, ImGuiStyleVar_TabRounding,
-                 "SelectableRounding"		, ImGuiStyleVar_SelectableRounding,
                  "SelectableTextAlign"		, ImGuiStyleVar_SelectableTextAlign,
                  "ButtonTextAlign"			, ImGuiStyleVar_ButtonTextAlign,
                  "COUNT"						, ImGuiStyleVar_COUNT
@@ -1898,12 +1896,11 @@ inline void InitEnums(sol::state& lua)
                  "InputRGB"				, ImGuiColorEditFlags_InputRGB,
                  "InputHSV"				, ImGuiColorEditFlags_InputHSV,
 
-                 "_OptionsDefault"		, ImGuiColorEditFlags__OptionsDefault,
-
-                 "_DisplayMask"			, ImGuiColorEditFlags__DisplayMask,
-                 "_DataTypeMask"			, ImGuiColorEditFlags__DataTypeMask,
-                 "_PickerMask"			, ImGuiColorEditFlags__PickerMask,
-                 "_InputMask"			, ImGuiColorEditFlags__InputMask,
+                 "_OptionsDefault"		, ImGuiColorEditFlags_DefaultOptions_,
+                 "_DisplayMask"			, ImGuiColorEditFlags_DisplayMask_,
+                 "_DataTypeMask"			, ImGuiColorEditFlags_DataTypeMask_,
+                 "_PickerMask"			, ImGuiColorEditFlags_PickerMask_,
+                 "_InputMask"			, ImGuiColorEditFlags_InputMask_,
 
                  "RGB"					, ImGuiColorEditFlags_RGB
     );
@@ -2603,11 +2600,6 @@ inline void Init(sol::state& lua)
     ImGui.set_function("OpenPopup"						, sol::overload(
             sol::resolve<void(const std::string&)>(OpenPopup),
             sol::resolve<void(const std::string&, int)>(OpenPopup)
-    ));
-    ImGui.set_function("OpenPopupContextItem"			, sol::overload(
-            sol::resolve<bool()>(OpenPopupContextItem),
-            sol::resolve<bool(const std::string&)>(OpenPopupContextItem),
-            sol::resolve<bool(const std::string&, int)>(OpenPopupContextItem)
     ));
     ImGui.set_function("CloseCurrentPopup"				, CloseCurrentPopup);
     ImGui.set_function("BeginPopupContextItem"			, sol::overload(
