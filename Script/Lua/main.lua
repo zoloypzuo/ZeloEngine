@@ -3,13 +3,12 @@
 -- author @zoloypzuo
 
 -- LUA_PATH
---package.path = ""
-
 -- resource
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Models/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Textures/?.lua"
+package.path = package.path .. ";" .. RESOURCE_DIR .. "/Fonts/?.lua"
 
 -- script
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/?.lua"

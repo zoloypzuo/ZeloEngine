@@ -1,16 +1,34 @@
 -- main_initialize.lua
 -- created on 2021/8/18
 -- author @zoloypzuo
+
+-- singleton
 TheSim = Game.GetSingletonPtr()
 UI = UIManager.GetSingletonPtr()
 
-UI:ApplyStyle(EStyle.DUNE_DARK)
-
+-- resource
 table.insert(package.loaders, 1, ResourceMetaDataLoader)
 
-RegisterResourceLoader("MESH", MeshResourceLoader)
-RegisterResourceLoader("MESH_GEN", MeshGenResourceLoader)
-RegisterResourceLoader("TEX", TextureResourceLoader)
+RegisterResourceLoader("MESH", function(name, data)
+    local loader = MeshLoader.new(name, data.mesh_index)
+    return Mesh.new(loader)
+end)
+
+RegisterResourceLoader("MESH_GEN", function(name, _)
+    return Mesh.new(MeshGenerators[name].new())
+end)
+
+RegisterResourceLoader("TEX", function(name, _)
+    return Texture.new(name);
+end)
+
+RegisterResourceLoader("FONT", function(name, data)
+    return Font.new(name, data.font_size)
+end)
+
+-- UI
+UI:ApplyStyle(EStyle.DUNE_DARK)
+LoadResource("Ruda-Bold.ttf")
 
 -- ground
 do

@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include <sol/sol.hpp>
 #include "Core/UI/UIManager.h"
+#include "Core/UI/Resource/Font.h"
 
 using namespace Zelo::Core::UI;
 
@@ -15,6 +16,10 @@ luaState.new_enum<UIManager::EStyle>("EStyle",{
 {"DUNE_DARK",       UIManager::EStyle::DUNE_DARK},
 {"ALTERNATIVE_DARK",UIManager::EStyle::ALTERNATIVE_DARK}
 });
+
+luaState.new_usertype<Font>("Font",
+sol::constructors<Font(const std::string&, float)>()
+);
 
 luaState.new_usertype<UIManager>("UIManager",
 "GetSingletonPtr", &UIManager::getSingletonPtr,
