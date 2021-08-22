@@ -1,13 +1,35 @@
 # UI
 
+* [x] ImGui后端接入
 * [x] ImGui Docking，需要拉分支，自己编译imgui，可以在全部面板写完之后再做
 * [x] Font
-* [x] Style
+* [x] Style，封装了三套配色，建议用拾色器去配置
 * [x] UIManager
 * ~~[ ] imgui.ini~~ // 不是很重要，用默认的自动保存即可
-* [x] Canvas，类比场景图，我们不需要切Canvas，没必要套一层Canvas
+* ~~[ ] Canvas~~ // 类比场景图，我们不需要切Canvas，没必要套一层Canvas
 * [ ] ImGui控件，薄封装，脚本封装
-* [ ] 向量类型转换
+* [ ] 向量类型转换 Converter
+* [ ] 
+* [ ] 
+* [ ] 
+
+
+## 控件
+
+* [ ] Button
+* [ ] InputText
+* [ ]
+* [ ]
+
+## 对话框 Dialog
+
+* [ ] OpenFileDialog
+* [ ] SaveFileDialog
+
+## 面板 Panel
+
+* [ ] ProjectHub，启动界面
+
 
 ## 基本层次结构
 
@@ -44,3 +66,22 @@ https://github.com/cimgui/cimgui
 
 对话框和输入是依赖于Win API的，不过划分在UI部分
 
+## imgui.ini
+
+存的是layout，编辑器布局，每个panel的位置会保存下来
+
+IniFilename，设置ini位置，没有则不保存
+
+IniSavingRate，保存频率
+
+LoadIniSettingsFromDisk，重载
+
+## 字体
+
+AddFontFromFileTTF，加载字体资源
+
+FontDefault，设置字体资源
+
+Push和Pop，封了一下，但是没做。。
+
+imgui的每个字号都需要单独加载，他估计内部直接加载了一个纹理
