@@ -6,6 +6,7 @@ require("framework.vector2")
 local widget = require("ui.widget")
 
 local AButton = Class(widget.AWidget, function(self)
+    widget.AWidget._ctor(self)
     self.on_click = EventProcessor()
 end)
 
@@ -17,7 +18,9 @@ function AButton:_OnClick()
     self.on_click:HandleEvent("on_click")
 end
 
-local Button = Class(AButton, function(self, label, size, disabled)
+local Button = Class(AButton, function(self, parent, label, size, disabled)
+    AButton._ctor(self)
+	self.parent = parent
     self.label = label or ""
     self.size = size or Vector2()
     self.disabled = disabled or false

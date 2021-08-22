@@ -6,7 +6,7 @@ UIRoot = Class(function(self)
 end)
 
 function UIRoot:Update()
-    for _, panel in ipairs(self.panels) do
+    for _, panel in pairs(self.panels) do
         panel:Update()
     end
 end

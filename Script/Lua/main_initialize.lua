@@ -39,7 +39,7 @@ end)
 UI.enable_docking = false;
 UI:ApplyStyle(EStyle.DUNE_DARK)
 UI:UseFont(LoadResource("Ruda-Bold.ttf"))
-TheFrontEnd:LoadPanel("main_panel")
+TheFrontEnd:LoadPanel("project_hub_panel")
 
 -- ground
 do

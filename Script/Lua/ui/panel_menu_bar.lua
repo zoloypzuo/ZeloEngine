@@ -1,10 +1,11 @@
 -- panel_menu_bar
 -- created on 2021/8/22
 -- author @zoloypzuo
-local APanel = require("ui.panel")
+local panel = require("ui.panel")
 
-local PanelMenuBar = Class(APanel, function()
+local PanelMenuBar = Class(panel.APanel, function(self)
     -- 封装MainMenuBar
+    panel.APanel._ctor(self)
 end)
 
 function PanelMenuBar:_UpdateImpl()

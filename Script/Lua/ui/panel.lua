@@ -48,4 +48,4 @@ function APanel:Clear()
     self.widgets = {}
 end
 
-return APanel
+return { APanel = APanel }
