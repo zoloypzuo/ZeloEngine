@@ -1,15 +1,15 @@
 -- main.lua
 -- created on 2021/5/5
 -- author @zoloypzuo
-
+require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
 -- LUA_PATH
---package.path = ""
-
 -- resource
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/?.lua"
+package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Materials/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Models/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Textures/?.lua"
+package.path = package.path .. ";" .. RESOURCE_DIR .. "/Fonts/?.lua"
 
 -- script
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/?.lua"
@@ -78,6 +78,11 @@ require("brain")
 --require("update")
 --require("mathutil")
 
+require("ui.ui_root")
+require("framework.events")
+require("framework.vector2")
+require("framework.color")
+
 --debug key init
 global("CHEATS_ENABLED")
 CHEATS_ENABLED = false
@@ -86,7 +91,7 @@ if CHEATS_ENABLED then
     require "debugkeys"
 end
 
-print("running main.lua\n")
+print("running main.lua")
 
 --math.randomseed(TheSim:GetRealTime())
 
@@ -104,7 +109,6 @@ NewWallUpdatingEnts = {}
 num_updating_ents = 0
 NumEnts = 0
 
-
 MeshGenerators = {
     plane = PlaneMeshGen;
 }
@@ -112,29 +116,11 @@ MeshGenerators = {
 ResourceMap = {}
 ResourceLoaders = {}
 
-TheGlobalInstance = nil
-
 global("TheCamera")
 TheCamera = nil
-global("SplatManager")
-SplatManager = nil
-global("ShadowManager")
-ShadowManager = nil
-global("RoadManager")
-RoadManager = nil
-global("EnvelopeManager")
-EnvelopeManager = nil
-global("PostProcessor")
-PostProcessor = nil
 
-global("FontManager")
-FontManager = nil
-global("MapLayerManager")
-MapLayerManager = nil
-global("Roads")
-Roads = nil
 global("TheFrontEnd")
-TheFrontEnd = nil
+TheFrontEnd = UIRoot()
 
 inGamePlay = false
 

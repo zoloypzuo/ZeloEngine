@@ -64,11 +64,11 @@ void LuaScriptManager::initLuaContext() {
 }
 
 void LuaScriptManager::finalize() {
-    doString("Finalize()");
+    luaCall("Finalize");
 }
 
 void LuaScriptManager::update() {
-    doString("Update()");
+    luaCall("Update");
 }
 
 void LuaScriptManager::luaPrint(sol::variadic_args va) {

@@ -3,6 +3,7 @@
 -- author @zoloypzuo
 local assets = {
     mesh = "monkey3.obj";
+    material = "monkey.mat";
 }
 
 local function fn()
@@ -12,17 +13,9 @@ local function fn()
 
     local mesh_renderer = inst.entity:AddMeshRenderer()
     
-    local mesh = LoadResource(assets.mesh)
-    mesh_renderer.mesh = mesh
+    mesh_renderer.mesh = LoadResource(assets.mesh)
 
-    local mesh_meta_data = require(assets.mesh)
-    
-    local tex_diffuse = LoadResource(mesh_meta_data.diffuse)
-    local tex_normal = LoadResource(mesh_meta_data.normal)
-    local tex_specular = LoadResource(mesh_meta_data.specular)
-
-    local mat = Material.new(tex_diffuse, tex_normal, tex_specular)
-    mesh_renderer.material = mat
+    mesh_renderer.material = LoadResource(assets.material)
 
     return inst
 end

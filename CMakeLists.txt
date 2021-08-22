@@ -36,7 +36,6 @@ option(DetectMemoryLeak     "DetectMemoryLeak"     OFF)  # 内存泄漏检测
 
 option(BuildCycloneDemo     "BuildCycloneDemo"     OFF)  # 构建物理Demo
 option(BuildCyclone         "BuildCyclone"         OFF)  # 构建物理
-option(PlayImGui            "PlayImGui"            OFF)  # 探索ImGui实现
 # @formatter:on
 
 # engine option
@@ -53,10 +52,14 @@ add_subdirectory(ThirdParty)
 # import third party
 
 # lua
-set(LUA_LIBRARIES Lua)
-set(LUA_INCLUDE_DIR ThirdParty/Lua/include)
-include_directories(${LUA_INCLUDE_DIR})
-link_libraries(${LUA_LIBRARIES})
+include_directories(ThirdParty/Lua/include)
+link_libraries(Lua)
+
+# imgui
+#find_package(imgui CONFIG REQUIRED)
+#link_libraries(imgui::imgui)
+include_directories(ThirdParty/ImGui)
+link_libraries(ImGui)
 
 # vcpkg import third party
 if (WIN32)
@@ -116,10 +119,6 @@ add_compile_definitions(GLM_FORCE_RADIANS)
 # rttr
 find_package(rttr CONFIG REQUIRED)
 link_libraries(RTTR::Core)
-
-# imgui
-find_package(imgui CONFIG REQUIRED)
-link_libraries(imgui::imgui)
 
 # memory leak check
 if (DetectMemoryLeak)

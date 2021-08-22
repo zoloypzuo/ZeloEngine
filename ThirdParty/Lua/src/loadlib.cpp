@@ -88,7 +88,7 @@ static lua_CFunction ll_sym (lua_State *L, void *lib, const char *sym) {
 ** This is an implementation of loadlib for Windows using native functions.
 ** =======================================================================
 */
-#if 0  // FIXME zyp avoid winbase.h BUG
+#if 1  // FIXME zyp avoid winbase.h BUG
 #include <windows.h>
 
 

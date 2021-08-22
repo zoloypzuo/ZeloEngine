@@ -62,11 +62,13 @@ public:
 
     void toggleFullscreen();
 
+    void *getHwnd() const;
+
 private:
     const INIReader::Section m_windowConfig;
 
-    SDL_Window *m_window;
-    SDL_GLContext m_glContext;
+    SDL_Window *m_window{};
+    SDL_GLContext m_glContext{};
 
     int m_width{};
     int m_height{};

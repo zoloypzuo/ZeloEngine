@@ -3,6 +3,9 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
+#include "Core/UI/ImGuiBackend/imgui_impl_sdl.h"
+
+#include <SDL_syswm.h>
 
 Window::Window(const INIReader::Section &windowConfig) : m_windowConfig(windowConfig) {
 }
@@ -45,7 +48,7 @@ void Window::initialize() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #else
-    spdlog::info("Using GL 3");
+    spdlog::info("Using OpenGL 3");
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -97,7 +100,7 @@ void Window::update() {
 
     while (SDL_PollEvent(&event)) {
         // TODO Forward to Imgui
-//        ImGui_ImplSDL2_ProcessEvent(&event);
+        ImGui_ImplSDL2_ProcessEvent(&event);
         switch (event.type) {
             case SDL_MOUSEMOTION:
                 m_input.setMouseDelta(event.motion.xrel, event.motion.yrel);
@@ -213,4 +216,11 @@ void Window::toggleFullscreen() {
         setFullscreen(0);
     }
 
+}
+
+void *Window::getHwnd() const {
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(m_window, &wmInfo);
+    return wmInfo.info.win.window;
 }

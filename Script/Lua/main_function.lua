@@ -13,14 +13,14 @@ function Finalize()
     print("finalize")
 end
 
+local update = require("main_update").Update
 function Update()
-    --print("update")
+    update()
 end
 
 function GlobalErrorHandler(message)
     -- handle lua error when C call lua function
     -- print error and stack trace
-    print(message)
     StackTraceToLog()
     return message
 end
@@ -256,19 +256,6 @@ function ResourceMetaDataLoader(name)
     -- Install the loader so that it's called just before the normal Lua loader
 end
 
-function MeshResourceLoader(name, data)
-    local loader = MeshLoader.new(name, data.mesh_index)
-    return Mesh.new(loader)
-end
-
-function MeshGenResourceLoader(name, _)
-    return Mesh.new(MeshGenerators[name].new())
-end
-
-function TextureResourceLoader(name, _)
-    return Texture.new(name);
-end
-
 function RegisterResourceLoader(resource_type, loader)
     ResourceLoaders[resource_type] = loader
 end
@@ -287,4 +274,8 @@ function LoadResource(name)
         ResourceMap[name] = res
     end
     return ResourceMap[name]
+end
+
+function UnloadResource(name)
+    ResourceMap[name] = nil
 end

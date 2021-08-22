@@ -6,12 +6,20 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 #include "Core/Interface/IDrawable.h"
+#include "Core/UI/Resource/Font.h"
 
 namespace Zelo::Core::UI {
 class UIManager :
         public Singleton<UIManager>,
         public IRuntimeModule,
         public IDrawable {
+public:
+    enum class EStyle {
+        IM_CLASSIC_STYLE,
+        IM_DARK_STYLE,
+        IM_LIGHT_STYLE,
+        DUNE_DARK, ALTERNATIVE_DARK
+    };
 public:
     UIManager() = default;
 
@@ -30,5 +38,20 @@ public:
 
 public:
     void draw() override;
+
+    ZELO_SCRIPT_API void ApplyStyle(EStyle style);
+
+    ZELO_SCRIPT_API void UseFont(Font &font);
+
+    ZELO_SCRIPT_API void EnableDocking(bool value);
+
+    ZELO_SCRIPT_API bool IsDockingEnabled() const;
+
+    ZELO_SCRIPT_API std::string OpenFileDialog();
+
+    ZELO_SCRIPT_API std::string SaveFileDialog();
+
+private:
+    bool m_enableDocking{};
 };
 }
