@@ -11,7 +11,7 @@ luaState.new_usertype<Game>("Game",
 "SpawnPrefab", &Game::SpawnPrefab,
 "GetSingletonPtr", &Game::getSingletonPtr,
 "SetActiveCamera", &Game::SetActiveCamera,
-"Dummy", []{}
+"__Dummy", []{}
 );
 // @formatter: on
 }

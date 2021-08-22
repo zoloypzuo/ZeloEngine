@@ -364,9 +364,9 @@ Note: This binding does not give functions that can obtain an ImFont* from insid
   -- ImGui.Spacing()
   ImGui.Spacing()
   
-  -- ImGui.Dummy(...)
+  -- ImGui.__Dummy(...)
   -- Parameters: float (size_x), float (size_y)
-  ImGui.Dummy(100, 200)
+  ImGui.__Dummy(100, 200)
   
   -- ImGui.Indent(...)
   -- Parameters: float (indent_w) [O]

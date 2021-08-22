@@ -42,14 +42,14 @@ luaState.new_usertype<Entity>("Entity",
 "AddSpotLight", &Entity::AddComponent<SpotLight>,
 "AddDirectionalLight", &Entity::AddComponent<DirectionalLight>,
 "AddMeshRenderer", &Entity::AddComponent<MeshRenderer>,
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<Transform>("Transform",
 "SetPosition", &Transform::SetPosition,
 "SetScale", &Transform::SetScale,
 "Rotate", &Transform::Rotate,
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<PerspectiveCamera>("Camera",
@@ -57,14 +57,14 @@ luaState.new_usertype<PerspectiveCamera>("Camera",
 "aspect", &PerspectiveCamera::m_aspect, 
 "zNear", &PerspectiveCamera::m_zNear, 
 "zFar", &PerspectiveCamera::m_zFar,
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<Attenuation>("Attenuation",
 "constant", &Attenuation::m_constant, 
 "linear", &Attenuation::m_linear, 
 "exponent", &Attenuation::m_exponent, 
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<glm::vec3>("vec3",
@@ -86,7 +86,7 @@ sol::meta_function::multiplication, sol::overload(
 luaState.new_usertype<BaseLight>("BaseLight",
 "color", &BaseLight::m_color,
 "intensity", &BaseLight::m_intensity, 
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<SpotLight>("SpotLight",
@@ -94,47 +94,47 @@ sol::base_classes, sol::bases<BaseLight>(),
 "attenuation", &SpotLight::m_attenuation,
 "range", &SpotLight::m_range,
 "cutoff", &SpotLight::m_cutoff, 
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<DirectionalLight>("DirectionalLight",
 sol::base_classes, sol::bases<BaseLight>(),
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<MeshRenderer>("MeshRenderer",
 //sol::base_classes, sol::bases<BaseLight>(),
 "mesh", sol::property(&MeshRenderer::GetMesh, &MeshRenderer::SetMesh),
 "material", sol::property(&MeshRenderer::GetMaterial, &MeshRenderer::SetMaterial),
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<Plane>("PlaneMeshGen",
 sol::constructors<Plane()>(),
 sol::base_classes, sol::bases<IMeshData>(),
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<GLMesh>("Mesh",
 sol::constructors<GLMesh(IMeshData &)>(),
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<GLTexture>("Texture",
 sol::constructors<GLTexture(std::string )>(),
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<GLMaterial>("Material",
 sol::constructors<GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap)>(),
 sol::base_classes, sol::bases<Material>(),
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<MeshLoader>("MeshLoader",
 sol::constructors<MeshLoader(const std::string &, int)>(),
 sol::base_classes, sol::bases<IMeshData>(),
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 // @formatter:on

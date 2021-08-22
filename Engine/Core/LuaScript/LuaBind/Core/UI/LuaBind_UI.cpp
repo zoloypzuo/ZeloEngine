@@ -26,7 +26,7 @@ luaState.new_usertype<UIManager>("UIManager",
 "ApplyStyle", &UIManager::ApplyStyle,
 "UseFont", &UIManager::UseFont,
 "enable_docking", sol::property(&UIManager::IsDockingEnabled, &UIManager::EnableDocking),
-"Dummy", []{}
+"__Dummy", []{}
 );
 
 // @formatter: on
