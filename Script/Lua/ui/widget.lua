@@ -30,4 +30,4 @@ function AWidget:Update()
     end
 end
 
-return AWidget
+return { AWidget=AWidget }
