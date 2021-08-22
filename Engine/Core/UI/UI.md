@@ -10,21 +10,32 @@
 * [ ] ImGui控件，薄封装，脚本封装
 * [ ] 向量类型转换 Converter
 * [ ] 
-* [ ] 
-* [ ] 
 
 
 ## 控件
 
-* [ ] Button
-* [ ] InputText
+* [x] Button
+* [x] InputText
 * [ ]
-* [ ]
+
+### 控件属性
+
+* idleBackgroundColor，背景色
+* disabled，禁用
+* content，输入框内容
+* lineBreak，换行
 
 ## 对话框 Dialog
 
 * [ ] OpenFileDialog
 * [ ] SaveFileDialog
+
+
+# 输入 Input
+
+* [ ] 键盘输入
+* [ ] 鼠标输入
+* [ ] 剪贴板
 
 ## 面板 Panel
 
@@ -50,6 +61,33 @@ https://github-wiki-see.page/m/ocornut/imgui/wiki/Bindings
 https://github.com/MSeys/sol2_ImGui_Bindings
 
 https://github.com/cimgui/cimgui
+
+===
+
+对比一下控件的使用，写C++的心智负担非常重
+
+UI框架因为没有经验需要试错，C++重构的成本非常大
+
+```cpp
+auto &openProjectButton = CreateWidget<Button>("Open Project");
+openProjectButton.ClickedEvent += [this] { /*...*/ };
+
+auto &pathField = CreateWidget<InputText>("");
+pathField.ContentChangedEvent += [this, &pathField](std::string content) {
+pathField.content = PathParser::MakeWindowsStyle(content);
+if (pathField.content != "" && pathField.content.back() !=)
+pathField.content +=;
+};
+```
+
+```lua
+local openProjectButton = self:CreateWidget(button.Button, "Open Project")
+openProjectButton:AddOnClickHandler(function()
+    print("button clicked")
+end)
+
+local pathField = self:CreateWidget(input_text.InputText, "?");
+```
 
 ## 封装
 
