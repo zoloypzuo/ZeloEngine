@@ -12,7 +12,7 @@ function Spacing:_UpdateImpl()
     for i = 1, self.spaces do
         ImGui.Spacing()
 
-        if i + 1 < self.spaces then
+        if i + 1 <= self.spaces then
             ImGui.SameLine()
         end
     end
