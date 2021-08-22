@@ -13,6 +13,10 @@
 #include "Core/Window/Window.h"
 #include "Core/OS/FileDialogs.h"
 
+#include <locale>
+#include <codecvt>
+#include <string>
+
 using namespace Zelo::Core::UI;
 
 template<> UIManager *Singleton<UIManager>::msSingleton = nullptr;
@@ -254,11 +258,15 @@ bool UIManager::IsDockingEnabled() const {
 std::string UIManager::OpenFileDialog() {
     void * window = Window::getSingletonPtr()->getHwnd();
     auto result = FileDialogs::OpenFile(L"All Files\0*.*\0\0", window);
-    return std::string(result.begin(), result.end());
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::string narrow = converter.to_bytes(result);
+    return narrow;
 }
 
 std::string UIManager::SaveFileDialog() {
     void * window = Window::getSingletonPtr()->getHwnd();
     auto result = FileDialogs::SaveFile(L"All Files\0*.*\0\0", window);
-    return std::string(result.begin(), result.end());
+    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+    std::string narrow = converter.to_bytes(result);
+    return narrow;
 }
