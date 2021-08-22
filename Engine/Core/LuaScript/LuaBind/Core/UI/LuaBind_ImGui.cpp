@@ -2181,6 +2181,14 @@ inline void Init(sol::state& lua)
             sol::resolve<void()>(PopStyleColor),
             sol::resolve<void(int)>(PopStyleColor)
     ));
+    ImGui.set_function("PushStyleVar", sol::overload(
+            sol::resolve<void(int, float)>(PushStyleVar),
+            sol::resolve<void(int, float, float)>(PushStyleVar)
+    ));
+    ImGui.set_function("PopStyleVar", sol::overload(
+            sol::resolve<void()>(PopStyleVar),
+            sol::resolve<void(int)>(PopStyleVar)
+    ));
     ImGui.set_function("GetStyleColorVec4"				, GetStyleColorVec4);
     ImGui.set_function("GetFont"						, GetFont);
     ImGui.set_function("GetFontSize"					, GetFontSize);
