@@ -1,7 +1,7 @@
 -- main_panel
 -- created on 2021/8/21
 -- author @zoloypzuo
-local MainPanel = Class(Panel, function(self)
+local MainPanel = Class(APanel, function(self)
 
 end)
 
