@@ -1,7 +1,7 @@
 -- main.lua
 -- created on 2021/5/5
 -- author @zoloypzuo
---require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
+require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
 -- LUA_PATH
 -- resource
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
