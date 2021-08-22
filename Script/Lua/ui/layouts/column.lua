@@ -2,6 +2,7 @@
 -- created on 2021/8/22
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
+
 local Column = Class(AWidget, function(self, parent, size)
     AWidget._ctor(self, parent)
 
@@ -19,12 +20,12 @@ function Column:_UpdateImpl()
 
     local idx = 1
     local counter = 1
-    while idx < #self.widgets do
+    while idx <= #self.widgets do
         widget = self.widgets[idx]
         widget:Update()
 
         idx = idx + 1
-        if idx < #self.widgets then
+        if idx <= #self.widgets then
             if self.widths[counter] ~= -1 then
                 ImGui.SetColumnWidth(counter - 1, self.widths[counter])
             end
@@ -38,6 +39,20 @@ function Column:_UpdateImpl()
     end
 
     ImGui.Columns(1)
+end
+
+function Column:CreateWidget(type_, ...)
+    inst = type_(self, ...)
+    self.widgets[#self.widgets + 1] = inst
+    return inst
+end
+
+function Column:RemoveWidget(widget)
+    RemoveByValue(self.widgets, widget)
+end
+
+function Column:Clear()
+    self.widgets = {}
 end
 
 return Column

@@ -1,12 +1,10 @@
 -- button
 -- created on 2021/8/22
 -- author @zoloypzuo
-local AWidget = require("ui.widget")
 local AButton = require("ui.widgets.abutton")
 
 local Button = Class(AButton, function(self, parent, label, size, disabled)
-    AButton._ctor(self)
-    self.parent = parent
+    AButton._ctor(self, parent)
     self.label = label or ""
     self.size = size or Vector2()
     self.disabled = disabled or false
@@ -20,34 +18,34 @@ end)
 function Button:_UpdateImpl()
     local push_counter = 0
     if self.idleBackgroundColor then
-        push_counter  = push_counter + 1
         ImGui.PushStyleColor(ImGuiCol.Button,
                 self.idleBackgroundColor.r,
                 self.idleBackgroundColor.g,
                 self.idleBackgroundColor.b,
                 self.idleBackgroundColor.a
         )
+        push_counter = push_counter + 1
     end
     if self.hoveredBackgroundColor then
-        push_counter  = push_counter + 1
         ImGui.PushStyleColor(ImGuiCol.ButtonHovered,
                 self.hoveredBackgroundColor.r,
                 self.hoveredBackgroundColor.g,
                 self.hoveredBackgroundColor.b,
                 self.hoveredBackgroundColor.a
         )
+        push_counter = push_counter + 1
     end
     if self.clickedBackgroundColor then
-        push_counter  = push_counter + 1
         ImGui.PushStyleColor(ImGuiCol.ButtonActive,
                 self.clickedBackgroundColor.r,
                 self.clickedBackgroundColor.g,
                 self.clickedBackgroundColor.b,
                 self.clickedBackgroundColor.a
         )
+        push_counter = push_counter + 1
     end
     if self.textColor then
-        push_counter  = push_counter + 1
+        push_counter = push_counter + 1
         ImGui.PushStyleColor(ImGuiCol.Text,
                 self.textColor.r,
                 self.textColor.g,

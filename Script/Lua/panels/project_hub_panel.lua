@@ -7,6 +7,8 @@ local InputText = require("ui.widgets.input_text")
 local Spacing = require("ui.layouts.spacing")
 local Separator = require("ui.widgets.separator")
 local Columns = require("ui.layouts.column")
+local Text = require("ui.widgets.text")
+local Group = require("ui.layouts.group")
 
 local ProjectHubPanel = Class(APanel, function(self)
     APanel._ctor(self)
@@ -26,9 +28,6 @@ local ProjectHubPanel = Class(APanel, function(self)
     for i = 1, 4 do
         self:CreateWidget(Spacing)
     end
-
-    local columns = self:CreateWidget(Columns, 2)
-    columns.widths = { 750, 500 }
 
     self:ProjectList()
 
@@ -59,17 +58,10 @@ function ProjectHubPanel:Header()
     newProjectButton.lineBreak = false;
     pathField.lineBreak = false;
 
-
-    -- TODO
-    -- pathField.ContentChangedEvent += [this, &pathField](std::string p_content)
-    --{
-    --	pathField.content = OvTools::Utils::PathParser::MakeWindowsStyle(p_content);
-    --
-    --	if (pathField.content != "" && pathField.content.back() != '\\')
-    --		pathField.content += '\\';
-    --
-    --	UpdateGoButton(pathField.content);
-    --};
+    pathField:AddOnContentChangedHandler(function(content)
+        print(content)
+        UpdateGoButton(pathField.content)
+    end)
 
     openProjectButton:AddOnClickHandler(function()
         local result = UI:OpenFileDialog()
@@ -90,7 +82,30 @@ function ProjectHubPanel:Header()
 end
 
 function ProjectHubPanel:ProjectList()
+    local columns = self:CreateWidget(Columns, 2)
+    columns.widths = { 750, 500 }
+    for i, line in ipairs({ "test1", "test2", "test3" }) do
+        print(line)
+        local text = columns:CreateWidget(Text, line)
+        local actions = columns:CreateWidget(Group)
+        local openButton = actions:CreateWidget(Button, "Open")
+        local deleteButton = actions:CreateWidget(Button, "Delete")
 
+        openButton.idleBackgroundColor = RGBA(0.7, 0.5, 0.)
+        deleteButton.idleBackgroundColor = RGBA(0.5, 0., 0.)
+
+        openButton:AddOnClickHandler(function()
+            print("OpenProject", line)
+        end)
+        deleteButton:AddOnClickHandler(function()
+            --text.Destroy();
+            --actions.Destroy();
+            columns:RemoveWidget(text)
+            columns:RemoveWidget(actions)
+        end)
+        openButton.lineBreak = false
+        deleteButton.lineBreak = false
+    end
 end
 
 function ProjectHubPanel:Update()
