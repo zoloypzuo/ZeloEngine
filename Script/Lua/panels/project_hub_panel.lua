@@ -2,8 +2,9 @@
 -- created on 2021/8/21
 -- author @zoloypzuo
 local APanel = require("ui.panel")
-local Button = require("ui.widgets.button").Button
+local Button = require("ui.widgets.button")
 local InputText = require("ui.widgets.input_text")
+local Spacing = require("ui.layouts.spacing")
 
 local ProjectHubPanel = Class(APanel, function(self)
     APanel._ctor(self)
@@ -14,9 +15,10 @@ local ProjectHubPanel = Class(APanel, function(self)
 
     self:Header()
 
-    --for (uint8_t i = 0; i < 4; ++i)
-    --	CreateWidget<OvUI::Widgets::Layout::Spacing>();
-    --
+    for i = 1, 4 do
+        self:CreateWidget(Spacing)
+    end
+
     --CreateWidget<OvUI::Widgets::Visual::Separator>();
     --
     --for (uint8_t i = 0; i < 4; ++i)

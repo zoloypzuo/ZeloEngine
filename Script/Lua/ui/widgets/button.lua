@@ -2,19 +2,7 @@
 -- created on 2021/8/22
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
-
-local AButton = Class(AWidget, function(self, parent)
-    AWidget._ctor(self, parent)
-    self.on_click = EventProcessor()
-end)
-
-function AButton:AddOnClickHandler(fn)
-    return self.on_click:AddEventHandler("on_click", fn)
-end
-
-function AButton:_OnClick()
-    self.on_click:HandleEvent("on_click")
-end
+local AButton = require("ui.widgets.abutton")
 
 local Button = Class(AButton, function(self, parent, label, size, disabled)
     AButton._ctor(self)
@@ -63,4 +51,4 @@ function Button:_UpdateImpl()
     end
 end
 
-return { AButton = AButton; Button = Button; }
+return Button
