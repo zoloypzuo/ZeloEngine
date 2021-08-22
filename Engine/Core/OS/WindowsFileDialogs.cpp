@@ -4,6 +4,9 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Core/OS/FileDialogs.h"
 
+#include <Windows.h>
+#include <commdlg.h>
+
 std::wstring FileDialogs::OpenFile(const wchar_t *filter, void *windowHandle) {
     OPENFILENAME ofn;
     WCHAR szFile[260] = {0};

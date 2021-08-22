@@ -10,9 +10,9 @@
 class FileDialogs {
 public:
     // These return empty strings if cancelled
-    std::wstring OpenFile(const wchar_t *filter, void *windowHandle);
+    static std::wstring OpenFile(const wchar_t *filter, void *windowHandle);
 
-    std::wstring SaveFile(const wchar_t *filter, void *windowHandle);
+    static std::wstring SaveFile(const wchar_t *filter, void *windowHandle);
 };
 
 #endif //ZELOENGINE_FILEDIALOGS_H

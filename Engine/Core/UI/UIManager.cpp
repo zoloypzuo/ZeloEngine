@@ -11,6 +11,7 @@
 #include "Core/UI/ImGuiBackend/imgui_impl_opengl3.h"
 #include "Core/UI/ImGuiBackend/imgui_impl_sdl.h"
 #include "Core/Window/Window.h"
+#include "Core/OS/FileDialogs.h"
 
 using namespace Zelo::Core::UI;
 
@@ -248,4 +249,16 @@ void UIManager::EnableDocking(bool value) {
 
 bool UIManager::IsDockingEnabled() const {
     return m_enableDocking;
+}
+
+std::string UIManager::OpenFileDialog() {
+    void * window = Window::getSingletonPtr()->getHwnd();
+    auto result = FileDialogs::OpenFile(L"All Files\0*.*\0\0", window);
+    return std::string(result.begin(), result.end());
+}
+
+std::string UIManager::SaveFileDialog() {
+    void * window = Window::getSingletonPtr()->getHwnd();
+    auto result = FileDialogs::SaveFile(L"All Files\0*.*\0\0", window);
+    return std::string(result.begin(), result.end());
 }

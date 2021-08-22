@@ -62,6 +62,8 @@ public:
 
     void toggleFullscreen();
 
+    void *getHwnd() const;
+
 private:
     const INIReader::Section m_windowConfig;
 

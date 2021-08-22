@@ -1,6 +1,7 @@
 // Window.cpp
 // created on 2021/3/28
 // author @zoloypzuo
+#include <SDL_syswm.h>
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
 
@@ -213,4 +214,11 @@ void Window::toggleFullscreen() {
         setFullscreen(0);
     }
 
+}
+
+void *Window::getHwnd() const {
+    SDL_SysWMinfo wmInfo;
+    SDL_VERSION(&wmInfo.version);
+    SDL_GetWindowWMInfo(m_window, &wmInfo);
+    return wmInfo.info.win.window;
 }
