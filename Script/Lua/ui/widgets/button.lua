@@ -4,9 +4,10 @@
 require("framework.events")
 require("framework.vector2")
 local widget = require("ui.widget")
+local AWidget = widget.AWidget
 
-local AButton = Class(widget.AWidget, function(self)
-    widget.AWidget._ctor(self)
+local AButton = Class(AWidget, function(self, parent)
+    AWidget._ctor(self, parent)
     self.on_click = EventProcessor()
 end)
 
@@ -20,7 +21,7 @@ end
 
 local Button = Class(AButton, function(self, parent, label, size, disabled)
     AButton._ctor(self)
-	self.parent = parent
+    self.parent = parent
     self.label = label or ""
     self.size = size or Vector2()
     self.disabled = disabled or false
