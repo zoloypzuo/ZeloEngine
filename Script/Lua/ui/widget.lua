@@ -8,23 +8,22 @@ local function GenWidgetID()
 end
 
 local AWidget = Class(function(self, parent)
+    self.parent = parent
     self.id = "##" .. GenWidgetID()
     self.enabled = true
-    self.line_break = true;
-    self.auto_execute_plugins = true
-
-    self.parent = parent
+    self.lineBreak = true;
+    self.m_autoExecutePlugins = true
 end)
 
 function AWidget:Update()
     if self.enabled then
         self:_UpdateImpl()
 
-        if self.auto_execute_plugins then
+        if self.m_autoExecutePlugins then
             -- ExecutePlugins  TODO public Plugins::Pluginable
         end
 
-        if not self.line_break then
+        if not self.lineBreak then
             ImGui.SameLine()
         end
     end
