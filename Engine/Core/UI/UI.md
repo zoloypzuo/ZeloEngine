@@ -7,10 +7,10 @@
 * [x] UIManager
 * ~~[ ] imgui.ini~~ // 不是很重要，用默认的自动保存即可
 * ~~[ ] Canvas~~ // 类比场景图，我们不需要切Canvas，没必要套一层Canvas
-* [ ] ImGui控件，薄封装，脚本封装
-* [ ] 向量类型转 Converter
+* [x] ImGui控件，薄封装，脚本封装
+* [x] 向量类型转 Converter
     * [x] Vector类型
-    * [ ] Color类型，支持RGB等构造
+    * [x] Color类型，支持RGB等构造
 * [ ] -
 
 
@@ -31,7 +31,6 @@
 
 * [ ] OpenFileDialog
 * [ ] SaveFileDialog
-
 
 # 输入 Input
 
@@ -125,3 +124,7 @@ FontDefault，设置字体资源
 Push和Pop，封了一下，但是没做。。
 
 imgui的每个字号都需要单独加载，他估计内部直接加载了一个纹理
+
+# 类型转换
+
+Vector/Color的C API对应float4参数，sol接口层额外构造float4，节约心智负担
