@@ -8,8 +8,10 @@
 * ~~[ ] imgui.ini~~ // 不是很重要，用默认的自动保存即可
 * ~~[ ] Canvas~~ // 类比场景图，我们不需要切Canvas，没必要套一层Canvas
 * [ ] ImGui控件，薄封装，脚本封装
-* [ ] 向量类型转换 Converter
-* [ ] 
+* [ ] 向量类型转 Converter
+    * [x] Vector类型
+    * [ ] Color类型，支持RGB等构造
+* [ ] -
 
 
 ## 控件
