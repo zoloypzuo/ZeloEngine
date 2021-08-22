@@ -1,10 +1,7 @@
 -- button
 -- created on 2021/8/22
 -- author @zoloypzuo
-require("framework.events")
-require("framework.vector2")
-local widget = require("ui.widget")
-local AWidget = widget.AWidget
+local AWidget = require("ui.widget")
 
 local AButton = Class(AWidget, function(self, parent)
     AWidget._ctor(self, parent)

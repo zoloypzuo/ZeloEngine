@@ -1,12 +1,9 @@
 -- project_hub_panel
 -- created on 2021/8/21
 -- author @zoloypzuo
-local panel = require("ui.panel")
-local button = require("ui.widgets.button")
-local input_text = require("ui.widgets.input_text")
-local APanel = panel.APanel
-local Button = button.Button
-local InputText = input_text.InputText
+local APanel = require("ui.panel")
+local Button = require("ui.widgets.button").Button
+local InputText = require("ui.widgets.input_text")
 
 local ProjectHubPanel = Class(APanel, function(self)
     APanel._ctor(self)

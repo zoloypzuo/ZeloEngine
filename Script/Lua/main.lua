@@ -77,7 +77,10 @@ require("brain")
 --require("standardcomponents")
 --require("update")
 --require("mathutil")
+
 require("ui.ui_root")
+require("framework.events")
+require("framework.vector2")
 
 --debug key init
 global("CHEATS_ENABLED")
@@ -87,7 +90,7 @@ if CHEATS_ENABLED then
     require "debugkeys"
 end
 
-print("running main.lua\n")
+print("running main.lua")
 
 --math.randomseed(TheSim:GetRealTime())
 

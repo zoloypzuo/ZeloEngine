@@ -1,11 +1,11 @@
 -- input_text
 -- created on 2021/8/22
 -- author @zoloypzuo
-local widget = require("ui.widget")
+local AWidget = require("ui.widget")
 
 -- public DataWidget<std::string>
-local InputText = Class(widget.AWidget, function(self, parent, content, label)
-    widget.AWidget._ctor(self, parent)
+local InputText = Class(AWidget, function(self, parent, content, label)
+    AWidget._ctor(self, parent)
     self.content = content or "?"
     self.label = label or ""
     self.selectAllOnClick = false
@@ -32,4 +32,4 @@ function InputText:_UpdateImpl()
     local text, selected = ImGui.InputText(self.label, "?", 256)
 end
 
-return { InputText = InputText }
+return InputText

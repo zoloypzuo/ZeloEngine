@@ -1,11 +1,11 @@
 -- panel_menu_bar
 -- created on 2021/8/22
 -- author @zoloypzuo
-local panel = require("ui.panel")
+local APanel = require("ui.panel")
 
-local PanelMenuBar = Class(panel.APanel, function(self)
+local PanelMenuBar = Class(APanel, function(self)
     -- 封装MainMenuBar
-    panel.APanel._ctor(self)
+    APanel._ctor(self)
 end)
 
 function PanelMenuBar:_UpdateImpl()
@@ -14,3 +14,5 @@ function PanelMenuBar:_UpdateImpl()
         ImGui.EndMainMenuBar()
     end
 end
+
+return PanelMenuBar
