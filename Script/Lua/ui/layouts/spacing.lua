@@ -3,7 +3,8 @@
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
 
-local Spacing = Class(AWidget, function(self, spaces)
+local Spacing = Class(AWidget, function(self, parent, spaces)
+	AWidget._ctor(self, parent)
     self.spaces = spaces or 1
 end)
 
