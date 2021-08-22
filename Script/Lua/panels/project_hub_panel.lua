@@ -72,18 +72,9 @@ function ProjectHubPanel:Header()
     --};
 
     openProjectButton:AddOnClickHandler(function()
-        -- OvWindowing::Dialogs::OpenFileDialog dialog("Open project");
-        --dialog.AddFileType("Overload Project", "*.ovproject");
-        --dialog.Show();
-        --
-        --std::string ovProjectPath = dialog.GetSelectedFilePath();
-        --std::string rootFolderPath = OvTools::Utils::PathParser::GetContainingFolder(ovProjectPath);
-        --
-        --if (dialog.HasSucceeded())
-        --{
-        --	RegisterProject(rootFolderPath);
-        --	OpenProject(rootFolderPath);
-        --}
+        local result = UI:OpenFileDialog()
+        pathField.content = result
+        UpdateGoButton(pathField.content)
     end)
 
     newProjectButton:AddOnClickHandler(function()
@@ -95,9 +86,6 @@ function ProjectHubPanel:Header()
     m_goButton:AddOnClickHandler(function()
         print("GO", pathField.content)
         -- TODO close panel and return boot args
-        --	CreateProject(pathField.content);
-        --	RegisterProject(pathField.content);
-        --	OpenProject(pathField.content);
     end)
 end
 
