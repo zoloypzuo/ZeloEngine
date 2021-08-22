@@ -30,7 +30,6 @@ function InputText:_UpdateImpl()
     --if (enterPressed)
     --    EnterPressedEvent.Invoke(content);
     local text, selected = ImGui.InputText(self.label, "?", 256)
-    print(text, tostring(selected))
 end
 
 return { InputText = InputText }
