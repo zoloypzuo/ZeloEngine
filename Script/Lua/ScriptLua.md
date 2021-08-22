@@ -8,3 +8,8 @@ Lua脚本
 * framework，脚本框架
 * scriptlibs，第三方库
 *
+
+## 常见问题
+
+* [?:运算符的Lua方案](http://lua-users.org/wiki/TernaryOperator)
+    * 没有好方法，本身语法不支持，所以不要复杂化，用普通if-else即可
