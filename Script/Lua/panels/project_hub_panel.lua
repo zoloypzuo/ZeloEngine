@@ -40,13 +40,6 @@ function ProjectHubPanel:Header()
     local pathField = self:CreateWidget(InputText, "?");
     local m_goButton = self:CreateWidget(Button, "GO")
 
-    -- void UpdateGoButton(const std::string& p_path)
-    --{
-    --bool validPath = p_path != "";
-    --m_goButton->idleBackgroundColor = validPath ? OvUI::Types::Color{ 0.f, 0.5f, 0.0f } : OvUI::Types::Color{ 0.1f, 0.1f, 0.1f };
-    --m_goButton->disabled = !validPath;
-    --}
-
     local function UpdateGoButton(p_path)
         validPath = p_path ~= ""
         if validPath then
@@ -106,15 +99,12 @@ function ProjectHubPanel:Header()
         --}
     end)
 
-    --m_goButton->ClickedEvent += [this, &pathField]
-    --{
-    --	CreateProject(pathField.content);
-    --	RegisterProject(pathField.content);
-    --	OpenProject(pathField.content);
-    --};
-
     m_goButton:AddOnClickHandler(function()
-        -- TODO
+        print("GO", pathField.content)
+        -- TODO close panel and return boot args
+        --	CreateProject(pathField.content);
+        --	RegisterProject(pathField.content);
+        --	OpenProject(pathField.content);
     end)
 end
 
