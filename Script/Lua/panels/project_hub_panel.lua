@@ -50,17 +50,17 @@ function ProjectHubPanel:Header()
     local function UpdateGoButton(p_path)
         validPath = p_path ~= ""
         if validPath then
-            m_goButton.idleBackgroundColor = Vector3(0, 0.5, 0)
+            m_goButton.idleBackgroundColor = RGBA(0, 0.5, 0)
         else
-            m_goButton.idleBackgroundColor = Vector3(0.1, 0.1, 0.1)
+            m_goButton.idleBackgroundColor = RGBA(0.1, 0.1, 0.1)
         end
         m_goButton.disabled = not validPath
     end
 
     UpdateGoButton("") -- init go button
 
-    openProjectButton.idleBackgroundColor = Vector3 { 0.7, 0.5, 0. };
-    newProjectButton.idleBackgroundColor = Vector3 { 0., 0.5, 0.0 };
+    openProjectButton.idleBackgroundColor = RGBA(0.7, 0.5, 0.);
+    newProjectButton.idleBackgroundColor = RGBA(0., 0.5, 0.0);
 
     openProjectButton.lineBreak = false;
     newProjectButton.lineBreak = false;

@@ -14,40 +14,52 @@ local Button = Class(AButton, function(self, parent, label, size, disabled)
     self.idleBackgroundColor = nil;
     self.hoveredBackgroundColor = nil;
     self.clickedBackgroundColor = nil;
-
     self.textColor = nil;
-
-    -- TODO
-    -- auto &style = ImGui::GetStyle();
-    --    idleBackgroundColor = Internal::Converter::ToColor(style.Colors[ImGuiCol_Button]);
-    --    hoveredBackgroundColor = Internal::Converter::ToColor(style.Colors[ImGuiCol_ButtonHovered]);
-    --    clickedBackgroundColor = Internal::Converter::ToColor(style.Colors[ImGuiCol_ButtonActive]);
-    --    textColor = Internal::Converter::ToColor(style.Colors[ImGuiCol_Text]);
 end)
 
 function Button:_UpdateImpl()
-    --     auto &style = ImGui::GetStyle();
-    --
-    --    auto defaultIdleColor = style.Colors[ImGuiCol_Button];
-    --    auto defaultHoveredColor = style.Colors[ImGuiCol_ButtonHovered];
-    --    auto defaultClickedColor = style.Colors[ImGuiCol_ButtonActive];
-    --    auto defaultTextColor = style.Colors[ImGuiCol_Text];
-    --
-    --    style.Colors[ImGuiCol_Button] = OvUI::Internal::Converter::ToImVec4(idleBackgroundColor);
-    --    style.Colors[ImGuiCol_ButtonHovered] = OvUI::Internal::Converter::ToImVec4(hoveredBackgroundColor);
-    --    style.Colors[ImGuiCol_ButtonActive] = OvUI::Internal::Converter::ToImVec4(clickedBackgroundColor);
-    --    style.Colors[ImGuiCol_Text] = OvUI::Internal::Converter::ToImVec4(textColor);
-    --
-    --    if (ImGui::ButtonEx((label + m_widgetID).c_str(), Internal::Converter::ToImVec2(size),
-    --                        disabled ? ImGuiButtonFlags_Disabled : 0))
-    --        ClickedEvent.Invoke();
-    --
-    --    style.Colors[ImGuiCol_Button] = defaultIdleColor;
-    --    style.Colors[ImGuiCol_ButtonHovered] = defaultHoveredColor;
-    --    style.Colors[ImGuiCol_ButtonActive] = defaultClickedColor;
-    --    style.Colors[ImGuiCol_Text] = defaultTextColor;
+    local push_counter = 0
+    if self.idleBackgroundColor then
+        push_counter  = push_counter + 1
+        ImGui.PushStyleColor(ImGuiCol.Button,
+                self.idleBackgroundColor.r,
+                self.idleBackgroundColor.g,
+                self.idleBackgroundColor.b,
+                self.idleBackgroundColor.a
+        )
+    end
+    if self.hoveredBackgroundColor then
+        push_counter  = push_counter + 1
+        ImGui.PushStyleColor(ImGuiCol.ButtonHovered,
+                self.hoveredBackgroundColor.r,
+                self.hoveredBackgroundColor.g,
+                self.hoveredBackgroundColor.b,
+                self.hoveredBackgroundColor.a
+        )
+    end
+    if self.clickedBackgroundColor then
+        push_counter  = push_counter + 1
+        ImGui.PushStyleColor(ImGuiCol.ButtonActive,
+                self.clickedBackgroundColor.r,
+                self.clickedBackgroundColor.g,
+                self.clickedBackgroundColor.b,
+                self.clickedBackgroundColor.a
+        )
+    end
+    if self.textColor then
+        push_counter  = push_counter + 1
+        ImGui.PushStyleColor(ImGuiCol.Text,
+                self.textColor.r,
+                self.textColor.g,
+                self.textColor.b,
+                self.textColor.a
+        )
+    end
     if ImGui.Button(self.label, self.size.x, self.size.y) then
         self:_OnClick()
+    end
+    if push_counter then
+        ImGui.PopStyleColor(push_counter)
     end
 end
 

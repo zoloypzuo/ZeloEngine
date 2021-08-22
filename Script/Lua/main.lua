@@ -81,6 +81,7 @@ require("brain")
 require("ui.ui_root")
 require("framework.events")
 require("framework.vector2")
+require("framework.color")
 
 --debug key init
 global("CHEATS_ENABLED")
