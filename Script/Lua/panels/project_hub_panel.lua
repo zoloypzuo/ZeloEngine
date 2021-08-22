@@ -87,16 +87,9 @@ function ProjectHubPanel:Header()
     end)
 
     newProjectButton:AddOnClickHandler(function()
-        --OvWindowing::Dialogs::SaveFileDialog dialog("New project location");
-        --dialog.DefineExtension("Overload Project", "..");
-        --dialog.Show();
-        --if (dialog.HasSucceeded())
-        --{
-        --	std::string result = dialog.GetSelectedFilePath();
-        --	pathField.content = std::string(result.data(), result.data() + result.size() - std::string("..").size()); // remove auto extension
-        --	pathField.content += "\\";
-        --	UpdateGoButton(pathField.content);
-        --}
+        local result = UI:OpenFileDialog()
+        pathField.content = result
+        UpdateGoButton(pathField.content)
     end)
 
     m_goButton:AddOnClickHandler(function()
