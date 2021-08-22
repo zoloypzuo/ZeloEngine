@@ -159,7 +159,7 @@ inline void SameLine(float offsetFromStartX)														{ ImGui::SameLine(offs
 inline void SameLine(float offsetFromStartX, float spacing)											{ ImGui::SameLine(offsetFromStartX, spacing); }
 inline void NewLine()																				{ ImGui::NewLine(); }
 inline void Spacing()																				{ ImGui::Spacing(); }
-inline void __Dummy(float sizeX, float sizeY)															{ ImGui::__Dummy({ sizeX, sizeY }); }
+inline void Dummy(float sizeX, float sizeY)															{ ImGui::Dummy({ sizeX, sizeY }); }
 inline void Indent()																				{ ImGui::Indent(); }
 inline void Indent(float indentW)																	{ ImGui::Indent(indentW); }
 inline void Unindent()																				{ ImGui::Unindent(); }
@@ -2218,7 +2218,7 @@ inline void Init(sol::state& lua)
     ));
     ImGui.set_function("NewLine"						, NewLine);
     ImGui.set_function("Spacing"						, Spacing);
-    ImGui.set_function("__Dummy"							, __Dummy);
+    ImGui.set_function("Dummy"							, Dummy);
     ImGui.set_function("Indent"							, sol::overload(
             sol::resolve<void()>(Indent),
             sol::resolve<void(float)>(Indent)
