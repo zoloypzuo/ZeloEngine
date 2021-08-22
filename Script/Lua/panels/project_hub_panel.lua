@@ -5,6 +5,7 @@ local APanel = require("ui.panel")
 local Button = require("ui.widgets.button")
 local InputText = require("ui.widgets.input_text")
 local Spacing = require("ui.layouts.spacing")
+local Separator = require("ui.widgets.separator")
 
 local ProjectHubPanel = Class(APanel, function(self)
     APanel._ctor(self)
@@ -18,6 +19,8 @@ local ProjectHubPanel = Class(APanel, function(self)
     for i = 1, 4 do
         self:CreateWidget(Spacing)
     end
+
+    self:CreateWidget(Separator)
 
     --CreateWidget<OvUI::Widgets::Visual::Separator>();
     --
