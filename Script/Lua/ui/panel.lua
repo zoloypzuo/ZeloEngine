@@ -2,6 +2,7 @@
 -- created on 2021/8/21
 -- author @zoloypzuo
 require("common.table_util")
+local WidgetContainerMixin = require("ui.widget_container_mixin")
 
 local __PANEL_ID_INCREMENT = 0
 local function GenPanelID()
@@ -19,8 +20,7 @@ local APanel = Class(function(self)
     -- CreateWidget 创建控件
     self.id = "##" .. GenPanelID()
     self.enabled = true
-    self.widgets = {}
-end)
+end):include(WidgetContainerMixin)
 
 function APanel:Update()
     if self.enabled then
@@ -29,23 +29,7 @@ function APanel:Update()
 end
 
 function APanel:_UpdateImpl()
-    for _, widget in ipairs(self.widgets) do
-        widget:Update()
-    end
-end
-
-function APanel:CreateWidget(type_, ...)
-    inst = type_(self, ...)
-    self.widgets[#self.widgets + 1] = inst
-    return inst
-end
-
-function APanel:RemoveWidget(widget)
-    RemoveByValue(self.widgets, widget)
-end
-
-function APanel:Clear()
-    self.widgets = {}
+    self:UpdateWidgets()
 end
 
 return APanel
