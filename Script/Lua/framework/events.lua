@@ -49,3 +49,16 @@ function EventProcessor:HandleEvent(event, ...)
 end
 
 ---------------------------------------------
+
+EventWrapper = Class(function(processor, name)
+    self.processor = processor
+    self.name = name
+end)
+
+function EventWrapper:AddEventHandler(fn)
+    return self.processor:AddEventHandler(self.name, fn)
+end
+
+function EventWrapper:HandleEvent(...)
+    self.processor:HandleEvent(self.name, ...)
+end
