@@ -46,22 +46,7 @@ endif ()
 add_compile_definitions(DEBUG_SHADOWMAP)  # 调试shadow-map，在右上角显示shadow-map
 #add_compile_definitions(SWIGRUNTIME_DEBUG)  # Swig运行时DebugLog，量很大，你忍一下
 
-# build third party
-add_subdirectory(ThirdParty)
-
-# import third party
-
-# lua
-include_directories(ThirdParty/Lua/include)
-link_libraries(Lua)
-
-# imgui
-#find_package(imgui CONFIG REQUIRED)
-#link_libraries(imgui::imgui)
-include_directories(ThirdParty/ImGui)
-link_libraries(ImGui)
-
-# vcpkg import third party
+# vcpkg root
 if (WIN32)
     set(VCPKG_TARGET_TRIPLET x86-windows)
     set(VcpkgDir "D:/vcpkg" CACHE STRING "vcpkg install directory")
@@ -72,6 +57,29 @@ elseif (UNIX)
     message(STATUS CMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE})
 endif ()
 
+# sdl build before imgui
+if (WIN32)
+    find_package(SDL2 CONFIG REQUIRED)
+    link_libraries(SDL2::SDL2 SDL2::SDL2main)
+elseif (UNIX)
+    find_package(SDL2 CONFIG REQUIRED)
+    link_libraries(SDL2::SDL2main SDL2::SDL2-static)
+endif ()
+
+# build third party from source
+add_subdirectory(ThirdParty)
+
+# lua
+include_directories(ThirdParty/Lua/include)
+link_libraries(Lua)
+
+# imgui, build from source
+#find_package(imgui CONFIG REQUIRED)
+#link_libraries(imgui::imgui)
+include_directories(ThirdParty/ImGui)
+link_libraries(ImGui)
+
+# vcpkg import third party
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
 
@@ -81,14 +89,6 @@ if (WIN32)
 elseif (UNIX)
     find_package(glm CONFIG REQUIRED)
     link_libraries(glm::glm)
-endif ()
-
-if (WIN32)
-    find_package(SDL2 CONFIG REQUIRED)
-    link_libraries(SDL2::SDL2 SDL2::SDL2main)
-elseif (UNIX)
-    find_package(SDL2 CONFIG REQUIRED)
-    link_libraries(SDL2::SDL2main SDL2::SDL2-static)
 endif ()
 
 if (APPLE)

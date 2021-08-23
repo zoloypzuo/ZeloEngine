@@ -2,14 +2,6 @@
 # author @zoloypzuo
 set(PROJECT_NAME ImGui)
 
-if (WIN32)
-    find_package(SDL2 CONFIG REQUIRED)
-    link_libraries(SDL2::SDL2 SDL2::SDL2main)
-elseif (UNIX)
-    find_package(SDL2 CONFIG REQUIRED)
-    link_libraries(SDL2::SDL2main SDL2::SDL2-static)
-endif ()
-
 add_library(ImGui
         imconfig.h
         imgui.cpp
