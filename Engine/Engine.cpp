@@ -44,8 +44,6 @@ void Engine::initialize() {
     m_window->initialize();
     m_renderSystem = std::make_unique<GLRenderSystem>();
     m_renderSystem->initialize();
-//    m_imguiManager = std::make_unique<ImGuiManager>();
-//    m_imguiManager->initialize();
     m_uiManager = std::make_unique<UIManager>();
     m_uiManager->initialize();
     m_game = std::make_unique<Game>();
@@ -76,12 +74,10 @@ void Engine::finalize() {
 void Engine::update() {
     m_timeSystem->update();
     m_window->update();  // input poll events
-//    m_imguiManager->update();
     m_uiManager->update();
     m_game->update();
     m_luaScriptManager->update();
     m_renderSystem->update();
-//    m_imguiManager->render();
     m_uiManager->draw();
     m_window->swapBuffer();  // swap buffer
 }
