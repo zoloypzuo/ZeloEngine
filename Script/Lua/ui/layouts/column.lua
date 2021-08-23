@@ -2,6 +2,7 @@
 -- created on 2021/8/22
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
+local WidgetContainerMixin = require("ui.widget_container_mixin")
 
 local Column = Class(AWidget, function(self, parent, size)
     AWidget._ctor(self, parent)
@@ -12,8 +13,7 @@ local Column = Class(AWidget, function(self, parent, size)
         self.widths[i] = -1
     end
 
-    self.widgets = {}
-end)
+end):include(WidgetContainerMixin)
 
 function Column:_UpdateImpl()
     ImGui.Columns(self.size, self.id, false)
@@ -39,20 +39,6 @@ function Column:_UpdateImpl()
     end
 
     ImGui.Columns(1)
-end
-
-function Column:CreateWidget(type_, ...)
-    inst = type_(self, ...)
-    self.widgets[#self.widgets + 1] = inst
-    return inst
-end
-
-function Column:RemoveWidget(widget)
-    RemoveByValue(self.widgets, widget)
-end
-
-function Column:Clear()
-    self.widgets = {}
 end
 
 return Column

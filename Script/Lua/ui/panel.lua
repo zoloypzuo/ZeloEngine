@@ -11,13 +11,6 @@ local function GenPanelID()
 end
 
 local APanel = Class(function(self)
-    -- Panel基类
-    -- 成员变量：
-    -- id       GUID
-    -- enabled  使能
-    -- widgets  控件表
-    -- 成员函数：
-    -- CreateWidget 创建控件
     self.id = "##" .. GenPanelID()
     self.enabled = true
 end):include(WidgetContainerMixin)
