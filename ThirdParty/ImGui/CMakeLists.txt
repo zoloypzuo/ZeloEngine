@@ -2,6 +2,14 @@
 # author @zoloypzuo
 set(PROJECT_NAME ImGui)
 
+if (WIN32)
+    find_package(SDL2 CONFIG REQUIRED)
+    link_libraries(SDL2::SDL2 SDL2::SDL2main)
+elseif (UNIX)
+    find_package(SDL2 CONFIG REQUIRED)
+    link_libraries(SDL2::SDL2main SDL2::SDL2-static)
+endif ()
+
 add_library(ImGui
         imconfig.h
         imgui.cpp
@@ -14,6 +22,9 @@ add_library(ImGui
         imstb_rectpack.h
         imstb_textedit.h
         imstb_truetype.h
+
+        backends/imgui_impl_opengl3.cpp backends/imgui_impl_opengl3.h
+        backends/imgui_impl_sdl.cpp backends/imgui_impl_sdl.h
         )
 
 target_include_directories(ImGui PUBLIC ./)

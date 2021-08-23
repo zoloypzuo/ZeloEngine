@@ -4,12 +4,11 @@
 #include "ZeloPreCompiledHeader.h"
 #include "UIManager.h"
 #include "ZeloGLPrerequisites.h"
+
 #include <imgui.h>
-
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
-
-#include "Core/UI/ImGuiBackend/imgui_impl_opengl3.h"
-#include "Core/UI/ImGuiBackend/imgui_impl_sdl.h"
+#include <backends/imgui_impl_opengl3.h>
+#include <backends/imgui_impl_sdl.h>
 #include "Core/Window/Window.h"
 #include "Core/OS/FileDialogs.h"
 

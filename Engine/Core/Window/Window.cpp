@@ -3,8 +3,8 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
-#include "Core/UI/ImGuiBackend/imgui_impl_sdl.h"
 
+#include <backends/imgui_impl_sdl.h>  // ImGui_ImplSDL2_ProcessEvent
 #include <SDL_syswm.h>
 
 Window::Window(const INIReader::Section &windowConfig) : m_windowConfig(windowConfig) {
@@ -99,7 +99,6 @@ void Window::update() {
     bool mouseWheelEvent = false;
 
     while (SDL_PollEvent(&event)) {
-        // TODO Forward to Imgui
         ImGui_ImplSDL2_ProcessEvent(&event);
         switch (event.type) {
             case SDL_MOUSEMOTION:
