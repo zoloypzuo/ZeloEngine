@@ -11,7 +11,8 @@ cd /d %EngineDir%
 @echo on
 rd /s/q ThirdParty\TEMP
 git clone https://gitee.com/zolozy/imgui.git --branch docking ThirdParty\TEMP\ImGui
-move /Y ThirdParty\TEMP\ImGui ThirdParty\
+xcopy /y/e ThirdParty\TEMP\ImGui ThirdParty\ImGui
 rd /s/q ThirdParty\TEMP\ImGui\.git
 
 cd %CurrentDir%
+pause
