@@ -123,7 +123,7 @@ function Class(base, _ctor)
         end
 
         if type(mixin.included) == "function" then
-            mixin:included(aClass)
+            mixin.included(aClass)
         end
         return aClass
     end
@@ -185,6 +185,6 @@ end
 
 function Mixin(included)
     local c = {}
-    c.include = included
+    c.included = included
     return c
 end
