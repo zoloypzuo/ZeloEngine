@@ -31,6 +31,7 @@
 
 * [x] OpenFileDialog
 * [x] SaveFileDialog
+* [ ] MessageBox
 
 # 输入 Input
 
@@ -104,6 +105,10 @@ local pathField = self:CreateWidget(input_text.InputText, "?");
 窗口类用SDL代劳
 
 对话框和输入是依赖于Win API的，不过划分在UI部分
+
+## 对话框 Dialog
+
+这种东西（还有MessageBox），不要造轮子，翻Win API，拿wxWidget现成的，稳定跨平台
 
 ## imgui.ini
 
