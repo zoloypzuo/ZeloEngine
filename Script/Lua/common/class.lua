@@ -112,6 +112,30 @@ function Class(base, _ctor)
         end
         return false
     end
+
+    local function _includeMixin(aClass, mixin)
+        assert(type(mixin) == 'table', "mixin must be a table")
+
+        for name, method in pairs(mixin) do
+            if name ~= "included" then
+                aClass[name] = method
+            end
+        end
+
+        if type(mixin.included) == "function" then
+            mixin:included(aClass)
+        end
+        return aClass
+    end
+
+    c.include = function(self, ...)
+        assert(type(self) == 'table', "Make sure you that you are using 'Class:include' instead of 'Class.include'")
+        for _, mixin in ipairs({ ... }) do
+            _includeMixin(self, mixin)
+        end
+        return self
+    end
+
     setmetatable(c, mt)
     return c
 end
@@ -157,4 +181,10 @@ function HandleClassInstanceTracking()
             end
         end
     end
+end
+
+function Mixin(included)
+    local c = {}
+    c.include = included
+    return c
 end
