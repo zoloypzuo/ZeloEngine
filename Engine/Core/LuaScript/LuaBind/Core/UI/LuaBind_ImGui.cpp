@@ -2477,7 +2477,7 @@ inline void SetClipboardText(const std::string &text) { ImGui::SetClipboardText(
 
 inline void InitEnums(sol::state &lua) {
 #pragma region Window Flags
-    lua.new_enum("ImGuiWindowFlags",
+    lua["ImGuiWindowFlags"] = lua.create_table_with(
                  "None", ImGuiWindowFlags_None,
                  "NoTitleBar", ImGuiWindowFlags_NoTitleBar,
                  "NoResize", ImGuiWindowFlags_NoResize,
