@@ -46,6 +46,7 @@ print = function(...)
     local str = ""
     if info.source and string.sub(info.source, 1, 1) == "@" then
         source = source:sub(2)
+		source = string.gsub(source, "\\", "/")
         source = source:gsub("^" .. escape_lua_pattern(dir), "")
         str = string.format("%s(%d,1) %s", tostring(source), info.currentline, packstring(...))
     else
