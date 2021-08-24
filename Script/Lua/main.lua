@@ -1,7 +1,11 @@
 -- main.lua
 -- created on 2021/5/5
 -- author @zoloypzuo
-require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
+local ENABLE_DEBUGGER = false
+if ENABLE_DEBUGGER then
+    print("LuaDebuggee StartDebug @'127.0.0.1', 9826")
+    require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
+end
 -- LUA_PATH
 -- resource
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
