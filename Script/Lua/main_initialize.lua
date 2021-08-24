@@ -44,6 +44,21 @@ end)
 UI.enable_docking = false;
 UI:ApplyStyle(EStyle.DUNE_DARK)
 UI:UseFont(LoadResource("Ruda-Bold.ttf"))
+
+-- hook debug
+ENABLE_HOOK_DEBUG_IMGUI = false
+if ENABLE_HOOK_DEBUG_IMGUI then
+    local _ImGui = {}
+    for name, fn in pairs(ImGui) do
+    	_ImGui[name] = function (...)
+    		print("ImGui.", name, ...)
+    		return fn(...)
+    	end
+    end
+
+    ImGui = _ImGui
+end
+
 TheFrontEnd:LoadPanel("project_hub_panel")
 
 --require("scenes.scene01")

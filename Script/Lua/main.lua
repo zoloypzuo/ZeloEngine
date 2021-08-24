@@ -1,7 +1,7 @@
 -- main.lua
 -- created on 2021/5/5
 -- author @zoloypzuo
-local ENABLE_DEBUGGER = false
+local ENABLE_DEBUGGER = true
 if ENABLE_DEBUGGER then
     print("LuaDebuggee StartDebug @'127.0.0.1', 9826")
     require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
@@ -34,6 +34,9 @@ end
 
 global = function(name)
 end
+
+global("CWD")
+CWD = SCRIPT_DIR .. "/Lua"
 
 -- global require
 --require("strict")
