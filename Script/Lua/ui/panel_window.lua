@@ -103,7 +103,8 @@ function PanelWindow:_UpdateImpl()
     ImGui.SetNextWindowSizeConstraints(minSizeConstraint, maxSizeConstraint)
 
     --if (ImGui::Begin((name + m_panelID).c_str(), closable ? &m_opened : nullptr, windowFlags)) {
-    if ImGui.Begin(self.name, self.opened, windowFlags) then
+    local shouldDraw = ImGui.Begin(self.name, self.opened, windowFlags)
+    if  shouldDraw then
         self.hovered = ImGui.IsWindowHovered()
         self.focused = ImGui.IsWindowFocused()
 
@@ -111,12 +112,17 @@ function PanelWindow:_UpdateImpl()
         self.m_scrolledToBottom = ImGui.GetScrollMaxY()
         self.m_scrolledToTop = 0
 
-        if not
+        if not shouldDraw then
+            self.CloseEvent:HandleEvent()
+        end
+
+        self:Update()
+
+        self:DrawWidgets()
+
+        ImGui.End()
     end
 
-    --    m_hovered = ImGui::IsWindowHovered();
-    --    m_focused = ImGui::IsWindowFocused();
-    --
     --    auto scrollY = ImGui::GetScrollY();
     --
     --    m_scrolledToBottom = scrollY == ImGui::GetScrollMaxY();
