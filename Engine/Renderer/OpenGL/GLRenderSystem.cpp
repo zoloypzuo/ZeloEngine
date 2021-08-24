@@ -32,8 +32,10 @@ void GLRenderSystem::initialize() {
 void GLRenderSystem::update() {
     clear(true, true, false);
 
-    auto scene = Game::getSingletonPtr()->getRootNode();
-    m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
+    if (m_activeCamera){
+        auto scene = Game::getSingletonPtr()->getRootNode();
+        m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
+    }
 }
 
 GLRenderSystem::GLRenderSystem() = default;

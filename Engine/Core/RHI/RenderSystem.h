@@ -68,10 +68,10 @@ private:
     FrameInfo m_frameInfo;
 
 protected:
-    Camera *m_activeCamera;
-    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights;
-    std::vector<std::shared_ptr<PointLight>> m_pointLights;
-    std::vector<std::shared_ptr<SpotLight>> m_spotLights;
+    Camera *m_activeCamera{};
+    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights{};
+    std::vector<std::shared_ptr<PointLight>> m_pointLights{};
+    std::vector<std::shared_ptr<SpotLight>> m_spotLights{};
 };
 }
 
