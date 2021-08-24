@@ -23,7 +23,7 @@ function APanel:Update()
 end
 
 function APanel:_UpdateImpl()
-    self:UpdateWidgets()
+    error("implemented by derived class")
 end
 
 return APanel

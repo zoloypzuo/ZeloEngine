@@ -22,8 +22,8 @@ local PanelTransformable = Class(APanel, function(
 
     self.m_ignoreConfigFile = ignoreConfigFile or false
 
-    self.m_position = Vector2(0, 0)
-    self.m_size = Vector2(0, 0)
+    self.m_position = Vector2(0, 0) -- TODO public
+    self.m_size = Vector2(0, 0) -- TODO public
     self.m_positionChanged = false
     self.m_sizeChanged = false
 
