@@ -88,19 +88,32 @@ function PanelWindow:_UpdateImpl()
     end
     local windowFlags = GenFlagFromPaneSetting(self)
 
-    --
-    --ImVec2 minSizeConstraint = Internal::Converter::ToImVec2(minSize);
-    --ImVec2 maxSizeConstraint = Internal::Converter::ToImVec2(maxSize);
-    --
-    --if (minSizeConstraint.x <= 0.f || minSizeConstraint.y <= 0.f)
-    --    minSizeConstraint = {0.0f, 0.0f};
-    --
-    --if (maxSizeConstraint.x <= 0.f || maxSizeConstraint.y <= 0.f)
-    --    maxSizeConstraint = {10000.f, 10000.f};
-    --
-    --ImGui::SetNextWindowSizeConstraints(minSizeConstraint, maxSizeConstraint);
-    --
+    local minSizeConstraint = Vector2(self.minSize.x, self.minSize.y)
+    local maxSizeConstraint = Vector2(self.maxSize.x, self.maxSize.y)
+
+    -- clamp
+    if minSizeConstraint.x <= 0 or minSizeConstraint.y <= 0 then
+        minSizeConstraint = Vector2()
+    end
+
+    if maxSizeConstraint.x <= 0 or maxSizeConstraint <= 0 then
+        maxSizeConstraint = Vector2(10000, 10000)
+    end
+
+    ImGui.SetNextWindowSizeConstraints(minSizeConstraint, maxSizeConstraint)
+
     --if (ImGui::Begin((name + m_panelID).c_str(), closable ? &m_opened : nullptr, windowFlags)) {
+    if ImGui.Begin(self.name, self.opened, windowFlags) then
+        self.hovered = ImGui.IsWindowHovered()
+        self.focused = ImGui.IsWindowFocused()
+
+        local scrollY = ImGui.GetScrollY()
+        self.m_scrolledToBottom = ImGui.GetScrollMaxY()
+        self.m_scrolledToTop = 0
+
+        if not
+    end
+
     --    m_hovered = ImGui::IsWindowHovered();
     --    m_focused = ImGui::IsWindowFocused();
     --
