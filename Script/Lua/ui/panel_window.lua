@@ -118,35 +118,20 @@ function PanelWindow:_UpdateImpl()
 
         self:Update()
 
+        if self.m_mustScrollToBottom  then
+            ImGui.SetScrollY(ImGui.GetScrollMaxY())
+            self.m_mustScrollToBottom = false
+        end
+
+        if self.m_scrolledToTop then
+            ImGui.SetScrollY(0)
+            self.m_mustScrollToTop = false
+        end
+
         self:DrawWidgets()
 
         ImGui.End()
     end
-
-    --    auto scrollY = ImGui::GetScrollY();
-    --
-    --    m_scrolledToBottom = scrollY == ImGui::GetScrollMaxY();
-    --    m_scrolledToTop = scrollY == 0.0f;
-    --
-    --    if (!m_opened)
-    --        CloseEvent.Invoke();
-    --
-    --    Update();
-    --
-    --    if (m_mustScrollToBottom) {
-    --        ImGui::SetScrollY(ImGui::GetScrollMaxY());
-    --        m_mustScrollToBottom = false;
-    --    }
-    --
-    --    if (m_mustScrollToTop) {
-    --        ImGui::SetScrollY(0.0f);
-    --        m_mustScrollToTop = false;
-    --    }
-    --
-    --    DrawWidgets();
-    --}
-    --
-    --ImGui::End();
 end
 
 return PanelWindow
