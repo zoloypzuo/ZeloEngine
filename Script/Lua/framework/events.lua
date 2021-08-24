@@ -50,7 +50,7 @@ end
 
 ---------------------------------------------
 
-EventWrapper = Class(function(processor, name)
+EventWrapper = Class(function(self, processor, name)
     self.processor = processor
     self.name = name
 end)
