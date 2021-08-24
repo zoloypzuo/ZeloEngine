@@ -14,8 +14,8 @@ local ProjectHubPanel = Class(APanel, function(self)
     APanel._ctor(self, "Project Hub", true)
 
     -- PanelWindow
-    --SetSize({ 1000, 580 });
-    --SetPosition({ 0.f, 0.f });
+    self:SetSize({ 1000, 580 });
+    self:SetPosition({ 0., 0 });
 
     self:Header()
 
