@@ -6,6 +6,7 @@ local WidgetContainerMixin = require("ui.widget_container_mixin")
 
 local Column = Class(AWidget, function(self, parent, size)
     AWidget._ctor(self, parent)
+    WidgetContainerMixin.included(self)
 
     self.size = size or 1
     self.widths = {}

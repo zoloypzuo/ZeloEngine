@@ -11,6 +11,7 @@ local function GenPanelID()
 end
 
 local APanel = Class(function(self)
+    WidgetContainerMixin.included(self)
     self.id = "##" .. GenPanelID()
     self.enabled = true
 end):include(WidgetContainerMixin)

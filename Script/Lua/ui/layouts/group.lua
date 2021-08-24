@@ -6,6 +6,7 @@ local WidgetContainerMixin = require("ui.widget_container_mixin")
 
 local Group = Class(AWidget, function(self, parent)
     AWidget._ctor(self, parent)
+    WidgetContainerMixin.included(self)
 end):include(WidgetContainerMixin)
 
 function Group:_UpdateImpl()

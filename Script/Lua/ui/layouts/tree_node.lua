@@ -6,6 +6,7 @@ local AWidget = require("ui.widget")
 local WidgetContainerMixin = require("ui.widget_container_mixin")
 local TreeNode = Class(AWidget, function(self, parent, name, arrowClickToOpen)
     AWidget._ctor(self, parent)
+    WidgetContainerMixin.included(self)
 
     self.name = name or ""
     self.arrowClickToOpen = arrowClickToOpen or false

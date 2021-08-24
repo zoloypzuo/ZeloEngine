@@ -122,9 +122,9 @@ function Class(base, _ctor)
             end
         end
 
-        if type(mixin.included) == "function" then
-            mixin.included(aClass)
-        end
+        --if type(mixin.included) == "function" then
+        --    mixin.included(aClass)
+        --end
         return aClass
     end
 
