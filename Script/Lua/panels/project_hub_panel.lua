@@ -1,7 +1,7 @@
 -- project_hub_panel
 -- created on 2021/8/21
 -- author @zoloypzuo
-local APanel = require("ui.panel")
+local APanel = require("ui.panel_window")
 local Button = require("ui.widgets.button")
 local InputText = require("ui.widgets.input_text")
 local Spacing = require("ui.layouts.spacing")
@@ -11,7 +11,7 @@ local Text = require("ui.widgets.text")
 local Group = require("ui.layouts.group")
 
 local ProjectHubPanel = Class(APanel, function(self)
-    APanel._ctor(self)
+    APanel._ctor(self, "Project Hub", true)
 
     -- PanelWindow
     --SetSize({ 1000, 580 });

@@ -25,26 +25,23 @@ local DefaultPanelWindowSettings = {
 local function GenFlagFromPaneSetting(panelSettings)
     local windowFlags = 0
     -- @formatter:off
-    if not resizable then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoResize) end
-    if not movable then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoMove) end
-    if not dockable then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoDocking) end
-    if hideBackground then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoBackground) end
-    if forceHorizontalScrollbar then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.AlwaysHorizontalScrollbar) end
-    if forceVerticalScrollbar then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.AlwaysVerticalScrollbar) end
-    if allowHorizontalScrollbar then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.HorizontalScrollbar) end
-    if not bringToFrontOnFocus then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoBringToFrontOnFocus) end
-    if not collapsable then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoCollapse) end
-    if not allowInputs then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoInputs) end
-    if not scrollable then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoScrollWithMouse, ImGuiWindowFlags.NoScrollbar) end
-    if not titleBar then windowFlags = bits.bor(windowFlags, ImGuiWindowFlags.NoTitleBar) end
+    if not resizable then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoResize) end
+    if not movable then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoMove) end
+    if not dockable then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoDocking) end
+    if hideBackground then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoBackground) end
+    if forceHorizontalScrollbar then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.AlwaysHorizontalScrollbar) end
+    if forceVerticalScrollbar then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.AlwaysVerticalScrollbar) end
+    if allowHorizontalScrollbar then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.HorizontalScrollbar) end
+    if not bringToFrontOnFocus then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoBringToFrontOnFocus) end
+    if not collapsable then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoCollapse) end
+    if not allowInputs then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoInputs) end
+    if not scrollable then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoScrollWithMouse, ImGuiWindowFlags.NoScrollbar) end
+    if not titleBar then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoTitleBar) end
     -- @formatter:on
     return windowFlags
 end
 
 local PanelWindow = Class(PanelTransformable, function(self, name, opened, panelSettings)
-    --const std::string &name = "",
-    --bool opened = true,
-    --const Settings::PanelWindowSettings &panelSettings = Settings::PanelWindowSettings{}
     PanelTransformable._ctor(self)
     self.name = name
     self.opened = opened
@@ -100,7 +97,8 @@ function PanelWindow:_UpdateImpl()
         maxSizeConstraint = Vector2(10000, 10000)
     end
 
-    ImGui.SetNextWindowSizeConstraints(minSizeConstraint, maxSizeConstraint)
+    ImGui.SetNextWindowSizeConstraints(minSizeConstraint.x, minSizeConstraint.y, 
+		maxSizeConstraint.x, maxSizeConstraint.y)
 
     --if (ImGui::Begin((name + m_panelID).c_str(), closable ? &m_opened : nullptr, windowFlags)) {
     local shouldDraw = ImGui.Begin(self.name, self.opened, windowFlags)
@@ -116,7 +114,7 @@ function PanelWindow:_UpdateImpl()
             self.CloseEvent:HandleEvent()
         end
 
-        self:Update()
+        self:UpdateTransform()
 
         if self.m_mustScrollToBottom  then
             ImGui.SetScrollY(ImGui.GetScrollMaxY())
@@ -128,7 +126,7 @@ function PanelWindow:_UpdateImpl()
             self.m_mustScrollToTop = false
         end
 
-        self:DrawWidgets()
+        self:UpdateWidgets()
 
         ImGui.End()
     end

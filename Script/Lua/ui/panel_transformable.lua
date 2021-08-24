@@ -36,7 +36,7 @@ local PanelTransformable = Class(APanel, function(
     self.m_firstFrame = true
 end)
 
-function PanelTransformable:Update()
+function PanelTransformable:UpdateTransform()
     if not self.m_firstFrame then
         if not self.autoSize then
             self:_UpdateSize()
