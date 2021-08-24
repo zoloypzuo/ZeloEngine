@@ -4,13 +4,13 @@ function AddPrintLogger(fn)
     table.insert(print_loggers, fn)
 end
 
-require "util" -- for string:split
+require "common.string_util" -- for string:split
 
 global("CWD")
 
 local dir = CWD or ""
 dir = string.gsub(dir, "\\", "/") .. "/"
-local _ = print
+local old_print = print
 
 matches = {
     ["^"] = "%^",
@@ -52,6 +52,7 @@ print = function(...)
         str = packstring(...)
     end
 
+    old_print(str)
     for i, v in ipairs(print_loggers) do
         v(str)
     end

@@ -32,17 +32,13 @@ if false then
     print("SCRIPT_DIR", SCRIPT_DIR)
 end
 
+global = function(name)
+end
+
 -- global require
 --require("strict")
 
---require("debugprint")
--- add our print loggers
---AddPrintLogger(function(...)
---    TheSim:LuaPrint(...)
---end)
-
-global = function(name)
-end
+require("debugprint")
 
 require("config")
 --require("languages/language")

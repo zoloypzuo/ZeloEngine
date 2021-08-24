@@ -8,6 +8,11 @@
 TheSim = Game.GetSingletonPtr()
 UI = UIManager.GetSingletonPtr()
 
+-- add our print loggers
+--AddPrintLogger(function(...)
+--    TheSim:LuaPrint(...)
+--end)
+
 -- resource
 table.insert(package.loaders, 1, ResourceMetaDataLoader)
 
