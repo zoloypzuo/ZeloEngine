@@ -68,8 +68,9 @@ end
 
 local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
-    self.ActorSelectedEvent = nil -- TODO
-    self.ActorUnselectedEvent = nil -- TODO
+    local processor = EventProcessor()
+    self.ActorSelectedEvent = EventWrapper(processor, "ActorSelectedEvent")
+    self.ActorUnselectedEvent = EventWrapper(processor, "ActorUnselectedEvent")
     self.m_sceneRoot = TreeNode()
     self.m_widgetActorLink = {}  -- Actor => TreeNode
 
@@ -134,7 +135,7 @@ function HierarchyPanel:_SceneGraph()
     --
     --        element.first->DetachFromParent();
     --    };
-    --    m_sceneRoot->AddPlugin<HierarchyContextualMenu>(nullptr, *m_sceneRoot);
+    self.m_sceneRoot:AddPlugin(HierarchyContextualMenu, self.m_sceneRoot)
 end
 
 function HierarchyPanel:Clear()
