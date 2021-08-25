@@ -1,7 +1,7 @@
 -- project_hub_panel
 -- created on 2021/8/21
 -- author @zoloypzuo
-local APanel = require("ui.panel_window")
+local PanelWindow = require("ui.panel_window")
 local Button = require("ui.widgets.button")
 local InputText = require("ui.widgets.input_text")
 local Spacing = require("ui.layouts.spacing")
@@ -10,8 +10,8 @@ local Columns = require("ui.layouts.column")
 local Text = require("ui.widgets.text")
 local Group = require("ui.layouts.group")
 
-local ProjectHubPanel = Class(APanel, function(self)
-    APanel._ctor(self, "Project Hub", true)
+local ProjectHubPanel = Class(PanelWindow, function(self)
+    PanelWindow._ctor(self, "Project Hub", true)
 
     -- PanelWindow
     self:SetSize({ 1000, 580 });
@@ -110,7 +110,7 @@ end
 function ProjectHubPanel:Update()
     ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 50, 50)
     ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
-    APanel.Update(self)
+    PanelWindow.Update(self)
     ImGui.PopStyleVar(2)
 end
 
