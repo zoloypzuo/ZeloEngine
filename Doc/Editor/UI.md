@@ -45,7 +45,10 @@
 ## 面板 Panel
 
 * [x] ProjectHub，启动界面
-* [ ] Hierarchy，场景图层级树
+* [x] Hierarchy，场景图层级树
+* [ ] Inspector
+* [ ] MaterialEditor
+* [ ] 
 
 ## Docking
 
