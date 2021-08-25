@@ -13,7 +13,7 @@ function Finalize()
     print("finalize")
 end
 
-local update = require("main_update").Update
+local update = require("main_update")
 function Update()
     update()
 end

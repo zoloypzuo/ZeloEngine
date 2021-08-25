@@ -256,7 +256,7 @@ function Scheduler:Run()
                     print(debug.traceback(v.co, "\nCOROUTINE " .. tostring(v.id) .. " SCRIPT CRASH:\n" .. tostring(yieldtype)))
                     local st = debug.traceback(v.co, "\nCOROUTINE " .. tostring(v.id) .. " SCRIPT CRASH:\n" .. tostring(yieldtype))
                     DisplayError(st)
-                    --TheSim:DebugPause()                  
+                    --TheSim:DebugPause()
                     self:KillTask(v)
                     return
                 end
@@ -394,13 +394,13 @@ function StartThread(fn, id, param)
 end
 
 function RunScheduler(tick)
-    TheSim:ProfilerPush("scheduler:OnTick")
+    --TheSim:ProfilerPush("scheduler:OnTick")
     scheduler:OnTick(tick)
-    TheSim:ProfilerPop()
+    --TheSim:ProfilerPop()
 
-    TheSim:ProfilerPush("scheduler:Run")
+    --TheSim:ProfilerPush("scheduler:Run")
     scheduler:Run()
-    TheSim:ProfilerPop()
+    --TheSim:ProfilerPop()
 end
 
 function KillThreadsWithID(id)
