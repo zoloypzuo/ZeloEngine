@@ -32,5 +32,19 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     self.m_inspectorHeader.enabled = false
     self.m_actorInfo = self:CreateWidget(Group)
 
-    local headerColumns =
+    local headerColumns = self.m_inspectorHeader:CreateWidget(Columns, 2)
+    
+    --    auto &headerColumns = m_inspectorHeader->CreateWidget < OvUI::Widgets::Layout::Columns < 2 >> ();
+    --
+    --    auto nameGatherer = [this] { return m_targetActor ? m_targetActor->GetName() : "%undef%"; };
+    --    auto nameProvider = [this](const std::string &newName) { if (m_targetActor) m_targetActor->SetName(newName); };
+    --    DrawString(headerColumns, "Name", nameGatherer, nameProvider);
+    --
+    --    auto tagGatherer = [this] { return m_targetActor ? m_targetActor->GetTag() : "%undef%"; };
+    --    auto tagProvider = [this](const std::string &newName) { if (m_targetActor) m_targetActor->SetTag(newName); };
+    --    DrawString(headerColumns, "Tag", tagGatherer, tagProvider);
+    --
+    --    auto activeGatherer = [this] { return m_targetActor ? m_targetActor->IsSelfActive() : false; };
+    --    auto activeProvider = [this](bool active) { if (m_targetActor) m_targetActor->SetActive(active); };
+    --    DrawBoolean(headerColumns, "Active", activeGatherer, activeProvider);
 end)
