@@ -18,5 +18,21 @@ function DDTarget:Execute()
         if not self.m_isHovered then
             self.HoverStartEvent:HandleEvent()
         end
+        self.m_isHovered =   true
+
+        local flags = 0
+        if not self.showYellowRect then
+            target_flags = bit.bor(target_flags, ImGuiDragDropFlags.AcceptNoDrawDefaultRect)
         end
+        local payload = ImGui.AcceptDragDropPayload(self.id, flags)
+        if payload then
+            self.DataReceivedEvent:HandleEvent(payload)
+        end
+        ImGui.EndDragDropTarget()
+    else
+        if self.m_isHovered then
+            self.HoverEndEvent:HandleEvent()
+        end
+        self.m_isHovered = false
     end
+end
