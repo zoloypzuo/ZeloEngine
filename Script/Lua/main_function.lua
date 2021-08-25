@@ -157,19 +157,23 @@ end
 ------TIME FUNCTIONS
 
 function GetTickTime()
+    return 1 -- TODO
     -- return TheSim:GetTickTime()
 end
 
 local ticktime = GetTickTime()
 function GetTime()
+    return 1 -- TODO
     -- return TheSim:GetTick() * ticktime
 end
 
 function GetTick()
+    return 1 -- TODO
     -- return TheSim:GetTick()
 end
 
 function GetTimeReal()
+    return 1 -- TODO
     -- return TheSim:GetRealTime()
 end
 

@@ -9,7 +9,7 @@ end):include(WidgetContainerMixin)
 
 function ContextualMenu:Execute()
     if ImGui.BeginPopupContextItem() then
-        self.UpdateWidgets()
+        self:UpdateWidgets()
         ImGui.EndPopup()
     end
 end

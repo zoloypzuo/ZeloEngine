@@ -59,6 +59,8 @@ if ENABLE_HOOK_DEBUG_IMGUI then
     ImGui = _ImGui
 end
 
+require("editor.editor_actions")
+
 --local project_hub_panel = require("editor.panels.project_hub_panel")
 local hierarchyPanel = require("editor.panels.hierarchy_panel")
 TheFrontEnd:LoadPanel(hierarchyPanel, "HierarchyPanel", true)

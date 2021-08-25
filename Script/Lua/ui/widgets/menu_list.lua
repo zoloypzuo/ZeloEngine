@@ -1,9 +1,9 @@
 -- menu_list
 -- created on 2021/8/25
 -- author @zoloypzuo
-local AWidget = require("ui.widget")
-local MenuList = Class(AWidget, function(self, parent, name, locked)
-    AWidget._ctor(self, parent)
+local Group = require("ui.layouts.group")
+local MenuList = Class(Group, function(self, parent, name, locked)
+    Group._ctor(self, parent)
     self.name = name or ""
     self.locked = locked or false
     self.ClickedEvent = EventWrapper(EventProcessor(), "ClickedEvent")
