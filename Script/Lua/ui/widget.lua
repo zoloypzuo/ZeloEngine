@@ -11,6 +11,7 @@ end
 
 local AWidget = Class(function(self, parent)
     PluginableMixin.included(self)
+    assert(type(parent) == "table", "A class derived from AWidget must pass parent to base ctor")
     self.parent = parent
     self.id = "##" .. GenWidgetID()
     self.enabled = true
