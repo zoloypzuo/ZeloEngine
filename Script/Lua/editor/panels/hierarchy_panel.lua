@@ -13,7 +13,7 @@ local TreeNode = require("ui.layouts.tree_node")
 local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
-local GenerateActorCreationMenu = require("editor.panels.entity_creation_menu")
+local GenerateEntityCreationMenu = require("editor.panels.entity_creation_menu")
 
 -- static
 local s_founds = {}  -- list[TreeNode]
@@ -32,16 +32,16 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
         end)
         local duplicateButton = self:CreateWidget(MenuItem, "Duplicate")
         duplicateButton.ClickedEvent:AddEventHandler(function()
-            --TheEditorActions:DelayAction(EDITOR_BIND(DuplicateActor, std::ref(*m_target), nullptr, true), 0)); TODO
+            --TheEditorActions:DelayAction(EDITOR_BIND(DuplicateEntity, std::ref(*m_target), nullptr, true), 0)); TODO
         end)
         local deleteButton = self:CreateWidget(MenuItem("Delete"))
         deleteButton.ClickedEvent:AddEventHandler(function()
-            TheEditorActions:DestroyActor(self.m_target)
+            TheEditorActions:DestroyEntity(self.m_target)
         end)
     end
 
-    local createActor = self:CreateWidget(MenuList, "Create...")
-    GenerateActorCreationMenu(createActor, self.m_target, self.m_treeNode.Open)
+    local createEntity = self:CreateWidget(MenuList, "Create...")
+    GenerateEntityCreationMenu(createEntity, self.m_target, self.m_treeNode.Open)
 end)
 
 function HierarchyContextualMenu:Execute()
@@ -69,21 +69,21 @@ end
 local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
     local processor = EventProcessor()
-    self.ActorSelectedEvent = EventWrapper(processor, "ActorSelectedEvent")
-    self.ActorUnselectedEvent = EventWrapper(processor, "ActorUnselectedEvent")
+    self.EntitySelectedEvent = EventWrapper(processor, "EntitySelectedEvent")
+    self.EntityUnselectedEvent = EventWrapper(processor, "EntityUnselectedEvent")
     self.m_sceneRoot = TreeNode()
-    self.m_widgetActorLink = {}  -- Actor => TreeNode
+    self.m_widgetEntityLink = {}  -- Entity => TreeNode
 
     self:_SearchBar()
     self:_SceneGraph()
     -- TODO EDITOR_EVENT
-    --    EDITOR_EVENT(ActorUnselectedEvent) += std::bind(&Hierarchy::UnselectActorsWidgets, this);
+    --    EDITOR_EVENT(EntityUnselectedEvent) += std::bind(&Hierarchy::UnselectEntitysWidgets, this);
     --    EDITOR_CONTEXT(sceneManager).SceneUnloadEvent += std::bind(&Hierarchy::Clear, this);
-    --    Actor::CreatedEvent += std::bind(&Hierarchy::AddActorByInstance, this, std::placeholders::_1);
-    --    Actor::DestroyedEvent += std::bind(&Hierarchy::DeleteActorByInstance, this, std::placeholders::_1);
-    --    EDITOR_EVENT(ActorSelectedEvent) += std::bind(&Hierarchy::SelectActorByInstance, this, std::placeholders::_1);
-    --    Actor::AttachEvent += std::bind(&Hierarchy::AttachActorToParent, this, std::placeholders::_1);
-    --    Actor::DettachEvent += std::bind(&Hierarchy::DetachFromParent, this, std::placeholders::_1);
+    --    Entity::CreatedEvent += std::bind(&Hierarchy::AddEntityByInstance, this, std::placeholders::_1);
+    --    Entity::DestroyedEvent += std::bind(&Hierarchy::DeleteEntityByInstance, this, std::placeholders::_1);
+    --    EDITOR_EVENT(EntitySelectedEvent) += std::bind(&Hierarchy::SelectEntityByInstance, this, std::placeholders::_1);
+    --    Entity::AttachEvent += std::bind(&Hierarchy::AttachEntityToParent, this, std::placeholders::_1);
+    --    Entity::DettachEvent += std::bind(&Hierarchy::DetachFromParent, this, std::placeholders::_1);
 end)
 
 function HierarchyPanel:_SearchBar()
@@ -91,7 +91,7 @@ function HierarchyPanel:_SearchBar()
     searchBar.ContentChangedEvent:AddEventHandler(function(content)
         if content == "" then
             -- if pattern is "", do cleanup
-            for actor, node in pairs(self.m_widgetActorLink) do
+            for entity, node in pairs(self.m_widgetEntityLink) do
                 node.enabled = true
             end
             for _, node in ipairs(s_nodesToCollapse) do
@@ -103,7 +103,7 @@ function HierarchyPanel:_SearchBar()
 
         -- find pattern in tree
         s_founds = {}
-        for actor, node in pairs(self.m_widgetActorLink) do
+        for entity, node in pairs(self.m_widgetEntityLink) do
             if _Match(content, node.name) then
                 s_founds[#s_founds + 1] = node
             end
@@ -125,9 +125,9 @@ function HierarchyPanel:_SceneGraph()
     self.m_sceneRoot:Open()
     -- TODO AddPlugin
     self.m_sceneRoot:AddPlugin()
-    --    m_sceneRoot->AddPlugin < OvUI::Plugins::DDTarget < std::pair < Actor * ,
-    --            OvUI::Widgets::Layout::TreeNode *>>>("Actor").DataReceivedEvent += [this](
-    --            std::pair<Actor *, OvUI::Widgets::Layout::TreeNode *> element) {
+    --    m_sceneRoot->AddPlugin < OvUI::Plugins::DDTarget < std::pair < Entity * ,
+    --            OvUI::Widgets::Layout::TreeNode *>>>("Entity").DataReceivedEvent += [this](
+    --            std::pair<Entity *, OvUI::Widgets::Layout::TreeNode *> element) {
     --        if (element.second->HasParent())
     --            element.second->GetParent()->UnconsiderWidget(*element.second);
     --
@@ -139,21 +139,21 @@ function HierarchyPanel:_SceneGraph()
 end
 
 function HierarchyPanel:Clear()
-    TheEditorActions:UnselectActor()
+    TheEditorActions:UnselectEntity()
     self.m_sceneRoot:RemoveAllWidgets()
-    self.m_widgetActorLink = {}
+    self.m_widgetEntityLink = {}
 end
 
---    void UnselectActorsWidgets();
+--    void UnselectEntitysWidgets();
 --
---    void SelectActorByInstance(Actor &actor);
+--    void SelectEntityByInstance(Entity &entity);
 --
---    void SelectActorByWidget(OvUI::Widgets::Layout::TreeNode &widget);
+--    void SelectEntityByWidget(OvUI::Widgets::Layout::TreeNode &widget);
 --
---    void AttachActorToParent(Actor &actor);
+--    void AttachEntityToParent(Entity &entity);
 --
---    void DetachFromParent(Actor &actor);
+--    void DetachFromParent(Entity &entity);
 --
---    void DeleteActorByInstance(Actor &actor);
+--    void DeleteEntityByInstance(Entity &entity);
 --
---    void AddActorByInstance(Actor &actor);
+--    void AddEntityByInstance(Entity &entity);
