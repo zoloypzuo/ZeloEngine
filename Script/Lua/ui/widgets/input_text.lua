@@ -3,21 +3,18 @@
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
 
--- public DataWidget<std::string>
 local InputText = Class(AWidget, function(self, parent, content, label)
     AWidget._ctor(self, parent)
     self.content = content or "?"
     self.label = label or ""
     self.selectAllOnClick = false
-    self.ContentChangedEvent = EventProcessor()
-    self.EnterPressedEvent = EventProcessor()
+
+    local processor = EventProcessor()
+    self.ContentChangedEvent = EventWrapper(processor, "ContentChangedEvent")
+    self.EnterPressedEvent = EventWrapper(processor, "EnterPressedEvent")
 end)
 
 function InputText:_UpdateImpl()
-    --if (content != previousContent) {
-    --    ContentChangedEvent.Invoke(content);
-    --    this->NotifyChange();
-    --}
     local flag = 0
     if self.selectAllOnClick then
         flag = bit.bor(ImGuiInputTextFlags.EnterReturnsTrue, ImGuiInputTextFlags.AutoSelectAll)
@@ -28,28 +25,12 @@ function InputText:_UpdateImpl()
 
     if text ~= self.content then
         self.content = text
-        self:_OnContentChanged(text)
+        self.ContentChangedEvent:HandleEvent(text)
     end
 
     if selected then
-        self:_OnEnterPressed()
+        self.EnterPressedEvent:HandleEvent()
     end
-end
-
-function InputText:AddOnContentChangedHandler(fn)
-    self.ContentChangedEvent:AddEventHandler("on_content_changed", fn)
-end
-
-function InputText:_OnContentChanged(content)
-    self.ContentChangedEvent:HandleEvent("on_content_changed", content)
-end
-
-function InputText:AddOnEnterPressedHandler(fn)
-    self.ContentChangedEvent:AddEventHandler("on_enter_pressed", fn)
-end
-
-function InputText:_OnEnterPressed()
-    self.ContentChangedEvent:HandleEvent("on_enter_pressed")
 end
 
 return InputText
