@@ -24,12 +24,14 @@ package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/framework/debug/
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/prefabs/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/scriptlibs/?.lua"
 
-if false then
-    print("=== dump path info")
+DUMP_LUA_PATH = false
+if DUMP_LUA_PATH then
+    print("=== Start dump path info")
     print("package.path", package.path)
     print("package.cpath", package.cpath)
     print("PATH", os.getenv("PATH"))
     print("SCRIPT_DIR", SCRIPT_DIR)
+    print("=== End dump path info")
 end
 
 global = function(name)
