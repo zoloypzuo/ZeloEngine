@@ -99,6 +99,7 @@ end
 print("running main.lua")
 
 --math.randomseed(TheSim:GetRealTime())
+FRAME = 1 / 30
 
 Prefabs = {}
 Ents = {}
