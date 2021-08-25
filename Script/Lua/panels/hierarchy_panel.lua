@@ -10,9 +10,46 @@ local Columns = require("ui.layouts.column")
 local Text = require("ui.widgets.text")
 local Group = require("ui.layouts.group")
 local TreeNode = require("ui.layouts.tree_node")
+local ContextualMenu = require("ui.plugins.contextual_menu")
 
 local founds = {}  -- list[TreeNode]
 local nodesToCollapse = {}  -- list[TreeNode]
+
+local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntity, treeNode, panelMenu)
+    ContextualMenu._ctor(self)
+
+    self.target = targetEntity
+    self.tree_node = treeNode
+
+    if self.target then
+        --        if (m_target) {
+        --            auto &focusButton = CreateWidget<OvUI::Widgets::Menu::MenuItem>("Focus");
+        --            focusButton.ClickedEvent += [this] {
+        --                EDITOR_EXEC(MoveToTarget(*m_target));
+        --            };
+        --
+        --            auto &duplicateButton = CreateWidget<OvUI::Widgets::Menu::MenuItem>("Duplicate");
+        --            duplicateButton.ClickedEvent += [this] {
+        --                EDITOR_EXEC(DelayAction(EDITOR_BIND(DuplicateActor, std::ref(*m_target), nullptr, true), 0));
+        --            };
+        --
+        --            auto &deleteButton = CreateWidget<OvUI::Widgets::Menu::MenuItem>("Delete");
+        --            deleteButton.ClickedEvent += [this] {
+        --                EDITOR_EXEC(DestroyActor(std::ref(*m_target)));
+        --            };
+        --        }
+    end
+    --         auto &createActor = CreateWidget<OvUI::Widgets::Menu::MenuList>("Create...");
+    --        OvEditor::Utils::ActorCreationMenu::GenerateActorCreationMenu(createActor, m_target,
+    --                                                                      std::bind(&OvUI::Widgets::Layout::TreeNode::Open,
+    --                                                                                &m_treeNode));
+end)
+
+function HierarchyContextualMenu:Execute()
+    if #self.widgets > 0 then
+        HierarchyContextualMenu.Execute(self)
+    end
+end
 
 local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
