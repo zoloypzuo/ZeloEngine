@@ -13,6 +13,7 @@ local TreeNode = require("ui.layouts.tree_node")
 local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
+local GenerateActorCreationMenu = require("panels.entity_creation_menu")
 
 local founds = {}  -- list[TreeNode]
 local nodesToCollapse = {}  -- list[TreeNode]
@@ -40,9 +41,7 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
     end
 
     local createActor = self:CreateWidget(MenuList, "Create...")
-    --        OvEditor::Utils::ActorCreationMenu::GenerateActorCreationMenu(createActor, m_target,
-    --                                                                      std::bind(&OvUI::Widgets::Layout::TreeNode::Open,
-    --                                                                                &m_treeNode));
+    GenerateActorCreationMenu(createActor, self.m_target, self.m_treeNode.Open)
 end)
 
 function HierarchyContextualMenu:Execute()
