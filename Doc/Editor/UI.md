@@ -11,7 +11,9 @@
 * [x] 向量类型转 Converter
     * [x] Vector类型
     * [x] Color类型，支持RGB等构造
-* [ ] PanelWindow
+* [x] PanelWindow
+* [ ] 拼UI
+* [ ] UI Plugin
 * [ ] UI编辑器，显示UI场景图
 
 
@@ -134,3 +136,14 @@ imgui的每个字号都需要单独加载，他估计内部直接加载了一个
 # 类型转换
 
 Vector/Color的C API对应float4参数，sol接口层额外构造float4，节约心智负担
+
+# UI Plugin
+
+```cpp
+class IPlugin {
+public:
+    virtual void Execute() = 0;
+
+    void *userData = nullptr;
+};
+```

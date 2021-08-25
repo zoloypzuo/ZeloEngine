@@ -1,6 +1,8 @@
 -- widget
 -- created on 2021/8/21
 -- author @zoloypzuo
+local PluginableMixin = require("ui.pluginable_mixin")
+
 local __WIDGET_ID_INCREMENT = 0
 local function GenWidgetID()
     __WIDGET_ID_INCREMENT = __WIDGET_ID_INCREMENT + 1
@@ -8,12 +10,13 @@ local function GenWidgetID()
 end
 
 local AWidget = Class(function(self, parent)
+    PluginableMixin.included(self)
     self.parent = parent
     self.id = "##" .. GenWidgetID()
     self.enabled = true
     self.lineBreak = true;
     self.m_autoExecutePlugins = true
-end)
+end):include(PluginableMixin)
 
 function AWidget:Update()
     if self.enabled then
