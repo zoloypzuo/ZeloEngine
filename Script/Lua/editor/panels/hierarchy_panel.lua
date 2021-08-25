@@ -27,16 +27,15 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
     if self.target then
         local focusButton = self:CreateWidget(MenuItem, "Focus")
         focusButton.ClickedEvent:AddEventHandler(function()
-            --EDITOR_EXEC(MoveToTarget(*m_target)); TODO
+            TheEditorActions:MoveToTarget(self.m_target)
         end)
         local duplicateButton = self:CreateWidget(MenuItem, "Duplicate")
         duplicateButton.ClickedEvent:AddEventHandler(function()
-            --EDITOR_EXEC(DelayAction(EDITOR_BIND(DuplicateActor, std::ref(*m_target), nullptr, true), 0)); TODO
+            --TheEditorActions:DelayAction(EDITOR_BIND(DuplicateActor, std::ref(*m_target), nullptr, true), 0)); TODO
         end)
         local deleteButton = self:CreateWidget(MenuItem("Delete"))
         deleteButton.ClickedEvent:AddEventHandler(function()
-            --                EDITOR_EXEC(DestroyActor(std::ref(*m_target)));
-
+            TheEditorActions:DestroyActor(self.m_target)
         end)
     end
 
@@ -116,6 +115,7 @@ function HierarchyPanel:_SceneGraph()
     self.m_sceneRoot = self:CreateWidget(TreeNode, "Root", true)
     self.m_sceneRoot:Open()
     -- TODO AddPlugin
+    self.m_sceneRoot:AddPlugin()
     --    m_sceneRoot->AddPlugin < OvUI::Plugins::DDTarget < std::pair < Actor * ,
     --            OvUI::Widgets::Layout::TreeNode *>>>("Actor").DataReceivedEvent += [this](
     --            std::pair<Actor *, OvUI::Widgets::Layout::TreeNode *> element) {
@@ -130,8 +130,7 @@ function HierarchyPanel:_SceneGraph()
 end
 
 function HierarchyPanel:Clear()
-    --    EDITOR_EXEC(UnselectActor()); TODO
-    --
+    TheEditorActions:UnselectActor()
     self.m_sceneRoot:RemoveAllWidgets()
     self.m_widgetActorLink = {}
 end

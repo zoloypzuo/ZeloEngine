@@ -64,7 +64,7 @@ function TreeNode:_UpdateImpl()
         end
         self.opened = true
 
-        --self:ExecutePlugins() TODO
+        self:ExecutePlugins()
         self:UpdateWidgets()
 
         ImGui.TreePop()
@@ -74,7 +74,7 @@ function TreeNode:_UpdateImpl()
         end
         self.opened = false
 
-        --self:ExecutePlugins() TODO
+        self:ExecutePlugins()
     end
 end
 
