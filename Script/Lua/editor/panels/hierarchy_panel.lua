@@ -15,8 +15,9 @@ local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
 local GenerateActorCreationMenu = require("editor.panels.entity_creation_menu")
 
-local founds = {}  -- list[TreeNode]
-local nodesToCollapse = {}  -- list[TreeNode]
+-- static
+local s_founds = {}  -- list[TreeNode]
+local s_nodesToCollapse = {}  -- list[TreeNode]
 
 local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntity, treeNode, panelMenu)
     ContextualMenu._ctor(self)
@@ -49,6 +50,10 @@ function HierarchyContextualMenu:Execute()
     end
 end
 
+local function _Match(pattern, s)
+
+end
+
 local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
     self.ActorSelectedEvent = nil -- TODO
@@ -71,43 +76,34 @@ end)
 function HierarchyPanel:_SearchBar()
     local searchBar = self:CreateWidget(InputText)
     searchBar.ContentChangedEvent:AddEventHandler(function(content)
-        founds = {}
-        -- TODO lower content
-        --        founds.clear();
-        --        auto content = content;
-        --        std::transform(content.begin(), content.end(), content.begin(), ::tolower);
-        --
-        --        for (auto&[actor, item] : m_widgetActorLink) {
-        --            if (!content.empty()) {
-        --                auto itemName = item->name;
-        --                std::transform(itemName.begin(), itemName.end(), itemName.begin(), ::tolower);
-        --
-        --                if (itemName.find(content) != std::string::npos) {
-        --                    founds.push_back(item);
-        --                }
-        --
-        --                item->enabled = false;
-        --            } else {
-        --                item->enabled = true;
-        --            }
-        --        }
-        --
-        --        for (auto node : founds) {
-        --            node->enabled = true;
-        --
-        --            if (node->HasParent()) {
-        --                ExpandTreeNodeAndEnable(*static_cast<OvUI::Widgets::Layout::TreeNode *>(node->GetParent()),
-        --                                        m_sceneRoot);
-        --            }
-        --        }
-        --
-        --        if (content.empty()) {
-        --            for (auto node : nodesToCollapse) {
-        --                node->Close();
-        --            }
-        --
-        --            nodesToCollapse.clear();
-        --        }
+        if content == "" then
+            -- if pattern is "", do cleanup
+            for actor, node in pairs(self.m_widgetActorLink) do
+                node.enabled = true
+            end
+            for _, node in ipairs(s_nodesToCollapse) do
+                node:Close()
+            end
+            s_nodesToCollapse = {}
+            return
+        end
+
+        -- find pattern in tree
+        s_founds = {}
+        for actor, node in pairs(self.m_widgetActorLink) do
+            if _Match(content, node.name) then
+                s_founds[#s_founds + 1] = node
+            end
+            node.enabled = false
+        end
+
+        -- handle matched nodes
+        for _, node in ipairs(s_founds) do
+            node.enabled = true
+            if node:HasParent() then
+                --ExpandTreeNodeAndEnable(*static_cast<OvUI::Widgets::Layout::TreeNode *>(node->GetParent()),m_sceneRoot); TODO
+            end
+        end
     end)
 end
 
