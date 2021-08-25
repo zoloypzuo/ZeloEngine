@@ -88,4 +88,9 @@ function TreeNode:Close()
     self.m_shouldOpen = false;
 end
 
+function TreeNode:IsOpened()
+    return self.opened
+end
+
+
 return TreeNode

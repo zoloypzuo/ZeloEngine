@@ -51,7 +51,19 @@ function HierarchyContextualMenu:Execute()
 end
 
 local function _Match(pattern, s)
+    return pattern == s
+end
 
+local function _ExpandTreeNodeAndEnable(toExpand, root)
+    -- TreeNode, TreeNode
+    if not toExpand:IsOpened() then
+        toExpand:Open()
+        s_nodesToCollapse[#s_nodesToCollapse + 1] = toExpand
+    end
+    toExpand.enabled = true
+    if toExpand ~= root and toExpand:HasParent() then
+        _ExpandTreeNodeAndEnable(toExpand:GetParent(), root)
+    end
 end
 
 local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSetting)
@@ -101,7 +113,7 @@ function HierarchyPanel:_SearchBar()
         for _, node in ipairs(s_founds) do
             node.enabled = true
             if node:HasParent() then
-                --ExpandTreeNodeAndEnable(*static_cast<OvUI::Widgets::Layout::TreeNode *>(node->GetParent()),m_sceneRoot); TODO
+                _ExpandTreeNodeAndEnable(node:GetParent(), self.m_sceneRoot)
             end
         end
     end)

@@ -33,4 +33,12 @@ function AWidget:Update()
     end
 end
 
+function AWidget:HasParent()
+    return self.parent ~= nil
+end
+
+function AWidget:GetParent()
+    return self.parent
+end
+
 return AWidget
