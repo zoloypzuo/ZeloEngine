@@ -21,7 +21,7 @@
 
 * [x] Button
 * [x] InputText
-* [ ] AcceptDragDropPayload
+* [ ] AcceptDragDropPayload https://github.com/ocornut/imgui/issues/1931
 
 ### 控件属性
 
