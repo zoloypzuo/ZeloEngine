@@ -59,6 +59,7 @@ if ENABLE_HOOK_DEBUG_IMGUI then
     ImGui = _ImGui
 end
 
-TheFrontEnd:LoadPanel("project_hub_panel")
+local project_hub_panel = require("editor.panels.project_hub_panel")
+TheFrontEnd:LoadPanel(project_hub_panel)
 
 --require("scenes.scene01")

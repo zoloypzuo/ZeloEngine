@@ -11,8 +11,7 @@ function UIRoot:Update()
     end
 end
 
-function UIRoot:LoadPanel(name, ...)
-    local panel_cls = require("panels." .. name)
-    local panel = panel_cls(...)
+function UIRoot:LoadPanel(type_ , ...)
+    local panel = type_(...)
     self.panels[panel.id] = panel
 end

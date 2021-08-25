@@ -13,7 +13,7 @@ local TreeNode = require("ui.layouts.tree_node")
 local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
-local GenerateActorCreationMenu = require("panels.entity_creation_menu")
+local GenerateActorCreationMenu = require("editor.panels.entity_creation_menu")
 
 local founds = {}  -- list[TreeNode]
 local nodesToCollapse = {}  -- list[TreeNode]
@@ -25,8 +25,8 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
     self.tree_node = treeNode
 
     if self.target then
-        local focusButton  = self:CreateWidget(MenuItem, "Focus")
-        focusButton.ClickedEvent:AddEventHandler(function ()
+        local focusButton = self:CreateWidget(MenuItem, "Focus")
+        focusButton.ClickedEvent:AddEventHandler(function()
             --EDITOR_EXEC(MoveToTarget(*m_target)); TODO
         end)
         local duplicateButton = self:CreateWidget(MenuItem, "Duplicate")
@@ -34,7 +34,7 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
             --EDITOR_EXEC(DelayAction(EDITOR_BIND(DuplicateActor, std::ref(*m_target), nullptr, true), 0)); TODO
         end)
         local deleteButton = self:CreateWidget(MenuItem("Delete"))
-        deleteButton.ClickedEvent:AddEventHandler(function ()
+        deleteButton.ClickedEvent:AddEventHandler(function()
             --                EDITOR_EXEC(DestroyActor(std::ref(*m_target)));
 
         end)
@@ -130,10 +130,10 @@ function HierarchyPanel:_SceneGraph()
 end
 
 function HierarchyPanel:Clear()
-    --    EDITOR_EXEC(UnselectActor());
+    --    EDITOR_EXEC(UnselectActor()); TODO
     --
-    --    m_sceneRoot->RemoveAllWidgets();
-    --    m_widgetActorLink.clear();
+    self.m_sceneRoot:RemoveAllWidgets()
+    self.m_widgetActorLink = {}
 end
 
 --    void UnselectActorsWidgets();
