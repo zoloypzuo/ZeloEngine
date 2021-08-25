@@ -25,3 +25,5 @@ function MenuItem:_UpdateImpl()
         self.checked = selected
     end
 end
+
+return MenuItem

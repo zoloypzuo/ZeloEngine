@@ -4,6 +4,7 @@
 local WidgetContainerMixin = require("ui.widget_container_mixin")
 local ContextualMenu = Class(function(self)
     WidgetContainerMixin.included(self)
+    self.userData = nil
 end):include(WidgetContainerMixin)
 
 function ContextualMenu:Execute()
@@ -16,3 +17,5 @@ end
 function ContextualMenu:Close()
     ImGui.CloseCurrentPopup()
 end
+
+return ContextualMenu

@@ -25,3 +25,5 @@ function MenuList:_UpdateImpl()
         self.m_opened = false
     end
 end
+
+return MenuList

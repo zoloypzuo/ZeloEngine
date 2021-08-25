@@ -6,16 +6,12 @@ local IPlugin = {
     userData = nil; -- void*
 }
 
-local function _IsPlugin(type_)
-    return type_.Execute and type_.userData
-end
-
 local PluginableMixin = Mixin(function(self)
     self.plugins = {}  -- List[IPlugin]
 end)
 
 function PluginableMixin:AddPlugin(type_, ...)
-    assert(_IsPlugin(type_), "T should derive from IPlugin")
+    assert(type(type_) == "table", "T should derive from IPlugin")
     local inst = type_(...)
     self.plugins[#self.plugins + 1] = inst
     return inst

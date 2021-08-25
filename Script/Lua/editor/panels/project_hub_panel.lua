@@ -58,7 +58,7 @@ function ProjectHubPanel:Header()
     newProjectButton.lineBreak = false;
     pathField.lineBreak = false;
 
-    pathField:AddOnContentChangedHandler(function(content)
+    pathField.ContentChangedEvent:AddEventHandler(function(content)
         print(content)
         UpdateGoButton(pathField.content)
     end)

@@ -35,19 +35,19 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
             -- if failed, call imm instead
             TheEditorActions:DelayAction(1, "DuplicateEntity", m_target, nullptr, true)
         end)
-        local deleteButton = self:CreateWidget(MenuItem("Delete"))
+        local deleteButton = self:CreateWidget(MenuItem, "Delete")
         deleteButton.ClickedEvent:AddEventHandler(function()
             TheEditorActions:DestroyEntity(self.m_target)
         end)
     end
 
     local createEntity = self:CreateWidget(MenuList, "Create...")
-    GenerateEntityCreationMenu(createEntity, self.m_target, self.m_treeNode.Open)
+    --GenerateEntityCreationMenu(createEntity, self.m_target, self.m_treeNode.Open) TODO
 end)
 
 function HierarchyContextualMenu:Execute()
     if #self.widgets > 0 then
-        HierarchyContextualMenu.Execute(self)
+        ContextualMenu.Execute(self)
     end
 end
 
@@ -72,7 +72,7 @@ local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSet
     local processor = EventProcessor()
     self.EntitySelectedEvent = EventWrapper(processor, "EntitySelectedEvent")
     self.EntityUnselectedEvent = EventWrapper(processor, "EntityUnselectedEvent")
-    self.m_sceneRoot = TreeNode()
+    self.m_sceneRoot = nil
     self.m_widgetEntityLink = {}  -- Entity => TreeNode
 
     self:_SearchBar()
@@ -125,7 +125,7 @@ function HierarchyPanel:_SceneGraph()
     self.m_sceneRoot = self:CreateWidget(TreeNode, "Root", true)
     self.m_sceneRoot:Open()
     -- TODO AddPlugin DDTarget
-    self.m_sceneRoot:AddPlugin()
+    --self.m_sceneRoot:AddPlugin()
     --    m_sceneRoot->AddPlugin < OvUI::Plugins::DDTarget < std::pair < Entity * ,
     --            OvUI::Widgets::Layout::TreeNode *>>>("Entity").DataReceivedEvent += [this](
     --            std::pair<Entity *, OvUI::Widgets::Layout::TreeNode *> element) {
@@ -158,3 +158,5 @@ end
 --    void DeleteEntityByInstance(Entity &entity);
 --
 --    void AddEntityByInstance(Entity &entity);
+
+return HierarchyPanel
