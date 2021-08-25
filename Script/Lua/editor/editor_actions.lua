@@ -9,9 +9,9 @@ function EditorActions:MoveToTarget()
 
 end
 
-function EditorActions:DelayAction(action, delayInFrame)
+function EditorActions:DelayAction(delayInFrame, action, ...)
     delayInFrame = delayInFrame or 1
-    scheduler:ExecuteInTime(delayInFrame * FRAME, action)
+    scheduler:ExecuteInTime(delayInFrame * FRAME, self[action], nil, ...)
 end
 
 function EditorActions:DestroyEntity()
@@ -22,8 +22,9 @@ function EditorActions:UnselectEntity()
 
 end
 
-function EditorActions:DuplicateEntity(entityToDuplicate, forcedParent, focus) -- Entity, Entity, bool
-    
+function EditorActions:DuplicateEntity(entityToDuplicate, forcedParent, focus)
+    -- Entity, Entity, bool
+
 end
 
 TheEditorActions = EditorActions()

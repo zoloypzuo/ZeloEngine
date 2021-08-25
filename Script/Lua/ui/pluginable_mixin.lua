@@ -34,3 +34,5 @@ end
 function PluginableMixin:RemoveAllPlugins()
     self.plugins = {}
 end
+
+return PluginableMixin

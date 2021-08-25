@@ -60,6 +60,7 @@ if ENABLE_HOOK_DEBUG_IMGUI then
 end
 
 local project_hub_panel = require("editor.panels.project_hub_panel")
+local hierarchyPanel = require("editor.panels.hierarchy_panel")
 TheFrontEnd:LoadPanel(project_hub_panel)
 
 --require("scenes.scene01")

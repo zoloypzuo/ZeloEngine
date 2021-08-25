@@ -19,7 +19,7 @@ local GenerateEntityCreationMenu = require("editor.panels.entity_creation_menu")
 local s_founds = {}  -- list[TreeNode]
 local s_nodesToCollapse = {}  -- list[TreeNode]
 
-local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntity, treeNode, panelMenu)
+local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntity, treeNode)
     ContextualMenu._ctor(self)
 
     self.target = targetEntity
@@ -32,7 +32,8 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
         end)
         local duplicateButton = self:CreateWidget(MenuItem, "Duplicate")
         duplicateButton.ClickedEvent:AddEventHandler(function()
-            --TheEditorActions:DelayAction(EDITOR_BIND(DuplicateEntity, std::ref(*m_target), nullptr, true), 0)); TODO
+            -- if failed, call imm instead
+            TheEditorActions:DelayAction(1, "DuplicateEntity", m_target, nullptr, true)
         end)
         local deleteButton = self:CreateWidget(MenuItem("Delete"))
         deleteButton.ClickedEvent:AddEventHandler(function()
@@ -91,7 +92,7 @@ function HierarchyPanel:_SearchBar()
     searchBar.ContentChangedEvent:AddEventHandler(function(content)
         if content == "" then
             -- if pattern is "", do cleanup
-            for entity, node in pairs(self.m_widgetEntityLink) do
+            for _, node in pairs(self.m_widgetEntityLink) do
                 node.enabled = true
             end
             for _, node in ipairs(s_nodesToCollapse) do
@@ -103,7 +104,7 @@ function HierarchyPanel:_SearchBar()
 
         -- find pattern in tree
         s_founds = {}
-        for entity, node in pairs(self.m_widgetEntityLink) do
+        for _, node in pairs(self.m_widgetEntityLink) do
             if _Match(content, node.name) then
                 s_founds[#s_founds + 1] = node
             end
@@ -123,7 +124,7 @@ end
 function HierarchyPanel:_SceneGraph()
     self.m_sceneRoot = self:CreateWidget(TreeNode, "Root", true)
     self.m_sceneRoot:Open()
-    -- TODO AddPlugin
+    -- TODO AddPlugin DDTarget
     self.m_sceneRoot:AddPlugin()
     --    m_sceneRoot->AddPlugin < OvUI::Plugins::DDTarget < std::pair < Entity * ,
     --            OvUI::Widgets::Layout::TreeNode *>>>("Entity").DataReceivedEvent += [this](
