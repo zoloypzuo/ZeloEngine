@@ -14,11 +14,11 @@ local TreeNode = Class(AWidget, function(self, parent, name, arrowClickToOpen)
     self.selected = false
     self.leaf = false
 
-    self.processor = EventProcessor()
-    self.ClickedEvent = EventWrapper("ClickedEvent")
-    self.DoubleClickedEvent = EventWrapper("DoubleClickedEvent")
-    self.OpenedEvent = EventWrapper("OpenedEvent")
-    self.ClosedEvent = EventWrapper("ClosedEvent")
+    local processor = EventProcessor()
+    self.ClickedEvent = EventWrapper(processor, "ClickedEvent")
+    self.DoubleClickedEvent = EventWrapper(processor, "DoubleClickedEvent")
+    self.OpenedEvent = EventWrapper(processor, "OpenedEvent")
+    self.ClosedEvent = EventWrapper(processor, "ClosedEvent")
 
     self.m_shouldOpen = false;
     self.m_shouldClose = false;
@@ -30,10 +30,10 @@ end):include(WidgetContainerMixin)
 
 function TreeNode:_UpdateImpl()
     if self.m_shouldOpen then
-        ImGui.SetNextTreeNodeOpen(true)
+        ImGui.SetNextItemOpen(true)
         self.m_shouldOpen = false
     elseif self.m_shouldClose then
-        ImGui.SetNextTreeNodeOpen(false)
+        ImGui.SetNextItemOpen(false)
         self.m_shouldClose = false;
     end
     local flags = ImGuiTreeNodeFlags.None
@@ -53,7 +53,7 @@ function TreeNode:_UpdateImpl()
     if ImGui.IsItemClicked and (mx - ix) > ImGui.GetTreeNodeToLabelSpacing() then
         self.ClickedEvent:HandleEvent()
 
-        if trueImGui.IsMouseDoubleClicked(0) then
+        if ImGui.IsMouseDoubleClicked(0) then
             self.DoubleClickedEvent:HandleEvent()
         end
     end

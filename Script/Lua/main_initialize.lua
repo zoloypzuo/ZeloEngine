@@ -61,6 +61,6 @@ end
 
 --local project_hub_panel = require("editor.panels.project_hub_panel")
 local hierarchyPanel = require("editor.panels.hierarchy_panel")
-TheFrontEnd:LoadPanel(hierarchyPanel)
+TheFrontEnd:LoadPanel(hierarchyPanel, "HierarchyPanel", true)
 
 --require("scenes.scene01")
