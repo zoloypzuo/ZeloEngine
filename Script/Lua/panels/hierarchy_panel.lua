@@ -11,6 +11,8 @@ local Text = require("ui.widgets.text")
 local Group = require("ui.layouts.group")
 local TreeNode = require("ui.layouts.tree_node")
 local ContextualMenu = require("ui.plugins.contextual_menu")
+local MenuItem = require("ui.widgets.menu_item")
+local MenuList = require("ui.widgets.menu_list")
 
 local founds = {}  -- list[TreeNode]
 local nodesToCollapse = {}  -- list[TreeNode]
@@ -22,22 +24,22 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
     self.tree_node = treeNode
 
     if self.target then
-        --            auto &focusButton = CreateWidget<OvUI::Widgets::Menu::MenuItem>("Focus");
-        --            focusButton.ClickedEvent += [this] {
-        --                EDITOR_EXEC(MoveToTarget(*m_target));
-        --            };
-        --
-        --            auto &duplicateButton = CreateWidget<OvUI::Widgets::Menu::MenuItem>("Duplicate");
-        --            duplicateButton.ClickedEvent += [this] {
-        --                EDITOR_EXEC(DelayAction(EDITOR_BIND(DuplicateActor, std::ref(*m_target), nullptr, true), 0));
-        --            };
-        --
-        --            auto &deleteButton = CreateWidget<OvUI::Widgets::Menu::MenuItem>("Delete");
-        --            deleteButton.ClickedEvent += [this] {
-        --                EDITOR_EXEC(DestroyActor(std::ref(*m_target)));
-        --            };
+        local focusButton  = self:CreateWidget(MenuItem, "Focus")
+        focusButton.ClickedEvent:AddEventHandler(function ()
+            --EDITOR_EXEC(MoveToTarget(*m_target)); TODO
+        end)
+        local duplicateButton = self:CreateWidget(MenuItem, "Duplicate")
+        duplicateButton.ClickedEvent:AddEventHandler(function()
+            --EDITOR_EXEC(DelayAction(EDITOR_BIND(DuplicateActor, std::ref(*m_target), nullptr, true), 0)); TODO
+        end)
+        local deleteButton = self:CreateWidget(MenuItem("Delete"))
+        deleteButton.ClickedEvent:AddEventHandler(function ()
+            --                EDITOR_EXEC(DestroyActor(std::ref(*m_target)));
+
+        end)
     end
-    --         auto &createActor = CreateWidget<OvUI::Widgets::Menu::MenuList>("Create...");
+
+    local createActor = self:CreateWidget(MenuList, "Create...")
     --        OvEditor::Utils::ActorCreationMenu::GenerateActorCreationMenu(createActor, m_target,
     --                                                                      std::bind(&OvUI::Widgets::Layout::TreeNode::Open,
     --                                                                                &m_treeNode));
