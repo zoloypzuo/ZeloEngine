@@ -22,7 +22,6 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
     self.tree_node = treeNode
 
     if self.target then
-        --        if (m_target) {
         --            auto &focusButton = CreateWidget<OvUI::Widgets::Menu::MenuItem>("Focus");
         --            focusButton.ClickedEvent += [this] {
         --                EDITOR_EXEC(MoveToTarget(*m_target));
@@ -37,7 +36,6 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
         --            deleteButton.ClickedEvent += [this] {
         --                EDITOR_EXEC(DestroyActor(std::ref(*m_target)));
         --            };
-        --        }
     end
     --         auto &createActor = CreateWidget<OvUI::Widgets::Menu::MenuList>("Create...");
     --        OvEditor::Utils::ActorCreationMenu::GenerateActorCreationMenu(createActor, m_target,
