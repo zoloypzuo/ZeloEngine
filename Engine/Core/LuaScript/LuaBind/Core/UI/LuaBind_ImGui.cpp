@@ -2872,6 +2872,20 @@ inline void InitEnums(sol::state &lua) {
             "COUNT", ImGuiMouseCursor_COUNT
     );
 #pragma endregion MouseCursor
+
+    lua["ImGuiDragDropFlags"] = lua.create_table_with(
+            "None", ImGuiDragDropFlags_None,
+            "SourceNoPreviewTooltip", ImGuiDragDropFlags_SourceNoPreviewTooltip,
+            "SourceNoDisableHover", ImGuiDragDropFlags_SourceNoDisableHover,
+            "SourceNoHoldToOpenOthers", ImGuiDragDropFlags_SourceNoHoldToOpenOthers,
+            "SourceAllowNullID", ImGuiDragDropFlags_SourceAllowNullID,
+            "SourceExtern", ImGuiDragDropFlags_SourceExtern,
+            "SourceAutoExpirePayload", ImGuiDragDropFlags_SourceAutoExpirePayload,
+            "AcceptBeforeDelivery", ImGuiDragDropFlags_AcceptBeforeDelivery,
+            "AcceptNoDrawDefaultRect", ImGuiDragDropFlags_AcceptNoDrawDefaultRect,
+            "AcceptNoPreviewTooltip", ImGuiDragDropFlags_AcceptNoPreviewTooltip,
+            "AcceptPeekOnly", ImGuiDragDropFlags_AcceptPeekOnly
+    );
 }
 
 inline void Init(sol::state &lua) {
