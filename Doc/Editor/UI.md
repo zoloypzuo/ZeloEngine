@@ -1,27 +1,27 @@
 # UI
 
 * [x] ImGui后端接入
-* [x] ImGui Docking，需要拉分支，自己编译imgui，可以在全部面板写完之后再做
+* [x] ImGui Docking
+* [x] Style
 * [x] Font
-* [x] Style，封装了三套配色，建议用拾色器去配置
 * [x] UIManager
-* ~~[ ] imgui.ini~~ // 不是很重要，用默认的自动保存即可
-* ~~[ ] Canvas~~ // 类比场景图，我们不需要切Canvas，没必要套一层Canvas
 * [x] ImGui控件，薄封装，脚本封装
-* [x] 向量类型转 Converter
+* [x] 向量类型转换 Converter
     * [x] Vector类型
     * [x] Color类型，支持RGB等构造
 * [x] PanelWindow
-* [ ] 拼UI
-* [ ] UI Plugin
+* [ ] 拼UI，大量UI
+* [x] UI Plugin
 * [ ] UI编辑器，显示UI场景图
 
+* ~~[ ] imgui.ini~~ // 不是很重要，用默认的自动保存即可
+* ~~[ ] Canvas~~ // 类比场景图，我们不需要切Canvas，没必要套一层Canvas
 
 ## 控件
 
 * [x] Button
 * [x] InputText
-* [ ]
+* [ ] AcceptDragDropPayload
 
 ### 控件属性
 
@@ -44,8 +44,16 @@
 
 ## 面板 Panel
 
-* [ ] ProjectHub，启动界面
+* [x] ProjectHub，启动界面
+* [ ] Hierarchy，场景图层级树
 
+## Docking
+
+需要拉分支，自己编译imgui
+
+## Style
+
+封装了三套配色，建议用拾色器去配置
 
 ## 基本层次结构
 
