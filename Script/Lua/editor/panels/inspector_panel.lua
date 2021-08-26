@@ -33,6 +33,10 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     self.m_inspectorHeader.enabled = true  -- TODO false
     self.m_actorInfo = self:CreateWidget(Group)
 
+    self:_HeaderColumns()
+end)
+
+function Inspector:_HeaderColumns()
     local headerColumns = self.m_inspectorHeader:CreateWidget(Columns, 2)
 
     TheEditorDrawer:DrawString(headerColumns, "Name",
@@ -64,6 +68,6 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
                     self.m_targetActor.active = active
                 end
             end)
-end)
+end
 
 return Inspector
