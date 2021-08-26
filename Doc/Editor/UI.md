@@ -158,3 +158,18 @@ public:
     void *userData = nullptr;
 };
 ```
+
+# DataWidget
+
+ImGui控件的数据有自己的ImXXX类型，引擎接口有自己的类型
+
+两者之间的转换，还是需要getter和setter来加一层的
+
+# 无法获取键盘输入
+
+https://github.com/ocornut/imgui/issues/2608
+
+io.AddInputCharacter()
+
+Character和Key的概念和接口是分开的
+
