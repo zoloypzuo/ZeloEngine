@@ -45,6 +45,14 @@ function EditorDrawer:DrawString(root, name, getter, setter)
     widget.setter = setter
 end
 
+function EditorDrawer:DrawBoolean(root, name, getter, setter)
+    _CreateTitle(root, name)
+    local widget = root:CreateWidget(CheckBox)
+
+    widget.getter = getter
+    widget.setter = setter
+end
+
 local TheEditorDrawer = EditorDrawer
 
 return TheEditorDrawer
