@@ -34,6 +34,7 @@ function ComboBox:_UpdateImpl()
                 end
             end
         end
+        ImGui.EndCombo()
     end
 
     --if value ~= self.value then

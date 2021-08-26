@@ -1,6 +1,8 @@
 -- inspector_panel
 -- created on 2021/8/25
 -- author @zoloypzuo
+
+-- widgets
 local PanelWindow = require("ui.panel_window")
 local Button = require("ui.widgets.button")
 local InputText = require("ui.widgets.input_text")
@@ -13,12 +15,18 @@ local TreeNode = require("ui.layouts.tree_node")
 local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
+local ComboBox = require("ui.widgets.combobox")
+
 local TheEditorDrawer = require("editor.editor_drawer")
+
+-- TODO all entity components
+-- TODO resource manager
+-- TODO MessageBox
 
 local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
-    self.m_targetActor = nil
-    self.m_actorInfo = nil
+    self.m_targetEntity = nil
+    self.m_entityInfo = nil
     self.m_inspectorHeader = nil
     self.m_componentSelectorWidget = nil
     self.m_scriptSelectorWidget = nil
@@ -31,7 +39,7 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
 
     self.m_inspectorHeader = self:CreateWidget(Group)
     self.m_inspectorHeader.enabled = true  -- TODO false
-    self.m_actorInfo = self:CreateWidget(Group)
+    self.m_entityInfo = self:CreateWidget(Group)
 
     self:_HeaderColumns()
     self:_ComponentSelectorWidget()
@@ -43,31 +51,31 @@ function Inspector:_HeaderColumns()
 
     TheEditorDrawer:DrawString(headerColumns, "Name",
             function()
-                return self.m_targetActor and self.m_targetActor.name or "?"
+                return self.m_targetEntity and self.m_targetEntity.name or "?"
             end,
             function(name)
-                if self.m_targetActor then
-                    self.m_targetActor.name = name
+                if self.m_targetEntity then
+                    self.m_targetEntity.name = name
                 end
             end)
 
     TheEditorDrawer:DrawString(headerColumns, "Tag",
             function()
-                return self.m_targetActor and self.m_targetActor.tag or "?"
+                return self.m_targetEntity and self.m_targetEntity.tag or "?"
             end,
             function(tag)
-                if self.m_targetActor then
-                    self.m_targetActor.tag = tag
+                if self.m_targetEntity then
+                    self.m_targetEntity.tag = tag
                 end
             end)
 
     TheEditorDrawer:DrawBoolean(headerColumns, "Active",
             function()
-                return self.m_targetActor and self.m_targetActor.active or false
+                return self.m_targetEntity and self.m_targetEntity.active or false
             end,
             function(tag)
-                if self.m_targetActor then
-                    self.m_targetActor.active = active
+                if self.m_targetEntity then
+                    self.m_targetEntity.active = active
                 end
             end)
 end
@@ -101,44 +109,44 @@ function Inspector:_ComponentSelectorWidget()
         componentSelectorWidget.ValueChangedEvent:HandleEvent(componentSelectorWidget.currentChoice)
         -- TODO switch
         --        case 0:
-        --            GetTargetActor()->AddComponent<CModelRenderer>();
-        --            GetTargetActor()->AddComponent<CMaterialRenderer>();
+        --            GetTargetEntity()->AddComponent<CModelRenderer>();
+        --            GetTargetEntity()->AddComponent<CMaterialRenderer>();
         --            break;
         --        case 1:
-        --            GetTargetActor()->AddComponent<CCamera>();
+        --            GetTargetEntity()->AddComponent<CCamera>();
         --            break;
         --        case 2:
-        --            GetTargetActor()->AddComponent<CPhysicalBox>();
+        --            GetTargetEntity()->AddComponent<CPhysicalBox>();
         --            break;
         --        case 3:
-        --            GetTargetActor()->AddComponent<CPhysicalSphere>();
+        --            GetTargetEntity()->AddComponent<CPhysicalSphere>();
         --            break;
         --        case 4:
-        --            GetTargetActor()->AddComponent<CPhysicalCapsule>();
+        --            GetTargetEntity()->AddComponent<CPhysicalCapsule>();
         --            break;
         --        case 5:
-        --            GetTargetActor()->AddComponent<CPointLight>();
+        --            GetTargetEntity()->AddComponent<CPointLight>();
         --            break;
         --        case 6:
-        --            GetTargetActor()->AddComponent<CDirectionalLight>();
+        --            GetTargetEntity()->AddComponent<CDirectionalLight>();
         --            break;
         --        case 7:
-        --            GetTargetActor()->AddComponent<CSpotLight>();
+        --            GetTargetEntity()->AddComponent<CSpotLight>();
         --            break;
         --        case 8:
-        --            GetTargetActor()->AddComponent<CAmbientBoxLight>();
+        --            GetTargetEntity()->AddComponent<CAmbientBoxLight>();
         --            break;
         --        case 9:
-        --            GetTargetActor()->AddComponent<CAmbientSphereLight>();
+        --            GetTargetEntity()->AddComponent<CAmbientSphereLight>();
         --            break;
         --        case 10:
-        --            GetTargetActor()->AddComponent<CMaterialRenderer>();
+        --            GetTargetEntity()->AddComponent<CMaterialRenderer>();
         --            break;
         --        case 11:
-        --            GetTargetActor()->AddComponent<CAudioSource>();
+        --            GetTargetEntity()->AddComponent<CAudioSource>();
         --            break;
         --        case 12:
-        --            GetTargetActor()->AddComponent<CAudioListener>();
+        --            GetTargetEntity()->AddComponent<CAudioListener>();
         --            break;
     end)
 
@@ -150,93 +158,110 @@ function Inspector:_ComponentSelectorWidget()
         -- TODO
         --    switch (value) {
         --        case 0:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CModelRenderer>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CModelRenderer>());
         --            return;
         --        case 1:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CCamera>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CCamera>());
         --            return;
         --        case 2:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CPhysicalObject>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CPhysicalObject>());
         --            return;
         --        case 3:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CPhysicalObject>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CPhysicalObject>());
         --            return;
         --        case 4:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CPhysicalObject>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CPhysicalObject>());
         --            return;
         --        case 5:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CPointLight>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CPointLight>());
         --            return;
         --        case 6:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CDirectionalLight>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CDirectionalLight>());
         --            return;
         --        case 7:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CSpotLight>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CSpotLight>());
         --            return;
         --        case 8:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CAmbientBoxLight>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CAmbientBoxLight>());
         --            return;
         --        case 9:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CAmbientSphereLight>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CAmbientSphereLight>());
         --            return;
         --        case 10:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CMaterialRenderer>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CMaterialRenderer>());
         --            return;
         --        case 11:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CAudioSource>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CAudioSource>());
         --            return;
         --        case 12:
-        --            defineButtonsStates(GetTargetActor()->GetComponent<CAudioListener>());
+        --            defineButtonsStates(GetTargetEntity()->GetComponent<CAudioListener>());
         --            return;
         --    }
     end)
 end
 
 function Inspector:_ScriptSelectorWidget()
-    self.m_scriptSelectorWidget = self.m_inspectorHeader:CreateWidget(InputText, "")
+    local function updateAddScriptButton(script)
+        --    const std::string realScriptPath = EDITOR_CONTEXT(projectScriptsPath) + script + ".lua";
+        --
+        --    const auto targetEntity = GetTargetEntity();
+        --    const bool isScriptValid =
+        --            std::filesystem::exists(realScriptPath) && targetEntity && !targetEntity->GetBehaviour(script);
+        --
+        --    addScriptButton.disabled = !isScriptValid;
+        --    addScriptButton.idleBackgroundColor = isScriptValid ? OvUI::Types::Color{0.7f, 0.5f, 0.f}
+        --                                                        : OvUI::Types::Color{0.1f, 0.1f, 0.1f};
+    end
+
+    self.m_scriptSelectorWidget = self.m_inspectorHeader:CreateWidget(InputText, "?")
     self.m_scriptSelectorWidget.lineBreak = false
 
     -- TODO ddTarget
     --auto &ddTarget =
     --        m_scriptSelectorWidget->AddPlugin < OvUI::Plugins::DDTarget < std::pair < std::string, Layout::Group
     --*>>>("File");
-
-    local addScriptButton = self.m_inspectorHeader:CreateWidget()
-    --
-    --auto &addScriptButton = m_inspectorHeader->CreateWidget<EntityButtons::Button>("Add Script",
-    --                                                                                        OvMaths::FVector2{100.f,
-    --                                                                                                            0});
-    --addScriptButton.idleBackgroundColor = OvUI::Types::Color{0.7f, 0.5f, 0.f};
-    --addScriptButton.textColor = OvUI::Types::Color::White;
-    --
-    --const auto updateAddScriptButton = [&addScriptButton, this](const std::string &script) {
-    --    const std::string realScriptPath = EDITOR_CONTEXT(projectScriptsPath) + script + ".lua";
-    --
-    --    const auto targetActor = GetTargetActor();
-    --    const bool isScriptValid =
-    --            std::filesystem::exists(realScriptPath) && targetActor && !targetActor->GetBehaviour(script);
-    --
-    --    addScriptButton.disabled = !isScriptValid;
-    --    addScriptButton.idleBackgroundColor = isScriptValid ? OvUI::Types::Color{0.7f, 0.5f, 0.f}
-    --                                                        : OvUI::Types::Color{0.1f, 0.1f, 0.1f};
-    --};
-    --
-    --m_scriptSelectorWidget->ContentChangedEvent += updateAddScriptButton;
-    --
-    --addScriptButton.ClickedEvent += [updateAddScriptButton, this] {
-    --    const std::string realScriptPath =
-    --            EDITOR_CONTEXT(projectScriptsPath) + m_scriptSelectorWidget->content + ".lua";
-    --
-    --    if (std::filesystem::exists(realScriptPath)) {
-    --        GetTargetActor()->AddBehaviour(m_scriptSelectorWidget->content);
-    --        updateAddScriptButton(m_scriptSelectorWidget->content);
-    --    }
-    --};
-    --
     --ddTarget.DataReceivedEvent += [updateAddScriptButton, this](std::pair<std::string, Layout::Group *> data) {
     --    m_scriptSelectorWidget->content = EDITOR_EXEC(GetScriptPath(data.first));
     --    updateAddScriptButton(m_scriptSelectorWidget->content);
     --};
+
+    local addScriptButton = self.m_inspectorHeader:CreateWidget(Button, "Add Script", Vector2(100, 0))
+    addScriptButton.idleBackgroundColor = RGBA(0.7, 0.5, 0)
+    addScriptButton.textColor = RGBA.White
+
+    self.m_scriptSelectorWidget.ContentChangedEvent:AddEventHandler(updateAddScriptButton)
+
+    addScriptButton.ClickedEvent:AddEventHandler(function()
+        --    const std::string realScriptPath =
+        --            EDITOR_CONTEXT(projectScriptsPath) + m_scriptSelectorWidget->content + ".lua";
+        --
+        --    if (std::filesystem::exists(realScriptPath)) {
+        --        GetTargetEntity()->AddBehaviour(m_scriptSelectorWidget->content);
+        --        updateAddScriptButton(m_scriptSelectorWidget->content);
+        --    }
+    end)
+
+    self.m_inspectorHeader:CreateWidget(Separator)
+    --    m_destroyedListener = OvCore::ECS::Entity::DestroyedEvent += [this](OvCore::ECS::Entity &destroyed) {
+    --        if (&destroyed == m_targetEntity)
+    --            UnFocus();
+    --    };
 end
+
+--    void FocusEntity(OvCore::ECS::Entity &target);
+--
+--    void UnFocus();
+--
+--    void SoftUnFocus();
+--
+--    Entity *GetTargetEntity() const;
+--
+--    void CreateEntityInspector(OvCore::ECS::Entity &target);
+--
+--    void DrawComponent(AComponent &component);
+--
+--    void DrawBehaviour(Behaviour &behaviour);
+--
+--    void Refresh();
 
 return Inspector
