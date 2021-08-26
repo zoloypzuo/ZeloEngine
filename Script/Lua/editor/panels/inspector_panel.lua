@@ -13,6 +13,7 @@ local TreeNode = require("ui.layouts.tree_node")
 local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
+local TheEditorDrawer = require("editor.editor_drawer")
 
 local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
@@ -33,7 +34,15 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     self.m_actorInfo = self:CreateWidget(Group)
 
     local headerColumns = self.m_inspectorHeader:CreateWidget(Columns, 2)
-    
+
+    TheEditorDrawer:DrawString(headerColumns, "Name", function()
+        return self.m_targetActor and self.m_targetActor.name or "?"
+    end, function(name)
+        if self.m_targetActor then
+            self.m_targetActor.name = name
+        end
+    end)
+
     --    auto &headerColumns = m_inspectorHeader->CreateWidget < OvUI::Widgets::Layout::Columns < 2 >> ();
     --
     --    auto nameGatherer = [this] { return m_targetActor ? m_targetActor->GetName() : "%undef%"; };
@@ -48,3 +57,5 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     --    auto activeProvider = [this](bool active) { if (m_targetActor) m_targetActor->SetActive(active); };
     --    DrawBoolean(headerColumns, "Active", activeGatherer, activeProvider);
 end)
+
+return Inspector

@@ -37,18 +37,14 @@ local function _CreateTitle(root, name)
     root:CreateWidget(TextColored, name, TitleColor)
 end
 
-function EditorDrawer:DrawString(root, name, data)
+function EditorDrawer:DrawString(root, name, getter, setter)
     _CreateTitle(root, name)
     local widget = root:CreateWidget(InputText, "")
-    --    auto &dispatcher = widget.AddPlugin < OvUI::Plugins::DataDispatcher < std::string >> ();
-    --    dispatcher.RegisterReference(data); TODO
 
-    -- TODO
-    --    CreateTitle(root, name);
-    --    auto &widget = root.CreateWidget<OvUI::Widgets::InputFields::InputText>("");
-    --    auto &dispatcher = widget.AddPlugin < OvUI::Plugins::DataDispatcher < std::string >> ();
-    --    dispatcher.RegisterGatherer(gatherer);
-    --    dispatcher.RegisterProvider(provider);
+    widget.getter = getter
+    widget.setter = setter
 end
 
-return EditorDrawer
+local TheEditorDrawer = EditorDrawer
+
+return TheEditorDrawer
