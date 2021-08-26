@@ -148,6 +148,35 @@ function HierarchyPanel:Clear()
     self.m_widgetEntityLink = {}
 end
 
+function HierarchyPanel:OnAddEntity(entity)
+    -- TODO listen to entity creation
+    local textSelectable = self.m_sceneRoot:CreateWidget(TreeNode, entity.name, true)
+    textSelectable.leaf = true
+    textSelectable:AddPlugin(HierarchyContextualMenu, entity, textSelectable)
+
+    -- TODO
+    --textSelectable.AddPlugin<OvUI::Plugins::DDSource<std::pair<OvCore::ECS::Actor*, OvUI::Widgets::Layout::TreeNode*>>>("Actor", "Attach to...", std::make_pair(&p_actor, &textSelectable));
+    --textSelectable.AddPlugin<OvUI::Plugins::DDTarget<std::pair<OvCore::ECS::Actor*, OvUI::Widgets::Layout::TreeNode*>>>("Actor").DataReceivedEvent += [&p_actor, &textSelectable](std::pair<OvCore::ECS::Actor*, OvUI::Widgets::Layout::TreeNode*> p_element)
+    --{
+    --	if (p_element.second->HasParent())
+    --		p_element.second->GetParent()->UnconsiderWidget(*p_element.second);
+    --
+    --	textSelectable.ConsiderWidget(*p_element.second);
+    --
+    --	p_element.first->SetParent(p_actor);
+    --};
+
+    --auto& dispatcher = textSelectable.AddPlugin<OvUI::Plugins::DataDispatcher<std::string>>();
+    --
+    --OvCore::ECS::Actor* targetPtr = &p_actor;
+    --dispatcher.RegisterGatherer([targetPtr] { return targetPtr->GetName(); });
+    --
+    --m_widgetActorLink[targetPtr] = &textSelectable;
+    --
+    --textSelectable.ClickedEvent += EDITOR_BIND(SelectActor, std::ref(p_actor));
+    --textSelectable.DoubleClickedEvent += EDITOR_BIND(MoveToTarget, std::ref(p_actor));
+end
+
 --    void UnselectEntitysWidgets();
 --
 --    void SelectEntityByInstance(Entity &entity);
@@ -159,7 +188,5 @@ end
 --    void DetachFromParent(Entity &entity);
 --
 --    void DeleteEntityByInstance(Entity &entity);
---
---    void AddEntityByInstance(Entity &entity);
 
 return HierarchyPanel
