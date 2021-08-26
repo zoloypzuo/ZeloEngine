@@ -5,15 +5,15 @@ local AWidget = require("ui.widget")
 
 local AButton = Class(AWidget, function(self, parent)
     AWidget._ctor(self, parent)
-    self.on_click = EventProcessor()
+    self.ClickedEvent = EventWrapper(EventProcessor(), "ClickedEvent")
 end)
 
 function AButton:AddOnClickHandler(fn)
-    return self.on_click:AddEventHandler("on_click", fn)
+    return self.ClickedEvent:AddEventHandler(fn)
 end
 
 function AButton:_OnClick()
-    self.on_click:HandleEvent("on_click")
+    self.ClickedEvent:HandleEvent()
 end
 
 return AButton
