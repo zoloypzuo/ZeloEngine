@@ -75,7 +75,7 @@ local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSet
     self.m_sceneRoot = nil
     self.m_widgetEntityLink = {}  -- Entity => TreeNode
 
-    self:_SearchBar()
+    --self:_SearchBar() TODO
     self:_SceneGraph()
     -- TODO EDITOR_EVENT
     --    EDITOR_EVENT(EntityUnselectedEvent) += std::bind(&Hierarchy::UnselectEntitysWidgets, this);
@@ -137,6 +137,9 @@ function HierarchyPanel:_SceneGraph()
     --        element.first->DetachFromParent();
     --    };
     self.m_sceneRoot:AddPlugin(HierarchyContextualMenu, self.m_sceneRoot)
+end
+
+function HierarchyPanel:LoadScene()
 end
 
 function HierarchyPanel:Clear()
