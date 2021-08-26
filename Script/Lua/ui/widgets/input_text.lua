@@ -9,6 +9,9 @@ local InputText = Class(AWidget, function(self, parent, content, label)
     self.label = label or ""
     self.selectAllOnClick = false
 
+    self.getter = nil
+    self.setter = nil
+
     local processor = EventProcessor()
     self.ContentChangedEvent = EventWrapper(processor, "ContentChangedEvent")
     self.EnterPressedEvent = EventWrapper(processor, "EnterPressedEvent")
@@ -21,16 +24,28 @@ function InputText:_UpdateImpl()
     else
         flag = ImGuiInputTextFlags.EnterReturnsTrue
     end
+
+    if self.getter then
+        self.content = self.getter()
+    end
+
     local text, selected = ImGui.InputText(self.label, self.content, 256, flag)
 
     if text ~= self.content then
         self.content = text
+
+        if self.setter then
+            self.setter(text)
+        end
+
         self.ContentChangedEvent:HandleEvent(text)
     end
 
     if selected then
         self.EnterPressedEvent:HandleEvent()
     end
+
+    self.content = text
 end
 
 return InputText
