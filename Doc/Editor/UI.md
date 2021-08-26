@@ -173,3 +173,4 @@ io.AddInputCharacter()
 
 Character和Key的概念和接口是分开的
 
+字体要支持中文，否则只能用英文输入法
