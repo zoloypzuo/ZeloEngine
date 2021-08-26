@@ -14,7 +14,7 @@ local TreeNode = require("ui.layouts.tree_node")
 local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
-local CheckBox = require("ui.widgets.check_box")
+local CheckBox = require("ui.widgets.checkbox")
 
 -- TODO draw string
 -- TODO draw bool
