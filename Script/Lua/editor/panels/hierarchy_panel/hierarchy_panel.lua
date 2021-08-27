@@ -87,8 +87,9 @@ local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSet
     --    Entity::DettachEvent += std::bind(&Hierarchy::DetachFromParent, this, std::placeholders::_1);
     MainFunctionEvent:AddEventHandler("SpawnPrefab", function(entity, name)
         -- TODO listen to entity creation
-        local textSelectable = self.m_sceneRoot:CreateWidget(TreeNode, entity.name, true)
+        local textSelectable = self.m_sceneRoot:CreateWidget(TreeNode, name .. entity.GUID, true)
         textSelectable.leaf = true
+        textSelectable:Open()
         textSelectable:AddPlugin(HierarchyContextualMenu, entity, textSelectable)
 
         -- TODO

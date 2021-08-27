@@ -86,7 +86,6 @@ function Inspector:_ComponentSelectorWidget()
     componentSelectorWidget.lineBreak = false
     componentSelectorWidget.choices = {
         [0] = "Model Renderer";
-        [0] = "Model Renderer";
         [1] = "Camera";
         [2] = "Physical Box";
         [3] = "Physical Sphere";
