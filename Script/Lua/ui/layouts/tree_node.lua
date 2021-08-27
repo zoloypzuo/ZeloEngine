@@ -56,9 +56,9 @@ function TreeNode:_UpdateImpl()
 
     opened = ImGui.TreeNodeEx(self.name, flags)
 
-    local mx, my = ImGui.GetMousePos()
-    local ix, iy = ImGui.GetItemRectMin()
-    if ImGui.IsItemClicked and (mx - ix) > ImGui.GetTreeNodeToLabelSpacing() then
+    local mx, _ = ImGui.GetMousePos()
+    local ix, _ = ImGui.GetItemRectMin()
+    if ImGui.IsItemClicked() and (mx - ix) > ImGui.GetTreeNodeToLabelSpacing() then
         self.ClickedEvent:HandleEvent()
 
         if ImGui.IsMouseDoubleClicked(0) then
