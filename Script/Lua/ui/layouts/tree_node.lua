@@ -26,6 +26,9 @@ local TreeNode = Class(AWidget, function(self, parent, name, arrowClickToOpen)
 
     self.m_autoExecutePlugins = false
 
+    self.getter = nil
+    self.setter = nil
+
 end):include(WidgetContainerMixin)
 
 function TreeNode:_UpdateImpl()
@@ -46,6 +49,11 @@ function TreeNode:_UpdateImpl()
     if self.leaf then
         flags = bit.bor(flags, ImGuiTreeNodeFlags.Leaf)
     end
+
+    if self.getter then
+        self.name = self.getter()
+    end
+
     opened = ImGui.TreeNodeEx(self.name, flags)
 
     local mx, my = ImGui.GetMousePos()

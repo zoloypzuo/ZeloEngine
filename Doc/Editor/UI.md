@@ -22,6 +22,8 @@
 * [x] Button
 * [x] InputText
 * [ ] AcceptDragDropPayload https://github.com/ocornut/imgui/issues/1931
+* [ ] DDSource  // DD = Drag and Drop
+* [ ] DDTarget
 
 ### 控件属性
 

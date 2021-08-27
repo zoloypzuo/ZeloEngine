@@ -5,7 +5,7 @@ local EditorActions = Class(function(self)
 
 end)
 
-function EditorActions:MoveToTarget()
+function EditorActions:MoveToTarget(entity)
     print("MoveToTarget")
 end
 
@@ -16,6 +16,10 @@ end
 
 function EditorActions:DestroyEntity()
     print("DestroyEntity")
+end
+
+function EditorActions:SelectEntity(entity)
+    print("SelectEntity")
 end
 
 function EditorActions:UnselectEntity()

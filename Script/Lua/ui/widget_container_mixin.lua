@@ -17,6 +17,11 @@ function WidgetContainerMixin:CreateWidget(type_, ...)
     return inst
 end
 
+function WidgetContainerMixin:AddWidget(widget)
+    self.widgets[#self.widgets + 1] = widget
+    return widget
+end
+
 function WidgetContainerMixin:RemoveWidget(widget)
     RemoveByValue(self.widgets, widget)
 end
