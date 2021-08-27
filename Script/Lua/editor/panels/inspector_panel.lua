@@ -44,6 +44,10 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     self:_HeaderColumns()
     self:_ComponentSelectorWidget()
     self:_ScriptSelectorWidget()
+
+    TheEditorActions.OnSelectEntity:AddEventHandler(function(entity)
+        self.m_targetEntity = entity
+    end)
 end)
 
 function Inspector:_HeaderColumns()
@@ -51,7 +55,7 @@ function Inspector:_HeaderColumns()
 
     TheEditorDrawer:DrawString(headerColumns, "Name",
             function()
-                return self.m_targetEntity and self.m_targetEntity.name or "?"
+                return self.m_targetEntity and tostring(self.m_targetEntity.GUID) or "?"
             end,
             function(name)
                 if self.m_targetEntity then

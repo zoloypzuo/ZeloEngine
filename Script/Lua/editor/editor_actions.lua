@@ -2,7 +2,8 @@
 -- created on 2021/8/25
 -- author @zoloypzuo
 local EditorActions = Class(function(self)
-
+    self.processor = EventProcessor()
+    self.OnSelectEntity = EventWrapper(self.processor, "OnSelectEntity")
 end)
 
 function EditorActions:MoveToTarget(entity)
@@ -20,6 +21,7 @@ end
 
 function EditorActions:SelectEntity(entity)
     print("SelectEntity")
+    self.OnSelectEntity:HandleEvent(entity)
 end
 
 function EditorActions:UnselectEntity()

@@ -78,7 +78,7 @@ local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSet
     self.m_sceneRoot = nil
     self.m_widgetEntityLink = {}  -- Entity => TreeNode
 
-    --self:_SearchBar() TODO
+    self:_SearchBar()
     self:_SceneGraph()
     -- TODO EDITOR_EVENT
     --    EDITOR_EVENT(EntityUnselectedEvent) += std::bind(&Hierarchy::UnselectEntitysWidgets, this);
@@ -89,44 +89,7 @@ local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSet
     --    Entity::AttachEvent += std::bind(&Hierarchy::AttachEntityToParent, this, std::placeholders::_1);
     --    Entity::DettachEvent += std::bind(&Hierarchy::DetachFromParent, this, std::placeholders::_1);
     MainFunctionEvent:AddEventHandler("SpawnPrefab", function(entity, name)
-        -- TODO listen to entity creation
-        local textSelectable = self.m_sceneRoot:CreateWidget(TreeNode, name .. entity.GUID, true)
-        textSelectable.leaf = true
-        textSelectable:Open()
-        textSelectable:AddPlugin(HierarchyContextualMenu, entity, textSelectable)
-
-        -- TODO implement drag and drop
-        IMGUI_SUPPORT_DD = false
-        if IMGUI_SUPPORT_DD then
-            textSelectable:AddPlugin(DDSource, "Entity", "Attach To...", { entity, textSelectable })
-            local ddtarget = textSelectable:AddPlugin(DDTarget, "Entity")
-            ddtarget.DataReceivedEvent:AddEventHandler(function(_entity, _textSelectable)
-                print("DDTarget DataReceivedEvent", _entity.GUID)
-                if _textSelectable:HasParent() then
-                    local parent = _textSelectable:GetParent()
-                    if parent then
-                        parent:RemoveWidget(_textSelectable)
-                    end
-                    textSelectable:AddWidget(_textSelectable)
-                    -- TODO entity在树上的移动接口
-                    --	p_element.first->SetParent(p_actor);
-                end
-            end)
-        end
-
-        textSelectable.getter = function()
-            return name .. entity.GUID
-        end
-
-        self.m_widgetEntityLink[entity] = textSelectable
-
-        textSelectable.ClickedEvent:AddEventHandler(function()
-            TheEditorActions:SelectEntity(entity)
-        end)
-
-        textSelectable.DoubleClickedEvent:AddEventHandler(function()
-            TheEditorActions:MoveToTarget(entity)
-        end)
+        self:_OnAddEntity(entity, name)
     end)
 end)
 
@@ -188,10 +151,45 @@ function HierarchyPanel:Clear()
     self.m_widgetEntityLink = {}
 end
 
-function HierarchyPanel:SelectEntity(entity)
-    print("HierarchyPanel:SelectEntity")
-end
+function HierarchyPanel:_OnAddEntity(entity, name)
+    local textSelectable = self.m_sceneRoot:CreateWidget(TreeNode, name .. entity.GUID, true)
+    textSelectable.leaf = true
+    textSelectable:Open()
+    textSelectable:AddPlugin(HierarchyContextualMenu, entity, textSelectable)
 
+    -- TODO implement drag and drop
+    IMGUI_SUPPORT_DD = false
+    if IMGUI_SUPPORT_DD then
+        textSelectable:AddPlugin(DDSource, "Entity", "Attach To...", { entity, textSelectable })
+        local ddtarget = textSelectable:AddPlugin(DDTarget, "Entity")
+        ddtarget.DataReceivedEvent:AddEventHandler(function(_entity, _textSelectable)
+            print("DDTarget DataReceivedEvent", _entity.GUID)
+            if _textSelectable:HasParent() then
+                local parent = _textSelectable:GetParent()
+                if parent then
+                    parent:RemoveWidget(_textSelectable)
+                end
+                textSelectable:AddWidget(_textSelectable)
+                -- TODO entity在树上的移动接口
+                --	p_element.first->SetParent(p_actor);
+            end
+        end)
+    end
+
+    textSelectable.getter = function()
+        return name .. entity.GUID
+    end
+
+    self.m_widgetEntityLink[entity] = textSelectable
+
+    textSelectable.ClickedEvent:AddEventHandler(function()
+        TheEditorActions:SelectEntity(entity)
+    end)
+
+    textSelectable.DoubleClickedEvent:AddEventHandler(function()
+        TheEditorActions:MoveToTarget(entity)
+    end)
+end
 
 --    void UnselectEntitysWidgets();
 --
