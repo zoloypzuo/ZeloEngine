@@ -182,9 +182,6 @@ function HierarchyPanel:_SceneGraph()
     self.m_sceneRoot:AddPlugin(HierarchyContextualMenu, self.m_sceneRoot)
 end
 
-function HierarchyPanel:LoadScene()
-end
-
 function HierarchyPanel:Clear()
     TheEditorActions:UnselectEntity()
     self.m_sceneRoot:RemoveAllWidgets()

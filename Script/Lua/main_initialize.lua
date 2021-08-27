@@ -69,5 +69,3 @@ TheFrontEnd:LoadPanel(InspectorPanel, "Inspector Panel", true)
 
 -- scene
 require("scenes.scene01")
-
-hierarchyPanel:LoadScene()
