@@ -283,3 +283,17 @@ end
 function UnloadResource(name)
     ResourceMap[name] = nil
 end
+
+require("framework.events")
+MainFunctionEvent = EventProcessor()
+
+local function RegisterMainFunctionEvent(name)
+    local fn = _G[name]
+    _G[name] = function(...)
+        local result = fn(...)
+        MainFunctionEvent:HandleEvent(name, result, ...)
+        return result
+    end
+end
+
+RegisterMainFunctionEvent("SpawnPrefab")
