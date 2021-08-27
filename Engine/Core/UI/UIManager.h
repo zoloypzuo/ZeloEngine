@@ -50,8 +50,5 @@ public:
     ZELO_SCRIPT_API std::string OpenFileDialog();
 
     ZELO_SCRIPT_API std::string SaveFileDialog();
-
-private:
-    bool m_enableDocking{};
 };
 }

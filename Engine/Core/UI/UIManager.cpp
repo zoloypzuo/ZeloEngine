@@ -6,7 +6,9 @@
 #include "ZeloGLPrerequisites.h"
 
 #include <imgui.h>
+
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
+
 #include <backends/imgui_impl_opengl3.h>
 #include <backends/imgui_impl_sdl.h>
 #include "Core/Window/Window.h"
@@ -35,11 +37,22 @@ void UIManager::initialize() {
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+
     ImGuiIO &io = ImGui::GetIO();
-    (void) io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+    EnableDocking(true);
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
 
     // Setup Dear ImGui style
     ImGui::StyleColorsDark();
+
+    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+    }
 
     // Setup Platform/Renderer bindings
     // window is the SDL_Window*
@@ -64,7 +77,17 @@ void UIManager::update() {
     ImGui_ImplSDL2_NewFrame();
     ImGui::NewFrame();
     // Frame logic here...
-    if (m_enableDocking) {
+
+    // Docking
+    if (IsDockingEnabled()) {
+        ImGuiIO &io = ImGui::GetIO();
+
+        static ImGuiDockNodeFlags dockspace_flags = ImGuiDockNodeFlags_PassthruCentralNode;
+
+        // We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
+        // because it would be confusing to have two docking targets within each others.
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+
         ImGuiViewport *viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->Pos);
         ImGui::SetNextWindowSize(viewport->Size);
@@ -91,7 +114,23 @@ void UIManager::update() {
 
 void UIManager::draw() {
     ImGui::Render();
+    ImGuiIO &io = ImGui::GetIO();
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+    glViewport(0, 0, (int)io.DisplaySize.x, (int)io.DisplaySize.y);
+    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
+    glClear(GL_COLOR_BUFFER_BIT);
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+    // Update and Render additional Platform Windows
+    // (Platform functions may change the current OpenGL context, so we save/restore it to make it easier to paste this code elsewhere.
+    //  For this specific demo app we could also call SDL_GL_MakeCurrent(window, gl_context) directly)
+    if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+    {
+        SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
+        SDL_GLContext backup_current_context = SDL_GL_GetCurrentContext();
+        ImGui::UpdatePlatformWindows();
+        ImGui::RenderPlatformWindowsDefault();
+        SDL_GL_MakeCurrent(backup_current_window, backup_current_context);
+    }
 }
 
 void UIManager::ApplyStyle(UIManager::EStyle style) {
@@ -244,18 +283,16 @@ void UIManager::UseFont(Font &font) {
 }
 
 void UIManager::EnableDocking(bool value) {
-    m_enableDocking = value;
-
     if (value) { ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable; }
     else { ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_DockingEnable; }
 }
 
 bool UIManager::IsDockingEnabled() const {
-    return m_enableDocking;
+    return ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable;
 }
 
 std::string UIManager::OpenFileDialog() {
-    void * window = Window::getSingletonPtr()->getHwnd();
+    void *window = Window::getSingletonPtr()->getHwnd();
     auto result = FileDialogs::OpenFile(L"All Files\0*.*\0\0", window);
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::string narrow = converter.to_bytes(result);
@@ -263,7 +300,7 @@ std::string UIManager::OpenFileDialog() {
 }
 
 std::string UIManager::SaveFileDialog() {
-    void * window = Window::getSingletonPtr()->getHwnd();
+    void *window = Window::getSingletonPtr()->getHwnd();
     auto result = FileDialogs::SaveFile(L"All Files\0*.*\0\0", window);
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
     std::string narrow = converter.to_bytes(result);
