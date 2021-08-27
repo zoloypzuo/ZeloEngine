@@ -152,7 +152,7 @@ function HierarchyPanel:Clear()
 end
 
 function HierarchyPanel:_OnAddEntity(entity, name)
-    local textSelectable = self.m_sceneRoot:CreateWidget(TreeNode, name .. entity.GUID, true)
+    local textSelectable = self.m_sceneRoot:CreateWidget(TreeNode, entity.name, true)
     textSelectable.leaf = true
     textSelectable:Open()
     textSelectable:AddPlugin(HierarchyContextualMenu, entity, textSelectable)

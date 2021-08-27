@@ -34,7 +34,7 @@ Entity::~Entity() {
 
     // trigger component remove event
     std::for_each(m_components.begin(), m_components.end(),
-                  [&](const std::shared_ptr<Component>& component) { ComponentRemovedEvent.Invoke(*component); });
+                  [&](const std::shared_ptr<Component> &component) { ComponentRemovedEvent.Invoke(*component); });
 
     // cleanup component map
     if (!m_tag.empty()) {
@@ -137,6 +137,8 @@ void Entity::AddTag(const std::string &tag) {
     m_tag = tag;
     s_taggedEntities[tag].push_back(this);
 }
+
+std::string Entity::GetTag() const { return m_tag; }
 
 Transform *Entity::AddTransform() {
     auto &L = LuaScriptManager::getSingleton();
@@ -324,3 +326,4 @@ void Entity::DetachFromParent() {
 std::shared_ptr<Entity> Entity::getChild(int index) {
     return m_children[index];
 }
+

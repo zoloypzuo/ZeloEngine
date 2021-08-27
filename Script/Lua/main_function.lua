@@ -58,8 +58,6 @@ local renames = {
 }
 
 function SpawnPrefab(name)
-
-    -- TheSim:ProfilerPush("SpawnPrefab "..name)
     name = string.sub(name, string.find(name, "[^/]*$"))
     name = renames[name] or name
 
@@ -69,8 +67,10 @@ function SpawnPrefab(name)
 
     local guid = TheSim:SpawnPrefab(name)
 
-    -- TheSim:ProfilerPop()
-    return Ents[guid]
+    local entity = Ents[guid]
+    entity.name = name .. tostring(guid)
+
+    return entity
 end
 
 function SpawnSaveRecord(saved, newents)

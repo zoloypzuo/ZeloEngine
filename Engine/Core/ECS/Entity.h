@@ -179,7 +179,9 @@ public:
 public:  // script api
     GUID_t GetGUID() const;
 
-    void AddTag(const std::string &tag);
+    ZELO_SCRIPT_API void AddTag(const std::string &tag);
+
+    ZELO_SCRIPT_API std::string GetTag() const;
 
     Transform *AddTransform();
 

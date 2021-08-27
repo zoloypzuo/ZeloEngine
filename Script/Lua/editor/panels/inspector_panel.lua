@@ -55,7 +55,7 @@ function Inspector:_HeaderColumns()
 
     TheEditorDrawer:DrawString(headerColumns, "Name",
             function()
-                return self.m_targetEntity and tostring(self.m_targetEntity.GUID) or "?"
+                return self.m_targetEntity and tostring(self.m_targetEntity.name) or "?"
             end,
             function(name)
                 if self.m_targetEntity then
@@ -65,7 +65,7 @@ function Inspector:_HeaderColumns()
 
     TheEditorDrawer:DrawString(headerColumns, "Tag",
             function()
-                return self.m_targetEntity and self.m_targetEntity.tag or "?"
+                return self.m_targetEntity and self.m_targetEntity.entity.tag or "?"
             end,
             function(tag)
                 if self.m_targetEntity then
