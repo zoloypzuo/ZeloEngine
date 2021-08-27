@@ -7,8 +7,9 @@ local DDSource = Class(function(self, id_, tooltip, data)
     self.data = data or nil
     self.hasTooltip = true -- Hide the tooltip
 
-    self.DragStartEvent = nil
-    self.DragStopEvent = nil
+    local processor = EventProcessor()
+    self.DragStartEvent = EventWrapper(processor, "DragStartEvent")
+    self.DragStopEvent = EventWrapper(processor, "DragStopEvent")
 
     self.isDragged = false
 end)
@@ -41,3 +42,5 @@ function DDSource:Execute()
         self.isDragged = false
     end
 end
+
+return DDSource

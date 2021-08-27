@@ -3,9 +3,11 @@
 -- author @zoloypzuo
 local DDTarget = Class(function(self, id_)
     self.id = id_
-    self.DataReceivedEvent = nil
-    self.HoverStartEvent = nil
-    self.HoverEndEvent = nil
+
+    local processor = EventProcessor()
+    self.DataReceivedEvent = EventWrapper(processor, "DataReceivedEvent")
+    self.HoverStartEvent = EventWrapper(processor, "HoverStartEvent")
+    self.HoverEndEvent = EventWrapper(processor, "HoverEndEvent")
 
     self.showYellowRect = true
 
@@ -36,3 +38,5 @@ function DDTarget:Execute()
         self.m_isHovered = false
     end
 end
+
+return DDTarget
