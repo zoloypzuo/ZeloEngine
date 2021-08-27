@@ -41,7 +41,7 @@ RegisterResourceLoader("MATERIAL", function(name, data)
 end)
 
 -- UI
-UI.enable_docking = true;
+UI.enable_docking = false;
 UI:ApplyStyle(EStyle.DUNE_DARK)
 UI:UseFont(LoadResource("Ruda-Bold.ttf"))
 
@@ -61,7 +61,7 @@ end
 
 require("editor.editor_actions")
 
---local project_hub_panel = require("editor.panels.project_hub_panel")
+local project_hub_panel = require("editor.panels.project_hub_panel")
 local HierarchyPanel = require("editor.panels.hierarchy_panel.hierarchy_panel")
 local hierarchyPanel = TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy Panel", true)
 local InspectorPanel = require("editor.panels.inspector_panel")

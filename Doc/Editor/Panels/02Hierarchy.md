@@ -24,3 +24,9 @@ Root开始Entity的name
 在某个节点上右键有菜单，其实是对场景图的操作
 
 ![](https://raw.githubusercontent.com/zolo-mario/image-host/main/20210712/Snipaste_2021-08-25_14-39-30.w14lw1i1x5s.png)
+
+## 场景图
+
+首先加载一个空的Root
+然后脚本加载场景，监听脚本的Entity加载去构造场景图  // 这样成本低
+
