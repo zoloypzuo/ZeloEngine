@@ -12,7 +12,7 @@ function WidgetContainerMixin:UpdateWidgets()
 end
 
 function WidgetContainerMixin:CreateWidget(type_, ...)
-    inst = type_(self, ...)
+    local inst = type_(self, ...)
     self.widgets[#self.widgets + 1] = inst
     return inst
 end

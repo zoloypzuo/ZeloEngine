@@ -158,6 +158,7 @@ function HierarchyPanel:_OnAddEntity(entity, name)
     textSelectable:AddPlugin(HierarchyContextualMenu, entity, textSelectable)
 
     -- TODO implement drag and drop
+    global("IMGUI_SUPPORT_DD")
     IMGUI_SUPPORT_DD = false
     if IMGUI_SUPPORT_DD then
         textSelectable:AddPlugin(DDSource, "Entity", "Attach To...", { entity, textSelectable })

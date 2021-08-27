@@ -22,7 +22,7 @@ function Column:_UpdateImpl()
     local idx = 1
     local counter = 1
     while idx <= #self.widgets do
-        widget = self.widgets[idx]
+        local widget = self.widgets[idx]
         widget:Update()
 
         idx = idx + 1

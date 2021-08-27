@@ -54,7 +54,7 @@ function TreeNode:_UpdateImpl()
         self.name = self.getter()
     end
 
-    opened = ImGui.TreeNodeEx(self.name, flags)
+    local opened = ImGui.TreeNodeEx(self.name, flags)
 
     local mx, _ = ImGui.GetMousePos()
     local ix, _ = ImGui.GetItemRectMin()

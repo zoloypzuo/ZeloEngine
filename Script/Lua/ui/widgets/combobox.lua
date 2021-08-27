@@ -7,8 +7,6 @@ local ComboBox = Class(AWidget, function(self, parent, currentChoice)
     AWidget._ctor(self, parent)
     self.choices = {}  -- int => string
     self.currentChoice = currentChoice or 0
-    self.value = value or false
-    self.label = label or ""
 
     self.getter = nil
     self.setter = nil
@@ -45,8 +43,6 @@ function ComboBox:_UpdateImpl()
     --    end
     --
     --end
-
-    self.value = value
 end
 
 return ComboBox
