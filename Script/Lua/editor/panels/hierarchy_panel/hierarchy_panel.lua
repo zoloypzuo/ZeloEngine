@@ -95,21 +95,24 @@ local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSet
         textSelectable:Open()
         textSelectable:AddPlugin(HierarchyContextualMenu, entity, textSelectable)
 
-        -- Entity, TreeNode
-        textSelectable:AddPlugin(DDSource, "Entity", "Attach To...", { entity, textSelectable })
-        local ddtarget = textSelectable:AddPlugin(DDTarget, "Entity")
-        ddtarget.DataReceivedEvent:AddEventHandler(function(_entity, _textSelectable)
-            print("DDTarget DataReceivedEvent", _entity.GUID)
-            if _textSelectable:HasParent() then
-                local parent = _textSelectable:GetParent()
-                if parent then
-                    parent:RemoveWidget(_textSelectable)
+        -- TODO implement drag and drop
+        IMGUI_SUPPORT_DD = false
+        if IMGUI_SUPPORT_DD then
+            textSelectable:AddPlugin(DDSource, "Entity", "Attach To...", { entity, textSelectable })
+            local ddtarget = textSelectable:AddPlugin(DDTarget, "Entity")
+            ddtarget.DataReceivedEvent:AddEventHandler(function(_entity, _textSelectable)
+                print("DDTarget DataReceivedEvent", _entity.GUID)
+                if _textSelectable:HasParent() then
+                    local parent = _textSelectable:GetParent()
+                    if parent then
+                        parent:RemoveWidget(_textSelectable)
+                    end
+                    textSelectable:AddWidget(_textSelectable)
+                    -- TODO entity在树上的移动接口
+                    --	p_element.first->SetParent(p_actor);
                 end
-                textSelectable:AddWidget(_textSelectable)
-                -- TODO entity在树上的移动接口
-                --	p_element.first->SetParent(p_actor);
-            end
-        end)
+            end)
+        end
 
         textSelectable.getter = function()
             return name .. entity.GUID
