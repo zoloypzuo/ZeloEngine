@@ -122,8 +122,8 @@ function PanelWindow:_UpdateImpl()
         self.focused = ImGui.IsWindowFocused()
 
         local scrollY = ImGui.GetScrollY()
-        self.m_scrolledToBottom = ImGui.GetScrollMaxY()
-        self.m_scrolledToTop = 0
+        self.m_scrolledToBottom = scrollY == ImGui.GetScrollMaxY()
+        self.m_scrolledToTop = scrollY == 0
 
         if not shouldDraw then
             self.CloseEvent:HandleEvent()
