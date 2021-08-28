@@ -42,50 +42,43 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     self.m_destroyedListener = 0
 
     self.m_inspectorHeader = self:CreateWidget(Group)
-    self.m_inspectorHeader.enabled = true  -- TODO false
+    self.m_inspectorHeader.enabled = false
     self.m_entityInfo = self:CreateWidget(Group)
 
     self:_HeaderColumns()
     self:_ComponentSelectorWidget()
     self:_ScriptSelectorWidget()
+    self:_Separator();
 
-    TheEditorActions.OnSelectEntity:AddEventHandler(function(entity)
-        self.m_targetEntity = entity
-    end)
+    TheEditorActions.OnSelectEntity:AddEventHandler(Bind(self, "FocusEntity"))
 end)
 
 function Inspector:_HeaderColumns()
     local headerColumns = self.m_inspectorHeader:CreateWidget(Columns, 2)
 
-    TheEditorDrawer:DrawString(headerColumns, "Name",
-            function()
-                return self.m_targetEntity and tostring(self.m_targetEntity.name) or "?"
-            end,
-            function(name)
-                if self.m_targetEntity then
-                    self.m_targetEntity.name = name
-                end
-            end)
+    TheEditorDrawer:DrawString(headerColumns, "Name", function()
+        return self.m_targetEntity and tostring(self.m_targetEntity.name) or "?"
+    end, function(name)
+        if self.m_targetEntity then
+            self.m_targetEntity.name = name
+        end
+    end)
 
-    TheEditorDrawer:DrawString(headerColumns, "Tag",
-            function()
-                return self.m_targetEntity and self.m_targetEntity.entity.tag or "?"
-            end,
-            function(tag)
-                if self.m_targetEntity then
-                    self.m_targetEntity.entity.tag = tag
-                end
-            end)
+    TheEditorDrawer:DrawString(headerColumns, "Tag", function()
+        return self.m_targetEntity and self.m_targetEntity.entity.tag or "?"
+    end, function(tag)
+        if self.m_targetEntity then
+            self.m_targetEntity.entity.tag = tag
+        end
+    end)
 
-    TheEditorDrawer:DrawBoolean(headerColumns, "Active",
-            function()
-                return self.m_targetEntity and self.m_targetEntity.entity.active or false
-            end,
-            function(active)
-                if self.m_targetEntity then
-                    self.m_targetEntity.entity.active = active
-                end
-            end)
+    TheEditorDrawer:DrawBoolean(headerColumns, "Active", function()
+        return self.m_targetEntity and self.m_targetEntity.entity.active or false
+    end, function(active)
+        if self.m_targetEntity then
+            self.m_targetEntity.entity.active = active
+        end
+    end)
 end
 
 function Inspector:_ComponentSelectorWidget()
@@ -255,10 +248,37 @@ function Inspector:_ScriptSelectorWidget()
     --    };
 end
 
---    void FocusEntity(OvCore::ECS::Entity &target);
---
---    void UnFocus();
---
+function Inspector:_Separator()
+    self.m_inspectorHeader:CreateWidget(Separator)
+end
+
+function Inspector:FocusEntity(target)
+    print("Focus Entity", target.name)
+    if self.m_targetEntity then
+        self:UnFocus()
+    end
+    self.m_targetEntity = target
+
+    do -- draw transform
+        local header = self.m_entityInfo:CreateWidget(Group, "Transform")
+        local columns = header:CreateWidget(Columns, 2)
+        columns.widths[1] = 200
+        TheEditorDrawer:DrawVec3(columns, "Position")
+        TheEditorDrawer:DrawVec3(columns, "Rotation")
+        TheEditorDrawer:DrawVec3(columns, "Scale")
+    end
+
+    self.m_inspectorHeader.enabled = true
+end
+
+function Inspector:UnFocus()
+    if self.m_targetEntity then
+        self.m_inspectorHeader.enabled = false
+        self.m_entityInfo:Clear()
+        self.m_targetEntity = nil
+    end
+end
+
 --    void SoftUnFocus();
 --
 --    Entity *GetTargetEntity() const;

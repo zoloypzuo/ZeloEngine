@@ -55,6 +55,11 @@ function EditorDrawer:DrawBoolean(root, name, getter, setter)
     widget.setter = setter
 end
 
+function EditorDrawer:DrawVec3(root, name, getter, setter)
+    _CreateTitle(root, name)
+    local widget = root:CreateWidget(CheckBox)
+end
+
 local TheEditorDrawer = EditorDrawer
 
 return TheEditorDrawer
