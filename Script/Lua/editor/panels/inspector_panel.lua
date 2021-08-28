@@ -268,7 +268,7 @@ function Inspector:FocusEntity(target)
 				local position = self.m_targetEntity.components.transform.position
 				return {position.x, position.y, position.z}
         end, function(value)
-            self.m_targetEntity.components.transform.position = value
+            self.m_targetEntity.components.transform.position = Vector3(table.unpack(value))
         end)
         TheEditorDrawer:DrawVec3(columns, "Rotation", function()
             local rotation = self.m_targetEntity.components.transform.rotation
@@ -280,7 +280,7 @@ function Inspector:FocusEntity(target)
 			local scale = self.m_targetEntity.components.transform.scale
             return {scale.x, scale.y, scale.z}
         end, function(value)
-            self.m_targetEntity.components.transform.scale = value
+            self.m_targetEntity.components.transform.scale = Vector3(table.unpack(value))
         end)
     end
 
