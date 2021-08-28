@@ -27,6 +27,7 @@ luaState.new_usertype<UIManager>("UIManager",
 "UseFont", &UIManager::UseFont,
 "OpenFileDialog", &UIManager::OpenFileDialog,
 "SaveFileDialog", &UIManager::SaveFileDialog,
+"MessageBox", &UIManager::MessageBox,
 "enable_docking", sol::property(&UIManager::IsDockingEnabled, &UIManager::EnableDocking),
 "__Dummy", []{}
 );

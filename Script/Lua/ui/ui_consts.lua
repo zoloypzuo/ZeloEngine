@@ -12,3 +12,10 @@ EVerticalAlignment = {
     MIDDLE = 1,
     BOTTOM = 2
 }
+
+EMessageBoxType = {
+    -- SDL_MessageBoxFlags
+    ERROR = 0x00000010,
+    WARNING = 0x00000020,
+    INFO = 0x00000040,
+}
