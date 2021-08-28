@@ -81,7 +81,7 @@ function Inspector:_HeaderColumns()
             function()
                 return self.m_targetEntity and self.m_targetEntity.entity.active or false
             end,
-            function(tag)
+            function(active)
                 if self.m_targetEntity then
                     self.m_targetEntity.entity.active = active
                 end

@@ -33,7 +33,7 @@ void LuaBind_Entity(sol::state &luaState) {
 
 // @formatter:off
 luaState.new_usertype<Entity>("Entity",
-"tag", sol::property(&Entity::GetTag),
+"tag", sol::property(&Entity::GetTag, &Entity::AddTag),
 "active", sol::property(&Entity::IsActive, &Entity::SetActive),
 "GetGUID", &Entity::GetGUID,
 "AddTag", &Entity::AddTag,

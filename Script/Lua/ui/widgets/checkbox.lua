@@ -19,8 +19,9 @@ function CheckBox:_UpdateImpl()
     if self.getter then
         self.value = self.getter()
     end
-
-    local value, _ = ImGui.Checkbox(self.label, self.value)
+	
+	local label = self.label .. self.id
+    local value, _ = ImGui.Checkbox(label, self.value)
 
     if value ~= self.value then
         self.value = value
