@@ -258,7 +258,7 @@ function Inspector:FocusEntity(target)
         self:UnFocus()
     end
     self.m_targetEntity = target
-
+    require("table")
     do
         -- draw transform
         local header = self.m_entityInfo:CreateWidget(Group, "Transform")
@@ -268,7 +268,7 @@ function Inspector:FocusEntity(target)
 				local position = self.m_targetEntity.components.transform.position
 				return {position.x, position.y, position.z}
         end, function(value)
-            self.m_targetEntity.components.transform.position = Vector3(table.unpack(value))
+            self.m_targetEntity.components.transform.position = Vector3(value[1], value[2], value[3])
         end)
         TheEditorDrawer:DrawVec3(columns, "Rotation", function()
             local rotation = self.m_targetEntity.components.transform.rotation
@@ -280,7 +280,7 @@ function Inspector:FocusEntity(target)
 			local scale = self.m_targetEntity.components.transform.scale
             return {scale.x, scale.y, scale.z}
         end, function(value)
-            self.m_targetEntity.components.transform.scale = Vector3(table.unpack(value))
+            self.m_targetEntity.components.transform.scale = Vector3(value[1], value[2], value[3])
         end)
     end
 
