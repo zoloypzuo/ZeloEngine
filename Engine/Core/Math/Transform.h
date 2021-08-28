@@ -45,11 +45,13 @@ public:
     void lookAt(glm::vec3 center);
 
 public:
-    void SetPosition(float x, float y, float z);
+    ZELO_SCRIPT_API void SetPosition(float x, float y, float z);
 
-    void SetScale(float x, float y, float z);
+    ZELO_SCRIPT_API void SetScale(float x, float y, float z);
 
-    void Rotate(float axisX, float axisY, float axisZ, float angle);
+    ZELO_SCRIPT_API void Rotate(float axisX, float axisY, float axisZ, float angle);
+
+    ZELO_SCRIPT_API std::tuple<float,float,float> GetPosition() const;
 
     // private:
     glm::vec3 m_position{};

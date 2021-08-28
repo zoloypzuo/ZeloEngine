@@ -74,14 +74,18 @@ void Transform::lookAt(const glm::vec3 center) {
 
 }
 
-void Transform::SetPosition(float x, float y, float z){
+void Transform::SetPosition(float x, float y, float z) {
     setPosition(glm::vec3(x, y, z));
 }
 
-void Transform::SetScale(float x, float y, float z){
+void Transform::SetScale(float x, float y, float z) {
     setScale(glm::vec3(x, y, z));
 }
 
-void Transform::Rotate(float axisX, float axisY, float axisZ, float angle){
+void Transform::Rotate(float axisX, float axisY, float axisZ, float angle) {
     rotate(glm::vec3(axisX, axisY, axisZ), angle);
+}
+
+std::tuple<float, float, float> Transform::GetPosition() const {
+    return {m_position.x, m_position.y, m_position.z};
 }

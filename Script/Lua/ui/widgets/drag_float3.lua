@@ -3,7 +3,7 @@
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
 
-local DragFloat3 = Class(AWidget, function(self, parent, label, min, max, speed)
+local DragFloat3 = Class(AWidget, function(self, parent, min, max, speed, label)
     AWidget._ctor(self, parent)
     self.value = {}
     self.label = label or ""
@@ -32,7 +32,7 @@ function DragFloat3:_UpdateImpl()
             self.setter(value)
         end
 
-        self.ContentChangedEvent:HandleEvent(value)
+        self.ValueChangedEvent:HandleEvent(value)
     end
 
     self.value = value

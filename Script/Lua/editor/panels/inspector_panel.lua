@@ -259,11 +259,16 @@ function Inspector:FocusEntity(target)
     end
     self.m_targetEntity = target
 
-    do -- draw transform
+    do
+        -- draw transform
         local header = self.m_entityInfo:CreateWidget(Group, "Transform")
         local columns = header:CreateWidget(Columns, 2)
         columns.widths[1] = 200
-        TheEditorDrawer:DrawVec3(columns, "Position")
+        TheEditorDrawer:DrawVec3(columns, "Position", function()
+            return { self.m_targetEntity.components.transform.position }
+        end, function(value)
+            self.m_targetEntity.components.transform.position = value
+        end)
         TheEditorDrawer:DrawVec3(columns, "Rotation")
         TheEditorDrawer:DrawVec3(columns, "Scale")
     end

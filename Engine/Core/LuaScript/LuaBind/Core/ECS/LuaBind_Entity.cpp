@@ -48,6 +48,12 @@ luaState.new_usertype<Entity>("Entity",
 );
 
 luaState.new_usertype<Transform>("Transform",
+"position", sol::property(&Transform::GetPosition, [](Transform &self, sol::table v){
+    const lua_Number v1{v[1].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
+    const lua_Number v2{v[2].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
+    const lua_Number v3{v[3].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
+    self.m_position = {float(v1), float(v2), float(v3)};
+}),
 "SetPosition", &Transform::SetPosition,
 "SetScale", &Transform::SetScale,
 "Rotate", &Transform::Rotate,
