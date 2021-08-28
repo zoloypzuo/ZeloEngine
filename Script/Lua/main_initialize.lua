@@ -61,9 +61,10 @@ end
 
 require("editor.editor_actions")
 
-local project_hub_panel = require("editor.panels.project_hub_panel")
+local ProjectHubPanel = require("editor.panels.project_hub_panel")
+TheFrontEnd:LoadPanel(ProjectHubPanel)
 local HierarchyPanel = require("editor.panels.hierarchy_panel.hierarchy_panel")
-local hierarchyPanel = TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy Panel", true)
+TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy Panel", true)
 local InspectorPanel = require("editor.panels.inspector_panel")
 TheFrontEnd:LoadPanel(InspectorPanel, "Inspector Panel", true)
 
