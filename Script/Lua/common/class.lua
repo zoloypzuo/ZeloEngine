@@ -188,3 +188,17 @@ function Mixin(included)
     c.included = included
     return c
 end
+
+function Bind(o, m)
+    -- lua bound method
+    -- m can be method name or method function
+    if type(m) == "function" then
+        return function(...)
+            return m(o, ...)
+        end
+    elseif type(m) == "string" then
+        return function(...)
+            return o[m](o, ...)
+        end
+    end
+end
