@@ -139,7 +139,6 @@ void UIManager::update() {
     ImGui::End();
 
     // Script update logic here
-    // ImGui::ShowDemoWindow();
 }
 
 void UIManager::draw() {
