@@ -17,14 +17,6 @@
 * ~~[ ] imgui.ini~~ // 不是很重要，用默认的自动保存即可
 * ~~[ ] Canvas~~ // 类比场景图，我们不需要切Canvas，没必要套一层Canvas
 
-## 控件
-
-* [x] Button
-* [x] InputText
-* [ ] AcceptDragDropPayload https://github.com/ocornut/imgui/issues/1931
-* [ ] DDSource  // DD = Drag and Drop
-* [ ] DDTarget
-
 ### 控件属性
 
 * idleBackgroundColor，背景色

@@ -8,10 +8,6 @@
 
 因为我们需要一个纯imgui界面去获取用户输入的路径
 
-TODO 指定分辨率有一个问题，就是高分屏上界面会显示的非常小
-
-TODO APPDATA，我们可以用localdata，localdb
-
 ## 窗口
 
 整个窗口只有一个Panel
