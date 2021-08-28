@@ -265,12 +265,23 @@ function Inspector:FocusEntity(target)
         local columns = header:CreateWidget(Columns, 2)
         columns.widths[1] = 200
         TheEditorDrawer:DrawVec3(columns, "Position", function()
-            return { self.m_targetEntity.components.transform.position }
+				local position = self.m_targetEntity.components.transform.position
+				return {position.x, position.y, position.z}
         end, function(value)
             self.m_targetEntity.components.transform.position = value
         end)
-        TheEditorDrawer:DrawVec3(columns, "Rotation")
-        TheEditorDrawer:DrawVec3(columns, "Scale")
+        TheEditorDrawer:DrawVec3(columns, "Rotation", function()
+            local rotation = self.m_targetEntity.components.transform.rotation
+            return {rotation.x, rotation.y, rotation.z}
+        end, function(value)
+
+        end)
+        TheEditorDrawer:DrawVec3(columns, "Scale", function()
+			local scale = self.m_targetEntity.components.transform.scale
+            return {scale.x, scale.y, scale.z}
+        end, function(value)
+            self.m_targetEntity.components.transform.scale = value
+        end)
     end
 
     self.m_inspectorHeader.enabled = true

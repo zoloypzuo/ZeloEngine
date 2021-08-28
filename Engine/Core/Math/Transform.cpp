@@ -86,6 +86,6 @@ void Transform::Rotate(float axisX, float axisY, float axisZ, float angle) {
     rotate(glm::vec3(axisX, axisY, axisZ), angle);
 }
 
-std::tuple<float, float, float> Transform::GetPosition() const {
-    return {m_position.x, m_position.y, m_position.z};
+glm::vec3 Transform::GetRotation() const {
+    return glm::eulerAngles(m_rotation);
 }
