@@ -13,40 +13,30 @@ local Group = require("ui.layouts.group")
 local ProjectHubPanel = Class(PanelWindow, function(self)
     PanelWindow._ctor(self, "Project Hub", true)
 
-    -- PanelWindow
     self:SetSize({ 1000, 580 });
     self:SetPosition({ 0., 0 });
 
-    self:Header()
+    self:_Header()
 
-    for i = 1, 4 do
-        self:CreateWidget(Spacing)
-    end
+    self:_Spacing()
 
-    self:CreateWidget(Separator)
-
-    for i = 1, 4 do
-        self:CreateWidget(Spacing)
-    end
-
-    self:ProjectList()
-
+    self:_ProjectList()
 end)
 
-function ProjectHubPanel:Header()
+function ProjectHubPanel:_Header()
     local openProjectButton = self:CreateWidget(Button, "Open Project")
     local newProjectButton = self:CreateWidget(Button, "New Project")
-    local pathField = self:CreateWidget(InputText, "?");
-    local m_goButton = self:CreateWidget(Button, "GO")
+    local pathField = self:CreateWidget(InputText, "");
+    local goButton = self:CreateWidget(Button, "GO")
 
     local function UpdateGoButton(p_path)
         validPath = p_path ~= ""
         if validPath then
-            m_goButton.idleBackgroundColor = RGBA(0, 0.5, 0)
+            goButton.idleBackgroundColor = RGBA(0, 0.5, 0)
         else
-            m_goButton.idleBackgroundColor = RGBA(0.1, 0.1, 0.1)
+            goButton.idleBackgroundColor = RGBA(0.1, 0.1, 0.1)
         end
-        m_goButton.disabled = not validPath
+        goButton.disabled = not validPath
     end
 
     UpdateGoButton("") -- init go button
@@ -75,13 +65,25 @@ function ProjectHubPanel:Header()
         UpdateGoButton(pathField.content)
     end)
 
-    m_goButton:AddOnClickHandler(function()
+    goButton:AddOnClickHandler(function()
         print("GO", pathField.content)
         -- TODO close panel and return boot args
     end)
 end
 
-function ProjectHubPanel:ProjectList()
+function ProjectHubPanel:_Spacing()
+    for _ = 1, 4 do
+        self:CreateWidget(Spacing)
+    end
+
+    self:CreateWidget(Separator)
+
+    for _ = 1, 4 do
+        self:CreateWidget(Spacing)
+    end
+end
+
+function ProjectHubPanel:_ProjectList()
     local columns = self:CreateWidget(Columns, 2)
     columns.widths = { 750, 500 }
     for i, line in ipairs({ "test1", "test2", "test3" }) do

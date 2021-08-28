@@ -45,7 +45,7 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
     end
 
     local createEntity = self:CreateWidget(MenuList, "Create...")
-    --GenerateEntityCreationMenu(createEntity, self.m_target, self.m_treeNode.Open) TODO
+    GenerateEntityCreationMenu(createEntity, self.m_target, Bind(self.tree_node, "Open"))
 end)
 
 function HierarchyContextualMenu:Execute()
@@ -72,6 +72,10 @@ end
 
 local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
+
+    self:SetSize({ 1000, 580 });
+    self:SetPosition({ 0., 0 });
+
     local processor = EventProcessor()
     self.EntitySelectedEvent = EventWrapper(processor, "EntitySelectedEvent")
     self.EntityUnselectedEvent = EventWrapper(processor, "EntityUnselectedEvent")

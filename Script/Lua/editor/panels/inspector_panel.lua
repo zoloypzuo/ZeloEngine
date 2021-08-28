@@ -25,6 +25,10 @@ local TheEditorDrawer = require("editor.editor_drawer")
 
 local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
+
+    self:SetSize({ 1000, 580 });
+    self:SetPosition({ 0., 0 });
+
     self.m_targetEntity = nil
     self.m_entityInfo = nil
     self.m_inspectorHeader = nil
