@@ -73,17 +73,17 @@ function Inspector:_HeaderColumns()
             end,
             function(tag)
                 if self.m_targetEntity then
-                    self.m_targetEntity.tag = tag
+                    self.m_targetEntity.entity.tag = tag
                 end
             end)
 
     TheEditorDrawer:DrawBoolean(headerColumns, "Active",
             function()
-                return self.m_targetEntity and self.m_targetEntity.active or false
+                return self.m_targetEntity and self.m_targetEntity.entity.active or false
             end,
             function(tag)
                 if self.m_targetEntity then
-                    self.m_targetEntity.active = active
+                    self.m_targetEntity.entity.active = active
                 end
             end)
 end
