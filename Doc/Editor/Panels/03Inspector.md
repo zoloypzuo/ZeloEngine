@@ -5,7 +5,10 @@
 ## 进度
 
 * [ ] entity属性显示
-  * [ ] name
-  * [ ] tag
+  * [x] name
+  * [x] tag
   * [ ] components
+  * [ ] transform
+  * [ ] engine components
+  * [ ] script components
 
