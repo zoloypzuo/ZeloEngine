@@ -1,5 +1,65 @@
 # Changelog
 
+## [v0.4](https://github.com/zoloypzuo/ZeloEngine/tree/v0.4) (2021-08-29)
+
+[Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/v0.3...v0.4)
+
+**Fixed bugs:**
+
+- Fix winbase.h C5105 [\#285](https://github.com/zoloypzuo/ZeloEngine/issues/285)
+
+**Closed issues:**
+
+- Inspector [\#322](https://github.com/zoloypzuo/ZeloEngine/issues/322)
+- Scriptable Resource Manager [\#315](https://github.com/zoloypzuo/ZeloEngine/issues/315)
+- Scriptable Game [\#313](https://github.com/zoloypzuo/ZeloEngine/issues/313)
+- ImGui Editor [\#312](https://github.com/zoloypzuo/ZeloEngine/issues/312)
+- Refactor: Renderer [\#310](https://github.com/zoloypzuo/ZeloEngine/issues/310)
+- Refactor: Use Module Singleton Instead of Engine [\#308](https://github.com/zoloypzuo/ZeloEngine/issues/308)
+- ProjectHub [\#307](https://github.com/zoloypzuo/ZeloEngine/issues/307)
+- Test Sol2 [\#306](https://github.com/zoloypzuo/ZeloEngine/issues/306)
+- Behaviour Component [\#303](https://github.com/zoloypzuo/ZeloEngine/issues/303)
+- Move Engine misc to Core [\#302](https://github.com/zoloypzuo/ZeloEngine/issues/302)
+- Feature List [\#301](https://github.com/zoloypzuo/ZeloEngine/issues/301)
+- Module List [\#300](https://github.com/zoloypzuo/ZeloEngine/issues/300)
+- Refactor namespace [\#298](https://github.com/zoloypzuo/ZeloEngine/issues/298)
+- Serialization [\#296](https://github.com/zoloypzuo/ZeloEngine/issues/296)
+- C++ Reflection [\#295](https://github.com/zoloypzuo/ZeloEngine/issues/295)
+- ImGui Widget Impl [\#293](https://github.com/zoloypzuo/ZeloEngine/issues/293)
+- ImGui Layout Impl [\#292](https://github.com/zoloypzuo/ZeloEngine/issues/292)
+- Build On Linux [\#290](https://github.com/zoloypzuo/ZeloEngine/issues/290)
+- Build On MacOS [\#289](https://github.com/zoloypzuo/ZeloEngine/issues/289)
+- ImGui Review [\#287](https://github.com/zoloypzuo/ZeloEngine/issues/287)
+- ImGuiManager Refactor [\#283](https://github.com/zoloypzuo/ZeloEngine/issues/283)
+- RHI Refactor [\#281](https://github.com/zoloypzuo/ZeloEngine/issues/281)
+- Resource Refactor [\#279](https://github.com/zoloypzuo/ZeloEngine/issues/279)
+- Ogre [\#278](https://github.com/zoloypzuo/ZeloEngine/issues/278)
+- Resource Manager [\#268](https://github.com/zoloypzuo/ZeloEngine/issues/268)
+- ImGui [\#265](https://github.com/zoloypzuo/ZeloEngine/issues/265)
+- Merge OpenGL 4.0 Shading Language Cookbook [\#254](https://github.com/zoloypzuo/ZeloEngine/issues/254)
+- RAII Janitor [\#241](https://github.com/zoloypzuo/ZeloEngine/issues/241)
+- Merge LearnOpenGL [\#240](https://github.com/zoloypzuo/ZeloEngine/issues/240)
+
+**Merged pull requests:**
+
+- Inspector [\#323](https://github.com/zoloypzuo/ZeloEngine/pull/323) ([zoloypzuo](https://github.com/zoloypzuo))
+- fix bug [\#321](https://github.com/zoloypzuo/ZeloEngine/pull/321) ([zoloypzuo](https://github.com/zoloypzuo))
+- Im gui editor [\#317](https://github.com/zoloypzuo/ZeloEngine/pull/317) ([zoloypzuo](https://github.com/zoloypzuo))
+- Resource manager [\#316](https://github.com/zoloypzuo/ZeloEngine/pull/316) ([zoloypzuo](https://github.com/zoloypzuo))
+- Scriptable game [\#314](https://github.com/zoloypzuo/ZeloEngine/pull/314) ([zoloypzuo](https://github.com/zoloypzuo))
+- Refactor renderer [\#311](https://github.com/zoloypzuo/ZeloEngine/pull/311) ([zoloypzuo](https://github.com/zoloypzuo))
+- Refactor main [\#309](https://github.com/zoloypzuo/ZeloEngine/pull/309) ([zoloypzuo](https://github.com/zoloypzuo))
+- Behaviour component [\#304](https://github.com/zoloypzuo/ZeloEngine/pull/304) ([zoloypzuo](https://github.com/zoloypzuo))
+- Rttr [\#297](https://github.com/zoloypzuo/ZeloEngine/pull/297) ([zoloypzuo](https://github.com/zoloypzuo))
+- Build on macos [\#294](https://github.com/zoloypzuo/ZeloEngine/pull/294) ([zoloypzuo](https://github.com/zoloypzuo))
+- Build on linux [\#291](https://github.com/zoloypzuo/ZeloEngine/pull/291) ([zoloypzuo](https://github.com/zoloypzuo))
+- Imgui code review [\#288](https://github.com/zoloypzuo/ZeloEngine/pull/288) ([zoloypzuo](https://github.com/zoloypzuo))
+- Fix winbase c5105 [\#286](https://github.com/zoloypzuo/ZeloEngine/pull/286) ([zoloypzuo](https://github.com/zoloypzuo))
+- Imguim refactor [\#284](https://github.com/zoloypzuo/ZeloEngine/pull/284) ([zoloypzuo](https://github.com/zoloypzuo))
+- Rhi refactor [\#282](https://github.com/zoloypzuo/ZeloEngine/pull/282) ([zoloypzuo](https://github.com/zoloypzuo))
+- Resource refactor [\#280](https://github.com/zoloypzuo/ZeloEngine/pull/280) ([zoloypzuo](https://github.com/zoloypzuo))
+- Im gui [\#277](https://github.com/zoloypzuo/ZeloEngine/pull/277) ([zoloypzuo](https://github.com/zoloypzuo))
+
 ## [v0.3](https://github.com/zoloypzuo/ZeloEngine/tree/v0.3) (2021-05-08)
 
 [Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/v0.2...v0.3)
@@ -29,17 +89,14 @@
 **Merged pull requests:**
 
 - Fix [\#276](https://github.com/zoloypzuo/ZeloEngine/pull/276) ([zoloypzuo](https://github.com/zoloypzuo))
-- Asset repo
-  search [\#274](https://github.com/zoloypzuo/ZeloEngine/pull/274) ([zoloypzuo](https://github.com/zoloypzuo))
+- Asset repo search [\#274](https://github.com/zoloypzuo/ZeloEngine/pull/274) ([zoloypzuo](https://github.com/zoloypzuo))
 - Deffered shading [\#272](https://github.com/zoloypzuo/ZeloEngine/pull/272) ([zoloypzuo](https://github.com/zoloypzuo))
 - Glad [\#270](https://github.com/zoloypzuo/ZeloEngine/pull/270) ([zoloypzuo](https://github.com/zoloypzuo))
 - Lua wrap glsl [\#267](https://github.com/zoloypzuo/ZeloEngine/pull/267) ([zoloypzuo](https://github.com/zoloypzuo))
 - cotire [\#263](https://github.com/zoloypzuo/ZeloEngine/pull/263) ([zoloypzuo](https://github.com/zoloypzuo))
-- Chapter 4 using
-  textures [\#260](https://github.com/zoloypzuo/ZeloEngine/pull/260) ([zoloypzuo](https://github.com/zoloypzuo))
+- Chapter 4 using textures [\#260](https://github.com/zoloypzuo/ZeloEngine/pull/260) ([zoloypzuo](https://github.com/zoloypzuo))
 - Fix memory leak [\#258](https://github.com/zoloypzuo/ZeloEngine/pull/258) ([zoloypzuo](https://github.com/zoloypzuo))
-- Chapter 1 getting started with glsl
-  4.0  [\#256](https://github.com/zoloypzuo/ZeloEngine/pull/256) ([zoloypzuo](https://github.com/zoloypzuo))
+- Chapter 1 getting started with glsl 4.0  [\#256](https://github.com/zoloypzuo/ZeloEngine/pull/256) ([zoloypzuo](https://github.com/zoloypzuo))
 - Apply shadow map [\#253](https://github.com/zoloypzuo/ZeloEngine/pull/253) ([zoloypzuo](https://github.com/zoloypzuo))
 - Shadow map [\#252](https://github.com/zoloypzuo/ZeloEngine/pull/252) ([zoloypzuo](https://github.com/zoloypzuo))
 - Lua51 [\#250](https://github.com/zoloypzuo/ZeloEngine/pull/250) ([zoloypzuo](https://github.com/zoloypzuo))
@@ -77,16 +134,11 @@
 - 坦克炮塔控制 手感不对 [\#64](https://github.com/zoloypzuo/ZeloEngine/issues/64)
 - shader 实现MVP变换 [\#60](https://github.com/zoloypzuo/ZeloEngine/issues/60)
 - 是否要封装lua C API？ [\#56](https://github.com/zoloypzuo/ZeloEngine/issues/56)
--
-  12. 加入具简单 AI 的坦克。 [\#42](https://github.com/zoloypzuo/ZeloEngine/issues/42)
--
-  11. 发射炮弹，模拟弹道。 [\#41](https://github.com/zoloypzuo/ZeloEngine/issues/41)
--
-  10. 要解决坦克穿过大楼的问题，可实现简单的碰撞检测，或使用现成的物理引擎如 bullet。 [\#40](https://github.com/zoloypzuo/ZeloEngine/issues/40)
--
-  9. 重构场景结构，可用上组件的方式。同时更改渲染和游戏代码。 [\#39](https://github.com/zoloypzuo/ZeloEngine/issues/39)
--
-  8. 导入某种三维格式的三维模型，如 obj，先只考虑顶点位置、法线，渲染它。 [\#38](https://github.com/zoloypzuo/ZeloEngine/issues/38)
+- 12. 加入具简单 AI 的坦克。 [\#42](https://github.com/zoloypzuo/ZeloEngine/issues/42)
+- 11. 发射炮弹，模拟弹道。 [\#41](https://github.com/zoloypzuo/ZeloEngine/issues/41)
+- 10. 要解决坦克穿过大楼的问题，可实现简单的碰撞检测，或使用现成的物理引擎如 bullet。 [\#40](https://github.com/zoloypzuo/ZeloEngine/issues/40)
+- 9. 重构场景结构，可用上组件的方式。同时更改渲染和游戏代码。 [\#39](https://github.com/zoloypzuo/ZeloEngine/issues/39)
+- 8. 导入某种三维格式的三维模型，如 obj，先只考虑顶点位置、法线，渲染它。 [\#38](https://github.com/zoloypzuo/ZeloEngine/issues/38)
 - 控制长方体形式的坦克在场景移动，令摄像头跟随。 [\#37](https://github.com/zoloypzuo/ZeloEngine/issues/37)
 - 集成现有的功能，以程序方式生成一个简单场景（地面、大楼）。 [\#36](https://github.com/zoloypzuo/ZeloEngine/issues/36)
 - Game Object Model，先用一个vector管理所有Go [\#35](https://github.com/zoloypzuo/ZeloEngine/issues/35)
@@ -97,8 +149,7 @@
 
 **Merged pull requests:**
 
-- Export engine to
-  python [\#237](https://github.com/zoloypzuo/ZeloEngine/pull/237) ([zoloypzuo](https://github.com/zoloypzuo))
+- Export engine to python [\#237](https://github.com/zoloypzuo/ZeloEngine/pull/237) ([zoloypzuo](https://github.com/zoloypzuo))
 - Ingame editor [\#235](https://github.com/zoloypzuo/ZeloEngine/pull/235) ([zoloypzuo](https://github.com/zoloypzuo))
 - Plugin module [\#233](https://github.com/zoloypzuo/ZeloEngine/pull/233) ([zoloypzuo](https://github.com/zoloypzuo))
 - Gtest [\#231](https://github.com/zoloypzuo/ZeloEngine/pull/231) ([zoloypzuo](https://github.com/zoloypzuo))
@@ -107,21 +158,17 @@
 - ahk [\#225](https://github.com/zoloypzuo/ZeloEngine/pull/225) ([zoloypzuo](https://github.com/zoloypzuo))
 - imGui [\#224](https://github.com/zoloypzuo/ZeloEngine/pull/224) ([zoloypzuo](https://github.com/zoloypzuo))
 - Merge hazel [\#223](https://github.com/zoloypzuo/ZeloEngine/pull/223) ([zoloypzuo](https://github.com/zoloypzuo))
-- Fix compiler
-  warning [\#222](https://github.com/zoloypzuo/ZeloEngine/pull/222) ([zoloypzuo](https://github.com/zoloypzuo))
+- Fix compiler warning [\#222](https://github.com/zoloypzuo/ZeloEngine/pull/222) ([zoloypzuo](https://github.com/zoloypzuo))
 - Simple renderer [\#221](https://github.com/zoloypzuo/ZeloEngine/pull/221) ([zoloypzuo](https://github.com/zoloypzuo))
 - cyclone [\#220](https://github.com/zoloypzuo/ZeloEngine/pull/220) ([zoloypzuo](https://github.com/zoloypzuo))
 - engine framework [\#219](https://github.com/zoloypzuo/ZeloEngine/pull/219) ([zoloypzuo](https://github.com/zoloypzuo))
 - Chore [\#218](https://github.com/zoloypzuo/ZeloEngine/pull/218) ([zoloypzuo](https://github.com/zoloypzuo))
-- Hello
-  ZeloEngine2 [\#217](https://github.com/zoloypzuo/ZeloEngine/pull/217) ([zoloypzuo](https://github.com/zoloypzuo))
-- Bump jinja2 from 2.11.2 to 2.11.3 in
-  /Script [\#216](https://github.com/zoloypzuo/ZeloEngine/pull/216) ([dependabot[bot]](https://github.com/apps/dependabot))
-- Bump pillow from 6.2.2 to 8.1.1 in
-  /Script [\#215](https://github.com/zoloypzuo/ZeloEngine/pull/215) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Hello ZeloEngine2 [\#217](https://github.com/zoloypzuo/ZeloEngine/pull/217) ([zoloypzuo](https://github.com/zoloypzuo))
+- Bump jinja2 from 2.11.2 to 2.11.3 in /Script [\#216](https://github.com/zoloypzuo/ZeloEngine/pull/216) ([dependabot[bot]](https://github.com/apps/dependabot))
+- Bump pillow from 6.2.2 to 8.1.1 in /Script [\#215](https://github.com/zoloypzuo/ZeloEngine/pull/215) ([dependabot[bot]](https://github.com/apps/dependabot))
 - zeloscript [\#214](https://github.com/zoloypzuo/ZeloEngine/pull/214) ([zoloypzuo](https://github.com/zoloypzuo))
--
-  - [\#213](https://github.com/zoloypzuo/ZeloEngine/pull/213) ([zoloypzuo](https://github.com/zoloypzuo))
+- - [\#213](https://github.com/zoloypzuo/ZeloEngine/pull/213) ([zoloypzuo](https://github.com/zoloypzuo))
 
-\* *This Changelog was automatically generated
-by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
+
+
+\* *This Changelog was automatically generated by [github_changelog_generator](https://github.com/github-changelog-generator/github-changelog-generator)*
