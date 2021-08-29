@@ -8,7 +8,7 @@
   * [x] name
   * [x] tag
   * [ ] components
-  * [ ] transform
+  * [x] transform
   * [ ] engine components
   * [ ] script components
 
