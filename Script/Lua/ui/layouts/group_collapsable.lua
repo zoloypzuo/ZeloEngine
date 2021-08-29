@@ -14,7 +14,7 @@ local GroupCollapsable = Class(Group, function(self, parent, name)
 end)
 
 function GroupCollapsable:_UpdateImpl()
-    local open, notCollapsed = ImGui.CollapsingHeader(self.name, self.opened)
+    local open, notCollapsed = ImGui.CollapsingHeader(self.name .. self.id, self.opened)
     if notCollapsed then
         Group._UpdateImpl(self)
     end

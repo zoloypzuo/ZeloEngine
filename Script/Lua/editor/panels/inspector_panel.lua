@@ -11,6 +11,7 @@ local Separator = require("ui.widgets.separator")
 local Columns = require("ui.layouts.column")
 local Text = require("ui.widgets.text")
 local Group = require("ui.layouts.group")
+local GroupCollapsable = require("ui.layouts.group_collapsable")
 local TreeNode = require("ui.layouts.tree_node")
 local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
@@ -240,15 +241,18 @@ function Inspector:DrawComponent(name, component)
     if name == "transform" then
         return
     end
-	local header = self.m_entityInfo:CreateWidget(Group, "Transform")
-	local columns = header:CreateWidget(Columns, 2)
-	columns.widths[1] = 200
+    local header = self.m_entityInfo:CreateWidget(GroupCollapsable, EComponent[name])
+    local columns = header:CreateWidget(Columns, 2)
+    columns.widths[1] = 200
     local fn_name = EComponent[name]
-    self["Draw" .. fn_name](self, component, columns)
+    local fn = self["Draw" .. fn_name]
+    if fn then
+        fn(self, component, columns)
+    end
 end
 
 function Inspector:DrawMeshRenderer(component, parent)
-	
+
 end
 
 function Inspector:UnFocus()
