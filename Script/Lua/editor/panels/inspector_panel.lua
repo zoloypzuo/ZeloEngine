@@ -26,32 +26,32 @@ local EEngineComponents = {
         add_fn = "AddCamera"
     };
     {
-        name = "Free Look";
+        name = "FreeLook";
         ctype = "FREE_LOOK";
         add_fn = "AddFreeLook"
     };
     {
-        name = "Free Move";
+        name = "FreeMove";
         ctype = "FREE_MOVE";
         add_fn = "AddFreeMove"
     };
     {
-        name = "Directional Light";
+        name = "DirectionalLight";
         ctype = "DIRECTIONAL_LIGHT";
         add_fn = "AddDirectionalLight"
     };
     {
-        name = "Point Light";
+        name = "PointLight";
         ctype = "POINT_LIGHT";
         add_fn = "AddPointLight"
     };
     {
-        name = "Spot Light";
+        name = "SpotLight";
         ctype = "POINT_LIGHT";
         add_fn = "AddSpotLight"
     };
     {
-        name = "Mesh Renderer";
+        name = "MeshRenderer";
         ctype = "MESH_RENDERER";
         add_fn = "AddMeshRenderer"
     };
@@ -66,10 +66,6 @@ end
 for _, value in ipairs(EEngineComponents) do
     EAddComponent[value.ctype] = value.add_fn
 end
-
--- TODO all entity components
--- TODO resource manager
--- TODO MessageBox
 
 local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)
@@ -207,33 +203,52 @@ function Inspector:FocusEntity(target)
         self:UnFocus()
     end
     self.m_targetEntity = target
-    require("table")
-    do
-        -- draw transform
-        local header = self.m_entityInfo:CreateWidget(Group, "Transform")
-        local columns = header:CreateWidget(Columns, 2)
-        columns.widths[1] = 200
-        TheEditorDrawer:DrawVec3(columns, "Position", function()
-            local position = self.m_targetEntity.components.transform.position
-            return { position.x, position.y, position.z }
-        end, function(value)
-            self.m_targetEntity.components.transform.position = Vector3(value[1], value[2], value[3])
-        end)
-        TheEditorDrawer:DrawVec3(columns, "Rotation", function()
-            local rotation = self.m_targetEntity.components.transform.rotation
-            return { rotation.x, rotation.y, rotation.z }
-        end, function(value)
+    self:DrawTransform()
 
-        end)
-        TheEditorDrawer:DrawVec3(columns, "Scale", function()
-            local scale = self.m_targetEntity.components.transform.scale
-            return { scale.x, scale.y, scale.z }
-        end, function(value)
-            self.m_targetEntity.components.transform.scale = Vector3(value[1], value[2], value[3])
-        end)
+    for k, v in pairs(self.m_targetEntity.components) do
+        self:DrawComponent(k, v)
     end
 
     self.m_inspectorHeader.enabled = true
+end
+
+function Inspector:DrawTransform()
+    local header = self.m_entityInfo:CreateWidget(Group, "Transform")
+    local columns = header:CreateWidget(Columns, 2)
+    columns.widths[1] = 200
+    TheEditorDrawer:DrawVec3(columns, "Position", function()
+        local position = self.m_targetEntity.components.transform.position
+        return { position.x, position.y, position.z }
+    end, function(value)
+        self.m_targetEntity.components.transform.position = Vector3(value[1], value[2], value[3])
+    end)
+    TheEditorDrawer:DrawVec3(columns, "Rotation", function()
+        local rotation = self.m_targetEntity.components.transform.rotation
+        return { rotation.x, rotation.y, rotation.z }
+    end, function(value)
+
+    end)
+    TheEditorDrawer:DrawVec3(columns, "Scale", function()
+        local scale = self.m_targetEntity.components.transform.scale
+        return { scale.x, scale.y, scale.z }
+    end, function(value)
+        self.m_targetEntity.components.transform.scale = Vector3(value[1], value[2], value[3])
+    end)
+end
+
+function Inspector:DrawComponent(name, component)
+    if name == "transform" then
+        return
+    end
+	local header = self.m_entityInfo:CreateWidget(Group, "Transform")
+	local columns = header:CreateWidget(Columns, 2)
+	columns.widths[1] = 200
+    local fn_name = EComponent[name]
+    self["Draw" .. fn_name](self, component, columns)
+end
+
+function Inspector:DrawMeshRenderer(component, parent)
+	
 end
 
 function Inspector:UnFocus()
