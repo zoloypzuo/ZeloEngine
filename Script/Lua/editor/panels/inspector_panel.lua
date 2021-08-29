@@ -19,6 +19,54 @@ local ComboBox = require("ui.widgets.combobox")
 
 local TheEditorDrawer = require("editor.editor_drawer")
 
+local EEngineComponents = {
+    {
+        name = "Camera";
+        ctype = "PERSPECTIVE_CAMERA";
+        add_fn = "AddCamera"
+    };
+    {
+        name = "Free Look";
+        ctype = "FREE_LOOK";
+        add_fn = "AddFreeLook"
+    };
+    {
+        name = "Free Move";
+        ctype = "FREE_MOVE";
+        add_fn = "AddFreeMove"
+    };
+    {
+        name = "Directional Light";
+        ctype = "DIRECTIONAL_LIGHT";
+        add_fn = "AddDirectionalLight"
+    };
+    {
+        name = "Point Light";
+        ctype = "POINT_LIGHT";
+        add_fn = "AddPointLight"
+    };
+    {
+        name = "Spot Light";
+        ctype = "POINT_LIGHT";
+        add_fn = "AddSpotLight"
+    };
+    {
+        name = "Mesh Renderer";
+        ctype = "MESH_RENDERER";
+        add_fn = "AddMeshRenderer"
+    };
+}
+
+local EComponent = {}
+local EAddComponent = {}
+for _, value in ipairs(EEngineComponents) do
+    EComponent[value.ctype] = value.name
+end
+
+for _, value in ipairs(EEngineComponents) do
+    EAddComponent[value.ctype] = value.add_fn
+end
+
 -- TODO all entity components
 -- TODO resource manager
 -- TODO MessageBox
@@ -48,7 +96,6 @@ local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
     self:_HeaderColumns()
     self:_ComponentSelectorWidget()
     self:_ScriptSelectorWidget()
-    self:_Separator();
 
     TheEditorActions.OnSelectEntity:AddEventHandler(Bind(self, "FocusEntity"))
 end)
@@ -82,72 +129,20 @@ function Inspector:_HeaderColumns()
 end
 
 function Inspector:_ComponentSelectorWidget()
-    self.m_componentSelectorWidget = self.m_inspectorHeader:CreateWidget(ComboBox, 0)
+    self.m_componentSelectorWidget = self.m_inspectorHeader:CreateWidget(ComboBox, EComponent)
     local componentSelectorWidget = self.m_componentSelectorWidget
     componentSelectorWidget.lineBreak = false
-    componentSelectorWidget.choices = {
-        [0] = "Model Renderer";
-        [1] = "Camera";
-        [2] = "Physical Box";
-        [3] = "Physical Sphere";
-        [4] = "Physical Capsule";
-        [5] = "Point Light";
-        [6] = "Directional Light";
-        [7] = "Spot Light";
-        [8] = "Ambient Box Light";
-        [9] = "Ambient Sphere Light";
-        [10] = "Material Renderer";
-        [11] = "Audio Source";
-        [12] = "Audio Listener";
-    }
 
     local addComponentButton = self.m_inspectorHeader:CreateWidget(Button, "Add Component", Vector2(100, 0))
     addComponentButton.idleBackgroundColor = RGBA(0.7, 0.5, 0.);
     addComponentButton.textColor = RGBA.White
     addComponentButton.ClickedEvent:AddEventHandler(function()
-        print("addComponentButton", componentSelectorWidget.currentChoice)
-        componentSelectorWidget.ValueChangedEvent:HandleEvent(componentSelectorWidget.currentChoice)
-        -- TODO switch
-        --        case 0:
-        --            GetTargetEntity()->AddComponent<CModelRenderer>();
-        --            GetTargetEntity()->AddComponent<CMaterialRenderer>();
-        --            break;
-        --        case 1:
-        --            GetTargetEntity()->AddComponent<CCamera>();
-        --            break;
-        --        case 2:
-        --            GetTargetEntity()->AddComponent<CPhysicalBox>();
-        --            break;
-        --        case 3:
-        --            GetTargetEntity()->AddComponent<CPhysicalSphere>();
-        --            break;
-        --        case 4:
-        --            GetTargetEntity()->AddComponent<CPhysicalCapsule>();
-        --            break;
-        --        case 5:
-        --            GetTargetEntity()->AddComponent<CPointLight>();
-        --            break;
-        --        case 6:
-        --            GetTargetEntity()->AddComponent<CDirectionalLight>();
-        --            break;
-        --        case 7:
-        --            GetTargetEntity()->AddComponent<CSpotLight>();
-        --            break;
-        --        case 8:
-        --            GetTargetEntity()->AddComponent<CAmbientBoxLight>();
-        --            break;
-        --        case 9:
-        --            GetTargetEntity()->AddComponent<CAmbientSphereLight>();
-        --            break;
-        --        case 10:
-        --            GetTargetEntity()->AddComponent<CMaterialRenderer>();
-        --            break;
-        --        case 11:
-        --            GetTargetEntity()->AddComponent<CAudioSource>();
-        --            break;
-        --        case 12:
-        --            GetTargetEntity()->AddComponent<CAudioListener>();
-        --            break;
+        local choice = componentSelectorWidget.currentChoice
+        print("addComponentButton", choice)
+        componentSelectorWidget.ValueChangedEvent:HandleEvent(choice)
+        local entity = self.m_targetEntity.entity
+        local add_fn = EAddComponent[choice]
+        entity[add_fn](entity)
     end)
 
     componentSelectorWidget.ValueChangedEvent:AddEventHandler(function(value)
@@ -155,48 +150,6 @@ function Inspector:_ComponentSelectorWidget()
             addComponentButton.disabled = componentExists
             addComponentButton.idleBackgroundColor = componentExists and RGBA(0.7, 0.5, 0) or RGBA(0.1, 0.1, 0.1)
         end
-        -- TODO
-        --    switch (value) {
-        --        case 0:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CModelRenderer>());
-        --            return;
-        --        case 1:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CCamera>());
-        --            return;
-        --        case 2:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CPhysicalObject>());
-        --            return;
-        --        case 3:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CPhysicalObject>());
-        --            return;
-        --        case 4:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CPhysicalObject>());
-        --            return;
-        --        case 5:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CPointLight>());
-        --            return;
-        --        case 6:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CDirectionalLight>());
-        --            return;
-        --        case 7:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CSpotLight>());
-        --            return;
-        --        case 8:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CAmbientBoxLight>());
-        --            return;
-        --        case 9:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CAmbientSphereLight>());
-        --            return;
-        --        case 10:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CMaterialRenderer>());
-        --            return;
-        --        case 11:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CAudioSource>());
-        --            return;
-        --        case 12:
-        --            defineButtonsStates(GetTargetEntity()->GetComponent<CAudioListener>());
-        --            return;
-        --    }
     end)
 end
 
@@ -248,10 +201,6 @@ function Inspector:_ScriptSelectorWidget()
     --    };
 end
 
-function Inspector:_Separator()
-    self.m_inspectorHeader:CreateWidget(Separator)
-end
-
 function Inspector:FocusEntity(target)
     print("Focus Entity", target.name)
     if self.m_targetEntity then
@@ -265,20 +214,20 @@ function Inspector:FocusEntity(target)
         local columns = header:CreateWidget(Columns, 2)
         columns.widths[1] = 200
         TheEditorDrawer:DrawVec3(columns, "Position", function()
-				local position = self.m_targetEntity.components.transform.position
-				return {position.x, position.y, position.z}
+            local position = self.m_targetEntity.components.transform.position
+            return { position.x, position.y, position.z }
         end, function(value)
             self.m_targetEntity.components.transform.position = Vector3(value[1], value[2], value[3])
         end)
         TheEditorDrawer:DrawVec3(columns, "Rotation", function()
             local rotation = self.m_targetEntity.components.transform.rotation
-            return {rotation.x, rotation.y, rotation.z}
+            return { rotation.x, rotation.y, rotation.z }
         end, function(value)
 
         end)
         TheEditorDrawer:DrawVec3(columns, "Scale", function()
-			local scale = self.m_targetEntity.components.transform.scale
-            return {scale.x, scale.y, scale.z}
+            local scale = self.m_targetEntity.components.transform.scale
+            return { scale.x, scale.y, scale.z }
         end, function(value)
             self.m_targetEntity.components.transform.scale = Vector3(value[1], value[2], value[3])
         end)
