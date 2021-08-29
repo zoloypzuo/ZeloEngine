@@ -15,6 +15,7 @@ local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
 local CheckBox = require("ui.widgets.checkbox")
+local DragFloat3 = require("ui.widgets.drag_float3")
 
 -- TODO draw string
 -- TODO draw bool
@@ -50,6 +51,14 @@ end
 function EditorDrawer:DrawBoolean(root, name, getter, setter)
     _CreateTitle(root, name)
     local widget = root:CreateWidget(CheckBox)
+
+    widget.getter = getter
+    widget.setter = setter
+end
+
+function EditorDrawer:DrawVec3(root, name, getter, setter)
+    _CreateTitle(root, name)
+    local widget = root:CreateWidget(DragFloat3, _MIN_FLOAT, _MAX_FLOAT, 1.0)
 
     widget.getter = getter
     widget.setter = setter

@@ -29,7 +29,8 @@ function InputText:_UpdateImpl()
         self.content = self.getter()
     end
 
-    local text, selected = ImGui.InputText(self.label, self.content, 256, flag)
+    local label = self.label .. self.id
+    local text, selected = ImGui.InputText(label, self.content, 256, flag)
 
     if text ~= self.content then
         self.content = text

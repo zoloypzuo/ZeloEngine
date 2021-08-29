@@ -62,7 +62,7 @@ end
 require("editor.editor_actions")
 
 local ProjectHubPanel = require("editor.panels.project_hub_panel")
-TheFrontEnd:LoadPanel(ProjectHubPanel)
+--TheFrontEnd:LoadPanel(ProjectHubPanel)
 local HierarchyPanel = require("editor.panels.hierarchy_panel.hierarchy_panel")
 TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy Panel", true)
 local InspectorPanel = require("editor.panels.inspector_panel")

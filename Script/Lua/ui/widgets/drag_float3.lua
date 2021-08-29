@@ -1,12 +1,15 @@
--- check_box
--- created on 2021/8/22
+-- drag_float3
+-- created on 2021/8/28
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
 
-local CheckBox = Class(AWidget, function(self, parent, value, label)
+local DragFloat3 = Class(AWidget, function(self, parent, min, max, speed, label)
     AWidget._ctor(self, parent)
-    self.value = value or false
+    self.value = {}
     self.label = label or ""
+    self.min = min or 0
+    self.max = max or 0
+    self.speed = speed or 0
 
     self.getter = nil
     self.setter = nil
@@ -15,15 +18,14 @@ local CheckBox = Class(AWidget, function(self, parent, value, label)
     self.ValueChangedEvent = EventWrapper(processor, "ValueChangedEvent")
 end)
 
-function CheckBox:_UpdateImpl()
+function DragFloat3:_UpdateImpl()
     if self.getter then
         self.value = self.getter()
     end
-	
-	local label = self.label .. self.id
-    local value, _ = ImGui.Checkbox(label, self.value)
+    local label = self.label .. self.id
+    local value, used = ImGui.DragFloat3(label, self.value, self.speed, self.min, self.max, "%.3f")
 
-    if value ~= self.value then
+    if used then
         self.value = value
 
         if self.setter then
@@ -36,4 +38,4 @@ function CheckBox:_UpdateImpl()
     self.value = value
 end
 
-return CheckBox
+return DragFloat3

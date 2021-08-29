@@ -11,8 +11,8 @@
 class Transform {
 public:
     explicit Transform(const glm::vec3 &position = glm::vec3(),
-              const glm::quat &rotation = glm::quat(1, 0, 0, 0),
-              const glm::vec3 &scale = glm::vec3(1.0f));
+                       const glm::quat &rotation = glm::quat(1, 0, 0, 0),
+                       const glm::vec3 &scale = glm::vec3(1.0f));
 
     ~Transform();
 
@@ -45,11 +45,13 @@ public:
     void lookAt(glm::vec3 center);
 
 public:
-    void SetPosition(float x, float y, float z);
+    ZELO_SCRIPT_API void SetPosition(float x, float y, float z);
 
-    void SetScale(float x, float y, float z);
+    ZELO_SCRIPT_API void SetScale(float x, float y, float z);
 
-    void Rotate(float axisX, float axisY, float axisZ, float angle);
+    ZELO_SCRIPT_API void Rotate(float axisX, float axisY, float axisZ, float angle);
+
+    ZELO_SCRIPT_API glm::vec3 GetRotation() const;
 
     // private:
     glm::vec3 m_position{};

@@ -1,25 +1,10 @@
 # sol2_ImGui_Bindings
 
-Welcome to the sol2 ImGui bindings.
-I spent my time making these over the last few days.
-I hope you think they are useful as there's no others to my knowledge.
-
-If you liked what I did, you can donate to me at https://paypal.me/mattseys.
-It would be appreciated!
-
-Enjoy! 
-
 # Notes
 - This uses the latest sol2 version, the repo is located at https://github.com/ThePhD/sol2/.
 - These bindings are based on one of the latest version of ImGui Docking Branch. Comment what you don't need or breaks.
 - I've hid the U32 related function with a define (SOL_IMGUI_USE_COLOR_U32), if you wish to use these, define that!
 - There's also another define hidden (CUSTOM_IMGUI) which is for my own adapted imgui version with a few more enum values, ignore if you wish.
-
-# How to Use
-```cpp
-  // Call this function!
-  sol_ImGui::Init(lua); // lua being your sol::state
-```
 
 # Documentation
 You can find all the supported functions and overloads below.

@@ -3,10 +3,10 @@
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
 
-local ComboBox = Class(AWidget, function(self, parent, currentChoice)
+local ComboBox = Class(AWidget, function(self, parent, choices, currentChoice)
     AWidget._ctor(self, parent)
-    self.choices = {}  -- int => string
-    self.currentChoice = currentChoice or 0
+    self.choices = choices or {}
+    self.currentChoice = currentChoice or next(self.choices)
 
     self.getter = nil
     self.setter = nil

@@ -17,3 +17,12 @@ function UIRoot:LoadPanel(type_ , ...)
     self.panels[panel.id] = panel
     return panel
 end
+
+function UIRoot:GetPanel(type_)
+    for _, panel in pairs(self.panels) do
+        if panel.is_a(type_) then
+            return panel
+        end
+    end
+    return nil
+end

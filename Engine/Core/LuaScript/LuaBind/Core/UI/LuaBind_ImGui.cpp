@@ -3668,6 +3668,8 @@ inline void Init(sol::state &lua) {
     ImGui.set_function("GetClipboardText", GetClipboardText);
     ImGui.set_function("SetClipboardText", SetClipboardText);
 #pragma endregion Clipboard Utilities
+
+    ImGui.set_function("ShowDemoWindow", ImGui::ShowDemoWindow);
 }
 }
 
