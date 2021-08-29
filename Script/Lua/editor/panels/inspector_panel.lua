@@ -252,7 +252,7 @@ function Inspector:DrawComponent(name, component)
 end
 
 function Inspector:DrawMeshRenderer(component, parent)
-
+    -- TODO draw component
 end
 
 function Inspector:UnFocus()
@@ -263,16 +263,5 @@ function Inspector:UnFocus()
     end
 end
 
---    void SoftUnFocus();
---
---    Entity *GetTargetEntity() const;
---
---    void CreateEntityInspector(OvCore::ECS::Entity &target);
---
---    void DrawComponent(AComponent &component);
---
---    void DrawBehaviour(Behaviour &behaviour);
---
---    void Refresh();
 
 return Inspector
