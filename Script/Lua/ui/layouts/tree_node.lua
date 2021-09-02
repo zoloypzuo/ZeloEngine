@@ -100,5 +100,4 @@ function TreeNode:IsOpened()
     return self.opened
 end
 
-
 return TreeNode

@@ -20,7 +20,7 @@ function DDTarget:Execute()
         if not self.m_isHovered then
             self.HoverStartEvent:HandleEvent()
         end
-        self.m_isHovered =   true
+        self.m_isHovered = true
 
         local flags = 0
         if not self.showYellowRect then

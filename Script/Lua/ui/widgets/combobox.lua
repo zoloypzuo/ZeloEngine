@@ -21,7 +21,7 @@ function ComboBox:_UpdateImpl()
     --end
 
     if ImGui.BeginCombo(self.id, self.choices[self.currentChoice]) then
-        for key, value  in pairs(self.choices) do
+        for key, value in pairs(self.choices) do
             local selected = key == self.currentChoice
 
             if ImGui.Selectable(value, selected) then

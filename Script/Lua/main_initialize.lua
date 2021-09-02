@@ -50,10 +50,10 @@ ENABLE_HOOK_DEBUG_IMGUI = false
 if ENABLE_HOOK_DEBUG_IMGUI then
     local _ImGui = {}
     for name, fn in pairs(ImGui) do
-    	_ImGui[name] = function (...)
-    		print("ImGui.", name, ...)
-    		return fn(...)
-    	end
+        _ImGui[name] = function(...)
+            print("ImGui.", name, ...)
+            return fn(...)
+        end
     end
 
     ImGui = _ImGui

@@ -263,5 +263,4 @@ function Inspector:UnFocus()
     end
 end
 
-
 return Inspector

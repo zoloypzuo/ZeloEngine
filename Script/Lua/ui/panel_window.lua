@@ -23,22 +23,22 @@ local DefaultPanelWindowSettings = {
 }
 
 local function GenFlagFromPaneSetting(panelSettings)
-	local closable = panelSettings.closable
-	local resizable = panelSettings.resizable
-	local movable = panelSettings.movable
-	local dockable = panelSettings.dockable
-	local scrollable = panelSettings.scrollable
-	local hideBackground = panelSettings.hideBackground
-	local forceHorizontalScrollbar = panelSettings.forceHorizontalScrollbar
-	local forceVerticalScrollbar = panelSettings.forceVerticalScrollbar
-	local allowHorizontalScrollbar = panelSettings.allowHorizontalScrollbar
-	local bringToFrontOnFocus = panelSettings.bringToFrontOnFocus
-	local collapsable = panelSettings.collapsable
-	local allowInputs = panelSettings.allowInputs
-	local titleBar = panelSettings.titleBar
-	local autoSize = panelSettings.autoSize
-	
-	local windowFlags = 0
+    local closable = panelSettings.closable
+    local resizable = panelSettings.resizable
+    local movable = panelSettings.movable
+    local dockable = panelSettings.dockable
+    local scrollable = panelSettings.scrollable
+    local hideBackground = panelSettings.hideBackground
+    local forceHorizontalScrollbar = panelSettings.forceHorizontalScrollbar
+    local forceVerticalScrollbar = panelSettings.forceVerticalScrollbar
+    local allowHorizontalScrollbar = panelSettings.allowHorizontalScrollbar
+    local bringToFrontOnFocus = panelSettings.bringToFrontOnFocus
+    local collapsable = panelSettings.collapsable
+    local allowInputs = panelSettings.allowInputs
+    local titleBar = panelSettings.titleBar
+    local autoSize = panelSettings.autoSize
+
+    local windowFlags = 0
     -- @formatter:off
     if not resizable then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoResize) end
     if not movable then windowFlags = bit.bor(windowFlags, ImGuiWindowFlags.NoMove) end
@@ -112,12 +112,12 @@ function PanelWindow:_UpdateImpl()
         maxSizeConstraint = Vector2(10000, 10000)
     end
 
-    ImGui.SetNextWindowSizeConstraints(minSizeConstraint.x, minSizeConstraint.y, 
-		maxSizeConstraint.x, maxSizeConstraint.y)
+    ImGui.SetNextWindowSizeConstraints(minSizeConstraint.x, minSizeConstraint.y,
+            maxSizeConstraint.x, maxSizeConstraint.y)
 
     --if (ImGui::Begin((name + m_panelID).c_str(), closable ? &m_opened : nullptr, windowFlags)) {
     local shouldDraw = ImGui.Begin(self.name, self.opened, windowFlags)
-    if  shouldDraw then
+    if shouldDraw then
         self.hovered = ImGui.IsWindowHovered()
         self.focused = ImGui.IsWindowFocused()
 
@@ -131,7 +131,7 @@ function PanelWindow:_UpdateImpl()
 
         self:UpdateTransform()
 
-        if self.m_mustScrollToBottom  then
+        if self.m_mustScrollToBottom then
             ImGui.SetScrollY(ImGui.GetScrollMaxY())
             self.m_mustScrollToBottom = false
         end

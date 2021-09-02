@@ -16,13 +16,13 @@ end)
 
 function EventProcessor:AddEventHandler(event, fn)
     local handler = EventHandler(event, fn, self)
-    
+
     if self.events[event] == nil then
         self.events[event] = {}
     end
-    
+
     self.events[event][handler] = true
-    
+
     return handler
 end
 
@@ -42,7 +42,7 @@ end
 function EventProcessor:HandleEvent(event, ...)
     local handlers = self.events[event]
     if handlers then
-        for k,v in pairs(handlers) do
+        for k, v in pairs(handlers) do
             k.fn(...)
         end
     end

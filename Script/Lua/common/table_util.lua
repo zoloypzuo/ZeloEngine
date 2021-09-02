@@ -193,19 +193,19 @@ function GetRandomKey(choices)
 end
 
 function PrintTable(tab)
-	local str = {}
-	
-	local function internal(tab, str, indent)
-		for k,v in pairs(tab) do
-			if type(v) == "table" then
-				table.insert(str, indent..tostring(k)..":\n")
-				internal(v, str, indent..' ')
-			else
-				table.insert(str, indent..tostring(k)..": "..tostring(v).."\n")
-			end
-		end
-	end
-	
-	internal(tab, str, '')
-	return table.concat(str, '')
+    local str = {}
+
+    local function internal(tab, str, indent)
+        for k, v in pairs(tab) do
+            if type(v) == "table" then
+                table.insert(str, indent .. tostring(k) .. ":\n")
+                internal(v, str, indent .. ' ')
+            else
+                table.insert(str, indent .. tostring(k) .. ": " .. tostring(v) .. "\n")
+            end
+        end
+    end
+
+    internal(tab, str, '')
+    return table.concat(str, '')
 end

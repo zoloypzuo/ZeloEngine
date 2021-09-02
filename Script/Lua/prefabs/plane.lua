@@ -12,9 +12,9 @@ local function fn()
     inst:AddTag("plane")
 
     local mesh_renderer = inst.entity:AddMeshRenderer()
-    
+
     mesh_renderer.mesh = LoadResource(assets.mesh_gen)
-    
+
     mesh_renderer.material = LoadResource(assets.material)
 
     return inst

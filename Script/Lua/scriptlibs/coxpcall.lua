@@ -6,7 +6,7 @@
 -- yielding inside the call to pcall or xpcall.
 --
 -- Authors: Roberto Ierusalimschy and Andre Carregal 
--- Contributors: Thomas Harning Jr., Ignacio Burgueño, Fábio Mascarenhas
+-- Contributors: Thomas Harning Jr., Ignacio Burgueï¿½o, Fï¿½bio Mascarenhas
 --
 -- Copyright 2005 - Kepler Project (www.keplerproject.org)
 --
@@ -32,13 +32,15 @@ end
 
 function performResume(err, co, ...)
     return handleReturnValue(err, co, coroutine.resume(co, ...))
-end    
+end
 
 function coxpcall(f, err, ...)
     local res, co = oldpcall(coroutine.create, f)
     if not res then
-        local params = {...}
-        local newf = function() return f(unpack(params)) end
+        local params = { ... }
+        local newf = function()
+            return f(unpack(params))
+        end
         co = coroutine.create(newf)
     end
     return performResume(err, co, ...)
@@ -49,7 +51,7 @@ end
 -------------------------------------------------------------------------------
 
 local function id(trace, ...)
-  return ...
+    return ...
 end
 
 function copcall(f, ...)

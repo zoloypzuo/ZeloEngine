@@ -12,7 +12,7 @@ local function fn()
     inst:AddTag("monkey")
 
     local mesh_renderer = inst.entity:AddMeshRenderer()
-    
+
     mesh_renderer.mesh = LoadResource(assets.mesh)
 
     mesh_renderer.material = LoadResource(assets.material)

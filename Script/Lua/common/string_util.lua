@@ -4,21 +4,22 @@
 function string:split(sep)
     local sep, fields = sep or ":", {}
     local pattern = string.format("([^%s]+)", sep)
-    self:gsub(pattern, function(c) fields[#fields+1] = c end)
+    self:gsub(pattern, function(c)
+        fields[#fields + 1] = c
+    end)
     return fields
 end
 
-
 local Chars = {}
 for Loop = 0, 255 do
-    Chars[Loop+1] = string.char(Loop)
+    Chars[Loop + 1] = string.char(Loop)
 end
 local String = table.concat(Chars)
 
-local Built = {['.'] = Chars}
+local Built = { ['.'] = Chars }
 
 local AddLookup = function(CharSet)
-    local Substitute = string.gsub(String, '[^'..CharSet..']', '')
+    local Substitute = string.gsub(String, '[^' .. CharSet .. ']', '')
     local Lookup = {}
     for Loop = 1, string.len(Substitute) do
         Lookup[Loop] = string.sub(Substitute, Loop, Loop)
@@ -41,7 +42,7 @@ function string.random(Length, CharSet)
         local Lookup = Built[CharSet] or AddLookup(CharSet)
         local Range = table.getn(Lookup)
 
-        for Loop = 1,Length do
+        for Loop = 1, Length do
             Result[Loop] = Lookup[math.random(1, Range)]
         end
 
