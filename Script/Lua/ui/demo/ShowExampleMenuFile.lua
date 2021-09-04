@@ -6,7 +6,7 @@ local f = 0.5;
 local n = 0;
 -- Note that shortcuts are currently provided for display only
 -- (future version will add explicit flags to BeginMenu() to request processing shortcuts)
-function ShowExampleMenuFile()
+function ImGui.ShowExampleMenuFile()
     ImGui.MenuItem("(demo menu)");
     if (ImGui.MenuItem("New")) then
     end
@@ -20,7 +20,7 @@ function ShowExampleMenuFile()
             ImGui.MenuItem("Hello");
             ImGui.MenuItem("Sailor");
             if (ImGui.BeginMenu("Recurse..")) then
-                ShowExampleMenuFile();
+                ImGui.ShowExampleMenuFile();
                 ImGui.EndMenu();
             end
             ImGui.EndMenu();
@@ -77,5 +77,3 @@ function ShowExampleMenuFile()
     if (ImGui.MenuItem("Quit", "Alt+F4")) then
     end
 end
-
-return ShowExampleMenuFile

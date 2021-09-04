@@ -2,7 +2,8 @@
 -- created on 2021/9/3
 -- author @zoloypzuo
 require("ui.ui_util")
-local ShowExampleMenuFile = require("ui.demo.ShowExampleMenuFile")
+require("ui.demo.ShowExampleMenuFile")
+require("ui.demo.ShowUserGuide")
 
 local show_app_main_menu_bar = false;
 local show_app_dockspace = false;
@@ -109,33 +110,57 @@ local function ShowDemoWindow(p_open)
     -- Menu Bar
     if (ImGui.BeginMenuBar()) then
         if (ImGui.BeginMenu("Menu")) then
-            ShowExampleMenuFile();
+            ImGui.ShowExampleMenuFile();
             ImGui.EndMenu();
         end
         if (ImGui.BeginMenu("Examples")) then
-            ImGui.MenuItem("Main menu bar", show_app_main_menu_bar);
-            ImGui.MenuItem("Console", show_app_console);
-            ImGui.MenuItem("Log", show_app_log);
-            ImGui.MenuItem("Simple layout", show_app_layout);
-            ImGui.MenuItem("Property editor", show_app_property_editor);
-            ImGui.MenuItem("Long text display", show_app_long_text);
-            ImGui.MenuItem("Auto-resizing window", show_app_auto_resize);
-            ImGui.MenuItem("Constrained-resizing window", show_app_constrained_resize);
-            ImGui.MenuItem("Simple overlay", show_app_simple_overlay);
-            ImGui.MenuItem("Fullscreen window", show_app_fullscreen);
-            ImGui.MenuItem("Manipulating window titles", show_app_window_titles);
-            ImGui.MenuItem("Custom rendering", show_app_custom_rendering);
-            ImGui.MenuItem("Dockspace", show_app_dockspace);
-            ImGui.MenuItem("Documents", show_app_documents);
+            ImGui.MenuItem("Main menu bar") -- show_app_main_menu_bar);
+            ImGui.MenuItem("Console") -- show_app_console);
+            ImGui.MenuItem("Log") -- show_app_log);
+            ImGui.MenuItem("Simple layout") -- show_app_layout);
+            ImGui.MenuItem("Property editor") -- show_app_property_editor);
+            ImGui.MenuItem("Long text display") -- show_app_long_text);
+            ImGui.MenuItem("Auto-resizing window") -- show_app_auto_resize);
+            ImGui.MenuItem("Constrained-resizing window") -- show_app_constrained_resize);
+            ImGui.MenuItem("Simple overlay") -- show_app_simple_overlay);
+            ImGui.MenuItem("Fullscreen window") -- show_app_fullscreen);
+            ImGui.MenuItem("Manipulating window titles") -- show_app_window_titles);
+            ImGui.MenuItem("Custom rendering") -- show_app_custom_rendering);
+            ImGui.MenuItem("Dockspace") -- show_app_dockspace);
+            ImGui.MenuItem("Documents") -- show_app_documents);
             ImGui.EndMenu();
         end
         if (ImGui.BeginMenu("Tools")) then
-            ImGui.MenuItem("Metrics/Debugger", show_app_metrics);
-            ImGui.MenuItem("Style Editor", show_app_style_editor);
-            ImGui.MenuItem("About Dear ImGui", show_app_about);
+            ImGui.MenuItem("Metrics/Debugger") -- show_app_metrics);
+            ImGui.MenuItem("Style Editor") -- show_app_style_editor);
+            ImGui.MenuItem("About Dear ImGui") -- show_app_about);
             ImGui.EndMenu();
         end
         ImGui.EndMenuBar();
+    end
+
+    ImGui.Text("dear imgui says hello. (1.84.1)");
+    ImGui.Spacing();
+
+    if (ImGui.CollapsingHeader("Help")) then
+        ImGui.Text("ABOUT THIS DEMO:");
+        ImGui.BulletText("Sections below are demonstrating many aspects of the library.");
+        ImGui.BulletText("The \"Examples\" menu above leads to more demo contents.");
+        ImGui.BulletText("The \"Tools\" menu above gives access to: About Box, Style Editor,\n" ..
+                "and Metrics/Debugger (general purpose Dear ImGui debugging tool).");
+        ImGui.Separator();
+
+        ImGui.Text("PROGRAMMER GUIDE:");
+        ImGui.BulletText("See the ShowDemoWindow() code in imgui_demo.cpp. <- you are herenot ");
+        ImGui.BulletText("See comments in imgui.cpp.");
+        ImGui.BulletText("See example applications in the examples/ folder.");
+        ImGui.BulletText("Read the FAQ at http:--www.dearimgui.org/faq/");
+        ImGui.BulletText("Set 'io.ConfigFlags |= NavEnableKeyboard' for keyboard controls.");
+        ImGui.BulletText("Set 'io.ConfigFlags |= NavEnableGamepad' for gamepad controls.");
+        ImGui.Separator();
+
+        ImGui.Text("USER GUIDE:");
+        ImGui.ShowUserGuide();
     end
 
     ImGui.End();
