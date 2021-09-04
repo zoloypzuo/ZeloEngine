@@ -163,6 +163,142 @@ local function ShowDemoWindow(p_open)
         ImGui.ShowUserGuide();
     end
 
+    -- TODO io
+    --if (ImGui.CollapsingHeader("Configuration"))then
+    --    ImGuiIO& io = ImGui.GetIO();
+    --
+    --    if (ImGui.TreeNode("Configuration----2"))then
+    --        ImGui.CheckboxFlags("io.ConfigFlags: NavEnableKeyboard",    &io.ConfigFlags, ImGuiConfigFlags_NavEnableKeyboard);
+    --        ImGui.SameLine(); HelpMarker("Enable keyboard controls.");
+    --        ImGui.CheckboxFlags("io.ConfigFlags: NavEnableGamepad",     &io.ConfigFlags, ImGuiConfigFlags_NavEnableGamepad);
+    --        ImGui.SameLine(); HelpMarker("Enable gamepad controls. Require backend to set io.BackendFlags |= ImGuiBackendFlags_HasGamepad.\n\nRead instructions in imgui.cpp for details.");
+    --        ImGui.CheckboxFlags("io.ConfigFlags: NavEnableSetMousePos", io.ConfigFlags, ImGuiConfigFlags_NavEnableSetMousePos);
+    --        ImGui.SameLine(); HelpMarker("Instruct navigation to move the mouse cursor. See comment for ImGuiConfigFlags_NavEnableSetMousePos.");
+    --        ImGui.CheckboxFlags("io.ConfigFlags: NoMouse",              &io.ConfigFlags, ImGuiConfigFlags_NoMouse);
+    --        if (io.ConfigFlags & ImGuiConfigFlags_NoMouse)then
+    --            -- The "NoMouse" option can get us stuck with a disabled mousenot  Let's provide an alternative way to fix it:
+    --            if (fmodf((float)ImGui.GetTime(), 0..0) < 0..0)then
+    --                ImGui.SameLine();
+    --                ImGui.Text("<<PRESS SPACE TO DISABLE>>");
+    --            end
+    --            if (ImGui.IsKeyPressed(ImGui.GetKeyIndex(ImGuiKey_Space)))
+    --                io.ConfigFlags &= ~ImGuiConfigFlags_NoMouse;
+    --        end
+    --        ImGui.CheckboxFlags("io.ConfigFlags: NoMouseCursorChange", io.ConfigFlags, ImGuiConfigFlags_NoMouseCursorChange);
+    --        ImGui.SameLine(); HelpMarker("Instruct backend to not alter mouse cursor shape and visibility.");
+    --
+    --        ImGui.CheckboxFlags("io.ConfigFlags: DockingEnable", io.ConfigFlags, ImGuiConfigFlags_DockingEnable);
+    --        ImGui.SameLine(); HelpMarker("Drag from window title bar or their tab to dock/undock. Hold SHIFT to disable docking.\n\nDrag from window menu button (upper-left button) to undock an entire node (all windows).");
+    --        if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable)then
+    --            ImGui.Indent();
+    --            ImGui.Checkbox("io.ConfigDockingNoSplit", io.ConfigDockingNoSplit);
+    --            ImGui.SameLine(); HelpMarker("Simplified docking mode: disable window splitting, so docking is limited to merging multiple windows together into tab-bars.");
+    --            ImGui.Checkbox("io.ConfigDockingAlwaysTabBar", io.ConfigDockingAlwaysTabBar);
+    --            ImGui.SameLine(); HelpMarker("Create a docking node and tab-bar on single floating windows.");
+    --            ImGui.Checkbox("io.ConfigDockingTransparentPayload", io.ConfigDockingTransparentPayload);
+    --            ImGui.SameLine(); HelpMarker("Make window or viewport transparent when docking and only display docking boxes on the target viewport. Useful if rendering of multiple viewport cannot be synced. Best used with ConfigViewportsNoAutoMerge.");
+    --            ImGui.Unindent();
+    --        end
+    --
+    --        ImGui.CheckboxFlags("io.ConfigFlags: ViewportsEnable", io.ConfigFlags, ImGuiConfigFlags_ViewportsEnable);
+    --        ImGui.SameLine(); HelpMarker("[beta] Enable beta multi-viewports support. See ImGuiPlatformIO for details.");
+    --        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)then
+    --            ImGui.Indent();
+    --            ImGui.Checkbox("io.ConfigViewportsNoAutoMerge", io.ConfigViewportsNoAutoMerge);
+    --            ImGui.SameLine(); HelpMarker("Set to make all floating imgui windows always create their own viewport. Otherwise, they are merged into the main host viewports when overlapping it.");
+    --            ImGui.Checkbox("io.ConfigViewportsNoTaskBarIcon", io.ConfigViewportsNoTaskBarIcon);
+    --            ImGui.SameLine(); HelpMarker("Toggling this at runtime is normally unsupported (most platform backends won't refresh the task bar icon state right away).");
+    --            ImGui.Checkbox("io.ConfigViewportsNoDecoration", io.ConfigViewportsNoDecoration);
+    --            ImGui.SameLine(); HelpMarker("Toggling this at runtime is normally unsupported (most platform backends won't refresh the decoration right away).");
+    --            ImGui.Checkbox("io.ConfigViewportsNoDefaultParent", io.ConfigViewportsNoDefaultParent);
+    --            ImGui.SameLine(); HelpMarker("Toggling this at runtime is normally unsupported (most platform backends won't refresh the parenting right away).");
+    --            ImGui.Unindent();
+    --        end
+    --
+    --        ImGui.Checkbox("io.ConfigInputTextCursorBlink", io.ConfigInputTextCursorBlink);
+    --        ImGui.SameLine(); HelpMarker("Enable blinking cursor (optional as some users consider it to be distracting)");
+    --        ImGui.Checkbox("io.ConfigDragClickToInputText", io.ConfigDragClickToInputText);
+    --        ImGui.SameLine(); HelpMarker("Enable turning DragXXX widgets into text input with a simple mouse click-release (without moving).");
+    --        ImGui.Checkbox("io.ConfigWindowsResizeFromEdges", io.ConfigWindowsResizeFromEdges);
+    --        ImGui.SameLine(); HelpMarker("Enable resizing of windows from their edges and from the lower-left corner.\nThis requires (io.BackendFlags & ImGuiBackendFlags_HasMouseCursors) because it needs mouse cursor feedback.");
+    --        ImGui.Checkbox("io.ConfigWindowsMoveFromTitleBarOnly", io.ConfigWindowsMoveFromTitleBarOnly);
+    --        ImGui.Checkbox("io.MouseDrawCursor", io.MouseDrawCursor);
+    --        ImGui.SameLine(); HelpMarker("Instruct Dear ImGui to render a mouse cursor itself. Note that a mouse cursor rendered via your application GPU rendering path will feel more laggy than hardware cursor, but will be more in sync with your other visuals.\n\nSome desktop applications may use both kinds of cursors (e.g. enable software cursor only when resizing/dragging something).");
+    --        ImGui.Text("Also see Style->Rendering for rendering options.");
+    --        ImGui.TreePop();
+    --        ImGui.Separator();
+    --    end
+    --
+    --    if (ImGui.TreeNode("Backend Flags"))then
+    --        HelpMarker(
+    --            "Those flags are set by the backends (imgui_impl_xxx files) to specify their capabilities.\n"
+    --            "Here we expose them as read-only fields to avoid breaking interactions with your backend.");
+    --
+    --        -- Make a local copy to avoid modifying actual backend flags.
+    --        ImGuiBackendFlags backend_flags = io.BackendFlags;
+    --        ImGui.CheckboxFlags("io.BackendFlags: HasGamepad",             &backend_flags, ImGuiBackendFlags_HasGamepad);
+    --        ImGui.CheckboxFlags("io.BackendFlags: HasMouseCursors",        &backend_flags, ImGuiBackendFlags_HasMouseCursors);
+    --        ImGui.CheckboxFlags("io.BackendFlags: HasSetMousePos",         &backend_flags, ImGuiBackendFlags_HasSetMousePos);
+    --        ImGui.CheckboxFlags("io.BackendFlags: PlatformHasViewports",   &backend_flags, ImGuiBackendFlags_PlatformHasViewports);
+    --        ImGui.CheckboxFlags("io.BackendFlags: HasMouseHoveredViewport",&backend_flags, ImGuiBackendFlags_HasMouseHoveredViewport);
+    --        ImGui.CheckboxFlags("io.BackendFlags: RendererHasVtxOffset",   &backend_flags, ImGuiBackendFlags_RendererHasVtxOffset);
+    --        ImGui.CheckboxFlags("io.BackendFlags: RendererHasViewports",   &backend_flags, ImGuiBackendFlags_RendererHasViewports);
+    --        ImGui.TreePop();
+    --        ImGui.Separator();
+    --    end
+    --
+    --    if (ImGui.TreeNode("Style"))then
+    --        HelpMarker("The same contents can be accessed in 'Tools->Style Editor' or by calling the ShowStyleEditor() function.");
+    --        ImGui.ShowStyleEditor();
+    --        ImGui.TreePop();
+    --        ImGui.Separator();
+    --    end
+    --
+    --    if (ImGui.TreeNode("Capture/Logging"))then
+    --        HelpMarker(
+    --            "The logging API redirects all text output so you can easily capture the content of "
+    --            "a window or a block. Tree nodes can be automatically expanded.\n"
+    --            "Try opening any of the contents below in this window and then click one of the \"Log To\" button.");
+    --        ImGui.LogButtons();
+    --
+    --        HelpMarker("You can also call ImGui.LogText() to output directly to the log without a visual output.");
+    --        if (ImGui.Button("Copy \"Hello, worldnot \" to clipboard"))then
+    --            ImGui.LogToClipboard();
+    --            ImGui.LogText("Hello, worldnot ");
+    --            ImGui.LogFinish();
+    --        end
+    --        ImGui.TreePop();
+    --    end
+    --end
+    
+    -- TODO table is beta
+    --if (ImGui.CollapsingHeader("Window options"))then
+    --    if (ImGui.BeginTable("split", 3))then
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No titlebar", no_titlebar);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No scrollbar", no_scrollbar);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No menu", no_menu);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No move", no_move);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No resize", no_resize);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No collapse", no_collapse);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No close", no_close);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No nav", no_nav);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No background", no_background);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No bring to front", no_bring_to_front);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("No docking", no_docking);
+    --        ImGui.TableNextColumn(); ImGui.Checkbox("Unsaved document", unsaved_document);
+    --        ImGui.EndTable();
+    --    end
+    --end
+
+    -- All demo contents
+    --ShowDemoWindowWidgets();
+    --ShowDemoWindowLayout();
+    --ShowDemoWindowPopups();
+    --ShowDemoWindowTables();
+    --ShowDemoWindowMisc();
+
+    -- End of ShowDemoWindow()
+    ImGui.PopItemWidth();
     ImGui.End();
 end
 
