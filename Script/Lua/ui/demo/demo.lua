@@ -1,7 +1,7 @@
 -- demo
 -- created on 2021/9/3
 -- author @zoloypzuo
-local ui_util = require("ui.ui_util")
+require("ui.ui_util")
 local ShowExampleMenuFile = require("ui.demo.ShowExampleMenuFile")
 
 local show_app_main_menu_bar = false;
@@ -137,8 +137,8 @@ local function ShowDemoWindow(p_open)
         end
         ImGui.EndMenuBar();
     end
-	
-	ImGui.End();
+
+    ImGui.End();
 end
 
 return ShowDemoWindow
