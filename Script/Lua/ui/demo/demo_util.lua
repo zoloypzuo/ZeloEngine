@@ -20,19 +20,18 @@ function demo_util.ShowDockingDisabledMessage()
     ImGui.Text("Set io.ConfigFlags |= ImGuiConfigFlags_DockingEnable in your code, or ");
     ImGui.SameLine(0.0, 0.0);
     -- if (ImGui.SmallButton("click here"))
-        -- io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    -- io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 end
 
 function demo_util.ShowUserGuide()
     -- ImGuiIO& io = ImGui.GetIO();
     ImGui.BulletText("Double-click on title bar to collapse window.");
-    ImGui.BulletText(
-        "Click and drag on lower corner to resize window\n"
-        "(double-click to auto fit window to its contents).");
+    ImGui.BulletText("Click and drag on lower corner to resize window\n" ..
+            "(double-click to auto fit window to its contents).");
     ImGui.BulletText("CTRL+Click on a slider or drag box to input value as text.");
     ImGui.BulletText("TAB/SHIFT+TAB to cycle through keyboard editable fields.");
     -- if (io.FontAllowUserScaling)
-        -- ImGui.BulletText("CTRL+Mouse Wheel to zoom window contents.");
+    -- ImGui.BulletText("CTRL+Mouse Wheel to zoom window contents.");
     ImGui.BulletText("While inputing text:\n");
     ImGui.Indent();
     ImGui.BulletText("CTRL+Left/Right to word jump.");
