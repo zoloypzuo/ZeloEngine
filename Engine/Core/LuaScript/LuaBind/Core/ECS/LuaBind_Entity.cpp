@@ -115,7 +115,7 @@ sol::meta_function::multiplication, sol::overload(
     [](const glm::vec3& v1, float f) -> glm::vec3 { return v1*f; },
     [](float f, const glm::vec3& v1) -> glm::vec3 { return f*v1; }
 ),
-"Dummpy", []{}
+"__Dummy", []{}
 );
 
 luaState.new_usertype<BaseLight>("BaseLight",
