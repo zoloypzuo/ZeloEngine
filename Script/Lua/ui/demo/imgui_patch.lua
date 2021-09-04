@@ -1,6 +1,7 @@
 ---@class ImGui
 local ImGui = {}
 
+-- @formatter:off
 ---@alias float number
 ---@alias double number
 ---@alias int number
@@ -42,9 +43,9 @@ local ImGui = {}
 ---@param name string
 ---@param open boolean
 ---@param flags ImGuiWindowFlags
-function  ImGui.Begin(...) end
+function ImGui.Begin(name, open, flags) end
 
-function  ImGui.End() end
+function ImGui.End() end
 
 -- ## Child Windows
 
@@ -61,21 +62,21 @@ function  ImGui.End() end
 ---@param size_y float
 ---@param flags ImGuiWindowFlags
 ---@return boolean @shouldDraw
-function  ImGui.BeginChild(...) end
+function ImGui.BeginChild(name, size_x, size_y, flags) end
 
-function  ImGui.EndChild() end
+function ImGui.EndChild() end
 
 -- ## Windows Utilities
 
 --- Returns: bool (appearing)
 --- appearing = ImGui.IsWindowAppearing()
 ---@return boolean @appearing
-function  ImGui.IsWindowAppearing() end
+function ImGui.IsWindowAppearing() end
 
 --- Returns: bool (collapsed)
 --- collapsed = ImGui.IsWindowCollapsed()
 ---@return boolean @collapsed
-function  ImGui.IsWindowCollapsed() end
+function ImGui.IsWindowCollapsed() end
 
 --- Parameters: ImGuiFocusedFlags (flags) [O]
 --- Returns: bool (focused)
@@ -84,7 +85,7 @@ function  ImGui.IsWindowCollapsed() end
 --- focused = ImGui.IsWindowFocused(ImGuiFocusedFlags.ChildWindows)
 ---@param flags ImGuiFocusedFlags
 ---@return boolean @focused
-function  ImGui.IsWindowFocused(...) end
+function ImGui.IsWindowFocused(flags) end
 
 --- Parameters: ImGuiHoveredFlags (flags) [O]
 --- Returns: bool (hovered)
@@ -93,34 +94,34 @@ function  ImGui.IsWindowFocused(...) end
 --- hovered = ImGui.IsWindowHovered(ImGuiHoveredFlags.ChildWindows)
 ---@param flags ImGuiHoveredFlags
 ---@return boolean @hovered
-function  ImGui.IsWindowHovered(...) end
+function ImGui.IsWindowHovered(flags) end
 
 --- Returns: float (dpiScale)
 --- dpiScale = ImGui.GetWindowDpiScale()
 ---@return float @dpiScale
-function  ImGui.GetWindowDpiScale() end
+function ImGui.GetWindowDpiScale() end
 
 --- Returns: float (pos_x), float (pos_y)
 --- pos_x, pos_y = ImGui.GetWindowPos()
 ---@return float @pos_x
 ---@return float @pos_y
-function  ImGui.GetWindowPos() end
+function ImGui.GetWindowPos() end
 
 --- Returns: float (size_x), float (size_y)
 --- size_x, size_y = ImGui.GetWindowSize()
 ---@return float @size_x
 ---@return float @size_y
-function  ImGui.GetWindowSize() end
+function ImGui.GetWindowSize() end
 
 --- Returns: float (width)
 --- width = ImGui.GetWindowWidth()
 ---@return float @width
-function  ImGui.GetWindowWidth() end
+function ImGui.GetWindowWidth() end
 
 --- Returns: float (height)
 --- height = ImGui.GetWindowHeight()
 ---@return float @height
-function  ImGui.GetWindowHeight() end
+function ImGui.GetWindowHeight() end
 
 --- Parameters: float (pos_x), float (pos_y), ImGuiCond (cond) [O], float (pivot_x) [O], float (pivot_y) [O]
 --- Overloads
@@ -129,64 +130,64 @@ function  ImGui.GetWindowHeight() end
 ---@param cond ImGuiCond
 ---@param pivot_x float
 ---@param pivot_y float
-function  ImGui.SetNextWindowPos(...) end
+function ImGui.SetNextWindowPos(pos_x, pos_y, cond, pivot_x, pivot_y) end
 
 --- Parameters: float (size_x), float (size_y), ImGuiCond (cond) [O]
 --- Overloads
 ---@param size_x float
 ---@param size_y float
 ---@param cond ImGuiCond
-function  ImGui.SetNextWindowSize(...) end
+function ImGui.SetNextWindowSize(size_x, size_y, cond) end
 
 --- Parameters: float (min_x), float (min_y), float (max_x), float (max_y)
 ---@param min_x float
 ---@param min_y float
 ---@param max_x float
 ---@param max_y float
-function  ImGui.SetNextWindowSizeConstraints(...) end
+function ImGui.SetNextWindowSizeConstraints(min_x, min_y, max_x, max_y) end
 
 --- Parameters: float (size_x), float (size_y)
 ---@param size_x float
 ---@param size_y float
-function  ImGui.SetNextWindowContentSize(...) end
+function ImGui.SetNextWindowContentSize(size_x, size_y) end
 
 --- Parameters: bool (collapsed), ImGuiCond (cond) [O]
 --- Overloads
 ---@param collapsed boolean
 ---@param cond ImGuiCond
-function  ImGui.SetNextWindowCollapsed(...) end
+function ImGui.SetNextWindowCollapsed(collapsed, cond) end
 
-function  ImGui.SetNextWindowFocus() end
+function ImGui.SetNextWindowFocus() end
 
 --- Parameters: float (alpha)
 ---@param alpha float
-function  ImGui.SetNextWindowBgAlpha(...) end
+function ImGui.SetNextWindowBgAlpha(alpha) end
 
 --- Parameters: float (pos_x), float (pos_y), ImguiCond (cond) [O]
 --- Overloads
 ---@param pos_x float
 ---@param pos_y float
 ---@param cond ImguiCond
-function  ImGui.SetWindowPos(...) end
+function ImGui.SetWindowPos(pos_x, pos_y, cond) end
 
 --- Parameters: float (size_x), float (size_y), ImguiCond (cond) [O]
 --- Overloads
 ---@param size_x float
 ---@param size_y float
 ---@param cond ImguiCond
-function  ImGui.SetWindowSize(...) end
+function ImGui.SetWindowSize(size_x, size_y, cond) end
 
 --- Parameters: bool (collapsed), ImguiCond (cond) [O]
 --- Overloads
 ---@param collapsed boolean
 ---@param cond ImguiCond
-function  ImGui.SetWindowCollapsed(...) end
+function ImGui.SetWindowCollapsed(collapsed, cond) end
 
-function  ImGui.SetWindowFocus() end
+function ImGui.SetWindowFocus() end
 
 --- Parameters: float (scale)
 ---@param scale float
-function  ImGui.SetWindowFontScale(...) end
+function ImGui.SetWindowFontScale(scale) end
 
 --- Parameters: text (name), float (pos_x), float (pos_y), ImGuiCond (cond) [O]
 --- Overloads
@@ -194,7 +195,7 @@ function  ImGui.SetWindowFontScale(...) end
 ---@param pos_x float
 ---@param pos_y float
 ---@param cond ImGuiCond
-function  ImGui.SetWindowPos(...) end
+function ImGui.SetWindowPos(name, pos_x, pos_y, cond) end
 
 --- Parameters: text (name), float (size_x), float (size_y), ImGuiCond (cond) [O]
 --- Overloads
@@ -202,18 +203,18 @@ function  ImGui.SetWindowPos(...) end
 ---@param size_x float
 ---@param size_y float
 ---@param cond ImGuiCond
-function  ImGui.SetWindowSize(...) end
+function ImGui.SetWindowSize(name, size_x, size_y, cond) end
 
 --- Parameters: text (name), bool (collapsed), ImGuiCond (cond) [O]
 --- Overloads
 ---@param name string
 ---@param collapsed boolean
 ---@param cond ImGuiCond
-function  ImGui.SetWindowCollapsed(...) end
+function ImGui.SetWindowCollapsed(name, collapsed, cond) end
 
 --- Parameters: text (name)
 ---@param name string
-function  ImGui.SetWindowFocus(...) end
+function ImGui.SetWindowFocus(name) end
 
 -- ## Content Region
 
@@ -221,94 +222,95 @@ function  ImGui.SetWindowFocus(...) end
 --- x, y = ImGui.GetContentRegionMax()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetContentRegionMax() end
+function ImGui.GetContentRegionMax() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetContentRegionAvail()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetContentRegionAvail() end
+function ImGui.GetContentRegionAvail() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetWindowContentRegionMin()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetWindowContentRegionMin() end
+function ImGui.GetWindowContentRegionMin() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetWindowContentRegionMax()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetWindowContentRegionMax() end
+function ImGui.GetWindowContentRegionMax() end
 
 --- Returns: float (width)
 --- width = ImGui.GetWindowContentRegionWidth()
+--- ```
 ---@return float @width
-function  ImGui.GetWindowContentRegionWidth() end
+function ImGui.GetWindowContentRegionWidth() end
 
 -- ## Windows Scrolling
 
 --- Returns: float (x)
 --- x = ImGui.GetScrollX()
 ---@return float @x
-function  ImGui.GetScrollX() end
+function ImGui.GetScrollX() end
 
 --- Returns: float (y)
 --- y = ImGui.GetScrollY()
 ---@return float @y
-function  ImGui.GetScrollY() end
+function ImGui.GetScrollY() end
 
 --- Returns: float (x)
 --- x = ImGui.GetScrollMaxX()
 ---@return float @x
-function  ImGui.GetScrollMaxX() end
+function ImGui.GetScrollMaxX() end
 
 --- Returns: float (y)
 --- y = ImGui.GetScrollMaxY()
 ---@return float @y
-function  ImGui.GetScrollMaxY() end
+function ImGui.GetScrollMaxY() end
 
 --- Parameters: float (scroll_x)
 ---@param scroll_x float
-function  ImGui.SetScrollX(...) end
+function ImGui.SetScrollX(scroll_x) end
 
 --- Parameters: float (scroll_y)
 ---@param scroll_y float
-function  ImGui.SetScrollY(...) end
+function ImGui.SetScrollY(scroll_y) end
 
 --- Parameters: float (center_x_ratio) [O]
 --- Overloads
 ---@param center_x_ratio float
-function  ImGui.SetScrollHereX(...) end
+function ImGui.SetScrollHereX(center_x_ratio) end
 
 --- Parameters: float (center_y_ratio) [O]
 --- Overloads
 ---@param center_y_ratio float
-function  ImGui.SetScrollHereY(...) end
+function ImGui.SetScrollHereY(center_y_ratio) end
 
 --- Parameters: float (local_x), float (center_x_ratio) [O]
 --- Overloads
 ---@param local_x float
 ---@param center_x_ratio float
-function  ImGui.SetScrollFromPosX(...) end
+function ImGui.SetScrollFromPosX(local_x, center_x_ratio) end
 
 --- Parameters: float (local_y), float (center_y_ratio) [O]
 --- Overloads
 ---@param local_y float
 ---@param center_y_ratio float
-function  ImGui.SetScrollFromPosY(...) end
+function ImGui.SetScrollFromPosY(local_y, center_y_ratio) end
 
 --- Parameters: ImFont* (font)
 ---@param font ImFont
-function  ImGui.PushFont(...) end
+function ImGui.PushFont(font) end
 
 -- ## Parameters Stacks (Shared)
 
 --- Parameters: ImFont* (font)
 ---@param font ImFont
-function  ImGui.PushFont(...) end
+function ImGui.PushFont(font) end
 
-function  ImGui.PopFont() end
+function ImGui.PopFont() end
 
 --- Parameters: ImGuiCol (idx), float (color_r), float (color_g), float (color_b), float (color_a)
 ---@param idx ImGuiCol
@@ -316,21 +318,21 @@ function  ImGui.PopFont() end
 ---@param color_g float
 ---@param color_b float
 ---@param color_a float
-function  ImGui.PushStyleColor(...) end
+function ImGui.PushStyleColor(idx, color_r, color_g, color_b, color_a) end
 
 --- Parameters: int (count) [O]
 --- Overloads
 ---@param count int
-function  ImGui.PopStyleColor(...) end
+function ImGui.PopStyleColor(count) end
 
 --- Parameters A: ImGuiStyleVar (idx), float (value)
 --- Parameters B: ImGuiStyleVar (idx), float (value_x), float (value_y)
 --- Overloads
-function  ImGui.PushStyleVar(...) end
+function ImGui.PushStyleVar(...) end
 
 --- Parameters: int (count) [O]
 ---@param count int
-function  ImGui.PopStyleVar(...) end
+function ImGui.PopStyleVar(count) end
 
 --- Parameters: ImGuiCol (idx)
 --- Returns: float (color_r), float (color_g), float (color_b), float (color_a)
@@ -340,158 +342,160 @@ function  ImGui.PopStyleVar(...) end
 ---@return float @color_g
 ---@return float @color_b
 ---@return float @color_a
-function  ImGui.GetStyleColorVec4(...) end
+function ImGui.GetStyleColorVec4(idx) end
 
 --- Returns: ImFont*
 --- font = ImGui.GetFont()
 ---@return ImFont
-function  ImGui.GetFont() end
+function ImGui.GetFont() end
 
 --- Returns: float (fontSize)
 --- fontSize = ImGui.GetFontSize()
 ---@return float @fontSize
-function  ImGui.GetFontSize() end
+function ImGui.GetFontSize() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetFontTexUvWhitePixel()
+--- ```
 ---@return float @x
 ---@return float @y
-function  ImGui.GetFontTexUvWhitePixel() end
+function ImGui.GetFontTexUvWhitePixel() end
 
 -- ## Parameter Stacks (Current Window)
 
 --- Parameters: float (width)
 ---@param width float
-function  ImGui.PushItemWidth(...) end
+function ImGui.PushItemWidth(width) end
 
-function  ImGui.PopItemWidth() end
+function ImGui.PopItemWidth() end
 
 --- Parameters: float (width)
 ---@param width float
-function  ImGui.SetNextItemWidth(...) end
+function ImGui.SetNextItemWidth(width) end
 
 --- Returns: float (width)
 --- width = ImGui.CalcItemWidth()
 ---@return float @width
-function  ImGui.CalcItemWidth() end
+function ImGui.CalcItemWidth() end
 
 --- Parameters: float (wrap_local_pos_x) [O]
 --- Overloads
 ---@param wrap_local_pos_x float
-function  ImGui.PushTextWrapPos(...) end
+function ImGui.PushTextWrapPos(wrap_local_pos_x) end
 
-function  ImGui.PopTextWrapPos() end
+function ImGui.PopTextWrapPos() end
 
 --- Parameters: bool (allow_keyboard_focus)
 ---@param allow_keyboard_focus boolean
-function  ImGui.PushAllowKeyboardFocus(...) end
+function ImGui.PushAllowKeyboardFocus(allow_keyboard_focus) end
 
-function  ImGui.PopAllowKeyboardFocus() end
+function ImGui.PopAllowKeyboardFocus() end
 
 --- Parameters: bool (repeat)
----@param repeat boolean
-function  ImGui.PushButtonRepeat(...) end
+---@param repeat_ boolean
+function ImGui.PushButtonRepeat(repeat_) end
 
-function  ImGui.PopButtonRepeat() end
+function ImGui.PopButtonRepeat() end
 
 -- ## Cursor / Layout
 
-function  ImGui.Separator() end
+function ImGui.Separator() end
 
 --- Parameters: float (offset_from_start_x) [O], float (spacing) [O]
 --- Overloads
 ---@param offset_from_start_x float
 ---@param spacing float
-function  ImGui.SameLine(...) end
+function ImGui.SameLine(offset_from_start_x, spacing) end
 
-function  ImGui.NewLine() end
+function ImGui.NewLine() end
 
-function  ImGui.Spacing() end
+function ImGui.Spacing() end
 
 --- Parameters: float (size_x), float (size_y)
 ---@param size_x float
 ---@param size_y float
-function  ImGui.__Dummy(...) end
+function ImGui.__Dummy(size_x, size_y) end
 
 --- Parameters: float (indent_w) [O]
 ---@param indent_w float
-function  ImGui.Indent(...) end
+function ImGui.Indent(indent_w) end
 
 --- Parameters: float (indent_w) [O]
 ---@param indent_w float
-function  ImGui.Unindent(...) end
+function ImGui.Unindent(indent_w) end
 
-function  ImGui.BeginGroup() end
+function ImGui.BeginGroup() end
 
-function  ImGui.EndGroup() end
+function ImGui.EndGroup() end
 
 --- Returns: float (x), float(y)
 --- x, y = ImGui.GetCursorPos()
 ---@return float @x
 ---@return float(y)
-function  ImGui.GetCursorPos() end
+function ImGui.GetCursorPos() end
 
 --- Returns: float (x)
 --- x = ImGui.GetCursorPosX()
 ---@return float @x
-function  ImGui.GetCursorPosX() end
+function ImGui.GetCursorPosX() end
 
 --- Returns: float (y)
 --- y = ImGui.GetCursorPosY()
 ---@return float @y
-function  ImGui.GetCursorPosY() end
+function ImGui.GetCursorPosY() end
 
 --- Parameters: float (x), float (y)
 ---@param x float
 ---@param y float
-function  ImGui.SetCursorPos(...) end
+function ImGui.SetCursorPos(x, y) end
 
 --- Parameters: float (x)
 ---@param x float
-function  ImGui.SetCursorPosX(...) end
+function ImGui.SetCursorPosX(x) end
 
 --- Parameters: float (y)
 ---@param y float
-function  ImGui.SetCursorPosY(...) end
+function ImGui.SetCursorPosY(y) end
 
 --- Returns: float (x), float(y)
 --- x, y = ImGui.GetCursorStartPos()
 ---@return float @x
 ---@return float(y)
-function  ImGui.GetCursorStartPos() end
+function ImGui.GetCursorStartPos() end
 
 --- Returns: float (x), float(y)
 --- x, y = ImGui.GetCursorScreenPos()
 ---@return float @x
 ---@return float(y)
-function  ImGui.GetCursorScreenPos() end
+function ImGui.GetCursorScreenPos() end
 
 --- Parameters: float (x), float (y)
 ---@param x float
 ---@param y float
-function  ImGui.SetCursorScreenPos(...) end
+function ImGui.SetCursorScreenPos(x, y) end
 
-function  ImGui.AlignTextToFramePadding() end
+function ImGui.AlignTextToFramePadding() end
 
 --- Returns: float (height)
 --- height = ImGui.GetTextLineHeight()
 ---@return float @height
-function  ImGui.GetTextLineHeight() end
+function ImGui.GetTextLineHeight() end
 
 --- Returns: float (height)
 --- height = ImGui.GetTextLineHeightWithSpacing()
 ---@return float @height
-function  ImGui.GetTextLineHeightWithSpacing() end
+function ImGui.GetTextLineHeightWithSpacing() end
 
 --- Returns: float (height)
 --- height = ImGui.GetFrameHeight()
 ---@return float @height
-function  ImGui.GetFrameHeight() end
+function ImGui.GetFrameHeight() end
 
 --- Returns: float (height)
 --- height = ImGui.GetFrameHeightWithSpacing()
+--- ```
 ---@return float @height
-function  ImGui.GetFrameHeightWithSpacing() end
+function ImGui.GetFrameHeightWithSpacing() end
 
 -- ## ID Stack / Scopes
 
@@ -499,9 +503,9 @@ function  ImGui.GetFrameHeightWithSpacing() end
 --- Parameters B: text (str_id_begin), text (str_id_end)
 --- Parameters C: int (int_id)
 --- Overloads
-function  ImGui.PushID(...) end
+function ImGui.PushID(...) end
 
-function  ImGui.PopID() end
+function ImGui.PopID() end
 
 --- Parameters A: text (str_id)
 --- Parameters B: text (str_id_begin), text (str_id_end)
@@ -509,8 +513,9 @@ function  ImGui.PopID() end
 --- Overloads
 --- id = ImGui.PushID("MyID")
 --- id = ImGui.PushID("MyID_Begin", "MyID_End")
+--- ```
 ---@return int @id
-function  ImGui.GetID(...) end
+function ImGui.GetID(...) end
 
 -- ## Widgets: Text
 
@@ -518,11 +523,11 @@ function  ImGui.GetID(...) end
 --- Overloads
 ---@param text string
 ---@param text_end string
-function  ImGui.TextUnformatted(...) end
+function ImGui.TextUnformatted(text, text_end) end
 
 --- Parameters: text (text)
 ---@param text string
-function  ImGui.Text(...) end
+function ImGui.Text(text) end
 
 --- Parameters: float (color_r), float (color_g), float (color_b), float (color_a), text (text)
 ---@param color_r float
@@ -530,24 +535,24 @@ function  ImGui.Text(...) end
 ---@param color_b float
 ---@param color_a float
 ---@param text string
-function  ImGui.TextColored(...) end
+function ImGui.TextColored(color_r, color_g, color_b, color_a, text) end
 
 --- Parameters: text (text)
 ---@param text string
-function  ImGui.TextDisabled(...) end
+function ImGui.TextDisabled(text) end
 
 --- Parameters: text (text)
 ---@param text string
-function  ImGui.TextWrapped(...) end
+function ImGui.TextWrapped(text) end
 
 --- Parameters: text (label), text (text)
 ---@param label string
 ---@param text string
-function  ImGui.LabelText(...) end
+function ImGui.LabelText(label, text) end
 
 --- Parameters: text (text)
 ---@param text string
-function  ImGui.BulletText(...) end
+function ImGui.BulletText(text) end
 
 -- ## Widgets: Main
 
@@ -560,14 +565,14 @@ function  ImGui.BulletText(...) end
 ---@param size_x float
 ---@param size_y float
 ---@return boolean @clicked
-function  ImGui.Button(...) end
+function ImGui.Button(label, size_x, size_y) end
 
 --- Parameters: text (label)
 --- Returns: bool (clicked)
 --- clicked = ImGui.SmallButton("Label")
 ---@param label string
 ---@return boolean @clicked
-function  ImGui.SmallButton(...) end
+function ImGui.SmallButton(label) end
 
 --- Parameters: text (label), float (size_x), float (size_y)
 --- Returns: bool (clicked)
@@ -576,7 +581,7 @@ function  ImGui.SmallButton(...) end
 ---@param size_x float
 ---@param size_y float
 ---@return boolean @clicked
-function  ImGui.InvisibleButton(...) end
+function ImGui.InvisibleButton(label, size_x, size_y) end
 
 --- Parameters: text (str_id), ImGuiDir (dir)
 --- Returns: bool (clicked)
@@ -584,7 +589,7 @@ function  ImGui.InvisibleButton(...) end
 ---@param str_id string
 ---@param dir ImGuiDir
 ---@return boolean @clicked
-function  ImGui.ArrowButton(...) end
+function ImGui.ArrowButton(str_id, dir) end
 
 --- Parameters: text (label), bool (value)
 --- Returns: bool (value), bool (pressed)
@@ -593,7 +598,7 @@ function  ImGui.ArrowButton(...) end
 ---@param value boolean
 ---@return boolean @value
 ---@return boolean @pressed
-function  ImGui.Checkbox(...) end
+function ImGui.Checkbox(label, value) end
 
 --- Parameters A: text (label), bool (active)
 --- Parameters B: text (label), int (value), int (v_button)
@@ -602,7 +607,7 @@ function  ImGui.Checkbox(...) end
 --- Overloads
 --- pressed = ImGui.RadioButton("Click me", pressed == true)
 --- value, pressed = ImGui.RadioButton("Click me too", value, 2)
-function  ImGui.RadioButton(...) end
+function ImGui.RadioButton(...) end
 
 --- Parameters: float (fraction), float (size_x) [O], float (size_y) [O], text (overlay) [O]
 --- Overloads
@@ -610,9 +615,9 @@ function  ImGui.RadioButton(...) end
 ---@param size_x float
 ---@param size_y float
 ---@param overlay string
-function  ImGui.ProgressBar(...) end
+function ImGui.ProgressBar(fraction, size_x, size_y, overlay) end
 
-function  ImGui.Bullet() end
+function ImGui.Bullet() end
 
 -- ## Widgets: Combo Box
 
@@ -625,9 +630,9 @@ function  ImGui.Bullet() end
 ---@param previewValue string
 ---@param flags ImGuiComboFlags
 ---@return boolean @shouldDraw
-function  ImGui.BeginCombo(...) end
+function ImGui.BeginCombo(label, previewValue, flags) end
 
-function  ImGui.EndCombo() end
+function ImGui.EndCombo() end
 
 --- Parameters A: text (label), int (current_item), table (items), int (items_count), int (popup_max_height_in_items) [O] 
 --- Parameters B: text (label), int (current_item), text (items_separated_by_zeros), int (popup_max_height_in_items) [O] 
@@ -637,9 +642,10 @@ function  ImGui.EndCombo() end
 --- current_item, clicked = ImGui.Combo("Label", current_item, { "Option 1 ", "Option 2" }, 2, 5)
 --- current_item, clicked = ImGui.Combo("Label", current_item, "Option1\0Option2\0")
 --- current_item, clicked = ImGui.Combo("Label", current_item, "Option1\0Option2\0", 5)
+--- ```
 ---@return int @current_item
 ---@return boolean @clicked
-function  ImGui.Combo(...) end
+function ImGui.Combo(...) end
 
 -- ## Widgets: Drags
 
@@ -661,7 +667,7 @@ function  ImGui.Combo(...) end
 ---@param power float
 ---@return float @value
 ---@return boolean @used
-function  ImGui.DragFloat(...) end
+function ImGui.DragFloat(label, value, value_speed, value_min, value_max, format, power) end
 
 --- Parameters: text (label), table (values), float (value_speed) [O], float (value_min) [O], float (value_max) [O], text (format) [O], float (power) [O]
 --- Returns: table (values), bool (used)
@@ -681,7 +687,7 @@ function  ImGui.DragFloat(...) end
 ---@param power float
 ---@return table @values
 ---@return boolean @used
-function  ImGui.DragFloat2(...) end
+function ImGui.DragFloat2(label, values, value_speed, value_min, value_max, format, power) end
 
 --- Parameters: text (label), table (values), float (value_speed) [O], float (value_min) [O], float (value_max) [O], text (format) [O], float (power) [O]
 --- Returns: table (values), bool (used)
@@ -701,7 +707,7 @@ function  ImGui.DragFloat2(...) end
 ---@param power float
 ---@return table @values
 ---@return boolean @used
-function  ImGui.DragFloat3(...) end
+function ImGui.DragFloat3(label, values, value_speed, value_min, value_max, format, power) end
 
 --- Parameters: text (label), table (values), float (value_speed) [O], float (value_min) [O], float (value_max) [O], text (format) [O], float (power) [O]
 --- Returns: table (values), bool (used)
@@ -721,7 +727,7 @@ function  ImGui.DragFloat3(...) end
 ---@param power float
 ---@return table @values
 ---@return boolean @used
-function  ImGui.DragFloat4(...) end
+function ImGui.DragFloat4(label, values, value_speed, value_min, value_max, format, power) end
 
 --- Parameters: text (label), int (value), float (value_speed) [O], int (value_min) [O], int (value_max) [O], text (format) [O]
 --- Returns: int (value), bool (used)
@@ -739,7 +745,7 @@ function  ImGui.DragFloat4(...) end
 ---@param format string
 ---@return int @value
 ---@return boolean @used
-function  ImGui.DragInt(...) end
+function ImGui.DragInt(label, value, value_speed, value_min, value_max, format) end
 
 --- Parameters: text (label), table (values), float (value_speed) [O], int (value_min) [O], int (value_max) [O], text (format) [O]
 --- Returns: table (values), bool (used)
@@ -757,7 +763,7 @@ function  ImGui.DragInt(...) end
 ---@param format string
 ---@return table @values
 ---@return boolean @used
-function  ImGui.DragInt2(...) end
+function ImGui.DragInt2(label, values, value_speed, value_min, value_max, format) end
 
 --- Parameters: text (label), table (values), float (value_speed) [O], int (value_min) [O], int (value_max) [O], text (format) [O]
 --- Returns: table (values), bool (used)
@@ -775,7 +781,7 @@ function  ImGui.DragInt2(...) end
 ---@param format string
 ---@return table @values
 ---@return boolean @used
-function  ImGui.DragInt3(...) end
+function ImGui.DragInt3(label, values, value_speed, value_min, value_max, format) end
 
 --- Parameters: text (label), table (values), float (value_speed) [O], int (value_min) [O], int (value_max) [O], text (format) [O]
 --- Returns: table (values), bool (used)
@@ -785,6 +791,7 @@ function  ImGui.DragInt3(...) end
 --- values, used = ImGui.DragInt4("Label", values, 0.01, -10)
 --- values, used = ImGui.DragInt4("Label", values, 0.01, -10, 10)
 --- values, used = ImGui.DragInt4("Label", values, 0.01, -10, 10, "%d")
+--- ```
 ---@param label string
 ---@param values table
 ---@param value_speed float
@@ -793,7 +800,7 @@ function  ImGui.DragInt3(...) end
 ---@param format string
 ---@return table @values
 ---@return boolean @used
-function  ImGui.DragInt4(...) end
+function ImGui.DragInt4(label, values, value_speed, value_min, value_max, format) end
 
 -- ## Widgets: Sliders
 
@@ -811,7 +818,7 @@ function  ImGui.DragInt4(...) end
 ---@param power float
 ---@return float @value
 ---@return boolean @used
-function  ImGui.SliderFloat(...) end
+function ImGui.SliderFloat(label, value, value_min, value_max, format, power) end
 
 --- Parameters: text (label), table (values), float (value_min), float (value_max), text (format) [O], float (power) [O]
 --- Returns: table (values), bool (used)
@@ -827,7 +834,7 @@ function  ImGui.SliderFloat(...) end
 ---@param power float
 ---@return table @values
 ---@return boolean @used
-function  ImGui.SliderFloat2(...) end
+function ImGui.SliderFloat2(label, values, value_min, value_max, format, power) end
 
 --- Parameters: text (label), table (values), float (value_min), float (value_max), text (format) [O], float (power) [O]
 --- Returns: table (values), bool (used)
@@ -843,7 +850,7 @@ function  ImGui.SliderFloat2(...) end
 ---@param power float
 ---@return table @values
 ---@return boolean @used
-function  ImGui.SliderFloat3(...) end
+function ImGui.SliderFloat3(label, values, value_min, value_max, format, power) end
 
 --- Parameters: text (label), table (values), float (value_min), float (value_max), text (format) [O], float (power) [O]
 --- Returns: table (values), bool (used)
@@ -859,7 +866,7 @@ function  ImGui.SliderFloat3(...) end
 ---@param power float
 ---@return table @values
 ---@return boolean @used
-function  ImGui.SliderFloat4(...) end
+function ImGui.SliderFloat4(label, values, value_min, value_max, format, power) end
 
 --- Parameters: text (label), float (v_rad), float (v_degrees_min) [O], float (v_degrees_max) [O], text (format) [O]
 --- Returns: float (v_rad), bool (used)
@@ -875,7 +882,7 @@ function  ImGui.SliderFloat4(...) end
 ---@param format string
 ---@return float @v_rad
 ---@return boolean @used
-function  ImGui.SliderAngle(...) end
+function ImGui.SliderAngle(label, v_rad, v_degrees_min, v_degrees_max, format) end
 
 --- Parameters: text (label), int (value), int (value_min), int (value_max), text (format) [O]
 --- Returns: int (value), bool (used)
@@ -889,7 +896,7 @@ function  ImGui.SliderAngle(...) end
 ---@param format string
 ---@return int @value
 ---@return boolean @used
-function  ImGui.SliderInt(...) end
+function ImGui.SliderInt(label, value, value_min, value_max, format) end
 
 --- Parameters: text (label), table (values), int (value_min), int (value_max), text (format) [O]
 --- Returns: table (values), bool (used)
@@ -903,7 +910,7 @@ function  ImGui.SliderInt(...) end
 ---@param format string
 ---@return table @values
 ---@return boolean @used
-function  ImGui.SliderInt2(...) end
+function ImGui.SliderInt2(label, values, value_min, value_max, format) end
 
 --- Parameters: text (label), table (values), int (value_min), int (value_max), text (format) [O]
 --- Returns: table (values), bool (used)
@@ -917,7 +924,7 @@ function  ImGui.SliderInt2(...) end
 ---@param format string
 ---@return table @values
 ---@return boolean @used
-function  ImGui.SliderInt3(...) end
+function ImGui.SliderInt3(label, values, value_min, value_max, format) end
 
 --- Parameters: text (label), table (values), int (value_min), int (value_max), text (format) [O]
 --- Returns: table (values), bool (used)
@@ -931,7 +938,7 @@ function  ImGui.SliderInt3(...) end
 ---@param format string
 ---@return table @values
 ---@return boolean @used
-function  ImGui.SliderInt4(...) end
+function ImGui.SliderInt4(label, values, value_min, value_max, format) end
 
 --- Parameters: text (label), float (size_x), float (size_y), float (value), float (value_min), float (value_max), text (format) [O], float (power) [O]
 --- Returns: float (value), bool (used)
@@ -949,13 +956,14 @@ function  ImGui.SliderInt4(...) end
 ---@param power float
 ---@return float @value
 ---@return boolean @used
-function  ImGui.VSliderFloat(...) end
+function ImGui.VSliderFloat(label, size_x, size_y, value, value_min, value_max, format, power) end
 
 --- Parameters: text (label), float (size_x), float (size_y), int (value), int (value_min), int (value_max), text (format) [O]
 --- Returns: int (value), bool (used)
 --- Overloads
 --- value, used = ImGui.VSliderInt("Label", 100, 25, value, -10, 10)
 --- value, used = ImGui.VSliderInt("Label", 100, 25, value, -10, 10, "%d")
+--- ```
 ---@param label string
 ---@param size_x float
 ---@param size_y float
@@ -965,7 +973,7 @@ function  ImGui.VSliderFloat(...) end
 ---@param format string
 ---@return int @value
 ---@return boolean @used
-function  ImGui.VSliderInt(...) end
+function ImGui.VSliderInt(label, size_x, size_y, value, value_min, value_max, format) end
 
 -- ## Widgets: Input with Keyboard
 
@@ -980,7 +988,7 @@ function  ImGui.VSliderInt(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return string @text
 ---@return boolean @selected
-function  ImGui.InputText(...) end
+function ImGui.InputText(label, text, buf_size, flags) end
 
 --- Parameters: text (label), text (text), int (buf_size), float (size_x) [O], float (size_y) [O], ImGuiInputTextFlags (flags) [O]
 --- Returns: text (text), bool (selected)
@@ -996,7 +1004,7 @@ function  ImGui.InputText(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return string @text
 ---@return boolean @selected
-function  ImGui.InputTextMultiline(...) end
+function ImGui.InputTextMultiline(label, text, buf_size, size_x, size_y, flags) end
 
 --- Parameters: text (label), text (hint), text (text), int (buf_size), ImGuiInputTextFlags (flags) [O]
 --- Returns: text (text), bool (selected)
@@ -1010,7 +1018,7 @@ function  ImGui.InputTextMultiline(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return string @text
 ---@return boolean @selected
-function  ImGui.InputTextWithHint(...) end
+function ImGui.InputTextWithHint(label, hint, text, buf_size, flags) end
 
 --- Parameters: text (label), float (value), float (step) [O], float (step_fast) [O], text (format) [O], ImGuiInputTextFlags (flags) [O]
 --- Returns: float (value), bool (used)
@@ -1028,7 +1036,7 @@ function  ImGui.InputTextWithHint(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return float @value
 ---@return boolean @used
-function  ImGui.InputFloat(...) end
+function ImGui.InputFloat(label, value, step, step_fast, format, flags) end
 
 --- Parameters: text (label), table (values), text (format) [O], ImGuiInputTextFlags (flags) [O]
 --- Returns: table (values), bool (used)
@@ -1042,7 +1050,7 @@ function  ImGui.InputFloat(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return table @values
 ---@return boolean @used
-function  ImGui.InputFloat2(...) end
+function ImGui.InputFloat2(label, values, format, flags) end
 
 --- Parameters: text (label), table (values), text (format) [O], ImGuiInputTextFlags (flags) [O]
 --- Returns: table (values), bool (used)
@@ -1056,7 +1064,7 @@ function  ImGui.InputFloat2(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return table @values
 ---@return boolean @used
-function  ImGui.InputFloat3(...) end
+function ImGui.InputFloat3(label, values, format, flags) end
 
 --- Parameters: text (label), table (values), text (format) [O], ImGuiInputTextFlags (flags) [O]
 --- Returns: table (values), bool (used)
@@ -1070,7 +1078,7 @@ function  ImGui.InputFloat3(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return table @values
 ---@return boolean @used
-function  ImGui.InputFloat4(...) end
+function ImGui.InputFloat4(label, values, format, flags) end
 
 --- Parameters: text (label), int (value), int (step) [O], int (step_fast) [O], ImGuiInputTextFlags (flags) [O] 
 --- Returns: int (value), bool (used)
@@ -1086,7 +1094,7 @@ function  ImGui.InputFloat4(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return int @value
 ---@return boolean @used
-function  ImGui.InputInt(...) end
+function ImGui.InputInt(label, value, step, step_fast, flags) end
 
 --- Parameters: text (label), table (values), ImGuiInputTextFlags (flags) [O] 
 --- Returns: table (values), bool (used)
@@ -1098,7 +1106,7 @@ function  ImGui.InputInt(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return table @values
 ---@return boolean @used
-function  ImGui.InputInt2(...) end
+function ImGui.InputInt2(label, values, flags) end
 
 --- Parameters: text (label), table (values), ImGuiInputTextFlags (flags) [O] 
 --- Returns: table (values), bool (used)
@@ -1110,7 +1118,7 @@ function  ImGui.InputInt2(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return table @values
 ---@return boolean @used
-function  ImGui.InputInt3(...) end
+function ImGui.InputInt3(label, values, flags) end
 
 --- Parameters: text (label), table (values), ImGuiInputTextFlags (flags) [O] 
 --- Returns: table (values), bool (used)
@@ -1122,7 +1130,7 @@ function  ImGui.InputInt3(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return table @values
 ---@return boolean @used
-function  ImGui.InputInt4(...) end
+function ImGui.InputInt4(label, values, flags) end
 
 --- Parameters: text (label), double (value), double (step) [O], double (step_fast) [O], text (format) [O], ImGuiInputTextFlags (flags) [O]
 --- Returns: double (value), bool (used)
@@ -1132,6 +1140,7 @@ function  ImGui.InputInt4(...) end
 --- value, used = ImGui.InputDouble("Label", value, 1, 10)
 --- value, used = ImGui.InputDouble("Label", value, 1, 10, "%.4f")
 --- value, used = ImGui.InputDouble("Label", value, 1, 10, "%.4f", ImGuiInputTextFlags.None)
+--- ```
 ---@param label string
 ---@param value double
 ---@param step double
@@ -1140,7 +1149,7 @@ function  ImGui.InputInt4(...) end
 ---@param flags ImGuiInputTextFlags
 ---@return double @value
 ---@return boolean @used
-function  ImGui.InputDouble(...) end
+function ImGui.InputDouble(label, value, step, step_fast, format, flags) end
 
 -- ## Widgets: Color Editor / Picker
 
@@ -1154,7 +1163,7 @@ function  ImGui.InputDouble(...) end
 ---@param flags ImGuiColorEditFlags
 ---@return table @col
 ---@return boolean @used
-function  ImGui.ColorEdit3(...) end
+function ImGui.ColorEdit3(label, col, flags) end
 
 --- Parameters: text (label), table (col), ImGuiColorEditFlags (flags) [O] 
 --- Returns: table (col), bool (used)
@@ -1166,7 +1175,7 @@ function  ImGui.ColorEdit3(...) end
 ---@param flags ImGuiColorEditFlags
 ---@return table @col
 ---@return boolean @used
-function  ImGui.ColorEdit4(...) end
+function ImGui.ColorEdit4(label, col, flags) end
 
 --- Parameters: text (label), table (col), ImGuiColorEditFlags (flags) [O] 
 --- Returns: table (col), bool (used)
@@ -1178,7 +1187,7 @@ function  ImGui.ColorEdit4(...) end
 ---@param flags ImGuiColorEditFlags
 ---@return table @col
 ---@return boolean @used
-function  ImGui.ColorPicker3(...) end
+function ImGui.ColorPicker3(label, col, flags) end
 
 --- Parameters: text (label), table (col), ImGuiColorEditFlags (flags) [O] 
 --- Returns: table (col), bool (used)
@@ -1190,7 +1199,7 @@ function  ImGui.ColorPicker3(...) end
 ---@param flags ImGuiColorEditFlags
 ---@return table @col
 ---@return boolean @used
-function  ImGui.ColorPicker4(...) end
+function ImGui.ColorPicker4(label, col, flags) end
 
 --- Parameters: text (desc_id), table (col), ImGuiColorEditFlags (flags) [O], float (size_x) [O], float (size_y) [O]
 --- Returns: bool (pressed)
@@ -1204,11 +1213,11 @@ function  ImGui.ColorPicker4(...) end
 ---@param size_x float
 ---@param size_y float
 ---@return boolean @pressed
-function  ImGui.ColorButton(...) end
+function ImGui.ColorButton(desc_id, col, flags, size_x, size_y) end
 
 --- Parameters: ImGuiColorEditFlags (flags)
 ---@param flags ImGuiColorEditFlags
-function  ImGui.SetColorEditOptions(...) end
+function ImGui.SetColorEditOptions(flags) end
 
 -- ## Widgets: Trees
 
@@ -1220,7 +1229,7 @@ function  ImGui.SetColorEditOptions(...) end
 ---@param label string
 ---@param fmt string
 ---@return boolean @open
-function  ImGui.TreeNode(...) end
+function ImGui.TreeNode(label, fmt) end
 
 --- Parameters: text (label), ImGuiTreeNodeFlags (flags) [O], text (fmt) [O]
 --- Returns: bool (open)
@@ -1232,18 +1241,18 @@ function  ImGui.TreeNode(...) end
 ---@param flags ImGuiTreeNodeFlags
 ---@param fmt string
 ---@return boolean @open
-function  ImGui.TreeNodeEx(...) end
+function ImGui.TreeNodeEx(label, flags, fmt) end
 
 --- Parameters: text (str_id)
 ---@param str_id string
-function  ImGui.TreePush(...) end
+function ImGui.TreePush(str_id) end
 
-function  ImGui.TreePop() end
+function ImGui.TreePop() end
 
 --- Returns: float (spacing)
 --- spacing = ImGui.GetTreeNodeToLabelSpacing()
 ---@return float @spacing
-function  ImGui.GetTreeNodeToLabelSpacing() end
+function ImGui.GetTreeNodeToLabelSpacing() end
 
 --- Parameters A: text (label), ImGuiTreeNodeFlags (flags) [O]
 --- Parameters B: text (label), bool (open), ImGuiTreeNodeFlags (flags) [O]
@@ -1254,13 +1263,13 @@ function  ImGui.GetTreeNodeToLabelSpacing() end
 --- notCollapsed = ImGui.CollapsingHeader("Label", ImGuiTreeNodeFlags.Selected)
 --- open, notCollapsed = ImGui.CollapsingHeader("Label", open)
 --- open, notCollapsed = ImGui.CollapsingHeader("Label", open, ImGuiTreeNodeFlags.Selected)
-function  ImGui.CollapsingHeader(...) end
+function ImGui.CollapsingHeader(...) end
 
 --- Parameters: bool (open), ImGuiCond (cond) [O]
 --- Overloads
 ---@param open boolean
 ---@param cond ImGuiCond
-function  ImGui.SetNextItemOpen(...) end
+function ImGui.SetNextItemOpen(open, cond) end
 
 --- Parameters: text (label), bool (selected) [O], ImGuiSelectableFlags (flags) [O], float (size_x) [O], float (size_y) [O]
 --- Returns: bool (selected)
@@ -1269,13 +1278,14 @@ function  ImGui.SetNextItemOpen(...) end
 --- selected = ImGui.Selectable("Label", selected)
 --- selected = ImGui.Selectable("Label", selected, ImGuiSelectableFlags.AllowDoubleClick)
 --- selected = ImGui.Selectable("Label", selected, ImGuiSelectableFlags.AllowDoubleClick, 100, 100)
+--- ```
 ---@param label string
 ---@param selected boolean
 ---@param flags ImGuiSelectableFlags
 ---@param size_x float
 ---@param size_y float
 ---@return boolean @selected
-function  ImGui.Selectable(...) end
+function ImGui.Selectable(label, selected, flags, size_x, size_y) end
 
 -- ## Widgets: Selectables
 
@@ -1286,13 +1296,14 @@ function  ImGui.Selectable(...) end
 --- selected = ImGui.Selectable("Label", selected)
 --- selected = ImGui.Selectable("Label", selected, ImGuiSelectableFlags.AllowDoubleClick)
 --- selected = ImGui.Selectable("Label", selected, ImGuiSelectableFlags.AllowDoubleClick, 100, 100)
+--- ```
 ---@param label string
 ---@param selected boolean
 ---@param flags ImGuiSelectableFlags
 ---@param size_x float
 ---@param size_y float
 ---@return boolean @selected
-function  ImGui.Selectable(...) end
+function ImGui.Selectable(label, selected, flags, size_x, size_y) end
 
 -- ## Widgets: List Boxes
 
@@ -1308,7 +1319,7 @@ function  ImGui.Selectable(...) end
 ---@param height_in_items int
 ---@return int @current_item
 ---@return boolean @clicked
-function  ImGui.ListBox(...) end
+function ImGui.ListBox(label, current_item, items, items_count, height_in_items) end
 
 --- Parameters A: text (label), float (size_x), float (size_y) 
 --- Parameters B: text (label), int (items_count), int (height_in_items) [0]
@@ -1318,36 +1329,36 @@ function  ImGui.ListBox(...) end
 --- open = ImGui.ListBoxHeader("Label", 5)
 --- open = ImGui.ListBoxHeader("Label", 5, 5)     -- items count and height
 ---@return boolean @open
-function  ImGui.ListBoxHeader(...) end
+function ImGui.ListBoxHeader(...) end
 
-function  ImGui.ListBoxFooter() end
+function ImGui.ListBoxFooter() end
 
 -- ## Widgets: Value() Helpers
 
 --- Parameters A : text (prefix) bool/int/unsigned int/float (value), text (float_format) [O] -- format only available with float
 --- Overloads
-function  ImGui.Value(...) end
+function ImGui.Value(...) end
 
 --- Returns: bool (shouldDraw)
 --- shouldDraw = ImGui.BeginMenuBar()
 ---@return boolean @shouldDraw
-function  ImGui.BeginMenuBar() end
+function ImGui.BeginMenuBar() end
 
 -- ## Widgets: Menus
 
 --- Returns: bool (shouldDraw)
 --- shouldDraw = ImGui.BeginMenuBar()
 ---@return boolean @shouldDraw
-function  ImGui.BeginMenuBar() end
+function ImGui.BeginMenuBar() end
 
-function  ImGui.EndMenuBar() end
+function ImGui.EndMenuBar() end
 
 --- Returns: bool (shouldDraw)
 --- shouldDraw = ImGui.BeginMainMenuBar()
 ---@return boolean @shouldDraw
-function  ImGui.BeginMainMenuBar() end
+function ImGui.BeginMainMenuBar() end
 
-function  ImGui.EndMainMenuBar() end
+function ImGui.EndMainMenuBar() end
 
 --- Parameters: text (label), bool (enabled) [O]
 --- Returns: bool (shouldDraw)
@@ -1357,9 +1368,9 @@ function  ImGui.EndMainMenuBar() end
 ---@param label string
 ---@param enabled boolean
 ---@return boolean @shouldDraw
-function  ImGui.BeginMenu(...) end
+function ImGui.BeginMenu(label, enabled) end
 
-function  ImGui.EndMenu() end
+function ImGui.EndMenu() end
 
 --- Parameters A: text (label), text (shortcut) [0]
 --- Parameters B: text (label), text (shortcut), bool (selected)
@@ -1370,17 +1381,18 @@ function  ImGui.EndMenu() end
 --- activated = ImGui.MenuItem("Label", "ALT+F4")
 --- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected)
 --- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected, true)
-function  ImGui.MenuItem(...) end
+--- ```
+function ImGui.MenuItem(...) end
 
 -- ## Tooltips
 
-function  ImGui.BeginTooltip() end
+function ImGui.BeginTooltip() end
 
-function  ImGui.EndTooltip() end
+function ImGui.EndTooltip() end
 
 --- Parameters: text (fmt)
 ---@param fmt string
-function  ImGui.SetTooltip(...) end
+function ImGui.SetTooltip(fmt) end
 
 -- ## Popups, Modals
 
@@ -1392,7 +1404,7 @@ function  ImGui.SetTooltip(...) end
 ---@param str_id string
 ---@param flags ImGuiWindowFlags
 ---@return boolean @open
-function  ImGui.BeginPopup(...) end
+function ImGui.BeginPopup(str_id, flags) end
 
 --- Parameters: text (name), bool (open) [O], ImGuiWindowFlags (flags) [O]
 --- Returns: bool (open)
@@ -1404,15 +1416,15 @@ function  ImGui.BeginPopup(...) end
 ---@param open boolean
 ---@param flags ImGuiWindowFlags
 ---@return boolean @open
-function  ImGui.BeginPopupModal(...) end
+function ImGui.BeginPopupModal(name, open, flags) end
 
-function  ImGui.EndPopup() end
+function ImGui.EndPopup() end
 
 --- Parameters: text (str_id), ImGuiPopupFlags (popup_flags)
 --- Overloads
 ---@param str_id string
 ---@param popup_flags ImGuiPopupFlags
-function  ImGui.OpenPopup(...) end
+function ImGui.OpenPopup(str_id, popup_flags) end
 
 --- Parameters: text (str_id), ImGuiPopupFlags (popup_flags)
 --- Returns: bool (open)
@@ -1423,9 +1435,9 @@ function  ImGui.OpenPopup(...) end
 ---@param str_id string
 ---@param popup_flags ImGuiPopupFlags
 ---@return boolean @open
-function  ImGui.OpenPopupContextItem(...) end
+function ImGui.OpenPopupContextItem(str_id, popup_flags) end
 
-function  ImGui.CloseCurrentPopup() end
+function ImGui.CloseCurrentPopup() end
 
 --- Parameters: text (str_id), ImGuiPopupFlags (popup_flags)
 --- Returns: bool (open)
@@ -1436,7 +1448,7 @@ function  ImGui.CloseCurrentPopup() end
 ---@param str_id string
 ---@param popup_flags ImGuiPopupFlags
 ---@return boolean @open
-function  ImGui.BeginPopupContextItem(...) end
+function ImGui.BeginPopupContextItem(str_id, popup_flags) end
 
 --- Parameters: text (str_id), ImGuiPopupFlags (popup_flags)
 --- Returns: bool (open)
@@ -1447,7 +1459,7 @@ function  ImGui.BeginPopupContextItem(...) end
 ---@param str_id string
 ---@param popup_flags ImGuiPopupFlags
 ---@return boolean @open
-function  ImGui.BeginPopupContextWindow(...) end
+function ImGui.BeginPopupContextWindow(str_id, popup_flags) end
 
 --- Parameters: text (str_id), ImGuiPopupFlags (popup_flags)
 --- Returns: bool (open)
@@ -1458,20 +1470,20 @@ function  ImGui.BeginPopupContextWindow(...) end
 ---@param str_id string
 ---@param popup_flags ImGuiPopupFlags
 ---@return boolean @open
-function  ImGui.BeginPopupContextVoid(...) end
+function ImGui.BeginPopupContextVoid(str_id, popup_flags) end
 
 --- Parameters: text (str_id), ImGuiPopupFlags (popup_flags)
 --- Overloads
 ---@param str_id string
 ---@param popup_flags ImGuiPopupFlags
-function  ImGui.IsPopupOpen(...) end
+function ImGui.IsPopupOpen(str_id, popup_flags) end
 
 --- Parameters: int (count) [O], text (id) [O], bool (border) [O]
 --- Overloads
 ---@param count int
 ---@param id string
 ---@param border boolean
-function  ImGui.Columns(...) end
+function ImGui.Columns(count, id, border) end
 
 -- ## Columns
 
@@ -1480,14 +1492,14 @@ function  ImGui.Columns(...) end
 ---@param count int
 ---@param id string
 ---@param border boolean
-function  ImGui.Columns(...) end
+function ImGui.Columns(count, id, border) end
 
-function  ImGui.NextColumn() end
+function ImGui.NextColumn() end
 
 --- Returns: int (index)
 --- index = ImGui.GetColumnIndex()
 ---@return int @index
-function  ImGui.GetColumnIndex() end
+function ImGui.GetColumnIndex() end
 
 --- Parameters: int (column_index) [O]
 --- Returns: float (width)
@@ -1496,12 +1508,12 @@ function  ImGui.GetColumnIndex() end
 --- width = ImGui.getColumnWidth(2)
 ---@param column_index int
 ---@return float @width
-function  ImGui.GetColumnWidth(...) end
+function ImGui.GetColumnWidth(column_index) end
 
 --- Parameters: int (column_index), float (width)
 ---@param column_index int
 ---@param width float
-function  ImGui.SetColumnWidth(...) end
+function ImGui.SetColumnWidth(column_index, width) end
 
 --- Parameters: int (column_index) [O]
 --- Returns: float (offset)
@@ -1510,17 +1522,18 @@ function  ImGui.SetColumnWidth(...) end
 --- offset = ImGui.GetColumnOffset(2)
 ---@param column_index int
 ---@return float @offset
-function  ImGui.GetColumnOffset(...) end
+function ImGui.GetColumnOffset(column_index) end
 
 --- Parameters: int (column_index), float (offset)
 ---@param column_index int
 ---@param offset float
-function  ImGui.SetColumnOffset(...) end
+function ImGui.SetColumnOffset(column_index, offset) end
 
 --- Returns: int (count)
 --- count = ImGui.GetColumnsCount()
+--- ```
 ---@return int @count
-function  ImGui.GetColumnsCount() end
+function ImGui.GetColumnsCount() end
 
 -- ## Tab Bars, Tabs
 
@@ -1532,9 +1545,9 @@ function  ImGui.GetColumnsCount() end
 ---@param str_id string
 ---@param flags ImGuiTabBarFlags
 ---@return boolean @open
-function  ImGui.BeginTabBar(...) end
+function ImGui.BeginTabBar(str_id, flags) end
 
-function  ImGui.EndTabBar() end
+function ImGui.EndTabBar() end
 
 --- Parameters A: text (label)
 --- Parameters B: text (label), bool (open), ImGuiTabItemFlags (flags) [O]
@@ -1544,13 +1557,13 @@ function  ImGui.EndTabBar() end
 --- selected = ImGui.BeginTabItem("Label")
 --- open, selected = ImGui.BeginTabItem("Label", open)
 --- open, selected = ImGui.BeginTabItem("Label", open, ImGuiTabItemFlags_NoTooltip)
-function  ImGui.BeginTabItem() end
+function ImGui.BeginTabItem() end
 
-function  ImGui.EndTabItem() end
+function ImGui.EndTabItem() end
 
 --- Parameters: text (tab_or_docked_window_label)
 ---@param tab_or_docked_window_label string
-function  ImGui.SetTabItemClosed(...) end
+function ImGui.SetTabItemClosed(tab_or_docked_window_label) end
 
 -- ## Docking
 
@@ -1560,49 +1573,50 @@ function  ImGui.SetTabItemClosed(...) end
 ---@param size_x float
 ---@param size_y float
 ---@param flags ImGuiDockNodeFlags
-function  ImGui.DockSpace(...) end
+function ImGui.DockSpace(int, size_x, size_y, flags) end
 
 --- Parameters: unsigned int (dock_id), ImGuiCond (cond) [O]
 --- Overloads
 ---@param int unsigned
 ---@param cond ImGuiCond
-function  ImGui.SetNextWindowDockID(...) end
+function ImGui.SetNextWindowDockID(int, cond) end
 
 --- Returns: unsigned int (id)
 --- id = ImGui.GetWindowDockID()
 ---@return unsigned @int
-function  ImGui.GetWindowDockID() end
+function ImGui.GetWindowDockID() end
 
 --- Returns: bool (docked)
 --- docked = ImGui.IsWindowDocked()
+--- ```
 ---@return boolean @docked
-function  ImGui.IsWindowDocked() end
+function ImGui.IsWindowDocked() end
 
 -- ## Logging
 
 --- Parameters: int (auto_open_depth) [O]
 --- Overloads
 ---@param auto_open_depth int
-function  ImGui.LogToTTY(...) end
+function ImGui.LogToTTY(auto_open_depth) end
 
 --- Parameters: int (auto_open_depth) [O], text (fileName) [O]
 --- Overloads
 ---@param auto_open_depth int
 ---@param fileName string
-function  ImGui.LogToFile(...) end
+function ImGui.LogToFile(auto_open_depth, fileName) end
 
 --- Parameters: int (auto_open_depth) [O]
 --- Overloads
 ---@param auto_open_depth int
-function  ImGui.LogToClipboard(...) end
+function ImGui.LogToClipboard(auto_open_depth) end
 
-function  ImGui.LogFinish() end
+function ImGui.LogFinish() end
 
-function  ImGui.LogButtons() end
+function ImGui.LogButtons() end
 
 --- Parameters: text (fmt)
 ---@param fmt string
-function  ImGui.LogText(...) end
+function ImGui.LogText(fmt) end
 
 -- ## Clipping
 
@@ -1612,18 +1626,18 @@ function  ImGui.LogText(...) end
 ---@param max_x float
 ---@param max_y float
 ---@param intersect_current boolean
-function  ImGui.PushClipRect(...) end
+function ImGui.PushClipRect(min_x, min_y, max_x, max_y, intersect_current) end
 
-function  ImGui.PopClipRect() end
+function ImGui.PopClipRect() end
 
 -- ## Focus, Activation
 
-function  ImGui.SetItemDefaultFocus() end
+function ImGui.SetItemDefaultFocus() end
 
 --- Parameters: int (offset) [O]
 --- Overloads
 ---@param offset int
-function  ImGui.SetKeyboardFocusHere(...) end
+function ImGui.SetKeyboardFocusHere(offset) end
 
 --- Parameters: ImGuiHoveredFlags (flags) [O]
 --- Returns: bool (hovered)
@@ -1632,7 +1646,7 @@ function  ImGui.SetKeyboardFocusHere(...) end
 --- hovered = ImGui.IsItemHovered(ImGuiHoveredFlags.ChildWindows)
 ---@param flags ImGuiHoveredFlags
 ---@return boolean @hovered
-function  ImGui.IsItemHovered(...) end
+function ImGui.IsItemHovered(flags) end
 
 -- ## Item / Widgets Utilities
 
@@ -1643,17 +1657,17 @@ function  ImGui.IsItemHovered(...) end
 --- hovered = ImGui.IsItemHovered(ImGuiHoveredFlags.ChildWindows)
 ---@param flags ImGuiHoveredFlags
 ---@return boolean @hovered
-function  ImGui.IsItemHovered(...) end
+function ImGui.IsItemHovered(flags) end
 
 --- Returns: bool (active)
 --- active = ImGui.IsItemActive()
 ---@return boolean @active
-function  ImGui.IsItemActive() end
+function ImGui.IsItemActive() end
 
 --- Returns: bool (focused)
 --- focused = ImGui.IsItemFocused()
 ---@return boolean @focused
-function  ImGui.IsItemFocused() end
+function ImGui.IsItemFocused() end
 
 --- Parameters: ImGuiMouseButton (mouse_button) [O]
 --- Returns: bool (clicked)
@@ -1662,72 +1676,72 @@ function  ImGui.IsItemFocused() end
 --- clicked = ImGui.IsItemClicked(ImGuiMouseButton.Middle)
 ---@param mouse_button ImGuiMouseButton
 ---@return boolean @clicked
-function  ImGui.IsItemClicked(...) end
+function ImGui.IsItemClicked(mouse_button) end
 
 --- Returns: bool (visible)
 --- visible = ImGui.IsItemVisible()
 ---@return boolean @visible
-function  ImGui.IsItemVisible() end
+function ImGui.IsItemVisible() end
 
 --- Returns: bool (edited)
 --- edited = ImGui.IsItemEdited()
 ---@return boolean @edited
-function  ImGui.IsItemEdited() end
+function ImGui.IsItemEdited() end
 
 --- Returns: bool (activated)
 --- activated = ImGui.IsItemActivated()
 ---@return boolean @activated
-function  ImGui.IsItemActivated() end
+function ImGui.IsItemActivated() end
 
 --- Returns: bool (deactivated)
 --- deactivated = ImGui.IsItemDeactivated()
 ---@return boolean @deactivated
-function  ImGui.IsItemDeactivated() end
+function ImGui.IsItemDeactivated() end
 
 --- Returns: bool (deactivated_after_edit)
 --- deactivated_after_edit = ImGui.IsItemDeactivatedAfterEdit()
 ---@return boolean @deactivated_after_edit
-function  ImGui.IsItemDeactivatedAfterEdit() end
+function ImGui.IsItemDeactivatedAfterEdit() end
 
 --- Returns: bool (toggled_open)
 --- toggled_open = ImGui.IsItemToggledOpen()
 ---@return boolean @toggled_open
-function  ImGui.IsItemToggledOpen() end
+function ImGui.IsItemToggledOpen() end
 
 --- Returns: bool (any_item_hovered)
 --- any_item_hovered = ImGui.IsAnyItemHovered()
 ---@return boolean @any_item_hovered
-function  ImGui.IsAnyItemHovered() end
+function ImGui.IsAnyItemHovered() end
 
 --- Returns: bool (any_item_active)
 --- any_item_active = ImGui.IsAnyItemActive()
 ---@return boolean @any_item_active
-function  ImGui.IsAnyItemActive() end
+function ImGui.IsAnyItemActive() end
 
 --- Returns: bool (any_item_focused)
 --- any_item_focused = ImGui.IsAnyItemFocused()
 ---@return boolean @any_item_focused
-function  ImGui.IsAnyItemFocused() end
+function ImGui.IsAnyItemFocused() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetItemRectMin()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetItemRectMin() end
+function ImGui.GetItemRectMin() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetItemRectMax()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetItemRectMax() end
+function ImGui.GetItemRectMax() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetItemRectSize()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetItemRectSize() end
+function ImGui.GetItemRectSize() end
 
-function  ImGui.SetItemAllowOverlap() end
+function ImGui.SetItemAllowOverlap() end
 
 -- ## Miscellaneous Utilities
 
@@ -1738,22 +1752,22 @@ function  ImGui.SetItemAllowOverlap() end
 --- visible = ImGui.IsRectVisible(100, 100)
 --- visible = ImGui.IsRectVisible(50, 50, 200, 200)
 ---@return boolean @visible
-function  ImGui.IsRectVisible(...) end
+function ImGui.IsRectVisible(...) end
 
 --- Returns double (time)
 --- time = ImGui.GetTime()
-function  ImGui.GetTime() end
+function ImGui.GetTime() end
 
 --- Returns int (frame_count)
 --- frame_count = ImGui.GetFrameCount()
-function  ImGui.GetFrameCount() end
+function ImGui.GetFrameCount() end
 
 --- Parameters: ImGuiCol (idx)
 --- Returns: text (style_color_name)
 --- style_color_name = ImGui.GetStyleColorName(ImGuiCol.Text)
 ---@param idx ImGuiCol
 ---@return string @style_color_name
-function  ImGui.GetStyleColorName(...) end
+function ImGui.GetStyleColorName(idx) end
 
 --- Parameters: unsigned int (id), float (size_x), float (size_y), ImGuiWindowFlags (flags) [O]
 --- Returns: bool (open)
@@ -1765,9 +1779,9 @@ function  ImGui.GetStyleColorName(...) end
 ---@param size_y float
 ---@param flags ImGuiWindowFlags
 ---@return boolean @open
-function  ImGui.BeginChildFrame(...) end
+function ImGui.BeginChildFrame(int, size_x, size_y, flags) end
 
-function  ImGui.EndChildFrame() end
+function ImGui.EndChildFrame() end
 
 -- ## Text Utilities
 
@@ -1778,13 +1792,14 @@ function  ImGui.EndChildFrame() end
 --- x, y = ImGui.CalcTextSize("Calculate me", " with an ending?")
 --- x, y = ImGui.CalcTextSize("Calculate me", " with an ending?", true)
 --- x, y = ImGui.CalcTextSize("Calculate me", " with an ending?", true, 100)
+--- ```
 ---@param text string
 ---@param text_end string
 ---@param hide_text_after_double_hash boolean
 ---@param wrap_width float
 ---@return float @x
 ---@return float @y
-function  ImGui.CalcTextSize(...) end
+function ImGui.CalcTextSize(text, text_end, hide_text_after_double_hash, wrap_width) end
 
 -- ## Color Utilities
 
@@ -1797,12 +1812,14 @@ function  ImGui.CalcTextSize(...) end
 ---@return float @h
 ---@return float @s
 ---@return float @v
-function  ImGui.ColorConvertRGBtoHSV(...) end
+function ImGui.ColorConvertRGBtoHSV(r, g, b) end
 
 --- Parameters: float (h), float (s), float (v)
 --- Returns: float (r), float (g), float (b)
 --- r, g, b = ImGui.ColorConvertHSVtoRGB(1, 0, 0.5)
+--- ```
 --- ## Inputs Utilities: Keyboard
+--- ```lua
 --- ImGui.GetKeyIndex(...)
 --- Parameters: ImGuiKey (key)
 --- Returns: int (index)
@@ -1813,7 +1830,7 @@ function  ImGui.ColorConvertRGBtoHSV(...) end
 ---@return float @r
 ---@return float @g
 ---@return float @b
-function  ImGui.ColorConvertHSVtoRGB(...) end
+function ImGui.ColorConvertHSVtoRGB(h, s, v) end
 
 -- ## Inputs Utilities: Keyboard
 
@@ -1822,14 +1839,14 @@ function  ImGui.ColorConvertHSVtoRGB(...) end
 --- index = ImGui.GetKeyIndex(ImGuiKey.Tab)
 ---@param key ImGuiKey
 ---@return int @index
-function  ImGui.GetKeyIndex(...) end
+function ImGui.GetKeyIndex(key) end
 
 --- Parameters: int (key_index)
 --- Returns: bool (down)
 --- down = ImGui.IsKeyDown(0)
 ---@param key_index int
 ---@return boolean @down
-function  ImGui.IsKeyDown(...) end
+function ImGui.IsKeyDown(key_index) end
 
 --- Parameters: int (key_index), bool (repeat) [O]
 --- Returns: bool (pressed)
@@ -1837,16 +1854,16 @@ function  ImGui.IsKeyDown(...) end
 --- pressed = ImGui.IsKeyPressed(0)
 --- pressed = ImGui.IsKeyPressed(0, true)
 ---@param key_index int
----@param repeat boolean
+---@param repeat_ boolean
 ---@return boolean @pressed
-function  ImGui.IsKeyPressed(...) end
+function ImGui.IsKeyPressed(key_index, repeat_) end
 
 --- Parameters: int (key_index)
 --- Returns: bool (released)
 --- released = ImGui.IsKeyReleased(0)
 ---@param key_index int
 ---@return boolean @released
-function  ImGui.IsKeyReleased(...) end
+function ImGui.IsKeyReleased(key_index) end
 
 --- Parameters: int (key_index), float (repeat_delay), float (rate)
 --- Returns: int (pressed_amount)  
@@ -1855,19 +1872,19 @@ function  ImGui.IsKeyReleased(...) end
 ---@param repeat_delay float
 ---@param rate float
 ---@return int @pressed_amount
-function  ImGui.GetKeyPressedAmount(...) end
+function ImGui.GetKeyPressedAmount(key_index, repeat_delay, rate) end
 
 --- Parameters: bool (want_capture_keyboard_value) [O]
 --- Overloads
 ---@param want_capture_keyboard_value boolean
-function  ImGui.CaptureKeyboardFromApp(...) end
+function ImGui.CaptureKeyboardFromApp(want_capture_keyboard_value) end
 
 --- Parameters: ImGuiMouseButton (button)
 --- Returns: bool (down)
 --- down = ImGui.IsMouseDown(ImGuiMouseButton.Right)
 ---@param button ImGuiMouseButton
 ---@return boolean @down
-function  ImGui.IsMouseDown(...) end
+function ImGui.IsMouseDown(button) end
 
 -- ## Inputs Utilities: Mouse
 
@@ -1876,7 +1893,7 @@ function  ImGui.IsMouseDown(...) end
 --- down = ImGui.IsMouseDown(ImGuiMouseButton.Right)
 ---@param button ImGuiMouseButton
 ---@return boolean @down
-function  ImGui.IsMouseDown(...) end
+function ImGui.IsMouseDown(button) end
 
 --- Parameters: ImGuiMouseButton (button), bool (repeat) [O]
 --- Returns: bool (clicked)
@@ -1884,23 +1901,23 @@ function  ImGui.IsMouseDown(...) end
 --- clicked = ImGui.IsMouseClicked(ImGuiMouseButton.Right)
 --- clicked = ImGui.IsMouseClicked(ImGuiMouseButton.Right, false)
 ---@param button ImGuiMouseButton
----@param repeat boolean
+---@param repeat_ boolean
 ---@return boolean @clicked
-function  ImGui.IsMouseClicked(...) end
+function ImGui.IsMouseClicked(button, repeat_) end
 
 --- Parameters: ImGuiMouseButton (button)
 --- Returns: bool (released)
 --- released = ImGui.IsMouseReleased(ImGuiMouseButton.Right)
 ---@param button ImGuiMouseButton
 ---@return boolean @released
-function  ImGui.IsMouseReleased(...) end
+function ImGui.IsMouseReleased(button) end
 
 --- Parameters: ImGuiMouseButton (button)
 --- Returns: bool (double_clicked)
 --- double_clicked = ImGui.IsMouseDoubleClicked(ImGuiMouseButton.Right)
 ---@param button ImGuiMouseButton
 ---@return boolean @double_clicked
-function  ImGui.IsMouseDoubleClicked(...) end
+function ImGui.IsMouseDoubleClicked(button) end
 
 --- Parameters: float (min_x), float (min_y), float (max_x), float (max_y), bool (clip) [O]
 --- Returns: bool (hovered)
@@ -1912,24 +1929,24 @@ function  ImGui.IsMouseDoubleClicked(...) end
 ---@param max_y float
 ---@param clip boolean
 ---@return boolean @hovered
-function  ImGui.IsMouseHoveringRect(...) end
+function ImGui.IsMouseHoveringRect(min_x, min_y, max_x, max_y, clip) end
 
 --- Returns: bool (any_mouse_down)
 --- any_mouse_down = ImGui.IsAnyMouseDown()
 ---@return boolean @any_mouse_down
-function  ImGui.IsAnyMouseDown() end
+function ImGui.IsAnyMouseDown() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetMousePos()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetMousePos() end
+function ImGui.GetMousePos() end
 
 --- Returns: float (x), float (y)
 --- x, y = ImGui.GetMousePosOnOpeningCurrentPopup()
 ---@return float @x
 ---@return float @y
-function  ImGui.GetMousePosOnOpeningCurrentPopup() end
+function ImGui.GetMousePosOnOpeningCurrentPopup() end
 
 --- Parameters: ImGuiMouseButton (button), float (lock_threshold) [O]
 --- Returns: bool (dragging)
@@ -1939,7 +1956,7 @@ function  ImGui.GetMousePosOnOpeningCurrentPopup() end
 ---@param button ImGuiMouseButton
 ---@param lock_threshold float
 ---@return boolean @dragging
-function  ImGui.IsMouseDragging(...) end
+function ImGui.IsMouseDragging(button, lock_threshold) end
 
 --- Parameters: ImGuiMouseButton (button) [O], float (lock_threshold) [O]
 --- Returns: float (x), float (y)
@@ -1951,39 +1968,40 @@ function  ImGui.IsMouseDragging(...) end
 ---@param lock_threshold float
 ---@return float @x
 ---@return float @y
-function  ImGui.GetMouseDragDelta(...) end
+function ImGui.GetMouseDragDelta(button, lock_threshold) end
 
 --- Parameters: ImGuiMouseButton (button) [O]
 --- Overloads
 ---@param button ImGuiMouseButton
-function  ImGui.ResetMouseDragDelta(...) end
+function ImGui.ResetMouseDragDelta(button) end
 
 --- Returns: ImGuiMouseCursor (cursor)
 --- cursor = ImGui.GetMouseCursor()
 ---@return ImGuiMouseCursor @cursor
-function  ImGui.GetMouseCursor() end
+function ImGui.GetMouseCursor() end
 
 --- Parameters: ImGuiMouseCursor (cursor_type)
 ---@param cursor_type ImGuiMouseCursor
-function  ImGui.SetMouseCursor(...) end
+function ImGui.SetMouseCursor(cursor_type) end
 
 --- Parameters: bool (want_capture_mouse_value) [O]
 --- Overloads
 ---@param want_capture_mouse_value boolean
-function  ImGui.CaptureMouseFromApp() end
+function ImGui.CaptureMouseFromApp(want_capture_mouse_value) end
 
 --- Returns: text (text)
 --- text = ImGui.GetClipboardText()
 ---@return string @text
-function  ImGui.GetClipboardText() end
+function ImGui.GetClipboardText() end
 
 -- ## Clipboard Utilities
 
 --- Returns: text (text)
 --- text = ImGui.GetClipboardText()
 ---@return string @text
-function  ImGui.GetClipboardText() end
+function ImGui.GetClipboardText() end
 
 --- Parameters: text (text)
 ---@param text string
-function  ImGui.SetClipboardText(...) end
+function ImGui.SetClipboardText(text) end
+-- @formatter:on
