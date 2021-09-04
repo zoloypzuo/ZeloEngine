@@ -121,6 +121,6 @@ do
     local sun = SpawnPrefab("monkey")
     sun.components.transform:SetPosition(-2, 4, -1)
     local light = sun.entity:AddDirectionalLight()
-    light.color = vec3.new(1)
+    light.color = { x = 1, y = 1, z = 1 }
     light.intensity = 2.8
 end
