@@ -1,6 +1,9 @@
 -- demo
 -- created on 2021/9/3
 -- author @zoloypzuo
+local ui_util = require("ui.ui_util")
+local ShowExampleMenuFile = require("ui.demo.ShowExampleMenuFile")
+
 local show_app_main_menu_bar = false;
 local show_app_dockspace = false;
 local show_app_documents = false;
@@ -35,7 +38,7 @@ local no_bring_to_front = false;
 local no_docking = false;
 local unsaved_document = false;
 
-local function ShowDemoWindow(open)
+local function ShowDemoWindow(p_open)
     -- @formatter:off
     if (show_app_main_menu_bar)       then ShowExampleAppMainMenuBar() end
     if (show_app_dockspace)           then ShowExampleAppDockSpace(show_app_dockspace)end     -- Process the Docking app first, as explicit DockSpace() nodes needs to be submitted early (read comments near the DockSpace function)
@@ -67,4 +70,75 @@ local function ShowDemoWindow(open)
         ImGui.ShowStyleEditor();
         ImGui.End();
     end
+
+    local window_flags = GenFlagFromTable(ImGuiWindowFlags, {
+        NoTitleBar = no_titlebar;
+        NoScrollbar = no_scrollbar;
+        MenuBar = not no_menu;
+        NoMove = no_move;
+        NoResize = no_resize;
+        NoCollapse = no_collapse;
+        NoNav = no_nav;
+        NoBackground = no_background;
+        NoBringToFrontOnFocus = no_bring_to_front;
+        NoDocking = no_docking;
+        UnsavedDocument = unsaved_document;
+    })
+
+    -- We specify a default position/size in case there's no data in the .ini file.
+    -- We only do it to make the demo applications a little more welcoming, but typically this isn't required.
+    --const ImGuiViewport* main_viewport = ImGui.GetMainViewport();
+    --ImGui.SetNextWindowPos(ImVec2(main_viewport->WorkPos.x + 650, main_viewport->WorkPos.y + 20), ImGuiCond_FirstUseEver);
+    --ImGui.SetNextWindowSize(ImVec2(550, 680), ImGuiCond_FirstUseEver);
+
+    -- Main body of the Demo window starts here.
+    local p_open, shouldDraw = ImGui.Begin("Dear ImGui Demo", p_open, window_flags)
+    if not shouldDraw then
+        -- Early out if the window is collapsed, as an optimization.
+        return ;
+    end
+
+    -- Most "big" widgets share a common width settings by default. See 'Demo->Layout->Widgets Width' for details.
+
+    -- e.g. Use 2/3 of the space for widgets and 1/3 for labels (right align)
+    --ImGui.PushItemWidth(-ImGui.GetWindowWidth() * 0.35f);
+
+    -- e.g. Leave a fixed amount of width for labels (by passing a negative value), the rest goes to widgets.
+    ImGui.PushItemWidth(ImGui.GetFontSize() * -12);
+
+    -- Menu Bar
+    if (ImGui.BeginMenuBar()) then
+        if (ImGui.BeginMenu("Menu")) then
+            ShowExampleMenuFile();
+            ImGui.EndMenu();
+        end
+        if (ImGui.BeginMenu("Examples")) then
+            ImGui.MenuItem("Main menu bar", show_app_main_menu_bar);
+            ImGui.MenuItem("Console", show_app_console);
+            ImGui.MenuItem("Log", show_app_log);
+            ImGui.MenuItem("Simple layout", show_app_layout);
+            ImGui.MenuItem("Property editor", show_app_property_editor);
+            ImGui.MenuItem("Long text display", show_app_long_text);
+            ImGui.MenuItem("Auto-resizing window", show_app_auto_resize);
+            ImGui.MenuItem("Constrained-resizing window", show_app_constrained_resize);
+            ImGui.MenuItem("Simple overlay", show_app_simple_overlay);
+            ImGui.MenuItem("Fullscreen window", show_app_fullscreen);
+            ImGui.MenuItem("Manipulating window titles", show_app_window_titles);
+            ImGui.MenuItem("Custom rendering", show_app_custom_rendering);
+            ImGui.MenuItem("Dockspace", show_app_dockspace);
+            ImGui.MenuItem("Documents", show_app_documents);
+            ImGui.EndMenu();
+        end
+        if (ImGui.BeginMenu("Tools")) then
+            ImGui.MenuItem("Metrics/Debugger", show_app_metrics);
+            ImGui.MenuItem("Style Editor", show_app_style_editor);
+            ImGui.MenuItem("About Dear ImGui", show_app_about);
+            ImGui.EndMenu();
+        end
+        ImGui.EndMenuBar();
+    end
+	
+	ImGui.End();
 end
+
+return ShowDemoWindow
