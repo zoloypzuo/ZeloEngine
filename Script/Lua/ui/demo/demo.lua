@@ -4,6 +4,7 @@
 require("ui.ui_util")
 require("ui.demo.ShowExampleMenuFile")
 require("ui.demo.ShowUserGuide")
+require("ui.demo.ShowDemoWindowWidgets")
 
 local show_app_main_menu_bar = false;
 local show_app_dockspace = false;
@@ -270,7 +271,7 @@ local function ShowDemoWindow(p_open)
     --        ImGui.TreePop();
     --    end
     --end
-    
+
     -- TODO table is beta
     --if (ImGui.CollapsingHeader("Window options"))then
     --    if (ImGui.BeginTable("split", 3))then
@@ -291,7 +292,7 @@ local function ShowDemoWindow(p_open)
     --end
 
     -- All demo contents
-    --ShowDemoWindowWidgets();
+    ImGui.ShowDemoWindowWidgets();
     --ShowDemoWindowLayout();
     --ShowDemoWindowPopups();
     --ShowDemoWindowTables();
