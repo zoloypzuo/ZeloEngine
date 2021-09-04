@@ -11,9 +11,15 @@ p_open
 
 按下X之后p_open置为false
 
+这里p_open其实还有C#的可空类型的用法，额外带一个bool
+
 ```c
 bool ImGui::Begin(const char* name, bool* p_open, ImGuiWindowFlags flags)
 {
+// ...
+
+window->HasCloseButton = (p_open != NULL);
+
 // ...
 
 if (p_open != NULL && window->Viewport->PlatformRequestClose && window->Viewport != GetMainViewport())
