@@ -56,4 +56,22 @@ if (p_open != NULL && window->Viewport->PlatformRequestClose && window->Viewport
 
 左上角的小三角可以折叠窗口，如果折叠了返回false，不需要绘制
 
+## open的评价
 
+一个参数功能太多了
+
+下面这种写法有冗余，其实if cond已经能控制是否绘制了，和窗口的open参数功能重合了
+
+```lua
+if show_app_about then
+    ImGui.ShowAboutWindow(show_app_about)
+end
+```
+
+写成这样就行了
+
+```lua
+if show_app_about then
+    ImGui.ShowAboutWindow()
+end
+```
