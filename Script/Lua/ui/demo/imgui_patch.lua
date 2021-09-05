@@ -2004,4 +2004,13 @@ function ImGui.GetClipboardText() end
 --- Parameters: text (text)
 ---@param text string
 function ImGui.SetClipboardText(text) end
+
+function ImGui.ShowDemoWindow() end
+function ImGui.ShowMetricsWindow() end
+function ImGui.ShowAboutWindow() end
+function ImGui.ShowStyleEditor() end
+function ImGui.ShowStyleSelector() end
+function ImGui.ShowFontSelector() end
+function ImGui.ShowUserGuide() end
 -- @formatter:on
+
