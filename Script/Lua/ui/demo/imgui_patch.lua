@@ -645,7 +645,7 @@ function ImGui.EndCombo() end
 --- ```
 ---@return int @current_item
 ---@return boolean @clicked
-function ImGui.Combo(...) end
+function ImGui.Combo(label, current_item, items, items_count, popup_max_height_in_items) end
 
 -- ## Widgets: Drags
 

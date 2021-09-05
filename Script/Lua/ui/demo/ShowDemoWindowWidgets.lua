@@ -7,6 +7,7 @@ local clicked = 0
 local check = true
 local e = 0
 local counter = 0
+local item_current = 0;
 
 local function Basic()
     if not (ImGui.TreeNode("Basic")) then
@@ -82,9 +83,8 @@ local function Basic()
     ImGui.LabelText("label", "Value")
     -- Using the _simplified_ one-liner Combo() api here
     -- See "Combo" section for examples of how to use the more flexible BeginCombo()/EndCombo() api.
-    -- const char* items[] = do "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK" end;
-    -- static int item_current = 0;
-    -- ImGui.Combo("combo", item_current, items, IM_ARRAYSIZE(items));
+    items = {"AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK"};
+    item_current = ImGui.Combo("combo", item_current, items, #items);
     ImGui.SameLine()
     ImGui.HelpMarker(
         "Using the simplified one-liner Combo API here." ..
