@@ -2050,6 +2050,11 @@ inline bool MenuItem(const std::string &label, const std::string &shortcut) {
     return ImGui::MenuItem(label.c_str(), shortcut.c_str());
 }
 
+inline std::tuple<bool, bool> MenuItem(const std::string &label, bool selected) {
+    bool activated = ImGui::MenuItem(label.c_str(), nullptr, &selected);
+    return std::make_tuple(selected, activated);
+}
+
 inline std::tuple<bool, bool> MenuItem(const std::string &label, const std::string &shortcut, bool selected) {
     bool activated = ImGui::MenuItem(label.c_str(), shortcut.c_str(), &selected);
     return std::make_tuple(selected, activated);
@@ -3425,6 +3430,7 @@ inline void Init(sol::state &lua) {
     ImGui.set_function("MenuItem", sol::overload(
             sol::resolve<bool(const std::string &)>(MenuItem),
             sol::resolve<bool(const std::string &, const std::string &)>(MenuItem),
+            sol::resolve<std::tuple<bool, bool>(const std::string &, bool)>(MenuItem),
             sol::resolve<std::tuple<bool, bool>(const std::string &, const std::string &, bool)>(MenuItem),
             sol::resolve<std::tuple<bool, bool>(const std::string &, const std::string &, bool, bool)>(MenuItem)
     ));

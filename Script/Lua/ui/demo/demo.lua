@@ -115,26 +115,26 @@ local function ShowDemoWindow(p_open)
             ImGui.EndMenu();
         end
         if (ImGui.BeginMenu("Examples")) then
-            ImGui.MenuItem("Main menu bar") -- show_app_main_menu_bar);
-            ImGui.MenuItem("Console") -- show_app_console);
-            ImGui.MenuItem("Log") -- show_app_log);
-            ImGui.MenuItem("Simple layout") -- show_app_layout);
-            ImGui.MenuItem("Property editor") -- show_app_property_editor);
-            ImGui.MenuItem("Long text display") -- show_app_long_text);
-            ImGui.MenuItem("Auto-resizing window") -- show_app_auto_resize);
-            ImGui.MenuItem("Constrained-resizing window") -- show_app_constrained_resize);
-            ImGui.MenuItem("Simple overlay") -- show_app_simple_overlay);
-            ImGui.MenuItem("Fullscreen window") -- show_app_fullscreen);
-            ImGui.MenuItem("Manipulating window titles") -- show_app_window_titles);
-            ImGui.MenuItem("Custom rendering") -- show_app_custom_rendering);
-            ImGui.MenuItem("Dockspace") -- show_app_dockspace);
-            ImGui.MenuItem("Documents") -- show_app_documents);
+            show_app_main_menu_bar = ImGui.MenuItem("Main menu bar", show_app_main_menu_bar)
+            show_app_console = ImGui.MenuItem("Console", show_app_console)
+            show_app_log = ImGui.MenuItem("Log", show_app_log)
+            show_app_layout = ImGui.MenuItem("Simple layout", show_app_layout)
+            show_app_property_editor = ImGui.MenuItem("Property editor", show_app_property_editor)
+            show_app_long_text = ImGui.MenuItem("Long text display", show_app_long_text)
+            show_app_auto_resize = ImGui.MenuItem("Auto-resizing window", show_app_auto_resize)
+            show_app_constrained_resize = ImGui.MenuItem("Constrained-resizing window", show_app_constrained_resize)
+            show_app_simple_overlay = ImGui.MenuItem("Simple overlay", show_app_simple_overlay)
+            show_app_fullscreen = ImGui.MenuItem("Fullscreen window", show_app_fullscreen)
+            show_app_window_titles = ImGui.MenuItem("Manipulating window titles", show_app_window_titles)
+            show_app_custom_rendering = ImGui.MenuItem("Custom rendering", show_app_custom_rendering)
+            show_app_dockspace = ImGui.MenuItem("Dockspace", show_app_dockspace)
+            show_app_documents = ImGui.MenuItem("Documents", show_app_documents)
             ImGui.EndMenu();
         end
         if (ImGui.BeginMenu("Tools")) then
-            ImGui.MenuItem("Metrics/Debugger") -- show_app_metrics);
-            ImGui.MenuItem("Style Editor") -- show_app_style_editor);
-            ImGui.MenuItem("About Dear ImGui") -- show_app_about);
+            show_app_metrics = ImGui.MenuItem("Metrics/Debugger")
+            show_app_style_editor = ImGui.MenuItem("Style Editor")
+            show_app_about = ImGui.MenuItem("About Dear ImGui")
             ImGui.EndMenu();
         end
         ImGui.EndMenuBar();
