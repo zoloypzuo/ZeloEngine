@@ -4,12 +4,10 @@
 local APanel = require("ui.panel")
 
 local PanelMenuBar = Class(APanel, function(self)
-    -- 封装MainMenuBar
-    APanel._ctor(self)
 end)
 
 function PanelMenuBar:_UpdateImpl()
-    if self.widgets ~= {} and ImGui.BeginMainMenuBar() then
+    if #self.widgets > 1 and ImGui.BeginMainMenuBar() then
         self._base._UpdateImpl(self)
         ImGui.EndMainMenuBar()
     end
