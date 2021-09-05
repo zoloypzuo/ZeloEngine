@@ -2482,7 +2482,7 @@ inline void SetClipboardText(const std::string &text) { ImGui::SetClipboardText(
 
 inline void ShowDemoWindow() { ImGui::ShowDemoWindow(); }
 
-inline void ShowMetricsWindow() { ImGui:: ShowMetricsWindow(); }
+inline void ShowMetricsWindow() { ImGui::ShowMetricsWindow(); }
 
 inline void ShowAboutWindow() { ImGui::ShowAboutWindow(); }
 
@@ -2904,6 +2904,15 @@ inline void InitEnums(sol::state &lua) {
             "AcceptNoDrawDefaultRect", ImGuiDragDropFlags_AcceptNoDrawDefaultRect,
             "AcceptNoPreviewTooltip", ImGuiDragDropFlags_AcceptNoPreviewTooltip,
             "AcceptPeekOnly", ImGuiDragDropFlags_AcceptPeekOnly
+    );
+
+    lua["ImGuiSliderFlags"] = lua.create_table_with(
+            "None", ImGuiSliderFlags_None,
+            "AlwaysClamp", ImGuiSliderFlags_AlwaysClamp,
+            "Logarithmic", ImGuiSliderFlags_Logarithmic,
+            "NoRoundToFormat", ImGuiSliderFlags_NoRoundToFormat,
+            "NoInput", ImGuiSliderFlags_NoInput,
+            "InvalidMask_", ImGuiSliderFlags_InvalidMask_
     );
 }
 
