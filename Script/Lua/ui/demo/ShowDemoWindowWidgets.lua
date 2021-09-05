@@ -8,6 +8,13 @@ local check = true
 local e = 0
 local counter = 0
 local item_current = 0;
+local str0 = "Hello, worldnot ";
+local str1 = ""
+local i0 = 123
+local f0 = 0.001
+local d0 = 999999.00000001
+local f1 = 1e0
+local vec4a = { 0.10, 0.20, 0.30, 0.44 }
 
 local function Basic()
     if not (ImGui.TreeNode("Basic")) then
@@ -87,9 +94,44 @@ local function Basic()
     item_current = ImGui.Combo("combo", item_current, items, #items);
     ImGui.SameLine()
     ImGui.HelpMarker(
-        "Using the simplified one-liner Combo API here." ..
-            'Refer to the "Combo" section below for an explanation of how to use the more flexible and general BeginCombo/EndCombo API.'
+        "Using the simplified one-liner Combo API here.\n" ..
+        'Refer to the "Combo" section below for an explanation of how to use the more flexible and general BeginCombo/EndCombo API.'
     )
+
+    -- To wire InputText() with std.string or any other custom string type,
+    -- see the "Text Input > Resize Callback" section of this demo, and the misc/cpp/imgui_stdlib.h file.
+    str0 = ImGui.InputText("input text", str0, 256);
+    ImGui.SameLine(); ImGui.HelpMarker(
+        "USER:\n" ..
+        "Hold SHIFT or use mouse to select text.\n" ..
+        "CTRL+Left/Right to word jump.\n" .. 
+        "CTRL+A or double-click to select all.\n" ..
+        "CTRL+X,CTRL+C,CTRL+V clipboard.\n" ..
+        "CTRL+Z,CTRL+Y undo/redo.\n" ..
+        "ESCAPE to revert.\n\n" .. 
+        "PROGRAMMER:\n" ..
+        "You can use the ImGuiInputTextFlags_CallbackResize facility if you need to wire InputText() " ..
+        "to a dynamic string type. See misc/cpp/imgui_stdlib.h for an example (this is not demonstrated " ..
+        "in imgui_demo.cpp).");
+
+    str1 = ImGui.InputTextWithHint("input text (w/ hint)", "enter text here", str1, 256);
+
+    i0 = ImGui.InputInt("input int", i0);
+    ImGui.SameLine(); ImGui.HelpMarker(
+        "You can apply arithmetic operators +,*,/ on numerical values.\n" ..
+        "  e.g. [ 100 ], input \'*2\', result becomes [ 200 ]\n" ..
+        "Use +- to subtract.");
+
+    f0 = ImGui.InputFloat("input float", f0, 0.01, 1.0, "%.3f");
+
+    d0 = ImGui.InputDouble("input double", d0, 0.01, 1.0, "%.8f");
+
+    f1 = ImGui.InputFloat("input scientific", f1, 0.0, 0.0, "%e");
+    ImGui.SameLine(); ImGui.HelpMarker(
+        "You can input value using the scientific notation,\n" ..
+        "  e.g. \"1e+8\" becomes \"100000000\".");
+
+    vec4a = ImGui.InputFloat3("input float3", vec4a);
 
     ImGui.TreePop()
 end
