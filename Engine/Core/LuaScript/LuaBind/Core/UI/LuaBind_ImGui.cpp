@@ -3670,6 +3670,12 @@ inline void Init(sol::state &lua) {
 #pragma endregion Clipboard Utilities
 
     ImGui.set_function("ShowDemoWindow", ImGui::ShowDemoWindow);
+    ImGui.set_function("ShowMetricsWindow", ImGui::ShowMetricsWindow);
+    ImGui.set_function("ShowAboutWindow", ImGui::ShowAboutWindow);
+    ImGui.set_function("ShowStyleEditor", ImGui::ShowStyleEditor);
+    ImGui.set_function("ShowStyleSelector", ImGui::ShowStyleSelector);
+    ImGui.set_function("ShowFontSelector", ImGui::ShowFontSelector);
+    ImGui.set_function("ShowUserGuide", ImGui::ShowUserGuide);
 }
 }
 
