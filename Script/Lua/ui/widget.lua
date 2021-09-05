@@ -24,7 +24,7 @@ function AWidget:Update()
         self:_UpdateImpl()
 
         if self.m_autoExecutePlugins then
-            -- ExecutePlugins  TODO public Plugins::Pluginable
+             self:ExecutePlugins()
         end
 
         if not self.lineBreak then
