@@ -6,6 +6,7 @@ require("ui.demo.demo_util")
 local clicked = 0
 local check = true
 local e = 0
+local counter = 0
 
 local function Basic()
     if not (ImGui.TreeNode("Basic")) then
@@ -42,55 +43,53 @@ local function Basic()
         ImGui.PopID()
     end
 
-    -- -- Use AlignTextToFramePadding() to align text baseline to the baseline of framed widgets elements
-    -- -- (otherwise a Text+SameLine+Button sequence will have the text a little too high by defaultnot )
-    -- -- See 'Demo->Layout->Text Baseline Alignment' for details.
-    -- ImGui.AlignTextToFramePadding()
-    -- ImGui.Text("Hold to repeat:")
-    -- ImGui.SameLine()
+    -- Use AlignTextToFramePadding() to align text baseline to the baseline of framed widgets elements
+    -- (otherwise a Text+SameLine+Button sequence will have the text a little too high by defaultnot )
+    -- See 'Demo->Layout->Text Baseline Alignment' for details.
+    ImGui.AlignTextToFramePadding()
+    ImGui.Text("Hold to repeat:")
+    ImGui.SameLine()
 
-    -- -- Arrow buttons with Repeater
-    -- local counter = 0
-    -- local spacing = ImGui.GetStyle().ItemInnerSpacing.x
-    -- ImGui.PushButtonRepeat(true)
-    -- if (ImGui.ArrowButton("----left", ImGuiDir_Left)) then
-    --     counter = counter - 1
-    -- end
-    -- ImGui.SameLine(0.0, spacing)
-    -- if (ImGui.ArrowButton("----right", ImGuiDir_Right)) then
-    --     counter = counter + 1
-    -- end
-    -- ImGui.PopButtonRepeat()
-    -- ImGui.SameLine()
-    -- ImGui.Text("%d", counter)
+    -- Arrow buttons with Repeater
+    ImGui.PushButtonRepeat(true)
+    if (ImGui.ArrowButton("----left", ImGuiDir.Left)) then
+        counter = counter - 1
+    end
+    ImGui.SameLine()
+    if (ImGui.ArrowButton("----right", ImGuiDir.Right)) then
+        counter = counter + 1
+    end
+    ImGui.PopButtonRepeat()
+    ImGui.SameLine()
+    ImGui.Text(string.format("%s", counter))
 
-    -- ImGui.Text("Hover over me")
-    -- if (ImGui.IsItemHovered()) then
-    --     ImGui.SetTooltip("I am a tooltip")
-    -- end
-    -- ImGui.SameLine()
-    -- ImGui.Text("- or me")
-    -- if (ImGui.IsItemHovered()) then
-    --     ImGui.BeginTooltip()
-    --     ImGui.Text("I am a fancy tooltip")
-    --     -- static float arr[] = do 0.6f, 0.1f, 1.0, 0.5f, 0.92f, 0.1f, 0.2f end;
-    --     -- ImGui.PlotLines("Curve", arr, IM_ARRAYSIZE(arr));
-    --     ImGui.EndTooltip()
-    -- end
+    ImGui.Text("Hover over me")
+    if (ImGui.IsItemHovered()) then
+        ImGui.SetTooltip("I am a tooltip")
+    end
+    ImGui.SameLine()
+    ImGui.Text("- or me")
+    if (ImGui.IsItemHovered()) then
+        ImGui.BeginTooltip()
+        ImGui.Text("I am a fancy tooltip")
+        -- static float arr[] = do 0.6f, 0.1f, 1.0, 0.5f, 0.92f, 0.1f, 0.2f end;
+        -- ImGui.PlotLines("Curve", arr, IM_ARRAYSIZE(arr));
+        ImGui.EndTooltip()
+    end
 
-    -- ImGui.Separator()
+    ImGui.Separator()
 
-    -- ImGui.LabelText("label", "Value")
-    -- -- Using the _simplified_ one-liner Combo() api here
-    -- -- See "Combo" section for examples of how to use the more flexible BeginCombo()/EndCombo() api.
-    -- -- const char* items[] = do "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK" end;
-    -- -- static int item_current = 0;
-    -- -- ImGui.Combo("combo", item_current, items, IM_ARRAYSIZE(items));
-    -- ImGui.SameLine()
-    -- ImGui.HelpMarker(
-    --     "Using the simplified one-liner Combo API here." ..
-    --         'Refer to the "Combo" section below for an explanation of how to use the more flexible and general BeginCombo/EndCombo API.'
-    -- )
+    ImGui.LabelText("label", "Value")
+    -- Using the _simplified_ one-liner Combo() api here
+    -- See "Combo" section for examples of how to use the more flexible BeginCombo()/EndCombo() api.
+    -- const char* items[] = do "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK" end;
+    -- static int item_current = 0;
+    -- ImGui.Combo("combo", item_current, items, IM_ARRAYSIZE(items));
+    ImGui.SameLine()
+    ImGui.HelpMarker(
+        "Using the simplified one-liner Combo API here." ..
+            'Refer to the "Combo" section below for an explanation of how to use the more flexible and general BeginCombo/EndCombo API.'
+    )
 
     ImGui.TreePop()
 end
