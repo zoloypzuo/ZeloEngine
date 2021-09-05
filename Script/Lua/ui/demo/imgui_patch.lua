@@ -1382,7 +1382,7 @@ function ImGui.EndMenu() end
 --- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected)
 --- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected, true)
 --- ```
-function ImGui.MenuItem(...) end
+function ImGui.MenuItem(label, shortcut, selected) end
 
 -- ## Tooltips
 
