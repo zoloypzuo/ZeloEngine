@@ -1,9 +1,11 @@
 -- column
 -- created on 2021/8/22
 -- author @zoloypzuo
-local AWidget = require("ui.widget")
+require("ui.ui_util")
 
+local AWidget = require("ui.widget")
 local WidgetContainerMixin = require("ui.widget_container_mixin")
+
 local TreeNode = Class(AWidget, function(self, parent, name, arrowClickToOpen)
     AWidget._ctor(self, parent)
     WidgetContainerMixin.included(self)
@@ -39,16 +41,12 @@ function TreeNode:_UpdateImpl()
         ImGui.SetNextItemOpen(false)
         self.m_shouldClose = false;
     end
-    local flags = ImGuiTreeNodeFlags.None
-    if self.m_arrowClickToOpen then
-        flags = bit.bor(flags, ImGuiTreeNodeFlags.OpenOnArrow)
-    end
-    if self.selected then
-        flags = bit.bor(flags, ImGuiTreeNodeFlags.Selected)
-    end
-    if self.leaf then
-        flags = bit.bor(flags, ImGuiTreeNodeFlags.Leaf)
-    end
+
+    local flags = GenFlagFromTable(ImGuiTreeNodeFlags, {
+        OpenOnArrow = self.m_arrowClickToOpen;
+        Selected = self.selected;
+        Leaf = self.leaf;
+    })
 
     if self.getter then
         self.name = self.getter()
