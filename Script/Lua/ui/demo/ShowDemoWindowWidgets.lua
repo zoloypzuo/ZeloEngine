@@ -202,4 +202,15 @@ function ImGui.ShowDemoWindowWidgets()
     -- end
 
     Basic()
+
+    -- Demonstrate BeginDisabled/EndDisabled using a checkbox located at the bottom of the section (which is a bit odd:
+    -- logically we'd have this checkbox at the top of the section, but we don't want this feature to steal that space)
+    -- if (disable_all)
+    --     ImGui.EndDisabled();
+
+    -- if (ImGui.TreeNode("Disable block"))then
+    --     ImGui.Checkbox("Disable entire section above", disable_all);
+    --     ImGui.SameLine(); HelpMarker("Demonstrate using BeginDisabled()/EndDisabled() across this section.");
+    --     ImGui.TreePop();
+    -- end
 end
