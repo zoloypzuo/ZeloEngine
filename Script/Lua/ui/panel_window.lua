@@ -6,7 +6,7 @@ require("common.table_util")
 local PanelTransformable = require("ui.panel_transformable")
 
 local DefaultPanelWindowSettings = {
-    closable = false;
+    closable = true;
     resizable = true;
     movable = true;
     dockable = true;
@@ -116,7 +116,8 @@ function PanelWindow:_UpdateImpl()
             maxSizeConstraint.x, maxSizeConstraint.y)
 
     --if (ImGui::Begin((name + m_panelID).c_str(), closable ? &m_opened : nullptr, windowFlags)) {
-    local shouldDraw = ImGui.Begin(self.name, self.opened, windowFlags)
+    local shouldDraw
+    self.opened, shouldDraw = ImGui.Begin(self.name, self.opened, windowFlags)
     if shouldDraw then
         self.hovered = ImGui.IsWindowHovered()
         self.focused = ImGui.IsWindowFocused()

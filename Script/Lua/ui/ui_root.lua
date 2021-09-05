@@ -2,7 +2,7 @@
 -- created on 2021/8/21
 -- author @zoloypzuo
 local ShowDemoWindow = require("ui.demo.demo")
-local TestDemoWindow = true
+local TestDemoWindow = false
 
 UIRoot = Class(function(self)
     self.panels = {}
@@ -11,7 +11,6 @@ end)
 function UIRoot:Update()
     if TestDemoWindow then
         TestDemoWindow = ShowDemoWindow(TestDemoWindow)
-        return
     end
     for _, panel in pairs(self.panels) do
         panel:Update()

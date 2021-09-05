@@ -4,6 +4,7 @@
 local AWidget = require("ui.widget")
 
 local function WidgetSimple(name)
+    -- simple stateless widget
     local cls = Class(AWidget, function(self, parent, ...)
         AWidget._ctor(self, parent)
         self.args = { ... }
@@ -18,6 +19,7 @@ end
 
 return WidgetSimple
 
+-- example
 --local Text = Class(AWidget, function(self, parent, content)
 --    AWidget._ctor(self, parent)
 --    self.content = content or ""
