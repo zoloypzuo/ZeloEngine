@@ -15,6 +15,14 @@ local f0 = 0.001
 local d0 = 999999.00000001
 local f1 = 1e0
 local vec4a = { 0.10, 0.20, 0.30, 0.44 }
+local i1 , i2 = 50, 42;
+local f1 , f2 = 1.0, 0.0067;
+local i1 = 0;
+local f1, f2 = 0.123, 0.0;
+local angle = 0.0;
+local col1 = { 1.0, 0.0, 0.2 };
+local col2 = { 0.4, 0.7, 0.0, 0.5 };
+local list_item_current = 1;
 
 local function Basic()
     if not (ImGui.TreeNode("Basic")) then
@@ -104,11 +112,11 @@ local function Basic()
     ImGui.SameLine(); ImGui.HelpMarker(
         "USER:\n" ..
         "Hold SHIFT or use mouse to select text.\n" ..
-        "CTRL+Left/Right to word jump.\n" .. 
+        "CTRL+Left/Right to word jump.\n" ..
         "CTRL+A or double-click to select all.\n" ..
         "CTRL+X,CTRL+C,CTRL+V clipboard.\n" ..
         "CTRL+Z,CTRL+Y undo/redo.\n" ..
-        "ESCAPE to revert.\n\n" .. 
+        "ESCAPE to revert.\n\n" ..
         "PROGRAMMER:\n" ..
         "You can use the ImGuiInputTextFlags_CallbackResize facility if you need to wire InputText() " ..
         "to a dynamic string type. See misc/cpp/imgui_stdlib.h for an example (this is not demonstrated " ..
@@ -132,6 +140,53 @@ local function Basic()
         "  e.g. \"1e+8\" becomes \"100000000\".");
 
     vec4a = ImGui.InputFloat3("input float3", vec4a);
+
+    i1 = ImGui.DragInt("drag int", i1, 1);
+    ImGui.SameLine(); ImGui.HelpMarker(
+        "Click and drag to edit value.\n" ..
+        "Hold SHIFT/ALT for faster/slower edit.\n" ..
+        "Double-click or CTRL+click to input value.");
+
+    i2 = ImGui.DragInt("drag int 0..100", i2, 1, 0, 100, "%d%%") -- TODO , ImGuiSliderFlags.AlwaysClamp);
+
+    f1 = ImGui.DragFloat("drag float", f1, 0.005);
+    f2 = ImGui.DragFloat("drag small float", f2, 0.0001, 0.0, 0.0, "%.06f ns");
+
+    i1 = ImGui.SliderInt("slider int", i1, -1, 3);
+    ImGui.SameLine(); ImGui.HelpMarker("CTRL+click to input value.");
+
+    f1 = ImGui.SliderFloat("slider float", f1, 0.0, 1.0, "ratio = %.3f");
+    f2 = ImGui.SliderFloat("slider float (log)", f2, -10.0, 10.0, "%.4f") -- TODO , ImGuiSliderFlags.Logarithmic);
+
+    angle = ImGui.SliderAngle("slider angle", angle);
+
+    -- Using the format string to display a name instead of an integer.
+    -- Here we completely omit '%d' from the format string, so it'll only display a name.
+    -- This technique can also be used with DragInt().
+    --enum Element do Element_Fire, Element_Earth, Element_Air, Element_Water, Element_COUNT end;
+    --local elem = Element_Fire;
+    --const char* elems_names[Element_COUNT] = do "Fire", "Earth", "Air", "Water" end;
+    --const char* elem_name = (elem >= 0 and elem < Element_COUNT) ? elems_names[elem] : "Unknown";
+    --ImGui.SliderInt("slider enum", elem, 0, Element_COUNT - 1, elem_name);
+    --ImGui.SameLine(); ImGui.HelpMarker("Using the format string parameter to display a name instead of the underlying integer.");
+
+
+    ImGui.ColorEdit3("color 1", col1);
+    ImGui.SameLine(); ImGui.HelpMarker(
+    "Click on the color square to open a color picker.\n" ..
+    "Click and hold to use drag and drop.\n" ..
+    "Right-click on the color square to show options.\n" ..
+    "CTRL+click on individual component to input value." );
+
+    ImGui.ColorEdit4("color 2", col2);
+
+    -- Using the _simplified_ one-liner ListBox() api here
+    -- See "List boxes" section for examples of how to use the more flexible BeginListBox()/EndListBox() api.
+    local items = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
+    list_item_current = ImGui.ListBox("listbox", list_item_current, items, #items, 4);
+    ImGui.SameLine(); ImGui.HelpMarker(
+    "Using the simplified one-liner ListBox API here.\n" ..
+    "Refer to the \"List boxes\" section below for an explanation of how to use the more flexible and general BeginListBox/EndListBox API.");
 
     ImGui.TreePop()
 end

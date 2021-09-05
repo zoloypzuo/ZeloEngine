@@ -1,6 +1,7 @@
 -- ui_root
 -- created on 2021/8/21
 -- author @zoloypzuo
+local ShowDemoWindow = require("ui.demo.demo")
 local TestDemoWindow = true
 
 UIRoot = Class(function(self)
@@ -9,8 +10,7 @@ end)
 
 function UIRoot:Update()
     if TestDemoWindow then
-        local ShowDemoWindow = require("ui.demo.demo")
-        ShowDemoWindow(true)
+        TestDemoWindow = ShowDemoWindow(TestDemoWindow)
         return
     end
     for _, panel in pairs(self.panels) do

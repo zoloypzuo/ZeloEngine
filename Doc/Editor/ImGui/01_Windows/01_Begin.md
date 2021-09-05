@@ -75,3 +75,5 @@ if show_app_about then
     ImGui.ShowAboutWindow()
 end
 ```
+
+打脸了。。没有这种写法，这个窗口会关不掉，主要是我把每个窗口封装成一个函数时，需要传递这个开关参数
