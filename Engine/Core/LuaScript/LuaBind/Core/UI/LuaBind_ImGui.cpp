@@ -2480,6 +2480,20 @@ inline std::string GetClipboardText() { return std::string(ImGui::GetClipboardTe
 
 inline void SetClipboardText(const std::string &text) { ImGui::SetClipboardText(text.c_str()); }
 
+inline void ShowDemoWindow() { ImGui::ShowDemoWindow(); }
+
+inline void ShowMetricsWindow() { ImGui:: ShowMetricsWindow(); }
+
+inline void ShowAboutWindow() { ImGui::ShowAboutWindow(); }
+
+inline void ShowStyleEditor() { ImGui::ShowStyleEditor(); }
+
+inline void ShowStyleSelector(std::string label) { ImGui::ShowStyleSelector(label.c_str()); }
+
+inline void ShowFontSelector(std::string label) { ImGui::ShowFontSelector(label.c_str()); }
+
+inline void ShowUserGuide() { ImGui::ShowUserGuide(); }
+
 inline void InitEnums(sol::state &lua) {
 #pragma region Window Flags
     lua["ImGuiWindowFlags"] = lua.create_table_with(
@@ -3675,13 +3689,13 @@ inline void Init(sol::state &lua) {
     ImGui.set_function("SetClipboardText", SetClipboardText);
 #pragma endregion Clipboard Utilities
 
-    ImGui.set_function("ShowDemoWindow", ImGui::ShowDemoWindow);
-    ImGui.set_function("ShowMetricsWindow", ImGui::ShowMetricsWindow);
-    ImGui.set_function("ShowAboutWindow", ImGui::ShowAboutWindow);
-    ImGui.set_function("ShowStyleEditor", ImGui::ShowStyleEditor);
-    ImGui.set_function("ShowStyleSelector", ImGui::ShowStyleSelector);
-    ImGui.set_function("ShowFontSelector", ImGui::ShowFontSelector);
-    ImGui.set_function("ShowUserGuide", ImGui::ShowUserGuide);
+    ImGui.set_function("ShowDemoWindow", ShowDemoWindow);
+    ImGui.set_function("ShowMetricsWindow", ShowMetricsWindow);
+    ImGui.set_function("ShowAboutWindow", ShowAboutWindow);
+    ImGui.set_function("ShowStyleEditor", ShowStyleEditor);
+    ImGui.set_function("ShowStyleSelector", ShowStyleSelector);
+    ImGui.set_function("ShowFontSelector", ShowFontSelector);
+    ImGui.set_function("ShowUserGuide", ShowUserGuide);
 }
 }
 

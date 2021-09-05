@@ -60,15 +60,15 @@ local function ShowDemoWindow(p_open)
 
     -- @formatter:on
     if show_app_metrics then
-        ImGui.ShowMetricsWindow(show_app_metrics)
+        ImGui.ShowMetricsWindow()
     end
 
     if show_app_about then
-        ImGui.ShowAboutWindow(show_app_about)
+        ImGui.ShowAboutWindow()
     end
 
     if show_app_style_editor then
-        ImGui.Begin("Dear ImGui Style Editor", show_app_style_editor);
+        ImGui.Begin("Dear ImGui Style Editor");
         ImGui.ShowStyleEditor();
         ImGui.End();
     end

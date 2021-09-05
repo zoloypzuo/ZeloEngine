@@ -1374,11 +1374,13 @@ function ImGui.EndMenu() end
 
 --- Parameters A: text (label), text (shortcut) [0]
 --- Parameters B: text (label), text (shortcut), bool (selected)
+--- Parameters C: text (label), bool (selected)
 --- Returns A: bool (activated)
 --- returns B: bool (selected), bool (activated)
 --- Overloads
 --- activated = ImGui.MenuItem("Label")
 --- activated = ImGui.MenuItem("Label", "ALT+F4")
+--- selected, activated = ImGui.MenuItem("Label", selected)
 --- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected)
 --- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected, true)
 --- ```
