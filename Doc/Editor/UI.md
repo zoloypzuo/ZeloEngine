@@ -40,9 +40,8 @@
 
 * [x] ProjectHub，启动界面
 * [x] Hierarchy，场景图层级树
-* [ ] Inspector
+* [x] Inspector
 * [ ] MaterialEditor
-* [ ] 
 
 ## Docking
 
