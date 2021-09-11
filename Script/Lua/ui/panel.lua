@@ -2,17 +2,14 @@
 -- created on 2021/8/21
 -- author @zoloypzuo
 require("common.table_util")
+require("framework.guid")
 local WidgetContainerMixin = require("ui.widget_container_mixin")
 
-local __PANEL_ID_INCREMENT = 0
-local function GenPanelID()
-    __PANEL_ID_INCREMENT = __PANEL_ID_INCREMENT + 1
-    return __PANEL_ID_INCREMENT
-end
+local __PANEL_ID_Manager = IdManager()
 
 local APanel = Class(function(self)
     WidgetContainerMixin.included(self)
-    self.id = "##" .. GenPanelID()
+    self.id = "##" .. __PANEL_ID_Manager:GenID()
     self.enabled = true
 end):include(WidgetContainerMixin)
 
