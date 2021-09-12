@@ -120,20 +120,6 @@ void   Value ( const  char * prefix, int v);
 void   Value ( const  char * 前缀, unsigned  int v);
 void   Value ( const  char * prefix, float v, const  char * float_format = NULL );
 
-# 小部件：菜单
-- 在窗口 ImGuiWindowFlags_MenuBar 上使用 BeginMenuBar() 以附加到其菜单栏。
-- 使用 BeginMainMenuBar() 在屏幕顶部创建一个菜单栏并附加到它。
-- 使用 BeginMenu() 创建菜单。您可以使用相同的标识符多次调用 BeginMenu() 以向其附加更多项目。
-- 不是 MenuItem() 键盘快捷键是为了方便而显示的，而是亲爱的 ImGui 目前_未处理_。
-bool   BeginMenuBar ();     //附加到当前窗口的菜单栏（需要在父窗口上设置 ImGuiWindowFlags_MenuBar 标志）。
-void   EndMenuBar ();       //只有在 BeginMenuBar() 返回 true 时才调用 EndMenuBar()！
-bool   BeginMainMenuBar (); //创建并附加到全屏菜单栏。
-void   EndMainMenuBar ();   //只有在 BeginMainMenuBar() 返回 true 时才调用 EndMainMenuBar()！
-bool   BeginMenu ( const  char * label, bool enabled = true );  //创建一个子菜单项。只有在返回 true 时才调用 EndMenu()！
-void   EndMenu ();  //只有在 BeginMenu() 返回 true 时才调用 EndMenu()！
-bool   MenuItem ( const  char * label, const  char *shortcut = NULL , bool selected = false , bool enabled = true );  //激活时返回真。
-bool   MenuItem ( const  char * 标签, const  char * 快捷方式, bool * p_selected, bool enabled = true );      //激活时返回 true + toggle (*p_selected) 如果 p_selected != NULL
-
 # 工具提示
 - 工具提示是跟随鼠标的窗口。他们不会分散注意力。
 void   BeginTooltip ();     //开始/附加一个工具提示窗口。创建功能齐全的工具提示（包含任何类型的项目）。

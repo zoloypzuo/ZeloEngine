@@ -1339,11 +1339,6 @@ function ImGui.ListBoxFooter() end
 --- Overloads
 function ImGui.Value(...) end
 
---- Returns: bool (shouldDraw)
---- shouldDraw = ImGui.BeginMenuBar()
----@return boolean @shouldDraw
-function ImGui.BeginMenuBar() end
-
 -- ## Widgets: Menus
 
 --- Returns: bool (shouldDraw)
