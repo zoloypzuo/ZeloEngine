@@ -14,3 +14,32 @@
 ```cpp
 bool MenuItem(const char * label, const char *shortcut, bool *p_selected, bool enabled=true);
 ```
+
+## 变长参数
+
+TextXXX文本控件有两个版本，比如Text和TextV
+
+两个都是vararg，一个是接口，一个是内部实现
+
+...用va_start和va_end可以收集到一个va_list中
+
+```cpp
+void ImGui::Text(const char* fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    TextV(fmt, args);
+    va_end(args);
+}
+
+void ImGui::TextV(const char* fmt, va_list args)
+{
+    ImGuiWindow* window = GetCurrentWindow();
+    if (window->SkipItems)
+        return;
+
+    ImGuiContext& g = *GImGui;
+    const char* text_end = g.TempBuffer + ImFormatStringV(g.TempBuffer, IM_ARRAYSIZE(g.TempBuffer), fmt, args);
+    TextEx(g.TempBuffer, text_end, ImGuiTextFlags_NoWidthForLargeClippedText);
+}
+```
