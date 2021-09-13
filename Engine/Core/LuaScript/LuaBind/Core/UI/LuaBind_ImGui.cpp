@@ -393,10 +393,6 @@ inline int GetID(const void *) { return 0;  /* TODO: GetID(void*) ==> UNSUPPORTE
 // Widgets: Text
 inline void TextUnformatted(const std::string &text) { ImGui::TextUnformatted(text.c_str()); }
 
-inline void TextUnformatted(const std::string &text, const std::string &textEnd) {
-    ImGui::TextUnformatted(text.c_str(), textEnd.c_str());
-}
-
 inline void Text(const std::string &text) { ImGui::Text(text.c_str()); }
 
 inline void TextColored(float colR, float colG, float colB, float colA, const std::string &text) {
@@ -3135,10 +3131,7 @@ inline void Init(sol::state &lua) {
 #pragma endregion ID stack / scopes
 
 #pragma region Widgets: Text
-    ImGui.set_function("TextUnformatted", sol::overload(
-            sol::resolve<void(const std::string &)>(TextUnformatted),
-            sol::resolve<void(const std::string &, const std::string &)>(TextUnformatted)
-    ));
+    ImGui.set_function("TextUnformatted", TextUnformatted);
     ImGui.set_function("Text", Text);
     ImGui.set_function("TextColored", TextColored);
     ImGui.set_function("TextDisabled", TextDisabled);

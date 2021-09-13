@@ -519,11 +519,11 @@ function ImGui.GetID(...) end
 
 -- ## Widgets: Text
 
---- Parameters: text (text), text (text_end) [O]
+--- Parameters: text (text)
 --- Overloads
 ---@param text string
----@param text_end string
-function ImGui.TextUnformatted(text, text_end) end
+function ImGui.TextUnformatted(text) end
+
 
 --- Parameters: text (text)
 ---@param text string
