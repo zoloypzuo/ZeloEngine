@@ -96,7 +96,6 @@ local function ShowDemoWindow(p_open)
     -- Main body of the Demo window starts here.
     local shouldDraw
     p_open, shouldDraw = ImGui.Begin("Dear ImGui Demo", p_open, window_flags)
-    print(p_open, shouldDraw)
     if not shouldDraw then
         -- Early out if the window is collapsed, as an optimization.
         if p_open then

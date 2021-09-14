@@ -15,8 +15,8 @@ local f0 = 0.001
 local d0 = 999999.00000001
 local f1 = 1e0
 local vec4a = { 0.10, 0.20, 0.30, 0.44 }
-local i1 , i2 = 50, 42;
-local f1 , f2 = 1.0, 0.0067;
+local i1, i2 = 50, 42;
+local f1, f2 = 1.0, 0.0067;
 local i1 = 0;
 local f1, f2 = 0.123, 0.0;
 local angle = 0.0;
@@ -59,6 +59,7 @@ local function Basic()
         ImGui.PopID()
     end
 
+    -- BREAK POINT HERE
     -- Use AlignTextToFramePadding() to align text baseline to the baseline of framed widgets elements
     -- (otherwise a Text+SameLine+Button sequence will have the text a little too high by defaultnot )
     -- See 'Demo->Layout->Text Baseline Alignment' for details.
@@ -98,54 +99,55 @@ local function Basic()
     ImGui.LabelText("label", "Value")
     -- Using the _simplified_ one-liner Combo() api here
     -- See "Combo" section for examples of how to use the more flexible BeginCombo()/EndCombo() api.
-    items = {"AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK"};
+    items = { "AAAA", "BBBB", "CCCC", "DDDD", "EEEE", "FFFF", "GGGG", "HHHH", "IIIIIII", "JJJJ", "KKKKKKK" };
     item_current = ImGui.Combo("combo", item_current, items, #items);
     ImGui.SameLine()
-    ImGui.HelpMarker(
-        "Using the simplified one-liner Combo API here.\n" ..
-        'Refer to the "Combo" section below for an explanation of how to use the more flexible and general BeginCombo/EndCombo API.'
+    ImGui.HelpMarker("Using the simplified one-liner Combo API here.\n" ..
+            'Refer to the "Combo" section below for an explanation of how to use the more flexible and general BeginCombo/EndCombo API.'
     )
 
     -- To wire InputText() with std.string or any other custom string type,
     -- see the "Text Input > Resize Callback" section of this demo, and the misc/cpp/imgui_stdlib.h file.
     str0 = ImGui.InputText("input text", str0, 256);
-    ImGui.SameLine(); ImGui.HelpMarker(
-        "USER:\n" ..
-        "Hold SHIFT or use mouse to select text.\n" ..
-        "CTRL+Left/Right to word jump.\n" ..
-        "CTRL+A or double-click to select all.\n" ..
-        "CTRL+X,CTRL+C,CTRL+V clipboard.\n" ..
-        "CTRL+Z,CTRL+Y undo/redo.\n" ..
-        "ESCAPE to revert.\n\n" ..
-        "PROGRAMMER:\n" ..
-        "You can use the ImGuiInputTextFlags_CallbackResize facility if you need to wire InputText() " ..
-        "to a dynamic string type. See misc/cpp/imgui_stdlib.h for an example (this is not demonstrated " ..
-        "in imgui_demo.cpp).");
+    ImGui.SameLine();
+    ImGui.HelpMarker("USER:\n" ..
+            "Hold SHIFT or use mouse to select text.\n" ..
+            "CTRL+Left/Right to word jump.\n" ..
+            "CTRL+A or double-click to select all.\n" ..
+            "CTRL+X,CTRL+C,CTRL+V clipboard.\n" ..
+            "CTRL+Z,CTRL+Y undo/redo.\n" ..
+            "ESCAPE to revert.\n\n" ..
+            "PROGRAMMER:\n" ..
+            "You can use the ImGuiInputTextFlags_CallbackResize facility if you need to wire InputText() " ..
+            "to a dynamic string type. See misc/cpp/imgui_stdlib.h for an example (this is not demonstrated " ..
+            "in imgui_demo.cpp).");
 
     str1 = ImGui.InputTextWithHint("input text (w/ hint)", "enter text here", str1, 256);
 
     i0 = ImGui.InputInt("input int", i0);
-    ImGui.SameLine(); ImGui.HelpMarker(
-        "You can apply arithmetic operators +,*,/ on numerical values.\n" ..
-        "  e.g. [ 100 ], input \'*2\', result becomes [ 200 ]\n" ..
-        "Use +- to subtract.");
+    ImGui.SameLine();
+    ImGui.HelpMarker("You can apply arithmetic operators +,*,/ on numerical values.\n" ..
+            "  e.g. [ 100 ], input \'*2\', result becomes [ 200 ]\n" ..
+            "Use +- to subtract.");
 
     f0 = ImGui.InputFloat("input float", f0, 0.01, 1.0, "%.3f");
 
     d0 = ImGui.InputDouble("input double", d0, 0.01, 1.0, "%.8f");
 
     f1 = ImGui.InputFloat("input scientific", f1, 0.0, 0.0, "%e");
-    ImGui.SameLine(); ImGui.HelpMarker(
-        "You can input value using the scientific notation,\n" ..
-        "  e.g. \"1e+8\" becomes \"100000000\".");
+    ImGui.SameLine();
+    ImGui.HelpMarker(
+            "You can input value using the scientific notation,\n" ..
+                    "  e.g. \"1e+8\" becomes \"100000000\".");
 
     vec4a = ImGui.InputFloat3("input float3", vec4a);
 
     i1 = ImGui.DragInt("drag int", i1, 1);
-    ImGui.SameLine(); ImGui.HelpMarker(
-        "Click and drag to edit value.\n" ..
-        "Hold SHIFT/ALT for faster/slower edit.\n" ..
-        "Double-click or CTRL+click to input value.");
+    ImGui.SameLine();
+    ImGui.HelpMarker(
+            "Click and drag to edit value.\n" ..
+                    "Hold SHIFT/ALT for faster/slower edit.\n" ..
+                    "Double-click or CTRL+click to input value.");
 
     i2 = ImGui.DragInt("drag int 0..100", i2, 1, 0, 100, "%d%%") -- TODO , ImGuiSliderFlags.AlwaysClamp);
 
@@ -153,7 +155,8 @@ local function Basic()
     f2 = ImGui.DragFloat("drag small float", f2, 0.0001, 0.0, 0.0, "%.06f ns");
 
     i1 = ImGui.SliderInt("slider int", i1, -1, 3);
-    ImGui.SameLine(); ImGui.HelpMarker("CTRL+click to input value.");
+    ImGui.SameLine();
+    ImGui.HelpMarker("CTRL+click to input value.");
 
     f1 = ImGui.SliderFloat("slider float", f1, 0.0, 1.0, "ratio = %.3f");
     f2 = ImGui.SliderFloat("slider float (log)", f2, -10.0, 10.0, "%.4f") -- TODO , ImGuiSliderFlags.Logarithmic);
@@ -172,11 +175,12 @@ local function Basic()
 
 
     ImGui.ColorEdit3("color 1", col1);
-    ImGui.SameLine(); ImGui.HelpMarker(
-    "Click on the color square to open a color picker.\n" ..
-    "Click and hold to use drag and drop.\n" ..
-    "Right-click on the color square to show options.\n" ..
-    "CTRL+click on individual component to input value." );
+    ImGui.SameLine();
+    ImGui.HelpMarker(
+            "Click on the color square to open a color picker.\n" ..
+                    "Click and hold to use drag and drop.\n" ..
+                    "Right-click on the color square to show options.\n" ..
+                    "CTRL+click on individual component to input value.");
 
     ImGui.ColorEdit4("color 2", col2);
 
@@ -184,11 +188,51 @@ local function Basic()
     -- See "List boxes" section for examples of how to use the more flexible BeginListBox()/EndListBox() api.
     local items = { "Apple", "Banana", "Cherry", "Kiwi", "Mango", "Orange", "Pineapple", "Strawberry", "Watermelon" };
     list_item_current = ImGui.ListBox("listbox", list_item_current, items, #items, 4);
-    ImGui.SameLine(); ImGui.HelpMarker(
-    "Using the simplified one-liner ListBox API here.\n" ..
-    "Refer to the \"List boxes\" section below for an explanation of how to use the more flexible and general BeginListBox/EndListBox API.");
+    ImGui.SameLine();
+    ImGui.HelpMarker(
+            "Using the simplified one-liner ListBox API here.\n" ..
+                    "Refer to the \"List boxes\" section below for an explanation of how to use the more flexible and general BeginListBox/EndListBox API.");
 
     ImGui.TreePop()
+end
+
+local function Trees()
+    if not ImGui.TreeNode("Trees") then
+        return
+    end
+    if (ImGui.TreeNode("Basic trees")) then
+        for i = 0, 4 do
+            -- Use SetNextItemOpen() so set the default state of a node to be open. We could
+            -- also use TreeNodeEx() with the ImGuiTreeNodeFlags_DefaultOpen flag to achieve the same thingnot
+            if (i == 0) then
+                ImGui.SetNextItemOpen(true, ImGuiCond.Once);
+            end
+
+            if (ImGui.TreeNode("##" .. i, string.format("Child %d", i))) then
+                ImGui.Text("blah blah");
+                ImGui.SameLine();
+                if (ImGui.SmallButton("button")) then
+                end
+                ImGui.TreePop();
+            end
+        end
+        -- for (int i = 0; i < 5; i++)then
+        --     -- Use SetNextItemOpen() so set the default state of a node to be open. We could
+        --     -- also use TreeNodeEx() with the ImGuiTreeNodeFlags_DefaultOpen flag to achieve the same thingnot
+        --     if (i == 0)
+        --         ImGui.SetNextItemOpen(true, ImGuiCond_Once);
+
+        --     if (ImGui.TreeNode((void*)(intptr_t)i, "Child %d", i))then
+        --         ImGui.Text("blah blah");
+        --         ImGui.SameLine();
+        --         if (ImGui.SmallButton("button")) do end
+        --         ImGui.TreePop();
+        --     end
+        -- end
+        ImGui.TreePop();
+    end
+
+    ImGui.TreePop();
 end
 
 function ImGui.ShowDemoWindowWidgets()
@@ -202,6 +246,7 @@ function ImGui.ShowDemoWindowWidgets()
     -- end
 
     Basic()
+    Trees()
 
     -- Demonstrate BeginDisabled/EndDisabled using a checkbox located at the bottom of the section (which is a bit odd:
     -- logically we'd have this checkbox at the top of the section, but we don't want this feature to steal that space)

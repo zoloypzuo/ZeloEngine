@@ -2,7 +2,7 @@
 -- created on 2021/8/21
 -- author @zoloypzuo
 local ShowDemoWindow = require("ui.demo.demo")
-local TestDemoWindow = false
+local TestDemoWindow = true
 
 UIRoot = Class(function(self)
     self.panels = {}
