@@ -227,11 +227,11 @@ local function Trees()
         ImGui.TreePop();
     end
 
-    -- TODO BREAK POINT
     if (ImGui.TreeNode("Advanced, with Selectable nodes")) then
         ImGui.HelpMarker("This is a more typical looking tree with selectable nodes.\n" ..
                 "Click to select, CTRL+Click to toggle, click on arrows or double-click to open.");
 
+        -- TODO CheckboxFlags
         --        ImGui.CheckboxFlags("ImGuiTreeNodeFlags_OpenOnArrow",       &base_flags, ImGuiTreeNodeFlags_OpenOnArrow);
         --        ImGui.CheckboxFlags("ImGuiTreeNodeFlags_OpenOnDoubleClick", base_flags, ImGuiTreeNodeFlags_OpenOnDoubleClick);
         --        ImGui.CheckboxFlags("ImGuiTreeNodeFlags_SpanAvailWidth",    &base_flags, ImGuiTreeNodeFlags_SpanAvailWidth); ImGui.SameLine(); HelpMarker("Extend hit area to all available width instead of allowing more items to be laid out after the node.");
@@ -246,53 +246,62 @@ local function Trees()
         --  You may retain selection state inside or outside your objects in whatever format you see fit.
         -- 'node_clicked' is temporary storage of what node we have clicked to process selection at the end
         --/ of the loop. May be a pointer to your own node type, etc.
-        --        int node_clicked = -1;
-        --        for (int i = 0; i < 6; i++)then
-        --            -- Disable the default "open on single-click behavior" + set Selected flag according to our selection.
-        --            ImGuiTreeNodeFlags node_flags = base_flags;
-        --            const bool is_selected = (selection_mask & (1 << i)) ~= 0;
-        --            if (is_selected)
-        --                node_flags |= ImGuiTreeNodeFlags_Selected;
-        --            if (i < 3)then
-        --                -- Items 0..2 are Tree Node
-        --                bool node_open = ImGui.TreeNodeEx((void*)(intptr_t)i, node_flags, "Selectable Node %d", i);
-        --                if (ImGui.IsItemClicked())
-        --                    node_clicked = i;
-        --                if (test_drag_and_drop and ImGui.BeginDragDropSource())then
-        --                    ImGui.SetDragDropPayload("_TREENODE", NULL, 0);
-        --                    ImGui.Text("This is a drag and drop source");
-        --                    ImGui.EndDragDropSource();
-        --                end
-        --                if (node_open)then
-        --                    ImGui.BulletText("Blah blah\nBlah Blah");
-        --                    ImGui.TreePop();
-        --                end
-        --            end
-        --            elsethen
-        --                -- Items 3..5 are Tree Leaves
-        --                -- The only reason we use TreeNode at all is to allow selection of the leaf. Otherwise we can
-        --                -- use BulletText() or advance the cursor by GetTreeNodeToLabelSpacing() and call Text().
-        --                node_flags |= ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_NoTreePushOnOpen; -- ImGuiTreeNodeFlags_Bullet
-        --                ImGui.TreeNodeEx((void*)(intptr_t)i, node_flags, "Selectable Leaf %d", i);
-        --                if (ImGui.IsItemClicked())
-        --                    node_clicked = i;
-        --                if (test_drag_and_drop and ImGui.BeginDragDropSource())then
-        --                    ImGui.SetDragDropPayload("_TREENODE", NULL, 0);
-        --                    ImGui.Text("This is a drag and drop source");
-        --                    ImGui.EndDragDropSource();
-        --                end
-        --            end
-        --        end
-        --        if (node_clicked ~= -1)then
-        --            -- Update selection state
-        --            -- (process outside of tree loop to avoid visual inconsistencies during the clicking frame)
-        --            if (ImGui.GetIO().KeyCtrl)
-        --                selection_mask ^= (1 << node_clicked);          -- CTRL+click to toggle
-        --            else --if (not (selection_mask & (1 << node_clicked))) -- Depending on selection behavior you want, may want to preserve selection when clicking on item that is part of the selection
-        --                selection_mask = (1 << node_clicked);           -- Click to single-select
-        --        end
-        --        if (align_label_with_current_x_position)
-        --            ImGui.Indent(ImGui.GetTreeNodeToLabelSpacing());
+        local node_clicked = -1;
+        for i = 0, 5 do
+            -- Disable the default "open on single-click behavior" + set Selected flag according to our selection.
+            local node_flags = base_flags
+            local is_selected = (bit.band(selection_mask, bit.lshift(1, i)) ~= 0)
+            if is_selected then
+                node_flags = bit.bor(node_flags, ImGuiTreeNodeFlags.Selected)
+            end
+            if (i < 3) then
+                -- Items 0..2 are Tree Node
+                local node_open = ImGui.TreeNodeEx("##" .. i, node_flags, string.format("Selectable Node %d", i))
+                if (ImGui.IsItemClicked()) then
+                    node_clicked = i;
+                end
+                -- TODO BeginDragDropSource
+                --if (test_drag_and_drop and ImGui.BeginDragDropSource()) then
+                --    ImGui.SetDragDropPayload("_TREENODE", NULL, 0);
+                --    ImGui.Text("This is a drag and drop source");
+                --    ImGui.EndDragDropSource();
+                --end
+                if (node_open) then
+                    ImGui.BulletText("Blah blah\nBlah Blah");
+                    ImGui.TreePop();
+                end
+            else
+                -- Items 3..5 are Tree Leaves
+                -- The only reason we use TreeNode at all is to allow selection of the leaf. Otherwise we can
+                -- use BulletText() or advance the cursor by GetTreeNodeToLabelSpacing() and call Text().
+                node_flags = bit.bor(node_flags, ImGuiTreeNodeFlags.Leaf, ImGuiTreeNodeFlags.NoTreePushOnOpen)
+                ImGui.TreeNodeEx("##" .. i, node_flags, string.format("Selectable Node %d", i))
+                if (ImGui.IsItemClicked()) then
+                    node_clicked = i;
+                end
+                if (test_drag_and_drop and ImGui.BeginDragDropSource()) then
+                    ImGui.SetDragDropPayload("_TREENODE", NULL, 0);
+                    ImGui.Text("This is a drag and drop source");
+                    ImGui.EndDragDropSource();
+                end
+            end
+        end
+
+        if (node_clicked ~= -1) then
+            -- Update selection state
+            -- (process outside of tree loop to avoid visual inconsistencies during the clicking frame)
+            -- TODO GetIO
+            --if (ImGui.GetIO().KeyCtrl) then
+            if false then
+                selection_mask = bit.bxor(1, node_clicked) -- CTRL+click to toggle
+            else
+                --if (not (selection_mask & (1 << node_clicked))) -- Depending on selection behavior you want, may want to preserve selection when clicking on item that is part of the selection
+                selection_mask = bit.lshift(1, node_clicked); -- Click to single-select
+            end
+        end
+        if (align_label_with_current_x_position) then
+            ImGui.Indent(ImGui.GetTreeNodeToLabelSpacing());
+        end
         ImGui.TreePop();
     end
 
@@ -304,6 +313,7 @@ function ImGui.ShowDemoWindowWidgets()
         return
     end
 
+    -- TODO BeginDisabled
     -- local disable_all = false -- The Checkbox for that is inside the "Disabled" section at the bottom
     -- if (disable_all) then
     --     ImGui.BeginDisabled()
@@ -312,6 +322,7 @@ function ImGui.ShowDemoWindowWidgets()
     Basic()
     Trees()
 
+    -- EndDisabled
     -- Demonstrate BeginDisabled/EndDisabled using a checkbox located at the bottom of the section (which is a bit odd:
     -- logically we'd have this checkbox at the top of the section, but we don't want this feature to steal that space)
     -- if (disable_all)
