@@ -332,23 +332,7 @@ local function CollapsingHeaders()
     end
 end
 
-local wrap_width = 200.0;
-
-function ImGui.ShowDemoWindowWidgets()
-    if (not ImGui.CollapsingHeader("Widgets")) then
-        return
-    end
-
-    -- TODO BeginDisabled
-    -- local disable_all = false -- The Checkbox for that is inside the "Disabled" section at the bottom
-    -- if (disable_all) then
-    --     ImGui.BeginDisabled()
-    -- end
-
-    Basic()
-    Trees()
-    CollapsingHeaders()
-
+local function Bullets()
     if (ImGui.TreeNode("Bullets")) then
         ImGui.BulletText("Bullet point 1");
         ImGui.BulletText("Bullet point 2\nOn multiple lines");
@@ -362,6 +346,12 @@ function ImGui.ShowDemoWindowWidgets()
         ImGui.SmallButton("Button");
         ImGui.TreePop();
     end
+
+end
+
+local wrap_width = 200.0;
+
+local function Text()
 
     if (ImGui.TreeNode("Text")) then
         if (ImGui.TreeNode("Colorful Text")) then
@@ -430,6 +420,48 @@ function ImGui.ShowDemoWindowWidgets()
         end
         ImGui.TreePop();
     end
+end
+
+local function Images()
+
+end
+
+local function Combo()
+
+end
+
+local function ListBoxes()
+
+end
+
+local function Selectables()
+
+end
+
+local function TextInput()
+
+end
+
+local function Tabs()
+
+end
+
+function ImGui.ShowDemoWindowWidgets()
+    if (not ImGui.CollapsingHeader("Widgets")) then
+        return
+    end
+
+    -- TODO BeginDisabled
+    -- local disable_all = false -- The Checkbox for that is inside the "Disabled" section at the bottom
+    -- if (disable_all) then
+    --     ImGui.BeginDisabled()
+    -- end
+
+    Basic()
+    Trees()
+    CollapsingHeaders()
+    Bullets()
+    Text()
 
 
     -- EndDisabled
