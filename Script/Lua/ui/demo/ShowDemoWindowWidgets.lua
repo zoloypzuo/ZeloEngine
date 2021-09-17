@@ -347,6 +347,22 @@ function ImGui.ShowDemoWindowWidgets()
     Trees()
     CollapsingHeaders()
 
+    if (ImGui.TreeNode("Bullets")) then
+        ImGui.BulletText("Bullet point 1");
+        ImGui.BulletText("Bullet point 2\nOn multiple lines");
+        if (ImGui.TreeNode("Tree node")) then
+            ImGui.BulletText("Another bullet point");
+            ImGui.TreePop();
+        end
+        ImGui.Bullet();
+        ImGui.Text("Bullet point 3 (two calls)");
+        ImGui.Bullet();
+        ImGui.SmallButton("Button");
+        ImGui.TreePop();
+    end
+
+
+
     -- EndDisabled
     -- Demonstrate BeginDisabled/EndDisabled using a checkbox located at the bottom of the section (which is a bit odd:
     -- logically we'd have this checkbox at the top of the section, but we don't want this feature to steal that space)
