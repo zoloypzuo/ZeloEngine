@@ -422,70 +422,98 @@ local function Text()
     end
 end
 
+local function Images()
+end
 
-local function Images() end
+local function Combo()
+end
 
-local function Combo() end
+local function List_boxes()
+end
 
-local function List_boxes() end
+local function Selectables()
+end
 
-local function Selectables() end
+local function Selection_State_Single_Selection()
+end
 
-local function Selection_State_Single_Selection() end
+local function Selection_State_Multiple_Selection()
+end
 
-local function Selection_State_Multiple_Selection() end
+local function Rendering_more_text_into_the_same_line()
+end
 
-local function Rendering_more_text_into_the_same_line() end
+local function In_columns()
+end
 
-local function In_columns() end
+local function Grid()
+end
 
-local function Grid() end
+local function Alignment()
+end
 
-local function Alignment() end
+local function Text_Input()
+end
 
-local function Text_Input() end
+local function Multi_line_Text_Input()
+end
 
-local function Multi_line_Text_Input() end
+local function Filtered_Text_Input()
+end
 
-local function Filtered_Text_Input() end
+local function Password_Input()
+end
 
-local function Password_Input() end
+local function Completion_History_Edit_Callbacks()
+end
 
-local function Completion_History_Edit_Callbacks() end
+local function Resize_Callback()
+end
 
-local function Resize_Callback() end
+local function Tabs()
+end
 
-local function Tabs() end
+local function Advanced_and_Close_Button()
+end
 
-local function Advanced_and_Close_Button() end
+local function TabItemButton_and_Leading_Trailing_flags()
+end
 
-local function TabItemButton_and_Leading_Trailing_flags() end
+local function Plots_Widgets()
+end
 
-local function Plots_Widgets() end
+local function Color_Picker_Widgets()
+end
 
-local function Color_Picker_Widgets() end
+local function Drag_Slider_Flags()
+end
 
-local function Drag_Slider_Flags() end
+local function Range_Widgets()
+end
 
-local function Range_Widgets() end
+local function Data_Types()
+end
 
-local function Data_Types() end
+local function Multi_component_Widgets()
+end
 
-local function Multi_component_Widgets() end
+local function Vertical_Sliders()
+end
 
-local function Vertical_Sliders() end
+local function Drag_and_Drop()
+end
 
-local function Drag_and_Drop() end
+local function Drag_and_drop_in_standard_widgets()
+end
 
-local function Drag_and_drop_in_standard_widgets() end
+local function Drag_and_drop_to_copy_swap_items()
+end
 
-local function Drag_and_drop_to_copy_swap_items() end
+local function Drag_to_reorder_items_simple()
+end
 
-local function Drag_to_reorder_items_simple() end
-
-local function Querying_Status_Edited_Active_Hovered_etc() end
-
-local function () end
+local function Querying_Status_Edited_Active_Hovered_etc()
+end
 
 function ImGui.ShowDemoWindowWidgets()
     if (not ImGui.CollapsingHeader("Widgets")) then
