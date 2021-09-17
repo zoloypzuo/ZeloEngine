@@ -308,6 +308,30 @@ local function Trees()
     ImGui.TreePop();
 end
 
+local closable_group = true;
+
+local function CollapsingHeaders()
+    if (ImGui.TreeNode("Collapsing Headers")) then
+        closable_group = ImGui.Checkbox("Show 2nd header", closable_group);
+        if (ImGui.CollapsingHeader("Header", ImGuiTreeNodeFlags.None)) then
+            ImGui.Text(string.format("IsItemHovered: %s", tostring(ImGui.IsItemHovered())));
+            for i = 1, 5 do
+                ImGui.Text(string.format("Some content " .. i));
+            end
+        end
+        if (ImGui.CollapsingHeader("Header with a close button", closable_group)) then
+            ImGui.Text(string.format("IsItemHovered: %s", tostring(ImGui.IsItemHovered())));
+            for i = 1, 5 do
+                ImGui.Text("More content " .. i);
+            end
+        end
+        --if (ImGui.CollapsingHeader("Header with a bullet", ImGuiTreeNodeFlags.Bullet)) then
+        --    ImGui.Text(string.format("IsItemHovered: %s", tostring(ImGui.IsItemHovered())));
+        --end
+        ImGui.TreePop();
+    end
+end
+
 function ImGui.ShowDemoWindowWidgets()
     if (not ImGui.CollapsingHeader("Widgets")) then
         return
@@ -321,6 +345,7 @@ function ImGui.ShowDemoWindowWidgets()
 
     Basic()
     Trees()
+    CollapsingHeaders()
 
     -- EndDisabled
     -- Demonstrate BeginDisabled/EndDisabled using a checkbox located at the bottom of the section (which is a bit odd:
