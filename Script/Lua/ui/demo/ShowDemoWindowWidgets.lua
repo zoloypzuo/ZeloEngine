@@ -422,29 +422,70 @@ local function Text()
     end
 end
 
-local function Images()
 
-end
+local function Images() end
 
-local function Combo()
+local function Combo() end
 
-end
+local function List_boxes() end
 
-local function ListBoxes()
+local function Selectables() end
 
-end
+local function Selection_State_Single_Selection() end
 
-local function Selectables()
+local function Selection_State_Multiple_Selection() end
 
-end
+local function Rendering_more_text_into_the_same_line() end
 
-local function TextInput()
+local function In_columns() end
 
-end
+local function Grid() end
 
-local function Tabs()
+local function Alignment() end
 
-end
+local function Text_Input() end
+
+local function Multi_line_Text_Input() end
+
+local function Filtered_Text_Input() end
+
+local function Password_Input() end
+
+local function Completion_History_Edit_Callbacks() end
+
+local function Resize_Callback() end
+
+local function Tabs() end
+
+local function Advanced_and_Close_Button() end
+
+local function TabItemButton_and_Leading_Trailing_flags() end
+
+local function Plots_Widgets() end
+
+local function Color_Picker_Widgets() end
+
+local function Drag_Slider_Flags() end
+
+local function Range_Widgets() end
+
+local function Data_Types() end
+
+local function Multi_component_Widgets() end
+
+local function Vertical_Sliders() end
+
+local function Drag_and_Drop() end
+
+local function Drag_and_drop_in_standard_widgets() end
+
+local function Drag_and_drop_to_copy_swap_items() end
+
+local function Drag_to_reorder_items_simple() end
+
+local function Querying_Status_Edited_Active_Hovered_etc() end
+
+local function () end
 
 function ImGui.ShowDemoWindowWidgets()
     if (not ImGui.CollapsingHeader("Widgets")) then
@@ -462,7 +503,37 @@ function ImGui.ShowDemoWindowWidgets()
     CollapsingHeaders()
     Bullets()
     Text()
-
+    Images()
+    Combo()
+    List_boxes()
+    Selectables()
+    Selection_State_Single_Selection()
+    Selection_State_Multiple_Selection()
+    Rendering_more_text_into_the_same_line()
+    In_columns()
+    Grid()
+    Alignment()
+    Text_Input()
+    Multi_line_Text_Input()
+    Filtered_Text_Input()
+    Password_Input()
+    Completion_History_Edit_Callbacks()
+    Resize_Callback()
+    Tabs()
+    Advanced_and_Close_Button()
+    TabItemButton_and_Leading_Trailing_flags()
+    Plots_Widgets()
+    Color_Picker_Widgets()
+    Drag_Slider_Flags()
+    Range_Widgets()
+    Data_Types()
+    Multi_component_Widgets()
+    Vertical_Sliders()
+    Drag_and_Drop()
+    Drag_and_drop_in_standard_widgets()
+    Drag_and_drop_to_copy_swap_items()
+    Drag_to_reorder_items_simple()
+    Querying_Status_Edited_Active_Hovered_etc()
 
     -- EndDisabled
     -- Demonstrate BeginDisabled/EndDisabled using a checkbox located at the bottom of the section (which is a bit odd:
