@@ -1271,22 +1271,6 @@ function ImGui.CollapsingHeader(...) end
 ---@param cond ImGuiCond
 function ImGui.SetNextItemOpen(open, cond) end
 
---- Parameters: text (label), bool (selected) [O], ImGuiSelectableFlags (flags) [O], float (size_x) [O], float (size_y) [O]
---- Returns: bool (selected)
---- Overloads
---- selected = ImGui.Selectable("Label")
---- selected = ImGui.Selectable("Label", selected)
---- selected = ImGui.Selectable("Label", selected, ImGuiSelectableFlags.AllowDoubleClick)
---- selected = ImGui.Selectable("Label", selected, ImGuiSelectableFlags.AllowDoubleClick, 100, 100)
---- ```
----@param label string
----@param selected boolean
----@param flags ImGuiSelectableFlags
----@param size_x float
----@param size_y float
----@return boolean @selected
-function ImGui.Selectable(label, selected, flags, size_x, size_y) end
-
 -- ## Widgets: Selectables
 
 --- Parameters: text (label), bool (selected) [O], ImGuiSelectableFlags (flags) [O], float (size_x) [O], float (size_y) [O]

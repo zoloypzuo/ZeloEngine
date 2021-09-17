@@ -69,26 +69,6 @@ bool   ColorPicker4 ( const  char * label, float col[ 4 ], ImGuiColorEditFlags f
 bool   ColorButton ( const  char * desc_id, const ImVec4& col, ImGuiColorEditFlags flags = 0 , ImVec2 size = ImVec2( 0 , 0 )); //显示一个颜色方块/按钮，悬停查看详细信息，按下时返回 true。
 void   SetColorEditOptions (ImGuiColorEditFlags);     //如果您想选择默认格式、选择器类型等，则初始化当前选项（通常在应用程序启动时）。除非您将 _NoOptions 标志传递给您的调用，否则用户将能够更改许多设置。
 
-# 小部件：树
-- TreeNode 函数在节点打开时返回 true，在这种情况下，您还需要在完成显示树节点内容后调用 TreePop()。
-bool   TreeNode ( const  char * label);
-bool   TreeNode ( const  char * str_id, const  char * fmt, ...) IM_FMTARGS( 2 );   //帮助器变体以轻松地从显示的字符串中去除 id。阅读有关为什么以及如何使用 ID 的常见问题解答。要在与 TreeNode() 相同的级别对齐任意文本，您可以使用 Bullet()。
-bool   TreeNode ( const  void * ptr_id, const  char * fmt, ...) IM_FMTARGS( 2 );   // "
-bool   TreeNodeV ( const  char * str_id, const  char * fmt, va_list args) IM_FMTLIST( 2 );
-bool   TreeNodeV ( const  void * ptr_id, const  char * fmt, va_list args) IM_FMTLIST( 2 );
-bool   TreeNodeEx ( const  char * label, ImGuiTreeNodeFlags flags = 0 );
-bool   TreeNodeEx ( const  char * str_id, ImGuiTreeNodeFlags 标志, const  char * fmt, ...) IM_FMTARGS( 3 );
-bool   TreeNodeEx ( const  void * ptr_id, ImGuiTreeNodeFlags 标志, const  char * fmt, ...) IM_FMTARGS( 3 );
-bool   TreeNodeExV ( const  char * str_id, ImGuiTreeNodeFlags 标志, const  char * fmt, va_list args) IM_FMTLIST( 3 );
-bool   TreeNodeExV ( const  void * ptr_id, ImGuiTreeNodeFlags flags, const  char * fmt, va_list args) IM_FMTLIST( 3 );
-void   TreePush ( const  char * str_id);       // ~ Indent()+PushId()。返回 true 时已由 TreeNode() 调用，但如果需要，您可以自己调用 TreePush/TreePop。
-void   TreePush ( const  void * ptr_id = NULL );// "
-void   TreePop ();  // ~ Unindent()+PopId()
-float  GetTreeNodeToLabelSpacing ();//当使用 TreeNode*() 或 Bullet() == (g.FontSize + style.FramePadding.x*2) 用于常规无框 TreeNode 时，标签前的水平距离
-bool   CollapsingHeader ( const  char * label, ImGuiTreeNodeFlags flags = 0 );  //如果返回“true”，则标头是打开的。不缩进也不推送 ID 堆栈。用户不必调用 TreePop()。
-bool   CollapsingHeader ( const  char * label, bool * p_visible, ImGuiTreeNodeFlags flags = 0 ); // when 'p_visible != NULL': if '*p_visible==true' 在标题的右上角显示一个额外的小关闭按钮，单击时将 bool 设置为 false，如果 '*p_visible==false' 不t 显示标题。
-void   SetNextItemOpen ( bool is_open, ImGuiCond cond = 0 );  //设置下一个 TreeNode/CollapsingHeader 打开状态。
-
 # 小部件：可选择项
 - 悬停时可选择的高亮显示，选中时可以显示另一种颜色。
 - 可选择的邻居扩展其高亮边界，以便在它们之间不留空隙。这使一系列选定的 Selectable 看起来是连续的。
