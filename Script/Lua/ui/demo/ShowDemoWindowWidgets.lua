@@ -332,6 +332,8 @@ local function CollapsingHeaders()
     end
 end
 
+local wrap_width = 200.0;
+
 function ImGui.ShowDemoWindowWidgets()
     if (not ImGui.CollapsingHeader("Widgets")) then
         return
@@ -361,6 +363,73 @@ function ImGui.ShowDemoWindowWidgets()
         ImGui.TreePop();
     end
 
+    if (ImGui.TreeNode("Text")) then
+        if (ImGui.TreeNode("Colorful Text")) then
+            -- Using shortcut. You can use PushStyleColor()/PopStyleColor() for more flexibility.
+            ImGui.TextColored(1.0, 0.0, 1.0, 1.0, "Pink");
+            ImGui.TextColored(1.0, 1.0, 0.0, 1.0, "Yellow");
+            ImGui.TextDisabled("Disabled");
+            ImGui.SameLine();
+            ImGui.HelpMarker("The TextDisabled color is stored in ImGuiStyle.");
+            ImGui.TreePop();
+        end
+
+        if (ImGui.TreeNode("Word Wrapping")) then
+            -- Using shortcut. You can use PushTextWrapPos()/PopTextWrapPos() for more flexibility.
+            ImGui.TextWrapped(
+                    "This text should automatically wrap on the edge of the window. The current implementation " ..
+                            "for text wrapping follows simple rules suitable for English and possibly other languages.");
+            ImGui.Spacing();
+
+            wrap_width = ImGui.SliderFloat("Wrap width", wrap_width, -20, 600, "%.0");
+
+            -- TODO ImDrawList
+            --ImDrawList* draw_list = ImGui.GetWindowDrawList();
+            for n = 0, 1 do
+                ImGui.Text("Test paragraph %d:", n);
+                --ImVec2 pos = ImGui.GetCursorScreenPos();
+                --ImVec2 marker_min = ImVec2(pos.x + wrap_width, pos.y);
+                --ImVec2 marker_max = ImVec2(pos.x + wrap_width + 10, pos.y + ImGui.GetTextLineHeight());
+                local x, y = ImGui.GetCursorPos()
+                ImGui.PushTextWrapPos(x + wrap_width);
+                if (n == 0) then
+                    ImGui.Text("The lazy dog is a good dog. This paragraph should fit within %.0 pixels. Testing a 1 character word. The quick brown fox jumps over the lazy dog.", wrap_width);
+                else
+                    ImGui.Text("aaaaaaaa bbbbbbbb, c cccccccc,dddddddd. d eeeeeeee   ffffffff. ggggggggnot hhhhhhhh");
+                end
+                -- Draw actual text bounding box, following by marker of our expected limit (should not overlapnot )
+                --draw_list->AddRect(ImGui.GetItemRectMin(), ImGui.GetItemRectMax(), IM_COL32(255, 255, 0, 255));
+                --draw_list->AddRectFilled(marker_min, marker_max, IM_COL32(255, 0, 255, 255));
+                ImGui.PopTextWrapPos();
+            end
+
+            ImGui.TreePop();
+        end
+
+        if (ImGui.TreeNode("UTF-8 Text")) then
+            -- UTF-8 test with Japanese characters
+            -- (Needs a suitable font? Try "Google Noto" or "Arial Unicode". See docs/FONTS.md for details.)
+            -- - From C++11 you can use the u8"my text" syntax to encode literal strings as UTF-8
+            -- - For earlier compiler, you may be able to encode your sources as UTF-8 (e.g. in Visual Studio, you
+            --   can save your source files as 'UTF-8 without signature').
+            -- - FOR THIS DEMO FILE ONLY, BECAUSE WE WANT TO SUPPORT OLD COMPILERS, WE ARE *NOT* INCLUDING RAW UTF-8
+            --   CHARACTERS IN THIS SOURCE FILE. Instead we are encoding a few strings with hexadecimal constants.
+            --   Don't do this in your applicationnot  Please use u8"text in any language" in your applicationnot
+            -- Note that characters values are preserved even by InputText() if the font cannot be displayed,
+            -- so you can safely copy & paste garbled characters into another application.
+            ImGui.TextWrapped("CJK text will only appears if the font was loaded with the appropriate CJK character ranges. " ..
+                    "Call io.Fonts->AddFontFromFileTTF() manually to load extra character ranges. " ..
+                    "Read docs/FONTS.md for details.");
+            ImGui.Text("Hiragana: \xe3\x81\x8b\xe3\x81\x8d\xe3\x81\x8f\xe3\x81\x91\xe3\x81\x93 (kakikukeko)"); -- Normally we would use u8"blah blah" with the proper characters directly in the string.
+            ImGui.Text("Kanjis: \xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e (nihongo)");
+            -- TODO input
+            --static char buf[32] = "\xe6\x97\xa5\xe6\x9c\xac\xe8\xaa\x9e";
+            --static char buf[32] = u8"NIHONGO"; -- <- this is how you would write it with C++11, using real kanjis
+            --ImGui.InputText("UTF-8 input", buf, IM_ARRAYSIZE(buf));
+            ImGui.TreePop();
+        end
+        ImGui.TreePop();
+    end
 
 
     -- EndDisabled
