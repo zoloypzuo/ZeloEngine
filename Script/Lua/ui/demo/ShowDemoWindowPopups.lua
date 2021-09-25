@@ -216,23 +216,23 @@ local function Modals()
         --ImVec2 center = ImGui.GetMainViewport()->GetCenter();
         --ImGui.SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 
-        if (ImGui.BeginPopupModal("Delete?", NULL, ImGuiWindowFlags_AlwaysAutoResize)) then
+        if (ImGui.BeginPopupModal("Delete?", true, ImGuiWindowFlags.AlwaysAutoResize)) then
             ImGui.Text("All those beautiful files will be deleted.\nThis operation cannot be undonenot \n\n");
             ImGui.Separator();
 
             --static int unused_i = 0;
             --ImGui.Combo("Combo", unused_i, "Delete\0Delete harder\0");
 
-            ImGui.PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(0, 0));
+            ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, 0, 0);
             ImGui.Checkbox("Don't ask me next time", dont_ask_me_next_time);
             ImGui.PopStyleVar();
 
-            if (ImGui.Button("OK", ImVec2(120, 0))) then
+            if (ImGui.Button("OK", 120, 0)) then
                 ImGui.CloseCurrentPopup();
             end
             ImGui.SetItemDefaultFocus();
             ImGui.SameLine();
-            if (ImGui.Button("Cancel", ImVec2(120, 0))) then
+            if (ImGui.Button("Cancel", 120, 0)) then
                 ImGui.CloseCurrentPopup();
             end
             ImGui.EndPopup();
@@ -241,7 +241,7 @@ local function Modals()
         if (ImGui.Button("Stacked modals..")) then
             ImGui.OpenPopup("Stacked 1");
         end
-        if (ImGui.BeginPopupModal("Stacked 1", NULL, ImGuiWindowFlags_MenuBar)) then
+        if (ImGui.BeginPopupModal("Stacked 1", true, ImGuiWindowFlags.MenuBar)) then
             if (ImGui.BeginMenuBar()) then
                 if (ImGui.BeginMenu("File")) then
                     if (ImGui.MenuItem("Some menu item")) then
@@ -283,7 +283,25 @@ local function Modals()
 end
 
 local function MenusInsideARegularWindow()
+    if (ImGui.TreeNode("Menus inside a regular window"))then
+        ImGui.TextWrapped("Below we are testing adding menu items to a regular window. It's rather unusual but should worknot ");
+        ImGui.Separator();
 
+        -- Note: As a quirk in this very specific example, we want to differentiate the parent of this menu from the
+        -- parent of the various popup menus above. To do so we are encloding the items in a PushID()/PopID() block
+        -- to make them two different menusets. If we don't, opening any popup above and hovering our menu here would
+        -- open it. This is because once a menu is active, we allow to switch to a sibling menu by just hovering on it,
+        -- which is the desired behavior for regular menus.
+        ImGui.PushID("foo");
+        ImGui.MenuItem("Menu item", "CTRL+M");
+        if (ImGui.BeginMenu("Menu inside a regular window"))then
+            ImGui.ShowExampleMenuFile();
+            ImGui.EndMenu();
+        end
+        ImGui.PopID();
+        ImGui.Separator();
+        ImGui.TreePop();
+    end
 end
 
 function ImGui.ShowDemoWindowPopups()
@@ -293,4 +311,6 @@ function ImGui.ShowDemoWindowPopups()
 
     Popups()
     ContextMenus()
+    Modals()
+    MenusInsideARegularWindow()
 end
