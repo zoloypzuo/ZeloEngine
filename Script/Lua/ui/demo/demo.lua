@@ -5,6 +5,7 @@ require("ui.ui_util")
 require("ui.demo.ShowExampleMenuFile")
 require("ui.demo.ShowUserGuide")
 require("ui.demo.ShowDemoWindowWidgets")
+require("ui.demo.ShowDemoWindowPopups")
 
 local show_app_main_menu_bar = false;
 local show_app_dockspace = false;
@@ -298,7 +299,7 @@ local function ShowDemoWindow(p_open)
     -- All demo contents
     ImGui.ShowDemoWindowWidgets();
     --ShowDemoWindowLayout();
-    --ShowDemoWindowPopups();
+    ImGui.ShowDemoWindowPopups();
     --ShowDemoWindowTables();
     --ShowDemoWindowMisc();
 
