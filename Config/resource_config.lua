@@ -3,7 +3,7 @@
 -- author @zoloypzuo
 -- resource location root
 return {
-    "D:/ZeloEngineResource/EngineAssets";
-    "D:/ZeloEngineResource/GameAIAssets";
-    "D:/ZeloEngineResource/GLSLBookAssets";
+    "D:/svn/ZeloEngineResource/EngineAssets";
+    "D:/svn/ZeloEngineResource/GameAIAssets";
+    "D:/svn/ZeloEngineResource/GLSLBookAssets";
 }
