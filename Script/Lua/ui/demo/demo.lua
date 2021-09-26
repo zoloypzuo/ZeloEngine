@@ -6,6 +6,7 @@ require("ui.demo.ShowExampleMenuFile")
 require("ui.demo.ShowUserGuide")
 require("ui.demo.ShowDemoWindowWidgets")
 require("ui.demo.ShowDemoWindowPopups")
+require("ui.demo.ShowDemoWindowMisc")
 
 local show_app_main_menu_bar = false;
 local show_app_dockspace = false;
