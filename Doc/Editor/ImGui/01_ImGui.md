@@ -4,7 +4,7 @@
 
 * [x] ImGui基本原理
 * [x] ImGui框架概念
-* [ ] ImGui接口
+* [x] ImGui接口
 * [x] 脚本绑定接口
 * [ ] 脚本薄封装框架
 * [ ] 参考项目
@@ -17,13 +17,17 @@
 
 理想的状态是：**Model数据结构=》设计粗略View展示Model=》转换成代码=》迭代交互和样式**
 
-## 接口
+## 接口文档
 
-https://github.com/zoloypzuo/imgui/blob/master/imgui.h
+https://blog.csdn.net/zolo_mario/article/details/120359861?spm=1001.2014.3001.5501
+
+https://blog.csdn.net/zolo_mario/article/details/120357560?spm=1001.2014.3001.5501
+
+https://blog.csdn.net/zolo_mario/article/details/120359935?spm=1001.2014.3001.5501
 
 Doc/Editor/ImGui/**
 
-imgui的文档维护比较糟糕，接口文档都在代码里，所以自己还是需要提取一份
+imgui的文档维护比较糟糕，接口文档都在代码里，所以我整理了一份文档
 
 ## 脚本绑定接口
 
@@ -35,7 +39,7 @@ imgui_patch.lua
 
 脚本绑定方案和接口，可以多看看几个方案，但是持续维护目前的就够了
 
-主要是C和Lua的差异，Lua的接口是有微小差异的，所以需要维护一套
+主要是由于C和Lua的差异，脚本接口是有微小差异的，所以需要维护一套
 
 ## ImGui Demo 自解释
 
