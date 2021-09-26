@@ -298,10 +298,10 @@ local function ShowDemoWindow(p_open)
 
     -- All demo contents
     ImGui.ShowDemoWindowWidgets();
-    --ShowDemoWindowLayout();
+    --ImGui.ShowDemoWindowLayout();
     ImGui.ShowDemoWindowPopups();
-    --ShowDemoWindowTables();
-    --ShowDemoWindowMisc();
+    --ImGui.ShowDemoWindowTables();
+    ImGui.ShowDemoWindowMisc();
 
     -- End of ShowDemoWindow()
     ImGui.PopItemWidth();
