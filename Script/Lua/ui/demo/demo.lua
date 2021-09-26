@@ -44,21 +44,21 @@ local unsaved_document = false;
 
 local function ShowDemoWindow(p_open)
     -- @formatter:off
-    if (show_app_main_menu_bar)       then ShowExampleAppMainMenuBar() end
-    if (show_app_dockspace)           then ShowExampleAppDockSpace(show_app_dockspace)end     -- Process the Docking app first, as explicit DockSpace() nodes needs to be submitted early (read comments near the DockSpace function)
-    if (show_app_documents)           then ShowExampleAppDocuments(show_app_documents)end     -- Process the Document app next, as it may also use a DockSpace()
+    if (show_app_main_menu_bar)       then ImGui.ShowExampleAppMainMenuBar(show_app_main_menu_bar) end
+    if (show_app_dockspace)           then ImGui.ShowExampleAppDockSpace(show_app_dockspace)end     -- Process the Docking app first, as explicit DockSpace() nodes needs to be submitted early (read comments near the DockSpace function)
+    if (show_app_documents)           then ImGui.ShowExampleAppDocuments(show_app_documents)end     -- Process the Document app next, as it may also use a DockSpace()
 
-    if (show_app_console)             then ShowExampleAppConsole(show_app_console) end
-    if (show_app_log)                 then ShowExampleAppLog(show_app_log) end
-    if (show_app_layout)              then ShowExampleAppLayout(show_app_layout) end
-    if (show_app_property_editor)     then ShowExampleAppPropertyEditor(show_app_property_editor) end
-    if (show_app_long_text)           then ShowExampleAppLongText(show_app_long_text) end
-    if (show_app_auto_resize)         then ShowExampleAppAutoResize(show_app_auto_resize) end
-    if (show_app_constrained_resize)  then ShowExampleAppConstrainedResize(show_app_constrained_resize) end
-    if (show_app_simple_overlay)      then ShowExampleAppSimpleOverlay(show_app_simple_overlay) end
-    if (show_app_fullscreen)          then ShowExampleAppFullscreen(show_app_fullscreen) end
-    if (show_app_window_titles)       then ShowExampleAppWindowTitles(show_app_window_titles) end
-    if (show_app_custom_rendering)    then ShowExampleAppCustomRendering(show_app_custom_rendering) end
+    if (show_app_console)             then ImGui.ShowExampleAppConsole(show_app_console) end
+    if (show_app_log)                 then ImGui.ShowExampleAppLog(show_app_log) end
+    if (show_app_layout)              then ImGui.ShowExampleAppLayout(show_app_layout) end
+    if (show_app_property_editor)     then ImGui.ShowExampleAppPropertyEditor(show_app_property_editor) end
+    if (show_app_long_text)           then ImGui.ShowExampleAppLongText(show_app_long_text) end
+    if (show_app_auto_resize)         then ImGui.ShowExampleAppAutoResize(show_app_auto_resize) end
+    if (show_app_constrained_resize)  then ImGui.ShowExampleAppConstrainedResize(show_app_constrained_resize) end
+    if (show_app_simple_overlay)      then ImGui.ShowExampleAppSimpleOverlay(show_app_simple_overlay) end
+    if (show_app_fullscreen)          then ImGui.ShowExampleAppFullscreen(show_app_fullscreen) end
+    if (show_app_window_titles)       then ImGui.ShowExampleAppWindowTitles(show_app_window_titles) end
+    if (show_app_custom_rendering)    then ImGui.ShowExampleAppCustomRendering(show_app_custom_rendering) end
 
     -- @formatter:on
     if show_app_metrics then
