@@ -6,6 +6,8 @@
 
 using namespace Zelo::Core::RHI;
 
+static auto logger = spdlog::default_logger()->clone("gl");
+
 void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
                                  GLenum severity, GLsizei length,
                                  const GLchar *msg, const void *param) {
@@ -85,7 +87,7 @@ void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
             sevStr = "UNK";
     }
 
-    spdlog::debug("{}:{}[{}]({}): {}",
+    logger->info("{}:{}[{}]({}): {}",
                   sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(),
                   id, msg);
 }

@@ -29,7 +29,6 @@ end
 local function RegisterPrefabs(...)
     -- register prefab list to C++
     for _, prefab in ipairs({ ... }) do
-        print("Register " .. tostring(prefab))
         Prefabs[prefab.name] = prefab
     end
 end
