@@ -1,7 +1,7 @@
 -- contextual_menu
 -- created on 2021/8/25
 -- author @zoloypzuo
-local WidgetContainerMixin = require("ui.widgets.widget_container_mixin")
+local WidgetContainerMixin = require("ui.mixins.widget_container_mixin")
 local ContextualMenu = Class(function(self)
     WidgetContainerMixin.included(self)
     self.userData = nil

@@ -4,7 +4,7 @@
 require("ui.ui_util")
 
 local AWidget = require("ui.widget")
-local WidgetContainerMixin = require("ui.widgets.widget_container_mixin")
+local WidgetContainerMixin = require("ui.mixins.widget_container_mixin")
 
 local TreeNode = Class(AWidget, function(self, parent, name, arrowClickToOpen)
     AWidget._ctor(self, parent)

@@ -3,7 +3,7 @@
 -- author @zoloypzuo
 require("common.table_util")
 require("framework.guid")
-local WidgetContainerMixin = require("ui.widgets.widget_container_mixin")
+local WidgetContainerMixin = require("ui.mixins.widget_container_mixin")
 
 local __PANEL_ID_Manager = IdManager()
 

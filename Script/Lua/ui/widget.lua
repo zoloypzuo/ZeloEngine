@@ -2,7 +2,7 @@
 -- created on 2021/8/21
 -- author @zoloypzuo
 require("framework.guid")
-local PluginableMixin = require("ui.widgets.pluginable_mixin")
+local PluginableMixin = require("ui.mixins.pluginable_mixin")
 
 local __WIDGET_ID_Manager = IdManager()
 
