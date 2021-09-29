@@ -6,16 +6,10 @@
 local PanelWindow = require("ui.panel_window")
 local Button = require("ui.widgets.button")
 local InputText = require("ui.widgets.input_text")
-local Spacing = require("ui.layouts.spacing")
 local Separator = require("ui.widgets.separator")
 local Columns = require("ui.layouts.column")
-local Text = require("ui.widgets.text")
 local Group = require("ui.layouts.group")
 local GroupCollapsable = require("ui.layouts.group_collapsable")
-local TreeNode = require("ui.layouts.tree_node")
-local ContextualMenu = require("ui.plugins.contextual_menu")
-local MenuItem = require("ui.widgets.menu_item")
-local MenuList = require("ui.widgets.menu_list")
 local ComboBox = require("ui.widgets.combobox")
 
 local TheEditorDrawer = require("editor.editor_drawer")
@@ -143,10 +137,6 @@ function Inspector:_ComponentSelectorWidget()
     end)
 
     componentSelectorWidget.ValueChangedEvent:AddEventHandler(function(value)
-        local function defineButtonsStates(componentExists)
-            addComponentButton.disabled = componentExists
-            addComponentButton.idleBackgroundColor = componentExists and RGBA(0.7, 0.5, 0) or RGBA(0.1, 0.1, 0.1)
-        end
     end)
 end
 
