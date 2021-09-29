@@ -41,6 +41,11 @@ function MenuBarPanel:CreateFileMenu()
 end
 
 function MenuBarPanel:CreateBuildMenu()
+    local buildMenu = self:CreateWidget(MenuList, "Build");
+    buildMenu:CreateWidget(MenuItem, "Build game")--.ClickedEvent += EDITOR_BIND(Build, false, false);
+    buildMenu:CreateWidget(MenuItem, "Build game and run")--.ClickedEvent += EDITOR_BIND(Build, true, false);
+    buildMenu:CreateWidget(Separator);
+    buildMenu:CreateWidget(MenuItem, "Temporary build")--.ClickedEvent += EDITOR_BIND(Build, true, true);
 end
 
 function MenuBarPanel:CreateWindowMenu()
@@ -50,6 +55,9 @@ function MenuBarPanel:CreateActorsMenu()
 end
 
 function MenuBarPanel:CreateResourcesMenu()
+    local resourcesMenu = self:CreateWidget(MenuList, "Resources");
+    resourcesMenu:CreateWidget(MenuItem, "Compile shaders")--.ClickedEvent += EDITOR_BIND(CompileShaders);
+    resourcesMenu:CreateWidget(MenuItem, "Save materials")--.ClickedEvent += EDITOR_BIND(SaveMaterials);
 end
 
 function MenuBarPanel:CreateSettingsMenu()
@@ -59,6 +67,15 @@ function MenuBarPanel:CreateLayoutMenu()
 end
 
 function MenuBarPanel:CreateHelpMenu()
+    local helpMenu = self:CreateWidget(MenuList, "Help");
+    helpMenu:CreateWidget(MenuItem, "GitHub")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload"); };
+    helpMenu:CreateWidget(MenuItem, "Tutorials")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/wiki/Tutorials"); };
+    helpMenu:CreateWidget(MenuItem, "Scripting API")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/wiki/Scripting-API"); };
+    helpMenu:CreateWidget(Separator);
+    helpMenu:CreateWidget(MenuItem, "Bug Report")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/issues/new?assignees=&labels=Bug&template=bug_report:md&title="); };
+    helpMenu:CreateWidget(MenuItem, "Feature Request")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/issues/new?assignees=&labels=Feature&template=feature_request:md&title="); };
+    helpMenu:CreateWidget(Separator);
+    helpMenu:CreateWidget(Text, "Version: v0.4");
 end
 
 return MenuBarPanel
