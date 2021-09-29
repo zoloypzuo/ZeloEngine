@@ -1351,19 +1351,20 @@ function ImGui.BeginMenu(label, enabled) end
 
 function ImGui.EndMenu() end
 
---- Parameters A: text (label), text (shortcut) [0]
---- Parameters B: text (label), text (shortcut), bool (selected)
---- Parameters C: text (label), bool (selected)
+--- Parameters A: text (label)
+--- Parameters B: text (label), text (shortcut), bool (selected), bool(enabled)
 --- Returns A: bool (activated)
 --- returns B: bool (selected), bool (activated)
 --- Overloads
 --- activated = ImGui.MenuItem("Label")
---- activated = ImGui.MenuItem("Label", "ALT+F4")
---- selected, activated = ImGui.MenuItem("Label", selected)
---- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected)
---- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected, true)
---- ```
-function ImGui.MenuItem(label, shortcut, selected) end
+--- selected, activated = ImGui.MenuItem("Label", "ALT+F4", selected, enabled)
+---@param label string
+---@param shortcut string
+---@param selected boolean
+---@param enabled boolean
+---@return boolean @selected
+---@return boolean @activated
+function ImGui.MenuItem(label, shortcut, selected, enabled) end
 
 -- ## Tooltips
 
