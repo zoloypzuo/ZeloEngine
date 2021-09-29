@@ -1,9 +1,6 @@
 -- ui_root
 -- created on 2021/8/21
 -- author @zoloypzuo
-local ShowDemoWindow = require("ui.demo.demo")
-local TestDemoWindow = false
-
 local PanelWindow = require("ui.panel_window")
 local PanelMenuBar = require("ui.panel_menu_bar")
 
@@ -12,9 +9,6 @@ UIRoot = Class(function(self)
 end)
 
 function UIRoot:Update()
-    if TestDemoWindow then
-        TestDemoWindow = ShowDemoWindow(TestDemoWindow)
-    end
     for _, panel in pairs(self.panels) do
         panel:Update()
     end
