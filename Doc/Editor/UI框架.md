@@ -77,3 +77,12 @@ inline std::tuple<bool, bool> MenuItem(const std::string &label, const std::stri
 --- ```
 function ImGui.MenuItem(label, shortcut, selected) end
 ```
+
+## 本地化
+
+略，没空
+
+## UI图片
+
+ImGui接受GL的纹理ID
+
