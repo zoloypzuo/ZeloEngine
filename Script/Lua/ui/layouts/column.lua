@@ -2,7 +2,7 @@
 -- created on 2021/8/22
 -- author @zoloypzuo
 local AWidget = require("ui.widget")
-local WidgetContainerMixin = require("ui.widget_container_mixin")
+local WidgetContainerMixin = require("ui.widgets.widget_container_mixin")
 
 local Column = Class(AWidget, function(self, parent, size)
     AWidget._ctor(self, parent)
