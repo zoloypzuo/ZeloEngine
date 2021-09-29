@@ -1,30 +1,20 @@
 ^!b::  ; Ctrl+Alt+B
-Gui, Add, Button,, BuildClean
-Gui, Add, Button,, BuildSwig
-Gui, Add, Button,, BuildVS2017
-Gui, Add, Button,, BuildVS2019
+Gui, Add, Button,, run_overload_bat
+Gui, Add, Button,, run_zelo_bat
+
 Gui, Show
 Return
 
 LCtrl & Esc::Gui Cancel
 
-ButtonBuildClean:
-Gui, Submit, NoHide
-    Run, Tools\build_clean.bat
-Return
 
-ButtonBuildSwig:
+Buttonrun_overload_bat:
 Gui, Submit, NoHide
-    Run, Tools\build_swig.bat
+    Run, Tools\run_overload.bat
 Return
 
 
-ButtonBuildVS2017:
+Buttonrun_zelo_bat:
 Gui, Submit, NoHide
-    Run, Tools\build_vs2017.bat
-Return
-
-ButtonBuildVS2019:
-Gui, Submit, NoHide
-    Run, Tools\build_vs2019.bat
+    Run, Tools\run_zelo.bat
 Return
