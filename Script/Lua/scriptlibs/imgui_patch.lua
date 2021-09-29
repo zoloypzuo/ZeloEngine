@@ -1208,12 +1208,12 @@ function ImGui.ColorPicker4(label, col, flags) end
 --- pressed = ImGui.ColorButton("Desc ID", { 1, 0, 0, 1 }, ImGuiColorEditFlags.None)
 --- pressed = ImGui.ColorButton("Desc ID", { 1, 0, 0, 1 }, ImGuiColorEditFlags.None, 100, 100)
 ---@param desc_id string
----@param col table
+---@param color table
 ---@param flags ImGuiColorEditFlags
 ---@param size_x float
 ---@param size_y float
 ---@return boolean @pressed
-function ImGui.ColorButton(desc_id, col, flags, size_x, size_y) end
+function ImGui.ColorButton(desc_id, color, flags, size_x, size_y) end
 
 --- Parameters: ImGuiColorEditFlags (flags)
 ---@param flags ImGuiColorEditFlags

@@ -53,7 +53,7 @@ function Button:_UpdateImpl()
                 self.textColor.a
         )
     end
-    if ImGui.Button(self.label, self.size.x, self.size.y) then
+    if ImGui.Button(self.label .. self.id, self.size.x, self.size.y) then
         self:_OnClick()
     end
     if push_counter then
