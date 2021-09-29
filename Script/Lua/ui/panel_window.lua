@@ -46,6 +46,17 @@ local PanelWindow = Class(PanelTransformable, function(self, name, opened, panel
     self.m_scrolledToTop = false;
 end)
 
+function PanelWindow:SetOpened(value)
+    if self.opened ~= value then
+        self.opened = value
+        if self.opened then
+            self.OpenEvent:HandleEvent()
+        else
+            self.CloseEvent:HandleEvent()
+        end
+    end
+end
+
 function PanelWindow:_UpdateImpl()
     if not self.opened then
         return

@@ -20,7 +20,7 @@ local PanelMenuBar = require("ui.panel_menu_bar")
 local MenuBarPanel = Class(PanelMenuBar, function(self)
     PanelMenuBar._ctor(self)
     self.m_panels = {}
-    self.m_windowMenu = nul
+    self.m_windowMenu = nil
 
     self:CreateFileMenu();
     self:CreateBuildMenu();
@@ -31,6 +31,19 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
     self:CreateLayoutMenu();
     self:CreateHelpMenu();
 end)
+
+function MenuBarPanel:HandleShortcuts()
+    -- TODO handle shortcut from input manager
+end
+
+function MenuBarPanel:RegisterPanel(name, panel)
+    local menu_item = self.m_windowMenu:CreateWidget(MenuItem, name)
+    menu_item.ValueChangedEvent:AddEventHandler(function()
+        panel:SetOpened(true)
+    end)
+
+    self.panels[name] = { panel, menu_item }
+end
 
 function MenuBarPanel:CreateFileMenu()
     local fileMenu = self:CreateWidget(MenuList, "File")
@@ -49,6 +62,10 @@ function MenuBarPanel:CreateBuildMenu()
 end
 
 function MenuBarPanel:CreateWindowMenu()
+    self.m_windowMenu = self:CreateWidget(MenuList, "Window")
+    self.m_windowMenu:CreateWidget(MenuItem, "Close all")
+    self.m_windowMenu:CreateWidget(MenuItem, "Open all")
+    self.m_windowMenu:CreateWidget(Separator)
 end
 
 function MenuBarPanel:CreateActorsMenu()
