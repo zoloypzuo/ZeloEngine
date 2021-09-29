@@ -96,6 +96,7 @@ end
 function MenuBarPanel:_CreateLayoutMenu()
     local layoutMenu = self:CreateWidget(MenuList, "Layout")
     layoutMenu:CreateWidget(MenuItem, "Reset")
+              .ClickedEvent:AddEventHandler(Bind(TheEditorActions, "ResetLayout"))
 end
 
 function MenuBarPanel:_CreateHelpMenu()

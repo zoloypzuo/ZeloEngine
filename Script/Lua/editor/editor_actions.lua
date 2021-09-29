@@ -7,7 +7,7 @@ local EditorActions = Class(function(self)
 end)
 
 function EditorActions:MoveToTarget(entity)
-    print("MoveToTarget")
+    print("MoveToTarget not implemented")
 end
 
 function EditorActions:DelayAction(delayInFrame, action, ...)
@@ -16,21 +16,25 @@ function EditorActions:DelayAction(delayInFrame, action, ...)
 end
 
 function EditorActions:DestroyEntity()
-    print("DestroyEntity")
+    print("DestroyEntity not implemented")
 end
 
 function EditorActions:SelectEntity(entity)
-    print("SelectEntity")
     self.OnSelectEntity:HandleEvent(entity)
 end
 
 function EditorActions:UnselectEntity()
-    print("UnselectEntity")
+    print("UnselectEntity not implemented")
 end
 
 function EditorActions:DuplicateEntity(entityToDuplicate, forcedParent, focus)
     -- Entity, Entity, bool
-    print("DuplicateEntity", entityToDuplicate, forcedParent, focus)
+    print("DuplicateEntity not implemented", entityToDuplicate, forcedParent, focus)
+end
+
+function EditorActions:ResetLayout()
+    print("ResetLayout")
+    UI:ResetLayout()
 end
 
 TheEditorActions = EditorActions()

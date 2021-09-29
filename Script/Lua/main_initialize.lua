@@ -67,9 +67,11 @@ TheFrontEnd:LoadPanel(MenuBarPanel, "", true)
 local ProjectHubPanel = require("editor.panels.project_hub_panel.project_hub_panel")
 TheFrontEnd:LoadPanel(ProjectHubPanel)
 local HierarchyPanel = require("editor.panels.hierarchy_panel.hierarchy_panel")
-TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy Panel", true)
+TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy", true)
 local InspectorPanel = require("editor.panels.inspector_panel.inspector_panel")
-TheFrontEnd:LoadPanel(InspectorPanel, "Inspector Panel", true)
+TheFrontEnd:LoadPanel(InspectorPanel, "Inspector", true)
+
+UI:ResetLayout()
 
 -- scene
 require("scenes.scene01")

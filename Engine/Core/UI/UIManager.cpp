@@ -14,6 +14,7 @@
 #include <backends/imgui_impl_sdl.h>
 #include "Core/Window/Window.h"
 #include "Core/OS/FileDialogs.h"
+#include "Core/Resource/Resource.h"
 
 #include <locale>
 #include <codecvt>
@@ -315,6 +316,11 @@ bool UIManager::IsDockingEnabled() const {
     return ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable;
 }
 
+void UIManager::ResetLayout() const {
+    Resource layoutConfig("Config/default_layout.ini");
+    ImGui::LoadIniSettingsFromMemory(layoutConfig.read(), layoutConfig.getFileSize());
+}
+
 std::string UIManager::OpenFileDialog() {
     void *window = Window::getSingletonPtr()->getHwnd();
     auto result = FileDialogs::OpenFile(L"All Files\0*.*\0\0", window);
@@ -335,4 +341,3 @@ void UIManager::MessageBox(int type, const std::string &title, const std::string
     auto flags = static_cast<uint32_t>(type);
     SDL_ShowSimpleMessageBox(flags, title.c_str(), message.c_str(), Window::getSingletonPtr()->getSDLWindow());
 }
-

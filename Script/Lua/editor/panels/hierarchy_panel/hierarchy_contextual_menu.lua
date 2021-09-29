@@ -21,7 +21,7 @@ local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntit
         local duplicateButton = self:CreateWidget(MenuItem, "Duplicate")
         duplicateButton.ClickedEvent:AddEventHandler(function()
             -- if failed, call imm instead
-            TheEditorActions:DelayAction(1, "DuplicateEntity", m_target, nullptr, true)
+            TheEditorActions:DelayAction(1, "DuplicateEntity", m_target, nil, true)
         end)
         local deleteButton = self:CreateWidget(MenuItem, "Delete")
         deleteButton.ClickedEvent:AddEventHandler(function()
