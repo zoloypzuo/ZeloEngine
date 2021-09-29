@@ -8,8 +8,8 @@ local PanelMenuBar = Class(APanel, function(self)
 end)
 
 function PanelMenuBar:_UpdateImpl()
-    if #self.widgets > 1 and ImGui.BeginMainMenuBar() then
-        self._base._UpdateImpl(self)
+    if #self.widgets > 0 and ImGui.BeginMainMenuBar() then
+        self:UpdateWidgets()
         ImGui.EndMainMenuBar()
     end
 end
