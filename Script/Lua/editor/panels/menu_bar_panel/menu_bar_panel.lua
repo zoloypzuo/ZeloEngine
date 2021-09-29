@@ -21,6 +21,44 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
     PanelMenuBar._ctor(self)
     self.m_panels = {}
     self.m_windowMenu = nul
+
+    self:CreateFileMenu();
+    self:CreateBuildMenu();
+    self:CreateWindowMenu();
+    self:CreateActorsMenu();
+    self:CreateResourcesMenu();
+    self:CreateSettingsMenu();
+    self:CreateLayoutMenu();
+    self:CreateHelpMenu();
 end)
+
+function MenuBarPanel:CreateFileMenu()
+    local fileMenu = self:CreateWidget(MenuList, "File")
+    fileMenu:CreateWidget(MenuItem, "New Scene", "CTRL + N")
+    fileMenu:CreateWidget(MenuItem, "Save Scene", "CTRL + S")
+    fileMenu:CreateWidget(MenuItem, "Save Scene As ...", "CTRL + SHIFT + S")
+    fileMenu:CreateWidget(MenuItem, "Exit", "ALT + F4")
+end
+
+function MenuBarPanel:CreateBuildMenu()
+end
+
+function MenuBarPanel:CreateWindowMenu()
+end
+
+function MenuBarPanel:CreateActorsMenu()
+end
+
+function MenuBarPanel:CreateResourcesMenu()
+end
+
+function MenuBarPanel:CreateSettingsMenu()
+end
+
+function MenuBarPanel:CreateLayoutMenu()
+end
+
+function MenuBarPanel:CreateHelpMenu()
+end
 
 return MenuBarPanel
