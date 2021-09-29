@@ -5,8 +5,6 @@ Gui, Add, Button,, run_zelo_bat
 Gui, Show
 Return
 
-LCtrl & Esc::Gui Cancel
-
 
 Buttonrun_overload_bat:
 Gui, Submit, NoHide

@@ -9,8 +9,6 @@ template = r"""
 Gui, Show
 Return
 
-LCtrl & Esc::Gui Cancel
-
 %s
 """
 
