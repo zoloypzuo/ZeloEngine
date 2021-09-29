@@ -25,7 +25,7 @@ local function WidgetSimple(name)
 
     function cls:_UpdateImpl()
         assert(ImGui[name])
-        ImGui[name](table.unpack(self.args))
+        ImGui[name](unpack(self.args))
     end
 
     return cls
