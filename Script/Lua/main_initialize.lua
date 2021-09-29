@@ -71,6 +71,9 @@ TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy", true)
 local InspectorPanel = require("editor.panels.inspector_panel.inspector_panel")
 TheFrontEnd:LoadPanel(InspectorPanel, "Inspector", true)
 
+local ProjectSettingPanel = require("editor.panels.project_setting_panel.project_setting_panel")
+TheFrontEnd:LoadPanel(ProjectSettingPanel, "Project Setting", false)
+
 UI:ResetLayout()
 
 -- scene
