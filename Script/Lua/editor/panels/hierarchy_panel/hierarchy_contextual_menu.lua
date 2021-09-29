@@ -5,7 +5,7 @@ local ContextualMenu = require("ui.plugins.contextual_menu")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
 
-local GenerateEntityCreationMenu = require("editor.panels.hierarchy_panel.entity_creation_menu")
+local GenerateEntityCreationMenu = require("editor.panels.hierarchy_panel.entity_creation_menu").GenerateEntityCreationMenu
 
 local HierarchyContextualMenu = Class(ContextualMenu, function(self, targetEntity, treeNode)
     ContextualMenu._ctor(self)

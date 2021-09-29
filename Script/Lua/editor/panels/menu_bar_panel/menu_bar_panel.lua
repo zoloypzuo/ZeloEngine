@@ -1,12 +1,10 @@
--- menu_bar_panel
--- created on 2021/9/29
--- author @zoloypzuo
+local PanelMenuBar = require("ui.panel_menu_bar")
 local Separator = require("ui.widgets.separator")
 local Text = require("ui.widgets.text")
 local MenuItem = require("ui.widgets.menu_item")
 local MenuList = require("ui.widgets.menu_list")
-
-local PanelMenuBar = require("ui.panel_menu_bar")
+local GenerateEntityCreationMenu = require("editor.panels.hierarchy_panel.entity_creation_menu")
+        .GenerateEntityCreationMenu
 
 local MenuBarPanel = Class(PanelMenuBar, function(self)
     PanelMenuBar._ctor(self)
@@ -16,7 +14,7 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
     self:_CreateFileMenu();
     self:_CreateBuildMenu();
     self:_CreateWindowMenu();
-    self:_CreateActorsMenu();
+    self:_CreateEntityMenu();
     self:_CreateResourcesMenu();
     self:_CreateSettingsMenu();
     self:_CreateLayoutMenu();
@@ -24,11 +22,11 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
 end)
 
 function MenuBarPanel:HandleShortcuts()
-    -- TODO handle shortcut from input manager
+
 end
 
 function MenuBarPanel:RegisterPanel(name, panel)
-    local menu_item = self.m_windowMenu:CreateWidget(MenuItem, name)
+    local menu_item = self.m_windowMenu:CreateWidget(MenuItem, name, "", true, true)
     menu_item.ValueChangedEvent:AddEventHandler(function()
         panel:SetOpened(true)
     end)
@@ -60,10 +58,10 @@ end
 
 function MenuBarPanel:_CreateBuildMenu()
     local buildMenu = self:CreateWidget(MenuList, "Build");
-    buildMenu:CreateWidget(MenuItem, "Build game")--.ClickedEvent += EDITOR_BIND(Build, false, false);
-    buildMenu:CreateWidget(MenuItem, "Build game and run")--.ClickedEvent += EDITOR_BIND(Build, true, false);
+    buildMenu:CreateWidget(MenuItem, "Build game")
+    buildMenu:CreateWidget(MenuItem, "Build game and run")
     buildMenu:CreateWidget(Separator);
-    buildMenu:CreateWidget(MenuItem, "Temporary build")--.ClickedEvent += EDITOR_BIND(Build, true, true);
+    buildMenu:CreateWidget(MenuItem, "Temporary build")
 end
 
 function MenuBarPanel:_CreateWindowMenu()
@@ -82,29 +80,32 @@ function MenuBarPanel:_CreateWindowMenu()
 
 end
 
-function MenuBarPanel:_CreateActorsMenu()
+function MenuBarPanel:_CreateEntityMenu()
+    GenerateEntityCreationMenu(self:CreateWidget(MenuList("Entity")))
 end
 
 function MenuBarPanel:_CreateResourcesMenu()
     local resourcesMenu = self:CreateWidget(MenuList, "Resources");
-    resourcesMenu:CreateWidget(MenuItem, "Compile shaders")--.ClickedEvent += EDITOR_BIND(CompileShaders);
-    resourcesMenu:CreateWidget(MenuItem, "Save materials")--.ClickedEvent += EDITOR_BIND(SaveMaterials);
+    resourcesMenu:CreateWidget(MenuItem, "Compile shaders")
+    resourcesMenu:CreateWidget(MenuItem, "Save materials")
 end
 
 function MenuBarPanel:_CreateSettingsMenu()
 end
 
 function MenuBarPanel:_CreateLayoutMenu()
+    local layoutMenu = self:CreateWidget(MenuList, "Layout")
+    layoutMenu:CreateWidget(MenuItem, "Reset")
 end
 
 function MenuBarPanel:_CreateHelpMenu()
     local helpMenu = self:CreateWidget(MenuList, "Help");
-    helpMenu:CreateWidget(MenuItem, "GitHub")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload"); };
-    helpMenu:CreateWidget(MenuItem, "Tutorials")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/wiki/Tutorials"); };
-    helpMenu:CreateWidget(MenuItem, "Scripting API")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/wiki/Scripting-API"); };
+    helpMenu:CreateWidget(MenuItem, "GitHub")
+    helpMenu:CreateWidget(MenuItem, "Tutorials")
+    helpMenu:CreateWidget(MenuItem, "Scripting API")
     helpMenu:CreateWidget(Separator);
-    helpMenu:CreateWidget(MenuItem, "Bug Report")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/issues/new?assignees=&labels=Bug&template=bug_report:md&title="); };
-    helpMenu:CreateWidget(MenuItem, "Feature Request")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/issues/new?assignees=&labels=Feature&template=feature_request:md&title="); };
+    helpMenu:CreateWidget(MenuItem, "Bug Report")
+    helpMenu:CreateWidget(MenuItem, "Feature Request")
     helpMenu:CreateWidget(Separator);
     helpMenu:CreateWidget(Text, "Version: v0.4");
 end

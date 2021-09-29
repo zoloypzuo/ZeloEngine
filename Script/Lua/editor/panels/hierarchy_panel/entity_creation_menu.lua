@@ -1,8 +1,10 @@
 -- entity_creation_menu
 -- created on 2021/8/25
 -- author @zoloypzuo
--- TODO
-local function GenerateActorCreationMenu(menuList, parentEntity, onItemClicked)
+local _M = {}
+
+function _M.GenerateEntityCreationMenu(menuList, parentEntity, onItemClicked)
+    -- TODO
     --GenerateActorCreationMenu(MenuList& p_menuList, Actor* p_parent, std::optional<std::function<void()>> p_onItemClicked)
 end
 
@@ -35,4 +37,4 @@ end
 --audio.CreateWidget<MenuItem>("Audio Source").ClickedEvent           += ActorWithComponentCreationHandler<CAudioSource>(p_parent, p_onItemClicked);
 --audio.CreateWidget<MenuItem>("Audio Listener").ClickedEvent         += ActorWithComponentCreationHandler<CAudioListener>(p_parent, p_onItemClicked);
 --others.CreateWidget<MenuItem>("Camera").ClickedEvent                += ActorWithComponentCreationHandler<CCamera>(p_parent, p_onItemClicked);
-return GenerateActorCreationMenu
+return _M
