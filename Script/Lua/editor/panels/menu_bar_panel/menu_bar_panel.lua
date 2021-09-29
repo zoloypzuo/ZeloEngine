@@ -11,6 +11,9 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
     self.m_panels = {}
     self.m_windowMenu = nil
 
+    self.m_metricsMenuItem = nil
+    self.m_styleEditorMenuItem = nil
+
     self:_CreateFileMenu();
     self:_CreateBuildMenu();
     self:_CreateWindowMenu();
@@ -18,8 +21,26 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
     self:_CreateResourcesMenu();
     self:_CreateSettingsMenu();
     self:_CreateLayoutMenu();
+    self:_CreateToolMenu();
     self:_CreateHelpMenu();
 end)
+
+function MenuBarPanel:_UpdateImpl()
+    PanelMenuBar._UpdateImpl(self)
+
+    local show_app_metrics = self.m_metricsMenuItem.checked
+    local show_app_style_editor = self.m_styleEditorMenuItem.checked
+
+    if show_app_metrics then
+        ImGui.ShowMetricsWindow()
+    end
+
+    if show_app_style_editor then
+        ImGui.Begin("Dear ImGui Style Editor");
+        ImGui.ShowStyleEditor();
+        ImGui.End();
+    end
+end
 
 function MenuBarPanel:HandleShortcuts()
 
@@ -97,6 +118,12 @@ function MenuBarPanel:_CreateLayoutMenu()
     local layoutMenu = self:CreateWidget(MenuList, "Layout")
     layoutMenu:CreateWidget(MenuItem, "Reset")
               .ClickedEvent:AddEventHandler(Bind(TheEditorActions, "ResetLayout"))
+end
+
+function MenuBarPanel:_CreateToolMenu()
+    local toolMenu = self:CreateWidget(MenuList, "Tool")
+    self.m_metricsMenuItem = toolMenu:CreateWidget(MenuItem, "Metrics Debugger", "", true, false)
+    self.m_styleEditorMenuItem = toolMenu:CreateWidget(MenuItem, "Style Editor", "", true, false)
 end
 
 function MenuBarPanel:_CreateHelpMenu()
