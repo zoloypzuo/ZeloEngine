@@ -22,14 +22,14 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
     self.m_panels = {}
     self.m_windowMenu = nil
 
-    self:CreateFileMenu();
-    self:CreateBuildMenu();
-    self:CreateWindowMenu();
-    self:CreateActorsMenu();
-    self:CreateResourcesMenu();
-    self:CreateSettingsMenu();
-    self:CreateLayoutMenu();
-    self:CreateHelpMenu();
+    self:_CreateFileMenu();
+    self:_CreateBuildMenu();
+    self:_CreateWindowMenu();
+    self:_CreateActorsMenu();
+    self:_CreateResourcesMenu();
+    self:_CreateSettingsMenu();
+    self:_CreateLayoutMenu();
+    self:_CreateHelpMenu();
 end)
 
 function MenuBarPanel:HandleShortcuts()
@@ -45,7 +45,21 @@ function MenuBarPanel:RegisterPanel(name, panel)
     self.panels[name] = { panel, menu_item }
 end
 
-function MenuBarPanel:CreateFileMenu()
+function MenuBarPanel:_UpdateToggle()
+    for _, v in pairs(self.m_panels) do
+        local panel, menu_item = v
+        menu_item.checked = panel.opened
+    end
+end
+
+function MenuBarPanel:_ToggleAllPanels(value)
+    for _, v in pairs(self.m_panels) do
+        local panel, _ = v
+        panel:SetOpened(value)
+    end
+end
+
+function MenuBarPanel:_CreateFileMenu()
     local fileMenu = self:CreateWidget(MenuList, "File")
     fileMenu:CreateWidget(MenuItem, "New Scene", "CTRL + N")
     fileMenu:CreateWidget(MenuItem, "Save Scene", "CTRL + S")
@@ -53,7 +67,7 @@ function MenuBarPanel:CreateFileMenu()
     fileMenu:CreateWidget(MenuItem, "Exit", "ALT + F4")
 end
 
-function MenuBarPanel:CreateBuildMenu()
+function MenuBarPanel:_CreateBuildMenu()
     local buildMenu = self:CreateWidget(MenuList, "Build");
     buildMenu:CreateWidget(MenuItem, "Build game")--.ClickedEvent += EDITOR_BIND(Build, false, false);
     buildMenu:CreateWidget(MenuItem, "Build game and run")--.ClickedEvent += EDITOR_BIND(Build, true, false);
@@ -61,29 +75,38 @@ function MenuBarPanel:CreateBuildMenu()
     buildMenu:CreateWidget(MenuItem, "Temporary build")--.ClickedEvent += EDITOR_BIND(Build, true, true);
 end
 
-function MenuBarPanel:CreateWindowMenu()
+function MenuBarPanel:_CreateWindowMenu()
     self.m_windowMenu = self:CreateWidget(MenuList, "Window")
     self.m_windowMenu:CreateWidget(MenuItem, "Close all")
+        .ClickedEvent:AddEventHandler(function()
+        self:_ToggleAllPanels(false)
+    end)
     self.m_windowMenu:CreateWidget(MenuItem, "Open all")
+        .ClickedEvent:AddEventHandler(function()
+        self:_ToggleAllPanels(true)
+    end)
     self.m_windowMenu:CreateWidget(Separator)
+
+    self.m_windowMenu.ClickedEvent:AddEventHandler(Bind(self, self._UpdateToggle))
+
 end
 
-function MenuBarPanel:CreateActorsMenu()
+function MenuBarPanel:_CreateActorsMenu()
 end
 
-function MenuBarPanel:CreateResourcesMenu()
+function MenuBarPanel:_CreateResourcesMenu()
     local resourcesMenu = self:CreateWidget(MenuList, "Resources");
     resourcesMenu:CreateWidget(MenuItem, "Compile shaders")--.ClickedEvent += EDITOR_BIND(CompileShaders);
     resourcesMenu:CreateWidget(MenuItem, "Save materials")--.ClickedEvent += EDITOR_BIND(SaveMaterials);
 end
 
-function MenuBarPanel:CreateSettingsMenu()
+function MenuBarPanel:_CreateSettingsMenu()
 end
 
-function MenuBarPanel:CreateLayoutMenu()
+function MenuBarPanel:_CreateLayoutMenu()
 end
 
-function MenuBarPanel:CreateHelpMenu()
+function MenuBarPanel:_CreateHelpMenu()
     local helpMenu = self:CreateWidget(MenuList, "Help");
     helpMenu:CreateWidget(MenuItem, "GitHub")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload"); };
     helpMenu:CreateWidget(MenuItem, "Tutorials")--:ClickedEvent += [] {OvTools::Utils::SystemCalls::OpenURL("https://github:com/adriengivry/Overload/wiki/Tutorials"); };
