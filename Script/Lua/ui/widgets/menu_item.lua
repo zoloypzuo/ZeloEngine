@@ -12,17 +12,21 @@ local MenuItem = Class(AWidget, function(self, parent, name, shortcut, checkable
     local processor = EventProcessor()
     self.ClickedEvent = EventWrapper(processor, "ClickedEvent")
     self.ValueChangedEvent = EventWrapper(processor, "ValueChangedEvent")
+
+    if self.checkable == false then
+        self.checked = false
+    end
 end)
 
 function MenuItem:_UpdateImpl()
-    local selected, activated = ImGui.MenuItem(self.name, self.shortcut, self.checked, self.enabled)
+    local checked, activated = ImGui.MenuItem(self.name, self.shortcut, self.checked, self.enabled)
     if activated then
         self.ClickedEvent:HandleEvent()
     end
 
-    if selected ~= self.checked then
-        self.ValueChangedEvent:HandleEvent(selected)
-        self.checked = selected
+    if self.checkable and checked ~= self.checked then
+        self.ValueChangedEvent:HandleEvent(checked)
+        self.checked = checked
     end
 end
 
