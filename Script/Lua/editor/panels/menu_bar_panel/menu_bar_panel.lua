@@ -13,6 +13,7 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
 
     self.m_metricsMenuItem = nil
     self.m_styleEditorMenuItem = nil
+    self.m_userGuideMenuItem = nil
 
     self:_CreateFileMenu();
     self:_CreateBuildMenu();
@@ -30,6 +31,7 @@ function MenuBarPanel:_UpdateImpl()
 
     local show_app_metrics = self.m_metricsMenuItem.checked
     local show_app_style_editor = self.m_styleEditorMenuItem.checked
+    local show_user_guide = self.m_userGuideMenuItem.checked
 
     if show_app_metrics then
         ImGui.ShowMetricsWindow()
@@ -39,6 +41,12 @@ function MenuBarPanel:_UpdateImpl()
         ImGui.Begin("Dear ImGui Style Editor");
         ImGui.ShowStyleEditor();
         ImGui.End();
+    end
+
+    if show_user_guide then
+        ImGui.Begin("User Guide")
+        ImGui.ShowUserGuide()
+        ImGui.End()
     end
 end
 
@@ -128,6 +136,7 @@ end
 
 function MenuBarPanel:_CreateHelpMenu()
     local helpMenu = self:CreateWidget(MenuList, "Help");
+    self.m_userGuideMenuItem = helpMenu:CreateWidget(MenuItem, "User Guide", "", true, false)
     helpMenu:CreateWidget(MenuItem, "GitHub")
     helpMenu:CreateWidget(MenuItem, "Tutorials")
     helpMenu:CreateWidget(MenuItem, "Scripting API")
