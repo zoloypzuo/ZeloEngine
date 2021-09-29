@@ -4,6 +4,7 @@
 local APanel = require("ui.panel")
 
 local PanelMenuBar = Class(APanel, function(self)
+    APanel._ctor(self)
 end)
 
 function PanelMenuBar:_UpdateImpl()
