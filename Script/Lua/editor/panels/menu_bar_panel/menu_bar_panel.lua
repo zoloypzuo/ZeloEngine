@@ -27,23 +27,23 @@ end
 
 function MenuBarPanel:RegisterPanel(name, panel)
     local menu_item = self.m_windowMenu:CreateWidget(MenuItem, name, "", true, true)
-    menu_item.ValueChangedEvent:AddEventHandler(function()
-        panel:SetOpened(true)
+    menu_item.ValueChangedEvent:AddEventHandler(function(value)
+        panel:SetOpened(value)
     end)
 
-    self.panels[name] = { panel, menu_item }
+    self.m_panels[name] = { panel, menu_item }
 end
 
 function MenuBarPanel:_UpdateToggle()
     for _, v in pairs(self.m_panels) do
-        local panel, menu_item = v
+        local panel, menu_item = unpack(v)
         menu_item.checked = panel.opened
     end
 end
 
 function MenuBarPanel:_ToggleAllPanels(value)
     for _, v in pairs(self.m_panels) do
-        local panel, _ = v
+        local panel, _ = unpack(v)
         panel:SetOpened(value)
     end
 end
@@ -81,7 +81,7 @@ function MenuBarPanel:_CreateWindowMenu()
 end
 
 function MenuBarPanel:_CreateEntityMenu()
-    GenerateEntityCreationMenu(self:CreateWidget(MenuList("Entity")))
+    GenerateEntityCreationMenu(self:CreateWidget(MenuList, "Entity"))
 end
 
 function MenuBarPanel:_CreateResourcesMenu()
