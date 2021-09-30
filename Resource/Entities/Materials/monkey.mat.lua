@@ -1,6 +1,3 @@
--- monkey.mat.lua
--- created on 2021/8/21
--- author @zoloypzuo
 return {
     type = "MATERIAL";
     diffuse  = "t.jpg";
