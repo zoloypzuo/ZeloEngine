@@ -1,7 +1,6 @@
 // GLBuffer.h
 // created on 2021/6/6
 // author @zoloypzuo
-
 #pragma once
 
 #include "ZeloPrerequisites.h"
