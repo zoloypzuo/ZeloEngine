@@ -426,7 +426,12 @@ inline bool ArrowButton(const std::string &stringID, int dir) {
     return ImGui::ArrowButton(stringID.c_str(), static_cast<ImGuiDir>(dir));
 }
 
-inline void Image() { /* TODO: Image(...) ==> UNSUPPORTED */ }
+inline void Image(int textureID,
+                  float sizeX, float sizeY,
+                  float uv0X, float uv0Y,
+                  float uv1X, float uv1Y) {
+    ImGui::Image(reinterpret_cast<void *>(textureID), {sizeX, sizeY}, {uv0X, uv0Y}, {uv1X, uv1Y});
+}
 
 inline void ImageButton() { /* TODO: ImageButton(...) ==> UNSUPPORTED */ }
 
