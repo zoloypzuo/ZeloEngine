@@ -173,9 +173,9 @@ void UIManager::ApplyStyle(UIManager::EStyle style) {
             break;
         case EStyle::DUNE_DARK: {
             imStyle->WindowPadding = ImVec2(15, 15);
-            imStyle->WindowRounding = 5.0f;
+            imStyle->WindowRounding = 1.0f;
             imStyle->FramePadding = ImVec2(5, 5);
-            imStyle->FrameRounding = 4.0f;
+            imStyle->FrameRounding = 1.0f;
             imStyle->ItemSpacing = ImVec2(12, 8);
             imStyle->ItemInnerSpacing = ImVec2(8, 6);
             imStyle->IndentSpacing = 25.0f;

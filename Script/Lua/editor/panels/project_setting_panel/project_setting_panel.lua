@@ -3,12 +3,8 @@
 -- author @zoloypzuo
 local PanelWindow = require("ui.panel_window")
 local Button = require("ui.widgets.button")
-local InputText = require("ui.widgets.input_text")
-local Spacing = require("ui.layouts.spacing")
 local Separator = require("ui.widgets.separator")
 local Columns = require("ui.layouts.column")
-local Text = require("ui.widgets.text")
-local Group = require("ui.layouts.group")
 local GroupCollapsable = require("ui.layouts.group_collapsable")
 
 local ProjectSettingPanel = Class(PanelWindow, function(self, title, opened, panelSetting)
@@ -31,7 +27,7 @@ local ProjectSettingPanel = Class(PanelWindow, function(self, title, opened, pan
 
     do
         local rendererRoot = self:CreateWidget(GroupCollapsable, "Render")
-        local columns  = rendererRoot:CreateWidget(Columns, 2)
+        local columns = rendererRoot:CreateWidget(Columns, 2)
         columns.widths[1] = 125
     end
 end)

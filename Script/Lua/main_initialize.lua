@@ -74,6 +74,9 @@ TheFrontEnd:LoadPanel(InspectorPanel, "Inspector", true)
 local ProjectSettingPanel = require("editor.panels.project_setting_panel.project_setting_panel")
 TheFrontEnd:LoadPanel(ProjectSettingPanel, "Project Setting", false)
 
+local ConsolePanel = require("editor.panels.console_panel.console_panel")
+TheFrontEnd:LoadPanel(ConsolePanel, "Console", false)
+
 UI:ResetLayout()
 
 -- scene

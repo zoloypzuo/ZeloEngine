@@ -12,8 +12,8 @@ local DefaultPanelWindowSettings = {
     NoDocking = false;
     NoBackground = false;
     AlwaysHorizontalScrollbar = false;
-    AlwaysVerticalScrollbar = forceVerticalScrollbar;
-    HorizontalScrollbar = allowHorizontalScrollbar;
+    AlwaysVerticalScrollbar = false;
+    HorizontalScrollbar = false;
     NoBringToFrontOnFocus = false;
     NoCollapse = false;
     NoInputs = false;
@@ -36,10 +36,8 @@ local PanelWindow = Class(PanelTransformable, function(self, name, opened, panel
     self.OpenEvent = EventWrapper(processor, "OpenEvent")
     self.CloseEvent = EventWrapper(processor, "CloseEvent")
 
-    -- panelSettings
     self.panelSettings = panelSettings or DefaultPanelWindowSettings
 
-    --private:
     self.m_mustScrollToBottom = false;
     self.m_mustScrollToTop = false;
     self.m_scrolledToBottom = false;
