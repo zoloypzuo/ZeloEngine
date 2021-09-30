@@ -21,6 +21,8 @@ public:
 
     void resize(uint32_t width, uint32_t height) override;
 
+    uint32_t getRenderTextureID() const { return m_renderTexture; }
+
 private:
     uint32_t m_bufferID = 0;
     uint32_t m_renderTexture = 0;
