@@ -42,6 +42,8 @@ local PanelWindow = Class(PanelTransformable, function(self, name, opened, panel
     self.m_mustScrollToTop = false;
     self.m_scrolledToBottom = false;
     self.m_scrolledToTop = false;
+
+    self.m_windowSize = {0, 0}
 end)
 
 function PanelWindow:SetOpened(value)
@@ -79,6 +81,8 @@ function PanelWindow:_UpdateImpl()
     local shouldDraw
     self.opened, shouldDraw = ImGui.Begin(self.name .. self.id, self.opened, windowFlags)
     if shouldDraw then
+        self.m_windowSize = {ImGui.GetWindowSize()}
+
         self.hovered = ImGui.IsWindowHovered()
         self.focused = ImGui.IsWindowFocused()
 

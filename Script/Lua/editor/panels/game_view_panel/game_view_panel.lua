@@ -7,4 +7,11 @@ local GameViewPanel = Class(PanelView, function (self, name, opened, panelSettin
     PanelView._ctor(self, name, opened, panelSettings)
 end )
 
+function GameViewPanel:_UpdateImpl()
+    self.m_fbo:Bind()
+    RenderSystem.GetSingletonPtr():Update()
+    self.m_fbo:UnBind()
+    PanelView._UpdateImpl(self)
+end
+
 return GameViewPanel

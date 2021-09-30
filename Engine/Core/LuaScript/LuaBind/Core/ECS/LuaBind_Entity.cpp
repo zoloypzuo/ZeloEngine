@@ -4,22 +4,18 @@
 #include <sol/sol.hpp>
 
 #include "Core/ECS/Entity.h"
-#include "Core/Math/Transform.h"
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Component/CFreeMove.h"
 #include "Core/ECS/Component/CFreeLook.h"
 #include "Core/RHI/Object/Light.h"
 
-#include <glm/glm.hpp>
-
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
-#include "Renderer/OpenGL/Resource/GLMesh.h"
 #include "Renderer/OpenGL/Resource/GLMaterial.h"
+#include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
+#include "Core/RHI/RenderSystem.h"
 
 #include "Core/Parser/MeshLoader.h"
-
-#include "Core/RHI/RenderSystem.h"
 
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
@@ -27,6 +23,7 @@ using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Parser;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::Interface;
+using namespace Zelo;
 
 bool sol_lua_check(sol::types<glm::vec3>, lua_State *L, int index,
                    std::function<sol::check_handler_type> handler,
@@ -169,6 +166,22 @@ sol::base_classes, sol::bases<Material>(),
 luaState.new_usertype<MeshLoader>("MeshLoader",
 sol::constructors<MeshLoader(const std::string &, int)>(),
 sol::base_classes, sol::bases<IMeshData>(),
+"__Dummy", []{}
+);
+
+
+luaState.new_usertype<GLFramebuffer>("Framebuffer",
+sol::constructors<GLFramebuffer(uint16_t, uint16_t)>(),
+"GetRenderTextureID", &GLFramebuffer::getRenderTextureID,
+"Bind", &GLFramebuffer::bind,
+"UnBind", &GLFramebuffer::unbind,
+"Resize", &GLFramebuffer::resize,
+"__Dummy", []{}
+);
+
+luaState.new_usertype<RenderSystem>("RenderSystem",
+"GetSingletonPtr", &RenderSystem::getSingletonPtr,
+"Update", &RenderSystem::update,
 "__Dummy", []{}
 );
 
