@@ -77,6 +77,9 @@ TheFrontEnd:LoadPanel(ProjectSettingPanel, "Project Setting", false)
 local ConsolePanel = require("editor.panels.console_panel.console_panel")
 TheFrontEnd:LoadPanel(ConsolePanel, "Console", false)
 
+local GameViewPanel = require("editor.panels.game_view_panel.game_view_panel")
+TheFrontEnd:LoadPanel(GameViewPanel, "Game View", true)
+
 UI:ResetLayout()
 
 -- scene

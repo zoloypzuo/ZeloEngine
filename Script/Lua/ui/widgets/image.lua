@@ -10,7 +10,7 @@ local Image = Class(AWidget, function(self, parent, textureId, size)
 end)
 
 function Image:_UpdateImpl()
-    Imgui.Image(self.textureId, self.size.x, self.size.y, 0, 1, 1, 0)
+    ImGui.Image(self.textureId, self.size.x, self.size.y, 0, 1, 1, 0)
 end
 
 return Image

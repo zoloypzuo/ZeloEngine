@@ -2,6 +2,7 @@
 -- created on 2021/9/30
 -- author @zoloypzuo
 local PanelWindow = require("ui.panel_window")
+local Image = require("ui.widgets.image")
 
 local PanelView = Class(PanelWindow, function(self, name, opened, panelSettings)
     PanelWindow._ctor(self, name, opened, panelSettings)
@@ -9,9 +10,9 @@ local PanelView = Class(PanelWindow, function(self, name, opened, panelSettings)
     self.panelSettings.NoScrollWithMouse = true
     self.panelSettings.NoScrollbar = true
 
-    local size_x, size_y = ImGui.GetWindowSize()
+    local size_x, size_y = 1280, 720
     self.m_fbo = Framebuffer.new(size_x, size_y)
-    self.m_image = self:CreateWidget(Image, self.m_fbo:GetRenderTextureID(), size_x, size_y)
+    self.m_image = self:CreateWidget(Image, self.m_fbo:GetRenderTextureID(), Vector2(size_x, size_y))
 end)
 
 function PanelView:Update()
@@ -20,3 +21,4 @@ function PanelView:Update()
     ImGui.PopStyleVar()
 end
 
+return PanelView

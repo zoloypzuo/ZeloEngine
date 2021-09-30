@@ -3142,6 +3142,7 @@ inline void Init(sol::state &lua) {
     ImGui.set_function("SmallButton", SmallButton);
     ImGui.set_function("InvisibleButton", InvisibleButton);
     ImGui.set_function("ArrowButton", ArrowButton);
+    ImGui.set_function("Image", Image);
     ImGui.set_function("Checkbox", Checkbox);
     ImGui.set_function("RadioButton", sol::overload(
             sol::resolve<bool(const std::string &, bool)>(RadioButton),
