@@ -56,7 +56,7 @@ void Window::initialize() {
 
     m_fullscreen = m_windowConfig.GetBoolean("fullscreen");
 
-    uint32_t flags = SDL_WINDOW_OPENGL;
+    uint32_t flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
 
     if (m_fullscreen) {
         flags |= SDL_WINDOW_FULLSCREEN;
