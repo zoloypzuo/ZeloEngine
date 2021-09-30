@@ -6,7 +6,12 @@ local PanelWindow = require("ui.panel_window")
 local PanelView = Class(PanelWindow, function(self, name, opened, panelSettings)
     PanelWindow._ctor(self, name, opened, panelSettings)
 
-    self:CreateWidget(Image)
+    self.panelSettings.NoScrollWithMouse = true
+    self.panelSettings.NoScrollbar = true
+
+    local size_x, size_y = ImGui.GetWindowSize()
+    self.m_fbo = Framebuffer.new(size_x, size_y)
+    self.m_image = self:CreateWidget(Image, self.m_fbo:GetRenderTextureID(), size_x, size_y)
 end)
 
 function PanelView:Update()
