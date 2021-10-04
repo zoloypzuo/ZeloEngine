@@ -79,6 +79,8 @@ private:
     bool m_fullscreen{};
 
     bool m_vSync{};
+
+    std::shared_ptr<spdlog::logger> m_logger{};
 };
 
 #endif //ZELOENGINE_WINDOW_H

@@ -13,10 +13,11 @@ Window::Window(const INIReader::Section &windowConfig) : m_windowConfig(windowCo
 Window::~Window() = default;
 
 void Window::initialize() {
-    spdlog::info("start initialize window");
+    m_logger = spdlog::default_logger()->clone("window");
+    m_logger->info("start Window::initialize()");
 
     if (SDL_Init(SDL_INIT_EVERYTHING & ~(SDL_INIT_TIMER | SDL_INIT_HAPTIC)) != 0) {
-        spdlog::error("SDL_Init error: {}", SDL_GetError());
+        m_logger->error("SDL_Init error: {}", SDL_GetError());
     }
 
     SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
@@ -33,22 +34,18 @@ void Window::initialize() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_FLAGS, SDL_GL_CONTEXT_DEBUG_FLAG);
 
 #if defined(GLES3)
-    spdlog::info("Using GLES 3");
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #elif defined(GLES2)
-    spdlog::info("Using GLES 2");
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #elif defined(EMSCRIPTEN)
-    spdlog::info("Using GLES 2");
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_ES);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #else
-    spdlog::info("Using OpenGL 3");
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
@@ -70,12 +67,12 @@ void Window::initialize() {
             m_windowConfig.GetInteger("windowed_height"),
             flags);
     if (m_window == nullptr) {
-        spdlog::error("SDL_CreateWindow error: {}", SDL_GetError());
+        m_logger->error("SDL_CreateWindow error: {}", SDL_GetError());
     }
 
     m_glContext = SDL_GL_CreateContext(m_window);
     if (m_glContext == nullptr) {
-        spdlog::error("SDL_GL_CreateContext error: {}", SDL_GetError());
+        m_logger->error("SDL_GL_CreateContext error: {}", SDL_GetError());
     }
 
     m_vSync = m_windowConfig.GetBoolean("vsync");
@@ -87,7 +84,7 @@ void Window::initialize() {
     m_width = display_w;
     m_height = display_h;
 
-    spdlog::info("Window initialize to: {} x {}, vsync={}", m_width, m_height, m_vSync);
+    m_logger->info("window initialize info: {} x {}, vsync={}", m_width, m_height, m_vSync);
 }
 
 void Window::update() {

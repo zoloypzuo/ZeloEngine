@@ -121,7 +121,7 @@ int checkForOpenGLError(const char *file, int line) {
                 message = "Unknown error";
         }
 
-        spdlog::error("glError in file {} @ line {}: {}", file, line, message);
+        logger->error("glError in file {} @ line {}: {}", file, line, message);
         retCode = 1;
         glErr = glGetError();
     }
@@ -139,28 +139,28 @@ void dumpGLInfo(bool dumpExtensions) {
     glGetIntegerv(GL_MAJOR_VERSION, &major);
     glGetIntegerv(GL_MINOR_VERSION, &minor);
 
-    spdlog::info("-------------------------------------------------------------");
-    spdlog::info("GL Vendor    : {}", vendor);
-    spdlog::info("GL Renderer  : {}", renderer);
-    spdlog::info("GL Version   : {}", version);
-    spdlog::info("GL Version   : {}.{}", major, minor);
-    spdlog::info("GLSL Version : {}", glslVersion);
-    spdlog::info("-------------------------------------------------------------");
+    logger->info("-------------------------------------------------------------");
+    logger->info("GL Vendor    : {}", vendor);
+    logger->info("GL Renderer  : {}", renderer);
+    logger->info("GL Version   : {}", version);
+    logger->info("GL Version   : {}.{}", major, minor);
+    logger->info("GLSL Version : {}", glslVersion);
+    logger->info("-------------------------------------------------------------");
 
     if (dumpExtensions) {
         GLint nExtensions = 0;
         glGetIntegerv(GL_NUM_EXTENSIONS, &nExtensions);
         for (int i = 0; i < nExtensions; i++) {
-            spdlog::info("{}", glGetStringi(GL_EXTENSIONS, i));
+            logger->info("{}", glGetStringi(GL_EXTENSIONS, i));
         }
     }
 }
 
 void loadGL() {
     // Load the OpenGL functions.
-    spdlog::info("start initializing GLAD");
+    logger->info("start loadGL with GLAD");
     if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
-        spdlog::error("GLAD failed to initialize");
+        logger->error("GLAD failed to initialize");
         ZELO_ASSERT(false, "GLAD failed to initialize");
     }
 
@@ -290,7 +290,7 @@ void initDebugCallback() {
     glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
     if (flags & GL_CONTEXT_FLAG_DEBUG_BIT && glDebugMessageCallback) {
         // initialize debug output
-        spdlog::debug("GL debug context initialized, hook glDebugMessageCallback");
+        logger->info("GL debug context initialized, hook glDebugMessageCallback");
         glDebugMessageCallback(debugCallback, NULL);
         glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
         glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
