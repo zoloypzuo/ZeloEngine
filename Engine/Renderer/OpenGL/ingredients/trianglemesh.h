@@ -3,9 +3,8 @@
 #include <vector>
 
 #include "cookbookogl.h"
-#include "drawable.h"
 
-class TriangleMesh : public Drawable {
+class TriangleMesh {
 
 protected:
 
@@ -19,8 +18,8 @@ protected:
             std::vector<GLuint> *indices,
             std::vector<GLfloat> *points,
             std::vector<GLfloat> *normals,
-            std::vector<GLfloat> *texCoords = nullptr,
-            std::vector<GLfloat> *tangents = nullptr
+            std::vector<GLfloat> *texCoords,
+            std::vector<GLfloat> *tangents
     );
 
     virtual void deleteBuffers();
@@ -28,7 +27,7 @@ protected:
 public:
     virtual ~TriangleMesh();
 
-    virtual void render() const;
+    virtual void render() const = 0;
 
     GLuint getVao() const { return vao; }
 };

@@ -88,7 +88,7 @@ TriangleMesh::~TriangleMesh() {
 }
 
 void TriangleMesh::deleteBuffers() {
-    if (buffers.size() > 0) {
+    if (!buffers.empty()) {
         glDeleteBuffers((GLsizei) buffers.size(), buffers.data());
         buffers.clear();
     }

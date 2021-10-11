@@ -1,6 +1,5 @@
 #pragma once
 
-#include "drawable.h"
 #include "trianglemesh.h"
 
 class Cube : public TriangleMesh {
