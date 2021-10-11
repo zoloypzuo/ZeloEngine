@@ -1,7 +1,7 @@
 #pragma once
 
 #include "trianglemesh.h"
-#include "cookbookogl.h"
+#include "ZeloGLPrerequisites.h"
 
 class Torus : public TriangleMesh {
 public:

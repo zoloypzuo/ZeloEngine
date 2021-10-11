@@ -2,7 +2,7 @@
 
 #include <vector>
 
-#include "cookbookogl.h"
+#include "ZeloGLPrerequisites.h"
 
 class TriangleMesh {
 

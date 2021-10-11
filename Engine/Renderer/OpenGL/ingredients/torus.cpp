@@ -1,5 +1,5 @@
 #include "torus.h"
-#include "cookbookogl.h"
+#include "ZeloGLPrerequisites.h"
 #include <cstdio>
 #include <cmath>
 #include <glm/gtc/constants.hpp>

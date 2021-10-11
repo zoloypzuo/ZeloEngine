@@ -1,6 +1,6 @@
 #include "teapot.h"
 #include "teapotdata.h"
-#include "cookbookogl.h"
+#include "ZeloGLPrerequisites.h"
 
 #include <cstdio>
 

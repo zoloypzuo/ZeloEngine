@@ -2,7 +2,7 @@
 #include "teapotdata.h"
 #include "glutils.h"
 
-#include "cookbookogl.h"
+#include "ZeloGLPrerequisites.h"
 
 #include <cstdio>
 

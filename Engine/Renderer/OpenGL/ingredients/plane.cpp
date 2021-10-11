@@ -1,6 +1,6 @@
 #include "plane.h"
 #include "glutils.h"
-#include "cookbookogl.h"
+#include "ZeloGLPrerequisites.h"
 #include "glutils.h"
 
 #include <cstdio>

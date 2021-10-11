@@ -1,5 +1,5 @@
 #include "cube.h"
-#include "cookbookogl.h"
+#include "ZeloGLPrerequisites.h"
 #include <cstdio>
 
 Cube::Cube(GLfloat side) {
