@@ -1,10 +1,4 @@
 #include "plane.h"
-#include "glutils.h"
-#include "ZeloGLPrerequisites.h"
-#include "glutils.h"
-
-#include <cstdio>
-#include <cmath>
 
 Ingredients::Plane::Plane(float xsize, float zsize, int xdivs, int zdivs, float smax, float tmax) {
     std::vector<GLfloat> p(3 * (xdivs + 1) * (zdivs + 1));

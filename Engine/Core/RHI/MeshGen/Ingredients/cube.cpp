@@ -1,9 +1,7 @@
 #include "cube.h"
-#include "ZeloGLPrerequisites.h"
-#include <cstdio>
 
-Cube::Cube(GLfloat side) {
-    GLfloat side2 = side / 2.0f;
+Cube::Cube(GLfloat size) {
+    GLfloat side2 = size / 2.0f;
 
     std::vector<GLfloat> p = {
             // Front

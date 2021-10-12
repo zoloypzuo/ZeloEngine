@@ -27,6 +27,3 @@ add_library(OpenGLRenderer
 find_package(glad CONFIG REQUIRED)
 target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
 
-add_subdirectory(ingredients)
-target_link_libraries(OpenGLRenderer PRIVATE ingredients)
-

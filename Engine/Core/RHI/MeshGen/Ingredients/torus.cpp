@@ -1,10 +1,7 @@
 #include "torus.h"
-#include "ZeloGLPrerequisites.h"
-#include <cstdio>
 #include <cmath>
-#include <glm/gtc/constants.hpp>
 
-Torus::Torus(GLfloat outerRadius, GLfloat innerRadius, GLuint nsides, GLuint nrings) {
+Torus::Torus(float outerRadius, float innerRadius, uint32_t nsides, uint32_t nrings) {
     GLuint faces = nsides * nrings;
     int nVerts = nsides * (nrings + 1);   // One extra ring to duplicate first ring
 

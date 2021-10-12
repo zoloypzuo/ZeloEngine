@@ -19,6 +19,15 @@ add_library(RHI
         Buffer/Vertex.h
 
         MeshGen/Plane.cpp MeshGen/Plane.h
+        MeshGen/Ingredients/TriangleMeshAdapter.cpp
+        MeshGen/Ingredients/cube.cpp
+        MeshGen/Ingredients/cube.h
+        MeshGen/Ingredients/plane.cpp
+        MeshGen/Ingredients/plane.h
+        MeshGen/Ingredients/sphere.cpp
+        MeshGen/Ingredients/sphere.h
+        MeshGen/Ingredients/torus.cpp
+        MeshGen/Ingredients/torus.h
 
         Object/Camera.cpp
         Object/Light.cpp
