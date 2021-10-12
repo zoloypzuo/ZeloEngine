@@ -19,7 +19,6 @@ public:
     void render() const;
 
 private:
-    void createMesh(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
 
     GLuint m_vao{};
     GLuint m_vbo{};

@@ -7,15 +7,6 @@
 #include "Core/Parser/MeshLoader.h"
 
 GLMeshData::GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
-    createMesh(vertices, vertSize, indices, indexSize);
-}
-
-GLMeshData::~GLMeshData() {
-    glDeleteBuffers(1, &m_vbo);
-    glDeleteVertexArrays(1, &m_vao);
-}
-
-void GLMeshData::createMesh(Zelo::Core::RHI::Vertex *vertices, int vertSize, unsigned int *indices, int indexSize) {
     m_vertSize = vertSize;
     m_indexSize = indexSize;
 
@@ -34,16 +25,26 @@ void GLMeshData::createMesh(Zelo::Core::RHI::Vertex *vertices, int vertSize, uns
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex), 0);
 
     glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex), (GLvoid *) sizeof(glm::vec3));
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
+                          sizeof(Zelo::Core::RHI::Vertex),
+                          (GLvoid *) sizeof(glm::vec3));
 
     glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex), (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2)));
+    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(Zelo::Core::RHI::Vertex),
+                          (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2)));
 
     glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex),
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
+                          sizeof(Zelo::Core::RHI::Vertex),
                           (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
 
     glBindVertexArray(0);
+}
+
+GLMeshData::~GLMeshData() {
+    glDeleteBuffers(1, &m_vbo);
+    glDeleteVertexArrays(1, &m_vao);
 }
 
 void GLMeshData::render() const {
