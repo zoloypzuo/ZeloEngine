@@ -65,6 +65,8 @@ It is all about game engine.
 * cmake
 * VS2019
 
+NOTE 请把vcpkg装在`ThirdParty\Vcpkg`目录下
+
 使用vcpkg安装依赖：
 
 * spdlog

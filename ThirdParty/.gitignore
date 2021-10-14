@@ -2,3 +2,4 @@ ImGui/
 !ImGui/CMakeLists.txt
 
 Vcpkg/
+!Vcpkg/vcpkg_list.txt
