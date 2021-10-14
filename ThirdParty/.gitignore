@@ -1,2 +1,4 @@
 ImGui/
 !ImGui/CMakeLists.txt
+
+Vcpkg/
