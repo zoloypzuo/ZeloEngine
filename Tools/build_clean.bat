@@ -9,6 +9,7 @@ set Args=%*
 
 cd /d %EngineDir%
 @echo on
+rd /s/q build
 rd /s/q build_swig
 rd /s/q build_swig_lua
 rd /s/q build_vs2017
