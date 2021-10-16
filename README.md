@@ -84,8 +84,6 @@ NOTE 请把vcpkg装在`ThirdParty\Vcpkg`目录下
 
 [【ZeloEngine】构建概述 & 构建问题汇总](https://blog.csdn.net/zolo_mario/article/details/117652524)
 
-[【ZeloEngine】跨平台构建](https://blog.csdn.net/zolo_mario/article/details/118087054)
-
 长期更新中
 
 # Roadmap
