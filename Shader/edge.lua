@@ -1,3 +1,9 @@
+-- # Property
+-- Width : The width of the screen window in pixels
+-- Height : The height of the screen window in pixels
+-- EdgeThreshold : The minimum value of g squared required to be considered "on an edge"
+-- RenderTex : The texture associated with the FBO
+
 local vertex_shader = [[
 #version 430
 
@@ -25,7 +31,6 @@ local fragment_shader = [[
 #version 430
 
 in vec3 Position;
-in vec3 Normal;
 
 layout( binding=0 ) uniform sampler2D RenderTex;
 
@@ -48,25 +53,6 @@ uniform struct MaterialInfo {
 layout( location = 0 ) out vec4 FragColor;
 const vec3 lum = vec3(0.2126, 0.7152, 0.0722);
 
-vec3 blinnPhong( vec3 position, vec3 n ) {  
-    vec3 ambient = Light.La * Material.Ka;
-    vec3 s = normalize( Light.Position.xyz - position );
-    float sDotN = max( dot(s,n), 0.0 );
-    vec3 diffuse = Material.Kd * sDotN;
-    vec3 spec = vec3(0.0);
-    if( sDotN > 0.0 ) {
-    vec3 v = normalize(-position.xyz);
-    vec3 h = normalize( v + s );
-    spec = Material.Ks *
-            pow( max( dot(h,n), 0.0 ), Material.Shininess );
-    }
-    return ambient + Light.L * (diffuse + spec);
-}
-
-vec4 pass1()
-{
-    return vec4(blinnPhong( Position, normalize(Normal) ),1.0);
-}
 
 float luminance( vec3 color ) {
     return dot(lum,color);
