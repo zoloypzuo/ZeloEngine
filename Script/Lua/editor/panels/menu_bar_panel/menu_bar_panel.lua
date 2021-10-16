@@ -64,6 +64,9 @@ function MenuBarPanel:RegisterPanel(name, panel)
 end
 
 function MenuBarPanel:_UpdateToggle()
+    if not self.m_panels then
+        return
+    end
     for _, v in pairs(self.m_panels) do
         local panel, menu_item = unpack(v)
         menu_item.checked = panel.opened
