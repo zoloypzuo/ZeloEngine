@@ -15,6 +15,7 @@
         "*.tcc": "cpp",
         "future": "cpp",
         "functional": "cpp",
-        "variant": "cpp"
+        "variant": "cpp",
+        "*.h++": "cpp"
     }
 }
