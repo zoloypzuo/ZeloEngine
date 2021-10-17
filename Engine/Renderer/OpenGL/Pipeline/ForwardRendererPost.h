@@ -33,6 +33,9 @@ protected:
     std::unique_ptr<GLSLShaderProgram> m_forwardDirectional;
     std::unique_ptr<GLSLShaderProgram> m_forwardPoint;
     std::unique_ptr<GLSLShaderProgram> m_forwardSpot;
+
+    // post effect
+    std::unique_ptr<GLSLShaderProgram> m_postShader;
     std::unique_ptr<Zelo::GLFramebuffer> m_fbo{};
 };
 

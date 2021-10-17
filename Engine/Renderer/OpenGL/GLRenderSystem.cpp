@@ -6,7 +6,7 @@
 #include "GLUtil.h"
 #include "Core/Game/Game.h"
 #include "Core/Window/Window.h"
-#include "Renderer/OpenGL/Pipeline/ForwardRenderer.h"
+#include "Renderer/OpenGL/Pipeline/ForwardRendererPost.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
@@ -15,7 +15,7 @@ void GLRenderSystem::initialize() {
     ::loadGL();
     ::initDebugCallback();
 
-    m_renderer = std::make_unique<ForwardRenderer>();
+    m_renderer = std::make_unique<ForwardRendererPost>();
     m_renderer->initialize();
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});
