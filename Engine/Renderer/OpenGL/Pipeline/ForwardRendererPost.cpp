@@ -10,10 +10,10 @@ static void renderQuad() {
     if (quadVAO == 0) {
         float quadVertices[] = {
                 // positions        // texture Coords
-                0.5f, 1.0f, 0.0f, 0.0f, 1.0f,
-                0.5f, 0.5f, 0.0f, 0.0f, 0.0f,
+                -1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+                -1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
                 1.0f, 1.0f, 0.0f, 1.0f, 1.0f,
-                1.0f, 0.5f, 0.0f, 1.0f, 0.0f,
+                1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
         };
         // setup plane VAO
         glGenVertexArrays(1, &quadVAO);
@@ -41,6 +41,10 @@ void ForwardRendererPost::render(const Zelo::Core::ECS::Entity &scene, Camera *a
                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
     
     m_fbo->bind();
+
+    glEnable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
     m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
 
@@ -93,10 +97,17 @@ void ForwardRendererPost::render(const Zelo::Core::ECS::Entity &scene, Camera *a
 
     m_fbo->unbind();
     
+    glFlush();
+    
     // pass2
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
     m_postShader->bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fbo->getRenderTextureID());
+
+    glDisable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT);
+
     renderQuad();
 }
 

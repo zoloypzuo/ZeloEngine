@@ -59,8 +59,7 @@ vec4 edge()
 
 void main()
 {
-    //FragColor = edge();
-    FragColor = texture(RenderTex, texCoord0);
+    FragColor = edge();
 }
 ]]
 
