@@ -20,7 +20,7 @@ add_library(OpenGLRenderer
 
         Pipeline/Renderer.h
         Pipeline/ForwardRenderer.cpp
-        Pipeline/ForwardShadowRenderer.cpp
+        Pipeline/ForwardRendererPost.cpp
         )
 
 # GLEW replaced by GLAD
