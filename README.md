@@ -18,6 +18,10 @@ Blur
 
 ![Snipaste_2021-10-18_11-33-53](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211018/Snipaste_2021-10-18_11-33-53.32tz2wzhidm0.png)
 
+Bloom
+
+![Snipaste_2021-10-18_17-49-56](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211018/Snipaste_2021-10-18_17-49-56.4hhw6w5wj64.png)
+
 # 动机
 
 * 满足好奇心
