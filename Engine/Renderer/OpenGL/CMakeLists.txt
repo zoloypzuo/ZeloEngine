@@ -21,10 +21,11 @@ add_library(OpenGLRenderer
         Pipeline/Renderer.h
         Pipeline/ForwardRenderer.cpp
         Pipeline/ForwardRendererPost.cpp
+        Pipeline/ForwardRendererEdge.cpp
         Pipeline/ForwardRendererBlur.cpp
+        Pipeline/ForwardRendererBloom.cpp
         )
 
 # GLEW replaced by GLAD
 find_package(glad CONFIG REQUIRED)
 target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
-
