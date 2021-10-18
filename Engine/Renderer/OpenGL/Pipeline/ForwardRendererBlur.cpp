@@ -107,6 +107,7 @@ void ForwardRendererBlur::render(const Zelo::Core::ECS::Entity &scene, Camera *a
     // pass2
     m_fbo2->bind();
     m_postShader1->bind();
+    m_postShader1->setUniform1i("Pass", 2);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fbo->getRenderTextureID());
 
@@ -117,7 +118,8 @@ void ForwardRendererBlur::render(const Zelo::Core::ECS::Entity &scene, Camera *a
 
     // pass3
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    m_postShader2->bind();
+    m_postShader1->setUniform1i("Pass", 3);
+    m_postShader1->bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fbo2->getRenderTextureID());
 
@@ -163,13 +165,9 @@ void ForwardRendererBlur::createShaders() {
         sum += 2 * weights[i];
     }
 
-    m_postShader1 = std::make_unique<GLSLShaderProgram>("Shader/blur1.lua");
+    m_postShader1 = std::make_unique<GLSLShaderProgram>("Shader/blur.lua");
     m_postShader1->link();
     m_postShader1->setUniform1i("Texture0", 0);
-
-    m_postShader2 = std::make_unique<GLSLShaderProgram>("Shader/blur2.lua");
-    m_postShader2->link();
-    m_postShader2->setUniform1i("Texture0", 0);
 
     // Normalize the weights and set the uniform
     for( int i = 0; i < 5; i++ ) {
@@ -177,7 +175,6 @@ void ForwardRendererBlur::createShaders() {
 		uniName << "Weight[" << i << "]";
         float val = weights[i] / sum;
         m_postShader1->setUniform1f(uniName.str().c_str(), val);
-        m_postShader2->setUniform1f(uniName.str().c_str(), val);
     }
 }
 

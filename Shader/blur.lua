@@ -24,8 +24,24 @@ out vec4 FragColor;
 
 in vec2 texCoord0;
 
+uniform int Pass;   // Pass number
+
 uniform sampler2D Texture0;
 uniform float Weight[5];
+
+vec4 pass2() {
+    ivec2 pix = ivec2( gl_FragCoord.xy );
+    vec4 sum = texelFetch(Texture0, pix, 0) * Weight[0];
+    sum += texelFetchOffset( Texture0, pix, 0, ivec2(0,1) ) * Weight[1];
+    sum += texelFetchOffset( Texture0, pix, 0, ivec2(0,-1) ) * Weight[1];
+    sum += texelFetchOffset( Texture0, pix, 0, ivec2(0,2) ) * Weight[2];
+    sum += texelFetchOffset( Texture0, pix, 0, ivec2(0,-2) ) * Weight[2];
+    sum += texelFetchOffset( Texture0, pix, 0, ivec2(0,3) ) * Weight[3];
+    sum += texelFetchOffset( Texture0, pix, 0, ivec2(0,-3) ) * Weight[3];
+    sum += texelFetchOffset( Texture0, pix, 0, ivec2(0,4) ) * Weight[4];
+    sum += texelFetchOffset( Texture0, pix, 0, ivec2(0,-4) ) * Weight[4];
+    return sum;
+}
 
 vec4 pass3() {
     ivec2 pix = ivec2( gl_FragCoord.xy );
@@ -43,7 +59,8 @@ vec4 pass3() {
 
 void main()
 {
-    FragColor = pass3();
+    if( Pass == 2) FragColor = pass2();
+    else if( Pass == 3) FragColor = pass3();
 }
 ]]
 

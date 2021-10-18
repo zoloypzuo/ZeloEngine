@@ -36,7 +36,6 @@ protected:
 
     // post effect
     std::unique_ptr<GLSLShaderProgram> m_postShader1;
-    std::unique_ptr<GLSLShaderProgram> m_postShader2;
     std::unique_ptr<Zelo::GLFramebuffer> m_fbo{};
     std::unique_ptr<Zelo::GLFramebuffer> m_fbo2{};
 };
