@@ -80,8 +80,8 @@ TheFrontEnd:LoadPanel(ProjectSettingPanel, "Project Setting", SHOW_ALL_PANEL_AT_
 local ConsolePanel = require("editor.panels.console_panel.console_panel")
 TheFrontEnd:LoadPanel(ConsolePanel, "Console", SHOW_ALL_PANEL_AT_INIT)
 
-local GameViewPanel = require("editor.panels.game_view_panel.game_view_panel")
-TheFrontEnd:LoadPanel(GameViewPanel, "Game View", SHOW_ALL_PANEL_AT_INIT)
+--local GameViewPanel = require("editor.panels.game_view_panel.game_view_panel")
+--TheFrontEnd:LoadPanel(GameViewPanel, "Game View", SHOW_ALL_PANEL_AT_INIT)
 
 UI:ResetLayout()
 
