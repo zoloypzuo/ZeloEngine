@@ -10,7 +10,13 @@ It is all about game engine.
 
 ![Snipaste_2021-09-30_19-41-26](https://raw.githubusercontent.com/zolo-mario/image-host/main/20210930/Snipaste_2021-09-30_19-41-26.1b7emlmhome8.png)
 
+Edge
+
 ![Snipaste_2021-10-17_21-48-52](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211017/Snipaste_2021-10-17_21-48-52.4uwaoph4mxa0.png)
+
+Blur
+
+![Snipaste_2021-10-18_11-33-53](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211018/Snipaste_2021-10-18_11-33-53.32tz2wzhidm0.png)
 
 # 动机
 
