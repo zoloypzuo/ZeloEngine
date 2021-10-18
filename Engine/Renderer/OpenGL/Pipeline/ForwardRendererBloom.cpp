@@ -180,7 +180,7 @@ void ForwardRendererBloom::createShaders() {
     m_postShader->setUniform1i("Height", 720);
     m_postShader->setUniform1i("RenderTex", 0);
     m_postShader->setUniform1i("BlurTex", 1);
-    m_postShader->setUniform1f("LumThresh", 0.75f);
+    m_postShader->setUniform1f("LumThresh", 0.15f);
 
     float weights[10], sum, sigma2 = 25.0f;
 
