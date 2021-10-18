@@ -24,8 +24,7 @@ out vec4 FragColor;
 
 in vec2 TexCoord;
 
-subroutine vec4 RenderPassType();
-subroutine uniform RenderPassType RenderPass;
+uniform int Pass;   // Pass number
 
 uniform sampler2D RenderTex;
 uniform sampler2D BlurTex;
@@ -42,7 +41,6 @@ float luminance( vec3 color ) {
 }
 
 // Pass to extract the bright parts
-subroutine( RenderPassType )
 vec4 pass2()
 {
     vec4 val = texture(RenderTex, TexCoord);
@@ -53,7 +51,6 @@ vec4 pass2()
 }
 
 // First blur pass
-subroutine( RenderPassType )
 vec4 pass3()
 {
     float dy = 1.0 / float(Height);
@@ -68,7 +65,6 @@ vec4 pass3()
 }
 
 // Second blur and add to original
-subroutine( RenderPassType )
 vec4 pass4()
 {
     float dx = 1.0 / float(Width);
@@ -86,7 +82,9 @@ vec4 pass4()
 void main()
 {
     // This will call either pass1(), pass2(), pass3(), or pass4()
-    FragColor = RenderPass();
+    if(Pass == 2) FragColor = pass2();
+    else if(Pass == 3) FragColor = pass3();
+    else if(Pass == 4) FragColor = pass4();
 }
 ]]
 

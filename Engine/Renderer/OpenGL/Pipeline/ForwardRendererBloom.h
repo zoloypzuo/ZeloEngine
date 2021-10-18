@@ -36,7 +36,7 @@ protected:
 
     // post effect
     std::unique_ptr<GLSLShaderProgram> m_postShader;
-    std::unique_ptr<Zelo::GLFramebuffer> m_fbo{};
+    std::unique_ptr<Zelo::GLFramebuffer> m_renderFbo, m_fbo1, m_fbo2;
 };
 
 #endif //ZELOENGINE_FORWARDRENDERER_H
