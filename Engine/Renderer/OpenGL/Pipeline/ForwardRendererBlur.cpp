@@ -4,6 +4,13 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRendererBlur.h"
 
+static float gauss(float x, float sigma2)
+{
+	double coeff = 1.0 / (glm::two_pi<double>() * sigma2);
+    double expon = -(x*x) / (2.0 * sigma2);
+    return (float) (coeff*exp(expon));
+}
+
 static void renderQuad() {
     static unsigned int quadVAO = 0;
     static unsigned int quadVBO;
@@ -97,13 +104,22 @@ void ForwardRendererBlur::render(const Zelo::Core::ECS::Entity &scene, Camera *a
 
     m_fbo->unbind();
     
-    glFlush();
-    
     // pass2
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    m_postShader->bind();
+    m_fbo2->bind();
+    m_postShader1->bind();
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, m_fbo->getRenderTextureID());
+
+    glDisable(GL_DEPTH_TEST);
+    glClear(GL_COLOR_BUFFER_BIT);
+    renderQuad();
+    m_fbo2->unbind();
+
+    // pass3
+    glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    m_postShader2->bind();
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_fbo2->getRenderTextureID());
 
     glDisable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -138,14 +154,35 @@ void ForwardRendererBlur::createShaders() {
     m_forwardSpot->setUniform1i("normalMap", 1);
     m_forwardSpot->setUniform1i("specularMap", 2);
 
-    m_postShader = std::make_unique<GLSLShaderProgram>("Shader/edge_post.lua");
-    m_postShader->link();
-    m_postShader->setUniform1i("RenderTex", 0);
-    m_postShader->setUniform1f("EdgeThreshold", 0.05f);
+    // Compute and sum the weights
+    float weights[5], sum, sigma2 = 8.0f;
+    weights[0] = gauss(0,sigma2);
+    sum = weights[0];
+    for( int i = 1; i < 5; i++ ) {
+        weights[i] = gauss(float(i), sigma2);
+        sum += 2 * weights[i];
+    }
+
+    m_postShader1 = std::make_unique<GLSLShaderProgram>("Shader/blur1.lua");
+    m_postShader1->link();
+    m_postShader1->setUniform1i("Texture0", 0);
+
+    m_postShader2 = std::make_unique<GLSLShaderProgram>("Shader/blur2.lua");
+    m_postShader2->link();
+    m_postShader2->setUniform1i("Texture0", 0);
+
+    // Normalize the weights and set the uniform
+    for( int i = 0; i < 5; i++ ) {
+		std::stringstream uniName;
+		uniName << "Weight[" << i << "]";
+        float val = weights[i] / sum;
+        m_postShader1->setUniform1f(uniName.str().c_str(), val);
+        m_postShader2->setUniform1f(uniName.str().c_str(), val);
+    }
 }
 
 void ForwardRendererBlur::initialize() {
-    m_fbo = std::make_unique<Zelo::GLFramebuffer>();
-    m_fbo->resize(1280, 720);
+    m_fbo = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
+    m_fbo2 = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
     createShaders();
 }

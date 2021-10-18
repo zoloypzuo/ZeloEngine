@@ -431,7 +431,7 @@ function ImGui.EndGroup() end
 --- Returns: float (x), float(y)
 --- x, y = ImGui.GetCursorPos()
 ---@return float @x
----@return float(y)
+---@return float @y
 function ImGui.GetCursorPos() end
 
 --- Returns: float (x)
@@ -466,7 +466,7 @@ function ImGui.GetCursorStartPos() end
 --- Returns: float (x), float(y)
 --- x, y = ImGui.GetCursorScreenPos()
 ---@return float @x
----@return float(y)
+---@return float @y
 function ImGui.GetCursorScreenPos() end
 
 --- Parameters: float (x), float (y)
