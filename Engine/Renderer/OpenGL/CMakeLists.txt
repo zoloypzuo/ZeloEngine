@@ -4,6 +4,7 @@ add_library(OpenGLRenderer
         Buffer/GLBuffer.cpp
         Buffer/GLVertexArray.cpp
         Buffer/GLFramebuffer.cpp
+        Buffer/GLShadowMap.cpp
 
         Resource/GLMesh.cpp
         Resource/GLTexture.cpp
@@ -13,6 +14,8 @@ add_library(OpenGLRenderer
         Drawable/skybox.cpp
         Drawable/MeshRenderer.cpp
         Drawable/Line.cpp
+        Drawable/Line.cpp
+        Drawable/Frustum.cpp
 
         GLUtil.cpp
 
@@ -21,9 +24,10 @@ add_library(OpenGLRenderer
         Pipeline/Renderer.h
         Pipeline/ForwardRenderer.cpp
         Pipeline/ForwardRendererPost.cpp
-        Pipeline/ForwardRendererEdge.cpp
-        Pipeline/ForwardRendererBlur.cpp
-        Pipeline/ForwardRendererBloom.cpp
+        Pipeline/ImageProcessing/Edge.cpp
+        Pipeline/ImageProcessing/Blur.cpp
+        Pipeline/ImageProcessing/Bloom.cpp
+        Pipeline/Shadow/ForwardShadowMap.cpp
         )
 
 # GLEW replaced by GLAD

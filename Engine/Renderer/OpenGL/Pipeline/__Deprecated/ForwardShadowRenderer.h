@@ -36,16 +36,6 @@ protected:
 
     void createShader();
 
-#ifdef DEBUG_SHADOWMAP
-
-    void renderScene(GLSLShaderProgram *shader) const;
-
-    void renderQuad() const;
-
-    void renderCube() const;
-
-#endif
-
     void initializeSkybox();
 };
 
