@@ -21,9 +21,9 @@ add_library(OpenGLRenderer
         Pipeline/Renderer.h
         Pipeline/ForwardRenderer.cpp
         Pipeline/ForwardRendererPost.cpp
-        Pipeline/ForwardRendererEdge.cpp
-        Pipeline/ForwardRendererBlur.cpp
-        Pipeline/ForwardRendererBloom.cpp
+        Pipeline/ImageProcessing/Edge.cpp
+        Pipeline/ImageProcessing/Blur.cpp
+        Pipeline/ImageProcessing/Bloom.cpp
         )
 
 # GLEW replaced by GLAD

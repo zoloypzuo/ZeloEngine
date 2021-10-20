@@ -1,4 +1,4 @@
-// ForwardRendererEdge.h
+// Bloom.h
 // created on 2021/3/29
 // author @zoloypzuo
 
@@ -8,16 +8,16 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
-#include "Renderer.h"
+#include "Renderer/OpenGL/Pipeline/Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 
-class ForwardRendererEdge : public Renderer {
+class Bloom : public Renderer {
 public:
-    ForwardRendererEdge();
+    Bloom();
 
-    ~ForwardRendererEdge() override;
+    ~Bloom() override;
 
     void render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
                 const std::vector<std::shared_ptr<PointLight>> &pointLights,
@@ -36,7 +36,7 @@ protected:
 
     // post effect
     std::unique_ptr<GLSLShaderProgram> m_postShader;
-    std::unique_ptr<Zelo::GLFramebuffer> m_fbo{};
+    std::unique_ptr<Zelo::GLFramebuffer> m_renderFbo, m_fbo1, m_fbo2;
 };
 
 #endif //ZELOENGINE_FORWARDRENDERER_H

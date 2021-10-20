@@ -1,8 +1,8 @@
-// ForwardRendererEdge.cpp
+// Edge.cpp
 // created on 2021/3/29
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "ForwardRendererEdge.h"
+#include "Edge.h"
 
 static void renderQuad() {
     static unsigned int quadVAO = 0;
@@ -31,11 +31,11 @@ static void renderQuad() {
     glBindVertexArray(0);
 }
 
-ForwardRendererEdge::ForwardRendererEdge() = default;
+Edge::Edge() = default;
 
-ForwardRendererEdge::~ForwardRendererEdge() = default;
+Edge::~Edge() = default;
 
-void ForwardRendererEdge::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
+void Edge::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
                              const std::vector<std::shared_ptr<PointLight>> &pointLights,
                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
@@ -111,7 +111,7 @@ void ForwardRendererEdge::render(const Zelo::Core::ECS::Entity &scene, Camera *a
     renderQuad();
 }
 
-void ForwardRendererEdge::createShaders() {
+void Edge::createShaders() {
     m_forwardAmbient = std::make_unique<GLSLShaderProgram>("Shader/forward-ambient.lua");
     m_forwardAmbient->link();
 
@@ -144,7 +144,7 @@ void ForwardRendererEdge::createShaders() {
     m_postShader->setUniform1f("EdgeThreshold", 0.05f);
 }
 
-void ForwardRendererEdge::initialize() {
+void Edge::initialize() {
     m_fbo = std::make_unique<Zelo::GLFramebuffer>();
     m_fbo->resize(1280, 720);
     createShaders();
