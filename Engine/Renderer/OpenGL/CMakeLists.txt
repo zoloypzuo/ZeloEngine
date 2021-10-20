@@ -4,6 +4,7 @@ add_library(OpenGLRenderer
         Buffer/GLBuffer.cpp
         Buffer/GLVertexArray.cpp
         Buffer/GLFramebuffer.cpp
+        Buffer/GLShadowMap.cpp
 
         Resource/GLMesh.cpp
         Resource/GLTexture.cpp
