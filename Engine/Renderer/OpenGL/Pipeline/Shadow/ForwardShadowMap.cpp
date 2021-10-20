@@ -130,10 +130,16 @@ void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *acti
         glDisable(GL_BLEND);
     }
 
-    m_shadowMapDebugShader->bind();
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_shadowFbo->getDepthTexture());
-    renderQuad();
+    m_simpleShader->bind();
+    m_simpleShader->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+    m_simpleShader->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+    m_simpleShader->setUniformMatrix4f("World", m_lightFrustum->getInverseViewMatrix());
+    m_lightFrustum->render(m_simpleShader.get());
+
+//    m_shadowMapDebugShader->bind();
+//    glActiveTexture(GL_TEXTURE0);
+//    glBindTexture(GL_TEXTURE_2D, m_shadowFbo->getDepthTexture());
+//    renderQuad();
 }
 
 void ForwardShadowMap::createShaders() {
@@ -166,17 +172,21 @@ void ForwardShadowMap::createShaders() {
 
     m_shadowMapShader = std::make_unique<GLSLShaderProgram>("Shader/shadow_map.lua");
     m_shadowMapShader->link();
+
     m_shadowMapDebugShader = std::make_unique<GLSLShaderProgram>("Shader/shadow_map_debug.lua");
     m_shadowMapDebugShader->link();
     m_shadowMapDebugShader->setUniform1i("depthMap", 0);
     float near_plane = 1.0f, far_plane = 7.5f;
     m_shadowMapDebugShader->setUniform1f("near_plane", near_plane);
     m_shadowMapDebugShader->setUniform1f("far_plane", far_plane);
+
+    m_simpleShader = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
+    m_simpleShader->link();
 }
 
 void ForwardShadowMap::initialize() {
     m_shadowFbo = std::make_unique<Zelo::GLShadowMap>(1280, 720);
-    m_lightFrustum = std::make_unique<Frustum>(EProjectionMode::PERSPECTIVE);
+    m_lightFrustum = std::make_unique<Frustum>();
     m_lightFrustum->setPerspective(50.0f, 1.0f, 1.0f, 250.0f);
     createShaders();
 }

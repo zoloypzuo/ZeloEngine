@@ -14,6 +14,8 @@ add_library(OpenGLRenderer
         Drawable/skybox.cpp
         Drawable/MeshRenderer.cpp
         Drawable/Line.cpp
+        Drawable/Line.cpp
+        Drawable/Frustum.cpp
 
         GLUtil.cpp
 
