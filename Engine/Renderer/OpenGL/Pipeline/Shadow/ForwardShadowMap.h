@@ -37,6 +37,7 @@ protected:
     std::unique_ptr<GLSLShaderProgram> m_forwardSpot;
 
     std::unique_ptr<GLSLShaderProgram> m_shadowMapShader;
+    std::unique_ptr<GLSLShaderProgram> m_shadowMapDebugShader;
     std::unique_ptr<Zelo::GLShadowMap> m_shadowFbo{};
     std::unique_ptr<Zelo::Core::RHI::Frustum> m_lightFrustum{};
 };
