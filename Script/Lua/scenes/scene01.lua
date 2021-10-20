@@ -79,16 +79,16 @@ do
     plane.components.transform:Rotate(0, 0, 1, PI / 2)
 end
 
---do
---    local monkey = SpawnPrefab("monkey")
---end
+do
+    local monkey = SpawnPrefab("monkey")
+end
 
---do
--- for i=0,10 do
---     local monkey = SpawnPrefab("monkey")
---     monkey.components.transform:SetPosition(0, i * 3, -2.5)
--- end
---end
+do
+ for i=0,10 do
+     local monkey = SpawnPrefab("monkey")
+     monkey.components.transform:SetPosition(2, i * 3, 0.5)
+ end
+end
 
 do
     local avatar = SpawnPrefab("monkey")
@@ -119,7 +119,7 @@ end
 
 do
     local sun = SpawnPrefab("monkey")
-    sun.components.transform:SetPosition(-2, 4, -1)
+    sun.components.transform:SetPosition(-3.000, 17.000, 7.000)
     local light = sun.entity:AddDirectionalLight()
     light.color = { x = 1, y = 1, z = 1 }
     light.intensity = 2.8

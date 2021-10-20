@@ -56,11 +56,14 @@ void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *acti
         glClear(GL_DEPTH_BUFFER_BIT);
         glViewport(0, 0, 1280, 720);
         glEnable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
 
         m_shadowMapShader->setUniformMatrix4f("View", lightView);
         m_shadowMapShader->setUniformMatrix4f("Proj", lightProjection);
         scene.renderAll(m_shadowMapShader.get());
         m_shadowFbo->unbind();
+
+        glEnable(GL_CULL_FACE);
     }
 
     {
@@ -187,6 +190,6 @@ void ForwardShadowMap::createShaders() {
 void ForwardShadowMap::initialize() {
     m_shadowFbo = std::make_unique<Zelo::GLShadowMap>(1280, 720);
     m_lightFrustum = std::make_unique<Frustum>();
-    m_lightFrustum->setPerspective(50.0f, 1.0f, 1.0f, 250.0f);
+    m_lightFrustum->setPerspective(50.0f, 1.0f, 5.0f, 1000.0f);
     createShaders();
 }
