@@ -8,10 +8,12 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
+#include "Core/RHI/Object/Frustum.h"
 #include "Renderer/OpenGL/Pipeline/Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
+#include "Renderer/OpenGL/Buffer/GLShadowMap.h"
 
 class ForwardShadowMap : public Renderer {
 public:
@@ -34,9 +36,9 @@ protected:
     std::unique_ptr<GLSLShaderProgram> m_forwardPoint;
     std::unique_ptr<GLSLShaderProgram> m_forwardSpot;
 
-    // post effect
-    std::unique_ptr<GLSLShaderProgram> m_postShader;
-    std::unique_ptr<Zelo::GLFramebuffer> m_fbo{};
+    std::unique_ptr<GLSLShaderProgram> m_shadowMapShader;
+    std::unique_ptr<Zelo::GLShadowMap> m_shadowFbo{};
+    std::unique_ptr<Zelo::Core::RHI::Frustum> m_lightFrustum{};
 };
 
 #endif //ZELOENGINE_FORWARDRENDERER_H

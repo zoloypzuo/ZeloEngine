@@ -4,6 +4,8 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardShadowMap.h"
 
+using namespace Zelo::Core::RHI;
+
 static void renderQuad() {
     static unsigned int quadVAO = 0;
     static unsigned int quadVBO;
@@ -36,79 +38,100 @@ ForwardShadowMap::ForwardShadowMap() = default;
 ForwardShadowMap::~ForwardShadowMap() = default;
 
 void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                             const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                             const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                             const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
-    
-    m_fbo->bind();
+                              const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
 
-    glEnable(GL_DEPTH_TEST);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glm::vec3 lightPos = directionalLights[0]->getOwner()->getTransform().getPosition();
+    m_lightFrustum->orient(lightPos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat4 lightProjection = m_lightFrustum->getProjectionMatrix();
+    glm::mat4 lightView = m_lightFrustum->getViewMatrix();
+    glm::mat4 lightSpaceMatrix = lightProjection * lightView;
+    //        lightPV = shadowBias * lightFrustum->getProjectionMatrix() * lightFrustum->getViewMatrix();
 
-    m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+    {
+        // pass 1 (shadow map generation)
+        m_shadowFbo->bind();
+        m_shadowMapShader->bind();
+        glClear(GL_DEPTH_BUFFER_BIT);
+        glViewport(0, 0, 1280, 720);
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
 
-    scene.renderAll(m_forwardAmbient.get());
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDepthMask(GL_FALSE);
-    glDepthFunc(GL_EQUAL);
-
-    m_forwardDirectional->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardDirectional->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardDirectional->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
-
-    m_forwardDirectional->setUniform1f("specularIntensity", 0.5);
-    m_forwardDirectional->setUniform1f("specularPower", 10);
-    for (const auto &light : directionalLights) {
-//        light->updateShader(m_forwardDirectional.get());
-
-        scene.renderAll(m_forwardDirectional.get());
+        m_shadowMapShader->setUniformMatrix4f("View", lightView);
+        m_shadowMapShader->setUniformMatrix4f("Proj", lightProjection);
+        scene.renderAll(m_shadowMapShader.get());
+        m_shadowFbo->unbind();
     }
 
-    m_forwardPoint->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardPoint->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardPoint->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
+    {
+        // pass 2
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, 1280, 720);
+        glEnable(GL_DEPTH_TEST);
+        glDisable(GL_CULL_FACE);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    m_forwardPoint->setUniform1f("specularIntensity", 0.5);
-    m_forwardPoint->setUniform1f("specularPower", 10);
-    for (const auto &light : pointLights) {
-//        light->updateShader(m_forwardPoint.get());
+        m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+        m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
 
-        scene.renderAll(m_forwardPoint.get());
+        scene.renderAll(m_forwardAmbient.get());
+
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE);
+        glDepthMask(GL_FALSE);
+        glDepthFunc(GL_EQUAL);
+
+        {
+            // directional light
+            m_forwardDirectional->bind();
+
+            m_forwardDirectional->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+            m_forwardDirectional->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+            m_forwardDirectional->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
+
+            m_forwardDirectional->setUniform1f("specularIntensity", 0.5);
+            m_forwardDirectional->setUniform1f("specularPower", 10);
+
+            // shadow
+            glActiveTexture(GL_TEXTURE3);
+            glBindTexture(GL_TEXTURE_2D, m_shadowFbo->getDepthTexture());
+            m_forwardDirectional->setUniformMatrix4f("lightSpaceMatrix", lightSpaceMatrix);
+            m_forwardDirectional->setUniformVec3f("lightPos", lightPos);
+
+            for (const auto &light : directionalLights) {
+                light->updateShader(m_forwardDirectional.get());
+                scene.renderAll(m_forwardDirectional.get());
+            }
+        }
+
+        m_forwardPoint->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+        m_forwardPoint->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+        m_forwardPoint->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
+
+        m_forwardPoint->setUniform1f("specularIntensity", 0.5);
+        m_forwardPoint->setUniform1f("specularPower", 10);
+        for (const auto &light : pointLights) {
+            light->updateShader(m_forwardPoint.get());
+            scene.renderAll(m_forwardPoint.get());
+        }
+
+        m_forwardSpot->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+        m_forwardSpot->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+        m_forwardSpot->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
+
+        m_forwardSpot->setUniform1f("specularIntensity", 0.5);
+        m_forwardSpot->setUniform1f("specularPower", 10);
+        for (const auto &light : spotLights) {
+            light->updateShader(m_forwardSpot.get());
+            scene.renderAll(m_forwardSpot.get());
+        }
+
+        glDepthFunc(GL_LESS);
+        glDepthMask(GL_TRUE);
+        glDisable(GL_BLEND);
     }
-
-    m_forwardSpot->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardSpot->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardSpot->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
-
-    m_forwardSpot->setUniform1f("specularIntensity", 0.5);
-    m_forwardSpot->setUniform1f("specularPower", 10);
-    for (const auto &light : spotLights) {
-//        light->updateShader(m_forwardSpot.get());
-
-        scene.renderAll(m_forwardSpot.get());
-    }
-
-    glDepthFunc(GL_LESS);
-    glDepthMask(GL_TRUE);
-    glDisable(GL_BLEND);
-
-    m_fbo->unbind();
-    
-    glFlush();
-    
-    // pass2
-    glBindFramebuffer(GL_FRAMEBUFFER, 0);
-    m_postShader->bind();
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_fbo->getRenderTextureID());
-
-    glDisable(GL_DEPTH_TEST);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    renderQuad();
 }
 
 void ForwardShadowMap::createShaders() {
@@ -124,6 +147,7 @@ void ForwardShadowMap::createShaders() {
     m_forwardDirectional->setUniform1i("diffuseMap", 0);
     m_forwardDirectional->setUniform1i("normalMap", 1);
     m_forwardDirectional->setUniform1i("specularMap", 2);
+    m_forwardDirectional->setUniform1i("shadowMap", 3);
 
     m_forwardPoint = std::make_unique<GLSLShaderProgram>("Shader/forward-point.lua");
     m_forwardPoint->link();
@@ -138,14 +162,16 @@ void ForwardShadowMap::createShaders() {
     m_forwardSpot->setUniform1i("normalMap", 1);
     m_forwardSpot->setUniform1i("specularMap", 2);
 
-    m_postShader = std::make_unique<GLSLShaderProgram>("Shader/edge.lua");
-    m_postShader->link();
-    m_postShader->setUniform1i("RenderTex", 0);
-    m_postShader->setUniform1f("EdgeThreshold", 0.05f);
+    m_shadowMapShader = std::make_unique<GLSLShaderProgram>("Shader/edge.lua");
+    m_shadowMapShader->link();
+    m_shadowMapShader->setUniform1i("RenderTex", 0);
+    m_shadowMapShader->setUniform1f("EdgeThreshold", 0.05f);
 }
 
 void ForwardShadowMap::initialize() {
-    m_fbo = std::make_unique<Zelo::GLFramebuffer>();
-    m_fbo->resize(1280, 720);
+    m_shadowFbo = std::make_unique<Zelo::GLShadowMap>();
+    m_shadowFbo->resize(1280, 720);
+    m_lightFrustum = std::make_unique<Frustum>(EProjectionMode::PERSPECTIVE);
+    m_lightFrustum->setPerspective(50.0f, 1.0f, 1.0f, 25.0f);
     createShaders();
 }
