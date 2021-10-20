@@ -31,6 +31,7 @@ add_library(RHI
 
         Object/Camera.cpp
         Object/Light.cpp
+        Object/Frustum.cpp
 
         RenderSystem.cpp RenderSystem.h
         )
