@@ -60,14 +60,15 @@ void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *acti
         glClear(GL_DEPTH_BUFFER_BIT);
         glViewport(0, 0, 1280, 720);
         glEnable(GL_DEPTH_TEST);
-        glDisable(GL_CULL_FACE);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_FRONT);
 
         m_shadowMapShader->setUniformMatrix4f("View", lightView);
         m_shadowMapShader->setUniformMatrix4f("Proj", lightProjection);
         scene.renderAll(m_shadowMapShader.get());
         m_shadowFbo->unbind();
 
-        glEnable(GL_CULL_FACE);
+        glDisable(GL_CULL_FACE);
     }
 
     {
@@ -75,6 +76,8 @@ void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *acti
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
         glViewport(0, 0, 1280, 720);
         glEnable(GL_DEPTH_TEST);
+        glEnable(GL_CULL_FACE);
+        glCullFace(GL_BACK);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
