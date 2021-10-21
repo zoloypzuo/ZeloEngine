@@ -28,6 +28,7 @@ add_library(OpenGLRenderer
         Pipeline/ImageProcessing/Blur.cpp
         Pipeline/ImageProcessing/Bloom.cpp
         Pipeline/Shadow/ForwardShadowMap.cpp
+        Pipeline/Shadow/ForwardShadowMapPcf.cpp
         )
 
 # GLEW replaced by GLAD

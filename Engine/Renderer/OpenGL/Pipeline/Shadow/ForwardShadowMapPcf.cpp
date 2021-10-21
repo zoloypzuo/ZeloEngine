@@ -1,8 +1,8 @@
-// ForwardShadowMap.cpp
+// ForwardShadowMapPcf.cpp
 // created on 2021/3/29
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "ForwardShadowMap.h"
+#include "ForwardShadowMapPcf.h"
 
 using namespace Zelo::Core::RHI;
 
@@ -33,11 +33,11 @@ static void renderQuad() {
     glBindVertexArray(0);
 }
 
-ForwardShadowMap::ForwardShadowMap() = default;
+ForwardShadowMapPcf::ForwardShadowMapPcf() = default;
 
-ForwardShadowMap::~ForwardShadowMap() = default;
+ForwardShadowMapPcf::~ForwardShadowMapPcf() = default;
 
-void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
+void ForwardShadowMapPcf::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
                               const std::vector<std::shared_ptr<PointLight>> &pointLights,
                               const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                               const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
@@ -152,7 +152,7 @@ void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *acti
 //    renderQuad();
 }
 
-void ForwardShadowMap::createShaders() {
+void ForwardShadowMapPcf::createShaders() {
     m_forwardAmbient = std::make_unique<GLSLShaderProgram>("Shader/forward-ambient.lua");
     m_forwardAmbient->link();
 
@@ -160,7 +160,7 @@ void ForwardShadowMap::createShaders() {
 
     m_forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
-    m_forwardDirectional = std::make_unique<GLSLShaderProgram>("Shader/forward-directional.lua");
+    m_forwardDirectional = std::make_unique<GLSLShaderProgram>("Shader/forward-directional_pcf.lua");
     m_forwardDirectional->link();
     m_forwardDirectional->setUniform1i("diffuseMap", 0);
     m_forwardDirectional->setUniform1i("normalMap", 1);
@@ -194,7 +194,7 @@ void ForwardShadowMap::createShaders() {
     m_simpleShader->link();
 }
 
-void ForwardShadowMap::initialize() {
+void ForwardShadowMapPcf::initialize() {
     m_shadowFbo = std::make_unique<Zelo::GLShadowMap>(1280, 720);
     m_lightFrustum = std::make_unique<Frustum>();
     m_lightFrustum->setPerspective(50.0f, 1.0f, 5.0f, 1000.0f);
