@@ -160,7 +160,7 @@ void ForwardShadowMapPcf::createShaders() {
 
     m_forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
 
-    m_forwardDirectional = std::make_unique<GLSLShaderProgram>("Shader/forward-directional.lua");
+    m_forwardDirectional = std::make_unique<GLSLShaderProgram>("Shader/forward-directional_pcf.lua");
     m_forwardDirectional->link();
     m_forwardDirectional->setUniform1i("diffuseMap", 0);
     m_forwardDirectional->setUniform1i("normalMap", 1);
