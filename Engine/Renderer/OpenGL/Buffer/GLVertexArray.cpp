@@ -11,32 +11,22 @@ using namespace Zelo::Core::RHI;
 namespace Zelo {
 
 GLVertexArray::GLVertexArray() {
-    ZELO_PROFILE_FUNCTION();
-
     glGenVertexArrays(1, &m_RendererID);
 }
 
 GLVertexArray::~GLVertexArray() {
-    ZELO_PROFILE_FUNCTION();
-
     glDeleteVertexArrays(1, &m_RendererID);
 }
 
 void GLVertexArray::bind() const {
-    ZELO_PROFILE_FUNCTION();
-
     glBindVertexArray(m_RendererID);
 }
 
 void GLVertexArray::unbind() const {
-    ZELO_PROFILE_FUNCTION();
-
     glBindVertexArray(0);
 }
 
 void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer) {
-    ZELO_PROFILE_FUNCTION();
-
     ZELO_CORE_ASSERT(!vertexBuffer->getLayout().getElements().empty(), "Vertex Buffer has no layout!");
 
     this->bind();
@@ -104,8 +94,6 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
 }
 
 void GLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer) {
-    ZELO_PROFILE_FUNCTION();
-
     glBindVertexArray(m_RendererID);
     indexBuffer->bind();
 

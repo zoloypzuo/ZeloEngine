@@ -4,6 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
 #include "Core/OS/whereami.h"
+#include "Core/Profiler/Profiler.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
 
 // enable vld

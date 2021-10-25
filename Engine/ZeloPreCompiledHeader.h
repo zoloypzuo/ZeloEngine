@@ -6,7 +6,7 @@
 #define ZELOENGINE_ZELOPRECOMPILEDHEADER_H
 
 #include "ZeloPlatform.h"
-#include "Core/Profiler/Profiler.h"
+#include "ZeloAlgorithmUtil.h"
 #include "Core/Math/Mathf.h"
 
 // This ignores all warnings raised inside External headers

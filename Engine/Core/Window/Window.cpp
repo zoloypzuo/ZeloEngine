@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
+#include "Core/Profiler/Profiler.h"
 
 #include <backends/imgui_impl_sdl.h>  // ImGui_ImplSDL2_ProcessEvent
 #include <SDL_syswm.h>
