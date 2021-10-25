@@ -18,7 +18,7 @@ public:
     ~MeshLoader() override;
 
 public: // IMeshGen
-    const std::string &getId() override;
+    std::string getId() override;
 
     std::vector<Core::RHI::Vertex> getVertices() override;
 

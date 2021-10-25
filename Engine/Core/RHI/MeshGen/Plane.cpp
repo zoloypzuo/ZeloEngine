@@ -20,7 +20,7 @@ std::vector<uint32_t> indices = {
 
 Plane::Plane() = default;
 
-const std::string &Plane::getId() {
+std::string Plane::getId() {
     static const std::string meshId = "BUILTIN_plane";
     return meshId;
 }

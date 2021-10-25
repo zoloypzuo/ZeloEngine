@@ -12,7 +12,7 @@ public:
     ~TriangleMeshAdapter() override = default;
 
 public:
-    const std::string &getId() override { return ""; }
+    std::string getId() override { return ""; }
 
     std::vector<Zelo::Core::RHI::Vertex> getVertices() override { return m_vertices; }
 

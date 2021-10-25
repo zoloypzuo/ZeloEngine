@@ -13,7 +13,7 @@ public:
 
     ~Plane() override = default;
 
-    const std::string &getId() override;
+    std::string getId() override;
 
     std::vector<Vertex> getVertices() override;
 

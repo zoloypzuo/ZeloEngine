@@ -11,7 +11,7 @@ class IMeshData {
 public:
     virtual ~IMeshData() = default;
 
-    virtual const std::string &getId() = 0;
+    virtual std::string getId() = 0;
 
     virtual std::vector<Core::RHI::Vertex> getVertices() = 0;
 

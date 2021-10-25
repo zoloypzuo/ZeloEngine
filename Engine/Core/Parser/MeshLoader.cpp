@@ -181,7 +181,7 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIn
 
 Zelo::Parser::MeshLoader::~MeshLoader() = default;
 
-const std::string &Zelo::Parser::MeshLoader::getId() {
+std::string Zelo::Parser::MeshLoader::getId() {
     return m_id;
 }
 
