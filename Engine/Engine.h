@@ -1,7 +1,6 @@
 // Engine.h
 // created on 2021/3/28
 // author @zoloypzuo
-
 #ifndef ZELOENGINE_ENGINE_H
 #define ZELOENGINE_ENGINE_H
 
@@ -71,13 +70,12 @@ protected:
     std::filesystem::path m_scriptDir{};
     std::filesystem::path m_resourceDir{};
 
-protected:
+private:
     void initConfig();
 
     void initialisePlugins();
 
     void shutdownPlugins();
-
 };
 }
 
