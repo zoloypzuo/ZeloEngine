@@ -47,6 +47,25 @@
 // Element count of a static array
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
 
+// Example:
+//	enum ProfilerMode
+//	{
+//		kProfilerEnabled = 1 << 0, 
+//		kProfilerGame = 1 << 1,
+//		kProfilerDeepScripts = 1 << 2,
+//		kProfilerEditor = 1 << 3,
+//	};
+//	ENUM_FLAGS(ProfilerMode);
+#define ENUM_FLAGS(T) \
+inline T  operator  |(const T s, const T e) { return (T)((unsigned)s | e); } \
+inline T &operator |=(T      &s, const T e) { return s = s | e; }            \
+inline T  operator  &(const T s, const T e) { return (T)((unsigned)s & e); } \
+inline T &operator &=(T      &s, const T e) { return s = s & e; }            \
+inline T  operator  ^(const T s, const T e) { return (T)((unsigned)s ^ e); } \
+inline T &operator ^=(T      &s, const T e) { return s = s ^ e; }            \
+inline T  operator  ~(const T s)            { return (T)~(unsigned)s; }
+
+
 // typedef
 namespace Zelo {
 typedef int64_t GUID_t;
