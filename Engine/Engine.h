@@ -60,7 +60,7 @@ protected:
     std::unique_ptr<Core::UI::UIManager> m_uiManager{};
 
     std::vector<std::unique_ptr<Plugin>> m_plugins;
-    
+
     bool m_isInitialised{};
     bool m_configInitialized{};
 

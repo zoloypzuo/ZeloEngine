@@ -7,7 +7,7 @@
 
 using namespace Zelo::Core::ECS;
 
-CFreeLook::CFreeLook(Entity &owner): Component(owner) {
+CFreeLook::CFreeLook(Entity &owner) : Component(owner) {
     setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 5);
     setProperty("look", PropertyType::BOOLEAN, &m_look);
 }
@@ -45,7 +45,7 @@ void CFreeLook::update(float delta) {
         }
         if (pos.x != 0) {
             m_owner.getTransform().setRotation(glm::angleAxis(-pos.x * moveAmount, glm::vec3(0, 1, 0)) *
-                                                m_owner.getTransform().getRotation());
+                                               m_owner.getTransform().getRotation());
         }
     } else {
         input->releaseMouse();

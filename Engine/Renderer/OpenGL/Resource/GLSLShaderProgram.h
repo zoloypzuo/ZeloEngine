@@ -74,7 +74,8 @@ private:
 private:
     void createUniform(const std::string &name);
 
-    void addShaderSrc(const std::string &fileName, const Zelo::Core::RHI::EShaderType &shaderType, const char *c_code) const;
+    void
+    addShaderSrc(const std::string &fileName, const Zelo::Core::RHI::EShaderType &shaderType, const char *c_code) const;
 };
 
 #endif //ZELOENGINE_GLSLSHADERPROGRAM_H

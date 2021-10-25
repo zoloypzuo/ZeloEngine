@@ -40,7 +40,7 @@ std::filesystem::path ResourceManager::getResourceDir() {
 ResourceManager::ResourceManager(std::filesystem::path mEngineDir, std::filesystem::path mConfigDir,
                                  std::filesystem::path mAssertDir, std::filesystem::path mScriptDir,
                                  std::filesystem::path mResourceDir
-                                 )
+)
         : m_engineDir(std::move(mEngineDir)), m_configDir(std::move(mConfigDir)),
           m_assertDir(std::move(mAssertDir)), m_scriptDir(std::move(mScriptDir)),
           m_resourceDir(std::move(mResourceDir)) {

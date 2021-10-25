@@ -27,11 +27,12 @@ private:
     int m_indexSize{}, m_vertSize{};
 };
 
-class GLMesh : public Zelo::Core::RHI::Mesh{
+class GLMesh : public Zelo::Core::RHI::Mesh {
 public:
-    GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
+    GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[],
+           int indexSize);
 
-    explicit GLMesh(Zelo::Core::Interface::IMeshData& iMeshGen);
+    explicit GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen);
 
     virtual ~GLMesh();
 

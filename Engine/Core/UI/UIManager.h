@@ -53,6 +53,6 @@ public:
 
     ZELO_SCRIPT_API std::string SaveFileDialog();
 
-    ZELO_SCRIPT_API void MessageBox(int type, const std::string& title, const std::string& message);
+    ZELO_SCRIPT_API void MessageBox(int type, const std::string &title, const std::string &message);
 };
 }

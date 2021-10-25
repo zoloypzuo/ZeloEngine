@@ -20,7 +20,7 @@ float BaseLight::getIntensity() const {
     return m_intensity;
 }
 
-BaseLight::BaseLight(Entity &owner):Component(owner) {
+BaseLight::BaseLight(Entity &owner) : Component(owner) {
     setProperty("color", PropertyType::COLOR, &m_color.x, 0, 1);
     setProperty("intensity", PropertyType::FLOAT, &m_intensity, 0, 100);
 }

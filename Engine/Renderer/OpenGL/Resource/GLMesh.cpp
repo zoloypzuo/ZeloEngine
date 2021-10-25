@@ -55,7 +55,8 @@ void GLMeshData::render() const {
 
 std::map<std::string, std::weak_ptr<GLMeshData>> m_meshCache;
 
-GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
+GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[],
+               int indexSize) {
     auto it = m_meshCache.find(identifier);
 
     if (it == m_meshCache.end() || !(m_meshData = it->second.lock())) {
@@ -64,11 +65,12 @@ GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[]
     }
 }
 
-GLMesh::GLMesh(Zelo::Core::Interface::IMeshData& iMeshGen):GLMesh(iMeshGen.getId(),
-    &iMeshGen.getVertices()[0], iMeshGen.getVertices().size(),
-    &iMeshGen.getIndices()[0], iMeshGen.getIndices().size()
-    )
-{
+GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) : GLMesh(iMeshGen.getId(),
+                                                                    &iMeshGen.getVertices()[0],
+                                                                    iMeshGen.getVertices().size(),
+                                                                    &iMeshGen.getIndices()[0],
+                                                                    iMeshGen.getIndices().size()
+) {
 }
 
 GLMesh::~GLMesh() {

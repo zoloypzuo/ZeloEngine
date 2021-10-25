@@ -88,8 +88,8 @@ void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
     }
 
     logger->info("{}:{}[{}]({}): {}",
-                  sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(),
-                  id, msg);
+                 sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(),
+                 id, msg);
 }
 
 int checkForOpenGLError(const char *file, int line) {

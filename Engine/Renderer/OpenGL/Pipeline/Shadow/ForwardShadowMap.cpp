@@ -46,10 +46,10 @@ void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *acti
     m_lightFrustum->orient(lightPos, glm::vec3(0), glm::vec3(0.0f, 1.0f, 0.0f));
     glm::mat4 lightProjection = m_lightFrustum->getProjectionMatrix();
     glm::mat4 lightView = m_lightFrustum->getViewMatrix();
-    glm::mat4 shadowBias = glm::mat4( glm::vec4(0.5f,0.0f,0.0f,0.0f),
-                                 glm::vec4(0.0f,0.5f,0.0f,0.0f),
-                                 glm::vec4(0.0f,0.0f,0.5f,0.0f),
-                                 glm::vec4(0.5f,0.5f,0.5f,1.0f)
+    glm::mat4 shadowBias = glm::mat4(glm::vec4(0.5f, 0.0f, 0.0f, 0.0f),
+                                     glm::vec4(0.0f, 0.5f, 0.0f, 0.0f),
+                                     glm::vec4(0.0f, 0.0f, 0.5f, 0.0f),
+                                     glm::vec4(0.5f, 0.5f, 0.5f, 1.0f)
     );
     glm::mat4 lightSpaceMatrix = shadowBias * lightProjection * lightView;
 

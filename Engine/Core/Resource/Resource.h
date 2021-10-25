@@ -54,7 +54,7 @@ public:
 public:
     const char *read() const;
 
-    void * readCopy() const;
+    void *readCopy() const;
 
 private:
     char *m_buffer;

@@ -36,10 +36,10 @@ ForwardRendererPost::ForwardRendererPost() = default;
 ForwardRendererPost::~ForwardRendererPost() = default;
 
 void ForwardRendererPost::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                             const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                             const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                             const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
-    
+                                 const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                                 const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                                 const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
+
     m_fbo->bind();
 
     glEnable(GL_DEPTH_TEST);
@@ -96,9 +96,9 @@ void ForwardRendererPost::render(const Zelo::Core::ECS::Entity &scene, Camera *a
     glDisable(GL_BLEND);
 
     m_fbo->unbind();
-    
+
     glFlush();
-    
+
     // pass2
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     m_postShader->bind();

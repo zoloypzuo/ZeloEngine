@@ -4,11 +4,10 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Blur.h"
 
-static float gauss(float x, float sigma2)
-{
-	double coeff = 1.0 / (glm::two_pi<double>() * sigma2);
-    double expon = -(x*x) / (2.0 * sigma2);
-    return (float) (coeff*exp(expon));
+static float gauss(float x, float sigma2) {
+    double coeff = 1.0 / (glm::two_pi<double>() * sigma2);
+    double expon = -(x * x) / (2.0 * sigma2);
+    return (float) (coeff * exp(expon));
 }
 
 static void renderQuad() {
@@ -43,10 +42,10 @@ Blur::Blur() = default;
 Blur::~Blur() = default;
 
 void Blur::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                             const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                             const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                             const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
-    
+                  const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                  const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                  const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
+
     m_fbo->bind();
 
     glEnable(GL_DEPTH_TEST);
@@ -103,7 +102,7 @@ void Blur::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
     glDisable(GL_BLEND);
 
     m_fbo->unbind();
-    
+
     // pass2
     m_fbo2->bind();
     m_postShader1->bind();
@@ -158,9 +157,9 @@ void Blur::createShaders() {
 
     // Compute and sum the weights
     float weights[5], sum, sigma2 = 8.0f;
-    weights[0] = gauss(0,sigma2);
+    weights[0] = gauss(0, sigma2);
     sum = weights[0];
-    for( int i = 1; i < 5; i++ ) {
+    for (int i = 1; i < 5; i++) {
         weights[i] = gauss(float(i), sigma2);
         sum += 2 * weights[i];
     }
@@ -170,9 +169,9 @@ void Blur::createShaders() {
     m_postShader1->setUniform1i("Texture0", 0);
 
     // Normalize the weights and set the uniform
-    for( int i = 0; i < 5; i++ ) {
-		std::stringstream uniName;
-		uniName << "Weight[" << i << "]";
+    for (int i = 0; i < 5; i++) {
+        std::stringstream uniName;
+        uniName << "Weight[" << i << "]";
         float val = weights[i] / sum;
         m_postShader1->setUniform1f(uniName.str().c_str(), val);
     }

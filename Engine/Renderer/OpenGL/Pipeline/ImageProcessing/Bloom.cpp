@@ -42,9 +42,9 @@ Bloom::Bloom() = default;
 Bloom::~Bloom() = default;
 
 void Bloom::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                                  const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                                  const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                                  const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
+                   const std::vector<std::shared_ptr<PointLight>> &pointLights,
+                   const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
+                   const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
 
     m_renderFbo->bind();
 
@@ -133,7 +133,7 @@ void Bloom::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
 
     {
         // pass4
-        glBindFramebuffer(GL_FRAMEBUFFER,0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
         m_postShader->bind();
         m_postShader->setUniform1i("Pass", 4);
         glActiveTexture(GL_TEXTURE1);
