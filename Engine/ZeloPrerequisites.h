@@ -44,6 +44,9 @@
 // script API
 #define ZELO_SCRIPT_API  // do nothing
 
+// Element count of a static array
+#define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))
+
 // typedef
 namespace Zelo {
 typedef int64_t GUID_t;
