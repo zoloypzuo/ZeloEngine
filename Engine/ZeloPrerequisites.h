@@ -63,6 +63,17 @@ inline T  operator  ^(const T s, const T e) { return (T)((unsigned)s ^ e); } \
 inline T &operator ^=(T      &s, const T e) { return s = s ^ e; }            \
 inline T  operator  ~(const T s)            { return (T)~(unsigned)s; }
 
+// mixin for class that cannot be copied
+class NonCopyable {
+public:
+    NonCopyable() {}
+
+private:
+    NonCopyable(const NonCopyable &);
+
+    NonCopyable &operator=(const NonCopyable &);
+};
+
 
 // typedef
 namespace Zelo {
