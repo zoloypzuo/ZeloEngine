@@ -1,13 +1,13 @@
-//
-// Created by zoloypzuo on 2021/3/28.
-//
+// ZeloPreCompiledHeader.h
+// created on 2021/3/28.
+// author @zoloypzuo
+#pragma once
 
-#ifndef ZELOENGINE_ZELOPRECOMPILEDHEADER_H
-#define ZELOENGINE_ZELOPRECOMPILEDHEADER_H
-
-#include "ZeloPlatform.h"
-#include "ZeloAlgorithmUtil.h"
-#include "Core/Math/Mathf.h"
+// common header
+#include "ZeloPlatform.h"  // platform macro first
+#include "ZeloAlgorithmUtil.h"  // stl algorithm patch
+#include "ZeloStringUtil.h" // string patch
+#include "Core/Math/Mathf.h"  // common math patch
 
 // This ignores all warnings raised inside External headers
 #pragma warning(push, 0)
@@ -79,6 +79,3 @@
 #define ZELO_ASSERT(...)
 #define ZELO_CORE_ASSERT(...)
 #endif
-
-// TODO move ZELO_ERROR to ZeloPrerequisite.h
-#endif //ZELOENGINE_ZELOPRECOMPILEDHEADER_H
