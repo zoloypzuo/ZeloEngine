@@ -19,9 +19,9 @@ public:
 
     virtual void clear(bool colorBuffer, bool depthBuffer, bool stencilBuffer) = 0;
 
-    virtual void drawIndexed(const Ref<VertexArray> &vertexArray, int32_t indexCount) = 0;
+    virtual void drawIndexed(const std::shared_ptr<VertexArray> &vertexArray, int32_t indexCount) = 0;
 
-    virtual void drawArray(const Ref<VertexArray> &vertexArray, int32_t start, int32_t count) = 0;
+    virtual void drawArray(const std::shared_ptr<VertexArray> &vertexArray, int32_t start, int32_t count) = 0;
 
     virtual void setBlendEnabled(bool enabled) = 0;
 

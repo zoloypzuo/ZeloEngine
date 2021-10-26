@@ -56,7 +56,7 @@ private:
 
 class GLMapBufferJanitor {
 public:
-    GLMapBufferJanitor(const Ref<GLVertexBuffer> &vertexBuffer, int32_t size);
+    GLMapBufferJanitor(const std::shared_ptr<GLVertexBuffer> &vertexBuffer, int32_t size);
 
     ~GLMapBufferJanitor();
 

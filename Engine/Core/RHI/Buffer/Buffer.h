@@ -23,9 +23,9 @@ public:
 
     virtual void setLayout(const BufferLayout &layout) = 0;
 
-//    static Ref<VertexBuffer> Create(uint32_t size);
+//    static std::shared_ptr<VertexBuffer> Create(uint32_t size);
 //
-//    static Ref<VertexBuffer> Create(float *vertices, uint32_t size);
+//    static std::shared_ptr<VertexBuffer> Create(float *vertices, uint32_t size);
 };
 
 // Currently Zelo only supports 32-bit index buffers
@@ -39,7 +39,7 @@ public:
 
     virtual int32_t getCount() const = 0;
 
-//    static Ref<IndexBuffer> Create(uint32_t *indices, uint32_t count);
+//    static std::shared_ptr<IndexBuffer> Create(uint32_t *indices, uint32_t count);
 };
 
 }

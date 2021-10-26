@@ -68,7 +68,7 @@ void GLIndexBuffer::unbind() const {
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
-GLMapBufferJanitor::GLMapBufferJanitor(const Ref<GLVertexBuffer> &vertexBuffer, int32_t size) {
+GLMapBufferJanitor::GLMapBufferJanitor(const std::shared_ptr<GLVertexBuffer> &vertexBuffer, int32_t size) {
     glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer->getHandle());
     glBufferData(GL_ARRAY_BUFFER, size, NULL, GL_STREAM_DRAW);
     m_bufferData = static_cast<unsigned char *>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
