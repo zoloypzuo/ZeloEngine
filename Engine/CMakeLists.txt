@@ -28,5 +28,5 @@ link_libraries(
 add_subdirectory(Renderer)
 link_libraries(OpenGLRenderer)
 
-file(GLOB CommonSrc *.cpp *.cxx)
+file(GLOB CommonSrc *.cpp *.cxx *.h)
 add_library(Engine ${CommonSrc})
