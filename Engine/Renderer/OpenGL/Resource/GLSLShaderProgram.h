@@ -1,9 +1,7 @@
 // GLSLShaderProgram.h
 // created on 2021/3/31
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_GLSLSHADERPROGRAM_H
-#define ZELOENGINE_GLSLSHADERPROGRAM_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
@@ -12,6 +10,37 @@
 #include "Core/Resource/Resource.h"
 #include "Core/RHI/Const/EShaderType.h"
 #include "Core/RHI/Object/Light.h"
+
+#include <any>
+
+enum class UniformType : uint32_t {
+    // int float vec234 mat4 texture23
+    UNIFORM_BOOL = 0x8B56,
+    UNIFORM_INT = 0x1404,
+    UNIFORM_FLOAT = 0x1406,
+    UNIFORM_FLOAT_VEC2 = 0x8B50,
+    UNIFORM_FLOAT_VEC3 = 0x8B51,
+    UNIFORM_FLOAT_VEC4 = 0x8B52,
+    UNIFORM_FLOAT_MAT4 = 0x8B5C,
+    UNIFORM_DOUBLE_MAT4 = 0x8F48,
+    UNIFORM_SAMPLER_2D = 0x8B5E,
+    UNIFORM_SAMPLER_CUBE = 0x8B60
+};
+
+struct UniformInfo {
+    UniformType type;
+    std::string name;
+    uint32_t location;
+    std::any defaultValue;
+
+public:
+    UniformInfo(
+            UniformType type_,
+            const std::string &name_,
+            uint32_t location_,
+            const std::any &defaultValue_
+    ) : type(type_), name(name_), location(location_), defaultValue(defaultValue_) {}
+};
 
 class GLSLShaderProgram : public Shader {
 public:
@@ -66,16 +95,22 @@ public:
 
     void printActiveAttributes() const override;
 
+    void queryUniforms();
+
+    UniformInfo *getUniformInfo(const std::string &name);
+
+    static bool isEngineUBOMember(const std::string &uniformName);
+
 private:
     std::map<std::string, GLint> m_uniformLocationMap;
+    std::vector<UniformInfo> m_uniforms{};
 
     std::string m_name{};  // for debug
 
 private:
     void createUniform(const std::string &name);
 
-    void
-    addShaderSrc(const std::string &fileName, const Zelo::Core::RHI::EShaderType &shaderType, const char *c_code) const;
+    void addShaderSrc(const std::string &fileName,
+                      const Zelo::Core::RHI::EShaderType &shaderType,
+                      const char *c_code) const;
 };
-
-#endif //ZELOENGINE_GLSLSHADERPROGRAM_H

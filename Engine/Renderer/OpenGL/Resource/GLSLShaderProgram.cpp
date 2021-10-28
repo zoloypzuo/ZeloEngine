@@ -64,7 +64,7 @@ GLSLShaderProgram::~GLSLShaderProgram() {
     glGetProgramiv(m_handle, GL_ATTACHED_SHADERS, &numShaders);
 
     // Get the shader names
-    GLuint *shaderNames = new GLuint[numShaders];
+    auto *shaderNames = new GLuint[numShaders];
     glGetAttachedShaders(m_handle, numShaders, NULL, shaderNames);
 
     // Delete the shaders
@@ -87,8 +87,9 @@ void GLSLShaderProgram::link() {
     glLinkProgram(m_handle);
     glGetProgramiv(m_handle, GL_LINK_STATUS, &res);
 
-    if (GL_FALSE == res)
+    if (GL_FALSE == res) {
         spdlog::error("Failed to link shader program");
+    }
 
     // validate
     glValidateProgram(m_handle);
@@ -99,6 +100,7 @@ void GLSLShaderProgram::link() {
         return;
     } else {
         findUniformLocations();
+        queryUniforms();
         m_initialized = true;
     }
 }
@@ -384,8 +386,9 @@ void GLSLShaderProgram::addShader(const std::string &fileName, EShaderType shade
     addShaderSrc(fileName, shaderType, c_code);
 }
 
-void
-GLSLShaderProgram::addShaderSrc(const std::string &fileName, const EShaderType &shaderType, const char *c_code) const {
+void GLSLShaderProgram::addShaderSrc(const std::string &fileName,
+                                     const EShaderType &shaderType,
+                                     const char *c_code) const {
     GLuint shaderHandle = glCreateShader(GetGLShaderType(shaderType));
 
     glShaderSource(shaderHandle, 1, &c_code, NULL);
@@ -463,7 +466,7 @@ void GLSLShaderProgram::findUniformLocations() {
 
 void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     auto asset = Zelo::Resource(fileName);
-    sol::state &lua = LuaScriptManager::getSingleton();  // TODO 一个资源管理器维护一个lua
+    sol::state &lua = LuaScriptManager::getSingleton();
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
@@ -481,4 +484,68 @@ void GLSLShaderProgram::bindFragDataLocation(const std::string &name, uint32_t s
     bind();
 
     glBindFragDataLocation(m_handle, slot, name.c_str());
+}
+
+void GLSLShaderProgram::queryUniforms() {
+    GLint numActiveUniforms = 0;
+    m_uniforms.clear();
+    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORMS, &numActiveUniforms);
+    std::vector<GLchar> nameData(256);
+    for (int unif = 0; unif < numActiveUniforms; ++unif) {
+        GLint arraySize = 0;
+        GLenum type = 0;
+        GLsizei actualLength = 0;
+        glGetActiveUniform(m_handle, unif, static_cast<GLsizei>(nameData.size()),
+                           &actualLength, &arraySize, &type, &nameData[0]);
+        std::string name(static_cast<char *>(nameData.data()), actualLength);
+
+        if (isEngineUBOMember(name)) continue;
+        std::any defaultValue;
+// TODO getUniform*
+//        switch (static_cast<UniformType>(type)) {
+//            case UniformType::UNIFORM_BOOL:
+//                defaultValue = std::make_any<bool>(getUniformi(name));
+//                break;
+//            case UniformType::UNIFORM_INT:
+//                defaultValue = std::make_any<int>(GetUniformInt(name));
+//                break;
+//            case UniformType::UNIFORM_FLOAT:
+//                defaultValue = std::make_any<float>(GetUniformFloat(name));
+//                break;
+//            case UniformType::UNIFORM_FLOAT_VEC2:
+//                defaultValue = std::make_any<OvMaths::FVector2>(GetUniformVec2(name));
+//                break;
+//            case UniformType::UNIFORM_FLOAT_VEC3:
+//                defaultValue = std::make_any<OvMaths::FVector3>(GetUniformVec3(name));
+//                break;
+//            case UniformType::UNIFORM_FLOAT_VEC4:
+//                defaultValue = std::make_any<OvMaths::FVector4>(GetUniformVec4(name));
+//                break;
+//            case UniformType::UNIFORM_SAMPLER_2D:
+//                defaultValue = std::make_any<Texture *>(nullptr);
+//                break;
+//        }
+
+        if (defaultValue.has_value()) {
+            m_uniforms.emplace_back(
+                    static_cast<UniformType>(type), name,
+                    getUniformLocation(nameData.data()), defaultValue
+            );
+        }
+    }
+}
+
+UniformInfo *GLSLShaderProgram::getUniformInfo(const std::string &name) {
+    auto found = Zelo::FindIf(m_uniforms, [&name](const UniformInfo &element) {
+        return name == element.name;
+    });
+
+    if (found != m_uniforms.end())
+        return &*found;
+    else
+        return nullptr;
+}
+
+bool GLSLShaderProgram::isEngineUBOMember(const std::string &uniformName) {
+    return uniformName.rfind("ubo_", 0) == 0;
 }
