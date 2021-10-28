@@ -17,11 +17,11 @@ GLShaderStorageBuffer::~GLShaderStorageBuffer() {
     glDeleteBuffers(1, &m_bufferID);
 }
 
-void GLShaderStorageBuffer::Bind(uint32_t bindingPoint) {
+void GLShaderStorageBuffer::bind(uint32_t bindingPoint) {
     m_bindingPoint = bindingPoint;
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, m_bufferID);
 }
 
-void GLShaderStorageBuffer::Unbind() const {
+void GLShaderStorageBuffer::unbind() const {
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bindingPoint, 0);
 }

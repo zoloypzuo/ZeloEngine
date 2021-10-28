@@ -15,12 +15,12 @@ public:
 
     ~GLShaderStorageBuffer();
 
-    void Bind(uint32_t bindingPoint);
+    void bind(uint32_t bindingPoint);
 
-    void Unbind() const;
+    void unbind() const;
 
     template<typename T>
-    void SendBlocks(T *data, size_t size);
+    void sendBlocks(T *data, size_t size);
 
 private:
     uint32_t m_bufferID{};

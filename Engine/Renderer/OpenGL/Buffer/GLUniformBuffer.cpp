@@ -21,28 +21,28 @@ GLUniformBuffer::~GLUniformBuffer() {
     glDeleteBuffers(1, &m_bufferID);
 }
 
-void GLUniformBuffer::Bind() const {
+void GLUniformBuffer::bind() const {
     glBindBuffer(GL_UNIFORM_BUFFER, m_bufferID);
 }
 
-void GLUniformBuffer::Unbind() {
+void GLUniformBuffer::unbind() {
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
-GLuint GLUniformBuffer::GetID() const {
+GLuint GLUniformBuffer::getHandle() const {
     return m_bufferID;
 }
 
-void GLUniformBuffer::BindBlockToShader(GLSLShaderProgram &shader,
+void GLUniformBuffer::bindBlockToShader(GLSLShaderProgram &shader,
                                         uint32_t uniformBlockLocation, uint32_t bindingPoint) {
     glUniformBlockBinding(shader.getHandle(), uniformBlockLocation, bindingPoint);
 }
 
-void GLUniformBuffer::BindBlockToShader(GLSLShaderProgram &shader, const std::string &name,
+void GLUniformBuffer::bindBlockToShader(GLSLShaderProgram &shader, const std::string &name,
                                         uint32_t bindingPoint) {
-    glUniformBlockBinding(shader.getHandle(), GetBlockLocation(shader, name), bindingPoint);
+    glUniformBlockBinding(shader.getHandle(), getBlockLocation(shader, name), bindingPoint);
 }
 
-uint32_t GLUniformBuffer::GetBlockLocation(GLSLShaderProgram &shader, const std::string &name) {
+uint32_t GLUniformBuffer::getBlockLocation(GLSLShaderProgram &shader, const std::string &name) {
     return glGetUniformBlockIndex(shader.getHandle(), name.c_str());
 }

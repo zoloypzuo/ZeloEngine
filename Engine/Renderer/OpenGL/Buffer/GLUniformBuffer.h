@@ -19,23 +19,23 @@ public:
 
     ~GLUniformBuffer();
 
-    void Bind() const;
+    void bind() const;
 
-    void Unbind();
-
-    template<typename T>
-    void SetSubData(const T &data, size_t offset);
+    void unbind();
 
     template<typename T>
-    void SetSubData(const T &data, std::reference_wrapper<size_t> offsetInOut);
+    void setSubData(const T &data, size_t offset);
 
-    uint32_t GetID() const;
+    template<typename T>
+    void setSubData(const T &data, std::reference_wrapper<size_t> offsetInOut);
 
-    static void BindBlockToShader(GLSLShaderProgram &shader, uint32_t uniformBlockLocation, uint32_t bindingPoint = 0);
+    uint32_t getHandle() const;
 
-    static void BindBlockToShader(GLSLShaderProgram &shader, const std::string &name, uint32_t bindingPoint = 0);
+    static void bindBlockToShader(GLSLShaderProgram &shader, uint32_t uniformBlockLocation, uint32_t bindingPoint = 0);
 
-    static uint32_t GetBlockLocation(GLSLShaderProgram &shader, const std::string &name);
+    static void bindBlockToShader(GLSLShaderProgram &shader, const std::string &name, uint32_t bindingPoint = 0);
+
+    static uint32_t getBlockLocation(GLSLShaderProgram &shader, const std::string &name);
 
 private:
     uint32_t m_bufferID{};
