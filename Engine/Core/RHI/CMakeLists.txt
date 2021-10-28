@@ -5,6 +5,7 @@ add_library(RHI
         Const/EShaderType.h
         Const/EProjectionMode.h
         Const/ETextureFilteringMode.h
+        Const/EAccessSpecifier.h
 
         Resource/Shader.h
         Resource/Texture.h

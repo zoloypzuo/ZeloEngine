@@ -7,14 +7,14 @@
 
 namespace Zelo {
 template<typename T>
-inline void UniformBuffer::SetSubData(const T &data, size_t offsetInOut) {
+inline void GLUniformBuffer::SetSubData(const T &data, size_t offsetInOut) {
     Bind();
     glBufferSubData(GL_UNIFORM_BUFFER, offsetInOut, sizeof(T), std::addressof(data));
     Unbind();
 }
 
 template<typename T>
-inline void UniformBuffer::SetSubData(const T &data, std::reference_wrapper <size_t> offsetInOut) {
+inline void GLUniformBuffer::SetSubData(const T &data, std::reference_wrapper <size_t> offsetInOut) {
     Bind();
     size_t dataSize = sizeof(T);
     glBufferSubData(GL_UNIFORM_BUFFER, offsetInOut.get(), dataSize, std::addressof(data));

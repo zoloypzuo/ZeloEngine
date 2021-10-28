@@ -5,29 +5,19 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
+#include "Core/RHI/Const/EAccessSpecifier.h"
 
 class GLSLShaderProgram;
 
 namespace Zelo {
-enum class EAccessSpecifier {
-    STREAM_DRAW = 0x88E0,
-    STREAM_READ = 0x88E1,
-    STREAM_COPY = 0x88E2,
-    DYNAMIC_DRAW = 0x88E8,
-    DYNAMIC_READ = 0x88E9,
-    DYNAMIC_COPY = 0x88EA,
-    STATIC_DRAW = 0x88E4,
-    STATIC_READ = 0x88E5,
-    STATIC_COPY = 0x88E6
-};
 
-class UniformBuffer {
+class GLUniformBuffer {
 public:
 
-    explicit UniformBuffer(size_t size, uint32_t bindingPoint = 0, uint32_t offset = 0,
-                           EAccessSpecifier accessSpecifier = EAccessSpecifier::DYNAMIC_DRAW);
+    explicit GLUniformBuffer(size_t size, uint32_t bindingPoint = 0, uint32_t offset = 0,
+                             Core::RHI::EAccessSpecifier accessSpecifier = Core::RHI::EAccessSpecifier::DYNAMIC_DRAW);
 
-    ~UniformBuffer();
+    ~GLUniformBuffer();
 
     void Bind() const;
 
