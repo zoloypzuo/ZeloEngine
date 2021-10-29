@@ -45,12 +45,12 @@ private:
     std::shared_ptr<TextureData> m_textureData;
 
 public:
-    const uint32_t width;
-    const uint32_t height;
-    const uint32_t bitsPerPixel;
-    const Zelo::Core::RHI::ETextureFilteringMode firstFilter;
-    const Zelo::Core::RHI::ETextureFilteringMode secondFilter;
-    const bool isMimapped;
+    uint32_t width;
+    uint32_t height;
+    uint32_t bitsPerPixel;
+    Zelo::Core::RHI::ETextureFilteringMode firstFilter;
+    Zelo::Core::RHI::ETextureFilteringMode secondFilter;
+    bool isMimapped;
 };
 
 class GLTexture3D : public Zelo::Core::RHI::Texture3D {

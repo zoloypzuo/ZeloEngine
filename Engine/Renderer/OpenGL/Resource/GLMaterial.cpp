@@ -56,7 +56,7 @@ void GLMaterial::bind() const {
 //                }
             }
             default:
-                ZELO_ERROR("not implemented");
+//                ZELO_ERROR("not implemented");
                 break;
         }
     }
