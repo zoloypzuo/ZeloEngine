@@ -10,6 +10,7 @@ enum class ShaderDataType {
     Mat3, Mat4,
     Int, Int2, Int3, Int4, Bool
 };
+
 enum class EShaderType {
     VERTEX,
     FRAGMENT,

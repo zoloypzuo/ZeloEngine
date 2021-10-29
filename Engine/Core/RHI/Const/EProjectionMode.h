@@ -2,7 +2,6 @@
 
 namespace Zelo::Core::RHI
 {
-    
     enum class EProjectionMode
     {
         ORTHOGRAPHIC,
