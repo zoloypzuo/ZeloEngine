@@ -33,16 +33,19 @@ GLuint GLUniformBuffer::getHandle() const {
     return m_bufferID;
 }
 
-void GLUniformBuffer::bindBlockToShader(GLSLShaderProgram &shader,
-                                        uint32_t uniformBlockLocation, uint32_t bindingPoint) {
+void
+GLUniformBuffer::bindBlockToShader(const GLSLShaderProgram &shader,
+                                   uint32_t uniformBlockLocation,
+                                   uint32_t bindingPoint) {
     glUniformBlockBinding(shader.getHandle(), uniformBlockLocation, bindingPoint);
 }
 
-void GLUniformBuffer::bindBlockToShader(GLSLShaderProgram &shader, const std::string &name,
+void GLUniformBuffer::bindBlockToShader(const GLSLShaderProgram &shader,
+                                        const std::string &name,
                                         uint32_t bindingPoint) {
     glUniformBlockBinding(shader.getHandle(), getBlockLocation(shader, name), bindingPoint);
 }
 
-uint32_t GLUniformBuffer::getBlockLocation(GLSLShaderProgram &shader, const std::string &name) {
+uint32_t GLUniformBuffer::getBlockLocation(const GLSLShaderProgram &shader, const std::string &name) {
     return glGetUniformBlockIndex(shader.getHandle(), name.c_str());
 }

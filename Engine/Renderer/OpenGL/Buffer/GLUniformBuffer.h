@@ -31,11 +31,13 @@ public:
 
     uint32_t getHandle() const;
 
-    static void bindBlockToShader(GLSLShaderProgram &shader, uint32_t uniformBlockLocation, uint32_t bindingPoint = 0);
+    static void bindBlockToShader(const GLSLShaderProgram &shader,
+                                  uint32_t uniformBlockLocation,
+                                  uint32_t bindingPoint = 0);
 
-    static void bindBlockToShader(GLSLShaderProgram &shader, const std::string &name, uint32_t bindingPoint = 0);
+    static void bindBlockToShader(const GLSLShaderProgram &shader, const std::string &name, uint32_t bindingPoint = 0);
 
-    static uint32_t getBlockLocation(GLSLShaderProgram &shader, const std::string &name);
+    static uint32_t getBlockLocation(const GLSLShaderProgram &shader, const std::string &name);
 
 private:
     uint32_t m_bufferID{};
