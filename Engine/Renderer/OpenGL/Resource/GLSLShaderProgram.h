@@ -42,7 +42,14 @@ public:
     ) : type(type_), name(name_), location(location_), defaultValue(defaultValue_) {}
 };
 
+namespace Zelo::Renderer::OpenGL {
+class GLMaterial;
+}
+
 class GLSLShaderProgram : public Shader {
+public:
+    friend class Zelo::Renderer::OpenGL::GLMaterial;
+
 public:
     GLSLShaderProgram();
 
@@ -60,6 +67,8 @@ public:
     void link() override;
 
     void bind() const override;
+
+    void unbind() const;
 
     void findUniformLocations() override;
 

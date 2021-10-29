@@ -124,6 +124,10 @@ void GLSLShaderProgram::bind() const {
     glUseProgram(m_handle);
 }
 
+void GLSLShaderProgram::unbind() const {
+    glUseProgram(0);
+}
+
 void GLSLShaderProgram::updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight) {
     bind();
 
@@ -549,3 +553,4 @@ UniformInfo *GLSLShaderProgram::getUniformInfo(const std::string &name) {
 bool GLSLShaderProgram::isEngineUBOMember(const std::string &uniformName) {
     return uniformName.rfind("ubo_", 0) == 0;
 }
+
