@@ -1,14 +1,13 @@
 // GLTexture.h
 // created on 2021/3/31
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_GLTEXTURE_H
-#define ZELOENGINE_GLTEXTURE_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
 #include "Core/RHI/Resource/Texture.h"
+#include "Core/RHI/Const/ETextureFilteringMode.h"
 #include "Core/Resource/Resource.h"
 
 class TextureData {
@@ -44,6 +43,14 @@ public:
 
 private:
     std::shared_ptr<TextureData> m_textureData;
+
+public:
+    const uint32_t width;
+    const uint32_t height;
+    const uint32_t bitsPerPixel;
+    const Zelo::Core::RHI::ETextureFilteringMode firstFilter;
+    const Zelo::Core::RHI::ETextureFilteringMode secondFilter;
+    const bool isMimapped;
 };
 
 class GLTexture3D : public Zelo::Core::RHI::Texture3D {
@@ -55,5 +62,3 @@ public:
 protected:
     GLuint m_handle{};
 };
-
-#endif //ZELOENGINE_GLTEXTURE_H
