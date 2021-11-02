@@ -84,6 +84,10 @@ link_libraries(ImGui)
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
 
+# optick
+include_directories(ThirdParty/Optick/src)
+link_libraries(Optick)
+
 if (WIN32)
     find_package(glm CONFIG REQUIRED)
     link_libraries(glm)
