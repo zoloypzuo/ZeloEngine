@@ -10,11 +10,11 @@ using namespace Zelo::Renderer::OpenGL;
 GLMaterial::~GLMaterial() = default;
 
 void GLMaterial::bind() const {
-    if (!hasShader())
-        return;
+// TODO use material with shader
     m_diffuseMap.bind(0);
     m_normalMap.bind(1);
     m_specularMap.bind(2);
+    if (!hasShader()) { return; }
     m_shader->bind();
 //    int textureSlot = 0;
     for (const auto&[name, value] : m_uniformsData) {
