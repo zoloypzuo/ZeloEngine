@@ -14,6 +14,8 @@
 
 #endif
 
+#include "optick.h"
+
 using namespace Zelo;
 using namespace Zelo::Core::OS::TimeSystem;
 using namespace Zelo::Core::Resource;
@@ -73,23 +75,52 @@ void Engine::finalize() {
 }
 
 void Engine::update() {
-    m_timeSystem->update();
-    m_window->update();  // input poll events
-    m_uiManager->update();
-    m_game->update();
-    m_luaScriptManager->update();
-    m_renderSystem->update();
-    m_uiManager->draw();
-    m_window->swapBuffer();  // swap buffer
+    OPTICK_EVENT();
+    {
+        m_timeSystem->update();
+    }
+    {
+        OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
+        m_window->update();  // input poll events
+    }
+    {
+        OPTICK_CATEGORY("UpdateUI", Optick::Category::UI);
+        m_uiManager->update();
+    }
+    {
+        OPTICK_CATEGORY("UpdateLogic", Optick::Category::GameLogic);
+        m_game->update();
+        m_luaScriptManager->update();
+    }
+    {
+        OPTICK_CATEGORY("Draw", Optick::Category::Rendering);
+        m_renderSystem->update();
+    }
+    {
+        OPTICK_CATEGORY("DrawUI", Optick::Category::GPU_UI);
+        m_uiManager->draw();
+    }
+    {
+        OPTICK_CATEGORY("SwapBuffer", Optick::Category::Rendering);
+        m_window->swapBuffer();  // swap buffer
+    }
 }
 
 void Engine::start() {
+    // Setting memory allocators
+    OPTICK_SET_MEMORY_ALLOCATOR(
+            [](size_t size) -> void * { return operator new(size); },
+            [](void *p) { operator delete(p); },
+            []() { /* Do some TLS initialization here if needed */ }
+    );
+
     ZELO_PROFILE_BEGIN_SESSION("Startup", "ZeloProfile-Startup.json");
     initialize();
     ZELO_PROFILE_END_SESSION();
 
     ZELO_PROFILE_BEGIN_SESSION("Runtime", "ZeloProfile-Runtime.json");
     while (!m_window->shouldQuit()) {
+        OPTICK_FRAME("MainThread");
         update();
     }
     ZELO_PROFILE_END_SESSION();
@@ -97,6 +128,7 @@ void Engine::start() {
     ZELO_PROFILE_BEGIN_SESSION("Shutdown", "ZeloProfile-Shutdown.json");
     finalize();
     ZELO_PROFILE_END_SESSION();
+    OPTICK_SHUTDOWN();
 }
 
 Engine::Engine() = default;
