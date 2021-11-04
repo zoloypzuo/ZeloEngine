@@ -1,12 +1,27 @@
 # ZeloEngine
 
-[![Build Status](https://travis-ci.org/gujans/travis-gtest-cmake-example.svg?branch=master)](https://travis-ci.org/gujans/travis-gtest-cmake-example) [![codecov](https://codecov.io/gh/gujans/travis-gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/travis-gtest-cmake-example)
+[![Build Status](https://travis-ci.org/gujans/travis-gtest-cmake-example.svg?branch=master)](https://travis-ci.org/gujans/travis-gtest-cmake-example)
+[![codecov](https://codecov.io/gh/gujans/travis-gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/travis-gtest-cmake-example)
 
-It is all about game engine.
+
+<img alt="platforms" src="https://img.shields.io/badge/platforms-Windows-blue?style=flat-square"/></a>
+<img alt="release" src="https://img.shields.io/github/v/release/zoloypzuo/ZeloEngine?style=flat-square"/></a>
+<img alt="size" src="https://img.shields.io/github/repo-size/zoloypzuo/ZeloEngine?style=flat-square"/></a>
+<br/>
+<img alt="issues" src="https://img.shields.io/github/issues-raw/zoloypzuo/ZeloEngine.svg?color=yellow&style=flat-square"/></a>
+<img alt="pulls" src="https://img.shields.io/github/issues-pr-raw/zoloypzuo/ZeloEngine?color=yellow&style=flat-square"/></a>
+<br/>
+<img alt="license" src="https://img.shields.io/github/license/zoloypzuo/ZeloEngine?color=green&style=flat-square"/></a>
+<br/>
+</p>
+
+> It is all about game engine.
 
 自顶向下开发的游戏引擎Demo。
 
 正在施工中。
+
+# 截图
 
 ![Snipaste_2021-09-30_19-41-26](https://raw.githubusercontent.com/zolo-mario/image-host/main/20210930/Snipaste_2021-09-30_19-41-26.1b7emlmhome8.png)
 
