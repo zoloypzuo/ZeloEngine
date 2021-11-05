@@ -33,10 +33,9 @@ GLuint GLUniformBuffer::getHandle() const {
     return m_bufferID;
 }
 
-void
-GLUniformBuffer::bindBlockToShader(const GLSLShaderProgram &shader,
-                                   uint32_t uniformBlockLocation,
-                                   uint32_t bindingPoint) {
+void GLUniformBuffer::bindBlockToShader(const GLSLShaderProgram &shader,
+                                        uint32_t uniformBlockLocation,
+                                        uint32_t bindingPoint) {
     glUniformBlockBinding(shader.getHandle(), uniformBlockLocation, bindingPoint);
 }
 
