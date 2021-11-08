@@ -64,6 +64,6 @@ Torus::Torus(float outerRadius, float innerRadius, uint32_t nsides, uint32_t nri
         }
     }
 
-    initBuffers(&el, &p, &n, &tex);
+    initMeshData(&el, &p, &n, &tex);
 }
 

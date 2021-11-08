@@ -57,5 +57,5 @@ Cube::Cube(GLfloat size) {
             20, 21, 22, 20, 22, 23
     };
 
-    initBuffers(&el, &p, &n, &tex);
+    initMeshData(&el, &p, &n, &tex);
 }

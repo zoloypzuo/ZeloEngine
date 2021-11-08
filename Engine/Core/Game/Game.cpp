@@ -4,22 +4,14 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Game.h"
 #include "Core/OS/Time.h"
-#include "Core/LuaScript/LuaScriptManager.h"
 
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
-#include "Renderer/OpenGL/Resource/GLMesh.h"
-#include "Renderer/OpenGL/Resource/GLMaterial.h"
-
-#include "Core/Parser/MeshLoader.h"
-
-#include "Core/RHI/RenderSystem.h"
 
 using namespace Zelo::Core::OS::TimeSystem;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
-using namespace Zelo::Parser;
 using namespace Zelo::Core::ECS;
 
 void Game::update() {
@@ -78,7 +70,7 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
 
 // TODO fix sol base class 
 void Game::SetActiveCamera(PerspectiveCamera *camera) {
-    RenderSystem::getSingletonPtr()->setActiveCamera(camera);
+    m_activeCamera = camera;
 }
 
 void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {
@@ -88,19 +80,22 @@ void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<Camera *>(&component)) {
         m_fastAccessComponents.cameras.push_back(result);
     }
-    if (auto *result = dynamic_cast<LightPlain *>(&component)) {
+    if (auto *result = dynamic_cast<ALight *>(&component)) {
         m_fastAccessComponents.lights.push_back(result);
     }
 }
 
 void Game::onComponentRemoved(Zelo::Core::ECS::Component &component) {
-    if (auto *result = dynamic_cast<MeshRenderer *>(&component)) {
+    if (auto* result = dynamic_cast<MeshRenderer*>(&component); 
+        !m_fastAccessComponents.meshRenderers.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.meshRenderers, result);
     }
-    if (auto *result = dynamic_cast<Camera *>(&component)) {
+    if (auto* result = dynamic_cast<Camera*>(&component);
+        !m_fastAccessComponents.cameras.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.cameras, result);
     }
-    if (auto *result = dynamic_cast<LightPlain *>(&component)) {
+    if (auto* result = dynamic_cast<ALight*>(&component);
+        !m_fastAccessComponents.lights.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
     }
 }

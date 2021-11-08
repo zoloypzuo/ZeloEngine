@@ -71,5 +71,5 @@ Sphere::Sphere(float rad, uint32_t sl, uint32_t st) {
         }
     }
 
-    initBuffers(&el, &p, &n, &tex);
+    initMeshData(&el, &p, &n, &tex);
 }

@@ -65,37 +65,6 @@ void Entity::updateAll(float delta) {
     }
 }
 
-void Entity::renderAll(Shader *shader) const {
-    for (const auto &component : m_components) {
-        component->render(shader);
-    }
-
-    for (const auto &child : m_children) {
-        child->renderAll(shader);
-    }
-}
-
-void Entity::registerWithEngineAll() {
-
-    for (const auto &component : m_components) {
-        component->registerWithEngine();
-    }
-
-    for (const auto &child : m_children) {
-        child->registerWithEngineAll();
-    }
-}
-
-void Entity::deregisterFromEngineAll() {
-    for (const auto &component : m_components) {
-        component->deregisterFromEngine();
-    }
-
-    for (const auto &child : m_children) {
-        child->deregisterFromEngineAll();
-    }
-}
-
 Transform &Entity::getTransform() {
     return m_transform;
 }
@@ -286,9 +255,6 @@ void Entity::SetSleeping(bool sleeping) {
 void Entity::addChild(const std::shared_ptr<Entity> &child) {
     child->m_parent = this;
     m_children.push_back(child);
-
-    // FIXME: IF MOVING ENTITY TO ANOTHER ENTITY THIS WILL BE AN ISSUE AS WE WILL REREGISTER
-    child->registerWithEngineAll();
 }
 
 void Entity::SetParent(Entity &parent) {

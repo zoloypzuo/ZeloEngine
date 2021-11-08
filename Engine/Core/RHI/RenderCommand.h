@@ -23,14 +23,6 @@ public:
 
     virtual void drawArray(const std::shared_ptr<VertexArray> &vertexArray, int32_t start, int32_t count) = 0;
 
-    virtual void setBlendEnabled(bool enabled) = 0;
-
-    virtual void setBlendFunc() = 0;
-
-    virtual void setCullFaceEnabled(bool enabled) = 0;
-
-    virtual void setDepthTestEnabled(bool enabled) = 0;
-
     virtual void setCapabilityEnabled(ERenderingCapability capability, bool value) = 0;
 
     virtual bool getCapabilityEnabled(ERenderingCapability capability) = 0;

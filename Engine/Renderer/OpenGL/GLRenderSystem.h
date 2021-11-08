@@ -13,7 +13,6 @@
 #include "Core/RHI/RenderSystem.h"
 #include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Object/Camera.h"
-#include "Core/RHI/Object/Light.h"
 #include "Renderer/OpenGL/Pipeline/Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
@@ -30,10 +29,6 @@ public:
 
     void setDrawSize(const glm::ivec2 &size);
 
-    glm::mat4 getViewMatrix();
-
-    glm::mat4 getProjectionMatrix();
-
 private:
     int m_width{};
     int m_height{};
@@ -48,18 +43,6 @@ public: // RenderCommand
     void drawIndexed(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t indexCount) override;
 
     void drawArray(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) override;
-
-    // TODO remove it
-    void setBlendEnabled(bool enabled) override;
-
-    // TODO remove it
-    void setBlendFunc() override;
-
-    // TODO remove it
-    void setCullFaceEnabled(bool enabled) override;
-
-    // TODO remove it
-    void setDepthTestEnabled(bool enabled) override;
 
     void setCapabilityEnabled(Core::RHI::ERenderingCapability capability, bool value) override;
 

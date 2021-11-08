@@ -33,31 +33,6 @@ void GLRenderSystem::drawArray(const std::shared_ptr<Zelo::VertexArray> &vertexA
     glDrawArrays(GL_TRIANGLES, start, count);
 }
 
-void GLRenderSystem::setBlendEnabled(bool enabled) {
-    if (enabled)
-        glEnable(GL_BLEND);
-    else
-        glDisable(GL_BLEND);
-}
-
-void GLRenderSystem::setBlendFunc() {
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-}
-
-void GLRenderSystem::setCullFaceEnabled(bool enabled) {
-    if (enabled)
-        glEnable(GL_CULL_FACE);
-    else
-        glDisable(GL_CULL_FACE);
-}
-
-void GLRenderSystem::setDepthTestEnabled(bool enabled) {
-    if (enabled)
-        glEnable(GL_DEPTH_TEST);
-    else
-        glDisable(GL_DEPTH_TEST);
-}
-
 void GLRenderSystem::setCapabilityEnabled(ERenderingCapability capability, bool value) {
     (value ? glEnable : glDisable)(static_cast<GLenum>(capability));
 }

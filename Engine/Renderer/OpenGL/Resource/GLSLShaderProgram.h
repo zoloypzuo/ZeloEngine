@@ -9,7 +9,6 @@
 #include "Core/RHI/Resource/Shader.h"
 #include "Core/Resource/Resource.h"
 #include "Core/RHI/Const/EShaderType.h"
-#include "Core/RHI/Object/Light.h"
 
 #include <any>
 

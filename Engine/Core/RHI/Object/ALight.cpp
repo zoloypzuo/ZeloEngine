@@ -2,21 +2,21 @@
 // created on 2021/11/7
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "LightPlain.h"
+#include "ALight.h"
 #include "Core/RHI/RenderSystem.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::ECS;
 
-LightPlain::~LightPlain() = default;
+ALight::~ALight() = default;
 
-LightPlain::LightPlain(Entity &owner) : Component(owner) {
+ALight::ALight(Entity &owner) : Component(owner) {
     // TODO refactor property
     setProperty("color", PropertyType::COLOR, &color.x, 0, 1);
     setProperty("intensity", PropertyType::FLOAT, &intensity, 0, 100);
 }
 
-glm::mat4 LightPlain::generateLightMatrix() const {
+glm::mat4 ALight::generateLightMatrix() const {
     auto position = m_owner.getPosition();
     auto forward = m_owner.getDirection();
     return glm::mat4{

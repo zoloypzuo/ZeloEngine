@@ -17,9 +17,9 @@ public:
 
     void update(float delta) override;
 
-    void registerWithEngine() override;
+    void OnAwake() override;
 
-    void deregisterFromEngine() override;
+    void OnDestroy() override;
 
     inline std::string getType() override { return "FREE_LOOK"; }
 

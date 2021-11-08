@@ -19,8 +19,7 @@ public:
     std::vector<uint32_t> getIndices() override { return m_indices; }
 
 protected:
-    // TODO rename to initMeshData
-    void initBuffers(
+    void initMeshData(
             std::vector<GLuint> *indices,
             std::vector<GLfloat> *points,
             std::vector<GLfloat> *normals,

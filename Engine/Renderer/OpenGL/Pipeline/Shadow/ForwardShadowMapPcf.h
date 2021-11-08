@@ -20,10 +20,7 @@ public:
 
     ~ForwardShadowMapPcf() override;
 
-    void render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                const std::vector<std::shared_ptr<SpotLight>> &spotLights) const override;
+    void render(const Zelo::Core::ECS::Entity &scene) const override;
 
     void initialize() override;
 

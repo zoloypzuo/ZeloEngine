@@ -32,9 +32,11 @@ void GLRenderSystem::initialize() {
 void GLRenderSystem::update() {
     clear(true, true, false);
 
-    if (m_activeCamera) {
-        auto scene = Game::getSingletonPtr()->getRootNode();
-        m_renderer->render(*scene, m_activeCamera, m_pointLights, m_directionalLights, m_spotLights);
+    const auto &sceneManager = Game::getSingletonPtr();
+
+    if (sceneManager->getActiveCamera()) {
+        auto scene = sceneManager->getRootNode();
+        m_renderer->render(*scene);
     }
 }
 
@@ -47,14 +49,6 @@ void GLRenderSystem::setDrawSize(const glm::ivec2 &size) {
     this->m_height = size.y;
 
     setViewport(0, 0, this->m_width, this->m_height);
-}
-
-glm::mat4 GLRenderSystem::getViewMatrix() {
-    return m_activeCamera->getViewMatrix();
-}
-
-glm::mat4 GLRenderSystem::getProjectionMatrix() {
-    return m_activeCamera->getProjectionMatrix();
 }
 
 #include "Renderer/OpenGL/GLRenderCommand.inl"

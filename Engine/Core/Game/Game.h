@@ -8,8 +8,7 @@
 #include "ZeloSingleton.h"
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Entity.h"
-#include "Core/RHI/Object/LightPlain.h"
-#include "Renderer/OpenGL/Drawable/MeshRenderer.h"  // TODO extract to Core
+#include "Core/RHI/Object/ALight.h"
 
 // TODO move namespace Zelo::Core::Game
 // TODO rename to Scene
@@ -18,7 +17,7 @@ public:
     struct FastAccessComponents {
         std::vector<MeshRenderer *> meshRenderers;
         std::vector<Camera *> cameras;
-        std::vector<Zelo::Core::RHI::LightPlain *> lights;
+        std::vector<Zelo::Core::RHI::ALight *> lights;
     };
 
 public:
@@ -47,6 +46,8 @@ public:
 
     void SetActiveCamera(PerspectiveCamera *camera);
 
+    Camera *getActiveCamera() const { return m_activeCamera; }
+
 private:
     void onComponentAdded(Zelo::Core::ECS::Component &component);
 
@@ -57,6 +58,7 @@ private:
     Zelo::GUID_t m_entityGuidCounter{};
 
     FastAccessComponents m_fastAccessComponents;
+    Camera *m_activeCamera{};
 };
 
 #endif //ZELOENGINE_GAME_H

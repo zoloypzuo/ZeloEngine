@@ -7,8 +7,7 @@
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Component/CFreeMove.h"
 #include "Core/ECS/Component/CFreeLook.h"
-#include "Core/RHI/Object/Light.h"
-#include "Core/RHI/Object/LightPlain.h"
+#include "Core/RHI/Object/ALight.h"
 
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
@@ -69,9 +68,7 @@ luaState.new_usertype<Entity>("Entity",
 "AddCamera", &Entity::AddComponent<PerspectiveCamera>,
 "AddFreeMove", &Entity::AddComponent<CFreeMove>,
 "AddFreeLook", &Entity::AddComponent<CFreeLook>,
-"AddSpotLight", &Entity::AddComponent<SpotLight>,
-"AddDirectionalLight", &Entity::AddComponent<DirectionalLight>,
-"AddLight", &Entity::AddComponent<LightPlain>,
+"AddLight", &Entity::AddComponent<ALight>,
 "AddMeshRenderer", &Entity::AddComponent<MeshRenderer>,
 "__Dummy", []{}
 );
@@ -94,12 +91,6 @@ luaState.new_usertype<PerspectiveCamera>("Camera",
 "__Dummy", []{}
 );
 
-luaState.new_usertype<Attenuation>("Attenuation",
-"constant", &Attenuation::m_constant, 
-"linear", &Attenuation::m_linear, 
-"exponent", &Attenuation::m_exponent, 
-"__Dummy", []{}
-);
 
 luaState.new_usertype<glm::vec3>("vec3",
 sol::constructors<
@@ -117,34 +108,15 @@ sol::meta_function::multiplication, sol::overload(
 "__Dummy", []{}
 );
 
-luaState.new_usertype<BaseLight>("BaseLight",
-"color", &BaseLight::m_color,
-"intensity", &BaseLight::m_intensity, 
-"__Dummy", []{}
-);
-
-luaState.new_usertype<SpotLight>("SpotLight",
-sol::base_classes, sol::bases<BaseLight>(),
-"attenuation", &SpotLight::m_attenuation,
-"range", &SpotLight::m_range,
-"cutoff", &SpotLight::m_cutoff, 
-"__Dummy", []{}
-);
-
-luaState.new_usertype<LightPlain>("Light",
-"Type", sol::property(&LightPlain::GetType, &LightPlain::SetType),
-"Color", sol::property(&LightPlain::GetColor, &LightPlain::SetColor),
-"Intensity", sol::property(&LightPlain::GetIntensity, &LightPlain::SetIntensity),
-"Constant", sol::property(&LightPlain::GetConstant, &LightPlain::SetConstant),
-"Linear", sol::property(&LightPlain::GetLinear, &LightPlain::SetLinear),
-"Quadratic", sol::property(&LightPlain::GetQuadratic, &LightPlain::SetQuadratic),
-"Cutoff", sol::property(&LightPlain::GetCutoff, &LightPlain::SetCutoff),
-"OuterCutoff", sol::property(&LightPlain::GetOuterCutoff, &LightPlain::SetOuterCutoff),
-"__Dummy", []{}
-);
-
-luaState.new_usertype<DirectionalLight>("DirectionalLight",
-sol::base_classes, sol::bases<BaseLight>(),
+luaState.new_usertype<ALight>("Light",
+"Type", sol::property(&ALight::GetType, &ALight::SetType),
+"Color", sol::property(&ALight::GetColor, &ALight::SetColor),
+"Intensity", sol::property(&ALight::GetIntensity, &ALight::SetIntensity),
+"Constant", sol::property(&ALight::GetConstant, &ALight::SetConstant),
+"Linear", sol::property(&ALight::GetLinear, &ALight::SetLinear),
+"Quadratic", sol::property(&ALight::GetQuadratic, &ALight::SetQuadratic),
+"Cutoff", sol::property(&ALight::GetCutoff, &ALight::SetCutoff),
+"OuterCutoff", sol::property(&ALight::GetOuterCutoff, &ALight::SetOuterCutoff),
 "__Dummy", []{}
 );
 

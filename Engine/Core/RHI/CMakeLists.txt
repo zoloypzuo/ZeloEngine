@@ -31,8 +31,7 @@ add_library(RHI
         MeshGen/Ingredients/torus.h
 
         Object/Camera.cpp
-        Object/Light.cpp
-        Object/LightPlain.cpp
+        Object/ALight.cpp
 
         RenderSystem.cpp RenderSystem.h
         )

@@ -42,30 +42,4 @@ RenderSystem &RenderSystem::getSingleton() {
     return *msSingleton;
 }
 
-void RenderSystem::setActiveCamera(Camera *camera) {
-    m_activeCamera = camera;
-}
 
-void RenderSystem::addDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
-    m_directionalLights.push_back(light);
-}
-
-void RenderSystem::removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
-    Zelo::Erase(m_directionalLights, light);
-}
-
-void RenderSystem::addPointLight(const std::shared_ptr<PointLight> &light) {
-    m_pointLights.push_back(light);
-}
-
-void RenderSystem::removePointLight(const std::shared_ptr<PointLight> &light) {
-    Zelo::Erase(m_pointLights, light);
-}
-
-void RenderSystem::addSpotLight(const std::shared_ptr<SpotLight> &light) {
-    m_spotLights.push_back(light);
-}
-
-void RenderSystem::removeSpotLight(const std::shared_ptr<SpotLight> &light) {
-    Zelo::Erase(m_spotLights, light);
-}
