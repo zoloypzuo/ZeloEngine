@@ -34,14 +34,9 @@ void SimpleRenderer::renderLine(const Line &line, const std::shared_ptr<Camera> 
     line.render(m_simple.get());
 }
 
-void SimpleRenderer::createShaders() {
+void SimpleRenderer::initialize() {
     m_simple = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
     m_simple->link();
-
-}
-
-void SimpleRenderer::initialize() {
-    createShaders();
 }
 
 ForwardRenderer::ForwardRenderer() = default;
@@ -52,24 +47,17 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
                              const std::vector<std::shared_ptr<PointLight>> &pointLights,
                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
-
     updateLights();
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDepthMask(GL_FALSE);
-    glDepthFunc(GL_EQUAL);
-
+    m_forwardShader->bind();
     m_forwardShader->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardShader->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
     m_forwardShader->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
-    m_forwardShader->setUniform1f("specularIntensity", 0.5);
-    m_forwardShader->setUniform1f("specularPower", 10);
-    scene.renderAll(m_forwardShader.get());
 
-    glDepthFunc(GL_LESS);
-    glDepthMask(GL_TRUE);
-    glDisable(GL_BLEND);
+    const auto &meshRenderers = Game::getSingletonPtr()->getFastAccessComponents().meshRenderers;
+    for (const auto &meshRenderer: meshRenderers) {
+        meshRenderer->render(m_forwardShader.get());
+    }
 }
 
 void ForwardRenderer::initialize() {
@@ -81,6 +69,8 @@ void ForwardRenderer::initialize() {
     m_forwardShader->setUniform1i("normalMap", 1);
     m_forwardShader->setUniform1i("specularMap", 2);
     m_forwardShader->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
+    m_forwardShader->setUniform1f("specularIntensity", 0.5);
+    m_forwardShader->setUniform1f("specularPower", 10);
 }
 
 void ForwardRenderer::updateLights() const {

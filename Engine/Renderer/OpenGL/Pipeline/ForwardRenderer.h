@@ -29,7 +29,6 @@ public:
     void renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const;
 
 private:
-    void createShaders();
 
     std::unique_ptr<GLSLShaderProgram> m_simple;
 };
