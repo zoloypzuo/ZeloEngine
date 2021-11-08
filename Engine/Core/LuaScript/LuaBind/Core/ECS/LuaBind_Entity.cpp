@@ -8,6 +8,7 @@
 #include "Core/ECS/Component/CFreeMove.h"
 #include "Core/ECS/Component/CFreeLook.h"
 #include "Core/RHI/Object/Light.h"
+#include "Core/RHI/Object/LightPlain.h"
 
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
@@ -70,6 +71,7 @@ luaState.new_usertype<Entity>("Entity",
 "AddFreeLook", &Entity::AddComponent<CFreeLook>,
 "AddSpotLight", &Entity::AddComponent<SpotLight>,
 "AddDirectionalLight", &Entity::AddComponent<DirectionalLight>,
+"AddLight", &Entity::AddComponent<LightPlain>,
 "AddMeshRenderer", &Entity::AddComponent<MeshRenderer>,
 "__Dummy", []{}
 );
@@ -126,6 +128,18 @@ sol::base_classes, sol::bases<BaseLight>(),
 "attenuation", &SpotLight::m_attenuation,
 "range", &SpotLight::m_range,
 "cutoff", &SpotLight::m_cutoff, 
+"__Dummy", []{}
+);
+
+luaState.new_usertype<LightPlain>("Light",
+"type ", &LightPlain::type,
+"color ", &LightPlain::color,
+"intensity ", &LightPlain::intensity,
+"constant ", &LightPlain::constant,
+"linear ", &LightPlain::linear,
+"quadratic ", &LightPlain::quadratic,
+"cutoff ", &LightPlain::cutoff,
+"outerCutoff ", &LightPlain::outerCutoff,
 "__Dummy", []{}
 );
 
