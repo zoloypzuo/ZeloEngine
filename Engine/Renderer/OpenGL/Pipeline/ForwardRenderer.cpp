@@ -56,6 +56,7 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
 
     const auto &meshRenderers = Game::getSingletonPtr()->getFastAccessComponents().meshRenderers;
     for (const auto &meshRenderer: meshRenderers) {
+        updateEngineUBOModel(meshRenderer->getOwner()->getWorldMatrix());
         meshRenderer->render(m_forwardShader.get());
     }
 }
@@ -93,4 +94,8 @@ void ForwardRenderer::updateEngineUBO() const {
     m_engineUBO->setSubData(camera->getViewMatrix(), std::ref(offset));
     m_engineUBO->setSubData(camera->getProjectionMatrix(), std::ref(offset));
     m_engineUBO->setSubData(camera->getOwner()->getPosition(), std::ref(offset));
+}
+
+void ForwardRenderer::updateEngineUBOModel(const glm::mat4 &modelMatrix) const {
+    m_engineUBO->setSubData(modelMatrix, 0);
 }

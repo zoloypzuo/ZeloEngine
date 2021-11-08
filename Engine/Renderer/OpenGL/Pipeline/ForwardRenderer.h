@@ -62,6 +62,8 @@ protected:
 
     void updateEngineUBO() const;
 
+    void updateEngineUBOModel(const glm::mat4 &modelMatrix) const;
+
     std::unique_ptr<GLSLShaderProgram> m_forwardShader;
 
     std::unique_ptr<Zelo::GLShaderStorageBuffer> m_lightSSBO{};

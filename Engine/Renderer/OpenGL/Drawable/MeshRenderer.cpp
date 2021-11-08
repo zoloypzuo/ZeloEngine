@@ -12,9 +12,8 @@ MeshRenderer::MeshRenderer(Zelo::Core::ECS::Entity &owner) : Component(owner) {
 
 MeshRenderer::~MeshRenderer() = default;
 
+// TODO remove shader param
 void MeshRenderer::render(Shader *shader) {
-    shader->setUniformMatrix4f("World", m_owner.getWorldMatrix());
-
     m_material->bind();
     m_mesh->render();
 }
