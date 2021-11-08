@@ -86,13 +86,16 @@ void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {
 }
 
 void Game::onComponentRemoved(Zelo::Core::ECS::Component &component) {
-    if (auto *result = dynamic_cast<MeshRenderer *>(&component)) {
+    if (auto* result = dynamic_cast<MeshRenderer*>(&component); 
+        !m_fastAccessComponents.meshRenderers.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.meshRenderers, result);
     }
-    if (auto *result = dynamic_cast<Camera *>(&component)) {
+    if (auto* result = dynamic_cast<Camera*>(&component);
+        !m_fastAccessComponents.cameras.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.cameras, result);
     }
-    if (auto *result = dynamic_cast<ALight *>(&component)) {
+    if (auto* result = dynamic_cast<ALight*>(&component);
+        !m_fastAccessComponents.lights.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
     }
 }
