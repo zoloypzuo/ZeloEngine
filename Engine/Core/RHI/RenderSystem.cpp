@@ -51,8 +51,7 @@ void RenderSystem::addDirectionalLight(const std::shared_ptr<DirectionalLight> &
 }
 
 void RenderSystem::removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light) {
-    m_directionalLights.erase(std::remove(m_directionalLights.begin(), m_directionalLights.end(), light),
-                              m_directionalLights.end());
+    Zelo::Erase(m_directionalLights, light);
 }
 
 void RenderSystem::addPointLight(const std::shared_ptr<PointLight> &light) {
@@ -60,7 +59,7 @@ void RenderSystem::addPointLight(const std::shared_ptr<PointLight> &light) {
 }
 
 void RenderSystem::removePointLight(const std::shared_ptr<PointLight> &light) {
-    m_pointLights.erase(std::remove(m_pointLights.begin(), m_pointLights.end(), light), m_pointLights.end());
+    Zelo::Erase(m_pointLights, light);
 }
 
 void RenderSystem::addSpotLight(const std::shared_ptr<SpotLight> &light) {
@@ -68,5 +67,5 @@ void RenderSystem::addSpotLight(const std::shared_ptr<SpotLight> &light) {
 }
 
 void RenderSystem::removeSpotLight(const std::shared_ptr<SpotLight> &light) {
-    m_spotLights.erase(std::remove(m_spotLights.begin(), m_spotLights.end(), light), m_spotLights.end());
+    Zelo::Erase(m_spotLights, light);
 }

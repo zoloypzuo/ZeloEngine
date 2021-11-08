@@ -69,6 +69,7 @@ private:
 
 protected:
     Camera *m_activeCamera{};
+    // TODO save data in Scene, not here
     std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights{};
     std::vector<std::shared_ptr<PointLight>> m_pointLights{};
     std::vector<std::shared_ptr<SpotLight>> m_spotLights{};
