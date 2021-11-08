@@ -52,6 +52,10 @@ Entity *Game::CreateEntity() {
     m_entityGuidCounter++; // acc guid counter
     const auto &entity = std::make_shared<Entity>(m_entityGuidCounter);
     rootScene->addChild(entity);
+
+    entity->ComponentAddedEvent += std::bind(&Game::onComponentAdded, this, std::placeholders::_1);
+    entity->ComponentRemovedEvent += std::bind(&Game::onComponentRemoved, this, std::placeholders::_1);
+
     return entity.get();
 }
 
@@ -75,4 +79,28 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
 // TODO fix sol base class 
 void Game::SetActiveCamera(PerspectiveCamera *camera) {
     RenderSystem::getSingletonPtr()->setActiveCamera(camera);
+}
+
+void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {
+    if (auto *result = dynamic_cast<MeshRenderer *>(&component)) {
+        m_fastAccessComponents.meshRenderers.push_back(result);
+    }
+    if (auto *result = dynamic_cast<Camera *>(&component)) {
+        m_fastAccessComponents.cameras.push_back(result);
+    }
+    if (auto *result = dynamic_cast<LightPlain *>(&component)) {
+        m_fastAccessComponents.lights.push_back(result);
+    }
+}
+
+void Game::onComponentRemoved(Zelo::Core::ECS::Component &component) {
+    if (auto *result = dynamic_cast<MeshRenderer *>(&component)) {
+        Zelo::Erase(m_fastAccessComponents.meshRenderers, result);
+    }
+    if (auto *result = dynamic_cast<Camera *>(&component)) {
+        Zelo::Erase(m_fastAccessComponents.cameras, result);
+    }
+    if (auto *result = dynamic_cast<LightPlain *>(&component)) {
+        Zelo::Erase(m_fastAccessComponents.lights, result);
+    }
 }

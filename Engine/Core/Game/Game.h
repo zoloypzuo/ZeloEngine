@@ -48,6 +48,11 @@ public:
     void SetActiveCamera(PerspectiveCamera *camera);
 
 private:
+    void onComponentAdded(Zelo::Core::ECS::Component &component);
+
+    void onComponentRemoved(Zelo::Core::ECS::Component &component);
+
+private:
     std::shared_ptr<Zelo::Core::ECS::Entity> rootScene{};
     Zelo::GUID_t m_entityGuidCounter{};
 

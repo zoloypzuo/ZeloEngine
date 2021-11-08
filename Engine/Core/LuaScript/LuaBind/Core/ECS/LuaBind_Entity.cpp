@@ -132,14 +132,14 @@ sol::base_classes, sol::bases<BaseLight>(),
 );
 
 luaState.new_usertype<LightPlain>("Light",
-"type ", &LightPlain::type,
-"color ", &LightPlain::color,
-"intensity ", &LightPlain::intensity,
-"constant ", &LightPlain::constant,
-"linear ", &LightPlain::linear,
-"quadratic ", &LightPlain::quadratic,
-"cutoff ", &LightPlain::cutoff,
-"outerCutoff ", &LightPlain::outerCutoff,
+"Type", sol::property(&LightPlain::GetType, &LightPlain::SetType),
+"Color", sol::property(&LightPlain::GetColor, &LightPlain::SetColor),
+"Intensity", sol::property(&LightPlain::GetIntensity, &LightPlain::SetIntensity),
+"Constant", sol::property(&LightPlain::GetConstant, &LightPlain::SetConstant),
+"Linear", sol::property(&LightPlain::GetLinear, &LightPlain::SetLinear),
+"Quadratic", sol::property(&LightPlain::GetQuadratic, &LightPlain::SetQuadratic),
+"Cutoff", sol::property(&LightPlain::GetCutoff, &LightPlain::SetCutoff),
+"OuterCutoff", sol::property(&LightPlain::GetOuterCutoff, &LightPlain::SetOuterCutoff),
 "__Dummy", []{}
 );
 
