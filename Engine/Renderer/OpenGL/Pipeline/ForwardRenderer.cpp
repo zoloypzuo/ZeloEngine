@@ -70,12 +70,9 @@ void ForwardRenderer::initialize() {
 
     m_forwardShader = std::make_unique<GLSLShaderProgram>("Shader/forward_standard.lua");
     m_forwardShader->link();
-    m_forwardShader->setUniform1i("diffuseMap", 0);
-    m_forwardShader->setUniform1i("normalMap", 1);
-    m_forwardShader->setUniform1i("specularMap", 2);
-    m_forwardShader->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
-    m_forwardShader->setUniform1f("specularIntensity", 0.5);
-    m_forwardShader->setUniform1f("specularPower", 10);
+    m_forwardShader->setUniform1i("u_DiffuseMap", 0);
+    m_forwardShader->setUniform1i("u_NormalMap", 1);
+    m_forwardShader->setUniform1i("u_SpecularMap", 2);
 }
 
 void ForwardRenderer::updateLights() const {

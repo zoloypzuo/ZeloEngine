@@ -374,7 +374,8 @@ void GLSLShaderProgram::addShaderSrc(const std::string &fileName,
             logString = c_log;
             delete[] c_log;
         }
-        spdlog::error("{}: shader compliation failed{}", fileName, logString);
+        spdlog::error("{}: shader compliation failed{}\n{}", fileName, logString, c_code);
+        ZELO_ASSERT(false);
         return;
     } else {
         // Compile succeeded, attach shader
@@ -433,6 +434,13 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
+    std::string common_src = result["common_shader"];
+    std::string common_src_vs(common_src);
+    Zelo::ReplaceString(common_src_vs, "varying", "out");
+    std::string common_src_fs(common_src);
+    Zelo::ReplaceString(common_src_fs, "varying", "in");
+    Zelo::ReplaceString(vertex_src, "// common:", common_src_vs);
+    Zelo::ReplaceString(fragment_src, "// common:", common_src_fs);
     addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
     addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
 }
