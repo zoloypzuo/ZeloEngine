@@ -14,8 +14,8 @@ layout (std140) uniform EngineUBO
   mat4 ubo_model;
   mat4 ubo_view;
   mat4 ubo_projection;
-  vec3 ubo_viewPos;  // TODO
-  float ubo_time; // TODO
+  vec3 ubo_viewPos;
+  float ubo_time; // not used for now
 };
 
 out VaryingVariables
