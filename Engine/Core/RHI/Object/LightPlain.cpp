@@ -16,16 +16,6 @@ LightPlain::LightPlain(Entity &owner) : Component(owner) {
     setProperty("intensity", PropertyType::FLOAT, &intensity, 0, 100);
 }
 
-void LightPlain::registerWithEngine() {
-    RenderSystem::getSingletonPtr()->addDirectionalLight(
-            std::dynamic_pointer_cast<LightPlain>(shared_from_this()));
-}
-
-void LightPlain::deregisterFromEngine() {
-    RenderSystem::getSingletonPtr()->removeDirectionalLight(
-            std::dynamic_pointer_cast<LightPlain>(shared_from_this()));
-}
-
 glm::mat4 LightPlain::generateLightMatrix() const {
     auto position = m_owner.getPosition();
     auto forward = m_owner.getDirection();

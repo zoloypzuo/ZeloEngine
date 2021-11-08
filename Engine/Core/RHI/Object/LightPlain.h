@@ -21,10 +21,6 @@ public:
 
     std::string getType() override { return "Light"; }
 
-    void registerWithEngine() override;
-
-    void deregisterFromEngine() override;
-
     // encode data into a matrix
     glm::mat4 generateLightMatrix() const;
 
