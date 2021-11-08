@@ -7,3 +7,7 @@
 测了一下enum注册进去就是number，也没有类型
 
 目前的解决是使用create_table
+
+## class无法直接暴露public成员变量
+
+还是用get/set封装比较保险
