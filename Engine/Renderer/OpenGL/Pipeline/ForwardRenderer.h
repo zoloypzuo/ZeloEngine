@@ -60,6 +60,8 @@ protected:
 
     void updateLights() const;
 
+    void updateEngineUBO() const;
+
     std::unique_ptr<GLSLShaderProgram> m_forwardShader;
 
     std::unique_ptr<Zelo::GLShaderStorageBuffer> m_lightSSBO{};

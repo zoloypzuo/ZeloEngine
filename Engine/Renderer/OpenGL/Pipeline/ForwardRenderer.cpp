@@ -4,6 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRenderer.h"
 #include "Core/Game/Game.h"
+#include "Core/RHI/RenderSystem.h"
 
 using namespace Zelo;
 
@@ -48,11 +49,10 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
     updateLights();
+    updateEngineUBO();
 
+    // TODO bind by material
     m_forwardShader->bind();
-    m_forwardShader->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardShader->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardShader->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
 
     const auto &meshRenderers = Game::getSingletonPtr()->getFastAccessComponents().meshRenderers;
     for (const auto &meshRenderer: meshRenderers) {
@@ -85,4 +85,12 @@ void ForwardRenderer::updateLights() const {
         lightMatrices.push_back(light->generateLightMatrix());
     }
     m_lightSSBO->sendBlocks<glm::mat4>(lightMatrices.data(), lightMatrices.size() * sizeof(glm::mat4));
+}
+
+void ForwardRenderer::updateEngineUBO() const {
+    size_t offset = sizeof(glm::mat4);  // skip model matrix;
+    auto *camera = Core::RHI::RenderSystem::getSingletonPtr()->getActiveCamera();
+    m_engineUBO->setSubData(camera->getViewMatrix(), std::ref(offset));
+    m_engineUBO->setSubData(camera->getProjectionMatrix(), std::ref(offset));
+    m_engineUBO->setSubData(camera->getOwner()->getPosition(), std::ref(offset));
 }

@@ -52,6 +52,8 @@ public:
 public:
     void setActiveCamera(Camera *camera);
 
+    Camera *getActiveCamera() const { return m_activeCamera; }
+
     void addDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
 
     void removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
@@ -68,8 +70,8 @@ private:
     FrameInfo m_frameInfo;
 
 protected:
-    Camera *m_activeCamera{};
     // TODO save data in Scene, not here
+    Camera *m_activeCamera{};
     std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights{};
     std::vector<std::shared_ptr<PointLight>> m_pointLights{};
     std::vector<std::shared_ptr<SpotLight>> m_spotLights{};
