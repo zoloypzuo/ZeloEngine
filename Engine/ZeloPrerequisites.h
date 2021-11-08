@@ -63,6 +63,20 @@ inline T  operator  ^(const T s, const T e) { return (T)((unsigned)s ^ e); } \
 inline T &operator ^=(T      &s, const T e) { return s = s ^ e; }            \
 inline T  operator  ~(const T s)            { return (T)~(unsigned)s; }
 
+// Example:
+//  ZELO_PACKED(
+//  struct Bar
+//  {
+//    float baz;
+//    float boo;
+//  };
+//  )
+#ifdef __GNUC__
+#define ZELO_PACKED( class_to_pack ) class_to_pack __attribute__((__packed__))
+#else
+#define ZELO_PACKED( class_to_pack ) __pragma( pack(push, 1) ) class_to_pack __pragma( pack(pop) )
+#endif
+
 // mixin for class that cannot be copied
 class NonCopyable {
 public:
