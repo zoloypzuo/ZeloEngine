@@ -110,16 +110,6 @@ do
     camera.zNear = 0.05
     camera.zFar = 100
 
-    local attenuation = Attenuation.new()
-    attenuation.constant = 0
-    attenuation.linear = 0
-    attenuation.exponent = 0.2
-    local spotLight = avatar.entity:AddSpotLight()
-    spotLight.color = Vector3(1, 1, 1)
-    spotLight.intensity = 2.8
-    spotLight.cutoff = 0.7
-    spotLight.attenuation = attenuation
-
     avatar.entity:AddFreeMove()
     avatar.entity:AddFreeLook()
 
