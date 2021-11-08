@@ -48,14 +48,10 @@ public:
     void initialize() override;
 
 protected:
-    void createShaders();
 
     void updateLights() const ;
 
-    std::unique_ptr<GLSLShaderProgram> m_forwardAmbient;
-    std::unique_ptr<GLSLShaderProgram> m_forwardDirectional;
-    std::unique_ptr<GLSLShaderProgram> m_forwardPoint;
-    std::unique_ptr<GLSLShaderProgram> m_forwardSpot;
+    std::unique_ptr<GLSLShaderProgram> m_forwardShader;
 
     std::unique_ptr<Zelo::GLShaderStorageBuffer> m_lightSSBO{};
 };
