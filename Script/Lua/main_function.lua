@@ -34,7 +34,7 @@ local function RegisterPrefabs(...)
 end
 
 function LoadPrefabFile(filename)
-    print("Loading prefab file " .. filename)
+    --print("Loading prefab file " .. filename)
     local ret = { require(filename) }
 
     if ret then
@@ -266,7 +266,7 @@ end
 function LoadResource(name)
     if not ResourceMap[name] then
         -- asset not loaded
-        print("LoadResource", name)
+        --print("LoadResource", name)
         local asset_meta_data = require(name)
         local asset_type = asset_meta_data.type
         local asset_file = asset_meta_data.file
