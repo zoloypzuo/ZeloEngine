@@ -46,6 +46,8 @@ public:
 
     void SetActiveCamera(PerspectiveCamera *camera);
 
+    Camera *getActiveCamera() const { return m_activeCamera; }
+
 private:
     void onComponentAdded(Zelo::Core::ECS::Component &component);
 
@@ -56,6 +58,7 @@ private:
     Zelo::GUID_t m_entityGuidCounter{};
 
     FastAccessComponents m_fastAccessComponents;
+    Camera *m_activeCamera{};
 };
 
 #endif //ZELOENGINE_GAME_H

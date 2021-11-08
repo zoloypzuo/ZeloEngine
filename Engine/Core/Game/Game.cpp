@@ -4,22 +4,14 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Game.h"
 #include "Core/OS/Time.h"
-#include "Core/LuaScript/LuaScriptManager.h"
 
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
-#include "Renderer/OpenGL/Resource/GLMesh.h"
-#include "Renderer/OpenGL/Resource/GLMaterial.h"
-
-#include "Core/Parser/MeshLoader.h"
-
-#include "Core/RHI/RenderSystem.h"
 
 using namespace Zelo::Core::OS::TimeSystem;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
-using namespace Zelo::Parser;
 using namespace Zelo::Core::ECS;
 
 void Game::update() {
@@ -78,7 +70,7 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
 
 // TODO fix sol base class 
 void Game::SetActiveCamera(PerspectiveCamera *camera) {
-    RenderSystem::getSingletonPtr()->setActiveCamera(camera);
+    m_activeCamera = camera;
 }
 
 void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {

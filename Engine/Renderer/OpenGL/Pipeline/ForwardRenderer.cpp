@@ -82,7 +82,7 @@ void ForwardRenderer::updateLights() const {
 
 void ForwardRenderer::updateEngineUBO() const {
     size_t offset = sizeof(glm::mat4);  // skip model matrix;
-    auto *camera = Core::RHI::RenderSystem::getSingletonPtr()->getActiveCamera();
+    auto *camera = Game::getSingletonPtr()->getActiveCamera();
     m_engineUBO->setSubData(camera->getViewMatrix(), std::ref(offset));
     m_engineUBO->setSubData(camera->getProjectionMatrix(), std::ref(offset));
     m_engineUBO->setSubData(camera->getOwner()->getPosition(), std::ref(offset));

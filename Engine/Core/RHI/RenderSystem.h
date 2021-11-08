@@ -49,16 +49,13 @@ public:
     void ClearFrameInfo();
 
 public:
-    void setActiveCamera(Camera *camera);
 
-    Camera *getActiveCamera() const { return m_activeCamera; }
 
 private:
     FrameInfo m_frameInfo;
 
 protected:
-    // TODO save data in Scene, not here
-    Camera *m_activeCamera{};
+
 };
 }
 

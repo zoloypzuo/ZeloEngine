@@ -42,7 +42,4 @@ RenderSystem &RenderSystem::getSingleton() {
     return *msSingleton;
 }
 
-void RenderSystem::setActiveCamera(Camera *camera) {
-    m_activeCamera = camera;
-}
 
