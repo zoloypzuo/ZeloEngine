@@ -88,7 +88,7 @@ void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<Camera *>(&component)) {
         m_fastAccessComponents.cameras.push_back(result);
     }
-    if (auto *result = dynamic_cast<LightPlain *>(&component)) {
+    if (auto *result = dynamic_cast<ALight *>(&component)) {
         m_fastAccessComponents.lights.push_back(result);
     }
 }
@@ -100,7 +100,7 @@ void Game::onComponentRemoved(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<Camera *>(&component)) {
         Zelo::Erase(m_fastAccessComponents.cameras, result);
     }
-    if (auto *result = dynamic_cast<LightPlain *>(&component)) {
+    if (auto *result = dynamic_cast<ALight *>(&component)) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
     }
 }
