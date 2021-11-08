@@ -9,7 +9,6 @@
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Entity.h"
 #include "Core/RHI/Object/ALight.h"
-#include "Renderer/OpenGL/Drawable/MeshRenderer.h"  // TODO extract to Core
 
 // TODO move namespace Zelo::Core::Game
 // TODO rename to Scene

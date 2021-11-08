@@ -126,4 +126,7 @@ class Entity;
 class Component;
 
 class Behaviour;
+
 }
+
+class MeshRenderer;

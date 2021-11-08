@@ -5,6 +5,7 @@
 #include "ForwardRenderer.h"
 #include "Core/Game/Game.h"
 #include "Core/RHI/RenderSystem.h"
+#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
 using namespace Zelo;
 

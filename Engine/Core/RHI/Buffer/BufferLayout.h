@@ -7,7 +7,6 @@
 #include "ZeloPrerequisites.h"
 #include "Core/RHI/Const/EShaderType.h"
 
-// TODO OPTIMIZE pack alignment
 struct BufferElement {
     std::string Name{};
     Zelo::Core::RHI::ShaderDataType Type{};
@@ -27,7 +26,6 @@ struct BufferElement {
 };
 
 class BufferLayout {
-    // 描述一个struct，自动计算所有字段的offset
 public:
     BufferLayout() = default;
 
