@@ -12,6 +12,7 @@
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLShaderStorageBuffer.h"
+#include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 
 class SimpleRenderer : public Renderer {
 public:
@@ -35,6 +36,15 @@ private:
 
 class ForwardRenderer : public Renderer {
 public:
+    ZELO_PACKED
+    (struct EngineUBO {
+         glm::mat4 ubo_model;
+         glm::mat4 ubo_view;
+         glm::mat4 ubo_projection;
+         glm::vec3 ubo_viewPos;
+         float ubo_time;
+     };)
+public:
     ForwardRenderer();
 
     ~ForwardRenderer() override;
@@ -48,11 +58,12 @@ public:
 
 protected:
 
-    void updateLights() const ;
+    void updateLights() const;
 
     std::unique_ptr<GLSLShaderProgram> m_forwardShader;
 
     std::unique_ptr<Zelo::GLShaderStorageBuffer> m_lightSSBO{};
+    std::unique_ptr<Zelo::GLUniformBuffer> m_engineUBO{};
 };
 
 #endif //ZELOENGINE_FORWARDRENDERER_H

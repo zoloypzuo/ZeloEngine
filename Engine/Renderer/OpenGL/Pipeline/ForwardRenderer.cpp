@@ -63,6 +63,10 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
 void ForwardRenderer::initialize() {
     m_lightSSBO = std::make_unique<GLShaderStorageBuffer>(Core::RHI::EAccessSpecifier::STREAM_DRAW);
     m_lightSSBO->bind(0);
+    m_engineUBO = std::make_unique<GLUniformBuffer>(
+            sizeof(EngineUBO), 0, 0,
+            Core::RHI::EAccessSpecifier::STREAM_DRAW);
+
     m_forwardShader = std::make_unique<GLSLShaderProgram>("Shader/forward_standard.lua");
     m_forwardShader->link();
     m_forwardShader->setUniform1i("diffuseMap", 0);
