@@ -4,35 +4,58 @@
 local vertex_shader = [[
 #version 430 core
 
-layout(location = 0) in vec3 position;
-layout(location = 1) in vec2 texCoord;
-layout(location = 2) in vec3 normal;
-layout(location = 3) in vec3 tangent;
+layout(location = 0) in vec3 v_position;
+layout(location = 1) in vec2 v_texCoord;
+layout(location = 2) in vec3 v_normal;
+layout(location = 3) in vec3 v_tangent;
 
-out vec2 texCoord0;
-out vec3 worldPos0;
-out mat3 tbnMatrix;
+layout (std140) uniform EngineUBO
+{
+  mat4 ubo_model;
+  mat4 ubo_view;
+  mat4 ubo_projection;
+  vec3 ubo_viewPos;  // TODO
+  float ubo_time; // TODO
+};
 
-out vec3 FragPos;
-
-uniform mat4 View;
-uniform mat4 Proj;
-uniform mat4 World;
+out VaryingVariables
+{
+  vec3 fragPos;
+  vec2 texCoord0;
+  mat3 TBN;
+  vec3 normal;
+  flat vec3 tangentViewPos;
+  vec3 tangentFragPos;
+} vary;
 
 void main()
 {
-  gl_Position = Proj * View * World * vec4(position, 1.0);
-  texCoord0 = texCoord;
-  worldPos0 = (World * vec4(position, 1.0f)).xyz;
+  vec3 fragPos = vec3(ubo_model * vec4(v_position, 1.0));
+  vary.fragPos = fragPos;
+  vary.texCoord0 = v_texCoord;
 
-  vec3 n = normalize((World * vec4(normal, 0.0)).xyz);
-  vec3 t = normalize((World * vec4(tangent, 0.0)).xyz);
+  // compute TBN
+  // if bitangent is precomputed in vertex attribute, a nicer computation
+  //   can be written as follows:
+  // TBN = mat3
+  // (
+  //   normalize(vec3(ubo_Model * vec4(geo_Tangent,   0.0))),
+  //   normalize(vec3(ubo_Model * vec4(geo_Bitangent, 0.0))),
+  //   normalize(vec3(ubo_Model * vec4(geo_Normal,    0.0)))
+  // );
+  vec3 n = normalize((ubo_model * vec4(v_normal, 0.0)).xyz);
+  vec3 t = normalize((ubo_model * vec4(v_tangent, 0.0)).xyz);
   t = normalize(t - dot(t, n) * n);
+  vec3 b = cross(t, n);
+  vary.TBN = mat3(t, b, n);
 
-  vec3 biTangent = cross(t, n);
-  tbnMatrix = mat3(t, biTangent, n);
+  mat3 TBNi = transpose(vs_out.TBN);
 
-  FragPos = vec3(World * vec4(position, 1.0));
+  vary.normal = normalize(mat3(transpose(inverse(ubo_model))) * v_normal);
+  vary.tangentViewPos = TBNi * ubo_viewPos;
+  vary.tangentFragPos = TBNi * fragPos;
+
+  gl_Position = ubo_projection * ubo_view * fragPos;
 }
 ]]
 
