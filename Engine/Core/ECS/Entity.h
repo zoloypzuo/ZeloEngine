@@ -119,6 +119,7 @@ public:
 
     void updateAll(float delta);
 
+    // TODO remove it
     void renderAll(Shader *shader) const;
 
     void registerWithEngineAll();
