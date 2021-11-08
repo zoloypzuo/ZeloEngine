@@ -8,6 +8,7 @@
 #include "Core/ECS/Component/CFreeMove.h"
 #include "Core/ECS/Component/CFreeLook.h"
 #include "Core/RHI/Object/Light.h"
+#include "Core/RHI/Object/LightPlain.h"
 
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
@@ -70,6 +71,7 @@ luaState.new_usertype<Entity>("Entity",
 "AddFreeLook", &Entity::AddComponent<CFreeLook>,
 "AddSpotLight", &Entity::AddComponent<SpotLight>,
 "AddDirectionalLight", &Entity::AddComponent<DirectionalLight>,
+"AddLight", &Entity::AddComponent<LightPlain>,
 "AddMeshRenderer", &Entity::AddComponent<MeshRenderer>,
 "__Dummy", []{}
 );
@@ -126,6 +128,18 @@ sol::base_classes, sol::bases<BaseLight>(),
 "attenuation", &SpotLight::m_attenuation,
 "range", &SpotLight::m_range,
 "cutoff", &SpotLight::m_cutoff, 
+"__Dummy", []{}
+);
+
+luaState.new_usertype<LightPlain>("Light",
+"Type", sol::property(&LightPlain::GetType, &LightPlain::SetType),
+"Color", sol::property(&LightPlain::GetColor, &LightPlain::SetColor),
+"Intensity", sol::property(&LightPlain::GetIntensity, &LightPlain::SetIntensity),
+"Constant", sol::property(&LightPlain::GetConstant, &LightPlain::SetConstant),
+"Linear", sol::property(&LightPlain::GetLinear, &LightPlain::SetLinear),
+"Quadratic", sol::property(&LightPlain::GetQuadratic, &LightPlain::SetQuadratic),
+"Cutoff", sol::property(&LightPlain::GetCutoff, &LightPlain::SetCutoff),
+"OuterCutoff", sol::property(&LightPlain::GetOuterCutoff, &LightPlain::SetOuterCutoff),
 "__Dummy", []{}
 );
 

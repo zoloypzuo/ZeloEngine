@@ -3,6 +3,10 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRenderer.h"
+#include "Core/Game/Game.h"
+#include "Core/RHI/RenderSystem.h"
+
+using namespace Zelo;
 
 SimpleRenderer::SimpleRenderer() = default;
 
@@ -31,14 +35,9 @@ void SimpleRenderer::renderLine(const Line &line, const std::shared_ptr<Camera> 
     line.render(m_simple.get());
 }
 
-void SimpleRenderer::createShaders() {
+void SimpleRenderer::initialize() {
     m_simple = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
     m_simple->link();
-
-}
-
-void SimpleRenderer::initialize() {
-    createShaders();
 }
 
 ForwardRenderer::ForwardRenderer() = default;
@@ -49,85 +48,51 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
                              const std::vector<std::shared_ptr<PointLight>> &pointLights,
                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
-    m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+    updateLights();
+    updateEngineUBO();
 
-    scene.renderAll(m_forwardAmbient.get());
+    // TODO bind by material
+    m_forwardShader->bind();
 
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE);
-    glDepthMask(GL_FALSE);
-    glDepthFunc(GL_EQUAL);
-
-    m_forwardDirectional->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardDirectional->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardDirectional->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
-
-    m_forwardDirectional->setUniform1f("specularIntensity", 0.5);
-    m_forwardDirectional->setUniform1f("specularPower", 10);
-    for (const auto &light : directionalLights) {
-//        light->updateShader(m_forwardDirectional.get());
-
-        scene.renderAll(m_forwardDirectional.get());
+    const auto &meshRenderers = Game::getSingletonPtr()->getFastAccessComponents().meshRenderers;
+    for (const auto &meshRenderer: meshRenderers) {
+        updateEngineUBOModel(meshRenderer->getOwner()->getWorldMatrix());
+        meshRenderer->render(m_forwardShader.get());
     }
-
-    m_forwardPoint->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardPoint->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardPoint->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
-
-    m_forwardPoint->setUniform1f("specularIntensity", 0.5);
-    m_forwardPoint->setUniform1f("specularPower", 10);
-    for (const auto &light : pointLights) {
-//        light->updateShader(m_forwardPoint.get());
-
-        scene.renderAll(m_forwardPoint.get());
-    }
-
-    m_forwardSpot->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_forwardSpot->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-    m_forwardSpot->setUniformVec3f("eyePos", activeCamera->getOwner()->getPosition());
-
-    m_forwardSpot->setUniform1f("specularIntensity", 0.5);
-    m_forwardSpot->setUniform1f("specularPower", 10);
-    for (const auto &light : spotLights) {
-//        light->updateShader(m_forwardSpot.get());
-
-        scene.renderAll(m_forwardSpot.get());
-    }
-
-    glDepthFunc(GL_LESS);
-    glDepthMask(GL_TRUE);
-    glDisable(GL_BLEND);
-}
-
-void ForwardRenderer::createShaders() {
-    m_forwardAmbient = std::make_unique<GLSLShaderProgram>("Shader/forward-ambient.lua");
-    m_forwardAmbient->link();
-
-    m_forwardAmbient->setUniform1i("diffuseMap", 0);
-
-    m_forwardAmbient->setUniformVec3f("ambientIntensity", glm::vec3(0.2f, 0.2f, 0.2f));
-
-    m_forwardDirectional = std::make_unique<GLSLShaderProgram>("Shader/forward-directional.lua");
-    m_forwardDirectional->link();
-    m_forwardDirectional->setUniform1i("diffuseMap", 0);
-    m_forwardDirectional->setUniform1i("normalMap", 1);
-    m_forwardDirectional->setUniform1i("specularMap", 2);
-
-    m_forwardPoint = std::make_unique<GLSLShaderProgram>("Shader/forward-point.lua");
-    m_forwardPoint->link();
-
-    m_forwardPoint->setUniform1i("diffuseMap", 0);
-    m_forwardPoint->setUniform1i("normalMap", 1);
-    m_forwardPoint->setUniform1i("specularMap", 2);
-
-    m_forwardSpot = std::make_unique<GLSLShaderProgram>("Shader/forward-spot.lua");
-    m_forwardSpot->link();
-    m_forwardSpot->setUniform1i("diffuseMap", 0);
-    m_forwardSpot->setUniform1i("normalMap", 1);
-    m_forwardSpot->setUniform1i("specularMap", 2);
 }
 
 void ForwardRenderer::initialize() {
-    createShaders();
+    m_lightSSBO = std::make_unique<GLShaderStorageBuffer>(Core::RHI::EAccessSpecifier::STREAM_DRAW);
+    m_lightSSBO->bind(0);
+    m_engineUBO = std::make_unique<GLUniformBuffer>(
+            sizeof(EngineUBO), 0, 0,
+            Core::RHI::EAccessSpecifier::STREAM_DRAW);
+
+    m_forwardShader = std::make_unique<GLSLShaderProgram>("Shader/forward_standard.lua");
+    m_forwardShader->link();
+    m_forwardShader->setUniform1i("u_DiffuseMap", 0);
+    m_forwardShader->setUniform1i("u_NormalMap", 1);
+    m_forwardShader->setUniform1i("u_SpecularMap", 2);
+}
+
+void ForwardRenderer::updateLights() const {
+    auto lights = Game::getSingletonPtr()->getFastAccessComponents().lights;
+    std::vector<glm::mat4> lightMatrices;
+    lightMatrices.reserve(lights.size());
+    for (const auto &light: lights) {
+        lightMatrices.push_back(light->generateLightMatrix());
+    }
+    m_lightSSBO->sendBlocks<glm::mat4>(lightMatrices.data(), lightMatrices.size() * sizeof(glm::mat4));
+}
+
+void ForwardRenderer::updateEngineUBO() const {
+    size_t offset = sizeof(glm::mat4);  // skip model matrix;
+    auto *camera = Core::RHI::RenderSystem::getSingletonPtr()->getActiveCamera();
+    m_engineUBO->setSubData(camera->getViewMatrix(), std::ref(offset));
+    m_engineUBO->setSubData(camera->getProjectionMatrix(), std::ref(offset));
+    m_engineUBO->setSubData(camera->getOwner()->getPosition(), std::ref(offset));
+}
+
+void ForwardRenderer::updateEngineUBOModel(const glm::mat4 &modelMatrix) const {
+    m_engineUBO->setSubData(modelMatrix, 0);
 }

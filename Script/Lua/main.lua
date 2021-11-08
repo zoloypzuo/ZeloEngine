@@ -43,6 +43,7 @@ CWD = SCRIPT_DIR .. "/Lua"
 -- global require
 --require("strict")
 
+require("consts")
 require("debugprint")
 
 require("config")

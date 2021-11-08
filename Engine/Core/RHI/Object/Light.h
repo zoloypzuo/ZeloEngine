@@ -29,7 +29,7 @@ public:
 
 class BaseLight : public Zelo::Core::ECS::Component, public std::enable_shared_from_this<BaseLight> {
 public:
-    BaseLight(Zelo::Core::ECS::Entity &owner);
+    explicit BaseLight(Zelo::Core::ECS::Entity &owner);
 
     ~BaseLight() override;
 
@@ -48,7 +48,7 @@ public:
 
 class DirectionalLight : public BaseLight {
 public:
-    DirectionalLight(Zelo::Core::ECS::Entity &owner);
+    explicit DirectionalLight(Zelo::Core::ECS::Entity &owner);
 
     void registerWithEngine() override;
 
@@ -61,7 +61,7 @@ public:
 
 class PointLight : public BaseLight {
 public:
-    PointLight(Zelo::Core::ECS::Entity &owner);
+    explicit PointLight(Zelo::Core::ECS::Entity &owner);
 
     ~PointLight() override;
 
@@ -85,7 +85,7 @@ public:
 
 class SpotLight : public BaseLight {
 public:
-    SpotLight(Zelo::Core::ECS::Entity &owner);
+    explicit SpotLight(Zelo::Core::ECS::Entity &owner);
 
     void registerWithEngine() override;
 

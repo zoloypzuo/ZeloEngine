@@ -36,7 +36,12 @@ void DirectionalLight::deregisterFromEngine() {
 }
 
 void DirectionalLight::updateShader(GLSLShaderProgram *shader) {
-    shader->updateUniformDirectionalLight("directionalLight", this);
+    shader->bind();
+
+    shader->setUniformVec3f("directionalLight" ".base.color", getColor());
+    shader->setUniform1f("directionalLight" ".base.intensity", getIntensity());
+
+    shader->setUniformVec3f("directionalLight" ".direction", getOwner()->getDirection());
 }
 
 DirectionalLight::DirectionalLight(Entity &owner) : BaseLight(owner) {}
@@ -58,7 +63,17 @@ void PointLight::deregisterFromEngine() {
 }
 
 void PointLight::updateShader(GLSLShaderProgram *shader) {
-    shader->updateUniformPointLight("pointLight", this);
+    shader->bind();
+
+    shader->setUniformVec3f("pointLight" ".base.color", getColor());
+    shader->setUniform1f("pointLight" ".base.intensity", getIntensity());
+
+    const std::shared_ptr<Attenuation> &attenuation = getAttenuation();
+    shader->setUniform1f("pointLight" ".attenuation" ".constant", attenuation->getConstant());
+    shader->setUniform1f("pointLight" ".attenuation" ".linear", attenuation->getLinear());
+    shader->setUniform1f("pointLight" ".attenuation" ".exponent", attenuation->getExponent());
+    shader->setUniformVec3f("pointLight" ".position", getOwner()->getPosition());
+    shader->setUniform1f("pointLight" ".range", getRange());
 }
 
 std::shared_ptr<Attenuation> PointLight::getAttenuation() const {
@@ -68,8 +83,7 @@ std::shared_ptr<Attenuation> PointLight::getAttenuation() const {
 float PointLight::getRange() {
     float a = m_attenuation->getExponent();
     float b = m_attenuation->getLinear();
-    float c = m_attenuation->getConstant() -
-              8 * getIntensity() * glm::max(m_color.x, glm::max(m_color.y, m_color.z));
+    float c = m_attenuation->getConstant() - 8 * getIntensity() * glm::max(m_color.x, glm::max(m_color.y, m_color.z));
 
     m_range = (-b + glm::sqrt(b * b - 4 * a * c)) / (2 * a);
     return m_range;
@@ -88,7 +102,20 @@ void SpotLight::deregisterFromEngine() {
 }
 
 void SpotLight::updateShader(GLSLShaderProgram *shader) {
-    shader->updateUniformSpotLight("spotLight", this);
+    shader->bind();
+
+    shader->setUniformVec3f("spotLight" ".pointLight.base.color", getColor());
+    shader->setUniform1f("spotLight" ".pointLight.base.intensity", getIntensity());
+
+    const std::shared_ptr<Attenuation> &attenuation = getAttenuation();
+    shader->setUniform1f("spotLight" ".pointLight.attenuation" ".constant", attenuation->getConstant());
+    shader->setUniform1f("spotLight" ".pointLight.attenuation" ".linear", attenuation->getLinear());
+    shader->setUniform1f("spotLight" ".pointLight.attenuation" ".exponent", attenuation->getExponent());
+    shader->setUniformVec3f("spotLight" ".pointLight.position", getOwner()->getPosition());
+    shader->setUniform1f("spotLight" ".pointLight.range", m_range);
+
+    shader->setUniformVec3f("spotLight" ".direction", getOwner()->getDirection());
+    shader->setUniform1f("spotLight" ".cutoff", getCutoff());
 }
 
 float SpotLight::getCutoff() const {

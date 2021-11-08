@@ -84,10 +84,19 @@ do
 end
 
 do
- for i=0,10 do
-     local monkey = SpawnPrefab("monkey")
-     monkey.components.transform:SetPosition(2, i * 3, 0.5)
- end
+    for i = 0, 10 do
+        local monkey = SpawnPrefab("monkey")
+        monkey.components.transform:SetPosition(2, i * 3, 0.5)
+    end
+end
+
+do
+    local sun = SpawnPrefab("monkey")
+    sun.components.transform:SetPosition(-3.000, 17.000, 7.000)
+    local light = sun.entity:AddLight()
+    light.Type = ELightType.DIRECTIONAL
+    light.Color = { x = 1, y = 1, z = 1 }
+    light.Intensity = 2.8
 end
 
 do
@@ -101,26 +110,8 @@ do
     camera.zNear = 0.05
     camera.zFar = 100
 
-    local attenuation = Attenuation.new()
-    attenuation.constant = 0
-    attenuation.linear = 0
-    attenuation.exponent = 0.2
-    local spotLight = avatar.entity:AddSpotLight()
-    spotLight.color = Vector3(1, 1, 1)
-    spotLight.intensity = 2.8
-    spotLight.cutoff = 0.7
-    spotLight.attenuation = attenuation
-
     avatar.entity:AddFreeMove()
     avatar.entity:AddFreeLook()
 
     TheSim:SetActiveCamera(camera)
-end
-
-do
-    local sun = SpawnPrefab("monkey")
-    sun.components.transform:SetPosition(-3.000, 17.000, 7.000)
-    local light = sun.entity:AddDirectionalLight()
-    light.color = { x = 1, y = 1, z = 1 }
-    light.intensity = 2.8
 end

@@ -20,7 +20,7 @@ public:
     void unbind() const;
 
     template<typename T>
-    void sendBlocks(T *data, size_t size);
+    void sendBlocks(T *data, size_t size) const;
 
 private:
     uint32_t m_bufferID{};

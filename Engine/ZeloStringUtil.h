@@ -100,7 +100,7 @@ inline bool IsSpace(char c) { return c == '\t' || c == '\n' || c == '\v' || c ==
 inline bool IsAlphaNumeric(char c) { return IsDigit(c) || IsAlpha(c); }
 
 template<typename alloc>
-void replace_string(std::basic_string<char, std::char_traits<char>, alloc> &target,
+void ReplaceString(std::basic_string<char, std::char_traits<char>, alloc> &target,
                     const std::basic_string<char, std::char_traits<char>, alloc> &search,
                     const std::basic_string<char, std::char_traits<char>, alloc> &replace, size_t startPos = 0) {
     if (search.empty())
@@ -114,18 +114,18 @@ void replace_string(std::basic_string<char, std::char_traits<char>, alloc> &targ
 }
 
 template<typename StringType>
-void replace_string(StringType &target, const char *search, const StringType &replace, size_t startPos = 0) {
-    replace_string(target, StringType(search), replace, startPos);
+void ReplaceString(StringType &target, const char *search, const StringType &replace, size_t startPos = 0) {
+    ReplaceString(target, StringType(search), replace, startPos);
 }
 
 template<typename StringType>
-void replace_string(StringType &target, const StringType &search, const char *replace, size_t startPos = 0) {
-    replace_string(target, search, StringType(replace), startPos);
+void ReplaceString(StringType &target, const StringType &search, const char *replace, size_t startPos = 0) {
+    ReplaceString(target, search, StringType(replace), startPos);
 }
 
 template<typename StringType>
-void replace_string(StringType &target, const char *search, const char *replace, size_t startPos = 0) {
-    replace_string(target, StringType(search), StringType(replace), startPos);
+void ReplaceString(StringType &target, const char *search, const char *replace, size_t startPos = 0) {
+    ReplaceString(target, StringType(search), StringType(replace), startPos);
 }
 
 std::string Trim(const std::string &input, const std::string &ws = " \t");

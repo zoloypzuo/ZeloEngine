@@ -128,47 +128,6 @@ void GLSLShaderProgram::unbind() const {
     glUseProgram(0);
 }
 
-void GLSLShaderProgram::updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight) {
-    bind();
-
-    setUniformVec3f(name + ".base.color", directionalLight->getColor());
-    setUniform1f(name + ".base.intensity", directionalLight->getIntensity());
-
-    setUniformVec3f(name + ".direction", directionalLight->getOwner()->getDirection());
-}
-
-void GLSLShaderProgram::updateUniformPointLight(const std::string &name, PointLight *pointLight) {
-    bind();
-
-    setUniformVec3f(name + ".base.color", pointLight->getColor());
-    setUniform1f(name + ".base.intensity", pointLight->getIntensity());
-
-    setUniformAttenuation(name + ".attenuation", pointLight->getAttenuation());
-    setUniformVec3f(name + ".position", pointLight->getOwner()->getPosition());
-    setUniform1f(name + ".range", pointLight->getRange());
-}
-
-void GLSLShaderProgram::updateUniformSpotLight(const std::string &name, SpotLight *spotLight) {
-    bind();
-
-    setUniformVec3f(name + ".pointLight.base.color", spotLight->getColor());
-    setUniform1f(name + ".pointLight.base.intensity", spotLight->getIntensity());
-
-    setUniformAttenuation(name + ".pointLight.attenuation", spotLight->getAttenuation());
-    setUniformVec3f(name + ".pointLight.position", spotLight->getOwner()->getPosition());
-    setUniform1f(name + ".pointLight.range", spotLight->m_range);
-
-    setUniformVec3f(name + ".direction", spotLight->getOwner()->getDirection());
-    setUniform1f(name + ".cutoff", spotLight->getCutoff());
-}
-
-void
-GLSLShaderProgram::setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation) {
-    setUniform1f(name + ".constant", attenuation->getConstant());
-    setUniform1f(name + ".linear", attenuation->getLinear());
-    setUniform1f(name + ".exponent", attenuation->getExponent());
-}
-
 void GLSLShaderProgram::setUniform1i(const std::string &name, int value) {
     bind();
 
@@ -415,7 +374,8 @@ void GLSLShaderProgram::addShaderSrc(const std::string &fileName,
             logString = c_log;
             delete[] c_log;
         }
-        spdlog::error("{}: shader compliation failed{}", fileName, logString);
+        spdlog::error("{}: shader compliation failed{}\n{}", fileName, logString, c_code);
+        ZELO_ASSERT(false);
         return;
     } else {
         // Compile succeeded, attach shader
@@ -474,6 +434,13 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     sol::table result = lua.script(asset.read());
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
+    std::string common_src = result["common_shader"];
+    std::string common_src_vs(common_src);
+    Zelo::ReplaceString(common_src_vs, "varying", "out");
+    std::string common_src_fs(common_src);
+    Zelo::ReplaceString(common_src_fs, "varying", "in");
+    Zelo::ReplaceString(vertex_src, "// common:", common_src_vs);
+    Zelo::ReplaceString(fragment_src, "// common:", common_src_fs);
     addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
     addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
 }

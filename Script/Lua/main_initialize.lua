@@ -42,7 +42,7 @@ end)
 
 -- UI
 --UI.enable_docking = false;
-UI:ApplyStyle(EStyle.DUNE_DARK)
+
 UI:UseFont(LoadResource("Ruda-Bold.ttf"))
 
 -- hook debug

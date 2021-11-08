@@ -88,15 +88,6 @@ public:
 
     void setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) override;
 
-    // TODO decouple and remove these api
-    void updateUniformDirectionalLight(const std::string &name, DirectionalLight *directionalLight);
-
-    void updateUniformPointLight(const std::string &name, PointLight *pointLight);
-
-    void updateUniformSpotLight(const std::string &name, SpotLight *spotLight);
-
-    void setUniformAttenuation(const std::string &name, const std::shared_ptr<Attenuation> &attenuation);
-
     // debug
     void printActiveUniforms() const override;
 
