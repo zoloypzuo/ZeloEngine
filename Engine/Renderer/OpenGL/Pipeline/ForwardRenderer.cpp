@@ -3,6 +3,9 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRenderer.h"
+#include "Core/Game/Game.h"
+
+using namespace Zelo;
 
 SimpleRenderer::SimpleRenderer() = default;
 
@@ -49,6 +52,8 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
                              const std::vector<std::shared_ptr<PointLight>> &pointLights,
                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
+
+    updateLights();
     m_forwardAmbient->setUniformMatrix4f("View", activeCamera->getViewMatrix());
     m_forwardAmbient->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
 
@@ -129,5 +134,17 @@ void ForwardRenderer::createShaders() {
 }
 
 void ForwardRenderer::initialize() {
+    m_lightSSBO = std::make_unique<GLShaderStorageBuffer>(Core::RHI::EAccessSpecifier::STREAM_DRAW);
+    m_lightSSBO->bind(0);
     createShaders();
+}
+
+void ForwardRenderer::updateLights() const {
+    auto lights = Game::getSingletonPtr()->getFastAccessComponents().lights;
+    std::vector<glm::mat4> lightMatrices;
+    lightMatrices.reserve(lights.size());
+    for (const auto &light: lights) {
+        lightMatrices.push_back(light->generateLightMatrix());
+    }
+    m_lightSSBO->sendBlocks<glm::mat4>(lightMatrices.data(), lightMatrices.size() * sizeof(glm::mat4));
 }

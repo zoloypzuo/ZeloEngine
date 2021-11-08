@@ -11,6 +11,7 @@
 #include "Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
+#include "Renderer/OpenGL/Buffer/GLShaderStorageBuffer.h"
 
 class SimpleRenderer : public Renderer {
 public:
@@ -49,10 +50,14 @@ public:
 protected:
     void createShaders();
 
+    void updateLights() const ;
+
     std::unique_ptr<GLSLShaderProgram> m_forwardAmbient;
     std::unique_ptr<GLSLShaderProgram> m_forwardDirectional;
     std::unique_ptr<GLSLShaderProgram> m_forwardPoint;
     std::unique_ptr<GLSLShaderProgram> m_forwardSpot;
+
+    std::unique_ptr<Zelo::GLShaderStorageBuffer> m_lightSSBO{};
 };
 
 #endif //ZELOENGINE_FORWARDRENDERER_H
