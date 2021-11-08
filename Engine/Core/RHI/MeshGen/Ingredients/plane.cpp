@@ -49,5 +49,5 @@ Ingredients::Plane::Plane(float xsize, float zsize, int xdivs, int zdivs, float 
         }
     }
 
-    initBuffers(&el, &p, &n, &tex);
+    initMeshData(&el, &p, &n, &tex);
 }

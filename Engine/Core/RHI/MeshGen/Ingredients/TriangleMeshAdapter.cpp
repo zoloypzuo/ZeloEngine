@@ -4,11 +4,11 @@
 #include "ZeloPreCompiledHeader.h"
 #include "TriangleMeshAdapter.h"
 
-void TriangleMeshAdapter::initBuffers(std::vector<GLuint> *indices,
-                                      std::vector<GLfloat> *points,
-                                      std::vector<GLfloat> *normals,
-                                      std::vector<GLfloat> *texCoords,
-                                      std::vector<GLfloat> *tangents) {
+void TriangleMeshAdapter::initMeshData(std::vector<GLuint> *indices,
+                                       std::vector<GLfloat> *points,
+                                       std::vector<GLfloat> *normals,
+                                       std::vector<GLfloat> *texCoords,
+                                       std::vector<GLfloat> *tangents) {
     // Must have data for indices, points, and normals
     if (indices == nullptr || points == nullptr || normals == nullptr) {
         ZELO_ERROR("Must have data for indices, points, and normals");
