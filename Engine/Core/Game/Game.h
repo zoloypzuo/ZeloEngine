@@ -8,7 +8,7 @@
 #include "ZeloSingleton.h"
 #include "Core/RHI/Object/Camera.h"
 #include "Core/ECS/Entity.h"
-#include "Core/RHI/Object/LightPlain.h"
+#include "Core/RHI/Object/ALight.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"  // TODO extract to Core
 
 // TODO move namespace Zelo::Core::Game
@@ -18,7 +18,7 @@ public:
     struct FastAccessComponents {
         std::vector<MeshRenderer *> meshRenderers;
         std::vector<Camera *> cameras;
-        std::vector<Zelo::Core::RHI::LightPlain *> lights;
+        std::vector<Zelo::Core::RHI::ALight *> lights;
     };
 
 public:

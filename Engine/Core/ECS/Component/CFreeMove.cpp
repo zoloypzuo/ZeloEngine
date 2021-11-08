@@ -17,7 +17,7 @@ CFreeMove::CFreeMove(Entity &owner) : Component(owner) {
 
 CFreeMove::~CFreeMove() = default;
 
-void CFreeMove::registerWithEngine() {
+void CFreeMove::OnAwake() {
     auto *input = Input::getSingletonPtr();
     input->registerKeyToAction(SDLK_LSHIFT, "sprint");
     input->registerKeysToAxis(SDLK_w, SDLK_s, -1.f, 1.f, "forwards");
@@ -38,7 +38,7 @@ void CFreeMove::registerWithEngine() {
     });
 }
 
-void CFreeMove::deregisterFromEngine() {
+void CFreeMove::OnDestroy() {
     auto *input = Input::getSingletonPtr();
     input->unbindAction("sprint");
     input->unbindAxis("forwards");

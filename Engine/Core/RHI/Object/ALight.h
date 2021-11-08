@@ -12,12 +12,12 @@ enum class ELightType {
     POINT, DIRECTIONAL, SPOT, AMBIENT_BOX, AMBIENT_SPHERE
 };
 
-class LightPlain : public Zelo::Core::ECS::Component,
-                   public std::enable_shared_from_this<LightPlain> {
+class ALight : public Zelo::Core::ECS::Component,
+                   public std::enable_shared_from_this<ALight> {
 public:
-    explicit LightPlain(Zelo::Core::ECS::Entity &owner);
+    explicit ALight(Zelo::Core::ECS::Entity &owner);
 
-    ~LightPlain() override;
+    ~ALight() override;
 
     std::string getType() override { return "Light"; }
 

@@ -37,10 +37,7 @@ ForwardShadowMap::ForwardShadowMap() = default;
 
 ForwardShadowMap::~ForwardShadowMap() = default;
 
-void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                              const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                              const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                              const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
+void ForwardShadowMap::render(const Zelo::Core::ECS::Entity &scene) const {
 
     glm::vec3 lightPos = directionalLights[0]->getOwner()->getTransform().getPosition();
     m_lightFrustum->orient(lightPos, glm::vec3(0), glm::vec3(0.0f, 1.0f, 0.0f));

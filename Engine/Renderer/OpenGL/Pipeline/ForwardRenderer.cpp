@@ -12,17 +12,14 @@ SimpleRenderer::SimpleRenderer() = default;
 
 SimpleRenderer::~SimpleRenderer() = default;
 
-void SimpleRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                            const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                            const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                            const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
-    m_simple->bind();
-
-    m_simple->setUniformMatrix4f("World", glm::mat4());
-    m_simple->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_simple->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-
-    scene.renderAll(m_simple.get());
+void SimpleRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
+//    m_simple->bind();
+//
+//    m_simple->setUniformMatrix4f("World", glm::mat4());
+//    m_simple->setUniformMatrix4f("View", activeCamera->getViewMatrix());
+//    m_simple->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+//
+//    scene.renderAll(m_simple.get());
 }
 
 void SimpleRenderer::renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const {
@@ -44,10 +41,7 @@ ForwardRenderer::ForwardRenderer() = default;
 
 ForwardRenderer::~ForwardRenderer() = default;
 
-void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                             const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                             const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                             const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
+void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     updateLights();
     updateEngineUBO();
 
@@ -57,7 +51,7 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera *activ
     const auto &meshRenderers = Game::getSingletonPtr()->getFastAccessComponents().meshRenderers;
     for (const auto &meshRenderer: meshRenderers) {
         updateEngineUBOModel(meshRenderer->getOwner()->getWorldMatrix());
-        meshRenderer->render(m_forwardShader.get());
+        meshRenderer->render();
     }
 }
 

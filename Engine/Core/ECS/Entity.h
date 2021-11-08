@@ -33,17 +33,7 @@ public:
 
     virtual ~Component();;
 
-    // TODO change delta to float
     virtual void update(float delta) {};
-
-    // TODO remove it
-    virtual void render(Shader *shader) {};
-
-    // TODO remove it
-    virtual void registerWithEngine() {};
-
-    // TODO remove it
-    virtual void deregisterFromEngine() {};
 
     virtual std::string getType() = 0;
 
@@ -118,13 +108,6 @@ public:
     void DetachFromParent();
 
     void updateAll(float delta);
-
-    // TODO remove it
-    void renderAll(Shader *shader) const;
-
-    void registerWithEngineAll();
-
-    void deregisterFromEngineAll();
 
     const std::string &getTag() const;
 

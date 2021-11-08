@@ -13,7 +13,7 @@ MeshRenderer::MeshRenderer(Zelo::Core::ECS::Entity &owner) : Component(owner) {
 MeshRenderer::~MeshRenderer() = default;
 
 // TODO remove shader param
-void MeshRenderer::render(Shader *shader) {
+void MeshRenderer::render() {
     m_material->bind();
     m_mesh->render();
 }

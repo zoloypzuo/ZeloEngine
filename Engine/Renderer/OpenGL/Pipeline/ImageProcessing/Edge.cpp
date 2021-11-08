@@ -35,10 +35,7 @@ Edge::Edge() = default;
 
 Edge::~Edge() = default;
 
-void Edge::render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                  const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                  const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                  const std::vector<std::shared_ptr<SpotLight>> &spotLights) const {
+void Edge::render(const Zelo::Core::ECS::Entity &scene) const {
 
     m_fbo->bind();
 

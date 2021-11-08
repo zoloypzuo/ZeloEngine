@@ -12,7 +12,6 @@
 #include "Renderer/OpenGL/Pipeline/Renderer.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Core/RHI/Resource/MeshManager.h"
-#include "Core/RHI/Object/Light.h"
 
 namespace Zelo::Core::RHI {
 class RenderSystem :
@@ -54,27 +53,12 @@ public:
 
     Camera *getActiveCamera() const { return m_activeCamera; }
 
-    void addDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
-
-    void removeDirectionalLight(const std::shared_ptr<DirectionalLight> &light);
-
-    void addPointLight(const std::shared_ptr<PointLight> &light);
-
-    void removePointLight(const std::shared_ptr<PointLight> &light);
-
-    void addSpotLight(const std::shared_ptr<SpotLight> &light);
-
-    void removeSpotLight(const std::shared_ptr<SpotLight> &light);
-
 private:
     FrameInfo m_frameInfo;
 
 protected:
     // TODO save data in Scene, not here
     Camera *m_activeCamera{};
-    std::vector<std::shared_ptr<DirectionalLight>> m_directionalLights{};
-    std::vector<std::shared_ptr<PointLight>> m_pointLights{};
-    std::vector<std::shared_ptr<SpotLight>> m_spotLights{};
 };
 }
 

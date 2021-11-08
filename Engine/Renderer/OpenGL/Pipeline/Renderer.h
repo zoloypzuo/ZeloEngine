@@ -9,7 +9,6 @@
 
 #include "Core/ECS/Entity.h"
 #include "Core/RHI/Object/Camera.h"
-#include "Core/RHI/Object/Light.h"
 
 class Renderer {
 public:
@@ -17,8 +16,5 @@ public:
 
     virtual void initialize() = 0;
 
-    virtual void render(const Zelo::Core::ECS::Entity &scene, Camera *activeCamera,
-                        const std::vector<std::shared_ptr<PointLight>> &pointLights,
-                        const std::vector<std::shared_ptr<DirectionalLight>> &directionalLights,
-                        const std::vector<std::shared_ptr<SpotLight>> &spotLights) const = 0;
+    virtual void render(const Zelo::Core::ECS::Entity &scene) const = 0;
 };

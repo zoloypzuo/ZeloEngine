@@ -14,7 +14,7 @@ CFreeLook::CFreeLook(Entity &owner) : Component(owner) {
 
 CFreeLook::~CFreeLook() = default;
 
-void CFreeLook::registerWithEngine() {
+void CFreeLook::OnAwake()  {
     auto *input = Input::getSingletonPtr();
 
     input->registerButtonToAction(SDL_BUTTON_RIGHT, "look");
@@ -27,7 +27,7 @@ void CFreeLook::registerWithEngine() {
     });
 }
 
-void CFreeLook::deregisterFromEngine() {
+void CFreeLook::OnDestroy() {
     auto *input = Input::getSingletonPtr();
 
     input->unbindAction("look");
