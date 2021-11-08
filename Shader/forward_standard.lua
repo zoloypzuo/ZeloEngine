@@ -2,7 +2,7 @@
 -- created on 2021/11/7
 -- author @zoloypzuo
 local vertex_shader = [[
-#version 330
+#version 430 core
 
 layout(location = 0) in vec3 position;
 layout(location = 1) in vec2 texCoord;
@@ -37,7 +37,7 @@ void main()
 ]]
 
 local fragment_shader = [[
-#version 330
+#version 430 core
 
 layout(std430, binding = 0) buffer LightSSBO
 {
@@ -64,7 +64,7 @@ uniform vec3 eyePos;
 uniform float specularIntensity;
 uniform float specularPower;
 
-void CalcAmbient()
+vec4 CalcAmbient()
 {
   return texture(diffuseMap, texCoord0) * vec4(ambientIntensity, 1.0f);
 }
