@@ -430,8 +430,10 @@ void GLSLShaderProgram::findUniformLocations() {
 
 void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     auto asset = Zelo::Resource(fileName);
+    std::string src(asset.read());
+    Zelo::ReplaceString(src, "//", "");
     sol::state &lua = LuaScriptManager::getSingleton();
-    sol::table result = lua.script(asset.read());
+    sol::table result = lua.script(src);
     std::string vertex_src = result["vertex_shader"];
     std::string fragment_src = result["fragment_shader"];
     std::string common_src = result["common_shader"];
@@ -439,8 +441,8 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     Zelo::ReplaceString(common_src_vs, "varying", "out");
     std::string common_src_fs(common_src);
     Zelo::ReplaceString(common_src_fs, "varying", "in");
-    Zelo::ReplaceString(vertex_src, "// common:", common_src_vs);
-    Zelo::ReplaceString(fragment_src, "// common:", common_src_fs);
+    Zelo::ReplaceString(vertex_src, "common:", common_src_vs);
+    Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
     addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
     addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
 }

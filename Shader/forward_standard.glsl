@@ -1,14 +1,14 @@
--- forward_standard
--- created on 2021/11/7
--- author @zoloypzuo
-local common_shader = [[
+// -- forward_standard
+// -- created on 2021/11/7
+// -- author @zoloypzuo
+// local common_shader = [[
 layout (std140) uniform EngineUBO
 {
   mat4 ubo_model;
   mat4 ubo_view;
   mat4 ubo_projection;
   vec3 ubo_viewPos;
-  float ubo_time; // not used for now
+  /* float ubo_time; */
 };
 
 varying VaryingVariables
@@ -30,9 +30,9 @@ bool PointInAABB(vec3 point, vec3 aabbCenter, vec3 aabbHalfSize)
     point.z > aabbCenter.z - aabbHalfSize.z && point.z < aabbCenter.z + aabbHalfSize.z
   );
 }
-]]
+// ]]
 
-local vertex_shader = [[
+// local vertex_shader = [[
 #version 430 core
 
 layout(location = 0) in vec3 v_position;
@@ -48,15 +48,16 @@ void main()
   vary.fragPos = fragPos;
   vary.texCoord0 = v_texCoord;
 
-  // compute TBN
-  // if bitangent is precomputed in vertex attribute, a nicer computation
-  //   can be written as follows:
-  // TBN = mat3
-  // (
-  //   normalize(vec3(ubo_Model * vec4(geo_Tangent,   0.0))),
-  //   normalize(vec3(ubo_Model * vec4(geo_Bitangent, 0.0))),
-  //   normalize(vec3(ubo_Model * vec4(geo_Normal,    0.0)))
-  // );
+  /* compute TBN
+   * if bitangent is precomputed in vertex attribute, a nicer computation
+   *   can be written as follows:
+   * TBN = mat3
+   * (
+   *   normalize(vec3(ubo_Model * vec4(geo_Tangent,   0.0))),
+   *   normalize(vec3(ubo_Model * vec4(geo_Bitangent, 0.0))),
+   *   normalize(vec3(ubo_Model * vec4(geo_Normal,    0.0)))
+   * );
+  */
   vec3 n = normalize((ubo_model * vec4(v_normal, 0.0)).xyz);
   vec3 t = normalize((ubo_model * vec4(v_tangent, 0.0)).xyz);
   t = normalize(t - dot(t, n) * n);
@@ -72,9 +73,9 @@ void main()
 
   gl_Position = ubo_projection * ubo_view * vec4(fragPos, 1.0);
 }
-]]
+// ]]
 
-local fragment_shader = [[
+// local fragment_shader = [[
 #version 430 core
 
 // common:
@@ -240,10 +241,10 @@ void main()
         FRAGMENT_COLOR = vec4(0.0);
     }
 }
-]]
+// ]]
 
-return {
-    vertex_shader = vertex_shader,
-    fragment_shader = fragment_shader,
-    common_shader = common_shader,
-}
+// return {
+//     vertex_shader = vertex_shader,
+//     fragment_shader = fragment_shader,
+//     common_shader = common_shader,
+// }
