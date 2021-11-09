@@ -11,14 +11,15 @@ using namespace Zelo::Core::OS;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::ECS;
+using namespace Zelo::Core::Scene;
 using namespace Zelo::Renderer::OpenGL;
+
+template<> SceneManager *Singleton<SceneManager>::msSingleton = nullptr;
 
 namespace Zelo::Core::Scene {
 void SceneManager::update() {
     rootScene->updateAll(Time::getSingletonPtr()->getDeltaTime());
 }
-
-template<> SceneManager *Singleton<SceneManager>::msSingleton = nullptr;
 
 SceneManager *SceneManager::getSingletonPtr() {
     return msSingleton;
@@ -117,5 +118,4 @@ void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
     }
 }
-
 }

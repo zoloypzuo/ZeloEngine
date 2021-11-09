@@ -23,12 +23,12 @@ inline void Erase(C &c, const T &t) {
 }
 
 template<class C, class T>
-inline typename C::iterator Find(C &c, const T &value) {
+inline auto Find(C &c, const T &value) {
     return std::find(c.begin(), c.end(), value);
 }
 
 template<class C, class Pred>
-inline typename C::iterator FindIf(C &c, Pred p) {
+inline auto FindIf(C &c, Pred p) {
     return std::find_if(c.begin(), c.end(), p);
 }
 
