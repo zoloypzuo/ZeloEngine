@@ -25,9 +25,9 @@ bool PointInAABB(vec3 point, vec3 aabbCenter, vec3 aabbHalfSize)
 {
   return
   (
-    point.x > aabbCenter.x - aabbHalfSize.x && point.x < aabbCenter.x + aabbHalfSize.x &&
-    point.y > aabbCenter.y - aabbHalfSize.y && point.y < aabbCenter.y + aabbHalfSize.y &&
-    point.z > aabbCenter.z - aabbHalfSize.z && point.z < aabbCenter.z + aabbHalfSize.z
+  point.x > aabbCenter.x - aabbHalfSize.x && point.x < aabbCenter.x + aabbHalfSize.x &&
+  point.y > aabbCenter.y - aabbHalfSize.y && point.y < aabbCenter.y + aabbHalfSize.y &&
+  point.z > aabbCenter.z - aabbHalfSize.z && point.z < aabbCenter.z + aabbHalfSize.z
   );
 }
 // ]]
@@ -82,7 +82,7 @@ void main()
 
 layout(std430, binding = 0) buffer LightSSBO
 {
-    mat4 ssbo_Lights[];
+  mat4 ssbo_Lights[];
 };
 
 uniform vec2        u_TextureTiling           = vec2(1.0, 1.0);
@@ -110,136 +110,141 @@ vec4 g_NormalTexel;
 
 vec2 ParallaxMapping(vec3 p_ViewDir)
 {
-    const vec2 parallax = p_ViewDir.xy * u_HeightScale * texture(u_HeightMap, g_TexCoords).r;
-    return g_TexCoords - vec2(parallax.x, 1.0 - parallax.y);
+  const vec2 parallax = p_ViewDir.xy * u_HeightScale * texture(u_HeightMap, g_TexCoords).r;
+  return g_TexCoords - vec2(parallax.x, 1.0 - parallax.y);
 }
 
 vec3 BlinnPhong(vec3 p_LightDir, vec3 p_LightColor, float p_Luminosity)
 {
-    const vec3  halfwayDir          = normalize(p_LightDir + g_ViewDir);
-    const float diffuseCoefficient  = max(dot(g_Normal, p_LightDir), 0.0);
-    const float specularCoefficient = pow(max(dot(g_Normal, halfwayDir), 0.0), u_Shininess * 2.0);
+  const vec3  halfwayDir          = normalize(p_LightDir + g_ViewDir);
+  const float diffuseCoefficient  = max(dot(g_Normal, p_LightDir), 0.0);
+  const float specularCoefficient = pow(max(dot(g_Normal, halfwayDir), 0.0), u_Shininess * 2.0);
 
-    return p_LightColor * g_DiffuseTexel.rgb * diffuseCoefficient * p_Luminosity + ((p_Luminosity > 0.0) ? (p_LightColor * g_SpecularTexel.rgb * specularCoefficient * p_Luminosity) : vec3(0.0));
+  return p_LightColor * g_DiffuseTexel.rgb * diffuseCoefficient * p_Luminosity + 
+    ((p_Luminosity > 0.0) ? (p_LightColor * g_SpecularTexel.rgb * specularCoefficient * p_Luminosity) : vec3(0.0));
 }
 
 float LuminosityFromAttenuation(mat4 p_Light)
 {
-    const vec3  lightPosition   = p_Light[0].rgb;
-    const float constant        = p_Light[0][3];
-    const float linear          = p_Light[1][3];
-    const float quadratic       = p_Light[2][3];
+  const vec3  lightPosition   = p_Light[0].rgb;
+  const float constant        = p_Light[0][3];
+  const float linear          = p_Light[1][3];
+  const float quadratic       = p_Light[2][3];
 
-    const float distanceToLight = length(lightPosition - vary.fragPos);
-    const float attenuation     = (constant + linear * distanceToLight + quadratic * (distanceToLight * distanceToLight));
-    return 1.0 / attenuation;
+  const float distanceToLight = length(lightPosition - vary.fragPos);
+  const float attenuation     = (constant + linear * distanceToLight + quadratic * (distanceToLight * distanceToLight));
+  return 1.0 / attenuation;
 }
 
 vec3 CalcPointLight(mat4 p_Light)
 {
-    /* Extract light information from light mat4 */
-    const vec3 lightPosition  = p_Light[0].rgb;
-    const vec3 lightColor     = p_Light[2].rgb;
-    const float intensity     = p_Light[3][3];
+  /* Extract light information from light mat4 */
+  const vec3 lightPosition  = p_Light[0].rgb;
+  const vec3 lightColor     = p_Light[2].rgb;
+  const float intensity     = p_Light[3][3];
 
-    const vec3  lightDirection  = normalize(lightPosition - vary.fragPos);
-    const float luminosity      = LuminosityFromAttenuation(p_Light);
+  const vec3  lightDirection  = normalize(lightPosition - vary.fragPos);
+  const float luminosity      = LuminosityFromAttenuation(p_Light);
 
-    return BlinnPhong(lightDirection, lightColor, intensity * luminosity);
+  return BlinnPhong(lightDirection, lightColor, intensity * luminosity);
 }
 
 vec3 CalcDirectionalLight(mat4 light)
 {
-    return BlinnPhong(-light[1].rgb, light[2].rgb, light[3][3]);
+  return BlinnPhong(-light[1].rgb, light[2].rgb, light[3][3]);
 }
 
 vec3 CalcSpotLight(mat4 p_Light)
 {
-    /* Extract light information from light mat4 */
-    const vec3  lightPosition   = p_Light[0].rgb;
-    const vec3  lightForward    = p_Light[1].rgb;
-    const vec3  lightColor      = p_Light[2].rgb;
-    const float intensity       = p_Light[3][3];
-    const float cutOff          = cos(radians(p_Light[3][1]));
-    const float outerCutOff     = cos(radians(p_Light[3][1] + p_Light[3][2]));
+  /* Extract light information from light mat4 */
+  const vec3  lightPosition   = p_Light[0].rgb;
+  const vec3  lightForward    = p_Light[1].rgb;
+  const vec3  lightColor      = p_Light[2].rgb;
+  const float intensity       = p_Light[3][3];
+  const float cutOff          = cos(radians(p_Light[3][1]));
+  const float outerCutOff     = cos(radians(p_Light[3][1] + p_Light[3][2]));
 
-    const vec3  lightDirection  = normalize(lightPosition - vary.fragPos);
-    const float luminosity      = LuminosityFromAttenuation(p_Light);
+  const vec3  lightDirection  = normalize(lightPosition - vary.fragPos);
+  const float luminosity      = LuminosityFromAttenuation(p_Light);
 
-    /* Calculate the spot intensity */
-    const float theta           = dot(lightDirection, normalize(-lightForward));
-    const float epsilon         = cutOff - outerCutOff;
-    const float spotIntensity   = clamp((theta - outerCutOff) / epsilon, 0.0, 1.0);
+  /* Calculate the spot intensity */
+  const float theta           = dot(lightDirection, normalize(-lightForward));
+  const float epsilon         = cutOff - outerCutOff;
+  const float spotIntensity   = clamp((theta - outerCutOff) / epsilon, 0.0, 1.0);
 
-    return BlinnPhong(lightDirection, lightColor, intensity * spotIntensity * luminosity);
+  return BlinnPhong(lightDirection, lightColor, intensity * spotIntensity * luminosity);
 }
 
 vec3 CalcAmbientBoxLight(mat4 p_Light)
 {
-    const vec3  lightPosition   = p_Light[0].rgb;
-    const vec3  lightColor      = p_Light[2].rgb;
-    const float intensity       = p_Light[3][3];
-    const vec3  size            = vec3(p_Light[0][3], p_Light[1][3], p_Light[2][3]);
+  const vec3  lightPosition   = p_Light[0].rgb;
+  const vec3  lightColor      = p_Light[2].rgb;
+  const float intensity       = p_Light[3][3];
+  const vec3  size            = vec3(p_Light[0][3], p_Light[1][3], p_Light[2][3]);
 
-    return PointInAABB(vary.fragPos, lightPosition, size) ? g_DiffuseTexel.rgb * lightColor * intensity : vec3(0.0);
+  return PointInAABB(vary.fragPos, lightPosition, size) ? 
+    g_DiffuseTexel.rgb * lightColor * intensity : vec3(0.0);
 }
 
 vec3 CalcAmbientSphereLight(mat4 p_Light)
 {
-    const vec3  lightPosition   = p_Light[0].rgb;
-    const vec3  lightColor      = p_Light[2].rgb;
-    const float intensity       = p_Light[3][3];
-    const float radius          = p_Light[0][3];
+  const vec3  lightPosition   = p_Light[0].rgb;
+  const vec3  lightColor      = p_Light[2].rgb;
+  const float intensity       = p_Light[3][3];
+  const float radius          = p_Light[0][3];
 
-    return distance(lightPosition, vary.fragPos) <= radius ? g_DiffuseTexel.rgb * lightColor * intensity : vec3(0.0);
+  return distance(lightPosition, vary.fragPos) <= radius ?
+    g_DiffuseTexel.rgb * lightColor * intensity : vec3(0.0);
 }
 
 void main()
 {
-    g_TexCoords = u_TextureOffset + vec2(mod(vary.texCoord0.x * u_TextureTiling.x, 1), mod(vary.texCoord0.y * u_TextureTiling.y, 1));
+  g_TexCoords = u_TextureOffset + vec2(
+    mod(vary.texCoord0.x * u_TextureTiling.x, 1), 
+    mod(vary.texCoord0.y * u_TextureTiling.y, 1));
 
-    /* Apply parallax mapping */
-    if (u_HeightScale > 0)
-        g_TexCoords = ParallaxMapping(normalize(vary.tangentViewPos - vary.tangentFragPos));
+  /* Apply parallax mapping */
+  if (u_HeightScale > 0)
+    g_TexCoords = ParallaxMapping(normalize(vary.tangentViewPos - vary.tangentFragPos));
 
-    /* Apply color mask */
-    if (texture(u_MaskMap, g_TexCoords).r != 0.0)
+  /* Apply color mask */
+  if (texture(u_MaskMap, g_TexCoords).r != 0.0)
+  {
+    g_ViewDir           = normalize(ubo_viewPos - vary.fragPos);
+    g_DiffuseTexel      = texture(u_DiffuseMap,  g_TexCoords) * u_Diffuse;
+    g_SpecularTexel     = texture(u_SpecularMap, g_TexCoords) * vec4(u_Specular, 1.0);
+
+    if (u_EnableNormalMapping)
     {
-        g_ViewDir           = normalize(ubo_viewPos - vary.fragPos);
-        g_DiffuseTexel      = texture(u_DiffuseMap,  g_TexCoords) * u_Diffuse;
-        g_SpecularTexel     = texture(u_SpecularMap, g_TexCoords) * vec4(u_Specular, 1.0);
-
-        if (u_EnableNormalMapping)
-        {
-            g_Normal = texture(u_NormalMap, g_TexCoords).rgb;
-            g_Normal = normalize(g_Normal * 2.0 - 1.0);
-            g_Normal = normalize(vary.TBN * g_Normal);
-        }
-        else
-        {
-            g_Normal = normalize(vary.normal);
-        }
-
-        vec3 lightSum = vec3(0.0);
-
-        for (int i = 0; i < ssbo_Lights.length(); ++i)
-        {
-            switch(int(ssbo_Lights[i][3][0]))
-            {
-                case 0: lightSum += CalcPointLight(ssbo_Lights[i]);         break;
-                case 1: lightSum += CalcDirectionalLight(ssbo_Lights[i]);   break;
-                case 2: lightSum += CalcSpotLight(ssbo_Lights[i]);          break;
-                case 3: lightSum += CalcAmbientBoxLight(ssbo_Lights[i]);    break;
-                case 4: lightSum += CalcAmbientSphereLight(ssbo_Lights[i]); break;
-            }
-        }
-
-        FRAGMENT_COLOR = vec4(lightSum, g_DiffuseTexel.a);
+      g_Normal = texture(u_NormalMap, g_TexCoords).rgb;
+      g_Normal = normalize(g_Normal * 2.0 - 1.0);
+      g_Normal = normalize(vary.TBN * g_Normal);
     }
     else
     {
-        FRAGMENT_COLOR = vec4(0.0);
+      g_Normal = normalize(vary.normal);
     }
+
+    vec3 lightSum = vec3(0.0);
+
+    for (int i = 0; i < ssbo_Lights.length(); ++i)
+    {
+      switch(int(ssbo_Lights[i][3][0]))
+      {
+        case 0: lightSum += CalcPointLight(ssbo_Lights[i]);         break;
+        case 1: lightSum += CalcDirectionalLight(ssbo_Lights[i]);   break;
+        case 2: lightSum += CalcSpotLight(ssbo_Lights[i]);          break;
+        case 3: lightSum += CalcAmbientBoxLight(ssbo_Lights[i]);    break;
+        case 4: lightSum += CalcAmbientSphereLight(ssbo_Lights[i]); break;
+      }
+    }
+
+    FRAGMENT_COLOR = vec4(lightSum, g_DiffuseTexel.a);
+  }
+  else
+  {
+    FRAGMENT_COLOR = vec4(0.0);
+  }
 }
 // ]]
 
