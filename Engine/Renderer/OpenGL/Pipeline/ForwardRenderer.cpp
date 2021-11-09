@@ -53,9 +53,6 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     updateLights();
     updateEngineUBO();
 
-    // TODO bind by material
-    m_forwardShader->bind();
-
     for (const auto &drawable: sortRenderQueue()) {
         updateEngineUBOModel(drawable.modelMatrix);
         drawable.material->bind();
@@ -67,6 +64,7 @@ RenderQueue ForwardRenderer::sortRenderQueue() const {
     OpaqueDrawables opaqueDrawables;
     TransparentDrawables transparentDrawables;
 
+    // sort by opaque/transparent, then by distance to the camera
     const auto &meshRenderers = SceneManager::getSingletonPtr()->getFastAccessComponents().meshRenderers;
     const auto &camera = SceneManager::getSingletonPtr()->getActiveCamera();
     for (const auto &meshRenderer: meshRenderers) {
@@ -76,6 +74,12 @@ RenderQueue ForwardRenderer::sortRenderQueue() const {
                 camera->getOwner()->getPosition());
 
         auto &material = meshRenderer->GetMaterial();
+
+        // use standard shader as default
+        if (!material.hasShader()){
+            material.setShader(m_forwardShader);
+        }
+
         Drawable drawable{
                 meshRenderer->getOwner()->getWorldMatrix(),
                 &meshRenderer->GetMesh(),
@@ -89,6 +93,7 @@ RenderQueue ForwardRenderer::sortRenderQueue() const {
         }
     }
 
+    // push opaque object first, then transparent object to render queue
     RenderQueue renderQueue;
     renderQueue.reserve(opaqueDrawables.size() + transparentDrawables.size());
     for (const auto&[distance, drawable]: opaqueDrawables) {
@@ -108,7 +113,7 @@ void ForwardRenderer::initialize() {
             sizeof(EngineUBO), 0, 0,
             Core::RHI::EAccessSpecifier::STREAM_DRAW);
 
-    m_forwardShader = std::make_unique<GLSLShaderProgram>("Shader/forward_standard.lua");
+    m_forwardShader = std::make_shared<GLSLShaderProgram>("Shader/forward_standard.lua");
     m_forwardShader->link();
     m_forwardShader->setUniform1i("u_DiffuseMap", 0);
     m_forwardShader->setUniform1i("u_NormalMap", 1);

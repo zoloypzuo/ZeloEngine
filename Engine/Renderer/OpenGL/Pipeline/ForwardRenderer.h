@@ -69,7 +69,7 @@ protected:
 
     void updateEngineUBOModel(const glm::mat4 &modelMatrix) const;
 
-    std::unique_ptr<GLSLShaderProgram> m_forwardShader;
+    std::shared_ptr<GLSLShaderProgram> m_forwardShader;
 
     std::unique_ptr<GLShaderStorageBuffer> m_lightSSBO{};
     std::unique_ptr<GLUniformBuffer> m_engineUBO{};

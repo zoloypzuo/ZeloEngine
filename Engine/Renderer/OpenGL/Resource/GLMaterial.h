@@ -21,9 +21,9 @@ public:
 
     void unbind();
 
-    void setShader(std::shared_ptr<GLSLShaderProgram> shader);
+    void setShader(std::shared_ptr<Shader> shader) override;
 
-    bool hasShader() const;
+    bool hasShader() const override;
 
     void fillUniforms();
 
