@@ -130,3 +130,8 @@ class Behaviour;
 }
 
 class MeshRenderer;
+
+namespace Zelo::Core::RHI {
+class Mesh;
+class Material;
+}
