@@ -9,14 +9,11 @@
 using namespace Zelo;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
-
-// model matrix, mesh, material, material, /*userdata matrix*/
-using Drawable = std::tuple<glm::mat4, Mesh *, Material * /*, glm::mat4*/>;
+using namespace Zelo::Renderer::OpenGL;
 
 // 2 render queue, opaque and transparent, sorted by distance to camera
 using OpaqueDrawables = std::multimap<float, Drawable, std::less<float>>;
 using TransparentDrawables = std::multimap<float, Drawable, std::greater<float>>;
-using RenderQueue = std::vector<Drawable>;
 
 namespace Zelo::Renderer::OpenGL {
 SimpleRenderer::SimpleRenderer() = default;
@@ -59,6 +56,14 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     // TODO bind by material
     m_forwardShader->bind();
 
+    for (const auto &drawable: sortRenderQueue()) {
+        updateEngineUBOModel(drawable.modelMatrix);
+        drawable.material->bind();
+        drawable.mesh->render();
+    }
+}
+
+RenderQueue ForwardRenderer::sortRenderQueue() const {
     OpaqueDrawables opaqueDrawables;
     TransparentDrawables transparentDrawables;
 
@@ -66,15 +71,16 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     const auto &camera = SceneManager::getSingletonPtr()->getActiveCamera();
     for (const auto &meshRenderer: meshRenderers) {
         if (!meshRenderer->getOwner()->IsActive()) { continue; }
-        float distantToCamera = glm::distance(meshRenderer->getOwner()->getPosition(),
-                                              camera->getOwner()->getPosition());
+        float distantToCamera = glm::distance(
+                meshRenderer->getOwner()->getPosition(),
+                camera->getOwner()->getPosition());
 
         auto &material = meshRenderer->GetMaterial();
-        Drawable drawable = std::make_tuple(
+        Drawable drawable{
                 meshRenderer->getOwner()->getWorldMatrix(),
                 &meshRenderer->GetMesh(),
                 &material
-        );
+        };
 
         if (material.isBlendable()) {
             transparentDrawables.emplace(distantToCamera, drawable);
@@ -92,16 +98,7 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     for (const auto&[distance, drawable]: transparentDrawables) {
         renderQueue.emplace_back(drawable);
     }
-
-    for (const auto &drawable: renderQueue) {
-        glm::mat4 modelMatrix;
-        Mesh *mesh{};
-        Material *material{};
-        std::tie(modelMatrix, mesh, material) = drawable;
-        updateEngineUBOModel(modelMatrix);
-        material->bind();
-        mesh->render();
-    }
+    return renderQueue;
 }
 
 void ForwardRenderer::initialize() {

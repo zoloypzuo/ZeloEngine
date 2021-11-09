@@ -32,6 +32,15 @@ private:
     std::unique_ptr<GLSLShaderProgram> m_simple;
 };
 
+struct Drawable {
+    glm::mat4 modelMatrix;
+    Core::RHI::Mesh *mesh;
+    Core::RHI::Material *material;
+//    glm::mat4 userMatrix;
+};
+
+using RenderQueue = std::vector<Drawable>;
+
 class ForwardRenderer : public Core::RHI::RenderPipeline {
 public:
     ZELO_PACKED
@@ -64,6 +73,8 @@ protected:
 
     std::unique_ptr<GLShaderStorageBuffer> m_lightSSBO{};
     std::unique_ptr<GLUniformBuffer> m_engineUBO{};
+
+    RenderQueue sortRenderQueue() const;
 };
 }
 
