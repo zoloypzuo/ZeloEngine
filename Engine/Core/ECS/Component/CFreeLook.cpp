@@ -14,7 +14,7 @@ CFreeLook::CFreeLook(Entity &owner) : Component(owner) {
 
 CFreeLook::~CFreeLook() = default;
 
-void CFreeLook::OnAwake()  {
+void CFreeLook::OnAwake() {
     auto *input = Input::getSingletonPtr();
 
     input->registerButtonToAction(SDL_BUTTON_RIGHT, "look");

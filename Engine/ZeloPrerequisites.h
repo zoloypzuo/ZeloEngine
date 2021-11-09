@@ -74,7 +74,7 @@ inline T  operator  ~(const T s)            { return (T)~(unsigned)s; }
 #ifdef __GNUC__
 #define ZELO_PACKED( class_to_pack ) class_to_pack __attribute__((__packed__))
 #else
-#define ZELO_PACKED( class_to_pack ) __pragma( pack(push, 1) ) class_to_pack __pragma( pack(pop) )
+#define ZELO_PACKED(class_to_pack) __pragma( pack(push, 1) ) class_to_pack __pragma( pack(pop) )
 #endif
 
 // mixin for class that cannot be copied

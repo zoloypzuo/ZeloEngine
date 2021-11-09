@@ -14,7 +14,7 @@ inline void GLUniformBuffer::setSubData(const T &data, size_t offsetInOut) {
 }
 
 template<typename T>
-inline void GLUniformBuffer::setSubData(const T &data, std::reference_wrapper <size_t> offsetInOut) {
+inline void GLUniformBuffer::setSubData(const T &data, std::reference_wrapper<size_t> offsetInOut) {
     bind();
     size_t dataSize = sizeof(T);
     glBufferSubData(GL_UNIFORM_BUFFER, offsetInOut.get(), dataSize, std::addressof(data));

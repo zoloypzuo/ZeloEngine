@@ -18,7 +18,7 @@ public:
 
     ~MeshRenderer() override;
 
-    void render() ;
+    void render();
 
     inline std::string getType() override { return "MESH_RENDERER"; }
 

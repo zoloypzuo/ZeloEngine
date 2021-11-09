@@ -101,8 +101,8 @@ inline bool IsAlphaNumeric(char c) { return IsDigit(c) || IsAlpha(c); }
 
 template<typename alloc>
 void ReplaceString(std::basic_string<char, std::char_traits<char>, alloc> &target,
-                    const std::basic_string<char, std::char_traits<char>, alloc> &search,
-                    const std::basic_string<char, std::char_traits<char>, alloc> &replace, size_t startPos = 0) {
+                   const std::basic_string<char, std::char_traits<char>, alloc> &search,
+                   const std::basic_string<char, std::char_traits<char>, alloc> &replace, size_t startPos = 0) {
     if (search.empty())
         return;
 
