@@ -91,7 +91,7 @@ uniform vec4        u_Diffuse                 = vec4(1.0, 1.0, 1.0, 1.0);
 uniform vec3        u_Specular                = vec3(1.0, 1.0, 1.0);
 uniform float       u_Shininess               = 100.0;
 uniform float       u_HeightScale             = 0.0;
-uniform bool        u_EnableNormalMapping     = false;
+uniform bool        u_EnableNormalMapping     = true;
 uniform sampler2D   u_DiffuseMap;
 uniform sampler2D   u_SpecularMap;
 uniform sampler2D   u_NormalMap;
