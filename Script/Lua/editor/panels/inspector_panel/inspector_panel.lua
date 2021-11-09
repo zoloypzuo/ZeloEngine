@@ -36,14 +36,9 @@ local EEngineComponents = {
         add_fn = "AddDirectionalLight"
     };
     {
-        name = "PointLight";
-        ctype = "POINT_LIGHT";
-        add_fn = "AddPointLight"
-    };
-    {
-        name = "SpotLight";
-        ctype = "POINT_LIGHT";
-        add_fn = "AddSpotLight"
+        name = "Light";
+        ctype = "LIGHT";
+        add_fn = "AddLight"
     };
     {
         name = "MeshRenderer";
@@ -243,6 +238,9 @@ end
 
 function Inspector:DrawMeshRenderer(component, parent)
     -- TODO draw component
+end
+
+function Inspector:DrawLight(component, parent)
 end
 
 function Inspector:UnFocus()

@@ -141,7 +141,7 @@ function HierarchyPanel:_OnAddEntity(entity, name)
     end
 
     textSelectable.getter = function()
-        return name .. entity.GUID
+        return entity.name
     end
 
     self.m_widgetEntityLink[entity] = textSelectable
