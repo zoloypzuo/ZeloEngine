@@ -51,11 +51,11 @@ public:
 protected:
     std::unique_ptr<INIReader> m_config;
 
-    std::unique_ptr<Core::OS::TimeSystem::Time> m_timeSystem{};
+    std::unique_ptr<Core::OS::Time> m_timeSystem{};
     std::unique_ptr<Window> m_window;
     std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
-    std::unique_ptr<Game> m_game;
+    std::unique_ptr<Core::Scene::Game> m_game;
     std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem{};
     std::unique_ptr<Core::UI::UIManager> m_uiManager{};
 

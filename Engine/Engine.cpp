@@ -17,12 +17,13 @@
 #include "optick.h"
 
 using namespace Zelo;
-using namespace Zelo::Core::OS::TimeSystem;
+using namespace Zelo::Core::OS;
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Core::UI;
+using namespace Zelo::Core::Scene;
 
 void Engine::initialize() {
     // init config and logger first

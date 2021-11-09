@@ -6,7 +6,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
 
-namespace Zelo::Core::OS::TimeSystem {
+namespace Zelo::Core::OS {
 class Time :
         public Singleton<Time>,
         public IRuntimeModule {

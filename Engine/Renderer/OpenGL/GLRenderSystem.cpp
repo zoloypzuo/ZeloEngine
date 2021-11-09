@@ -9,6 +9,7 @@
 #include "Renderer/OpenGL/Pipeline/ForwardRenderer.h"
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::Scene;
 using namespace Zelo::Renderer::OpenGL;
 
 void GLRenderSystem::initialize() {

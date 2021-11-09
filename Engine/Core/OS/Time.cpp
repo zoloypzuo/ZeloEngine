@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Time.h"
 
-using namespace Zelo::Core::OS::TimeSystem;
+using namespace Zelo::Core::OS;
 
 Time::Time() {
 

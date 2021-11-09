@@ -8,6 +8,7 @@
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
 using namespace Zelo;
+using namespace Zelo::Core::Scene;
 
 SimpleRenderer::SimpleRenderer() = default;
 

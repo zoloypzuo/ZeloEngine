@@ -8,11 +8,12 @@
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
-using namespace Zelo::Core::OS::TimeSystem;
+using namespace Zelo::Core::OS;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Core::ECS;
+using namespace Zelo::Core::Scene;
 
 void Game::update() {
     rootScene->updateAll(Time::getSingletonPtr()->getDeltaTime());
@@ -86,16 +87,16 @@ void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {
 }
 
 void Game::onComponentRemoved(Zelo::Core::ECS::Component &component) {
-    if (auto* result = dynamic_cast<MeshRenderer*>(&component); 
-        !m_fastAccessComponents.meshRenderers.empty() && result) {
+    if (auto *result = dynamic_cast<MeshRenderer *>(&component);
+            !m_fastAccessComponents.meshRenderers.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.meshRenderers, result);
     }
-    if (auto* result = dynamic_cast<Camera*>(&component);
-        !m_fastAccessComponents.cameras.empty() && result) {
+    if (auto *result = dynamic_cast<Camera *>(&component);
+            !m_fastAccessComponents.cameras.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.cameras, result);
     }
-    if (auto* result = dynamic_cast<ALight*>(&component);
-        !m_fastAccessComponents.lights.empty() && result) {
+    if (auto *result = dynamic_cast<ALight *>(&component);
+            !m_fastAccessComponents.lights.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
     }
 }
