@@ -8,9 +8,9 @@ import os
 import timeit
 
 if __name__ == '__main__':
-    exe_filename = "../../Build/build_vs2019.bat"
-    output_filename = "build_time_vs2019.txt"
-    clean_filename = "../../Build/build_clean_vs2019.bat"
+    exe_filename = r"..\Build\build_vs2019.bat"
+    output_filename = r"build_time_vs2019.txt"
+    clean_filename = r"..\Build\build_clean_vs2019.bat"
 
     os.system(clean_filename)
     time_cost = timeit.timeit("os.system(%s)" % repr(exe_filename), setup="import os", number=1)
