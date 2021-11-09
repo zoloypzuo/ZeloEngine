@@ -77,7 +77,7 @@ RenderQueue ForwardRenderer::sortRenderQueue() const {
 
         // use standard shader as default
         if (!material.hasShader()){
-            material.setShader(m_forwardShader);
+            material.setShader(m_forwardStandardShader);
         }
 
         Drawable drawable{
@@ -113,11 +113,11 @@ void ForwardRenderer::initialize() {
             sizeof(EngineUBO), 0, 0,
             Core::RHI::EAccessSpecifier::STREAM_DRAW);
 
-    m_forwardShader = std::make_shared<GLSLShaderProgram>("Shader/forward_standard.lua");
-    m_forwardShader->link();
-    m_forwardShader->setUniform1i("u_DiffuseMap", 0);
-    m_forwardShader->setUniform1i("u_NormalMap", 1);
-    m_forwardShader->setUniform1i("u_SpecularMap", 2);
+    m_forwardStandardShader = std::make_shared<GLSLShaderProgram>("Shader/forward_standard.lua");
+    m_forwardStandardShader->link();
+    m_forwardStandardShader->setUniform1i("u_DiffuseMap", 0);
+    m_forwardStandardShader->setUniform1i("u_NormalMap", 1);
+    m_forwardStandardShader->setUniform1i("u_SpecularMap", 2);
 }
 
 void ForwardRenderer::updateLights() const {
