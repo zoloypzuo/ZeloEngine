@@ -35,6 +35,8 @@ public:
     template<typename T>
     const T &get(const std::string &key);
 
+public:
+    bool isBlendable() const override { return m_blendable; }
 
 private:
     GLTexture &m_diffuseMap;

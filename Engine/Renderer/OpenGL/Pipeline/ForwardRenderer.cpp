@@ -4,12 +4,21 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRenderer.h"
 #include "Core/Scene/SceneManager.h"
-#include "Core/RHI/RenderSystem.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
 using namespace Zelo;
+using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
 
+// model matrix, mesh, material, material, /*userdata matrix*/
+using Drawable = std::tuple<glm::mat4, Mesh *, Material * /*, glm::mat4*/>;
+
+// 2 render queue, opaque and transparent, sorted by distance to camera
+using OpaqueDrawables = std::multimap<float, Drawable, std::less<float>>;
+using TransparentDrawables = std::multimap<float, Drawable, std::greater<float>>;
+using RenderQueue = std::vector<Drawable>;
+
+namespace Zelo::Renderer::OpenGL {
 SimpleRenderer::SimpleRenderer() = default;
 
 SimpleRenderer::~SimpleRenderer() = default;
@@ -50,10 +59,48 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     // TODO bind by material
     m_forwardShader->bind();
 
+    OpaqueDrawables opaqueDrawables;
+    TransparentDrawables transparentDrawables;
+
     const auto &meshRenderers = SceneManager::getSingletonPtr()->getFastAccessComponents().meshRenderers;
+    const auto &camera = SceneManager::getSingletonPtr()->getActiveCamera();
     for (const auto &meshRenderer: meshRenderers) {
-        updateEngineUBOModel(meshRenderer->getOwner()->getWorldMatrix());
-        meshRenderer->render();
+        if (!meshRenderer->getOwner()->IsActive()) { continue; }
+        float distantToCamera = glm::distance(meshRenderer->getOwner()->getPosition(),
+                                              camera->getOwner()->getPosition());
+
+        auto &material = meshRenderer->GetMaterial();
+        Drawable drawable = std::make_tuple(
+                meshRenderer->getOwner()->getWorldMatrix(),
+                &meshRenderer->GetMesh(),
+                &material
+        );
+
+        if (material.isBlendable()) {
+            transparentDrawables.emplace(distantToCamera, drawable);
+        } else {
+            opaqueDrawables.emplace(distantToCamera, drawable);
+        }
+    }
+
+    RenderQueue renderQueue;
+    renderQueue.reserve(opaqueDrawables.size() + transparentDrawables.size());
+    for (const auto&[distance, drawable]: opaqueDrawables) {
+        renderQueue.emplace_back(drawable);
+    }
+
+    for (const auto&[distance, drawable]: transparentDrawables) {
+        renderQueue.emplace_back(drawable);
+    }
+
+    for (const auto &drawable: renderQueue) {
+        glm::mat4 modelMatrix;
+        Mesh *mesh{};
+        Material *material{};
+        std::tie(modelMatrix, mesh, material) = drawable;
+        updateEngineUBOModel(modelMatrix);
+        material->bind();
+        mesh->render();
     }
 }
 
@@ -91,4 +138,5 @@ void ForwardRenderer::updateEngineUBO() const {
 
 void ForwardRenderer::updateEngineUBOModel(const glm::mat4 &modelMatrix) const {
     m_engineUBO->setSubData(modelMatrix, 0);
+}
 }

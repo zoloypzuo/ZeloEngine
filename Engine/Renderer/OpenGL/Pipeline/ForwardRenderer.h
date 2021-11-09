@@ -14,7 +14,7 @@
 #include "Renderer/OpenGL/Buffer/GLShaderStorageBuffer.h"
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 
-namespace Zelo {
+namespace Zelo::Renderer::OpenGL {
 class SimpleRenderer : public Core::RHI::RenderPipeline {
 public:
     SimpleRenderer();
@@ -43,16 +43,6 @@ public:
          float ubo_time;
      };)
 
-    // model matrix, mesh, material, material, userdata matrix
-    using Drawable = std::tuple<
-            glm::mat4, Core::RHI::Mesh *,
-            Core::RHI::Material *, glm::mat4
-    >;
-
-    // 2 render queue, opaque and transparent, sorted by distance to camera
-    using OpaqueDrawables = std::multimap<float, Drawable, std::less<float>>;
-    using TransparentDrawables = std::multimap<float, Drawable, std::greater<float>>;
-
 public:
     ForwardRenderer();
 
@@ -69,8 +59,6 @@ protected:
     void updateEngineUBO() const;
 
     void updateEngineUBOModel(const glm::mat4 &modelMatrix) const;
-
-    std::pair <OpaqueDrawables, TransparentDrawables> FindAndSortDrawables(const Core::ECS::Entity &scene) const;
 
     std::unique_ptr<GLSLShaderProgram> m_forwardShader;
 

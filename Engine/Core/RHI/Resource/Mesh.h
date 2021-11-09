@@ -7,6 +7,7 @@
 
 namespace Zelo::Core::RHI {
 class Mesh {
-
+public:
+    virtual void render() const = 0;
 };
 }

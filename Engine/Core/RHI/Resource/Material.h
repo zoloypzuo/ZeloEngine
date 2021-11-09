@@ -12,6 +12,8 @@ public:
     virtual ~Material();
 
     virtual void bind() const = 0;
+
+    virtual bool isBlendable() const = 0;
 };
 }
 
