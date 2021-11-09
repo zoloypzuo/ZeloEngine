@@ -36,16 +36,16 @@ public:
 public:
     std::shared_ptr<ECS::Entity> getRootNode();
 
-    const FastAccessComponents &getFastAccessComponents() const { return m_fastAccessComponents; }
+    const FastAccessComponents &getFastAccessComponents() const;
+
+    Camera *getActiveCamera() const;
 
 public:
-    GUID_t SpawnPrefab(const std::string &name);
+    ZELO_SCRIPT_API GUID_t SpawnPrefab(const std::string &name);
 
-    ECS::Entity *CreateEntity();
+    ZELO_SCRIPT_API ECS::Entity *CreateEntity();
 
-    void SetActiveCamera(PerspectiveCamera *camera);
-
-    Camera *getActiveCamera() const { return m_activeCamera; }
+    ZELO_SCRIPT_API void SetActiveCamera(PerspectiveCamera *camera);
 
 private:
     void onComponentAdded(ECS::Component &component);

@@ -4,17 +4,16 @@
 #include "ZeloPreCompiledHeader.h"
 #include "SceneManager.h"
 #include "Core/OS/Time.h"
-
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
 using namespace Zelo::Core::OS;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
-using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Core::ECS;
-using namespace Zelo::Core::Scene;
+using namespace Zelo::Renderer::OpenGL;
 
+namespace Zelo::Core::Scene {
 void SceneManager::update() {
     rootScene->updateAll(Time::getSingletonPtr()->getDeltaTime());
 }
@@ -69,6 +68,24 @@ Zelo::GUID_t SceneManager::SpawnPrefab(const std::string &name) {
     return entity.GetGUID();
 }
 
+const SceneManager::FastAccessComponents &SceneManager::getFastAccessComponents() const {
+    return m_fastAccessComponents;
+}
+
+Camera *SceneManager::getActiveCamera() const {
+    // try user assigned camera
+    if (m_activeCamera) {
+        return m_activeCamera;
+    }
+    // fallback to search camera in scene
+    const auto &cameras = m_fastAccessComponents.cameras;
+    if (const auto &it = Zelo::FindIf(cameras, [](auto p) { return p != nullptr; }); it != cameras.end()) {
+        return *it;
+    }
+    // failed
+    return nullptr;
+}
+
 // TODO fix sol base class 
 void SceneManager::SetActiveCamera(PerspectiveCamera *camera) {
     m_activeCamera = camera;
@@ -99,4 +116,6 @@ void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
             !m_fastAccessComponents.lights.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
     }
+}
+
 }
