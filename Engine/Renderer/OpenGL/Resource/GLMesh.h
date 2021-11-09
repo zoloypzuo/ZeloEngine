@@ -36,7 +36,7 @@ public:
 
     virtual ~GLMesh();
 
-    void render() const;
+    void render() const override;
 
 private:
     std::shared_ptr<GLMeshData> m_meshData;

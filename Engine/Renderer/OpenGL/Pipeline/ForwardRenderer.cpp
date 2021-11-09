@@ -4,12 +4,18 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRenderer.h"
 #include "Core/Scene/SceneManager.h"
-#include "Core/RHI/RenderSystem.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
 using namespace Zelo;
+using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
+using namespace Zelo::Renderer::OpenGL;
 
+// 2 render queue, opaque and transparent, sorted by distance to camera
+using OpaqueDrawables = std::multimap<float, Drawable, std::less<float>>;
+using TransparentDrawables = std::multimap<float, Drawable, std::greater<float>>;
+
+namespace Zelo::Renderer::OpenGL {
 SimpleRenderer::SimpleRenderer() = default;
 
 SimpleRenderer::~SimpleRenderer() = default;
@@ -47,14 +53,57 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     updateLights();
     updateEngineUBO();
 
-    // TODO bind by material
-    m_forwardShader->bind();
-
-    const auto &meshRenderers = SceneManager::getSingletonPtr()->getFastAccessComponents().meshRenderers;
-    for (const auto &meshRenderer: meshRenderers) {
-        updateEngineUBOModel(meshRenderer->getOwner()->getWorldMatrix());
-        meshRenderer->render();
+    for (const auto &drawable: sortRenderQueue()) {
+        updateEngineUBOModel(drawable.modelMatrix);
+        drawable.material->bind();
+        drawable.mesh->render();
     }
+}
+
+RenderQueue ForwardRenderer::sortRenderQueue() const {
+    OpaqueDrawables opaqueDrawables;
+    TransparentDrawables transparentDrawables;
+
+    // sort by opaque/transparent, then by distance to the camera
+    const auto &meshRenderers = SceneManager::getSingletonPtr()->getFastAccessComponents().meshRenderers;
+    const auto &camera = SceneManager::getSingletonPtr()->getActiveCamera();
+    for (const auto &meshRenderer: meshRenderers) {
+        if (!meshRenderer->getOwner()->IsActive()) { continue; }
+        float distantToCamera = glm::distance(
+                meshRenderer->getOwner()->getPosition(),
+                camera->getOwner()->getPosition());
+
+        auto &material = meshRenderer->GetMaterial();
+
+        // use standard shader as default
+        if (!material.hasShader()){
+            material.setShader(m_forwardStandardShader);
+        }
+
+        Drawable drawable{
+                meshRenderer->getOwner()->getWorldMatrix(),
+                &meshRenderer->GetMesh(),
+                &material
+        };
+
+        if (material.isBlendable()) {
+            transparentDrawables.emplace(distantToCamera, drawable);
+        } else {
+            opaqueDrawables.emplace(distantToCamera, drawable);
+        }
+    }
+
+    // push opaque object first, then transparent object to render queue
+    RenderQueue renderQueue;
+    renderQueue.reserve(opaqueDrawables.size() + transparentDrawables.size());
+    for (const auto&[distance, drawable]: opaqueDrawables) {
+        renderQueue.emplace_back(drawable);
+    }
+
+    for (const auto&[distance, drawable]: transparentDrawables) {
+        renderQueue.emplace_back(drawable);
+    }
+    return renderQueue;
 }
 
 void ForwardRenderer::initialize() {
@@ -64,11 +113,11 @@ void ForwardRenderer::initialize() {
             sizeof(EngineUBO), 0, 0,
             Core::RHI::EAccessSpecifier::STREAM_DRAW);
 
-    m_forwardShader = std::make_unique<GLSLShaderProgram>("Shader/forward_standard.lua");
-    m_forwardShader->link();
-    m_forwardShader->setUniform1i("u_DiffuseMap", 0);
-    m_forwardShader->setUniform1i("u_NormalMap", 1);
-    m_forwardShader->setUniform1i("u_SpecularMap", 2);
+    m_forwardStandardShader = std::make_shared<GLSLShaderProgram>("Shader/forward_standard.lua");
+    m_forwardStandardShader->link();
+    m_forwardStandardShader->setUniform1i("u_DiffuseMap", 0);
+    m_forwardStandardShader->setUniform1i("u_NormalMap", 1);
+    m_forwardStandardShader->setUniform1i("u_SpecularMap", 2);
 }
 
 void ForwardRenderer::updateLights() const {
@@ -91,4 +140,5 @@ void ForwardRenderer::updateEngineUBO() const {
 
 void ForwardRenderer::updateEngineUBOModel(const glm::mat4 &modelMatrix) const {
     m_engineUBO->setSubData(modelMatrix, 0);
+}
 }

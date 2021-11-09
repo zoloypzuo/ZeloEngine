@@ -11,10 +11,9 @@
 
 #include "Core/RHI/RenderCommand.h"
 #include "Core/RHI/RenderSystem.h"
+#include "Core/RHI/RenderPipeline.h"
 #include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Object/Camera.h"
-#include "Renderer/OpenGL/Pipeline/Renderer.h"
-#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {
@@ -98,7 +97,7 @@ public: // RenderCommand
     void applyStateMask(uint8_t mask) override;
 
 private:
-    std::unique_ptr<class Renderer> m_renderer{};
+    std::unique_ptr<Core::RHI::RenderPipeline> m_renderer{};
 
     std::unique_ptr<Core::RHI::MeshManager> m_meshManager;
 

@@ -1,7 +1,6 @@
 // Renderer.h
 // created on 2021/4/3
 // author @zoloypzuo
-
 #pragma once
 
 #include "ZeloPrerequisites.h"
@@ -10,11 +9,13 @@
 #include "Core/ECS/Entity.h"
 #include "Core/RHI/Object/Camera.h"
 
-class Renderer {
+namespace Zelo::Core::RHI {
+class RenderPipeline {
 public:
-    virtual ~Renderer() = default;
+    virtual ~RenderPipeline() = default;
 
     virtual void initialize() = 0;
 
-    virtual void render(const Zelo::Core::ECS::Entity &scene) const = 0;
+    virtual void render(const Core::ECS::Entity &scene) const = 0;
 };
+}

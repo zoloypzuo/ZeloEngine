@@ -8,13 +8,14 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
-#include "Renderer.h"
+#include "Core/RHI/RenderPipeline.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLShaderStorageBuffer.h"
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 
-class SimpleRenderer : public Renderer {
+namespace Zelo::Renderer::OpenGL {
+class SimpleRenderer : public Core::RHI::RenderPipeline {
 public:
     SimpleRenderer();
 
@@ -22,7 +23,7 @@ public:
 
     ~SimpleRenderer() override;
 
-    void render(const Zelo::Core::ECS::Entity &scene) const override;
+    void render(const Core::ECS::Entity &scene) const override;
 
     void renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const;
 
@@ -31,7 +32,16 @@ private:
     std::unique_ptr<GLSLShaderProgram> m_simple;
 };
 
-class ForwardRenderer : public Renderer {
+struct Drawable {
+    glm::mat4 modelMatrix;
+    Core::RHI::Mesh *mesh;
+    Core::RHI::Material *material;
+//    glm::mat4 userMatrix;
+};
+
+using RenderQueue = std::vector<Drawable>;
+
+class ForwardRenderer : public Core::RHI::RenderPipeline {
 public:
     ZELO_PACKED
     (struct EngineUBO {
@@ -41,12 +51,13 @@ public:
          glm::vec3 ubo_viewPos;
          float ubo_time;
      };)
+
 public:
     ForwardRenderer();
 
     ~ForwardRenderer() override;
 
-    void render(const Zelo::Core::ECS::Entity &scene) const override;
+    void render(const Core::ECS::Entity &scene) const override;
 
     void initialize() override;
 
@@ -58,10 +69,13 @@ protected:
 
     void updateEngineUBOModel(const glm::mat4 &modelMatrix) const;
 
-    std::unique_ptr<GLSLShaderProgram> m_forwardShader;
+    std::shared_ptr<GLSLShaderProgram> m_forwardStandardShader;
 
-    std::unique_ptr<Zelo::GLShaderStorageBuffer> m_lightSSBO{};
-    std::unique_ptr<Zelo::GLUniformBuffer> m_engineUBO{};
+    std::unique_ptr<GLShaderStorageBuffer> m_lightSSBO{};
+    std::unique_ptr<GLUniformBuffer> m_engineUBO{};
+
+    RenderQueue sortRenderQueue() const;
 };
+}
 
 #endif //ZELOENGINE_FORWARDRENDERER_H

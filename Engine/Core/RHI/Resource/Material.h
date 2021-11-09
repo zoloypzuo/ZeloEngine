@@ -5,6 +5,7 @@
 #define ZELOENGINE_MATERIAL_H
 
 #include "ZeloPrerequisites.h"
+#include "Core/RHI/Resource/Shader.h"
 
 namespace Zelo::Core::RHI {
 class Material {
@@ -12,6 +13,12 @@ public:
     virtual ~Material();
 
     virtual void bind() const = 0;
+
+    virtual bool isBlendable() const = 0;
+
+    virtual bool hasShader() const = 0;
+
+    virtual void setShader(std::shared_ptr<Shader> shader) = 0;
 };
 }
 

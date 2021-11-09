@@ -21,9 +21,9 @@ public:
 
     void unbind();
 
-    void setShader(std::shared_ptr<GLSLShaderProgram> shader);
+    void setShader(std::shared_ptr<Shader> shader) override;
 
-    bool hasShader() const;
+    bool hasShader() const override;
 
     void fillUniforms();
 
@@ -35,6 +35,8 @@ public:
     template<typename T>
     const T &get(const std::string &key);
 
+public:
+    bool isBlendable() const override { return m_blendable; }
 
 private:
     GLTexture &m_diffuseMap;

@@ -5,12 +5,12 @@
 #include "GLMaterial.h"
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 
+using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
 GLMaterial::~GLMaterial() = default;
 
 void GLMaterial::bind() const {
-// TODO use material with shader
     m_diffuseMap.bind(0);
     m_normalMap.bind(1);
     m_specularMap.bind(2);
@@ -75,8 +75,9 @@ void GLMaterial::unbind() {
     }
 }
 
-void GLMaterial::setShader(std::shared_ptr<GLSLShaderProgram> shader) {
-    m_shader = std::move(shader);
+void GLMaterial::setShader(std::shared_ptr<Shader> shader) {
+    m_shader = std::dynamic_pointer_cast<GLSLShaderProgram>(shader);
+    ZELO_ASSERT(m_shader, "shader cast failed");
     if (m_shader) {
         GLUniformBuffer::bindBlockToShader(*m_shader, "EngineUBO");
         fillUniforms();
