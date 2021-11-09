@@ -50,7 +50,7 @@ void Engine::initialize() {
     m_renderSystem->initialize();
     m_uiManager = std::make_unique<UIManager>();
     m_uiManager->initialize();
-    m_game = std::make_unique<Game>();
+    m_game = std::make_unique<SceneManager>();
     m_game->initialize();
     m_luaScriptManager->callLuaInitializeFn();
 

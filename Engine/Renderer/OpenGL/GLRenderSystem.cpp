@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLRenderSystem.h"
 #include "GLUtil.h"
-#include "Core/Game/Game.h"
+#include "Core/Scene/SceneManager.h"
 #include "Core/Window/Window.h"
 #include "Renderer/OpenGL/Pipeline/ForwardRenderer.h"
 
@@ -33,7 +33,7 @@ void GLRenderSystem::initialize() {
 void GLRenderSystem::update() {
     clear(true, true, false);
 
-    const auto &sceneManager = Game::getSingletonPtr();
+    const auto &sceneManager = SceneManager::getSingletonPtr();
 
     if (sceneManager->getActiveCamera()) {
         auto scene = sceneManager->getRootNode();

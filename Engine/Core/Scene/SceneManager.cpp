@@ -1,8 +1,8 @@
-// Game.cpp
+// SceneManager.cpp
 // created on 2021/3/28
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "Game.h"
+#include "SceneManager.h"
 #include "Core/OS/Time.h"
 
 #include "Core/RHI/MeshGen/Plane.h"
@@ -15,44 +15,44 @@ using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::Scene;
 
-void Game::update() {
+void SceneManager::update() {
     rootScene->updateAll(Time::getSingletonPtr()->getDeltaTime());
 }
 
-template<> Game *Singleton<Game>::msSingleton = nullptr;
+template<> SceneManager *Singleton<SceneManager>::msSingleton = nullptr;
 
-Game *Game::getSingletonPtr() {
+SceneManager *SceneManager::getSingletonPtr() {
     return msSingleton;
 }
 
-Game::Game() = default;
+SceneManager::SceneManager() = default;
 
-Game::~Game() = default;
+SceneManager::~SceneManager() = default;
 
-void Game::initialize() {
+void SceneManager::initialize() {
     rootScene = std::make_unique<Entity>(m_entityGuidCounter);
 }
 
-void Game::finalize() {
+void SceneManager::finalize() {
 
 }
 
-std::shared_ptr<Entity> Game::getRootNode() {
+std::shared_ptr<Entity> SceneManager::getRootNode() {
     return rootScene;
 }
 
-Entity *Game::CreateEntity() {
+Entity *SceneManager::CreateEntity() {
     m_entityGuidCounter++; // acc guid counter
     const auto &entity = std::make_shared<Entity>(m_entityGuidCounter);
     rootScene->addChild(entity);
 
-    entity->ComponentAddedEvent += std::bind(&Game::onComponentAdded, this, std::placeholders::_1);
-    entity->ComponentRemovedEvent += std::bind(&Game::onComponentRemoved, this, std::placeholders::_1);
+    entity->ComponentAddedEvent += std::bind(&SceneManager::onComponentAdded, this, std::placeholders::_1);
+    entity->ComponentRemovedEvent += std::bind(&SceneManager::onComponentRemoved, this, std::placeholders::_1);
 
     return entity.get();
 }
 
-Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
+Zelo::GUID_t SceneManager::SpawnPrefab(const std::string &name) {
     auto &L = LuaScriptManager::getSingleton();
     sol::table prefab = L["Prefabs"][name];
     sol::protected_function fn(prefab["fn"], L["GlobalErrorHandler"]);
@@ -70,11 +70,11 @@ Zelo::GUID_t Game::SpawnPrefab(const std::string &name) {
 }
 
 // TODO fix sol base class 
-void Game::SetActiveCamera(PerspectiveCamera *camera) {
+void SceneManager::SetActiveCamera(PerspectiveCamera *camera) {
     m_activeCamera = camera;
 }
 
-void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {
+void SceneManager::onComponentAdded(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<MeshRenderer *>(&component)) {
         m_fastAccessComponents.meshRenderers.push_back(result);
     }
@@ -86,7 +86,7 @@ void Game::onComponentAdded(Zelo::Core::ECS::Component &component) {
     }
 }
 
-void Game::onComponentRemoved(Zelo::Core::ECS::Component &component) {
+void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<MeshRenderer *>(&component);
             !m_fastAccessComponents.meshRenderers.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.meshRenderers, result);

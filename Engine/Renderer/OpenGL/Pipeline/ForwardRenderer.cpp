@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardRenderer.h"
-#include "Core/Game/Game.h"
+#include "Core/Scene/SceneManager.h"
 #include "Core/RHI/RenderSystem.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
@@ -50,7 +50,7 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     // TODO bind by material
     m_forwardShader->bind();
 
-    const auto &meshRenderers = Game::getSingletonPtr()->getFastAccessComponents().meshRenderers;
+    const auto &meshRenderers = SceneManager::getSingletonPtr()->getFastAccessComponents().meshRenderers;
     for (const auto &meshRenderer: meshRenderers) {
         updateEngineUBOModel(meshRenderer->getOwner()->getWorldMatrix());
         meshRenderer->render();
@@ -72,7 +72,7 @@ void ForwardRenderer::initialize() {
 }
 
 void ForwardRenderer::updateLights() const {
-    auto lights = Game::getSingletonPtr()->getFastAccessComponents().lights;
+    auto lights = SceneManager::getSingletonPtr()->getFastAccessComponents().lights;
     std::vector<glm::mat4> lightMatrices;
     lightMatrices.reserve(lights.size());
     for (const auto &light: lights) {
@@ -83,7 +83,7 @@ void ForwardRenderer::updateLights() const {
 
 void ForwardRenderer::updateEngineUBO() const {
     size_t offset = sizeof(glm::mat4);  // skip model matrix;
-    auto *camera = Game::getSingletonPtr()->getActiveCamera();
+    auto *camera = SceneManager::getSingletonPtr()->getActiveCamera();
     m_engineUBO->setSubData(camera->getViewMatrix(), std::ref(offset));
     m_engineUBO->setSubData(camera->getProjectionMatrix(), std::ref(offset));
     m_engineUBO->setSubData(camera->getOwner()->getPosition(), std::ref(offset));

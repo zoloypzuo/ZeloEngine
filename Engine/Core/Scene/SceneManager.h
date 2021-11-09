@@ -1,8 +1,8 @@
 // Game.h
 // created on 2021/3/28
 // author @zoloypzuo
-#ifndef ZELOENGINE_GAME_H
-#define ZELOENGINE_GAME_H
+#ifndef ZELOENGINE_SCENEMANAGER_H
+#define ZELOENGINE_SCENEMANAGER_H
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
@@ -11,9 +11,7 @@
 #include "Core/RHI/Object/ALight.h"
 
 namespace Zelo::Core::Scene {
-// TODO move namespace Zelo::Core::Game
-// TODO rename to Scene
-class Game : public Singleton<Game>, public IRuntimeModule {
+class SceneManager : public Singleton<SceneManager>, public IRuntimeModule {
 public:
     struct FastAccessComponents {
         std::vector<MeshRenderer *> meshRenderers;
@@ -22,9 +20,9 @@ public:
     };
 
 public:
-    Game();
+    SceneManager();
 
-    ~Game() override;
+    ~SceneManager() override;
 
     void initialize() override;
 
@@ -33,7 +31,7 @@ public:
     void update() override;
 
 public:
-    static Game *getSingletonPtr();
+    static SceneManager *getSingletonPtr();
 
 public:
     std::shared_ptr<ECS::Entity> getRootNode();
@@ -63,4 +61,4 @@ private:
 };
 }
 
-#endif //ZELOENGINE_GAME_H
+#endif //ZELOENGINE_SCENEMANAGER_H

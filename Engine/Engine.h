@@ -6,7 +6,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "Core/Game/Game.h"
+#include "Core/Scene/SceneManager.h"
 #include "Core/Window/Window.h"
 #include "Core/RHI/RenderSystem.h"
 #include "Core/Parser/IniReader.h"
@@ -55,7 +55,7 @@ protected:
     std::unique_ptr<Window> m_window;
     std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
-    std::unique_ptr<Core::Scene::Game> m_game;
+    std::unique_ptr<Core::Scene::SceneManager> m_game;
     std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem{};
     std::unique_ptr<Core::UI::UIManager> m_uiManager{};
 

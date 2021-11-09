@@ -8,7 +8,7 @@ add_subdirectory(Core)
 link_libraries(
         ECS
         EventSystem
-        Game
+        Scene
         #ImGui
         Input
         Interface
