@@ -7,7 +7,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
-#include "Renderer/OpenGL/Pipeline/Renderer.h"
+#include "Core/RHI/RenderPipeline.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Drawable/Frustum.h"

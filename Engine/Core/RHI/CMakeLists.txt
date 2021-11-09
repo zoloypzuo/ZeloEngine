@@ -34,4 +34,5 @@ add_library(RHI
         Object/ALight.cpp
 
         RenderSystem.cpp RenderSystem.h
+        RenderPipeline.h
         )

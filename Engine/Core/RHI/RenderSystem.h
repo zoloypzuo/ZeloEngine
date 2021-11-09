@@ -4,13 +4,12 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
-#include "Core/RHI/RenderCommand.h"
-#include "Core/RHI/Object/Camera.h"
 #include "ZeloGLPrerequisites.h"
+#include "ZeloSingleton.h"
 #include "Core/RHI/RenderSystem.h"
-#include "Renderer/OpenGL/Pipeline/Renderer.h"
-#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
+#include "Core/RHI/RenderCommand.h"
+#include "Core/RHI/RenderPipeline.h"
+#include "Core/RHI/Object/Camera.h"
 #include "Core/RHI/Resource/MeshManager.h"
 
 namespace Zelo::Core::RHI {
