@@ -79,28 +79,34 @@ do
     plane.components.transform:Rotate(0, 0, 1, PI / 2)
 end
 
+-- monkeys
 do
-    local monkey = SpawnPrefab("monkey")
+    -- put one at origin
+    local monkey0 = SpawnPrefab("monkey")
+    monkey0.name = "origin"
+    
+    --for i = 0, 10 do
+        --local monkey = SpawnPrefab("monkey")
+        --monkey.components.transform:SetPosition(2, i * 3, 0.5)
+    --end
 end
 
+-- lights
 do
-    for i = 0, 10 do
-        local monkey = SpawnPrefab("monkey")
-        monkey.components.transform:SetPosition(2, i * 3, 0.5)
-    end
-end
-
-do
+    -- sun
     local sun = SpawnPrefab("monkey")
+    sun.name = "sun"
     sun.components.transform:SetPosition(-3.000, 17.000, 7.000)
     local light = sun.entity:AddLight()
     light.Type = ELightType.DIRECTIONAL
-    light.Color = { x = 1, y = 1, z = 1 }
-    light.Intensity = 2.8
+    light.Color = Vector3(1, 1, 1)
+    light.Intensity = 1.5
+
 end
 
 do
     local avatar = SpawnPrefab("monkey")
+    avatar.name = "avatar"
     avatar.components.transform:SetPosition(0, 0, 5)
     avatar.components.transform:SetScale(0.8, 0.8, 0.8)
 
@@ -112,6 +118,16 @@ do
 
     avatar.entity:AddFreeMove()
     avatar.entity:AddFreeLook()
+
+    local spotLight = avatar.entity:AddLight()
+    --    POINT = 0,
+    -- DIRECTIONAL = 1,
+    -- SPOT = 2,
+    -- AMBIENT_BOX = 3,
+    -- AMBIENT_SPHERE = 4
+    spotLight.Type = ELightType.DIRECTIONAL
+    spotLight.Color = Vector3(1, 1, 1)
+    spotLight.Intensity = 1
 
     TheSim:SetActiveCamera(camera)
 end

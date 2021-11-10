@@ -19,7 +19,7 @@ public:
 
     ~ALight() override;
 
-    std::string getType() override { return "Light"; }
+    std::string getType() override { return "LIGHT"; }
 
     // encode data into a matrix
     glm::mat4 generateLightMatrix() const;

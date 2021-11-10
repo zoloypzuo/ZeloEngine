@@ -46,25 +46,25 @@ end)
 UI:UseFont(LoadResource("Ruda-Bold.ttf"))
 
 -- hook debug
-ENABLE_HOOK_DEBUG_IMGUI = false
-if ENABLE_HOOK_DEBUG_IMGUI then
-    local _ImGui = {}
-    for name, fn in pairs(ImGui) do
-        _ImGui[name] = function(...)
-            print("ImGui.", name, ...)
-            return fn(...)
-        end
-    end
+-- ENABLE_HOOK_DEBUG_IMGUI = false
+-- if ENABLE_HOOK_DEBUG_IMGUI then
+--     local _ImGui = {}
+--     for name, fn in pairs(ImGui) do
+--         _ImGui[name] = function(...)
+--             print("ImGui.", name, ...)
+--             return fn(...)
+--         end
+--     end
 
-    ImGui = _ImGui
-end
+--     ImGui = _ImGui
+-- end
 
 require("editor.editor_actions")
 
 local MenuBarPanel = require("editor.panels.menu_bar_panel.menu_bar_panel")
 TheFrontEnd:LoadPanel(MenuBarPanel, "", true)
 
-local SHOW_ALL_PANEL_AT_INIT = false
+local SHOW_ALL_PANEL_AT_INIT = true
 
 --local ProjectHubPanel = require("editor.panels.project_hub_panel.project_hub_panel")
 --TheFrontEnd:LoadPanel(ProjectHubPanel, "Project Hub", false)
@@ -80,8 +80,11 @@ TheFrontEnd:LoadPanel(ProjectSettingPanel, "Project Setting", SHOW_ALL_PANEL_AT_
 local ConsolePanel = require("editor.panels.console_panel.console_panel")
 TheFrontEnd:LoadPanel(ConsolePanel, "Console", SHOW_ALL_PANEL_AT_INIT)
 
---local GameViewPanel = require("editor.panels.game_view_panel.game_view_panel")
---TheFrontEnd:LoadPanel(GameViewPanel, "Game View", SHOW_ALL_PANEL_AT_INIT)
+local GameViewPanel = require("editor.panels.game_view_panel.game_view_panel")
+TheFrontEnd:LoadPanel(GameViewPanel, "Game View", SHOW_ALL_PANEL_AT_INIT)
+
+local DemoPanel = require("editor.panels.demo_panel")
+TheFrontEnd:LoadPanel(DemoPanel, "Demo", SHOW_ALL_PANEL_AT_INIT)
 
 UI:ResetLayout()
 

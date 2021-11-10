@@ -16,9 +16,9 @@ local TheEditorDrawer = require("editor.editor_drawer")
 
 local EEngineComponents = {
     {
-        name = "Camera";
-        ctype = "PERSPECTIVE_CAMERA";
-        add_fn = "AddCamera"
+        name = "Camera";  -- display name
+        ctype = "PERSPECTIVE_CAMERA";  -- C++ Component getType()
+        add_fn = "AddCamera"  -- addComponent function name
     };
     {
         name = "FreeLook";
@@ -31,19 +31,9 @@ local EEngineComponents = {
         add_fn = "AddFreeMove"
     };
     {
-        name = "DirectionalLight";
-        ctype = "DIRECTIONAL_LIGHT";
-        add_fn = "AddDirectionalLight"
-    };
-    {
-        name = "PointLight";
-        ctype = "POINT_LIGHT";
-        add_fn = "AddPointLight"
-    };
-    {
-        name = "SpotLight";
-        ctype = "POINT_LIGHT";
-        add_fn = "AddSpotLight"
+        name = "Light";
+        ctype = "LIGHT";
+        add_fn = "AddLight"
     };
     {
         name = "MeshRenderer";
@@ -55,11 +45,11 @@ local EEngineComponents = {
 local EComponent = {}
 local EAddComponent = {}
 for _, value in ipairs(EEngineComponents) do
-    EComponent[value.ctype] = value.name
+    EComponent[string.lower(value.ctype)] = value.name
 end
 
 for _, value in ipairs(EEngineComponents) do
-    EAddComponent[value.ctype] = value.add_fn
+    EAddComponent[string.lower(value.ctype)] = value.add_fn
 end
 
 local Inspector = Class(PanelWindow, function(self, title, opened, panelSetting)
@@ -121,22 +111,17 @@ end
 
 function Inspector:_ComponentSelectorWidget()
     self.m_componentSelectorWidget = self.m_inspectorHeader:CreateWidget(ComboBox, EComponent)
-    local componentSelectorWidget = self.m_componentSelectorWidget
-    componentSelectorWidget.lineBreak = false
+    self.m_componentSelectorWidget.lineBreak = false
 
     local addComponentButton = self.m_inspectorHeader:CreateWidget(Button, "Add Component", Vector2(100, 0))
     addComponentButton.idleBackgroundColor = RGBA(0.7, 0.5, 0.);
     addComponentButton.textColor = RGBA.White
     addComponentButton.ClickedEvent:AddEventHandler(function()
-        local choice = componentSelectorWidget.currentChoice
+        local choice = self.m_componentSelectorWidget.currentChoice
         print("addComponentButton", choice)
-        componentSelectorWidget.ValueChangedEvent:HandleEvent(choice)
         local entity = self.m_targetEntity.entity
         local add_fn = EAddComponent[choice]
         entity[add_fn](entity)
-    end)
-
-    componentSelectorWidget.ValueChangedEvent:AddEventHandler(function(value)
     end)
 end
 
@@ -207,34 +192,40 @@ function Inspector:DrawTransform()
     local header = self.m_entityInfo:CreateWidget(Group, "Transform")
     local columns = header:CreateWidget(Columns, 2)
     columns.widths[1] = 200
+
+    local transform = self.m_targetEntity.components.transform
     TheEditorDrawer:DrawVec3(columns, "Position", function()
-        local position = self.m_targetEntity.components.transform.position
+        local position = transform.position
         return { position.x, position.y, position.z }
     end, function(value)
-        self.m_targetEntity.components.transform.position = Vector3(value[1], value[2], value[3])
+        transform.position = Vector3(value[1], value[2], value[3])
     end)
     TheEditorDrawer:DrawVec3(columns, "Rotation", function()
-        local rotation = self.m_targetEntity.components.transform.rotation
+        local rotation = transform.rotation
         return { rotation.x, rotation.y, rotation.z }
     end, function(value)
-
+        -- TODO set rotation
     end)
     TheEditorDrawer:DrawVec3(columns, "Scale", function()
-        local scale = self.m_targetEntity.components.transform.scale
+        local scale = transform.scale
         return { scale.x, scale.y, scale.z }
     end, function(value)
-        self.m_targetEntity.components.transform.scale = Vector3(value[1], value[2], value[3])
+        transform.scale = Vector3(value[1], value[2], value[3])
     end)
 end
 
 function Inspector:DrawComponent(name, component)
     if name == "transform" then
+        -- ignore transform, transform is always drawed first
         return
     end
     local header = self.m_entityInfo:CreateWidget(GroupCollapsable, EComponent[name])
     local columns = header:CreateWidget(Columns, 2)
     columns.widths[1] = 200
     local fn_name = EComponent[name]
+    if not fn_name then
+        return
+    end
     local fn = self["Draw" .. fn_name]
     if fn then
         fn(self, component, columns)
@@ -242,7 +233,74 @@ function Inspector:DrawComponent(name, component)
 end
 
 function Inspector:DrawMeshRenderer(component, parent)
-    -- TODO draw component
+    -- TODO DrawMeshRenderer
+end
+
+function Inspector:DrawLight(component, parent)
+    -- ELightType type = ELightType::POINT;
+    -- glm::vec3 color = {1.f, 1.f, 1.f};
+    -- float intensity = 1.f;
+    -- float constant = 0.0f;
+    -- float linear = 0.0f;
+    -- float quadratic = 1.0f;
+    -- float cutoff = 12.f;
+    -- float outerCutoff = 15.f;
+    local header = self.m_entityInfo:CreateWidget(Group, "Light")
+    local columns = header:CreateWidget(Columns, 2)
+    columns.widths[1] = 200
+
+    local light =  self.m_targetEntity.components.light
+    local lightTypeWidget = TheEditorDrawer:DrawEnum(columns, "Type", ELightType, function()
+        return light.Type
+    end, function (value)
+        light.Type = value
+    end)
+
+    -- light base, color and intensity
+    -- TODO DrawColor3
+    TheEditorDrawer:DrawVec3(columns, "Color", function()
+        local color = light.Color
+        return { color.x, color.y, color.z }
+    end, function(value)
+        light.Color = Vector3(value[1], value[2], value[3])
+    end)
+
+    TheEditorDrawer:DrawNumber(columns, "Intensity", function()
+        return light.Intensity
+    end, function(value)
+        light.Intensity = value
+    end)
+
+    local function drawPropByType()
+        columns.lightFPropGroup = columns:CreateWidget(Columns, 2)
+        columns.widths[1] = 200
+
+        -- Attenuation = { "Constant", "Linear", "Quadratic" }
+        -- local allFprops = {"Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff"}
+        
+        local fpropsByType = {
+            [ELightType.POINT] = {"Constant", "Linear", "Quadratic"},
+            [ELightType.DIRECTIONAL] = {},
+            [ELightType.SPOT] = {"Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff"},
+            [ELightType.AMBIENT_BOX] = {},
+            [ELightType.AMBIENT_SPHERE] = {}
+        }
+        
+        for _, fprop in ipairs(fpropsByType[light.Type]) do
+            local widget = TheEditorDrawer:DrawNumber(columns.lightFPropGroup, fprop, function()
+                return light[fprop]
+            end, function(value)
+                light[fprop] = value
+            end)
+        end
+    end
+
+    lightTypeWidget.ValueChangedEvent:AddEventHandler(function(value)
+        columns:RemoveWidget(columns.lightFPropGroup)
+        drawPropByType()
+    end)
+
+    drawPropByType()
 end
 
 function Inspector:UnFocus()
