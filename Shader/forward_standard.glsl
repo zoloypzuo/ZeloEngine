@@ -132,9 +132,9 @@ vec3 BlinnPhong(vec3 lightDir, vec3 lightColor, float luminosity)
 float LuminosityFromAttenuation(mat4 light)
 {
   const vec3  lightPosition   = light[0].rgb;
-  const float constant        = light[0][3];
-  const float linear          = light[1][3];
-  const float quadratic       = light[2][3];
+  const float constant        = light[3][0];
+  const float linear          = light[3][1];
+  const float quadratic       = light[3][2];
 
   const float distanceToLight = length(lightPosition - vary.fragPos);
   const float attenuation     = (constant + linear * distanceToLight + quadratic * (distanceToLight * distanceToLight));
