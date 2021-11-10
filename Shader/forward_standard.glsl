@@ -141,15 +141,15 @@ float LuminosityFromAttenuation(mat4 light)
   return 1.0 / attenuation;
 }
 
-vec3 CalcPointLight(mat4 p_Light)
+vec3 CalcPointLight(mat4 light)
 {
   /* Extract light information from light mat4 */
-  const vec3 lightPosition  = p_Light[0].rgb;
-  const vec3 lightColor     = p_Light[2].rgb;
-  const float intensity     = p_Light[3][3];
+  const vec3 lightPosition  = light[0].rgb;
+  const vec3 lightColor     = light[2].rgb;
+  const float intensity     = light[3][3];
 
   const vec3  lightDirection  = normalize(lightPosition - vary.fragPos);
-  const float luminosity      = LuminosityFromAttenuation(p_Light);
+  const float luminosity      = LuminosityFromAttenuation(light);
 
   return BlinnPhong(lightDirection, lightColor, intensity * luminosity);
 }
@@ -163,18 +163,18 @@ vec3 CalcDirectionalLight(mat4 light)
   return BlinnPhong(lightDirection, lightColor, intensity);
 }
 
-vec3 CalcSpotLight(mat4 p_Light)
+vec3 CalcSpotLight(mat4 light)
 {
   /* Extract light information from light mat4 */
-  const vec3  lightPosition   = p_Light[0].rgb;
-  const vec3  lightForward    = p_Light[1].rgb;
-  const vec3  lightColor      = p_Light[2].rgb;
-  const float intensity       = p_Light[3][3];
-  const float cutOff          = cos(radians(p_Light[3][1]));
-  const float outerCutOff     = cos(radians(p_Light[3][1] + p_Light[3][2]));
+  const vec3  lightPosition   = light[0].rgb;
+  const vec3  lightForward    = light[1].rgb;
+  const vec3  lightColor      = light[2].rgb;
+  const float intensity       = light[3][3];
+  const float cutOff          = cos(radians(light[3][1]));
+  const float outerCutOff     = cos(radians(light[3][1] + light[3][2]));
 
   const vec3  lightDirection  = normalize(lightPosition - vary.fragPos);
-  const float luminosity      = LuminosityFromAttenuation(p_Light);
+  const float luminosity      = LuminosityFromAttenuation(light);
 
   /* Calculate the spot intensity */
   const float theta           = dot(lightDirection, normalize(-lightForward));
@@ -184,23 +184,23 @@ vec3 CalcSpotLight(mat4 p_Light)
   return BlinnPhong(lightDirection, lightColor, intensity * spotIntensity * luminosity);
 }
 
-vec3 CalcAmbientBoxLight(mat4 p_Light)
+vec3 CalcAmbientBoxLight(mat4 light)
 {
-  const vec3  lightPosition   = p_Light[0].rgb;
-  const vec3  lightColor      = p_Light[2].rgb;
-  const float intensity       = p_Light[3][3];
-  const vec3  size            = vec3(p_Light[0][3], p_Light[1][3], p_Light[2][3]);
+  const vec3  lightPosition   = light[0].rgb;
+  const vec3  lightColor      = light[2].rgb;
+  const float intensity       = light[3][3];
+  const vec3  size            = vec3(light[0][3], light[1][3], light[2][3]);
 
   return PointInAABB(vary.fragPos, lightPosition, size) ? 
     g_DiffuseTexel.rgb * lightColor * intensity : vec3(0.0);
 }
 
-vec3 CalcAmbientSphereLight(mat4 p_Light)
+vec3 CalcAmbientSphereLight(mat4 light)
 {
-  const vec3  lightPosition   = p_Light[0].rgb;
-  const vec3  lightColor      = p_Light[2].rgb;
-  const float intensity       = p_Light[3][3];
-  const float radius          = p_Light[0][3];
+  const vec3  lightPosition   = light[0].rgb;
+  const vec3  lightColor      = light[2].rgb;
+  const float intensity       = light[3][3];
+  const float radius          = light[0][3];
 
   return distance(lightPosition, vary.fragPos) <= radius ?
     g_DiffuseTexel.rgb * lightColor * intensity : vec3(0.0);
