@@ -265,14 +265,17 @@ function Inspector:DrawLight(component, parent)
         light.Color = Vector3(value[1], value[2], value[3])
     end)
 
-    TheEditorDrawer:DrawNumber(columns, "Intensity", function()
-        return light.Intensity
-    end, function(value)
-        light.Intensity = value
-    end)
+    local fprops = {"Intensity", "Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff"}
+
+    for _, fprop in ipairs(fprops) do
+        TheEditorDrawer:DrawNumber(columns, fprop, function()
+            return light[fprop]
+        end, function(value)
+            light[fprop] = value
+        end)
+    end
     -- GUIDrawer::DrawColor(p_root, "Color", reinterpret_cast<OvUI::Types::Color&>(m_data.color));
 	-- GUIDrawer::DrawScalar<float>(p_root, "Intensity", m_data.intensity, 0.005f, GUIDrawer::_MIN_FLOAT, GUIDrawer::_MAX_FLOAT);
-    
 end
 
 function Inspector:UnFocus()
