@@ -258,7 +258,7 @@ function Inspector:DrawLight(component, parent)
 
     -- light base, color and intensity
     -- TODO DrawColor3
-    TheEditorDrawer:DrawVec3(columns, "Color", function()
+    TheEditorDrawer:DrawColor(columns, "Color", false, function()
         local color = light.Color
         return { color.x, color.y, color.z }
     end, function(value)

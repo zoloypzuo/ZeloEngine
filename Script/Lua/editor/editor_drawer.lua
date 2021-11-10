@@ -7,6 +7,7 @@ local CheckBox = require("ui.widgets.checkbox")
 local DragFloat3 = require("ui.widgets.drag_float3")
 local DragNumber = require("ui.widgets.drag_number")
 local ComboBox = require("ui.widgets.combobox")
+local ColorEdit = require("ui.widgets.color_edit")
 
 -- const
 local TitleColor = RGBA(0.85, 0.65, 0)
@@ -63,6 +64,16 @@ end
 function EditorDrawer:DrawNumber(root, name, getter, setter)
     _CreateTitle(root, name)
     local widget = root:CreateWidget(DragNumber, _MIN_FLOAT, _MAX_FLOAT, 1.0)
+
+    widget.getter = getter
+    widget.setter = setter
+
+    return widget
+end
+
+function EditorDrawer:DrawColor(root, name, enableAlpha, getter, setter)
+    _CreateTitle(root, name)
+    local widget = root:CreateWidget(ColorEdit, enableAlpha)
 
     widget.getter = getter
     widget.setter = setter
