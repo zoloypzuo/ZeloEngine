@@ -156,7 +156,11 @@ vec3 CalcPointLight(mat4 p_Light)
 
 vec3 CalcDirectionalLight(mat4 light)
 {
-  return BlinnPhong(-light[1].rgb, light[2].rgb, light[3][3]);
+  /* Extract light information from light mat4 */
+  const vec3 lightDirection = -light[1].rgb;
+  const vec3 lightColor     = light[2].rgb;
+  const float intensity     = light[3][3];
+  return BlinnPhong(lightDirection, lightColor, intensity);
 }
 
 vec3 CalcSpotLight(mat4 p_Light)
