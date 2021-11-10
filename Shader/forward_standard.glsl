@@ -30,6 +30,11 @@ bool PointInAABB(vec3 point, vec3 aabbCenter, vec3 aabbHalfSize)
   point.z > aabbCenter.z - aabbHalfSize.z && point.z < aabbCenter.z + aabbHalfSize.z
   );
 }
+
+vec3 saturate(vec3 color)
+{
+  return clamp(color, 0.0, 1.0);
+}
 // ]]
 
 // local vertex_shader = [[
@@ -226,16 +231,16 @@ void main()
     }
 
     vec3 lightSum = vec3(0.0);
-
+    /* saturate avoid negative light contribution */
     for (int i = 0; i < ssbo_Lights.length(); ++i)
     {
       switch(int(ssbo_Lights[i][3][0]))
       {
-        case 0: lightSum += CalcPointLight(ssbo_Lights[i]);         break;
-        case 1: lightSum += CalcDirectionalLight(ssbo_Lights[i]);   break;
-        case 2: lightSum += CalcSpotLight(ssbo_Lights[i]);          break;
-        case 3: lightSum += CalcAmbientBoxLight(ssbo_Lights[i]);    break;
-        case 4: lightSum += CalcAmbientSphereLight(ssbo_Lights[i]); break;
+        case 0: lightSum += saturate(CalcPointLight(ssbo_Lights[i]));         break;
+        case 1: lightSum += saturate(CalcDirectionalLight(ssbo_Lights[i]));   break;
+        case 2: lightSum += saturate(CalcSpotLight(ssbo_Lights[i]));          break;
+        case 3: lightSum += saturate(CalcAmbientBoxLight(ssbo_Lights[i]));    break;
+        case 4: lightSum += saturate(CalcAmbientSphereLight(ssbo_Lights[i])); break;
       }
     }
 
