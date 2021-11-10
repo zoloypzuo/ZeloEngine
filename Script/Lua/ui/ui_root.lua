@@ -15,10 +15,6 @@ function UIRoot:Update()
 end
 
 function UIRoot:LoadPanel(type_, ...)
-    if TestDemoWindow then
-        return
-    end
-
     assert(type(type_) == "table", "should load a panel")
     local panel = type_(...)
     self.panels[panel.id] = panel
