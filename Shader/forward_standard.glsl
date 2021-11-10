@@ -119,14 +119,14 @@ vec2 ParallaxMapping(vec3 p_ViewDir)
   return g_TexCoords - vec2(parallax.x, 1.0 - parallax.y);
 }
 
-vec3 BlinnPhong(vec3 p_LightDir, vec3 p_LightColor, float p_Luminosity)
+vec3 BlinnPhong(vec3 lightDir, vec3 lightColor, float luminosity)
 {
-  const vec3  halfwayDir          = normalize(p_LightDir + g_ViewDir);
-  const float diffuseCoefficient  = max(dot(g_Normal, p_LightDir), 0.0);
+  const vec3  halfwayDir          = normalize(lightDir + g_ViewDir);
+  const float diffuseCoefficient  = max(dot(g_Normal, lightDir), 0.0);
   const float specularCoefficient = pow(max(dot(g_Normal, halfwayDir), 0.0), u_Shininess * 2.0);
 
-  return p_LightColor * g_DiffuseTexel.rgb * diffuseCoefficient * p_Luminosity + 
-    ((p_Luminosity > 0.0) ? (p_LightColor * g_SpecularTexel.rgb * specularCoefficient * p_Luminosity) : vec3(0.0));
+  return lightColor * g_DiffuseTexel.rgb * diffuseCoefficient * luminosity + 
+    ((luminosity > 0.0) ? (lightColor * g_SpecularTexel.rgb * specularCoefficient * luminosity) : vec3(0.0));
 }
 
 float LuminosityFromAttenuation(mat4 p_Light)
