@@ -56,19 +56,9 @@ function EditorDrawer:DrawEnum(root, name, enum_class, getter, setter)
 
     widget.getter = getter
     widget.setter = setter
+
+    return widget
 end
-
--- GUIDrawer::DrawScalar<float>(p_root, "Intensity", m_data.intensity, 0.005f, GUIDrawer::_MIN_FLOAT, GUIDrawer::_MAX_FLOAT);
--- -- 	template<typename T>
--- 	inline void GUIDrawer::DrawScalar(OvUI::Internal::WidgetContainer & p_root, const std::string & p_name, T & p_data, float p_step, T p_min, T p_max)
--- 	{
--- 		static_assert(std::is_scalar<T>::value, "T must be a scalar");
-
--- 		CreateTitle(p_root, p_name);
--- 		auto& widget = p_root.CreateWidget<OvUI::Widgets::Drags::DragSingleScalar<T>>(GetDataType<T>(), p_min, p_max, p_data, p_step, "", GetFormat<T>());
--- 		auto& dispatcher = widget.AddPlugin<OvUI::Plugins::DataDispatcher<T>>();
--- 		dispatcher.RegisterReference(p_data);
--- 	}
 
 function EditorDrawer:DrawNumber(root, name, getter, setter)
     _CreateTitle(root, name)
@@ -76,6 +66,8 @@ function EditorDrawer:DrawNumber(root, name, getter, setter)
 
     widget.getter = getter
     widget.setter = setter
+
+    return widget
 end
 
 local TheEditorDrawer = EditorDrawer

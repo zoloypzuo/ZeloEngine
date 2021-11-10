@@ -250,13 +250,13 @@ function Inspector:DrawLight(component, parent)
     columns.widths[1] = 200
 
     local light =  self.m_targetEntity.components.light
-    TheEditorDrawer:DrawEnum(columns, "Type", ELightType, function()
+    local lightTypeWidget = TheEditorDrawer:DrawEnum(columns, "Type", ELightType, function()
         return light.Type
     end, function (value)
         light.Type = value
-    end
-    )
+    end)
 
+    -- light base, color and intensity
     -- TODO DrawColor3
     TheEditorDrawer:DrawVec3(columns, "Color", function()
         local color = light.Color
@@ -265,17 +265,42 @@ function Inspector:DrawLight(component, parent)
         light.Color = Vector3(value[1], value[2], value[3])
     end)
 
-    local fprops = {"Intensity", "Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff"}
+    TheEditorDrawer:DrawNumber(columns, "Intensity", function()
+        return light.Intensity
+    end, function(value)
+        light.Intensity = value
+    end)
 
-    for _, fprop in ipairs(fprops) do
-        TheEditorDrawer:DrawNumber(columns, fprop, function()
-            return light[fprop]
-        end, function(value)
-            light[fprop] = value
-        end)
+    local function drawPropByType()
+        columns.lightFPropGroup = columns:CreateWidget(Columns, 2)
+        columns.widths[1] = 200
+
+        -- Attenuation = { "Constant", "Linear", "Quadratic" }
+        -- local allFprops = {"Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff"}
+        
+        local fpropsByType = {
+            [ELightType.POINT] = {"Constant", "Linear", "Quadratic"},
+            [ELightType.DIRECTIONAL] = {},
+            [ELightType.SPOT] = {"Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff"},
+            [ELightType.AMBIENT_BOX] = {},
+            [ELightType.AMBIENT_SPHERE] = {}
+        }
+        
+        for _, fprop in ipairs(fpropsByType[light.Type]) do
+            local widget = TheEditorDrawer:DrawNumber(columns.lightFPropGroup, fprop, function()
+                return light[fprop]
+            end, function(value)
+                light[fprop] = value
+            end)
+        end
     end
-    -- GUIDrawer::DrawColor(p_root, "Color", reinterpret_cast<OvUI::Types::Color&>(m_data.color));
-	-- GUIDrawer::DrawScalar<float>(p_root, "Intensity", m_data.intensity, 0.005f, GUIDrawer::_MIN_FLOAT, GUIDrawer::_MAX_FLOAT);
+
+    lightTypeWidget.ValueChangedEvent:AddEventHandler(function(value)
+        columns:RemoveWidget(columns.lightFPropGroup)
+        drawPropByType()
+    end)
+
+    drawPropByType()
 end
 
 function Inspector:UnFocus()

@@ -30,7 +30,6 @@ function ComboBox:_UpdateImpl()
                 if not selected then
                     ImGui.SetItemDefaultFocus()
                     self.currentChoice = key
-                    self.ValueChangedEvent:HandleEvent(value)
                 end
             end
         end
@@ -40,6 +39,7 @@ function ComboBox:_UpdateImpl()
     if currentChoice ~= self.currentChoice then
        if self.currentChoice then
            self.setter(self.currentChoice)
+           self.ValueChangedEvent:HandleEvent(value)
        end
     end
 end
