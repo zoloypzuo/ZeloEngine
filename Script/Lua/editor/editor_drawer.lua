@@ -5,17 +5,8 @@ local InputText = require("ui.widgets.input_text")
 local TextColored = require("ui.widgets.text_colored")
 local CheckBox = require("ui.widgets.checkbox")
 local DragFloat3 = require("ui.widgets.drag_float3")
+local DragNumber = require("ui.widgets.drag_number")
 local ComboBox = require("ui.widgets.combobox")
-
--- TODO draw string
--- TODO draw bool
---
--- static void DrawString(OvUI::Internal::WidgetContainer &root, const std::string &name, std::string &data);
--- static void DrawString(OvUI::Internal::WidgetContainer &root, const std::string &name,
---      std::function<std::string(void)> gatherer, std::function<void(std::string)> provider);
---     DrawBoolean(OvUI::Internal::WidgetContainer &root, const std::string &name, std::function<bool(void)> gatherer,
---                std::function<void(bool)> provider);
---     static void DrawBoolean(OvUI::Internal::WidgetContainer &root, const std::string &name, bool &data);
 
 -- const
 local TitleColor = RGBA(0.85, 0.65, 0)
@@ -79,14 +70,12 @@ end
 -- 		dispatcher.RegisterReference(p_data);
 -- 	}
 
-function EditorDrawer:DrawNumber(root, name, value, fstep, fmin, fmax)
-    assert(type(value) == "number", "value must be a number")
-    fstep = fstep or 0.005
-    fmin = fmin or _MIN_FLOAT
-    fmax = fmax or _MAX_FLOAT
-    
+function EditorDrawer:DrawNumber(root, name, getter, setter)
     _CreateTitle(root, name)
-    local widget = root:CreateWidget()
+    local widget = root:CreateWidget(DragNumber, _MIN_FLOAT, _MAX_FLOAT, 1.0)
+
+    widget.getter = getter
+    widget.setter = setter
 end
 
 local TheEditorDrawer = EditorDrawer
