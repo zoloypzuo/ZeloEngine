@@ -113,9 +113,9 @@ vec4 g_SpecularTexel;
 vec4 g_HeightTexel;
 vec4 g_NormalTexel;
 
-vec2 ParallaxMapping(vec3 p_ViewDir)
+vec2 ParallaxMapping(vec3 viewDir)
 {
-  const vec2 parallax = p_ViewDir.xy * u_HeightScale * texture(u_HeightMap, g_TexCoords).r;
+  const vec2 parallax = viewDir.xy * u_HeightScale * texture(u_HeightMap, g_TexCoords).r;
   return g_TexCoords - vec2(parallax.x, 1.0 - parallax.y);
 }
 
