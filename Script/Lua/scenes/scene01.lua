@@ -85,10 +85,10 @@ do
     local monkey0 = SpawnPrefab("monkey")
     monkey0.name = "origin"
     
-    for i = 0, 10 do
-        local monkey = SpawnPrefab("monkey")
-        monkey.components.transform:SetPosition(2, i * 3, 0.5)
-    end
+    --for i = 0, 10 do
+        --local monkey = SpawnPrefab("monkey")
+        --monkey.components.transform:SetPosition(2, i * 3, 0.5)
+    --end
 end
 
 -- lights
