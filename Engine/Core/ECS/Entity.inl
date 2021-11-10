@@ -3,6 +3,7 @@
 // author @zoloypzuo
 #pragma once
 
+#include "ZeloStringUtil.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 
 namespace Zelo::Core::ECS {
@@ -19,7 +20,7 @@ inline T *Entity::AddComponent(Args &&... args) {
     auto pComponent = component.get();
     auto &L = Core::LuaScript::LuaScriptManager::getSingleton();
     sol::table entityScript = L["Ents"][m_guid];
-    entityScript["components"][pComponent->getType()] = pComponent;
+    entityScript["components"][Zelo::ToLower(pComponent->getType())] = pComponent;
 
     // trigger event and callback
     Component &rComponent = *pComponent;

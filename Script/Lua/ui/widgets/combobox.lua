@@ -16,9 +16,11 @@ local ComboBox = Class(AWidget, function(self, parent, choices, currentChoice)
 end)
 
 function ComboBox:_UpdateImpl()
-    --if self.getter then
-    --    self.value = self.getter()
-    --end
+    if self.getter then
+       self.currentChoice = self.getter()
+    end
+
+    local currentChoice = self.currentChoice
 
     if ImGui.BeginCombo(self.id, self.choices[self.currentChoice]) then
         for key, value in pairs(self.choices) do
@@ -35,14 +37,11 @@ function ComboBox:_UpdateImpl()
         ImGui.EndCombo()
     end
 
-    --if value ~= self.value then
-    --    self.value = value
-    --
-    --    if self.setter then
-    --        self.setter(value)
-    --    end
-    --
-    --end
+    if currentChoice ~= self.currentChoice then
+       if self.currentChoice then
+           self.setter(self.currentChoice)
+       end
+    end
 end
 
 return ComboBox
