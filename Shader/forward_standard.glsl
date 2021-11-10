@@ -129,12 +129,12 @@ vec3 BlinnPhong(vec3 lightDir, vec3 lightColor, float luminosity)
     ((luminosity > 0.0) ? (lightColor * g_SpecularTexel.rgb * specularCoefficient * luminosity) : vec3(0.0));
 }
 
-float LuminosityFromAttenuation(mat4 p_Light)
+float LuminosityFromAttenuation(mat4 light)
 {
-  const vec3  lightPosition   = p_Light[0].rgb;
-  const float constant        = p_Light[0][3];
-  const float linear          = p_Light[1][3];
-  const float quadratic       = p_Light[2][3];
+  const vec3  lightPosition   = light[0].rgb;
+  const float constant        = light[0][3];
+  const float linear          = light[1][3];
+  const float quadratic       = light[2][3];
 
   const float distanceToLight = length(lightPosition - vary.fragPos);
   const float attenuation     = (constant + linear * distanceToLight + quadratic * (distanceToLight * distanceToLight));
