@@ -3,8 +3,8 @@
 -- author @zoloypzuo
 local AButton = require("ui.widgets.abutton")
 
-local ButtonSmall = Class(AButton, function (self, label)
-    AButton._ctor(self)
+local ButtonSmall = Class(AButton, function (self, parent, label)
+    AButton._ctor(self, parent)
     self.label = label
 end)
 
@@ -13,3 +13,5 @@ function ButtonSmall:_UpdateImpl()
         self._OnClick()
     end
 end 
+
+return ButtonSmall
