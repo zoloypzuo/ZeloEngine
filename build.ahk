@@ -8,11 +8,11 @@ Return
 
 Buttonrun_overload_bat:
 Gui, Submit, NoHide
-    Run, Tools\run_overload.bat
+    Run, Tools\Runner\run_overload.bat
 Return
 
 
 Buttonrun_zelo_bat:
 Gui, Submit, NoHide
-    Run, Tools\run_zelo.bat
+    Run, Tools\Runner\run_zelo.bat
 Return

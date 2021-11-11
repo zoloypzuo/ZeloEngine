@@ -16,7 +16,7 @@ stmt_add_button = "Gui, Add, Button,, %s\n"
 stmt_run_script = """
 Button%s:
 Gui, Submit, NoHide
-    Run, Tools\%s
+    Run, Tools\Runner\%s
 Return\n
 """
 
