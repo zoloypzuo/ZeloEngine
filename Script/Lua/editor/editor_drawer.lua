@@ -8,9 +8,13 @@ local DragFloat3 = require("ui.widgets.drag_float3")
 local DragNumber = require("ui.widgets.drag_number")
 local ComboBox = require("ui.widgets.combobox")
 local ColorEdit = require("ui.widgets.color_edit")
+local Group = require("ui.layouts.group")
+local ButtonSmall = require("ui.widgets.button_small")
+local Text = require("ui.widgets.text")
 
 -- const
 local TitleColor = RGBA(0.85, 0.65, 0)
+local ClearButtonColor = RGBA(0.5, 0.0, 0.0)
 local _MIN_FLOAT = -999999999
 local _MAX_FLOAT = 999999999
 
@@ -78,6 +82,20 @@ function EditorDrawer:DrawColor(root, name, enableAlpha, getter, setter)
     widget.getter = getter
     widget.setter = setter
 
+    return widget
+end
+
+function EditorDrawer:DrawMaterial(root, name, material, updateNotifier)
+    _CreateTitle(root, name)
+    local displayText = material and material.path or "Empty"
+    local rightSide = root:CreateWidget(Group)
+    local widget = rightSide:CreateWidget(Text, displayText)
+    -- TODO DDTarget
+    widget.lineBreak = false
+
+    local resetButton = rightSide:CreateWidget(ButtonSmall, "Clear")
+    resetButton.idleBackgroundColor = ClearButtonColor
+    resetButton.ClickedEvent:AddEventHandler(function () print("TODO")end)
     return widget
 end
 
