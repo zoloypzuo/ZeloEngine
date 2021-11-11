@@ -86,6 +86,9 @@ TheFrontEnd:LoadPanel(GameViewPanel, "Game View", SHOW_ALL_PANEL_AT_INIT)
 local DemoPanel = require("editor.panels.demo_panel")
 TheFrontEnd:LoadPanel(DemoPanel, "Demo", SHOW_ALL_PANEL_AT_INIT)
 
+local MaterialEditor = require("editor.panels.material_editor_panel.material_editor_panel")
+TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", SHOW_ALL_PANEL_AT_INIT)
+
 UI:ResetLayout()
 
 -- scene
