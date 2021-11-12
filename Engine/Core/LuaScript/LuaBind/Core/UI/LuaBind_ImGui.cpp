@@ -2047,6 +2047,8 @@ inline void EndMenu() { ImGui::EndMenu(); }
 
 inline bool MenuItem(const std::string &label) { return ImGui::MenuItem(label.c_str()); }
 
+inline bool MenuItem(const std::string &label, const std::string &shortcut) { return ImGui::MenuItem(label.c_str(), shortcut.c_str()); }
+
 inline std::tuple<bool, bool> MenuItem(
         const std::string &label,
         const std::string &shortcut,
@@ -3440,6 +3442,7 @@ inline void Init(sol::state &lua) {
     ImGui.set_function("EndMenu", EndMenu);
     ImGui.set_function("MenuItem", sol::overload(
             sol::resolve<bool(const std::string &)>(MenuItem),
+            sol::resolve<bool(const std::string &, const std::string &)>(MenuItem),
             sol::resolve<std::tuple<bool, bool>(const std::string &, const std::string &, bool, bool)>(MenuItem)
     ));
 #pragma endregion Widgets: Menu
