@@ -9,7 +9,7 @@ cd /d %EngineDir%
 cd ThirdParty
 
 rmdir /S /Q Vcpkg
-mklink /D /J Vcpkg C:\Users\zoloypzuo\Downloads\vcpkg
+mklink /D /J Vcpkg D:\ins\vcpkg
 
 cd %CurrentDir%
 pause
