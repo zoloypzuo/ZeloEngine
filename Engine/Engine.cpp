@@ -164,7 +164,7 @@ void Engine::initConfig() {
     m_configDir = m_engineDir / "Config";
     m_assertDir = m_engineDir / "assets";
     m_scriptDir = m_engineDir / "Script";
-    m_resourceDir = m_engineDir / "Resource";
+    m_resourceDir = m_engineDir / "ResourceDB";
 
     auto engineIniPath = m_configDir / "Engine.ini";
     m_config = std::make_unique<INIReader>(engineIniPath.string());
