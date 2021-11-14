@@ -13,15 +13,15 @@ Zelo::IOStream::IOStream(const std::string &fileName) : m_fileName(fileName) {
     // fallback search
     std::filesystem::path filePath{};
     std::filesystem::path resourceDir{};
-    auto pResourceManager = ResourceManager::getSingletonPtr();
-    auto enginePath = pResourceManager->getEngineDir();
-    auto resourceConfigLuaPath = pResourceManager->getConfigDir() / "resource_config.lua";
+    auto *pResourceManager = ResourceManager::getSingletonPtr();
+    auto engineDir = pResourceManager->getEngineDir();
+    auto resourceConfigLuaPath = pResourceManager->getResourceDir() / "resource_config.lua";
     sol::table resourceDirList = LuaScriptManager::getSingletonPtr()->require_file(
             resourceConfigLuaPath.string(),
             resourceConfigLuaPath.string());
     for (const auto &pair: resourceDirList) {
         resourceDir = pair.second.as<std::string>();
-        auto resourcePath = enginePath / resourceDir / fileName;
+        auto resourcePath = engineDir / resourceDir / fileName;
         if (std::filesystem::exists(resourcePath)) {
             filePath = resourcePath;
             break;

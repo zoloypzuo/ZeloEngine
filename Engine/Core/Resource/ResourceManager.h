@@ -26,10 +26,8 @@ public:
     std::filesystem::path getResourceDir();
 
 private:
-
     std::filesystem::path m_engineDir{};
     std::filesystem::path m_configDir{};
-    std::filesystem::path m_assertDir{};
     std::filesystem::path m_scriptDir{};
     std::filesystem::path m_resourceDir{};
 };
