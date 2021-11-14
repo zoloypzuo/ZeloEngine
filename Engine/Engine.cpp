@@ -40,7 +40,7 @@ void Engine::initialize() {
     m_configInitialized = true;
 
     m_resourceManager = std::make_unique<ResourceManager>(
-            m_engineDir, m_configDir, m_assertDir, m_scriptDir, m_resourceDir
+            m_engineDir, m_configDir, m_scriptDir, m_resourceDir
     );
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();
@@ -162,15 +162,14 @@ void Engine::initConfig() {
     }
     m_engineDir = bootConfig->GetString("boot", "engineDir", "").c_str();
     m_configDir = m_engineDir / "Config";
-    m_assertDir = m_engineDir / "assets";
     m_scriptDir = m_engineDir / "Script";
-    m_resourceDir = m_engineDir / "Resource";
+    m_resourceDir = m_engineDir / "ResourceDB";
 
-    auto engineIniPath = m_configDir / "Engine.ini";
+    auto engineIniPath = m_configDir / "engine_boot.ini";
     m_config = std::make_unique<INIReader>(engineIniPath.string());
     if (m_config->ParseError()) {
-        spdlog::error("Engine.ini not found, path={}", engineIniPath.string());
-        ZELO_CORE_ASSERT(false, "Engine.ini not found");
+        spdlog::error("engine_boot.ini not found, path={}", engineIniPath.string());
+        ZELO_CORE_ASSERT(false, "engine_boot.ini not found");
         return;
     }
 }
