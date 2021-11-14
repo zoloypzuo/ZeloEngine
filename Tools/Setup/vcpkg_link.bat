@@ -9,7 +9,7 @@ cd /d %EngineDir%
 cd ThirdParty
 
 rmdir /S /Q Vcpkg
-mklink /D /J Vcpkg D:\ins\vcpkg
+mklink /D /J Vcpkg C:\_Root\Portable\vcpkg
 
 cd %CurrentDir%
 pause
