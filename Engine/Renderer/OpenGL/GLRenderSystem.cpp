@@ -6,7 +6,7 @@
 #include "GLUtil.h"
 #include "Core/Scene/SceneManager.h"
 #include "Core/Window/Window.h"
-#include "Renderer/OpenGL/Pipeline/ForwardRenderer.h"
+#include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
@@ -16,7 +16,7 @@ void GLRenderSystem::initialize() {
     ::loadGL();
     ::initDebugCallback();
 
-    m_renderer = std::make_unique<ForwardRenderer>();
+    m_renderer = std::make_unique<ForwardPipeline>();
     m_renderer->initialize();
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});

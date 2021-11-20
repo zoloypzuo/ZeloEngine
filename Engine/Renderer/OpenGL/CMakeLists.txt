@@ -23,7 +23,7 @@ add_library(OpenGLRenderer
 
         GLRenderSystem.cpp GLRenderSystem.h
 
-        Pipeline/ForwardRenderer.cpp
+        Pipeline/ForwardPipeline.cpp
 #        Pipeline/ForwardRendererPost.cpp
 #        Pipeline/ImageProcessing/Edge.cpp
 #        Pipeline/ImageProcessing/Blur.cpp

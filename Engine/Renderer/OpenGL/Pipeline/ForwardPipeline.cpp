@@ -1,8 +1,8 @@
-// ForwardRenderer.cpp
+// ForwardPipeline.cpp
 // created on 2021/3/29
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "ForwardRenderer.h"
+#include "ForwardPipeline.h"
 #include "Core/Scene/SceneManager.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
@@ -45,11 +45,11 @@ void SimpleRenderer::initialize() {
     m_simple->link();
 }
 
-ForwardRenderer::ForwardRenderer() = default;
+ForwardPipeline::ForwardPipeline() = default;
 
-ForwardRenderer::~ForwardRenderer() = default;
+ForwardPipeline::~ForwardPipeline() = default;
 
-void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
+void ForwardPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
     updateLights();
     updateEngineUBO();
 
@@ -60,7 +60,7 @@ void ForwardRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
     }
 }
 
-RenderQueue ForwardRenderer::sortRenderQueue() const {
+RenderQueue ForwardPipeline::sortRenderQueue() const {
     OpaqueDrawables opaqueDrawables;
     TransparentDrawables transparentDrawables;
 
@@ -106,7 +106,7 @@ RenderQueue ForwardRenderer::sortRenderQueue() const {
     return renderQueue;
 }
 
-void ForwardRenderer::initialize() {
+void ForwardPipeline::initialize() {
     m_lightSSBO = std::make_unique<GLShaderStorageBuffer>(Core::RHI::EAccessSpecifier::STREAM_DRAW);
     m_lightSSBO->bind(0);
     m_engineUBO = std::make_unique<GLUniformBuffer>(
@@ -120,7 +120,7 @@ void ForwardRenderer::initialize() {
     m_forwardStandardShader->setUniform1i("u_SpecularMap", 2);
 }
 
-void ForwardRenderer::updateLights() const {
+void ForwardPipeline::updateLights() const {
     auto lights = SceneManager::getSingletonPtr()->getFastAccessComponents().lights;
     std::vector<glm::mat4> lightMatrices;
     lightMatrices.reserve(lights.size());
@@ -130,7 +130,7 @@ void ForwardRenderer::updateLights() const {
     m_lightSSBO->sendBlocks<glm::mat4>(lightMatrices.data(), lightMatrices.size() * sizeof(glm::mat4));
 }
 
-void ForwardRenderer::updateEngineUBO() const {
+void ForwardPipeline::updateEngineUBO() const {
     size_t offset = sizeof(glm::mat4);  // skip model matrix;
     auto *camera = SceneManager::getSingletonPtr()->getActiveCamera();
     m_engineUBO->setSubData(camera->getViewMatrix(), std::ref(offset));
@@ -138,7 +138,7 @@ void ForwardRenderer::updateEngineUBO() const {
     m_engineUBO->setSubData(camera->getOwner()->getPosition(), std::ref(offset));
 }
 
-void ForwardRenderer::updateEngineUBOModel(const glm::mat4 &modelMatrix) const {
+void ForwardPipeline::updateEngineUBOModel(const glm::mat4 &modelMatrix) const {
     m_engineUBO->setSubData(modelMatrix, 0);
 }
 }

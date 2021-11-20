@@ -1,9 +1,9 @@
-// ForwardRenderer.h
+// ForwardPipeline.h
 // created on 2021/3/29
 // author @zoloypzuo
 
-#ifndef ZELOENGINE_FORWARDRENDERER_H
-#define ZELOENGINE_FORWARDRENDERER_H
+#ifndef ZELOENGINE_FORWARDPIPELINE_H
+#define ZELOENGINE_FORWARDPIPELINE_H
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
@@ -41,7 +41,7 @@ struct Drawable {
 
 using RenderQueue = std::vector<Drawable>;
 
-class ForwardRenderer : public Core::RHI::RenderPipeline {
+class ForwardPipeline : public Core::RHI::RenderPipeline {
 public:
     ZELO_PACKED
     (struct EngineUBO {
@@ -53,9 +53,9 @@ public:
      };)
 
 public:
-    ForwardRenderer();
+    ForwardPipeline();
 
-    ~ForwardRenderer() override;
+    ~ForwardPipeline() override;
 
     void render(const Core::ECS::Entity &scene) const override;
 
@@ -78,4 +78,4 @@ protected:
 };
 }
 
-#endif //ZELOENGINE_FORWARDRENDERER_H
+#endif //ZELOENGINE_FORWARDPIPELINE_H
