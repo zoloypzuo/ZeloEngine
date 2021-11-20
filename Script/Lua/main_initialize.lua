@@ -91,5 +91,8 @@ TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", SHOW_ALL_PANEL_AT_INIT)
 
 UI:ResetLayout()
 
+postEffectPlugin = PostEffectPlugin.new()
+install(postEffectPlugin)
+
 -- scene
 require("scenes.scene01")

@@ -47,14 +47,17 @@ public:
 
     void ClearFrameInfo();
 
-public:
-
+    void setRenderPipeline(std::unique_ptr<Core::RHI::RenderPipeline> renderPipeline);
 
 private:
     FrameInfo m_frameInfo;
 
 protected:
+    std::unique_ptr<Core::RHI::RenderPipeline> m_renderer{};
 
+    std::unique_ptr<Core::RHI::MeshManager> m_meshManager;
+
+    uint8_t m_state{};
 };
 }
 

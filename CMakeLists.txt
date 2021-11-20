@@ -140,6 +140,7 @@ endif ()
 
 # build engine
 include_directories(Engine)
+include_directories(Sandbox) # TODO
 add_subdirectory(Engine)
 link_libraries(Engine)
 set_target_properties(Engine PROPERTIES FOLDER "Main")

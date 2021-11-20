@@ -1,4 +1,4 @@
-// ForwardRendererPost.h
+// PostEffectPipeline.h
 // created on 2021/3/29
 // author @zoloypzuo
 
@@ -12,24 +12,19 @@
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
+#include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
 
-class ForwardRendererPost : public  Zelo::Core::RHI::RenderPipeline {
+class PostEffectPipeline : public Zelo::Renderer::OpenGL::ForwardPipeline {
 public:
-    ForwardRendererPost();
+    PostEffectPipeline();
 
-    ~ForwardRendererPost() override;
+    ~PostEffectPipeline() override;
 
     void render(const Zelo::Core::ECS::Entity &scene) const override;
 
     void initialize() override;
 
 protected:
-    void createShaders();
-
-    std::unique_ptr<GLSLShaderProgram> m_forwardAmbient;
-    std::unique_ptr<GLSLShaderProgram> m_forwardDirectional;
-    std::unique_ptr<GLSLShaderProgram> m_forwardPoint;
-    std::unique_ptr<GLSLShaderProgram> m_forwardSpot;
 
     // post effect
     std::unique_ptr<GLSLShaderProgram> m_postShader;

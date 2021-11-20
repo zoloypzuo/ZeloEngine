@@ -97,11 +97,6 @@ public: // RenderCommand
     void applyStateMask(uint8_t mask) override;
 
 private:
-    std::unique_ptr<Core::RHI::RenderPipeline> m_renderer{};
-
-    std::unique_ptr<Core::RHI::MeshManager> m_meshManager;
-
-    uint8_t m_state{};
 };
 }
 #endif //ZELOENGINE_GLRENDERSYSTEM_H

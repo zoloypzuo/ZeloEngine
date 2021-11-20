@@ -1,6 +1,7 @@
 # created on 2021/7/31
 # author @zoloypzuo
 
+link_libraries(GLSLBook)  # TODO
 add_library(LuaBind
         LuaBind.cpp
         Core/LuaBind_Global.cpp

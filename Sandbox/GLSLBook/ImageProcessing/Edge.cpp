@@ -135,7 +135,7 @@ void Edge::createShaders() {
     m_forwardSpot->setUniform1i("normalMap", 1);
     m_forwardSpot->setUniform1i("specularMap", 2);
 
-    m_postShader = std::make_unique<GLSLShaderProgram>("Shader/edge.lua");
+    m_postShader = std::make_unique<GLSLShaderProgram>("Shader/edge.glsl");
     m_postShader->link();
     m_postShader->setUniform1i("RenderTex", 0);
     m_postShader->setUniform1f("EdgeThreshold", 0.05f);
