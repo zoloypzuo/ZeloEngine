@@ -148,6 +148,9 @@ set_target_properties(Engine PROPERTIES FOLDER "Main")
 add_executable(Hello main.cpp)
 set_target_properties(Hello PROPERTIES FOLDER "Main")
 
+# build sandbox
+add_subdirectory(Sandbox)
+
 # after build main, copy config file to exe directory
 message(STATUS ${CMAKE_COMMAND})
 message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})

@@ -1,4 +1,4 @@
-// ForwardShadowMapPcf.h
+// ForwardShadowMap.h
 // created on 2021/3/29
 // author @zoloypzuo
 #ifndef ZELOENGINE_FORWARDRENDERER_H
@@ -14,11 +14,11 @@
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 #include "Renderer/OpenGL/Buffer/GLShadowMap.h"
 
-class ForwardShadowMapPcf : public Renderer {
+class ForwardShadowMap : public  Zelo::Core::RHI::RenderPipeline {
 public:
-    ForwardShadowMapPcf();
+    ForwardShadowMap();
 
-    ~ForwardShadowMapPcf() override;
+    ~ForwardShadowMap() override;
 
     void render(const Zelo::Core::ECS::Entity &scene) const override;
 

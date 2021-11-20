@@ -13,7 +13,7 @@
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 
-class Edge : public Renderer {
+class Edge : public  Zelo::Core::RHI::RenderPipeline {
 public:
     Edge();
 

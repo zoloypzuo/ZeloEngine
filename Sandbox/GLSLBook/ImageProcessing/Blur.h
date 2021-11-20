@@ -13,7 +13,7 @@
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 
-class Blur : public Renderer {
+class Blur : public  Zelo::Core::RHI::RenderPipeline {
 public:
     Blur();
 

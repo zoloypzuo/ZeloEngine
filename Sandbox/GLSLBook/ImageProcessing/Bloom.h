@@ -13,7 +13,7 @@
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 
-class Bloom : public Renderer {
+class Bloom : public  Zelo::Core::RHI::RenderPipeline {
 public:
     Bloom();
 
