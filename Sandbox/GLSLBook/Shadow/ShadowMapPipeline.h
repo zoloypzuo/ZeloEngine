@@ -27,10 +27,8 @@ public:
 
 protected:
     std::unique_ptr<GLSLShaderProgram> m_shadowMapShader;
-    std::unique_ptr<GLSLShaderProgram> m_shadowMapDebugShader;
     std::unique_ptr<Zelo::GLShadowMap> m_shadowFbo{};
     std::unique_ptr<Frustum> m_lightFrustum{};
     std::unique_ptr<GLSLShaderProgram> m_simpleShader{};
-    Quad m_quad{};
 };
 

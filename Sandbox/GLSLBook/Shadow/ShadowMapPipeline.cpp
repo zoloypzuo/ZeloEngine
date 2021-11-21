@@ -43,7 +43,7 @@ void ShadowMapPipeline::render(const Entity &scene) const {
         const auto &meshRenderers = SceneManager::getSingletonPtr()->getFastAccessComponents().meshRenderers;
         for (const auto &meshRenderer: meshRenderers) {
             if (!meshRenderer->getOwner()->IsActive()) { continue; }
-            m_simpleShader->setUniformMatrix4f("World", meshRenderer->getOwner()->getWorldMatrix());
+            m_shadowMapShader->setUniformMatrix4f("World", meshRenderer->getOwner()->getWorldMatrix());
             meshRenderer->GetMesh().render();
         }
         m_shadowFbo->unbind();
@@ -60,32 +60,19 @@ void ShadowMapPipeline::render(const Entity &scene) const {
         glCullFace(GL_BACK);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_ONE, GL_ONE);
-        glDepthMask(GL_FALSE);
-        glDepthFunc(GL_EQUAL);
-
         // shadow
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, m_shadowFbo->getDepthTexture());
         m_forwardStandardShader->setUniformMatrix4f("u_LightSpaceMatrix", lightSpaceMatrix);
         ForwardPipeline::render(scene);
-
-        glDepthFunc(GL_LESS);
-        glDepthMask(GL_TRUE);
-        glDisable(GL_BLEND);
     }
 
-//    m_simpleShader->bind();
-//    m_simpleShader->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-//    m_simpleShader->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-//    m_simpleShader->setUniformMatrix4f("World", m_lightFrustum->getInverseViewMatrix());
-//    m_lightFrustum->render();
-
-//    m_shadowMapDebugShader->bind();
-//    glActiveTexture(GL_TEXTURE0);
-//    glBindTexture(GL_TEXTURE_2D, m_shadowFbo->getDepthTexture());
-//    renderQuad();
+    auto *camera = SceneManager::getSingletonPtr()->getActiveCamera();
+    m_simpleShader->bind();
+    m_simpleShader->setUniformMatrix4f("View", camera->getViewMatrix());
+    m_simpleShader->setUniformMatrix4f("Proj", camera->getProjectionMatrix());
+    m_simpleShader->setUniformMatrix4f("World", m_lightFrustum->getInverseViewMatrix());
+    m_lightFrustum->render();
 }
 
 void ShadowMapPipeline::initialize() {
@@ -104,13 +91,6 @@ void ShadowMapPipeline::initialize() {
 
     m_shadowMapShader = std::make_unique<GLSLShaderProgram>("Shader/shadow_map.lua");
     m_shadowMapShader->link();
-
-    m_shadowMapDebugShader = std::make_unique<GLSLShaderProgram>("Shader/shadow_map_debug.lua");
-    m_shadowMapDebugShader->link();
-    m_shadowMapDebugShader->setUniform1i("depthMap", 0);
-    float near_plane = 1.0f, far_plane = 7.5f;
-    m_shadowMapDebugShader->setUniform1f("near_plane", near_plane);
-    m_shadowMapDebugShader->setUniform1f("far_plane", far_plane);
 
     m_simpleShader = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
     m_simpleShader->link();
