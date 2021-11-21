@@ -4,9 +4,9 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-
+#include "ZeloGLPrerequisites.h"
 
 class Quad {
-
+public:
+    void render() const;
 };
-

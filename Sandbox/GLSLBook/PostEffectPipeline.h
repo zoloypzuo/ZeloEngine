@@ -13,6 +13,7 @@
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 #include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
+#include "GLSLBook/Drawable/Quad.h"
 
 class PostEffectPipeline : public Zelo::Renderer::OpenGL::ForwardPipeline {
 public:
@@ -28,6 +29,7 @@ protected:
     // post effect
     std::unique_ptr<GLSLShaderProgram> m_postShader;
     std::unique_ptr<Zelo::GLFramebuffer> m_fbo{};
+    Quad m_quad{};
 };
 
 #endif //ZELOENGINE_FORWARDRENDERER_H
