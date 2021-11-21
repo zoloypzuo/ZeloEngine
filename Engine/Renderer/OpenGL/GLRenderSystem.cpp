@@ -16,8 +16,8 @@ void GLRenderSystem::initialize() {
     ::loadGL();
     ::initDebugCallback();
 
-    m_renderer = std::make_unique<ForwardPipeline>();
-    m_renderer->initialize();
+    m_renderPipeline = std::make_unique<ForwardPipeline>();
+    m_renderPipeline->initialize();
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});
 
@@ -35,9 +35,9 @@ void GLRenderSystem::update() {
 
     const auto &sceneManager = SceneManager::getSingletonPtr();
 
-    if (sceneManager->getActiveCamera()) {
+    if (sceneManager->getActiveCamera() && m_renderPipeline) {
         auto scene = sceneManager->getRootNode();
-        m_renderer->render(*scene);
+        m_renderPipeline->render(*scene);
     }
 }
 

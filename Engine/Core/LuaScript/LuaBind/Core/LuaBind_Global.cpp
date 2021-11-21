@@ -13,7 +13,7 @@ void LuaBind_Global(sol::state &luaState) {
 luaState.new_usertype<Plugin>("Plugin",
 "__Dummy", []{}
 );
-luaState.new_usertype<PostEffectPlugin>("PostEffectPlugin",
+luaState.new_usertype<EdgePipelinePlugin>("EdgePipelinePlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );

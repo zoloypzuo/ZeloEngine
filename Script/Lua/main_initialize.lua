@@ -91,7 +91,7 @@ TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", SHOW_ALL_PANEL_AT_INIT)
 
 UI:ResetLayout()
 
-postEffectPlugin = PostEffectPlugin.new()
+postEffectPlugin = EdgePipelinePlugin.new()
 install(postEffectPlugin)
 
 -- scene

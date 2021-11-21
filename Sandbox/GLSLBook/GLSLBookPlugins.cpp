@@ -1,4 +1,4 @@
-// PostEffectPlugin.cpp
+// GLSLBookPlugins.cpp
 // created on 2021/11/21
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
@@ -7,25 +7,27 @@
 #include "Core/RHI/RenderSystem.h"
 #include "GLSLBook/PostEffectPipeline.h"
 
-const std::string &PostEffectPlugin::getName() const {
+using namespace Zelo::Core::RHI;
+
+const std::string &EdgePipelinePlugin::getName() const {
     static std::string s = "PostEffect";
     return s;
 }
 
-void PostEffectPlugin::install() {
+void EdgePipelinePlugin::install() {
     auto renderPipeline = std::make_unique<PostEffectPipeline>();
     renderPipeline->initialize();
-    Zelo::Core::RHI::RenderSystem::getSingletonPtr()->setRenderPipeline(std::move(renderPipeline));
+    RenderSystem::getSingletonPtr()->setRenderPipeline(std::move(renderPipeline));
 }
 
-void PostEffectPlugin::initialise() {
-
+void EdgePipelinePlugin::initialise() {
+    // do nothing
 }
 
-void PostEffectPlugin::shutdown() {
-
+void EdgePipelinePlugin::shutdown() {
+    // do nothing
 }
 
-void PostEffectPlugin::uninstall() {
-
+void EdgePipelinePlugin::uninstall() {
+    RenderSystem::getSingletonPtr()->resetRenderPipeline();
 }
