@@ -4,7 +4,7 @@
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
 #include "Engine.h"
-#include "GLSLBook/Plugins/PostEffectPlugin.h"
+#include "GLSLBook/GLSLBookPlugins.h"
 
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::Resource;
