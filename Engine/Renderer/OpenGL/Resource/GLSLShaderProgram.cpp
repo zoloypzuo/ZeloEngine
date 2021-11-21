@@ -59,24 +59,8 @@ GLSLShaderProgram::GLSLShaderProgram(const std::string &shaderAssetName) : m_nam
 GLSLShaderProgram::~GLSLShaderProgram() {
     ZELO_ASSERT(m_handle, "shader handle not initialized");
 
-    // Query the number of attached shaders
-    GLint numShaders = 0;
-    glGetProgramiv(m_handle, GL_ATTACHED_SHADERS, &numShaders);
-
-    // Get the shader names
-    auto *shaderNames = new GLuint[numShaders];
-    glGetAttachedShaders(m_handle, numShaders, NULL, shaderNames);
-
-    // Delete the shaders
-    for (int i = 0; i < numShaders; i++) {
-        glDetachShader(m_handle, shaderNames[i]);
-        glDeleteShader(shaderNames[i]);
-    }
-
     // Delete the program
     glDeleteProgram(m_handle);
-
-    delete[] shaderNames;
 }
 
 void GLSLShaderProgram::link() {
