@@ -6,6 +6,7 @@
 #include "Core/OS/Time.h"
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
+#include "Core/RHI/Object/ALight.h"
 
 using namespace Zelo::Core::OS;
 using namespace Zelo::Core::LuaScript;
@@ -92,6 +93,15 @@ void SceneManager::SetActiveCamera(PerspectiveCamera *camera) {
     m_activeCamera = camera;
 }
 
+ALight *SceneManager::getMainDirectionalLight() const {
+    for(const auto &light: m_fastAccessComponents.lights){
+        if(light->GetType() == ELightType::DIRECTIONAL){
+            return light;
+        }
+    }
+    return nullptr;
+}
+
 void SceneManager::onComponentAdded(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<MeshRenderer *>(&component)) {
         m_fastAccessComponents.meshRenderers.push_back(result);
@@ -118,4 +128,5 @@ void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
     }
 }
+
 }

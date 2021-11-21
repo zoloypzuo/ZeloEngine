@@ -86,10 +86,12 @@ void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
         default:
             sevStr = "UNK";
     }
-
-    logger->info("{}:{}[{}]({}): {}",
-                 sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(),
-                 id, msg);
+    if (type == GL_DEBUG_TYPE_ERROR || type == GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR) {
+        logger->error("{}:{}[{}]({}): {}", sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(), id, msg);
+        ZELO_DEBUGBREAK();  // break here to backtrace to the wrong gl call
+    } else {
+        logger->info("{}:{}[{}]({}): {}", sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(), id, msg);
+    }
 }
 
 int checkForOpenGLError(const char *file, int line) {
@@ -291,6 +293,7 @@ void initDebugCallback() {
     if (flags & GL_CONTEXT_FLAG_DEBUG_BIT && glDebugMessageCallback) {
         // initialize debug output
         logger->info("GL debug context initialized, hook glDebugMessageCallback");
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
         glDebugMessageCallback(debugCallback, NULL);
         glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
         glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,

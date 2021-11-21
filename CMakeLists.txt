@@ -140,6 +140,7 @@ endif ()
 
 # build engine
 include_directories(Engine)
+include_directories(Sandbox) # TODO
 add_subdirectory(Engine)
 link_libraries(Engine)
 set_target_properties(Engine PROPERTIES FOLDER "Main")
@@ -147,6 +148,9 @@ set_target_properties(Engine PROPERTIES FOLDER "Main")
 # build main
 add_executable(Hello main.cpp)
 set_target_properties(Hello PROPERTIES FOLDER "Main")
+
+# build sandbox
+add_subdirectory(Sandbox)
 
 # after build main, copy config file to exe directory
 message(STATUS ${CMAKE_COMMAND})

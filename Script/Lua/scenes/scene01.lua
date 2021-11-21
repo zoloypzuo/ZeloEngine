@@ -85,10 +85,10 @@ do
     local monkey0 = SpawnPrefab("monkey")
     monkey0.name = "origin"
     
-    --for i = 0, 10 do
-        --local monkey = SpawnPrefab("monkey")
-        --monkey.components.transform:SetPosition(2, i * 3, 0.5)
-    --end
+    for i = 0, 10 do
+        local monkey = SpawnPrefab("monkey")
+        monkey.components.transform:SetPosition(2, i * 3, 0.5)
+    end
 end
 
 -- lights
@@ -125,9 +125,10 @@ do
     -- SPOT = 2,
     -- AMBIENT_BOX = 3,
     -- AMBIENT_SPHERE = 4
-    spotLight.Type = ELightType.DIRECTIONAL
+    spotLight.Type = ELightType.SPOT
     spotLight.Color = Vector3(1, 1, 1)
-    spotLight.Intensity = 1
+    spotLight.Intensity = 100
+    spotLight.Linear = 20
 
     TheSim:SetActiveCamera(camera)
 end

@@ -42,4 +42,12 @@ RenderSystem &RenderSystem::getSingleton() {
     return *msSingleton;
 }
 
+void RenderSystem::setRenderPipeline(std::unique_ptr<Core::RHI::RenderPipeline> renderPipeline) {
+    m_renderPipeline = std::move(renderPipeline);
+}
+
+void RenderSystem::resetRenderPipeline() {
+    m_renderPipeline.reset();
+}
+
 

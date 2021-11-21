@@ -1,9 +1,7 @@
-// ForwardRenderer.h
+// ForwardPipeline.h
 // created on 2021/3/29
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_FORWARDRENDERER_H
-#define ZELOENGINE_FORWARDRENDERER_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
@@ -15,33 +13,16 @@
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 
 namespace Zelo::Renderer::OpenGL {
-class SimpleRenderer : public Core::RHI::RenderPipeline {
-public:
-    SimpleRenderer();
-
-    void initialize() override;
-
-    ~SimpleRenderer() override;
-
-    void render(const Core::ECS::Entity &scene) const override;
-
-    void renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const;
-
-private:
-
-    std::unique_ptr<GLSLShaderProgram> m_simple;
-};
-
-struct Drawable {
+struct RenderItem {
     glm::mat4 modelMatrix;
     Core::RHI::Mesh *mesh;
     Core::RHI::Material *material;
 //    glm::mat4 userMatrix;
 };
 
-using RenderQueue = std::vector<Drawable>;
+using RenderQueue = std::vector<RenderItem>;
 
-class ForwardRenderer : public Core::RHI::RenderPipeline {
+class ForwardPipeline : public Core::RHI::RenderPipeline {
 public:
     ZELO_PACKED
     (struct EngineUBO {
@@ -53,9 +34,11 @@ public:
      };)
 
 public:
-    ForwardRenderer();
+    ForwardPipeline();
 
-    ~ForwardRenderer() override;
+    ~ForwardPipeline() override;
+
+    void preRender() override;
 
     void render(const Core::ECS::Entity &scene) const override;
 
@@ -77,5 +60,3 @@ protected:
     RenderQueue sortRenderQueue() const;
 };
 }
-
-#endif //ZELOENGINE_FORWARDRENDERER_H

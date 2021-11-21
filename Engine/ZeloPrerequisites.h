@@ -120,6 +120,8 @@ class PointLight;
 
 class SpotLight;
 
+class Plugin;
+
 namespace Zelo::Core::ECS {
 class Entity;
 

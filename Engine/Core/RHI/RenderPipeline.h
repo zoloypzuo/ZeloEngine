@@ -16,6 +16,8 @@ public:
 
     virtual void initialize() = 0;
 
+    virtual void preRender() {};
+
     virtual void render(const Core::ECS::Entity &scene) const = 0;
 };
 }

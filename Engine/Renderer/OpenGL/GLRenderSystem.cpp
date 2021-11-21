@@ -6,7 +6,7 @@
 #include "GLUtil.h"
 #include "Core/Scene/SceneManager.h"
 #include "Core/Window/Window.h"
-#include "Renderer/OpenGL/Pipeline/ForwardRenderer.h"
+#include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
@@ -16,8 +16,8 @@ void GLRenderSystem::initialize() {
     ::loadGL();
     ::initDebugCallback();
 
-    m_renderer = std::make_unique<ForwardRenderer>();
-    m_renderer->initialize();
+    m_renderPipeline = std::make_unique<ForwardPipeline>();
+    m_renderPipeline->initialize();
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});
 
@@ -31,13 +31,13 @@ void GLRenderSystem::initialize() {
 }
 
 void GLRenderSystem::update() {
-    clear(true, true, false);
-
     const auto &sceneManager = SceneManager::getSingletonPtr();
+
+    m_renderPipeline->preRender();
 
     if (sceneManager->getActiveCamera()) {
         auto scene = sceneManager->getRootNode();
-        m_renderer->render(*scene);
+        m_renderPipeline->render(*scene);
     }
 }
 

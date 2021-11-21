@@ -59,24 +59,8 @@ GLSLShaderProgram::GLSLShaderProgram(const std::string &shaderAssetName) : m_nam
 GLSLShaderProgram::~GLSLShaderProgram() {
     ZELO_ASSERT(m_handle, "shader handle not initialized");
 
-    // Query the number of attached shaders
-    GLint numShaders = 0;
-    glGetProgramiv(m_handle, GL_ATTACHED_SHADERS, &numShaders);
-
-    // Get the shader names
-    auto *shaderNames = new GLuint[numShaders];
-    glGetAttachedShaders(m_handle, numShaders, NULL, shaderNames);
-
-    // Delete the shaders
-    for (int i = 0; i < numShaders; i++) {
-        glDetachShader(m_handle, shaderNames[i]);
-        glDeleteShader(shaderNames[i]);
-    }
-
     // Delete the program
     glDeleteProgram(m_handle);
-
-    delete[] shaderNames;
 }
 
 void GLSLShaderProgram::link() {
@@ -429,22 +413,37 @@ void GLSLShaderProgram::findUniformLocations() {
 }
 
 void GLSLShaderProgram::loadShader(const std::string &fileName) const {
-    auto asset = Zelo::Resource(fileName);
-    std::string src(asset.read());
-    Zelo::ReplaceString(src, "//", "");
-    sol::state &lua = LuaScriptManager::getSingleton();
-    sol::table result = lua.script(src);
-    std::string vertex_src = result["vertex_shader"];
-    std::string fragment_src = result["fragment_shader"];
-    std::string common_src = result["common_shader"];
-    std::string common_src_vs(common_src);
-    Zelo::ReplaceString(common_src_vs, "varying", "out");
-    std::string common_src_fs(common_src);
-    Zelo::ReplaceString(common_src_fs, "varying", "in");
-    Zelo::ReplaceString(vertex_src, "common:", common_src_vs);
-    Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
-    addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
-    addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
+    auto ext = std::filesystem::path(fileName).extension();
+    if (ext == ".glsl") {
+        auto asset = Zelo::Resource(fileName);
+        std::string src(asset.read());
+        Zelo::ReplaceString(src, "//", "");
+        sol::state &lua = LuaScriptManager::getSingleton();
+        sol::table result = lua.script(src);
+        std::string vertex_src = result["vertex_shader"];
+        std::string fragment_src = result["fragment_shader"];
+        std::string common_src = result["common_shader"];
+        std::string common_src_vs(common_src);
+        Zelo::ReplaceString(common_src_vs, "varying", "out");
+        std::string common_src_fs(common_src);
+        Zelo::ReplaceString(common_src_fs, "varying", "in");
+        Zelo::ReplaceString(vertex_src, "common:", common_src_vs);
+        Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
+        addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
+        addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
+    } else if (ext == ".lua") {
+        // load in simple mode
+        sol::state &lua = LuaScriptManager::getSingleton();
+        sol::table result = lua.script(Zelo::Resource(fileName).read());
+        std::string vertex_src = result["vertex_shader"];
+        std::string fragment_src = result["fragment_shader"];
+        addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
+        addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
+    } else {
+        spdlog::error("Unrecognized extension: {}", ext.string());
+        ZELO_ASSERT(false);
+        return;
+    }
 }
 
 void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) {

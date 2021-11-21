@@ -15,8 +15,8 @@
 namespace Zelo::Core::RHI {
 class RenderSystem :
         public Singleton<RenderSystem>,
-        IRuntimeModule,
-        RenderCommand {
+        public IRuntimeModule,
+        public RenderCommand {
 
 public:
     struct FrameInfo {
@@ -47,14 +47,19 @@ public:
 
     void ClearFrameInfo();
 
-public:
+    void setRenderPipeline(std::unique_ptr<Core::RHI::RenderPipeline> renderPipeline);
 
+    void resetRenderPipeline();
 
 private:
     FrameInfo m_frameInfo;
 
 protected:
+    std::unique_ptr<Core::RHI::RenderPipeline> m_renderPipeline{};
 
+    std::unique_ptr<Core::RHI::MeshManager> m_meshManager;
+
+    uint8_t m_state{};
 };
 }
 

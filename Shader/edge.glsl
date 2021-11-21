@@ -1,24 +1,28 @@
--- # Property
--- Width : The width of the screen window in pixels
--- Height : The height of the screen window in pixels
--- EdgeThreshold : The minimum value of g squared required to be considered "on an edge"
--- RenderTex : The texture associated with the FBO
+// -- # Property
+// -- Width : The width of the screen window in pixels
+// -- Height : The height of the screen window in pixels
+// -- EdgeThreshold : The minimum value of g squared required to be considered "on an edge"
+// -- RenderTex : The texture associated with the FBO
 
-local vertex_shader = [[
+// local common_shader = [[
+// ]]
+// local vertex_shader = [[
 #version 330 core
 layout (location = 0) in vec3 position;
 layout (location = 1) in vec2 texCoord;
 
 out vec2 texCoord0;
 
+// common:
+
 void main()
 {
     texCoord0 = texCoord;
     gl_Position = vec4(position, 1.0);
 }
-]]
+// ]]
 
-local fragment_shader = [[
+// local fragment_shader = [[
 #version 330 core
 out vec4 FragColor;
 
@@ -28,6 +32,8 @@ uniform sampler2D RenderTex;
 uniform float EdgeThreshold;
 
 const vec3 lum = vec3(0.2126, 0.7152, 0.0722);
+
+// common:
 
 float luminance( vec3 color ) {
     return dot(lum,color);
@@ -61,9 +67,10 @@ void main()
 {
     FragColor = edge();
 }
-]]
+// ]]
 
-return {
-    vertex_shader = vertex_shader,
-    fragment_shader = fragment_shader,
-}
+// return {
+//     vertex_shader = vertex_shader,
+//     fragment_shader = fragment_shader,
+//     common_shader = common_shader,
+// }
