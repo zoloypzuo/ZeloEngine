@@ -16,35 +16,6 @@ using OpaqueDrawables = std::multimap<float, RenderItem, std::less<float>>;
 using TransparentDrawables = std::multimap<float, RenderItem, std::greater<float>>;
 
 namespace Zelo::Renderer::OpenGL {
-SimpleRenderer::SimpleRenderer() = default;
-
-SimpleRenderer::~SimpleRenderer() = default;
-
-void SimpleRenderer::render(const Zelo::Core::ECS::Entity &scene) const {
-//    m_simple->bind();
-//
-//    m_simple->setUniformMatrix4f("World", glm::mat4());
-//    m_simple->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-//    m_simple->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-//
-//    scene.renderAll(m_simple.get());
-}
-
-void SimpleRenderer::renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const {
-    m_simple->bind();
-
-    m_simple->setUniformMatrix4f("World", glm::mat4());
-    m_simple->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_simple->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-
-    line.render(m_simple.get());
-}
-
-void SimpleRenderer::initialize() {
-    m_simple = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
-    m_simple->link();
-}
-
 ForwardPipeline::ForwardPipeline() = default;
 
 ForwardPipeline::~ForwardPipeline() = default;

@@ -24,6 +24,7 @@ add_library(OpenGLRenderer
         GLRenderSystem.cpp GLRenderSystem.h
 
         Pipeline/ForwardPipeline.cpp
+        Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
         )
 
 # GLEW replaced by GLAD

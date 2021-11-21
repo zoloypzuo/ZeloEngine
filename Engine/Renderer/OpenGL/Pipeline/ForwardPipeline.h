@@ -1,9 +1,7 @@
 // ForwardPipeline.h
 // created on 2021/3/29
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_FORWARDPIPELINE_H
-#define ZELOENGINE_FORWARDPIPELINE_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
@@ -15,23 +13,6 @@
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 
 namespace Zelo::Renderer::OpenGL {
-class SimpleRenderer : public Core::RHI::RenderPipeline {
-public:
-    SimpleRenderer();
-
-    void initialize() override;
-
-    ~SimpleRenderer() override;
-
-    void render(const Core::ECS::Entity &scene) const override;
-
-    void renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const;
-
-private:
-
-    std::unique_ptr<GLSLShaderProgram> m_simple;
-};
-
 struct RenderItem {
     glm::mat4 modelMatrix;
     Core::RHI::Mesh *mesh;
@@ -77,5 +58,3 @@ protected:
     RenderQueue sortRenderQueue() const;
 };
 }
-
-#endif //ZELOENGINE_FORWARDPIPELINE_H
