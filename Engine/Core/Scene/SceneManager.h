@@ -10,6 +10,10 @@
 #include "Core/ECS/Entity.h"
 #include "Core/RHI/Object/ALight.h"
 
+namespace Zelo::Core::RHI {
+class ALight;
+}
+
 namespace Zelo::Core::Scene {
 class SceneManager : public Singleton<SceneManager>, public IRuntimeModule {
 public:
@@ -39,6 +43,8 @@ public:
     const FastAccessComponents &getFastAccessComponents() const;
 
     Camera *getActiveCamera() const;
+
+    Core::RHI::ALight *getMainDirectionalLight() const;
 
 public:
     ZELO_SCRIPT_API GUID_t SpawnPrefab(const std::string &name);
