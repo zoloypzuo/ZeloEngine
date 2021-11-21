@@ -113,6 +113,7 @@ uniform sampler2D   u_MaskMap;
 
 /* shadow */
 uniform sampler2DShadow u_ShadowMap;
+uniform bool u_EnablePcf = true;
 
 out vec4 FRAGMENT_COLOR;
 
@@ -165,13 +166,35 @@ vec3 CalcPointLight(mat4 light)
   return BlinnPhong(lightDirection, lightColor, intensity * luminosity);
 }
 
+float CalcShadow()
+{
+  vec4 fragPosLightSpace = vary.fragPosLightSpace;
+
+  if (u_EnablePcf) {
+    /* Lookup the texels nearby */
+    float sum = 0;
+
+    /* Sum contributions from 4 texels around fragPosLightSpace */
+    sum += textureProjOffset(u_ShadowMap, fragPosLightSpace, ivec2(-1,-1));
+    sum += textureProjOffset(u_ShadowMap, fragPosLightSpace, ivec2(-1,1));
+    sum += textureProjOffset(u_ShadowMap, fragPosLightSpace, ivec2(1,1));
+    sum += textureProjOffset(u_ShadowMap, fragPosLightSpace, ivec2(1,-1));
+
+    return sum * 0.25;
+  } else {
+    return textureProj(u_ShadowMap, fragPosLightSpace);
+  }
+}
+
 vec3 CalcDirectionalLight(mat4 light)
 {
   /* Extract light information from light mat4 */
   const vec3 lightDirection = -light[1].rgb;
   const vec3 lightColor     = light[2].rgb;
   const float intensity     = light[3][3];
-  float shadow = textureProj(u_ShadowMap, vary.fragPosLightSpace);
+
+  float shadow = CalcShadow();
+
   return shadow * BlinnPhong(lightDirection, lightColor, intensity);
 }
 
