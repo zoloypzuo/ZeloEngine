@@ -6,6 +6,7 @@
 #include "Core/OS/whereami.h"
 #include "Core/Profiler/Profiler.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
+#include "Core/Plugin/Plugin.h"
 
 // enable vld
 #ifdef DETECT_MEMORY_LEAK
@@ -189,7 +190,7 @@ void Engine::shutdownPlugins() {
 void Engine::installPlugin(Plugin *plugin) {
     spdlog::debug("installing plugin: {}", plugin->getName());
 
-    m_plugins.push_back(std::move(std::unique_ptr<Plugin>(plugin)));
+    m_plugins.push_back(plugin);
     plugin->install();
 
     // if rendersystem is already initialised, call rendersystem init too

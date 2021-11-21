@@ -10,7 +10,6 @@
 #include "Core/Window/Window.h"
 #include "Core/RHI/RenderSystem.h"
 #include "Core/Parser/IniReader.h"
-#include "Core/Plugin/Plugin.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
 #include "Core/OS/Time.h"
@@ -22,7 +21,7 @@ class Engine :
         public IRuntimeModule,
         public Core::Interface::ISerializable {
 public:
-    typedef std::vector<std::unique_ptr<Plugin>> PluginInstanceList;
+    typedef std::vector<Plugin *> PluginInstanceList;
 
 public:
     Engine();
@@ -59,7 +58,7 @@ protected:
     std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem{};
     std::unique_ptr<Core::UI::UIManager> m_uiManager{};
 
-    std::vector<std::unique_ptr<Plugin>> m_plugins;
+    std::vector<Plugin *> m_plugins;
 
     bool m_isInitialised{};
     bool m_configInitialized{};
