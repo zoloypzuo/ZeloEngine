@@ -15,8 +15,8 @@
 namespace Zelo::Core::RHI {
 class RenderSystem :
         public Singleton<RenderSystem>,
-        IRuntimeModule,
-        RenderCommand {
+        public IRuntimeModule,
+        public RenderCommand {
 
 public:
     struct FrameInfo {

@@ -31,7 +31,6 @@ void GLRenderSystem::initialize() {
 }
 
 void GLRenderSystem::update() {
-    clear(true, true, false);
 
     const auto &sceneManager = SceneManager::getSingletonPtr();
 

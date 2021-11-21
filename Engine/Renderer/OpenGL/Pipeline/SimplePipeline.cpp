@@ -3,7 +3,9 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "SimplePipeline.h"
+
 #include "Core/Scene/SceneManager.h"
+#include "Core/RHI/RenderSystem.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
 using namespace Zelo;
@@ -16,6 +18,8 @@ SimplePipeline::SimplePipeline() = default;
 SimplePipeline::~SimplePipeline() = default;
 
 void SimplePipeline::render(const Zelo::Core::ECS::Entity &scene) const {
+    RenderSystem::getSingletonPtr()->clear(true, true, false);
+
     const auto &camera = SceneManager::getSingletonPtr()->getActiveCamera();
     m_simpleShader->bind();
 

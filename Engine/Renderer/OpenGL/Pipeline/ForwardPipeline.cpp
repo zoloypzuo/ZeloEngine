@@ -3,7 +3,9 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardPipeline.h"
+
 #include "Core/Scene/SceneManager.h"
+#include "Core/RHI/RenderSystem.h"
 #include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
 using namespace Zelo;
@@ -21,6 +23,8 @@ ForwardPipeline::ForwardPipeline() = default;
 ForwardPipeline::~ForwardPipeline() = default;
 
 void ForwardPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
+    RenderSystem::getSingletonPtr()->clear(true, true, false);
+
     updateLights();
     updateEngineUBO();
 
