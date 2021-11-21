@@ -95,7 +95,7 @@ vec3 Frustum::getOrigin() const {
 }
 
 
-void Frustum::render(GLSLShaderProgram *shader) const {
+void Frustum::render() const {
     if (vao != 0) {
         glBindVertexArray(vao);
         glDrawElements(GL_LINES, 24, GL_UNSIGNED_INT, 0);

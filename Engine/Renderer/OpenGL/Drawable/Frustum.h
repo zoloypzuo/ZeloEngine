@@ -5,8 +5,6 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
-
 
 class Frustum {
 private:
@@ -33,7 +31,7 @@ public:
 
     glm::vec3 getOrigin() const;
 
-    void render(GLSLShaderProgram *shader) const;
+    void render() const;
 
     void deleteBuffers();
 };
