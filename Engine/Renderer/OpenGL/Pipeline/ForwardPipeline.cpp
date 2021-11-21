@@ -53,9 +53,9 @@ RenderQueue ForwardPipeline::sortRenderQueue() const {
         auto &material = meshRenderer->GetMaterial();
 
         // use standard shader as default
-        if (!material.hasShader()) {
+//        if (!material.hasShader()) { TODO
             material.setShader(m_forwardStandardShader);
-        }
+//        }
 
         RenderItem renderItem{
                 meshRenderer->getOwner()->getWorldMatrix(),
