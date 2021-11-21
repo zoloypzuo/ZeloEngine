@@ -5,4 +5,8 @@ add_library(GLSLBook
 #        ImageProcessing/Edge.cpp
 #        Shadow/ForwardShadowMap.h
 #        Shadow/ForwardShadowMapPcf.cpp
-        PostEffectPlugin.cpp PostEffectPlugin.h)
+
+        Plugins/PostEffectPlugin.cpp
+
+        Drawable/Quad.cpp Drawable/Quad.h
+        )
