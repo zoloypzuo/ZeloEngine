@@ -24,6 +24,7 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
     self:_CreateLayoutMenu();
     self:_CreateToolMenu();
     self:_CreateHelpMenu();
+    self:_CreateSandboxMenu();
 end)
 
 function MenuBarPanel:_UpdateImpl()
@@ -148,6 +149,26 @@ function MenuBarPanel:_CreateHelpMenu()
     helpMenu:CreateWidget(MenuItem, "Feature Request")
     helpMenu:CreateWidget(Separator);
     helpMenu:CreateWidget(Text, "Version: v0.4");
+end
+
+global("Sandboxes")
+Sandboxes = {}
+
+function MenuBarPanel:_CreateSandboxMenu()
+    local sandboxMenu = self:CreateWidget(MenuList, "Sandbox")
+    local glslBookMenu = sandboxMenu:CreateWidget(MenuList, "GLSLBook")
+    for _, name in ipairs({
+        "EdgePipelinePlugin",
+        "BlurPipelinePlugin",
+        "BloomPipelinePlugin",
+        "ShadowMapPipelinePlugin"
+    }) do
+        glslBookMenu:CreateWidget(MenuItem, name).ClickedEvent:AddEventHandler(function()
+            local sandbox = _G[name].new()
+            Sandboxes[#Sandboxes] = sandbox
+            install(sandbox)
+        end)
+    end
 end
 
 return MenuBarPanel
