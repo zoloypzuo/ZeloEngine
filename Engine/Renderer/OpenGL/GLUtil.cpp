@@ -86,7 +86,7 @@ void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
         default:
             sevStr = "UNK";
     }
-    if (type == GL_DEBUG_TYPE_ERROR) {
+    if (type == GL_DEBUG_TYPE_ERROR || type == GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR) {
         logger->error("{}:{}[{}]({}): {}", sourceStr.c_str(), typeStr.c_str(), sevStr.c_str(), id, msg);
         ZELO_DEBUGBREAK();  // break here to backtrace to the wrong gl call
     } else {
