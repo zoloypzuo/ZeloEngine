@@ -12,8 +12,8 @@ using namespace Zelo::Core::Scene;
 using namespace Zelo::Renderer::OpenGL;
 
 // 2 render queue, opaque and transparent, sorted by distance to camera
-using OpaqueDrawables = std::multimap<float, Drawable, std::less<float>>;
-using TransparentDrawables = std::multimap<float, Drawable, std::greater<float>>;
+using OpaqueDrawables = std::multimap<float, RenderItem, std::less<float>>;
+using TransparentDrawables = std::multimap<float, RenderItem, std::greater<float>>;
 
 namespace Zelo::Renderer::OpenGL {
 SimpleRenderer::SimpleRenderer() = default;
@@ -53,10 +53,10 @@ void ForwardPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
     updateLights();
     updateEngineUBO();
 
-    for (const auto &drawable: sortRenderQueue()) {
-        updateEngineUBOModel(drawable.modelMatrix);
-        drawable.material->bind();
-        drawable.mesh->render();
+    for (const auto &renderItem: sortRenderQueue()) {
+        updateEngineUBOModel(renderItem.modelMatrix);
+        renderItem.material->bind();
+        renderItem.mesh->render();
     }
 }
 
@@ -80,28 +80,28 @@ RenderQueue ForwardPipeline::sortRenderQueue() const {
             material.setShader(m_forwardStandardShader);
         }
 
-        Drawable drawable{
+        RenderItem renderItem{
                 meshRenderer->getOwner()->getWorldMatrix(),
                 &meshRenderer->GetMesh(),
                 &material
         };
 
         if (material.isBlendable()) {
-            transparentDrawables.emplace(distantToCamera, drawable);
+            transparentDrawables.emplace(distantToCamera, renderItem);
         } else {
-            opaqueDrawables.emplace(distantToCamera, drawable);
+            opaqueDrawables.emplace(distantToCamera, renderItem);
         }
     }
 
     // push opaque object first, then transparent object to render queue
     RenderQueue renderQueue;
     renderQueue.reserve(opaqueDrawables.size() + transparentDrawables.size());
-    for (const auto&[distance, drawable]: opaqueDrawables) {
-        renderQueue.emplace_back(drawable);
+    for (const auto&[distance, renderItem]: opaqueDrawables) {
+        renderQueue.emplace_back(renderItem);
     }
 
-    for (const auto&[distance, drawable]: transparentDrawables) {
-        renderQueue.emplace_back(drawable);
+    for (const auto&[distance, renderItem]: transparentDrawables) {
+        renderQueue.emplace_back(renderItem);
     }
     return renderQueue;
 }

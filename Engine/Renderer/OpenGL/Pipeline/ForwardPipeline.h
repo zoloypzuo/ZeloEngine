@@ -32,14 +32,14 @@ private:
     std::unique_ptr<GLSLShaderProgram> m_simple;
 };
 
-struct Drawable {
+struct RenderItem {
     glm::mat4 modelMatrix;
     Core::RHI::Mesh *mesh;
     Core::RHI::Material *material;
 //    glm::mat4 userMatrix;
 };
 
-using RenderQueue = std::vector<Drawable>;
+using RenderQueue = std::vector<RenderItem>;
 
 class ForwardPipeline : public Core::RHI::RenderPipeline {
 public:
