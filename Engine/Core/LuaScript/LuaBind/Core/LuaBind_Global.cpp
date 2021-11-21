@@ -17,6 +17,10 @@ luaState.new_usertype<EdgePipelinePlugin>("EdgePipelinePlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
+luaState.new_usertype<BlurPipelinePlugin>("BlurPipelinePlugin",
+sol::base_classes, sol::bases<Plugin>(),
+"__Dummy", []{}
+);
 luaState.set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
 luaState.set("RESOURCE_DIR", ResourceManager::getSingletonPtr()->getResourceDir().string());
 luaState.set_function("print", LuaScriptManager::luaPrint);

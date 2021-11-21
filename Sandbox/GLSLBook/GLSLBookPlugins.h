@@ -19,3 +19,15 @@ public:
     void uninstall() override;
 };
 
+class BlurPipelinePlugin : public Plugin {
+public:
+    const std::string &getName() const override;;
+
+    void install() override;
+
+    void initialise() override;
+
+    void shutdown() override;
+
+    void uninstall() override;
+};

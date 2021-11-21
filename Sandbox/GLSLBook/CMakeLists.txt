@@ -1,7 +1,7 @@
 add_library(GLSLBook
         PostEffectPipeline.cpp
 #        ImageProcessing/Bloom.cpp
-#        ImageProcessing/Blur.cpp
+        ImageProcessing/BlurPipeline.cpp
         ImageProcessing/EdgePipeline.cpp
 #        Shadow/ForwardShadowMap.h
 #        Shadow/ForwardShadowMapPcf.cpp
