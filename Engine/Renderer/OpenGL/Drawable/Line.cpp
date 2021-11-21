@@ -22,7 +22,7 @@ Line::~Line() {
     glDeleteVertexArrays(1, &vao);
 }
 
-void Line::render(GLSLShaderProgram *shader) const {
+void Line::render() const {
     glBindVertexArray(vao);
     glDrawArrays(GL_LINES, 0, 2);
     glBindVertexArray(0);

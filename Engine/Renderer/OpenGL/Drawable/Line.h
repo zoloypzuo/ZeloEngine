@@ -11,7 +11,7 @@ public:
 
     ~Line();
 
-    void render(GLSLShaderProgram *shader) const;
+    void render() const;
 
 private:
     GLuint vao{};

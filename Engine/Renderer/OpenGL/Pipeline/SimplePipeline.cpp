@@ -4,6 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "SimplePipeline.h"
 #include "Core/Scene/SceneManager.h"
+#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::RHI;
@@ -15,23 +16,30 @@ SimplePipeline::SimplePipeline() = default;
 SimplePipeline::~SimplePipeline() = default;
 
 void SimplePipeline::render(const Zelo::Core::ECS::Entity &scene) const {
-//    m_simpleShader->bind();
-//
-//    m_simpleShader->setUniformMatrix4f("World", glm::mat4());
-//    m_simpleShader->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-//    m_simpleShader->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
-//
-//    scene.renderAll(m_simpleShader.get());
-}
-
-void SimplePipeline::renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const {
+    const auto &camera = SceneManager::getSingletonPtr()->getActiveCamera();
     m_simpleShader->bind();
 
     m_simpleShader->setUniformMatrix4f("World", glm::mat4());
-    m_simpleShader->setUniformMatrix4f("View", activeCamera->getViewMatrix());
-    m_simpleShader->setUniformMatrix4f("Proj", activeCamera->getProjectionMatrix());
+    m_simpleShader->setUniformMatrix4f("View", camera->getViewMatrix());
+    m_simpleShader->setUniformMatrix4f("Proj", camera->getProjectionMatrix());
 
-    line.render(m_simpleShader.get());
+    const auto &meshRenderers = SceneManager::getSingletonPtr()->getFastAccessComponents().meshRenderers;
+    for (const auto &meshRenderer: meshRenderers) {
+        if (!meshRenderer->getOwner()->IsActive()) { continue; }
+        m_simpleShader->setUniformMatrix4f("World", meshRenderer->getOwner()->getWorldMatrix());
+        meshRenderer->GetMesh().render();
+    }
+}
+
+void SimplePipeline::renderLine(const Line &line) const {
+    const auto &camera = SceneManager::getSingletonPtr()->getActiveCamera();
+
+    m_simpleShader->bind();
+    m_simpleShader->setUniformMatrix4f("World", glm::mat4());
+    m_simpleShader->setUniformMatrix4f("View", camera->getViewMatrix());
+    m_simpleShader->setUniformMatrix4f("Proj", camera->getProjectionMatrix());
+
+    line.render();
 }
 
 void SimplePipeline::initialize() {

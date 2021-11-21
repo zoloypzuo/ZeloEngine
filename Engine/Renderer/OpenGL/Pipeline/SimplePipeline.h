@@ -21,7 +21,7 @@ public:
 
     void render(const Core::ECS::Entity &scene) const override;
 
-    void renderLine(const Line &line, const std::shared_ptr<Camera> &activeCamera) const;
+    void renderLine(const Line &line) const;
 
 private:
     std::unique_ptr<GLSLShaderProgram> m_simpleShader;
