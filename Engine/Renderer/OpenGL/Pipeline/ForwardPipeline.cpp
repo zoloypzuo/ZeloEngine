@@ -22,9 +22,11 @@ ForwardPipeline::ForwardPipeline() = default;
 
 ForwardPipeline::~ForwardPipeline() = default;
 
-void ForwardPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
+void ForwardPipeline::preRender() {
     RenderSystem::getSingletonPtr()->clear(true, true, false);
+}
 
+void ForwardPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
     updateLights();
     updateEngineUBO();
 
@@ -51,7 +53,7 @@ RenderQueue ForwardPipeline::sortRenderQueue() const {
         auto &material = meshRenderer->GetMaterial();
 
         // use standard shader as default
-        if (!material.hasShader()){
+        if (!material.hasShader()) {
             material.setShader(m_forwardStandardShader);
         }
 

@@ -34,6 +34,7 @@ const std::string &PipelinePlugin<T>::getName() const {
 
 template<class T>
 void PipelinePlugin<T>::install() {
+    Zelo::Core::RHI::RenderSystem::getSingletonPtr()->resetRenderPipeline();
     auto renderPipeline = std::make_unique<T>();
     renderPipeline->initialize();
     Zelo::Core::RHI::RenderSystem::getSingletonPtr()->setRenderPipeline(std::move(renderPipeline));

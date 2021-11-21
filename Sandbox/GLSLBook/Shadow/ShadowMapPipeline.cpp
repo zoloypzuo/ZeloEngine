@@ -15,6 +15,10 @@ ShadowMapPipeline::ShadowMapPipeline() = default;
 
 ShadowMapPipeline::~ShadowMapPipeline() = default;
 
+void ShadowMapPipeline::preRender() {
+    // do nothing
+}
+
 void ShadowMapPipeline::render(const Entity &scene) const {
     auto *mainLight = SceneManager::getSingletonPtr()->getMainDirectionalLight(); // TODO handle nullptr
     glm::vec3 lightPos = mainLight->getOwner()->getTransform().getPosition();
@@ -95,3 +99,4 @@ void ShadowMapPipeline::initialize() {
     m_simpleShader = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
     m_simpleShader->link();
 }
+

@@ -31,10 +31,11 @@ void GLRenderSystem::initialize() {
 }
 
 void GLRenderSystem::update() {
-
     const auto &sceneManager = SceneManager::getSingletonPtr();
 
-    if (sceneManager->getActiveCamera() && m_renderPipeline) {
+    m_renderPipeline->preRender();
+
+    if (sceneManager->getActiveCamera()) {
         auto scene = sceneManager->getRootNode();
         m_renderPipeline->render(*scene);
     }

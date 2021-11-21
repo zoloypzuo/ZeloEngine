@@ -38,6 +38,8 @@ public:
 
     ~ForwardPipeline() override;
 
+    void preRender() override;
+
     void render(const Core::ECS::Entity &scene) const override;
 
     void initialize() override;

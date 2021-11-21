@@ -20,6 +20,8 @@ public:
     ShadowMapPipeline();
 
     ~ShadowMapPipeline() override;
+    
+    void preRender() override;
 
     void render(const Zelo::Core::ECS::Entity &scene) const override;
 
