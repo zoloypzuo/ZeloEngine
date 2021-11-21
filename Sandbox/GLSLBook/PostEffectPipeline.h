@@ -1,9 +1,7 @@
 // PostEffectPipeline.h
 // created on 2021/3/29
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_FORWARDRENDERER_H
-#define ZELOENGINE_FORWARDRENDERER_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
@@ -31,5 +29,3 @@ protected:
     std::unique_ptr<Zelo::GLFramebuffer> m_fbo{};
     Quad m_quad{};
 };
-
-#endif //ZELOENGINE_FORWARDRENDERER_H
