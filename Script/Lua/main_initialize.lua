@@ -91,8 +91,9 @@ TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", SHOW_ALL_PANEL_AT_INIT)
 
 UI:ResetLayout()
 
-postEffectPlugin = EdgePipelinePlugin.new()
-postEffectPlugin = BlurPipelinePlugin.new()
+--postEffectPlugin = EdgePipelinePlugin.new()
+--postEffectPlugin = BlurPipelinePlugin.new()
+postEffectPlugin = BloomPipelinePlugin.new()
 install(postEffectPlugin)
 
 -- scene
