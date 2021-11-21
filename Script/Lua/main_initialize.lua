@@ -64,7 +64,7 @@ require("editor.editor_actions")
 local MenuBarPanel = require("editor.panels.menu_bar_panel.menu_bar_panel")
 TheFrontEnd:LoadPanel(MenuBarPanel, "", true)
 
-local SHOW_ALL_PANEL_AT_INIT = true
+local SHOW_ALL_PANEL_AT_INIT = false
 
 --local ProjectHubPanel = require("editor.panels.project_hub_panel.project_hub_panel")
 --TheFrontEnd:LoadPanel(ProjectHubPanel, "Project Hub", false)
@@ -94,6 +94,7 @@ UI:ResetLayout()
 --postEffectPlugin = EdgePipelinePlugin.new()
 --postEffectPlugin = BlurPipelinePlugin.new()
 postEffectPlugin = BloomPipelinePlugin.new()
+postEffectPlugin = ShadowMapPipelinePlugin.new()
 install(postEffectPlugin)
 
 -- scene

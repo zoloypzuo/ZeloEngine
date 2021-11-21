@@ -10,6 +10,7 @@
 #include "GLSLBook/ImageProcessing/EdgePipeline.h"
 #include "GLSLBook/ImageProcessing/BlurPipeline.h"
 #include "GLSLBook/ImageProcessing/BloomPipeline.h"
+#include "GLSLBook/Shadow//ShadowMapPipeline.h"
 
 template<class T>
 class PipelinePlugin : public Plugin {
@@ -73,6 +74,14 @@ class BloomPipelinePlugin : public PipelinePlugin<BloomPipeline> {
 public:
     const std::string &getName() const override {
         static std::string s = "BloomPipelinePlugin";
+        return s;
+    }
+};
+
+class ShadowMapPipelinePlugin : public PipelinePlugin<ShadowMapPipeline> {
+public:
+    const std::string &getName() const override {
+        static std::string s = "ShadowMapPipelinePlugin";
         return s;
     }
 };
