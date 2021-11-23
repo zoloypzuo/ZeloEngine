@@ -1,6 +1,6 @@
 scripts = [
-    "run_overload.bat",
-    "run_zelo.bat"
+    r"Build\build_vs2019.bat",
+    r"Runner\run_zelo.bat"
 ]
 
 template = r"""
@@ -16,7 +16,7 @@ stmt_add_button = "Gui, Add, Button,, %s\n"
 stmt_run_script = """
 Button%s:
 Gui, Submit, NoHide
-    Run, Tools\Runner\%s
+    Run, Tools\%s
 Return\n
 """
 
