@@ -113,21 +113,6 @@ typedef struct {
 } Player;
 
 typedef struct {
-    GLuint program;
-    GLuint position;
-    GLuint normal;
-    GLuint uv;
-    GLuint matrix;
-    GLuint sampler;
-    GLuint camera;
-    GLuint timer;
-    GLuint extra1;
-    GLuint extra2;
-    GLuint extra3;
-    GLuint extra4;
-} Attrib;
-
-typedef struct {
     Worker workers[WORKERS];
     Chunk chunks[MAX_CHUNKS];
     int chunk_count;
@@ -166,13 +151,6 @@ typedef struct {
 
 static Model model;
 static Model *g = &model;
-
-Attrib block_attrib = {0};
-Attrib line_attrib = {0};
-Attrib text_attrib = {0};
-Attrib sky_attrib = {0};
-
-GLuint sky_buffer;
 
 void load_chunk(WorkerItem *item);
 
