@@ -23,4 +23,6 @@ public:
     virtual void finalize() { uninstall(); };
 
     virtual void update() {};
+
+    virtual void render() {};
 };

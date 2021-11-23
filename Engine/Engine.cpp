@@ -51,8 +51,8 @@ void Engine::initialize() {
     m_renderSystem->initialize();
     m_uiManager = std::make_unique<UIManager>();
     m_uiManager->initialize();
-    m_game = std::make_unique<SceneManager>();
-    m_game->initialize();
+    m_sceneManager = std::make_unique<SceneManager>();
+    m_sceneManager->initialize();
     m_luaScriptManager->callLuaInitializeFn();
 
     m_window->makeCurrentContext();
@@ -68,7 +68,7 @@ void Engine::initialize() {
 void Engine::finalize() {
     m_timeSystem->finalize();
     finalizePlugins();
-    m_game->finalize();
+    m_sceneManager->finalize();
     m_uiManager->finalize();
     m_renderSystem->finalize();
     m_window->finalize();
@@ -90,12 +90,17 @@ void Engine::update() {
     }
     {
         OPTICK_CATEGORY("UpdateLogic", Optick::Category::GameLogic);
-        m_game->update();
+        m_sceneManager->update();
         m_luaScriptManager->update();
+        updatePlugins();
     }
     {
         OPTICK_CATEGORY("Draw", Optick::Category::Rendering);
         m_renderSystem->update();
+    }
+    {
+        OPTICK_CATEGORY("DrawPlugins", Optick::Category::Rendering);
+        renderPlugins();
     }
     {
         OPTICK_CATEGORY("DrawUI", Optick::Category::GPU_UI);
@@ -190,6 +195,12 @@ void Engine::finalizePlugins() {
 void Engine::updatePlugins() {
     for (auto &plugin:m_plugins) {
         plugin->update();
+    }
+}
+
+void Engine::renderPlugins() {
+    for (auto &plugin:m_plugins) {
+        plugin->render();
     }
 }
 

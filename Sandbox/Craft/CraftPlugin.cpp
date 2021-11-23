@@ -1166,9 +1166,11 @@ void CraftPlugin::update() {
 //    for (int i = 1; i < g->player_count; i++) {
 //        interpolate_player(g->players + i);
 //    }
-    Player *player = g->players + g->observe1;
+}
 
+void CraftPlugin::render() {
     // RENDER 3-D SCENE //
+    Player *player = g->players + g->observe1;
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_DEPTH_BUFFER_BIT);
     render_sky(&sky_attrib, player, sky_buffer);

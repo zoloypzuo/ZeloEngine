@@ -54,7 +54,7 @@ protected:
     std::unique_ptr<Window> m_window;
     std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
-    std::unique_ptr<Core::Scene::SceneManager> m_game;
+    std::unique_ptr<Core::Scene::SceneManager> m_sceneManager;
     std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem{};
     std::unique_ptr<Core::UI::UIManager> m_uiManager{};
 
@@ -76,6 +76,8 @@ private:
     void finalizePlugins();
 
     void updatePlugins();
+
+    void renderPlugins();
 };
 }
 
