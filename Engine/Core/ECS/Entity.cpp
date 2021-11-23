@@ -33,7 +33,7 @@ Entity::~Entity() {
     s_DestroyedEvent.Invoke(*this);
 
     // trigger component remove event
-    std::for_each(m_components.begin(), m_components.end(),
+    Zelo::ForEach(m_components,
                   [&](const std::shared_ptr<Component> &component) { ComponentRemovedEvent.Invoke(*component); });
 
     // cleanup component map
@@ -56,11 +56,11 @@ void Entity::updateAll(float delta) {
         m_worldMatrix = m_parent->m_worldMatrix * m_transform.getTransformMatrix();
     }
 
-    for (const auto &component : m_components) {
+    for (const auto &component: m_components) {
         component->update(delta);
     }
 
-    for (const auto &child : m_children) {
+    for (const auto &child: m_children) {
         child->updateAll(delta);
     }
 }
@@ -187,63 +187,62 @@ void Entity::RecursiveActiveUpdate() {
             OnDisable();
     }
 
-    for (const auto &child : m_children)
+    for (const auto &child: m_children)
         child->RecursiveActiveUpdate();
 }
 
 void Entity::RecursiveWasActiveUpdate() {
     m_wasActive = IsActive();
-    for (const auto &child : m_children)
+    for (const auto &child: m_children)
         child->RecursiveWasActiveUpdate();
 }
 
 void Entity::OnAwake() {
     m_awake = true;
-    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnAwake(); });
+    Zelo::ForEach(m_components, [](auto element) { element->OnAwake(); });
 }
 
 void Entity::OnStart() {
     m_started = true;
-    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnStart(); });
+    Zelo::ForEach(m_components, [](auto element) { element->OnStart(); });
 }
 
 void Entity::OnEnable() {
-    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnEnable(); });
+    Zelo::ForEach(m_components, [](auto element) { element->OnEnable(); });
 }
 
 void Entity::OnDisable() {
-    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnDisable(); });
+    Zelo::ForEach(m_components, [](auto element) { element->OnDisable(); });
 }
 
 void Entity::OnDestroy() {
-    std::for_each(m_components.begin(), m_components.end(), [](auto element) { element->OnDestroy(); });
+    Zelo::ForEach(m_components, [](auto element) { element->OnDestroy(); });
 }
 
 void Entity::OnUpdate(float deltaTime) {
     if (IsActive()) {
-        std::for_each(m_components.begin(), m_components.end(), [&](auto element) { element->OnUpdate(deltaTime); });
+        Zelo::ForEach(m_components, [&](auto element) { element->OnUpdate(deltaTime); });
     }
 }
 
 void Entity::OnFixedUpdate(float deltaTime) {
     if (IsActive()) {
-        std::for_each(m_components.begin(), m_components.end(),
-                      [&](auto element) { element->OnFixedUpdate(deltaTime); });
+        Zelo::ForEach(m_components, [&](auto element) { element->OnFixedUpdate(deltaTime); });
     }
 }
 
 void Entity::OnLateUpdate(float deltaTime) {
     if (IsActive()) {
-        std::for_each(m_components.begin(), m_components.end(),
-                      [&](auto element) { element->OnLateUpdate(deltaTime); });
+        Zelo::ForEach(m_components, [&](auto element) { element->OnLateUpdate(deltaTime); });
     }
 }
 
 void Entity::MarkAsDestroy() {
     m_destroyed = true;
 
-    for (const auto &child : m_children)
+    for (const auto &child: m_children) {
         child->MarkAsDestroy();
+    }
 }
 
 bool Entity::IsDestroyed() const { return m_destroyed; }
@@ -261,11 +260,9 @@ void Entity::SetParent(Entity &parent) {
     s_DetachEvent.Invoke(*this);
 
     ZELO_ASSERT(m_parent);
-    auto result = std::find_if(
-            m_parent->m_children.begin(), m_parent->m_children.end(),
-            [this](const std::shared_ptr<Entity> &element) {
-                return element.get() == this;
-            });
+    auto result = Zelo::FindIf(m_parent->m_children, [this](const auto &element) {
+        return element.get() == this;
+    });
     ZELO_ASSERT(result != m_parent->m_children.end());
 
     parent.addChild(*result);
