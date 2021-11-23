@@ -93,8 +93,9 @@ UI:ResetLayout()
 
 --postEffectPlugin = EdgePipelinePlugin.new()
 --postEffectPlugin = BlurPipelinePlugin.new()
-postEffectPlugin = BloomPipelinePlugin.new()
-postEffectPlugin = ShadowMapPipelinePlugin.new()
+--postEffectPlugin = BloomPipelinePlugin.new()
+--postEffectPlugin = ShadowMapPipelinePlugin.new()
+postEffectPlugin = CraftPlugin.new()
 install(postEffectPlugin)
 
 -- scene

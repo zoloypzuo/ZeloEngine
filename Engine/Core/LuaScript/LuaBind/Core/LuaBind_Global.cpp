@@ -5,6 +5,7 @@
 #include "Core/Resource/ResourceManager.h"
 #include "Engine.h"
 #include "GLSLBook/GLSLBookPlugins.h"
+#include "Craft//CraftPlugin.h"
 
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::Resource;
@@ -26,6 +27,10 @@ sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
 luaState.new_usertype<ShadowMapPipelinePlugin>("ShadowMapPipelinePlugin",
+sol::base_classes, sol::bases<Plugin>(),
+"__Dummy", []{}
+);
+luaState.new_usertype<CraftPlugin>("CraftPlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
