@@ -12,5 +12,7 @@ public:
 
     void install() override;
 
+    void uninstall() override;
+
     void update() override;
 };

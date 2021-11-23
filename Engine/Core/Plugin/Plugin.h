@@ -20,7 +20,7 @@ public:
     // engine hooks
     virtual void initialize() {};
 
-    virtual void finalize() {};
+    virtual void finalize() { uninstall(); };
 
     virtual void update() {};
 };

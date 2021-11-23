@@ -239,11 +239,7 @@ void CraftPlugin::install() {
     g->sign_radius = RENDER_SIGN_RADIUS;
 }
 
-void CraftPlugin::update() {
-    
-}
-
-void CraftPlugin::finalize() {
+void CraftPlugin::uninstall() {
     // SHUTDOWN //
     State *s = &g->players->state;
     db_save_state(s->x, s->y, s->z, s->rx, s->ry);
@@ -252,5 +248,9 @@ void CraftPlugin::finalize() {
 //    del_buffer(sky_buffer);
 //    delete_all_chunks();
 //    delete_all_players();
+}
+
+void CraftPlugin::update() {
+    Plugin::update();
 }
 
