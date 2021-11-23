@@ -43,9 +43,9 @@ public: // RenderCommand
 
     void drawArray(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) override;
 
-    void setCapabilityEnabled(Core::RHI::ERenderingCapability capability, bool value) override;
+    void setCapabilityEnabled(Core::RHI::ERenderCapability capability, bool value) override;
 
-    bool getCapabilityEnabled(Core::RHI::ERenderingCapability capability) override;
+    bool getCapabilityEnabled(Core::RHI::ERenderCapability capability) override;
 
     void setStencilAlgorithm(Core::RHI::EComparaisonAlgorithm algorithm, int32_t reference, uint32_t mask) override;
 

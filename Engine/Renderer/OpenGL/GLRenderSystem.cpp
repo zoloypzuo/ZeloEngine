@@ -21,10 +21,10 @@ void GLRenderSystem::initialize() {
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});
 
-    setCapabilityEnabled(ERenderingCapability::DEPTH_TEST, true);
+    setCapabilityEnabled(ERenderCapability::DEPTH_TEST, true);
     setDepthAlgorithm(EComparaisonAlgorithm::LESS);
-    setCapabilityEnabled(ERenderingCapability::MULTISAMPLE, true);
-    setCapabilityEnabled(ERenderingCapability::CULL_FACE, true);
+    setCapabilityEnabled(ERenderCapability::MULTISAMPLE, true);
+    setCapabilityEnabled(ERenderCapability::CULL_FACE, true);
 
     auto windowSize = Window::getSingletonPtr()->getDrawableSize();
     setDrawSize(windowSize);

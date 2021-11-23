@@ -5,7 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "Core/RHI/Buffer/VertexArray.h"
-#include "Core/RHI/Const/ERenderingCapability.h"
+#include "Core/RHI/Const/ERenderCapability.h"
 
 namespace Zelo::Core::RHI {
 class RenderCommand {
@@ -23,9 +23,9 @@ public:
 
     virtual void drawArray(const std::shared_ptr<VertexArray> &vertexArray, int32_t start, int32_t count) = 0;
 
-    virtual void setCapabilityEnabled(ERenderingCapability capability, bool value) = 0;
+    virtual void setCapabilityEnabled(ERenderCapability capability, bool value) = 0;
 
-    virtual bool getCapabilityEnabled(ERenderingCapability capability) = 0;
+    virtual bool getCapabilityEnabled(ERenderCapability capability) = 0;
 
     virtual void setStencilAlgorithm(EComparaisonAlgorithm algorithm, int32_t reference, uint32_t mask) = 0;
 

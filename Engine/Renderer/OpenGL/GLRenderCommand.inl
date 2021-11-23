@@ -33,11 +33,11 @@ void GLRenderSystem::drawArray(const std::shared_ptr<Zelo::VertexArray> &vertexA
     glDrawArrays(GL_TRIANGLES, start, count);
 }
 
-void GLRenderSystem::setCapabilityEnabled(ERenderingCapability capability, bool value) {
+void GLRenderSystem::setCapabilityEnabled(ERenderCapability capability, bool value) {
     (value ? glEnable : glDisable)(static_cast<GLenum>(capability));
 }
 
-bool GLRenderSystem::getCapabilityEnabled(ERenderingCapability capability) {
+bool GLRenderSystem::getCapabilityEnabled(ERenderCapability capability) {
     return glIsEnabled(static_cast<GLenum>(capability));
 }
 
@@ -158,9 +158,9 @@ uint8_t GLRenderSystem::fetchGLState() {
 
     if (getBool(GL_DEPTH_WRITEMASK)) result |= 0b0000'0001;
     if (cMask[0]) result |= 0b0000'0010;
-    if (getCapabilityEnabled(ERenderingCapability::BLEND)) result |= 0b0000'0100;
-    if (getCapabilityEnabled(ERenderingCapability::CULL_FACE)) result |= 0b0000'1000;
-    if (getCapabilityEnabled(ERenderingCapability::DEPTH_TEST)) result |= 0b0001'0000;
+    if (getCapabilityEnabled(ERenderCapability::BLEND)) result |= 0b0000'0100;
+    if (getCapabilityEnabled(ERenderCapability::CULL_FACE)) result |= 0b0000'1000;
+    if (getCapabilityEnabled(ERenderCapability::DEPTH_TEST)) result |= 0b0001'0000;
 
     switch (static_cast<ECullFace>(getInt(GL_CULL_FACE))) {
         case ECullFace::BACK:
@@ -181,9 +181,9 @@ void GLRenderSystem::applyStateMask(uint8_t mask) {
     if (mask != m_state) {
         if ((mask & 0x01) != (m_state & 0x01)) setDepthWriting(mask & 0x01);
         if ((mask & 0x02) != (m_state & 0x02)) setColorWriting(mask & 0x02);
-        if ((mask & 0x04) != (m_state & 0x04)) setCapabilityEnabled(ERenderingCapability::BLEND, mask & 0x04);
-        if ((mask & 0x08) != (m_state & 0x08)) setCapabilityEnabled(ERenderingCapability::CULL_FACE, mask & 0x8);
-        if ((mask & 0x10) != (m_state & 0x10)) setCapabilityEnabled(ERenderingCapability::DEPTH_TEST, mask & 0x10);
+        if ((mask & 0x04) != (m_state & 0x04)) setCapabilityEnabled(ERenderCapability::BLEND, mask & 0x04);
+        if ((mask & 0x08) != (m_state & 0x08)) setCapabilityEnabled(ERenderCapability::CULL_FACE, mask & 0x8);
+        if ((mask & 0x10) != (m_state & 0x10)) setCapabilityEnabled(ERenderCapability::DEPTH_TEST, mask & 0x10);
 
         if ((mask & 0x08) && ((mask & 0x20) != (m_state & 0x20) || (mask & 0x40) != (m_state & 0x40))) {
             int backBit = mask & 0x20;
