@@ -13,7 +13,7 @@ int rand_int(int n) {
 }
 
 double rand_double() {
-    return (double)rand() / (double)RAND_MAX;
+    return (double) rand() / (double) RAND_MAX;
 }
 
 void update_fps(FPS *fps) {
@@ -36,7 +36,7 @@ char *load_file(const char *path) {
     fseek(file, 0, SEEK_END);
     int length = ftell(file);
     rewind(file);
-    char *data = (char *)calloc(length + 1, sizeof(char));
+    char *data = (char *) calloc(length + 1, sizeof(char));
     fread(data, 1, length, file);
     fclose(file);
     return data;
@@ -56,12 +56,12 @@ void del_buffer(GLuint buffer) {
 }
 
 GLfloat *malloc_faces(int components, int faces) {
-    return (GLfloat *)malloc(sizeof(GLfloat) * 6 * components * faces);
+    return (GLfloat *) malloc(sizeof(GLfloat) * 6 * components * faces);
 }
 
 GLuint gen_faces(int components, int faces, GLfloat *data) {
     GLuint buffer = gen_buffer(
-        sizeof(GLfloat) * 6 * components * faces, data);
+            sizeof(GLfloat) * 6 * components * faces, data);
     free(data);
     return buffer;
 }
@@ -75,7 +75,7 @@ GLuint make_shader(GLenum type, const char *source) {
     if (status == GL_FALSE) {
         GLint length;
         glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &length);
-        GLchar *info = ( GLchar *)calloc(length, sizeof(GLchar));
+        GLchar *info = (GLchar *) calloc(length, sizeof(GLchar));
         glGetShaderInfoLog(shader, length, NULL, info);
         fprintf(stderr, "glCompileShader failed:\n%s\n", info);
         free(info);
@@ -100,7 +100,7 @@ GLuint make_program(GLuint shader1, GLuint shader2) {
     if (status == GL_FALSE) {
         GLint length;
         glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
-        GLchar *info = (GLchar *)calloc(length, sizeof(GLchar));
+        GLchar *info = (GLchar *) calloc(length, sizeof(GLchar));
         glGetProgramInfoLog(program, length, NULL, info);
         fprintf(stderr, "glLinkProgram failed: %s\n", info);
         free(info);
@@ -120,11 +120,10 @@ GLuint load_program(const char *path1, const char *path2) {
 }
 
 void flip_image_vertical(
-    unsigned char *data, unsigned int width, unsigned int height)
-{
+        unsigned char *data, unsigned int width, unsigned int height) {
     unsigned int size = width * height * 4;
     unsigned int stride = sizeof(char) * width * 4;
-    unsigned char *new_data = (unsigned char *)malloc(sizeof(unsigned char) * size);
+    unsigned char *new_data = (unsigned char *) malloc(sizeof(unsigned char) * size);
     for (unsigned int i = 0; i < height; i++) {
         unsigned int j = height - i - 1;
         memcpy(new_data + j * stride, data + i * stride, stride);
@@ -144,7 +143,7 @@ void load_png_texture(const char *file_name) {
     }
     flip_image_vertical(data, width, height);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA,
-        GL_UNSIGNED_BYTE, data);
+                 GL_UNSIGNED_BYTE, data);
     free(data);
 }
 
@@ -168,14 +167,14 @@ char *tokenize(char *str, const char *delim, char **key) {
 
 int char_width(char input) {
     static const int lookup[128] = {
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        4, 2, 4, 7, 6, 9, 7, 2, 3, 3, 4, 6, 3, 5, 2, 7,
-        6, 3, 6, 6, 6, 6, 6, 6, 6, 6, 2, 3, 5, 6, 5, 7,
-        8, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 6, 5, 8, 8, 6,
-        6, 7, 6, 6, 6, 6, 8,10, 8, 6, 6, 3, 6, 3, 6, 6,
-        4, 7, 6, 6, 6, 6, 5, 6, 6, 2, 5, 5, 2, 9, 6, 6,
-        6, 6, 6, 6, 5, 6, 6, 6, 6, 6, 6, 4, 2, 5, 7, 0
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            4, 2, 4, 7, 6, 9, 7, 2, 3, 3, 4, 6, 3, 5, 2, 7,
+            6, 3, 6, 6, 6, 6, 6, 6, 6, 6, 2, 3, 5, 6, 5, 7,
+            8, 6, 6, 6, 6, 6, 6, 6, 6, 4, 6, 6, 5, 8, 8, 6,
+            6, 7, 6, 6, 6, 6, 8, 10, 8, 6, 6, 3, 6, 3, 6, 6,
+            4, 7, 6, 6, 6, 6, 5, 6, 6, 2, 5, 5, 2, 9, 6, 6,
+            6, 6, 6, 6, 5, 6, 6, 6, 6, 6, 6, 4, 2, 5, 7, 0
     };
     return lookup[input];
 }
@@ -191,7 +190,7 @@ int string_width(const char *input) {
 
 int wrap(const char *input, int max_width, char *output, int max_length) {
     *output = '\0';
-    char *text = (char *)malloc(sizeof(char) * (strlen(input) + 1));
+    char *text = (char *) malloc(sizeof(char) * (strlen(input) + 1));
     strcpy(text, input);
     int space_width = char_width(' ');
     int line_number = 0;
@@ -207,8 +206,7 @@ int wrap(const char *input, int max_width, char *output, int max_length) {
                     line_width = 0;
                     line_number++;
                     strncat(output, "\n", max_length - strlen(output) - 1);
-                }
-                else {
+                } else {
                     strncat(output, " ", max_length - strlen(output) - 1);
                 }
             }

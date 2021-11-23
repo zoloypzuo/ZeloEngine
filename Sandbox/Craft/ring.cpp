@@ -6,7 +6,7 @@ void ring_alloc(Ring *ring, int capacity) {
     ring->capacity = capacity;
     ring->start = 0;
     ring->end = 0;
-    ring->data = (RingEntry *)calloc(capacity, sizeof(RingEntry));
+    ring->data = (RingEntry *) calloc(capacity, sizeof(RingEntry));
 }
 
 void ring_free(Ring *ring) {
@@ -24,8 +24,7 @@ int ring_full(Ring *ring) {
 int ring_size(Ring *ring) {
     if (ring->end >= ring->start) {
         return ring->end - ring->start;
-    }
-    else {
+    } else {
         return ring->capacity - (ring->start - ring->end);
     }
 }

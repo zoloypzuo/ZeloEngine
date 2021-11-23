@@ -41,8 +41,7 @@ void create_world(int p, int q, world_func func, void *arg) {
                 // trees
                 int ok = SHOW_TREES;
                 if (dx - 4 < 0 || dz - 4 < 0 ||
-                    dx + 4 >= CHUNK_SIZE || dz + 4 >= CHUNK_SIZE)
-                {
+                    dx + 4 >= CHUNK_SIZE || dz + 4 >= CHUNK_SIZE) {
                     ok = 0;
                 }
                 if (ok && simplex2(x, z, 6, 0.5, 2) > 0.84) {
@@ -50,7 +49,7 @@ void create_world(int p, int q, world_func func, void *arg) {
                         for (int ox = -3; ox <= 3; ox++) {
                             for (int oz = -3; oz <= 3; oz++) {
                                 int d = (ox * ox) + (oz * oz) +
-                                    (y - (h + 4)) * (y - (h + 4));
+                                        (y - (h + 4)) * (y - (h + 4));
                                 if (d < 11) {
                                     func(x + ox, y, z + oz, 15, arg);
                                 }
@@ -66,8 +65,7 @@ void create_world(int p, int q, world_func func, void *arg) {
             if (SHOW_CLOUDS) {
                 for (int y = 64; y < 72; y++) {
                     if (simplex3(
-                        x * 0.01, y * 0.1, z * 0.01, 8, 0.5, 2) > 0.75)
-                    {
+                            x * 0.01, y * 0.1, z * 0.01, 8, 0.5, 2) > 0.75) {
                         func(x, y, z, 16 * flag, arg);
                     }
                 }

@@ -1,11 +1,13 @@
 #ifdef _WIN32
-    #include <winsock2.h>
-    #include <windows.h>
-    #define close closesocket
-    #define sleep Sleep
+
+#include <winsock2.h>
+#include <windows.h>
+
+#define close closesocket
+#define sleep Sleep
 #else
-    #include <netdb.h>
-    #include <unistd.h>
+#include <netdb.h>
+#include <unistd.h>
 #endif
 
 #include <stdio.h>
@@ -90,15 +92,19 @@ void client_position(float x, float y, float z, float rx, float ry) {
     }
     static float px, py, pz, prx, pry = 0;
     float distance =
-        (px - x) * (px - x) +
-        (py - y) * (py - y) +
-        (pz - z) * (pz - z) +
-        (prx - rx) * (prx - rx) +
-        (pry - ry) * (pry - ry);
+            (px - x) * (px - x) +
+            (py - y) * (py - y) +
+            (pz - z) * (pz - z) +
+            (prx - rx) * (prx - rx) +
+            (pry - ry) * (pry - ry);
     if (distance < 0.0001) {
         return;
     }
-    px = x; py = y; pz = z; prx = rx; pry = ry;
+    px = x;
+    py = y;
+    pz = z;
+    prx = rx;
+    pry = ry;
     char buffer[1024];
     snprintf(buffer, 1024, "P,%.2f,%.2f,%.2f,%.2f,%.2f\n", x, y, z, rx, ry);
     client_send(buffer);
@@ -184,8 +190,7 @@ int recv_worker(void *arg) {
             if (running) {
                 perror("recv");
                 exit(1);
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -221,13 +226,13 @@ void client_connect(char *hostname, int port) {
     }
     memset(&address, 0, sizeof(address));
     address.sin_family = AF_INET;
-    address.sin_addr.s_addr = ((struct in_addr *)(host->h_addr_list[0]))->s_addr;
+    address.sin_addr.s_addr = ((struct in_addr *) (host->h_addr_list[0]))->s_addr;
     address.sin_port = htons(port);
     if ((sd = socket(AF_INET, SOCK_STREAM, 0)) == -1) {
         perror("socket");
         exit(1);
     }
-    if (connect(sd, (struct sockaddr *)&address, sizeof(address)) == -1) {
+    if (connect(sd, (struct sockaddr *) &address, sizeof(address)) == -1) {
         perror("connect");
         exit(1);
     }
@@ -238,7 +243,7 @@ void client_start() {
         return;
     }
     running = 1;
-    queue = (char *)calloc(QUEUE_SIZE, sizeof(char));
+    queue = (char *) calloc(QUEUE_SIZE, sizeof(char));
     qsize = 0;
     mtx_init(&mutex, mtx_plain);
     if (thrd_create(&recv_thread, recv_worker, NULL) != thrd_success) {

@@ -64,8 +64,11 @@ extern const int blocks[256][6];
 extern const int plants[256];
 
 int is_plant(int w);
+
 int is_obstacle(int w);
+
 int is_transparent(int w);
+
 int is_destructable(int w);
 
 #endif

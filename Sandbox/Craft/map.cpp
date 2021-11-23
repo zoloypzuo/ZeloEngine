@@ -25,7 +25,7 @@ void map_alloc(Map *map, int dx, int dy, int dz, int mask) {
     map->dz = dz;
     map->mask = mask;
     map->size = 0;
-    map->data = (MapEntry *)calloc(map->mask + 1, sizeof(MapEntry));
+    map->data = (MapEntry *) calloc(map->mask + 1, sizeof(MapEntry));
 }
 
 void map_free(Map *map) {
@@ -38,7 +38,7 @@ void map_copy(Map *dst, Map *src) {
     dst->dz = src->dz;
     dst->mask = src->mask;
     dst->size = src->size;
-    dst->data = (MapEntry *)calloc(dst->mask + 1, sizeof(MapEntry));
+    dst->data = (MapEntry *) calloc(dst->mask + 1, sizeof(MapEntry));
     memcpy(dst->data, src->data, (dst->mask + 1) * sizeof(MapEntry));
 }
 
@@ -62,8 +62,7 @@ int map_set(Map *map, int x, int y, int z, int w) {
             entry->e.w = w;
             return 1;
         }
-    }
-    else if (w) {
+    } else if (w) {
         entry->e.x = x;
         entry->e.y = y;
         entry->e.z = z;
@@ -103,10 +102,11 @@ void map_grow(Map *map) {
     new_map.dz = map->dz;
     new_map.mask = (map->mask << 1) | 1;
     new_map.size = 0;
-    new_map.data = (MapEntry *)calloc(new_map.mask + 1, sizeof(MapEntry));
-    MAP_FOR_EACH(map, ex, ey, ez, ew) {
-        map_set(&new_map, ex, ey, ez, ew);
-    } END_MAP_FOR_EACH;
+    new_map.data = (MapEntry *) calloc(new_map.mask + 1, sizeof(MapEntry));
+    MAP_FOR_EACH(map, ex, ey, ez, ew)
+        {
+            map_set(&new_map, ex, ey, ez, ew);
+        }END_MAP_FOR_EACH;
     free(map->data);
     map->mask = new_map.mask;
     map->size = new_map.size;

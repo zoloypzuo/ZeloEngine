@@ -5,7 +5,7 @@
 void sign_list_alloc(SignList *list, int capacity) {
     list->capacity = capacity;
     list->size = 0;
-    list->data = (Sign *)calloc(capacity, sizeof(Sign));
+    list->data = (Sign *) calloc(capacity, sizeof(Sign));
 }
 
 void sign_list_free(SignList *list) {
@@ -30,8 +30,7 @@ void _sign_list_add(SignList *list, Sign *sign) {
 }
 
 void sign_list_add(
-    SignList *list, int x, int y, int z, int face, const char *text)
-{
+        SignList *list, int x, int y, int z, int face, const char *text) {
     sign_list_remove(list, x, y, z, face);
     Sign sign;
     sign.x = x;

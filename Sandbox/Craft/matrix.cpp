@@ -5,7 +5,9 @@
 
 void normalize(float *x, float *y, float *z) {
     float d = sqrtf((*x) * (*x) + (*y) * (*y) + (*z) * (*z));
-    *x /= d; *y /= d; *z /= d;
+    *x /= d;
+    *y /= d;
+    *z /= d;
 }
 
 void mat_identity(float *matrix) {
@@ -108,10 +110,14 @@ void mat_apply(float *data, float *matrix, int count, int offset, int stride) {
     float vec[4] = {0, 0, 0, 1};
     for (int i = 0; i < count; i++) {
         float *d = data + offset + stride * i;
-        vec[0] = *(d++); vec[1] = *(d++); vec[2] = *(d++);
+        vec[0] = *(d++);
+        vec[1] = *(d++);
+        vec[2] = *(d++);
         mat_vec_multiply(vec, matrix, vec);
         d = data + offset + stride * i;
-        *(d++) = vec[0]; *(d++) = vec[1]; *(d++) = vec[2];
+        *(d++) = vec[0];
+        *(d++) = vec[1];
+        *(d++) = vec[2];
     }
 }
 
@@ -146,9 +152,8 @@ void frustum_planes(float planes[6][4], int radius, float *matrix) {
 }
 
 void mat_frustum(
-    float *matrix, float left, float right, float bottom,
-    float top, float znear, float zfar)
-{
+        float *matrix, float left, float right, float bottom,
+        float top, float znear, float zfar) {
     float temp, temp2, temp3, temp4;
     temp = 2.0 * znear;
     temp2 = right - left;
@@ -173,9 +178,8 @@ void mat_frustum(
 }
 
 void mat_perspective(
-    float *matrix, float fov, float aspect,
-    float znear, float zfar)
-{
+        float *matrix, float fov, float aspect,
+        float znear, float zfar) {
     float ymax, xmax;
     ymax = znear * tanf(fov * PI / 360.0);
     xmax = ymax * aspect;
@@ -183,9 +187,8 @@ void mat_perspective(
 }
 
 void mat_ortho(
-    float *matrix,
-    float left, float right, float bottom, float top, float near, float far)
-{
+        float *matrix,
+        float left, float right, float bottom, float top, float near, float far) {
     matrix[0] = 2 / (right - left);
     matrix[1] = 0;
     matrix[2] = 0;
@@ -209,13 +212,12 @@ void set_matrix_2d(float *matrix, int width, int height) {
 }
 
 void set_matrix_3d(
-    float *matrix, int width, int height,
-    float x, float y, float z, float rx, float ry,
-    float fov, int ortho, int radius)
-{
+        float *matrix, int width, int height,
+        float x, float y, float z, float rx, float ry,
+        float fov, int ortho, int radius) {
     float a[16];
     float b[16];
-    float aspect = (float)width / height;
+    float aspect = (float) width / height;
     float znear = 0.125;
     float zfar = radius * 32 + 64;
     mat_identity(a);
@@ -228,8 +230,7 @@ void set_matrix_3d(
     if (ortho) {
         int size = ortho;
         mat_ortho(b, -size * aspect, size * aspect, -size, size, -zfar, zfar);
-    }
-    else {
+    } else {
         mat_perspective(b, fov, aspect, znear, zfar);
     }
     mat_multiply(a, b, a);
@@ -240,7 +241,7 @@ void set_matrix_3d(
 void set_matrix_item(float *matrix, int width, int height, int scale) {
     float a[16];
     float b[16];
-    float aspect = (float)width / height;
+    float aspect = (float) width / height;
     float size = 64 * scale;
     float box = height / size / 2;
     float xoffset = 1 - size / width * 2;

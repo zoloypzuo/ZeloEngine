@@ -41,99 +41,99 @@ int db_init(char *path) {
         return 0;
     }
     static const char *create_query =
-        "attach database 'auth.db' as auth;"
-        "create table if not exists auth.identity_token ("
-        "   username text not null,"
-        "   token text not null,"
-        "   selected int not null"
-        ");"
-        "create unique index if not exists auth.identity_token_username_idx"
-        "   on identity_token (username);"
-        "create table if not exists state ("
-        "   x float not null,"
-        "   y float not null,"
-        "   z float not null,"
-        "   rx float not null,"
-        "   ry float not null"
-        ");"
-        "create table if not exists block ("
-        "    p int not null,"
-        "    q int not null,"
-        "    x int not null,"
-        "    y int not null,"
-        "    z int not null,"
-        "    w int not null"
-        ");"
-        "create table if not exists light ("
-        "    p int not null,"
-        "    q int not null,"
-        "    x int not null,"
-        "    y int not null,"
-        "    z int not null,"
-        "    w int not null"
-        ");"
-        "create table if not exists key ("
-        "    p int not null,"
-        "    q int not null,"
-        "    key int not null"
-        ");"
-        "create table if not exists sign ("
-        "    p int not null,"
-        "    q int not null,"
-        "    x int not null,"
-        "    y int not null,"
-        "    z int not null,"
-        "    face int not null,"
-        "    text text not null"
-        ");"
-        "create unique index if not exists block_pqxyz_idx on block (p, q, x, y, z);"
-        "create unique index if not exists light_pqxyz_idx on light (p, q, x, y, z);"
-        "create unique index if not exists key_pq_idx on key (p, q);"
-        "create unique index if not exists sign_xyzface_idx on sign (x, y, z, face);"
-        "create index if not exists sign_pq_idx on sign (p, q);";
+            "attach database 'auth.db' as auth;"
+            "create table if not exists auth.identity_token ("
+            "   username text not null,"
+            "   token text not null,"
+            "   selected int not null"
+            ");"
+            "create unique index if not exists auth.identity_token_username_idx"
+            "   on identity_token (username);"
+            "create table if not exists state ("
+            "   x float not null,"
+            "   y float not null,"
+            "   z float not null,"
+            "   rx float not null,"
+            "   ry float not null"
+            ");"
+            "create table if not exists block ("
+            "    p int not null,"
+            "    q int not null,"
+            "    x int not null,"
+            "    y int not null,"
+            "    z int not null,"
+            "    w int not null"
+            ");"
+            "create table if not exists light ("
+            "    p int not null,"
+            "    q int not null,"
+            "    x int not null,"
+            "    y int not null,"
+            "    z int not null,"
+            "    w int not null"
+            ");"
+            "create table if not exists key ("
+            "    p int not null,"
+            "    q int not null,"
+            "    key int not null"
+            ");"
+            "create table if not exists sign ("
+            "    p int not null,"
+            "    q int not null,"
+            "    x int not null,"
+            "    y int not null,"
+            "    z int not null,"
+            "    face int not null,"
+            "    text text not null"
+            ");"
+            "create unique index if not exists block_pqxyz_idx on block (p, q, x, y, z);"
+            "create unique index if not exists light_pqxyz_idx on light (p, q, x, y, z);"
+            "create unique index if not exists key_pq_idx on key (p, q);"
+            "create unique index if not exists sign_xyzface_idx on sign (x, y, z, face);"
+            "create index if not exists sign_pq_idx on sign (p, q);";
     static const char *insert_block_query =
-        "insert or replace into block (p, q, x, y, z, w) "
-        "values (?, ?, ?, ?, ?, ?);";
+            "insert or replace into block (p, q, x, y, z, w) "
+            "values (?, ?, ?, ?, ?, ?);";
     static const char *insert_light_query =
-        "insert or replace into light (p, q, x, y, z, w) "
-        "values (?, ?, ?, ?, ?, ?);";
+            "insert or replace into light (p, q, x, y, z, w) "
+            "values (?, ?, ?, ?, ?, ?);";
     static const char *insert_sign_query =
-        "insert or replace into sign (p, q, x, y, z, face, text) "
-        "values (?, ?, ?, ?, ?, ?, ?);";
+            "insert or replace into sign (p, q, x, y, z, face, text) "
+            "values (?, ?, ?, ?, ?, ?, ?);";
     static const char *delete_sign_query =
-        "delete from sign where x = ? and y = ? and z = ? and face = ?;";
+            "delete from sign where x = ? and y = ? and z = ? and face = ?;";
     static const char *delete_signs_query =
-        "delete from sign where x = ? and y = ? and z = ?;";
+            "delete from sign where x = ? and y = ? and z = ?;";
     static const char *load_blocks_query =
-        "select x, y, z, w from block where p = ? and q = ?;";
+            "select x, y, z, w from block where p = ? and q = ?;";
     static const char *load_lights_query =
-        "select x, y, z, w from light where p = ? and q = ?;";
+            "select x, y, z, w from light where p = ? and q = ?;";
     static const char *load_signs_query =
-        "select x, y, z, face, text from sign where p = ? and q = ?;";
+            "select x, y, z, face, text from sign where p = ? and q = ?;";
     static const char *get_key_query =
-        "select key from key where p = ? and q = ?;";
+            "select key from key where p = ? and q = ?;";
     static const char *set_key_query =
-        "insert or replace into key (p, q, key) "
-        "values (?, ?, ?);";
+            "insert or replace into key (p, q, key) "
+            "values (?, ?, ?);";
     int rc;
     rc = sqlite3_open(path, &db);
     if (rc) return rc;
     rc = sqlite3_exec(db, create_query, NULL, NULL, NULL);
     if (rc) return rc;
     rc = sqlite3_prepare_v2(
-        db, insert_block_query, -1, &insert_block_stmt, NULL);
+            db, insert_block_query, -1, &insert_block_stmt, NULL);
     if (rc) return rc;
     rc = sqlite3_prepare_v2(
-        db, insert_light_query, -1, &insert_light_stmt, NULL);
+            db, insert_light_query, -1, &insert_light_stmt, NULL);
     if (rc) return rc;
     rc = sqlite3_prepare_v2(
-        db, insert_sign_query, -1, &insert_sign_stmt, NULL);
+            db, insert_sign_query, -1, &insert_sign_stmt, NULL);
     if (rc) return rc;
     rc = sqlite3_prepare_v2(
-        db, delete_sign_query, -1, &delete_sign_stmt, NULL);
+            db, delete_sign_query, -1, &delete_sign_stmt, NULL);
     if (rc) return rc;
     rc = sqlite3_prepare_v2(
-        db, delete_signs_query, -1, &delete_signs_stmt, NULL);
+            db, delete_signs_query, -1, &delete_signs_stmt, NULL);
     if (rc) return rc;
     rc = sqlite3_prepare_v2(db, load_blocks_query, -1, &load_blocks_stmt, NULL);
     if (rc) return rc;
@@ -188,8 +188,8 @@ void db_auth_set(char *username, char *identity_token) {
         return;
     }
     static const char *query =
-        "insert or replace into auth.identity_token "
-        "(username, token, selected) values (?, ?, ?);";
+            "insert or replace into auth.identity_token "
+            "(username, token, selected) values (?, ?, ?);";
     sqlite3_stmt *stmt;
     sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
     sqlite3_bind_text(stmt, 1, username, -1, NULL);
@@ -206,7 +206,7 @@ int db_auth_select(char *username) {
     }
     db_auth_select_none();
     static const char *query =
-        "update auth.identity_token set selected = 1 where username = ?;";
+            "update auth.identity_token set selected = 1 where username = ?;";
     sqlite3_stmt *stmt;
     sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
     sqlite3_bind_text(stmt, 1, username, -1, NULL);
@@ -220,25 +220,24 @@ void db_auth_select_none() {
         return;
     }
     sqlite3_exec(db, "update auth.identity_token set selected = 0;",
-        NULL, NULL, NULL);
+                 NULL, NULL, NULL);
 }
 
 int db_auth_get(
-    char *username,
-    char *identity_token, int identity_token_length)
-{
+        char *username,
+        char *identity_token, int identity_token_length) {
     if (!db_enabled) {
         return 0;
     }
     static const char *query =
-        "select token from auth.identity_token "
-        "where username = ?;";
+            "select token from auth.identity_token "
+            "where username = ?;";
     int result = 0;
     sqlite3_stmt *stmt;
     sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
     sqlite3_bind_text(stmt, 1, username, -1, NULL);
     if (sqlite3_step(stmt) == SQLITE_ROW) {
-        const char *a = (const char *)sqlite3_column_text(stmt, 0);
+        const char *a = (const char *) sqlite3_column_text(stmt, 0);
         strncpy(identity_token, a, identity_token_length - 1);
         identity_token[identity_token_length - 1] = '\0';
         result = 1;
@@ -248,21 +247,20 @@ int db_auth_get(
 }
 
 int db_auth_get_selected(
-    char *username, int username_length,
-    char *identity_token, int identity_token_length)
-{
+        char *username, int username_length,
+        char *identity_token, int identity_token_length) {
     if (!db_enabled) {
         return 0;
     }
     static const char *query =
-        "select username, token from auth.identity_token "
-        "where selected = 1;";
+            "select username, token from auth.identity_token "
+            "where selected = 1;";
     int result = 0;
     sqlite3_stmt *stmt;
     sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
     if (sqlite3_step(stmt) == SQLITE_ROW) {
-        const char *a = (const char *)sqlite3_column_text(stmt, 0);
-        const char *b = (const char *)sqlite3_column_text(stmt, 1);
+        const char *a = (const char *) sqlite3_column_text(stmt, 0);
+        const char *b = (const char *) sqlite3_column_text(stmt, 1);
         strncpy(username, a, username_length - 1);
         username[username_length - 1] = '\0';
         strncpy(identity_token, b, identity_token_length - 1);
@@ -278,7 +276,7 @@ void db_save_state(float x, float y, float z, float rx, float ry) {
         return;
     }
     static const char *query =
-        "insert into state (x, y, z, rx, ry) values (?, ?, ?, ?, ?);";
+            "insert into state (x, y, z, rx, ry) values (?, ?, ?, ?, ?);";
     sqlite3_stmt *stmt;
     sqlite3_exec(db, "delete from state;", NULL, NULL, NULL);
     sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
@@ -296,7 +294,7 @@ int db_load_state(float *x, float *y, float *z, float *rx, float *ry) {
         return 0;
     }
     static const char *query =
-        "select x, y, z, rx, ry from state;";
+            "select x, y, z, rx, ry from state;";
     int result = 0;
     sqlite3_stmt *stmt;
     sqlite3_prepare_v2(db, query, -1, &stmt, NULL);
@@ -355,8 +353,7 @@ void _db_insert_light(int p, int q, int x, int y, int z, int w) {
 }
 
 void db_insert_sign(
-    int p, int q, int x, int y, int z, int face, const char *text)
-{
+        int p, int q, int x, int y, int z, int face, const char *text) {
     if (!db_enabled) {
         return;
     }
@@ -449,8 +446,8 @@ void db_load_signs(SignList *list, int p, int q) {
         int y = sqlite3_column_int(load_signs_stmt, 1);
         int z = sqlite3_column_int(load_signs_stmt, 2);
         int face = sqlite3_column_int(load_signs_stmt, 3);
-        const char *text = (const char *)sqlite3_column_text(
-            load_signs_stmt, 4);
+        const char *text = (const char *) sqlite3_column_text(
+                load_signs_stmt, 4);
         sign_list_add(list, x, y, z, face, text);
     }
 }
