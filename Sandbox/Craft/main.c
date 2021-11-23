@@ -1498,60 +1498,6 @@ int render_chunks(Attrib *attrib, Player *player) {
     return result;
 }
 
-void render_signs(Attrib *attrib, Player *player) {
-    State *s = &player->state;
-    int p = chunked(s->x);
-    int q = chunked(s->z);
-    float matrix[16];
-    set_matrix_3d(
-            matrix, g->width, g->height,
-            s->x, s->y, s->z, s->rx, s->ry, g->fov, g->ortho, g->render_radius);
-    float planes[6][4];
-    frustum_planes(planes, g->render_radius, matrix);
-    glUseProgram(attrib->program);
-    glUniformMatrix4fv(attrib->matrix, 1, GL_FALSE, matrix);
-    glUniform1i(attrib->sampler, 3);
-    glUniform1i(attrib->extra1, 1);
-    for (int i = 0; i < g->chunk_count; i++) {
-        Chunk *chunk = g->chunks + i;
-        if (chunk_distance(chunk, p, q) > g->sign_radius) {
-            continue;
-        }
-        if (!chunk_visible(
-                planes, chunk->p, chunk->q, chunk->miny, chunk->maxy)) {
-            continue;
-        }
-        draw_signs(attrib, chunk);
-    }
-}
-
-void render_sign(Attrib *attrib, Player *player) {
-    if (!g->typing || g->typing_buffer[0] != CRAFT_KEY_SIGN) {
-        return;
-    }
-    int x, y, z, face;
-    if (!hit_test_face(player, &x, &y, &z, &face)) {
-        return;
-    }
-    State *s = &player->state;
-    float matrix[16];
-    set_matrix_3d(
-            matrix, g->width, g->height,
-            s->x, s->y, s->z, s->rx, s->ry, g->fov, g->ortho, g->render_radius);
-    glUseProgram(attrib->program);
-    glUniformMatrix4fv(attrib->matrix, 1, GL_FALSE, matrix);
-    glUniform1i(attrib->sampler, 3);
-    glUniform1i(attrib->extra1, 1);
-    char text[MAX_SIGN_LENGTH];
-    strncpy(text, g->typing_buffer + 1, MAX_SIGN_LENGTH);
-    text[MAX_SIGN_LENGTH - 1] = '\0';
-    GLfloat *data = malloc_faces(5, strlen(text));
-    int length = _gen_sign_buffer(data, x, y, z, face, text);
-    GLuint buffer = gen_faces(5, length, data);
-    draw_sign(attrib, buffer, length);
-    del_buffer(buffer);
-}
-
 void render_players(Attrib *attrib, Player *player) {
     State *s = &player->state;
     float matrix[16];
@@ -1604,60 +1550,6 @@ void render_wireframe(Attrib *attrib, Player *player) {
     }
 }
 
-void render_crosshairs(Attrib *attrib) {
-    float matrix[16];
-    set_matrix_2d(matrix, g->width, g->height);
-    glUseProgram(attrib->program);
-    glLineWidth(4 * g->scale);
-    glEnable(GL_COLOR_LOGIC_OP);
-    glUniformMatrix4fv(attrib->matrix, 1, GL_FALSE, matrix);
-    GLuint crosshair_buffer = gen_crosshair_buffer();
-    draw_lines(attrib, crosshair_buffer, 2, 4);
-    del_buffer(crosshair_buffer);
-    glDisable(GL_COLOR_LOGIC_OP);
-}
-
-void render_item(Attrib *attrib) {
-    float matrix[16];
-    set_matrix_item(matrix, g->width, g->height, g->scale);
-    glUseProgram(attrib->program);
-    glUniformMatrix4fv(attrib->matrix, 1, GL_FALSE, matrix);
-    glUniform3f(attrib->camera, 0, 0, 5);
-    glUniform1i(attrib->sampler, 0);
-    glUniform1f(attrib->timer, time_of_day());
-    int w = items[g->item_index];
-    if (is_plant(w)) {
-        GLuint buffer = gen_plant_buffer(0, 0, 0, 0.5, w);
-        draw_plant(attrib, buffer);
-        del_buffer(buffer);
-    } else {
-        GLuint buffer = gen_cube_buffer(0, 0, 0, 0.5, w);
-        draw_cube(attrib, buffer);
-        del_buffer(buffer);
-    }
-}
-
-void render_text(
-        Attrib *attrib, int justify, float x, float y, float n, char *text) {
-    float matrix[16];
-    set_matrix_2d(matrix, g->width, g->height);
-    glUseProgram(attrib->program);
-    glUniformMatrix4fv(attrib->matrix, 1, GL_FALSE, matrix);
-    glUniform1i(attrib->sampler, 1);
-    glUniform1i(attrib->extra1, 0);
-    int length = strlen(text);
-    x -= n * justify * (length - 1) / 2;
-    GLuint buffer = gen_text_buffer(x, y, n, text);
-    draw_text(attrib, buffer, length);
-    del_buffer(buffer);
-}
-
-void add_message(const char *text) {
-    printf("%s\n", text);
-    snprintf(
-            g->messages[g->message_index], MAX_TEXT_LENGTH, "%s", text);
-    g->message_index = (g->message_index + 1) % MAX_MESSAGES;
-}
 
 void copy() {
     memcpy(&g->copy0, &g->block0, sizeof(Block));
@@ -2288,12 +2180,12 @@ void mainloop() {
     glfwGetFramebufferSize(g->window, &g->width, &g->height);
     glViewport(0, 0, g->width, g->height);
 
-    // FRAME RATE //
-    double now = glfwGetTime();
-    double dt = now - previous;
-    dt = MIN(dt, 0.2);
-    dt = MAX(dt, 0.0);
-    previous = now;
+//    // FRAME RATE //
+//    double now = glfwGetTime();
+//    double dt = now - previous;
+//    dt = MIN(dt, 0.2);
+//    dt = MAX(dt, 0.0);
+//    previous = now;
 
     // HANDLE MOUSE INPUT //
     handle_mouse_input();
@@ -2303,128 +2195,36 @@ void mainloop() {
 
     // HANDLE DATA FROM SERVER //
 
-    // FLUSH DATABASE //
-    if (now - last_commit > COMMIT_INTERVAL) {
-        last_commit = now;
-        db_commit();
-    }
+//    // FLUSH DATABASE //
+//    if (now - last_commit > COMMIT_INTERVAL) {
+//        last_commit = now;
+//        db_commit();
+//    }
 
     // SEND POSITION TO SERVER //
 
-    // PREPARE TO RENDER //
-    g->observe1 = g->observe1 % g->player_count;
-    g->observe2 = g->observe2 % g->player_count;
-    delete_chunks();
-    del_buffer(me->buffer);
-    me->buffer = gen_player_buffer(s->x, s->y, s->z, s->rx, s->ry);
-    for (int i = 1; i < g->player_count; i++) {
-        interpolate_player(g->players + i);
-    }
-    Player *player = g->players + g->observe1;
+//    // PREPARE TO RENDER //
+//    g->observe1 = g->observe1 % g->player_count;
+//    g->observe2 = g->observe2 % g->player_count;
+//    delete_chunks();
+//    del_buffer(me->buffer);
+//    me->buffer = gen_player_buffer(s->x, s->y, s->z, s->rx, s->ry);
+//    for (int i = 1; i < g->player_count; i++) {
+//        interpolate_player(g->players + i);
+//    }
+//    Player *player = g->players + g->observe1;
 
-    // RENDER 3-D SCENE //
-    glClear(GL_COLOR_BUFFER_BIT);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    render_sky(&sky_attrib, player, sky_buffer);
-    glClear(GL_DEPTH_BUFFER_BIT);
-    int face_count = render_chunks(&block_attrib, player);
-    render_signs(&text_attrib, player);
-    render_sign(&text_attrib, player);
-    render_players(&block_attrib, player);
-    if (SHOW_WIREFRAME) {
-        render_wireframe(&line_attrib, player);
-    }
+//    // RENDER 3-D SCENE //
+//    glClear(GL_COLOR_BUFFER_BIT);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+//    render_sky(&sky_attrib, player, sky_buffer);
+//    glClear(GL_DEPTH_BUFFER_BIT);
+//    int face_count = render_chunks(&block_attrib, player);
+//    render_players(&block_attrib, player);
 
     // RENDER HUD //
-    glClear(GL_DEPTH_BUFFER_BIT);
-    if (SHOW_CROSSHAIRS) {
-        render_crosshairs(&line_attrib);
-    }
-    if (SHOW_ITEM) {
-        render_item(&block_attrib);
-    }
-
-    // RENDER TEXT //
-    char text_buffer[1024];
-    float ts = 12 * g->scale;
-    float tx = ts / 2;
-    float ty = g->height - ts;
-    if (SHOW_INFO_TEXT) {
-        int hour = time_of_day() * 24;
-        char am_pm = hour < 12 ? 'a' : 'p';
-        hour = hour % 12;
-        hour = hour ? hour : 12;
-        snprintf(
-                text_buffer, 1024,
-                "(%d, %d) (%.2f, %.2f, %.2f) [%d, %d, %d] %d%cm",
-                chunked(s->x), chunked(s->z), s->x, s->y, s->z,
-                g->player_count, g->chunk_count,
-                face_count * 2, hour, am_pm);
-        render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
-        ty -= ts * 2;
-    }
-    if (SHOW_CHAT_TEXT) {
-        for (int i = 0; i < MAX_MESSAGES; i++) {
-            int index = (g->message_index + i) % MAX_MESSAGES;
-            if (strlen(g->messages[index])) {
-                render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts,
-                            g->messages[index]);
-                ty -= ts * 2;
-            }
-        }
-    }
-    if (g->typing) {
-        snprintf(text_buffer, 1024, "> %s", g->typing_buffer);
-        render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
-        ty -= ts * 2;
-    }
-    if (SHOW_PLAYER_NAMES) {
-        if (player != me) {
-            render_text(&text_attrib, ALIGN_CENTER,
-                        g->width / 2, ts, ts, player->name);
-        }
-        Player *other = player_crosshair(player);
-        if (other) {
-            render_text(&text_attrib, ALIGN_CENTER,
-                        g->width / 2, g->height / 2 - ts - 24, ts,
-                        other->name);
-        }
-    }
 
     // RENDER PICTURE IN PICTURE //
-    if (g->observe2) {
-        player = g->players + g->observe2;
-
-        int pw = 256 * g->scale;
-        int ph = 256 * g->scale;
-        int offset = 32 * g->scale;
-        int pad = 3 * g->scale;
-        int sw = pw + pad * 2;
-        int sh = ph + pad * 2;
-
-        glEnable(GL_SCISSOR_TEST);
-        glScissor(g->width - sw - offset + pad, offset - pad, sw, sh);
-        glClear(GL_COLOR_BUFFER_BIT);
-        glDisable(GL_SCISSOR_TEST);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        glViewport(g->width - pw - offset, offset, pw, ph);
-
-        g->width = pw;
-        g->height = ph;
-        g->ortho = 0;
-        g->fov = 65;
-
-        render_sky(&sky_attrib, player, sky_buffer);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        render_chunks(&block_attrib, player);
-        render_signs(&text_attrib, player);
-        render_players(&block_attrib, player);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        if (SHOW_PLAYER_NAMES) {
-            render_text(&text_attrib, ALIGN_CENTER,
-                        pw / 2, ts, ts, player->name);
-        }
-    }
 
 //        // SWAP AND POLL //
 //        glfwSwapBuffers(g->window);

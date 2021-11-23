@@ -251,6 +251,26 @@ void CraftPlugin::uninstall() {
 }
 
 void CraftPlugin::update() {
-    Plugin::update();
+    // FLUSH DATABASE //
+    db_commit();
+
+    // PREPARE TO RENDER //
+    g->observe1 = g->observe1 % g->player_count;
+    g->observe2 = g->observe2 % g->player_count;
+//    delete_chunks();
+//    del_buffer(me->buffer);
+//    me->buffer = gen_player_buffer(s->x, s->y, s->z, s->rx, s->ry);
+//    for (int i = 1; i < g->player_count; i++) {
+//        interpolate_player(g->players + i);
+//    }
+    Player *player = g->players + g->observe1;
+
+    // RENDER 3-D SCENE //
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    render_sky(&sky_attrib, player, sky_buffer);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    int face_count = render_chunks(&block_attrib, player);
+    render_players(&block_attrib, player);
 }
 
