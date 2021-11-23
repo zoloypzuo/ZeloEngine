@@ -200,9 +200,45 @@ void CraftPlugin::install() {
         cnd_init(&worker->cnd);
         thrd_create(&worker->thrd, worker_run, worker);
     }
+
+    // DATABASE INITIALIZATION //
+    if (g->mode == MODE_OFFLINE || USE_CACHE) {
+        db_enable();
+        if (db_init(g->db_path)) {
+//            return -1;
+        }
+    }
+
+    // LOCAL VARIABLES //
+//    reset_model(); TODO
+    double last_commit = glfwGetTime();
+    double last_update = glfwGetTime();
+//    GLuint sky_buffer = gen_sky_buffer(); TODO
+
+    Player *me = g->players;
+    State *s = &g->players->state;
+    me->id = 0;
+    me->name[0] = '\0';
+    me->buffer = 0;
+    g->player_count = 1;
+
+    // LOAD STATE FROM DATABASE //
+    int loaded = db_load_state(&s->x, &s->y, &s->z, &s->rx, &s->ry);
+//    force_chunks(me); TODO
+    if (!loaded) {
+//        s->y = highest_block(s->x, s->z) + 2; TODO
+    }
+
 }
 
 void CraftPlugin::shutdown() {
-
+    // SHUTDOWN //
+    State *s = &g->players->state;
+    db_save_state(s->x, s->y, s->z, s->rx, s->ry);
+    db_close();
+    db_disable();
+//    del_buffer(sky_buffer);
+//    delete_all_chunks();
+//    delete_all_players();
 }
 

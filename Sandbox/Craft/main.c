@@ -2465,37 +2465,36 @@ int main(int argc, char **argv) {
 //        thrd_create(&worker->thrd, worker_run, worker);
 //    }
 
-    // OUTER LOOP //
 //    int running = 1;
 //    while (running) {
-    // DATABASE INITIALIZATION //
-    if (g->mode == MODE_OFFLINE || USE_CACHE) {
-        db_enable();
-        if (db_init(g->db_path)) {
-            return -1;
-        }
-    }
+//    // DATABASE INITIALIZATION //
+//    if (g->mode == MODE_OFFLINE || USE_CACHE) {
+//        db_enable();
+//        if (db_init(g->db_path)) {
+//            return -1;
+//        }
+//    }
 
-    // LOCAL VARIABLES //
-    reset_model();
-    FPS fps = {0, 0, 0};
-    double last_commit = glfwGetTime();
-    double last_update = glfwGetTime();
-    GLuint sky_buffer = gen_sky_buffer();
-
-    Player *me = g->players;
-    State *s = &g->players->state;
-    me->id = 0;
-    me->name[0] = '\0';
-    me->buffer = 0;
-    g->player_count = 1;
-
-    // LOAD STATE FROM DATABASE //
-    int loaded = db_load_state(&s->x, &s->y, &s->z, &s->rx, &s->ry);
-    force_chunks(me);
-    if (!loaded) {
-        s->y = highest_block(s->x, s->z) + 2;
-    }
+//    // LOCAL VARIABLES //
+//    reset_model();
+//    FPS fps = {0, 0, 0};
+//    double last_commit = glfwGetTime();
+//    double last_update = glfwGetTime();
+//    GLuint sky_buffer = gen_sky_buffer();
+//
+//    Player *me = g->players;
+//    State *s = &g->players->state;
+//    me->id = 0;
+//    me->name[0] = '\0';
+//    me->buffer = 0;
+//    g->player_count = 1;
+//
+//    // LOAD STATE FROM DATABASE //
+//    int loaded = db_load_state(&s->x, &s->y, &s->z, &s->rx, &s->ry);
+//    force_chunks(me);
+//    if (!loaded) {
+//        s->y = highest_block(s->x, s->z) + 2;
+//    }
 
     // BEGIN MAIN LOOP //
     double previous = glfwGetTime();
@@ -2506,13 +2505,6 @@ int main(int argc, char **argv) {
         glViewport(0, 0, g->width, g->height);
 
         // FRAME RATE //
-        if (g->time_changed) {
-            g->time_changed = 0;
-            last_commit = glfwGetTime();
-            last_update = glfwGetTime();
-            memset(&fps, 0, sizeof(fps));
-        }
-        update_fps(&fps);
         double now = glfwGetTime();
         double dt = now - previous;
         dt = MIN(dt, 0.2);
@@ -2580,10 +2572,10 @@ int main(int argc, char **argv) {
             hour = hour ? hour : 12;
             snprintf(
                     text_buffer, 1024,
-                    "(%d, %d) (%.2f, %.2f, %.2f) [%d, %d, %d] %d%cm %dfps",
+                    "(%d, %d) (%.2f, %.2f, %.2f) [%d, %d, %d] %d%cm",
                     chunked(s->x), chunked(s->z), s->x, s->y, s->z,
                     g->player_count, g->chunk_count,
-                    face_count * 2, hour, am_pm, fps.fps);
+                    face_count * 2, hour, am_pm);
             render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
             ty -= ts * 2;
         }
@@ -2650,28 +2642,28 @@ int main(int argc, char **argv) {
             }
         }
 
-        // SWAP AND POLL //
-        glfwSwapBuffers(g->window);
-        glfwPollEvents();
-        if (glfwWindowShouldClose(g->window)) {
+//        // SWAP AND POLL //
+//        glfwSwapBuffers(g->window);
+//        glfwPollEvents();
+//        if (glfwWindowShouldClose(g->window)) {
 //                running = 0;
-            break;
-        }
-        if (g->mode_changed) {
-            g->mode_changed = 0;
-            break;
-        }
+//            break;
+//        }
+//        if (g->mode_changed) {
+//            g->mode_changed = 0;
+//            break;
+//        }
     }
 
-    // SHUTDOWN //
-    db_save_state(s->x, s->y, s->z, s->rx, s->ry);
-    db_close();
-    db_disable();
-    del_buffer(sky_buffer);
-    delete_all_chunks();
-    delete_all_players();
+//    // SHUTDOWN //
+//    db_save_state(s->x, s->y, s->z, s->rx, s->ry);
+//    db_close();
+//    db_disable();
+//    del_buffer(sky_buffer);
+//    delete_all_chunks();
+//    delete_all_players();
 //    }
 
-    glfwTerminate();
-    return 0;
+//    glfwTerminate();
+//    return 0;
 }
