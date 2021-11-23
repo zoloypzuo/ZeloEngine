@@ -19,10 +19,6 @@ public:
 
     void install() override;
 
-    void initialise() override;
-
-    void shutdown() override;
-
     void uninstall() override;
 };
 
@@ -38,16 +34,6 @@ void PipelinePlugin<T>::install() {
     auto renderPipeline = std::make_unique<T>();
     renderPipeline->initialize();
     Zelo::Core::RHI::RenderSystem::getSingletonPtr()->setRenderPipeline(std::move(renderPipeline));
-}
-
-template<class T>
-void PipelinePlugin<T>::initialise() {
-    // do nothing
-}
-
-template<class T>
-void PipelinePlugin<T>::shutdown() {
-    // do nothing
 }
 
 template<class T>

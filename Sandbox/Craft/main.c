@@ -143,9 +143,9 @@ void draw_triangles_3d_ao(Attrib *attrib, GLuint buffer, int count) {
     glVertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 10, 0);
     glVertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 10, (GLvoid *) (sizeof(GLfloat) * 3));
+                          sizeof(GLfloat) * 10, (GLvoid * )(sizeof(GLfloat) * 3));
     glVertexAttribPointer(attrib->uv, 4, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 10, (GLvoid *) (sizeof(GLfloat) * 6));
+                          sizeof(GLfloat) * 10, (GLvoid * )(sizeof(GLfloat) * 6));
     glDrawArrays(GL_TRIANGLES, 0, count);
     glDisableVertexAttribArray(attrib->position);
     glDisableVertexAttribArray(attrib->normal);
@@ -160,7 +160,7 @@ void draw_triangles_3d_text(Attrib *attrib, GLuint buffer, int count) {
     glVertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 5, 0);
     glVertexAttribPointer(attrib->uv, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 5, (GLvoid *) (sizeof(GLfloat) * 3));
+                          sizeof(GLfloat) * 5, (GLvoid * )(sizeof(GLfloat) * 3));
     glDrawArrays(GL_TRIANGLES, 0, count);
     glDisableVertexAttribArray(attrib->position);
     glDisableVertexAttribArray(attrib->uv);
@@ -175,9 +175,9 @@ void draw_triangles_3d(Attrib *attrib, GLuint buffer, int count) {
     glVertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 8, 0);
     glVertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 3));
+                          sizeof(GLfloat) * 8, (GLvoid * )(sizeof(GLfloat) * 3));
     glVertexAttribPointer(attrib->uv, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 6));
+                          sizeof(GLfloat) * 8, (GLvoid * )(sizeof(GLfloat) * 6));
     glDrawArrays(GL_TRIANGLES, 0, count);
     glDisableVertexAttribArray(attrib->position);
     glDisableVertexAttribArray(attrib->normal);
@@ -192,7 +192,7 @@ void draw_triangles_2d(Attrib *attrib, GLuint buffer, int count) {
     glVertexAttribPointer(attrib->position, 2, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 4, 0);
     glVertexAttribPointer(attrib->uv, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 4, (GLvoid *) (sizeof(GLfloat) * 2));
+                          sizeof(GLfloat) * 4, (GLvoid * )(sizeof(GLfloat) * 2));
     glDrawArrays(GL_TRIANGLES, 0, count);
     glDisableVertexAttribArray(attrib->position);
     glDisableVertexAttribArray(attrib->uv);
@@ -443,11 +443,12 @@ int highest_block(float x, float z) {
     if (chunk) {
         Map *map = &chunk->map;
         MAP_FOR_EACH(map, ex, ey, ez, ew)
-            {
-                if (is_obstacle(ew) && ex == nx && ez == nz) {
-                    result = MAX(result, ey);
-                }
-            }END_MAP_FOR_EACH;
+        {
+            if (is_obstacle(ew) && ex == nx && ez == nz) {
+                result = MAX(result, ey);
+            }
+        }
+        END_MAP_FOR_EACH;
     }
     return result;
 }
@@ -845,24 +846,25 @@ void compute_chunk(WorkerItem *item) {
                 continue;
             }
             MAP_FOR_EACH(map, ex, ey, ez, ew)
-                {
-                    int x = ex - ox;
-                    int y = ey - oy;
-                    int z = ez - oz;
-                    int w = ew;
-                    // TODO: this should be unnecessary
-                    if (x < 0 || y < 0 || z < 0) {
-                        continue;
-                    }
-                    if (x >= XZ_SIZE || y >= Y_SIZE || z >= XZ_SIZE) {
-                        continue;
-                    }
-                    // END TODO
-                    opaque[XYZ(x, y, z)] = !is_transparent(w);
-                    if (opaque[XYZ(x, y, z)]) {
-                        highest[XZ(x, z)] = MAX(highest[XZ(x, z)], y);
-                    }
-                }END_MAP_FOR_EACH;
+            {
+                int x = ex - ox;
+                int y = ey - oy;
+                int z = ez - oz;
+                int w = ew;
+                // TODO: this should be unnecessary
+                if (x < 0 || y < 0 || z < 0) {
+                    continue;
+                }
+                if (x >= XZ_SIZE || y >= Y_SIZE || z >= XZ_SIZE) {
+                    continue;
+                }
+                // END TODO
+                opaque[XYZ(x, y, z)] = !is_transparent(w);
+                if (opaque[XYZ(x, y, z)]) {
+                    highest[XZ(x, z)] = MAX(highest[XZ(x, z)], y);
+                }
+            }
+            END_MAP_FOR_EACH;
         }
     }
 
@@ -875,12 +877,13 @@ void compute_chunk(WorkerItem *item) {
                     continue;
                 }
                 MAP_FOR_EACH(map, ex, ey, ez, ew)
-                    {
-                        int x = ex - ox;
-                        int y = ey - oy;
-                        int z = ez - oz;
-                        light_fill(opaque, light, x, y, z, ew, 1);
-                    }END_MAP_FOR_EACH;
+                {
+                    int x = ex - ox;
+                    int y = ey - oy;
+                    int z = ez - oz;
+                    light_fill(opaque, light, x, y, z, ew, 1);
+                }
+                END_MAP_FOR_EACH;
             }
         }
     }
@@ -892,99 +895,101 @@ void compute_chunk(WorkerItem *item) {
     int maxy = 0;
     int faces = 0;
     MAP_FOR_EACH(map, ex, ey, ez, ew)
-        {
-            if (ew <= 0) {
-                continue;
-            }
-            int x = ex - ox;
-            int y = ey - oy;
-            int z = ez - oz;
-            int f1 = !opaque[XYZ(x - 1, y, z)];
-            int f2 = !opaque[XYZ(x + 1, y, z)];
-            int f3 = !opaque[XYZ(x, y + 1, z)];
-            int f4 = !opaque[XYZ(x, y - 1, z)] && (ey > 0);
-            int f5 = !opaque[XYZ(x, y, z - 1)];
-            int f6 = !opaque[XYZ(x, y, z + 1)];
-            int total = f1 + f2 + f3 + f4 + f5 + f6;
-            if (total == 0) {
-                continue;
-            }
-            if (is_plant(ew)) {
-                total = 4;
-            }
-            miny = MIN(miny, ey);
-            maxy = MAX(maxy, ey);
-            faces += total;
-        }END_MAP_FOR_EACH;
+    {
+        if (ew <= 0) {
+            continue;
+        }
+        int x = ex - ox;
+        int y = ey - oy;
+        int z = ez - oz;
+        int f1 = !opaque[XYZ(x - 1, y, z)];
+        int f2 = !opaque[XYZ(x + 1, y, z)];
+        int f3 = !opaque[XYZ(x, y + 1, z)];
+        int f4 = !opaque[XYZ(x, y - 1, z)] && (ey > 0);
+        int f5 = !opaque[XYZ(x, y, z - 1)];
+        int f6 = !opaque[XYZ(x, y, z + 1)];
+        int total = f1 + f2 + f3 + f4 + f5 + f6;
+        if (total == 0) {
+            continue;
+        }
+        if (is_plant(ew)) {
+            total = 4;
+        }
+        miny = MIN(miny, ey);
+        maxy = MAX(maxy, ey);
+        faces += total;
+    }
+    END_MAP_FOR_EACH;
 
     // generate geometry
     GLfloat *data = malloc_faces(10, faces);
     int offset = 0;
     MAP_FOR_EACH(map, ex, ey, ez, ew)
-        {
-            if (ew <= 0) {
-                continue;
-            }
-            int x = ex - ox;
-            int y = ey - oy;
-            int z = ez - oz;
-            int f1 = !opaque[XYZ(x - 1, y, z)];
-            int f2 = !opaque[XYZ(x + 1, y, z)];
-            int f3 = !opaque[XYZ(x, y + 1, z)];
-            int f4 = !opaque[XYZ(x, y - 1, z)] && (ey > 0);
-            int f5 = !opaque[XYZ(x, y, z - 1)];
-            int f6 = !opaque[XYZ(x, y, z + 1)];
-            int total = f1 + f2 + f3 + f4 + f5 + f6;
-            if (total == 0) {
-                continue;
-            }
-            char neighbors[27] = {0};
-            char lights[27] = {0};
-            float shades[27] = {0};
-            int index = 0;
-            for (int dx = -1; dx <= 1; dx++) {
-                for (int dy = -1; dy <= 1; dy++) {
-                    for (int dz = -1; dz <= 1; dz++) {
-                        neighbors[index] = opaque[XYZ(x + dx, y + dy, z + dz)];
-                        lights[index] = light[XYZ(x + dx, y + dy, z + dz)];
-                        shades[index] = 0;
-                        if (y + dy <= highest[XZ(x + dx, z + dz)]) {
-                            for (int oy = 0; oy < 8; oy++) {
-                                if (opaque[XYZ(x + dx, y + dy + oy, z + dz)]) {
-                                    shades[index] = 1.0 - oy * 0.125;
-                                    break;
-                                }
+    {
+        if (ew <= 0) {
+            continue;
+        }
+        int x = ex - ox;
+        int y = ey - oy;
+        int z = ez - oz;
+        int f1 = !opaque[XYZ(x - 1, y, z)];
+        int f2 = !opaque[XYZ(x + 1, y, z)];
+        int f3 = !opaque[XYZ(x, y + 1, z)];
+        int f4 = !opaque[XYZ(x, y - 1, z)] && (ey > 0);
+        int f5 = !opaque[XYZ(x, y, z - 1)];
+        int f6 = !opaque[XYZ(x, y, z + 1)];
+        int total = f1 + f2 + f3 + f4 + f5 + f6;
+        if (total == 0) {
+            continue;
+        }
+        char neighbors[27] = {0};
+        char lights[27] = {0};
+        float shades[27] = {0};
+        int index = 0;
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                for (int dz = -1; dz <= 1; dz++) {
+                    neighbors[index] = opaque[XYZ(x + dx, y + dy, z + dz)];
+                    lights[index] = light[XYZ(x + dx, y + dy, z + dz)];
+                    shades[index] = 0;
+                    if (y + dy <= highest[XZ(x + dx, z + dz)]) {
+                        for (int oy = 0; oy < 8; oy++) {
+                            if (opaque[XYZ(x + dx, y + dy + oy, z + dz)]) {
+                                shades[index] = 1.0 - oy * 0.125;
+                                break;
                             }
                         }
-                        index++;
                     }
+                    index++;
                 }
             }
-            float ao[6][4];
-            float light[6][4];
-            occlusion(neighbors, lights, shades, ao, light);
-            if (is_plant(ew)) {
-                total = 4;
-                float min_ao = 1;
-                float max_light = 0;
-                for (int a = 0; a < 6; a++) {
-                    for (int b = 0; b < 4; b++) {
-                        min_ao = MIN(min_ao, ao[a][b]);
-                        max_light = MAX(max_light, light[a][b]);
-                    }
+        }
+        float ao[6][4];
+        float light[6][4];
+        occlusion(neighbors, lights, shades, ao, light);
+        if (is_plant(ew)) {
+            total = 4;
+            float min_ao = 1;
+            float max_light = 0;
+            for (int a = 0; a < 6; a++) {
+                for (int b = 0; b < 4; b++) {
+                    min_ao = MIN(min_ao, ao[a][b]);
+                    max_light = MAX(max_light, light[a][b]);
                 }
-                float rotation = simplex2(ex, ez, 4, 0.5, 2) * 360;
-                make_plant(
-                        data + offset, min_ao, max_light,
-                        ex, ey, ez, 0.5, ew, rotation);
-            } else {
-                make_cube(
-                        data + offset, ao, light,
-                        f1, f2, f3, f4, f5, f6,
-                        ex, ey, ez, 0.5, ew);
             }
-            offset += total * 60;
-        }END_MAP_FOR_EACH;
+            float rotation = simplex2(ex, ez, 4, 0.5, 2) * 360;
+            make_plant(
+                    data + offset, min_ao, max_light,
+                    ex, ey, ez, 0.5, ew, rotation);
+        } else {
+            make_cube(
+                    data + offset, ao, light,
+                    f1, f2, f3, f4, f5, f6,
+                    ex, ey, ez, 0.5, ew);
+        }
+        offset += total * 60;
+    }
+    END_MAP_FOR_EACH;
 
     free(opaque);
     free(light);
@@ -2261,162 +2266,8 @@ int main(int argc, char **argv) {
 
     // BEGIN MAIN LOOP //
     double previous = glfwGetTime();
-    while (1) {
-        // WINDOW SIZE AND SCALE //
-        g->scale = get_scale_factor();
-        glfwGetFramebufferSize(g->window, &g->width, &g->height);
-        glViewport(0, 0, g->width, g->height);
 
-        // FRAME RATE //
-        double now = glfwGetTime();
-        double dt = now - previous;
-        dt = MIN(dt, 0.2);
-        dt = MAX(dt, 0.0);
-        previous = now;
-
-        // HANDLE MOUSE INPUT //
-        handle_mouse_input();
-
-        // HANDLE MOVEMENT //
-        handle_movement(dt);
-
-        // HANDLE DATA FROM SERVER //
-
-        // FLUSH DATABASE //
-        if (now - last_commit > COMMIT_INTERVAL) {
-            last_commit = now;
-            db_commit();
-        }
-
-        // SEND POSITION TO SERVER //
-
-        // PREPARE TO RENDER //
-        g->observe1 = g->observe1 % g->player_count;
-        g->observe2 = g->observe2 % g->player_count;
-        delete_chunks();
-        del_buffer(me->buffer);
-        me->buffer = gen_player_buffer(s->x, s->y, s->z, s->rx, s->ry);
-        for (int i = 1; i < g->player_count; i++) {
-            interpolate_player(g->players + i);
-        }
-        Player *player = g->players + g->observe1;
-
-        // RENDER 3-D SCENE //
-        glClear(GL_COLOR_BUFFER_BIT);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        render_sky(&sky_attrib, player, sky_buffer);
-        glClear(GL_DEPTH_BUFFER_BIT);
-        int face_count = render_chunks(&block_attrib, player);
-        render_signs(&text_attrib, player);
-        render_sign(&text_attrib, player);
-        render_players(&block_attrib, player);
-        if (SHOW_WIREFRAME) {
-            render_wireframe(&line_attrib, player);
-        }
-
-        // RENDER HUD //
-        glClear(GL_DEPTH_BUFFER_BIT);
-        if (SHOW_CROSSHAIRS) {
-            render_crosshairs(&line_attrib);
-        }
-        if (SHOW_ITEM) {
-            render_item(&block_attrib);
-        }
-
-        // RENDER TEXT //
-        char text_buffer[1024];
-        float ts = 12 * g->scale;
-        float tx = ts / 2;
-        float ty = g->height - ts;
-        if (SHOW_INFO_TEXT) {
-            int hour = time_of_day() * 24;
-            char am_pm = hour < 12 ? 'a' : 'p';
-            hour = hour % 12;
-            hour = hour ? hour : 12;
-            snprintf(
-                    text_buffer, 1024,
-                    "(%d, %d) (%.2f, %.2f, %.2f) [%d, %d, %d] %d%cm",
-                    chunked(s->x), chunked(s->z), s->x, s->y, s->z,
-                    g->player_count, g->chunk_count,
-                    face_count * 2, hour, am_pm);
-            render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
-            ty -= ts * 2;
-        }
-        if (SHOW_CHAT_TEXT) {
-            for (int i = 0; i < MAX_MESSAGES; i++) {
-                int index = (g->message_index + i) % MAX_MESSAGES;
-                if (strlen(g->messages[index])) {
-                    render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts,
-                                g->messages[index]);
-                    ty -= ts * 2;
-                }
-            }
-        }
-        if (g->typing) {
-            snprintf(text_buffer, 1024, "> %s", g->typing_buffer);
-            render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
-            ty -= ts * 2;
-        }
-        if (SHOW_PLAYER_NAMES) {
-            if (player != me) {
-                render_text(&text_attrib, ALIGN_CENTER,
-                            g->width / 2, ts, ts, player->name);
-            }
-            Player *other = player_crosshair(player);
-            if (other) {
-                render_text(&text_attrib, ALIGN_CENTER,
-                            g->width / 2, g->height / 2 - ts - 24, ts,
-                            other->name);
-            }
-        }
-
-        // RENDER PICTURE IN PICTURE //
-        if (g->observe2) {
-            player = g->players + g->observe2;
-
-            int pw = 256 * g->scale;
-            int ph = 256 * g->scale;
-            int offset = 32 * g->scale;
-            int pad = 3 * g->scale;
-            int sw = pw + pad * 2;
-            int sh = ph + pad * 2;
-
-            glEnable(GL_SCISSOR_TEST);
-            glScissor(g->width - sw - offset + pad, offset - pad, sw, sh);
-            glClear(GL_COLOR_BUFFER_BIT);
-            glDisable(GL_SCISSOR_TEST);
-            glClear(GL_DEPTH_BUFFER_BIT);
-            glViewport(g->width - pw - offset, offset, pw, ph);
-
-            g->width = pw;
-            g->height = ph;
-            g->ortho = 0;
-            g->fov = 65;
-
-            render_sky(&sky_attrib, player, sky_buffer);
-            glClear(GL_DEPTH_BUFFER_BIT);
-            render_chunks(&block_attrib, player);
-            render_signs(&text_attrib, player);
-            render_players(&block_attrib, player);
-            glClear(GL_DEPTH_BUFFER_BIT);
-            if (SHOW_PLAYER_NAMES) {
-                render_text(&text_attrib, ALIGN_CENTER,
-                            pw / 2, ts, ts, player->name);
-            }
-        }
-
-//        // SWAP AND POLL //
-//        glfwSwapBuffers(g->window);
-//        glfwPollEvents();
-//        if (glfwWindowShouldClose(g->window)) {
-//                running = 0;
-//            break;
-//        }
-//        if (g->mode_changed) {
-//            g->mode_changed = 0;
-//            break;
-//        }
-    }
+    mainloop();
 
 //    // SHUTDOWN //
 //    db_save_state(s->x, s->y, s->z, s->rx, s->ry);
@@ -2429,4 +2280,161 @@ int main(int argc, char **argv) {
 
 //    glfwTerminate();
 //    return 0;
+}
+
+void mainloop() {
+    // WINDOW SIZE AND SCALE //
+    g->scale = get_scale_factor();
+    glfwGetFramebufferSize(g->window, &g->width, &g->height);
+    glViewport(0, 0, g->width, g->height);
+
+    // FRAME RATE //
+    double now = glfwGetTime();
+    double dt = now - previous;
+    dt = MIN(dt, 0.2);
+    dt = MAX(dt, 0.0);
+    previous = now;
+
+    // HANDLE MOUSE INPUT //
+    handle_mouse_input();
+
+    // HANDLE MOVEMENT //
+    handle_movement(dt);
+
+    // HANDLE DATA FROM SERVER //
+
+    // FLUSH DATABASE //
+    if (now - last_commit > COMMIT_INTERVAL) {
+        last_commit = now;
+        db_commit();
+    }
+
+    // SEND POSITION TO SERVER //
+
+    // PREPARE TO RENDER //
+    g->observe1 = g->observe1 % g->player_count;
+    g->observe2 = g->observe2 % g->player_count;
+    delete_chunks();
+    del_buffer(me->buffer);
+    me->buffer = gen_player_buffer(s->x, s->y, s->z, s->rx, s->ry);
+    for (int i = 1; i < g->player_count; i++) {
+        interpolate_player(g->players + i);
+    }
+    Player *player = g->players + g->observe1;
+
+    // RENDER 3-D SCENE //
+    glClear(GL_COLOR_BUFFER_BIT);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    render_sky(&sky_attrib, player, sky_buffer);
+    glClear(GL_DEPTH_BUFFER_BIT);
+    int face_count = render_chunks(&block_attrib, player);
+    render_signs(&text_attrib, player);
+    render_sign(&text_attrib, player);
+    render_players(&block_attrib, player);
+    if (SHOW_WIREFRAME) {
+        render_wireframe(&line_attrib, player);
+    }
+
+    // RENDER HUD //
+    glClear(GL_DEPTH_BUFFER_BIT);
+    if (SHOW_CROSSHAIRS) {
+        render_crosshairs(&line_attrib);
+    }
+    if (SHOW_ITEM) {
+        render_item(&block_attrib);
+    }
+
+    // RENDER TEXT //
+    char text_buffer[1024];
+    float ts = 12 * g->scale;
+    float tx = ts / 2;
+    float ty = g->height - ts;
+    if (SHOW_INFO_TEXT) {
+        int hour = time_of_day() * 24;
+        char am_pm = hour < 12 ? 'a' : 'p';
+        hour = hour % 12;
+        hour = hour ? hour : 12;
+        snprintf(
+                text_buffer, 1024,
+                "(%d, %d) (%.2f, %.2f, %.2f) [%d, %d, %d] %d%cm",
+                chunked(s->x), chunked(s->z), s->x, s->y, s->z,
+                g->player_count, g->chunk_count,
+                face_count * 2, hour, am_pm);
+        render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
+        ty -= ts * 2;
+    }
+    if (SHOW_CHAT_TEXT) {
+        for (int i = 0; i < MAX_MESSAGES; i++) {
+            int index = (g->message_index + i) % MAX_MESSAGES;
+            if (strlen(g->messages[index])) {
+                render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts,
+                            g->messages[index]);
+                ty -= ts * 2;
+            }
+        }
+    }
+    if (g->typing) {
+        snprintf(text_buffer, 1024, "> %s", g->typing_buffer);
+        render_text(&text_attrib, ALIGN_LEFT, tx, ty, ts, text_buffer);
+        ty -= ts * 2;
+    }
+    if (SHOW_PLAYER_NAMES) {
+        if (player != me) {
+            render_text(&text_attrib, ALIGN_CENTER,
+                        g->width / 2, ts, ts, player->name);
+        }
+        Player *other = player_crosshair(player);
+        if (other) {
+            render_text(&text_attrib, ALIGN_CENTER,
+                        g->width / 2, g->height / 2 - ts - 24, ts,
+                        other->name);
+        }
+    }
+
+    // RENDER PICTURE IN PICTURE //
+    if (g->observe2) {
+        player = g->players + g->observe2;
+
+        int pw = 256 * g->scale;
+        int ph = 256 * g->scale;
+        int offset = 32 * g->scale;
+        int pad = 3 * g->scale;
+        int sw = pw + pad * 2;
+        int sh = ph + pad * 2;
+
+        glEnable(GL_SCISSOR_TEST);
+        glScissor(g->width - sw - offset + pad, offset - pad, sw, sh);
+        glClear(GL_COLOR_BUFFER_BIT);
+        glDisable(GL_SCISSOR_TEST);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        glViewport(g->width - pw - offset, offset, pw, ph);
+
+        g->width = pw;
+        g->height = ph;
+        g->ortho = 0;
+        g->fov = 65;
+
+        render_sky(&sky_attrib, player, sky_buffer);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        render_chunks(&block_attrib, player);
+        render_signs(&text_attrib, player);
+        render_players(&block_attrib, player);
+        glClear(GL_DEPTH_BUFFER_BIT);
+        if (SHOW_PLAYER_NAMES) {
+            render_text(&text_attrib, ALIGN_CENTER,
+                        pw / 2, ts, ts, player->name);
+        }
+    }
+
+//        // SWAP AND POLL //
+//        glfwSwapBuffers(g->window);
+//        glfwPollEvents();
+//        if (glfwWindowShouldClose(g->window)) {
+//                running = 0;
+//            break;
+//        }
+//        if (g->mode_changed) {
+//            g->mode_changed = 0;
+//            break;
+//        }
 }

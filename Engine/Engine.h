@@ -71,9 +71,11 @@ protected:
 private:
     void initConfig();
 
-    void initialisePlugins();
+    void initializePlugins();
 
-    void shutdownPlugins();
+    void finalizePlugins();
+
+    void updatePlugins();
 };
 }
 

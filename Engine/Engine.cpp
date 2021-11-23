@@ -57,7 +57,7 @@ void Engine::initialize() {
 
     m_window->makeCurrentContext();
 
-    initialisePlugins();
+    initializePlugins();
 
     m_timeSystem = std::make_unique<Time>();
     m_timeSystem->initialize();
@@ -67,7 +67,7 @@ void Engine::initialize() {
 
 void Engine::finalize() {
     m_timeSystem->finalize();
-    shutdownPlugins();
+    finalizePlugins();
     m_game->finalize();
     m_uiManager->finalize();
     m_renderSystem->finalize();
@@ -175,15 +175,21 @@ void Engine::initConfig() {
     }
 }
 
-void Engine::initialisePlugins() {
+void Engine::initializePlugins() {
     for (auto &plugin: m_plugins) {
-        plugin->initialise();
+        plugin->initialize();
     }
 }
 
-void Engine::shutdownPlugins() {
+void Engine::finalizePlugins() {
     for (auto &plugin:m_plugins) {
-        plugin->shutdown();
+        plugin->finalize();
+    }
+}
+
+void Engine::updatePlugins() {
+    for (auto &plugin:m_plugins) {
+        plugin->update();
     }
 }
 
@@ -195,7 +201,7 @@ void Engine::installPlugin(Plugin *plugin) {
 
     // if rendersystem is already initialised, call rendersystem init too
     if (m_isInitialised) {
-        plugin->initialise();
+        plugin->initialize();
     }
 
     spdlog::debug("plugin installed successfully: {}", plugin->getName());
@@ -209,14 +215,13 @@ void Engine::uninstallPlugin(Plugin *plugin) {
             [&](auto &item) { return item->getName() == plugin->getName(); });
     if (i != m_plugins.end()) {
         if (m_isInitialised) {
-            plugin->shutdown();
+            plugin->finalize();
         }
         plugin->uninstall();
     }
 
     spdlog::debug("plugin uninstalled successfully: {}", plugin->getName());
 }
-
 
 //#include <rttr/registration>
 

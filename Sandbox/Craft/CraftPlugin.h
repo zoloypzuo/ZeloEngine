@@ -12,9 +12,5 @@ public:
 
     void install() override;
 
-    void initialise() override {}
-
-    void shutdown() override;
-
-    void uninstall() override {}
+    void update() override;
 };
