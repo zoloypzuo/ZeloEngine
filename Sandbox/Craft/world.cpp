@@ -1,5 +1,5 @@
 #include "config.h"
-#include "noise.h"
+#include "lib/noise.h"
 #include "world.h"
 
 void create_world(int p, int q, world_func func, void *arg) {

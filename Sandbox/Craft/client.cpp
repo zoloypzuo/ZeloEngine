@@ -14,7 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "client.h"
-#include "tinycthread.h"
+#include "lib/tinycthread.h"
 
 #define QUEUE_SIZE 1048576
 #define RECV_SIZE 4096

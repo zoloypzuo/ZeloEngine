@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
-#include "lodepng.h"
+#include "lib/lodepng.h"
 #include "matrix.h"
 #include "util.h"
 

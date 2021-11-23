@@ -14,9 +14,9 @@
 #include "item.h"
 #include "map.h"
 #include "matrix.h"
-#include "noise.h"
+#include "lib/noise.h"
 #include "sign.h"
-#include "tinycthread.h"
+#include "lib/tinycthread.h"
 #include "util.h"
 #include "world.h"
 

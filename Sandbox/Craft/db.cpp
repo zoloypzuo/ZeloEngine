@@ -2,7 +2,7 @@
 #include "db.h"
 #include "ring.h"
 #include "sqlite3.h"
-#include "tinycthread.h"
+#include "lib/tinycthread.h"
 
 static int db_enabled = 0;
 
