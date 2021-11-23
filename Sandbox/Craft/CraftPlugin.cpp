@@ -571,12 +571,16 @@ int chunked(float x) {
     return floorf(roundf(x) / CHUNK_SIZE);
 }
 
+float get_time() {
+    return Zelo::Core::OS::Time::getSingletonPtr()->getTotalTime();
+}
+
 float time_of_day() {
     if (g->day_length <= 0) {
         return 0.5;
     }
     float t;
-    t = Zelo::Core::OS::Time::getSingletonPtr()->getTotalTime();
+    t = get_time();
     t = t / g->day_length;
     t = t - (int) t;
     return t;
@@ -1075,7 +1079,6 @@ void draw_player(Attrib *attrib, Player *player) {
     draw_cube(attrib, player->buffer);
 }
 
-
 void delete_all_chunks() {
     for (int i = 0; i < g->chunk_count; i++) {
         Chunk *chunk = g->chunks + i;
@@ -1094,6 +1097,92 @@ void delete_all_players() {
         del_buffer(player->buffer);
     }
     g->player_count = 0;
+}
+
+void delete_chunks() {
+    int count = g->chunk_count;
+    State *s1 = &g->players->state;
+    State *s2 = &(g->players + g->observe1)->state;
+    State *s3 = &(g->players + g->observe2)->state;
+    State *states[3] = {s1, s2, s3};
+    for (int i = 0; i < count; i++) {
+        Chunk *chunk = g->chunks + i;
+        int delete_ = 1;
+        for (int j = 0; j < 3; j++) {
+            State *s = states[j];
+            int p = chunked(s->x);
+            int q = chunked(s->z);
+            if (chunk_distance(chunk, p, q) < g->delete_radius) {
+                delete_ = 0;
+                break;
+            }
+        }
+        if (delete_) {
+            map_free(&chunk->map);
+            map_free(&chunk->lights);
+            sign_list_free(&chunk->signs);
+            del_buffer(chunk->buffer);
+            del_buffer(chunk->sign_buffer);
+            Chunk *other = g->chunks + (--count);
+            memcpy(chunk, other, sizeof(Chunk));
+        }
+    }
+    g->chunk_count = count;
+}
+
+
+GLuint gen_player_buffer(float x, float y, float z, float rx, float ry) {
+    GLfloat *data = malloc_faces(10, 6);
+    make_player(data, x, y, z, rx, ry);
+    return gen_faces(10, 6, data);
+}
+
+void update_player(Player *player,
+                   float x, float y, float z, float rx, float ry, int interpolate) {
+    if (interpolate) {
+        State *s1 = &player->state1;
+        State *s2 = &player->state2;
+        memcpy(s1, s2, sizeof(State));
+        s2->x = x;
+        s2->y = y;
+        s2->z = z;
+        s2->rx = rx;
+        s2->ry = ry;
+        s2->t = get_time();
+        if (s2->rx - s1->rx > PI) {
+            s1->rx += 2 * PI;
+        }
+        if (s1->rx - s2->rx > PI) {
+            s1->rx -= 2 * PI;
+        }
+    } else {
+        State *s = &player->state;
+        s->x = x;
+        s->y = y;
+        s->z = z;
+        s->rx = rx;
+        s->ry = ry;
+        del_buffer(player->buffer);
+        player->buffer = gen_player_buffer(s->x, s->y, s->z, s->rx, s->ry);
+    }
+}
+
+void interpolate_player(Player *player) {
+    State *s1 = &player->state1;
+    State *s2 = &player->state2;
+    float t1 = s2->t - s1->t;
+    float t2 = get_time() - s2->t;
+    t1 = MIN(t1, 1);
+    t1 = MAX(t1, 0.1);
+    float p = MIN(t2 / t1, 1);
+    update_player(
+            player,
+            s1->x + (s2->x - s1->x) * p,
+            s1->y + (s2->y - s1->y) * p,
+            s1->z + (s2->z - s1->z) * p,
+            s1->rx + (s2->rx - s1->rx) * p,
+            s1->ry + (s2->ry - s1->ry) * p,
+            0);
 }
 
 const std::string &CraftPlugin::getName() const {
@@ -1284,14 +1373,17 @@ void CraftPlugin::update() {
     db_commit();
 
     // PREPARE TO RENDER //
+    Player *me = g->players;
+    State *s = &g->players->state;
+
     g->observe1 = g->observe1 % g->player_count;
     g->observe2 = g->observe2 % g->player_count;
-//    delete_chunks();
-//    del_buffer(me->buffer);
-//    me->buffer = gen_player_buffer(s->x, s->y, s->z, s->rx, s->ry);
-//    for (int i = 1; i < g->player_count; i++) {
-//        interpolate_player(g->players + i);
-//    }
+    delete_chunks();
+    del_buffer(me->buffer);
+    me->buffer = gen_player_buffer(s->x, s->y, s->z, s->rx, s->ry);
+    for (int i = 1; i < g->player_count; i++) {
+        interpolate_player(g->players + i);
+    }
 }
 
 void CraftPlugin::render() {
