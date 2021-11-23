@@ -1,6 +1,6 @@
 
 FILE(GLOB SOURCE_FILES *.cpp lib/*.cpp)
-add_executable(craft ${SOURCE_FILES})
+add_executable(craft ${SOURCE_FILES} CraftPlugin.cpp CraftPlugin.h)
 
 find_package(CURL CONFIG REQUIRED)
 target_link_libraries(craft PRIVATE CURL::libcurl)
