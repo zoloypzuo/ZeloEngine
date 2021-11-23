@@ -709,13 +709,99 @@ void init_chunk(Chunk *chunk, int p, int q) {
     map_alloc(light_map, dx, dy, dz, 0xf);
 }
 
+int _gen_sign_buffer(
+        GLfloat *data, float x, float y, float z, int face, const char *text) {
+    static const int glyph_dx[8] = {0, 0, -1, 1, 1, 0, -1, 0};
+    static const int glyph_dz[8] = {1, -1, 0, 0, 0, -1, 0, 1};
+    static const int line_dx[8] = {0, 0, 0, 0, 0, 1, 0, -1};
+    static const int line_dy[8] = {-1, -1, -1, -1, 0, 0, 0, 0};
+    static const int line_dz[8] = {0, 0, 0, 0, 1, 0, -1, 0};
+    if (face < 0 || face >= 8) {
+        return 0;
+    }
+    int count = 0;
+    float max_width = 64;
+    float line_height = 1.25;
+    char lines[1024];
+    int rows = wrap(text, max_width, lines, 1024);
+    rows = MIN(rows, 5);
+    int dx = glyph_dx[face];
+    int dz = glyph_dz[face];
+    int ldx = line_dx[face];
+    int ldy = line_dy[face];
+    int ldz = line_dz[face];
+    float n = 1.0 / (max_width / 10);
+    float sx = x - n * (rows - 1) * (line_height / 2) * ldx;
+    float sy = y - n * (rows - 1) * (line_height / 2) * ldy;
+    float sz = z - n * (rows - 1) * (line_height / 2) * ldz;
+    char *key;
+    char *line = tokenize(lines, "\n", &key);
+    while (line) {
+        int length = strlen(line);
+        int line_width = string_width(line);
+        line_width = MIN(line_width, max_width);
+        float rx = sx - dx * line_width / max_width / 2;
+        float ry = sy;
+        float rz = sz - dz * line_width / max_width / 2;
+        for (int i = 0; i < length; i++) {
+            int width = char_width(line[i]);
+            line_width -= width;
+            if (line_width < 0) {
+                break;
+            }
+            rx += dx * width / max_width / 2;
+            rz += dz * width / max_width / 2;
+            if (line[i] != ' ') {
+                make_character_3d(
+                        data + count * 30, rx, ry, rz, n / 2, face, line[i]);
+                count++;
+            }
+            rx += dx * width / max_width / 2;
+            rz += dz * width / max_width / 2;
+        }
+        sx += n * line_height * ldx;
+        sy += n * line_height * ldy;
+        sz += n * line_height * ldz;
+        line = tokenize(NULL, "\n", &key);
+        rows--;
+        if (rows <= 0) {
+            break;
+        }
+    }
+    return count;
+}
+
+void gen_sign_buffer(Chunk *chunk) {
+    SignList *signs = &chunk->signs;
+
+    // first pass - count characters
+    int max_faces = 0;
+    for (int i = 0; i < signs->size; i++) {
+        Sign *e = signs->data + i;
+        max_faces += strlen(e->text);
+    }
+
+    // second pass - generate geometry
+    GLfloat *data = malloc_faces(5, max_faces);
+    int faces = 0;
+    for (int i = 0; i < signs->size; i++) {
+        Sign *e = signs->data + i;
+        faces += _gen_sign_buffer(
+                data + faces * 30, e->x, e->y, e->z, e->face, e->text);
+    }
+
+    del_buffer(chunk->sign_buffer);
+    chunk->sign_buffer = gen_faces(5, faces, data);
+    chunk->sign_faces = faces;
+}
+
 void generate_chunk(Chunk *chunk, WorkerItem *item) {
     chunk->miny = item->miny;
     chunk->maxy = item->maxy;
     chunk->faces = item->faces;
     del_buffer(chunk->buffer);
     chunk->buffer = gen_faces(10, item->faces, item->data);
-//    gen_sign_buffer(chunk); ??TODO
+    gen_sign_buffer(chunk);
 }
 
 void check_workers() {
@@ -953,6 +1039,26 @@ void draw_triangles_3d_ao(Attrib *attrib, GLuint buffer, int count) {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
+int highest_block(float x, float z) {
+    int result = -1;
+    int nx = roundf(x);
+    int nz = roundf(z);
+    int p = chunked(x);
+    int q = chunked(z);
+    Chunk *chunk = find_chunk(p, q);
+    if (chunk) {
+        Map *map = &chunk->map;
+        MAP_FOR_EACH(map, ex, ey, ez, ew)
+            {
+                if (is_obstacle(ew) && ex == nx && ez == nz) {
+                    result = MAX(result, ey);
+                }
+            }
+        END_MAP_FOR_EACH;
+    }
+    return result;
+}
+
 void draw_chunk(Attrib *attrib, Chunk *chunk) {
     draw_triangles_3d_ao(attrib, chunk->buffer, chunk->faces * 6);
 }
@@ -967,6 +1073,27 @@ void draw_cube(Attrib *attrib, GLuint buffer) {
 
 void draw_player(Attrib *attrib, Player *player) {
     draw_cube(attrib, player->buffer);
+}
+
+
+void delete_all_chunks() {
+    for (int i = 0; i < g->chunk_count; i++) {
+        Chunk *chunk = g->chunks + i;
+        map_free(&chunk->map);
+        map_free(&chunk->lights);
+        sign_list_free(&chunk->signs);
+        del_buffer(chunk->buffer);
+        del_buffer(chunk->sign_buffer);
+    }
+    g->chunk_count = 0;
+}
+
+void delete_all_players() {
+    for (int i = 0; i < g->player_count; i++) {
+        Player *player = g->players + i;
+        del_buffer(player->buffer);
+    }
+    g->player_count = 0;
 }
 
 const std::string &CraftPlugin::getName() const {
@@ -1102,7 +1229,6 @@ void CraftPlugin::initialize() {
     memset(g->messages, 0, sizeof(char) * MAX_MESSAGES * MAX_TEXT_LENGTH);
     g->message_index = 0;
     g->day_length = DAY_LENGTH;
-//    glfwSetTime(g->day_length / 3.0); TODO
     g->time_changed = 1;
 
     sky_buffer = gen_sky_buffer();
@@ -1116,9 +1242,9 @@ void CraftPlugin::initialize() {
 
     // LOAD STATE FROM DATABASE //
     int loaded = db_load_state(&s->x, &s->y, &s->z, &s->rx, &s->ry);
-//    force_chunks(me); TODO
+    force_chunks(me);
     if (!loaded) {
-//        s->y = highest_block(s->x, s->z) + 2; TODO
+        s->y = highest_block(s->x, s->z) + 2;
     }
 
     // CHECK COMMAND LINE ARGUMENTS //
@@ -1137,9 +1263,9 @@ void CraftPlugin::uninstall() {
     db_save_state(s->x, s->y, s->z, s->rx, s->ry);
     db_close();
     db_disable();
-//    del_buffer(sky_buffer);
-//    delete_all_chunks();
-//    delete_all_players();
+    del_buffer(sky_buffer);
+    delete_all_chunks();
+    delete_all_players();
 }
 
 void CraftPlugin::update() {

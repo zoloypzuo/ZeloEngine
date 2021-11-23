@@ -301,13 +301,6 @@ void delete_player(int id) {
     g->player_count = count;
 }
 
-void delete_all_players() {
-    for (int i = 0; i < g->player_count; i++) {
-        Player *player = g->players + i;
-        del_buffer(player->buffer);
-    }
-    g->player_count = 0;
-}
 
 float player_player_distance(Player *p1, Player *p2) {
     State *s1 = &p1->state;
@@ -542,139 +535,6 @@ int player_intersects_block(
         }
     }
     return 0;
-}
-
-int _gen_sign_buffer(
-        GLfloat *data, float x, float y, float z, int face, const char *text) {
-    static const int glyph_dx[8] = {0, 0, -1, 1, 1, 0, -1, 0};
-    static const int glyph_dz[8] = {1, -1, 0, 0, 0, -1, 0, 1};
-    static const int line_dx[8] = {0, 0, 0, 0, 0, 1, 0, -1};
-    static const int line_dy[8] = {-1, -1, -1, -1, 0, 0, 0, 0};
-    static const int line_dz[8] = {0, 0, 0, 0, 1, 0, -1, 0};
-    if (face < 0 || face >= 8) {
-        return 0;
-    }
-    int count = 0;
-    float max_width = 64;
-    float line_height = 1.25;
-    char lines[1024];
-    int rows = wrap(text, max_width, lines, 1024);
-    rows = MIN(rows, 5);
-    int dx = glyph_dx[face];
-    int dz = glyph_dz[face];
-    int ldx = line_dx[face];
-    int ldy = line_dy[face];
-    int ldz = line_dz[face];
-    float n = 1.0 / (max_width / 10);
-    float sx = x - n * (rows - 1) * (line_height / 2) * ldx;
-    float sy = y - n * (rows - 1) * (line_height / 2) * ldy;
-    float sz = z - n * (rows - 1) * (line_height / 2) * ldz;
-    char *key;
-    char *line = tokenize(lines, "\n", &key);
-    while (line) {
-        int length = strlen(line);
-        int line_width = string_width(line);
-        line_width = MIN(line_width, max_width);
-        float rx = sx - dx * line_width / max_width / 2;
-        float ry = sy;
-        float rz = sz - dz * line_width / max_width / 2;
-        for (int i = 0; i < length; i++) {
-            int width = char_width(line[i]);
-            line_width -= width;
-            if (line_width < 0) {
-                break;
-            }
-            rx += dx * width / max_width / 2;
-            rz += dz * width / max_width / 2;
-            if (line[i] != ' ') {
-                make_character_3d(
-                        data + count * 30, rx, ry, rz, n / 2, face, line[i]);
-                count++;
-            }
-            rx += dx * width / max_width / 2;
-            rz += dz * width / max_width / 2;
-        }
-        sx += n * line_height * ldx;
-        sy += n * line_height * ldy;
-        sz += n * line_height * ldz;
-        line = tokenize(NULL, "\n", &key);
-        rows--;
-        if (rows <= 0) {
-            break;
-        }
-    }
-    return count;
-}
-
-void gen_sign_buffer(Chunk *chunk) {
-    SignList *signs = &chunk->signs;
-
-    // first pass - count characters
-    int max_faces = 0;
-    for (int i = 0; i < signs->size; i++) {
-        Sign *e = signs->data + i;
-        max_faces += strlen(e->text);
-    }
-
-    // second pass - generate geometry
-    GLfloat *data = malloc_faces(5, max_faces);
-    int faces = 0;
-    for (int i = 0; i < signs->size; i++) {
-        Sign *e = signs->data + i;
-        faces += _gen_sign_buffer(
-                data + faces * 30, e->x, e->y, e->z, e->face, e->text);
-    }
-
-    del_buffer(chunk->sign_buffer);
-    chunk->sign_buffer = gen_faces(5, faces, data);
-    chunk->sign_faces = faces;
-}
-
-
-
-
-
-void occlusion(
-        char neighbors[27], char lights[27], float shades[27],
-        float ao[6][4], float light[6][4]) {
-    static const int lookup3[6][4][3] = {
-            {{0,  1,  3},  {2,  1,  5},  {6,  3,  7},  {8,  5,  7}},
-            {{18, 19, 21}, {20, 19, 23}, {24, 21, 25}, {26, 23, 25}},
-            {{6,  7,  15}, {8,  7,  17}, {24, 15, 25}, {26, 17, 25}},
-            {{0,  1,  9},  {2,  1,  11}, {18, 9,  19}, {20, 11, 19}},
-            {{0,  3,  9},  {6,  3,  15}, {18, 9,  21}, {24, 15, 21}},
-            {{2,  5,  11}, {8,  5,  17}, {20, 11, 23}, {26, 17, 23}}
-    };
-    static const int lookup4[6][4][4] = {
-            {{0,  1,  3,  4},  {1,  2,  4,  5},  {3,  4,  6,  7},  {4,  5,  7,  8}},
-            {{18, 19, 21, 22}, {19, 20, 22, 23}, {21, 22, 24, 25}, {22, 23, 25, 26}},
-            {{6,  7,  15, 16}, {7,  8,  16, 17}, {15, 16, 24, 25}, {16, 17, 25, 26}},
-            {{0,  1,  9,  10}, {1,  2,  10, 11}, {9,  10, 18, 19}, {10, 11, 19, 20}},
-            {{0,  3,  9,  12}, {3,  6,  12, 15}, {9,  12, 18, 21}, {12, 15, 21, 24}},
-            {{2,  5,  11, 14}, {5,  8,  14, 17}, {11, 14, 20, 23}, {14, 17, 23, 26}}
-    };
-    static const float curve[4] = {0.0, 0.25, 0.5, 0.75};
-    for (int i = 0; i < 6; i++) {
-        for (int j = 0; j < 4; j++) {
-            int corner = neighbors[lookup3[i][j][0]];
-            int side1 = neighbors[lookup3[i][j][1]];
-            int side2 = neighbors[lookup3[i][j][2]];
-            int value = side1 && side2 ? 3 : corner + side1 + side2;
-            float shade_sum = 0;
-            float light_sum = 0;
-            int is_light = lights[13] == 15;
-            for (int k = 0; k < 4; k++) {
-                shade_sum += shades[lookup4[i][j][k]];
-                light_sum += lights[lookup4[i][j][k]];
-            }
-            if (is_light) {
-                light_sum = 15 * 4 * 10;
-            }
-            float total = curve[value] + shade_sum / 4.0;
-            ao[i][j] = MIN(total, 1.0);
-            light[i][j] = light_sum / 15.0 / 4.0;
-        }
-    }
 }
 
 #define XZ_SIZE (CHUNK_SIZE * 3 + 2)
@@ -926,19 +786,6 @@ void delete_chunks() {
     }
     g->chunk_count = count;
 }
-
-void delete_all_chunks() {
-    for (int i = 0; i < g->chunk_count; i++) {
-        Chunk *chunk = g->chunks + i;
-        map_free(&chunk->map);
-        map_free(&chunk->lights);
-        sign_list_free(&chunk->signs);
-        del_buffer(chunk->buffer);
-        del_buffer(chunk->sign_buffer);
-    }
-    g->chunk_count = 0;
-}
-
 
 
 
