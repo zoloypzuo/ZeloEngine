@@ -4,6 +4,8 @@
 #include "ZeloPreCompiledHeader.h"
 #include "CraftPlugin.h"
 
+#include "Core/OS/Time.h"
+
 #include <cmath>
 #include <cstdio>
 #include <cstdlib>
@@ -126,7 +128,6 @@ typedef struct {
 } Attrib;
 
 typedef struct {
-    GLFWwindow *window;
     Worker workers[WORKERS];
     Chunk chunks[MAX_CHUNKS];
     int chunk_count;
@@ -575,7 +576,7 @@ float time_of_day() {
         return 0.5;
     }
     float t;
-    t = glfwGetTime();
+    t = Zelo::Core::OS::Time::getSingletonPtr()->getTotalTime();
     t = t / g->day_length;
     t = t - (int) t;
     return t;
@@ -924,9 +925,9 @@ void draw_triangles_3d(Attrib *attrib, GLuint buffer, int count) {
     glVertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 8, 0);
     glVertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, (GLvoid * )(sizeof(GLfloat) * 3));
+                          sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 3));
     glVertexAttribPointer(attrib->uv, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, (GLvoid * )(sizeof(GLfloat) * 6));
+                          sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 6));
     glDrawArrays(GL_TRIANGLES, 0, count);
     glDisableVertexAttribArray(attrib->position);
     glDisableVertexAttribArray(attrib->normal);
@@ -973,7 +974,9 @@ const std::string &CraftPlugin::getName() const {
     return s;
 }
 
-void CraftPlugin::install() {
+void CraftPlugin::install() {}
+
+void CraftPlugin::initialize() {
     // INITIALIZATION //
     srand(time(NULL));
     rand();
@@ -1099,7 +1102,7 @@ void CraftPlugin::install() {
     memset(g->messages, 0, sizeof(char) * MAX_MESSAGES * MAX_TEXT_LENGTH);
     g->message_index = 0;
     g->day_length = DAY_LENGTH;
-    glfwSetTime(g->day_length / 3.0);
+//    glfwSetTime(g->day_length / 3.0); TODO
     g->time_changed = 1;
 
     sky_buffer = gen_sky_buffer();

@@ -1,8 +1,7 @@
 #ifndef _util_h_
 #define _util_h_
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
+#include "ZeloGLPrerequisites.h"
 #include "config.h"
 
 #define PI 3.14159265359
@@ -19,17 +18,9 @@
 #define LOG(...)
 #endif
 
-typedef struct {
-    unsigned int fps;
-    unsigned int frames;
-    double since;
-} FPS;
-
 int rand_int(int n);
 
 double rand_double();
-
-void update_fps(FPS *fps);
 
 GLuint gen_buffer(GLsizei size, GLfloat *data);
 

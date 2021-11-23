@@ -14,5 +14,7 @@ public:
 
     void uninstall() override;
 
+    void initialize() override;
+
     void update() override;
 };
