@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "auth.h"
 #include "config.h"
 #include "cube.h"
 #include "db.h"
