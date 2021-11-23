@@ -2204,26 +2204,19 @@ int main(int argc, char **argv) {
 //        return -1;
 //    }
 
-    glEnable(GL_CULL_FACE);
-    glEnable(GL_DEPTH_TEST);
-    glLogicOp(GL_INVERT);
-    glClearColor(0, 0, 0, 1);
+//    glEnable(GL_CULL_FACE);
+//    glEnable(GL_DEPTH_TEST);
+//    glLogicOp(GL_INVERT);
+//    glClearColor(0, 0, 0, 1);
 
-    // LOAD SHADERS //
-    Attrib block_attrib = {0};
-    Attrib line_attrib = {0};
-    Attrib text_attrib = {0};
-    Attrib sky_attrib = {0};
-    GLuint program;
+//    // CHECK COMMAND LINE ARGUMENTS //
+//    g->mode = MODE_OFFLINE;
+//    snprintf(g->db_path, MAX_PATH_LENGTH, "%s", DB_PATH);
 
-    // CHECK COMMAND LINE ARGUMENTS //
-    g->mode = MODE_OFFLINE;
-    snprintf(g->db_path, MAX_PATH_LENGTH, "%s", DB_PATH);
-
-    g->create_radius = CREATE_CHUNK_RADIUS;
-    g->render_radius = RENDER_CHUNK_RADIUS;
-    g->delete_radius = DELETE_CHUNK_RADIUS;
-    g->sign_radius = RENDER_SIGN_RADIUS;
+//    g->create_radius = CREATE_CHUNK_RADIUS;
+//    g->render_radius = RENDER_CHUNK_RADIUS;
+//    g->delete_radius = DELETE_CHUNK_RADIUS;
+//    g->sign_radius = RENDER_SIGN_RADIUS;
 
 //    // INITIALIZE WORKER THREADS
 //    for (int i = 0; i < WORKERS; i++) {

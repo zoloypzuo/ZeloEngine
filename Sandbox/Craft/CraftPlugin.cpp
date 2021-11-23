@@ -229,6 +229,14 @@ void CraftPlugin::install() {
 //        s->y = highest_block(s->x, s->z) + 2; TODO
     }
 
+    // CHECK COMMAND LINE ARGUMENTS //
+    g->mode = MODE_OFFLINE;
+    snprintf(g->db_path, MAX_PATH_LENGTH, "%s", DB_PATH);
+
+    g->create_radius = CREATE_CHUNK_RADIUS;
+    g->render_radius = RENDER_CHUNK_RADIUS;
+    g->delete_radius = DELETE_CHUNK_RADIUS;
+    g->sign_radius = RENDER_SIGN_RADIUS;
 }
 
 void CraftPlugin::shutdown() {
