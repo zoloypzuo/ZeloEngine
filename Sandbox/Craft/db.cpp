@@ -4,6 +4,9 @@
 #include "sqlite3.h"
 #include "lib/tinycthread.h"
 
+#include "map.h"
+#include "sign.h"
+
 static int db_enabled = 0;
 
 static sqlite3 *db;

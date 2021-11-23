@@ -1,8 +1,8 @@
 #ifndef _db_h_
 #define _db_h_
 
-#include "map.h"
-#include "sign.h"
+struct Map;
+struct SignList;
 
 void db_enable();
 

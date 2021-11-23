@@ -26,14 +26,14 @@ typedef union {
     } e;
 } MapEntry;
 
-typedef struct {
+struct Map {
     int dx;
     int dy;
     int dz;
     unsigned int mask;
     unsigned int size;
     MapEntry *data;
-} Map;
+};
 
 void map_alloc(Map *map, int dx, int dy, int dz, int mask);
 

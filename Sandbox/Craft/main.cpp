@@ -1,10 +1,10 @@
-#include <GL/glew.h>
+#include <gl/glew.h>
 #include <GLFW/glfw3.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <cmath>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <ctime>
 #include "config.h"
 #include "cube.h"
 #include "db.h"

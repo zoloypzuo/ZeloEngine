@@ -3,19 +3,19 @@
 
 #define MAX_SIGN_LENGTH 64
 
-typedef struct {
+struct Sign {
     int x;
     int y;
     int z;
     int face;
     char text[MAX_SIGN_LENGTH];
-} Sign;
+};
 
-typedef struct {
+struct SignList {
     unsigned int capacity;
     unsigned int size;
     Sign *data;
-} SignList;
+};
 
 void sign_list_alloc(SignList *list, int capacity);
 
