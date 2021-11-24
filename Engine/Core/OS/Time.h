@@ -28,7 +28,12 @@ public:
 public:
     float getDeltaTime();
 
+    float getTotalTime();
+
+    void reset();
+
 private:
+    std::chrono::high_resolution_clock::time_point m_baseTime{};
     std::chrono::high_resolution_clock::time_point m_time{};
     std::chrono::high_resolution_clock::time_point m_lastTime{};
     std::chrono::microseconds m_deltaTime{};

@@ -64,6 +64,8 @@ public:
 
     void *getHwnd() const;
 
+    void registerEventHandler(std::function<void(SDL_Event *)> eventHandler);
+
 private:
     const INIReader::Section m_windowConfig;
 
@@ -81,6 +83,8 @@ private:
     bool m_vSync{};
 
     std::shared_ptr<spdlog::logger> m_logger{};
+
+    std::function<void(SDL_Event *event)> m_eventHandler;
 };
 
 #endif //ZELOENGINE_WINDOW_H

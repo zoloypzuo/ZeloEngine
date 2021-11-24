@@ -5,7 +5,6 @@
 #include "Window.h"
 #include "Core/Profiler/Profiler.h"
 
-#include <backends/imgui_impl_sdl.h>  // ImGui_ImplSDL2_ProcessEvent
 #include <SDL_syswm.h>
 
 Window::Window(const INIReader::Section &windowConfig) : m_windowConfig(windowConfig) {
@@ -47,7 +46,8 @@ void Window::initialize() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
 #else
-    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    // TODO SDL_GL_CONTEXT_PROFILE_CORE
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_COMPATIBILITY);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
 #endif
@@ -97,7 +97,9 @@ void Window::update() {
     bool mouseWheelEvent = false;
 
     while (SDL_PollEvent(&event)) {
-        ImGui_ImplSDL2_ProcessEvent(&event);
+        if (m_eventHandler) {
+            m_eventHandler(&event);
+        }
         switch (event.type) {
             case SDL_MOUSEMOTION:
                 m_input.setMouseDelta(event.motion.xrel, event.motion.yrel);
@@ -220,4 +222,8 @@ void *Window::getHwnd() const {
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(m_window, &wmInfo);
     return wmInfo.info.win.window;
+}
+
+void Window::registerEventHandler(std::function<void(SDL_Event *)> eventHandler) {
+    m_eventHandler = std::move(eventHandler);
 }

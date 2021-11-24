@@ -41,6 +41,9 @@ Shadow Map
 
 ![Snipaste_2021-10-21_00-41-23](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211021/Snipaste_2021-10-21_00-41-23.1ukj4tev8bgg.png)
 
+Craft
+![mc](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211124/mc.4lfwn87vrla0.gif)
+
 # 特性列表
 
 * Lua脚本

@@ -1,9 +1,11 @@
-// UIManager.cpp
+// ImGuiManager.cpp
 // created on 2021/8/16
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "UIManager.h"
+#include "ImGuiManager.h"
+
 #include "ZeloGLPrerequisites.h"
+#include "Core/Window/Window.h"
 
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -22,19 +24,22 @@
 
 using namespace Zelo::Core::UI;
 
-template<> UIManager *Singleton<UIManager>::msSingleton = nullptr;
+template<> ImGuiManager *Singleton<ImGuiManager>::msSingleton = nullptr;
 
-UIManager *UIManager::getSingletonPtr() {
+ImGuiManager *ImGuiManager::getSingletonPtr() {
     return msSingleton;
 }
 
-UIManager &UIManager::getSingleton() {
+ImGuiManager &ImGuiManager::getSingleton() {
     assert(msSingleton);
     return *msSingleton;
 }
 
-void UIManager::initialize() {
-    // SDL and OpenGL setup...
+void ImGuiManager::initialize() {
+    // ... SDL and OpenGL setup before imgui initialize
+
+    // register SDL input
+    Window::getSingletonPtr()->registerEventHandler(ImGui_ImplSDL2_ProcessEvent);
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -66,14 +71,14 @@ void UIManager::initialize() {
     ImGui_ImplOpenGL3_Init();
 }
 
-void UIManager::finalize() {
+void ImGuiManager::finalize() {
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
     ImGui_ImplSDL2_Shutdown();
     ImGui::DestroyContext();
 }
 
-void UIManager::update() {
+void ImGuiManager::update() {
     // Start the Dear ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplSDL2_NewFrame();
@@ -143,7 +148,7 @@ void UIManager::update() {
     // Script update logic here
 }
 
-void UIManager::draw() {
+void ImGuiManager::render() {
     ImGui::Render();
     ImGuiIO &io = ImGui::GetIO();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -159,7 +164,7 @@ void UIManager::draw() {
     }
 }
 
-void UIManager::ApplyStyle(UIManager::EStyle style) {
+void ImGuiManager::ApplyStyle(ImGuiManager::EStyle style) {
     ImGuiStyle *imStyle = &ImGui::GetStyle();
 
     switch (style) {
@@ -304,25 +309,25 @@ void UIManager::ApplyStyle(UIManager::EStyle style) {
     }
 }
 
-void UIManager::UseFont(Font &font) {
+void ImGuiManager::UseFont(Font &font) {
     ImGui::GetIO().FontDefault = font.getFont();
 }
 
-void UIManager::EnableDocking(bool value) {
+void ImGuiManager::EnableDocking(bool value) {
     if (value) { ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable; }
     else { ImGui::GetIO().ConfigFlags &= ~ImGuiConfigFlags_DockingEnable; }
 }
 
-bool UIManager::IsDockingEnabled() const {
+bool ImGuiManager::IsDockingEnabled() const {
     return ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable;
 }
 
-void UIManager::ResetLayout() const {
+void ImGuiManager::ResetLayout() const {
     Resource layoutConfig("Config/default_layout.ini");
     ImGui::LoadIniSettingsFromMemory(layoutConfig.read(), layoutConfig.getFileSize());
 }
 
-std::string UIManager::OpenFileDialog() {
+std::string ImGuiManager::OpenFileDialog() {
     void *window = Window::getSingletonPtr()->getHwnd();
     auto result = FileDialogs::OpenFile(L"All Files\0*.*\0\0", window);
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -330,7 +335,7 @@ std::string UIManager::OpenFileDialog() {
     return narrow;
 }
 
-std::string UIManager::SaveFileDialog() {
+std::string ImGuiManager::SaveFileDialog() {
     void *window = Window::getSingletonPtr()->getHwnd();
     auto result = FileDialogs::SaveFile(L"All Files\0*.*\0\0", window);
     std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -338,7 +343,16 @@ std::string UIManager::SaveFileDialog() {
     return narrow;
 }
 
-void UIManager::MessageBox(int type, const std::string &title, const std::string &message) {
+void ImGuiManager::MessageBox(int type, const std::string &title, const std::string &message) {
     auto flags = static_cast<uint32_t>(type);
     SDL_ShowSimpleMessageBox(flags, title.c_str(), message.c_str(), Window::getSingletonPtr()->getSDLWindow());
 }
+
+const std::string &ImGuiManager::getName() const {
+    static std::string s("ImGuiManager");
+    return s;
+}
+
+void ImGuiManager::install() {}
+
+void ImGuiManager::uninstall() {}

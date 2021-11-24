@@ -2,5 +2,5 @@
 # author @zoloypzuo
 add_library(UI
         Resource/Font.cpp Resource/Font.h
-        UIManager.cpp UIManager.h
+        ImGuiManager.cpp ImGuiManager.h
         )

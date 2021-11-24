@@ -40,6 +40,8 @@ public:
 public:
     std::shared_ptr<ECS::Entity> getRootNode();
 
+    void clear();
+
     const FastAccessComponents &getFastAccessComponents() const;
 
     Camera *getActiveCamera() const;
@@ -59,7 +61,7 @@ private:
     void onComponentRemoved(ECS::Component &component);
 
 private:
-    std::shared_ptr<ECS::Entity> rootScene{};
+    std::shared_ptr<ECS::Entity> m_rootScene{};
     GUID_t m_entityGuidCounter{};
 
     FastAccessComponents m_fastAccessComponents;

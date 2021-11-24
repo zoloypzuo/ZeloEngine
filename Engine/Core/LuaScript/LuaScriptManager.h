@@ -32,6 +32,10 @@ public:
 public:
     void callLuaInitializeFn();
 
+    void callLuaPluginInitializeFn(Plugin *plugin);
+
+    void callLuaPluginUpdateFn(Plugin *plugin);
+
     void doString(const std::string &luaCode);
 
     void doFile(const std::string &luaFile);

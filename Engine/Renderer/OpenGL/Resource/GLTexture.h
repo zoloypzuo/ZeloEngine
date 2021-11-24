@@ -7,7 +7,7 @@
 #include "ZeloGLPrerequisites.h"
 
 #include "Core/RHI/Resource/Texture.h"
-#include "Core/RHI/Const/ETextureFilteringMode.h"
+#include "Core/RHI/Const/ETextureFilterMode.h"
 #include "Core/Resource/Resource.h"
 
 class TextureData {
@@ -23,13 +23,11 @@ public:
 private:
     GLuint m_textureId{};
 
-private:
-    void createTexture(const unsigned char *data, int width, int height, bool filter_nearest);
 };
 
 class GLTexture : public Zelo::Core::RHI::Texture {
 public:
-    explicit GLTexture(std::string texFilename);
+    explicit GLTexture(const std::string& texFilename);
 
     explicit GLTexture(const Zelo::Resource &file);
 
@@ -48,8 +46,8 @@ public:
     uint32_t width;
     uint32_t height;
     uint32_t bitsPerPixel;
-    Zelo::Core::RHI::ETextureFilteringMode firstFilter;
-    Zelo::Core::RHI::ETextureFilteringMode secondFilter;
+    Zelo::Core::RHI::ETextureFilterMode firstFilter;
+    Zelo::Core::RHI::ETextureFilterMode secondFilter;
     bool isMimapped;
 };
 

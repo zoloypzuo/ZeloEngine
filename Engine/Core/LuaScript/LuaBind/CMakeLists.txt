@@ -1,7 +1,6 @@
 # created on 2021/7/31
 # author @zoloypzuo
 
-link_libraries(GLSLBook)  # TODO
 add_library(LuaBind
         LuaBind.cpp
         Core/LuaBind_Global.cpp
@@ -11,4 +10,9 @@ add_library(LuaBind
         Core/UI/LuaBind_ImGui.cpp
 
         ScriptLib/BitOp.cpp
+        )
+
+target_link_libraries(LuaBind PRIVATE
+        GLSLBook
+        Craft
         )

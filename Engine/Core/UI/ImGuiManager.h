@@ -1,18 +1,17 @@
-// UIManager.h
+// ImGuiManager.h
 // created on 2021/8/16
 // author @zoloypzuo
 #pragma once
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "Core/Interface/IDrawable.h"
 #include "Core/UI/Resource/Font.h"
+#include "Core/Plugin/Plugin.h"
 
 namespace Zelo::Core::UI {
-class UIManager :
-        public Singleton<UIManager>,
-        public IRuntimeModule,
-        public IDrawable {
+class ImGuiManager :
+        public Singleton<ImGuiManager>,
+        public Plugin {
 public:
     enum class EStyle {
         IM_CLASSIC_STYLE,
@@ -21,9 +20,15 @@ public:
         DUNE_DARK, ALTERNATIVE_DARK
     };
 public:
-    UIManager() = default;
+    ImGuiManager() = default;
 
-    ~UIManager() override = default;
+    ~ImGuiManager() override = default;
+
+    const std::string &getName() const override;
+
+    void install () override;
+
+    void uninstall() override;
 
     void initialize() override;
 
@@ -32,12 +37,12 @@ public:
     void update() override;
 
 public:
-    static UIManager *getSingletonPtr();
+    static ImGuiManager *getSingletonPtr();
 
-    static UIManager &getSingleton();
+    static ImGuiManager &getSingleton();
 
 public:
-    void draw() override;
+    void render() override;
 
     ZELO_SCRIPT_API void ApplyStyle(EStyle style);
 

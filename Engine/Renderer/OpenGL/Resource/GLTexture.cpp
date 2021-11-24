@@ -9,23 +9,18 @@
 #include <stb_image.h>
 
 TextureData::TextureData(const unsigned char *data, int width, int height, bool filter_nearest) {
-    createTexture(data, width, height, filter_nearest);
-}
-
-TextureData::~TextureData() {
-    glDeleteTextures(1, &m_textureId);
-}
-
-void TextureData::createTexture(const unsigned char *data, int width, int height, bool filter_nearest) {
-
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter_nearest ? GL_NEAREST : GL_LINEAR);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter_nearest ? GL_NEAREST : GL_LINEAR);
     // TODO: RE-ENABLE THIS!!
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    // glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+ glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+}
+
+TextureData::~TextureData() {
+    glDeleteTextures(1, &m_textureId);
 }
 
 void TextureData::bind(unsigned int unit) const {
@@ -37,7 +32,8 @@ uint32_t TextureData::getHandle() const { return m_textureId; }
 
 std::map<std::string, std::weak_ptr<TextureData>> m_textureCache;
 
-GLTexture::GLTexture(std::string texFilename) : GLTexture(Zelo::Resource(texFilename)) {
+GLTexture::GLTexture(const std::string &texFilename) :
+        GLTexture(Zelo::Resource(texFilename)) {
 
 }
 

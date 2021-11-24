@@ -6,4 +6,5 @@ return {
     "Resource/EngineAssets";
     "Resource/GameAIAssets";
     "Resource/GLSLBookAssets";
+    "Resource/CraftAssets";
 }

@@ -1,11 +1,11 @@
-// ERenderingCapability.h
+// ERenderCapability.h
 // created on 2021/8/1
 // author @zoloypzuo
 #pragma once
 
 namespace Zelo::Core::RHI {
 // glEnable, glDisable
-enum class ERenderingCapability {
+enum class ERenderCapability {
     BLEND = 0x0BE2,
     CULL_FACE = 0x0B44,
     DEPTH_TEST = 0x0B71,

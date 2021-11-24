@@ -47,29 +47,27 @@ void Engine::initialize() {
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>(m_config->GetSection("Window"));
     m_window->initialize();
-    m_renderSystem = std::make_unique<GLRenderSystem>();
+    m_renderSystem = std::make_unique<GLRenderSystem>(m_config->GetSection("RenderSystem"));
     m_renderSystem->initialize();
-    m_uiManager = std::make_unique<UIManager>();
-    m_uiManager->initialize();
-    m_game = std::make_unique<SceneManager>();
-    m_game->initialize();
+    m_sceneManager = std::make_unique<SceneManager>();
+    m_sceneManager->initialize();
     m_luaScriptManager->callLuaInitializeFn();
 
     m_window->makeCurrentContext();
 
-    initialisePlugins();
-
     m_timeSystem = std::make_unique<Time>();
     m_timeSystem->initialize();
+
+    initializePlugins();
 
     m_isInitialised = true;
 }
 
 void Engine::finalize() {
+    finalizePlugins();
+
     m_timeSystem->finalize();
-    shutdownPlugins();
-    m_game->finalize();
-    m_uiManager->finalize();
+    m_sceneManager->finalize();
     m_renderSystem->finalize();
     m_window->finalize();
     m_luaScriptManager->finalize();
@@ -85,21 +83,18 @@ void Engine::update() {
         m_window->update();  // input poll events
     }
     {
-        OPTICK_CATEGORY("UpdateUI", Optick::Category::UI);
-        m_uiManager->update();
-    }
-    {
         OPTICK_CATEGORY("UpdateLogic", Optick::Category::GameLogic);
-        m_game->update();
+        m_sceneManager->update();
         m_luaScriptManager->update();
+        updatePlugins();
     }
     {
         OPTICK_CATEGORY("Draw", Optick::Category::Rendering);
         m_renderSystem->update();
     }
     {
-        OPTICK_CATEGORY("DrawUI", Optick::Category::GPU_UI);
-        m_uiManager->draw();
+        OPTICK_CATEGORY("DrawPlugins", Optick::Category::Rendering);
+        renderPlugins();
     }
     {
         OPTICK_CATEGORY("SwapBuffer", Optick::Category::Rendering);
@@ -175,15 +170,33 @@ void Engine::initConfig() {
     }
 }
 
-void Engine::initialisePlugins() {
+void Engine::initializePlugins() {
     for (auto &plugin: m_plugins) {
-        plugin->initialise();
+        plugin->initialize();
+    }
+    for (auto &plugin: m_plugins) {
+        m_luaScriptManager->callLuaPluginInitializeFn(plugin);
     }
 }
 
-void Engine::shutdownPlugins() {
-    for (auto &plugin:m_plugins) {
-        plugin->shutdown();
+void Engine::finalizePlugins() {
+    for (auto &plugin: m_plugins) {
+        plugin->finalize();
+    }
+}
+
+void Engine::updatePlugins() {
+    for (auto &plugin: m_plugins) {
+        plugin->update();
+    }
+    for (auto &plugin: m_plugins) {
+        m_luaScriptManager->callLuaPluginUpdateFn(plugin);
+    }
+}
+
+void Engine::renderPlugins() {
+    for (auto &plugin: m_plugins) {
+        plugin->render();
     }
 }
 
@@ -195,7 +208,7 @@ void Engine::installPlugin(Plugin *plugin) {
 
     // if rendersystem is already initialised, call rendersystem init too
     if (m_isInitialised) {
-        plugin->initialise();
+        plugin->initialize();
     }
 
     spdlog::debug("plugin installed successfully: {}", plugin->getName());
@@ -209,14 +222,13 @@ void Engine::uninstallPlugin(Plugin *plugin) {
             [&](auto &item) { return item->getName() == plugin->getName(); });
     if (i != m_plugins.end()) {
         if (m_isInitialised) {
-            plugin->shutdown();
+            plugin->finalize();
         }
         plugin->uninstall();
     }
 
     spdlog::debug("plugin uninstalled successfully: {}", plugin->getName());
 }
-
 
 //#include <rttr/registration>
 

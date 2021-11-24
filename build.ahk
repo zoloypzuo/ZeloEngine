@@ -1,18 +1,18 @@
 ^!b::  ; Ctrl+Alt+B
-Gui, Add, Button,, run_overload_bat
-Gui, Add, Button,, run_zelo_bat
+Gui, Add, Button,, Build\build_vs2019_bat
+Gui, Add, Button,, Runner\run_zelo_bat
 
 Gui, Show
 Return
 
 
-Buttonrun_overload_bat:
+ButtonBuild\build_vs2019_bat:
 Gui, Submit, NoHide
-    Run, Tools\Runner\run_overload.bat
+    Run, Tools\Build\build_vs2019.bat
 Return
 
 
-Buttonrun_zelo_bat:
+ButtonRunner\run_zelo_bat:
 Gui, Submit, NoHide
     Run, Tools\Runner\run_zelo.bat
 Return
