@@ -49,8 +49,6 @@ void Engine::initialize() {
     m_window->initialize();
     m_renderSystem = std::make_unique<GLRenderSystem>(m_config->GetSection("RenderSystem"));
     m_renderSystem->initialize();
-    m_uiManager = std::make_unique<ImGuiManager>();
-    m_uiManager->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
     m_luaScriptManager->callLuaInitializeFn();
@@ -69,7 +67,6 @@ void Engine::finalize() {
     m_timeSystem->finalize();
     finalizePlugins();
     m_sceneManager->finalize();
-    m_uiManager->finalize();
     m_renderSystem->finalize();
     m_window->finalize();
     m_luaScriptManager->finalize();
@@ -85,10 +82,6 @@ void Engine::update() {
         m_window->update();  // input poll events
     }
     {
-        OPTICK_CATEGORY("UpdateUI", Optick::Category::UI);
-        m_uiManager->update();
-    }
-    {
         OPTICK_CATEGORY("UpdateLogic", Optick::Category::GameLogic);
         m_sceneManager->update();
         m_luaScriptManager->update();
@@ -101,10 +94,6 @@ void Engine::update() {
     {
         OPTICK_CATEGORY("DrawPlugins", Optick::Category::Rendering);
         renderPlugins();
-    }
-    {
-        OPTICK_CATEGORY("DrawUI", Optick::Category::GPU_UI);
-        m_uiManager->draw();
     }
     {
         OPTICK_CATEGORY("SwapBuffer", Optick::Category::Rendering);
@@ -184,22 +173,28 @@ void Engine::initializePlugins() {
     for (auto &plugin: m_plugins) {
         plugin->initialize();
     }
+    for (auto &plugin: m_plugins) {
+        m_luaScriptManager->callLuaPluginInitializeFn(plugin);
+    }
 }
 
 void Engine::finalizePlugins() {
-    for (auto &plugin:m_plugins) {
+    for (auto &plugin: m_plugins) {
         plugin->finalize();
     }
 }
 
 void Engine::updatePlugins() {
-    for (auto &plugin:m_plugins) {
+    for (auto &plugin: m_plugins) {
         plugin->update();
+    }
+    for (auto &plugin: m_plugins) {
+        m_luaScriptManager->callLuaPluginUpdateFn(plugin);
     }
 }
 
 void Engine::renderPlugins() {
-    for (auto &plugin:m_plugins) {
+    for (auto &plugin: m_plugins) {
         plugin->render();
     }
 }

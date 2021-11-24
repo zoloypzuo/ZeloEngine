@@ -5,14 +5,13 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "Core/Interface/IDrawable.h"
 #include "Core/UI/Resource/Font.h"
+#include "Core/Plugin/Plugin.h"
 
 namespace Zelo::Core::UI {
 class ImGuiManager :
         public Singleton<ImGuiManager>,
-        public IRuntimeModule,
-        public IDrawable {
+        public Plugin {
 public:
     enum class EStyle {
         IM_CLASSIC_STYLE,
@@ -24,6 +23,12 @@ public:
     ImGuiManager() = default;
 
     ~ImGuiManager() override = default;
+
+    const std::string &getName() const override;
+
+    void install () override;
+
+    void uninstall() override;
 
     void initialize() override;
 
@@ -37,7 +42,7 @@ public:
     static ImGuiManager &getSingleton();
 
 public:
-    void draw() override;
+    void render() override;
 
     ZELO_SCRIPT_API void ApplyStyle(EStyle style);
 

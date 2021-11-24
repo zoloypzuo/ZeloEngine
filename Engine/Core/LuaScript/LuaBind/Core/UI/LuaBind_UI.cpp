@@ -8,12 +8,14 @@
 using namespace Zelo::Core::UI;
 
 void LuaBind_UI(sol::state &luaState) {
-
+// @formatter:off
 luaState.new_usertype<Font>("Font",
 sol::constructors<Font(const std::string&, float)>()
 );
 
 luaState.new_usertype<ImGuiManager>("ImGuiManager",
+sol::constructors<ImGuiManager()>(),
+sol::base_classes, sol::bases<Plugin>(),
 "GetSingletonPtr", &ImGuiManager::getSingletonPtr,
 "ApplyStyle", &ImGuiManager::ApplyStyle,
 "UseFont", &ImGuiManager::UseFont,
@@ -24,6 +26,5 @@ luaState.new_usertype<ImGuiManager>("ImGuiManager",
 "enable_docking", sol::property(&ImGuiManager::IsDockingEnabled, &ImGuiManager::EnableDocking),
 "__Dummy", []{}
 );
-
-// @formatter: on
+// @formatter:on
 }

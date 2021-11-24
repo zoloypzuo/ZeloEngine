@@ -4,6 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
+#include "Core/Plugin/Plugin.h"
 
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
@@ -76,7 +77,7 @@ void LuaScriptManager::luaPrint(sol::variadic_args va) {
 
     // " ".join(va)
     std::vector<std::string> va_string;
-    for (auto v : va) {
+    for (auto v: va) {
         va_string.push_back(v.as<std::string>());
     }
 
@@ -97,6 +98,22 @@ void LuaScriptManager::loadLuaMain() {
 
 void LuaScriptManager::callLuaInitializeFn() {
     luaCall("Initialize");
+}
+
+void LuaScriptManager::callLuaPluginInitializeFn(Plugin *plugin) {
+    auto klass = this->get<sol::table>(plugin->getName());
+    auto init = klass.get<sol::optional<sol::protected_function>>("Initialize");
+    if (init.has_value()) {
+        luaCall(init.value());
+    }
+}
+
+void LuaScriptManager::callLuaPluginUpdateFn(Plugin *plugin) {
+    auto klass = this->get<sol::table>(plugin->getName());
+    auto init = klass.get<sol::optional<sol::protected_function>>("Update");
+    if (init.has_value()) {
+        luaCall(init.value());
+    }
 }
 
 void LuaScriptManager::doString(const std::string &luaCode) {

@@ -143,7 +143,7 @@ void ImGuiManager::update() {
     // Script update logic here
 }
 
-void ImGuiManager::draw() {
+void ImGuiManager::render() {
     ImGui::Render();
     ImGuiIO &io = ImGui::GetIO();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
@@ -342,3 +342,12 @@ void ImGuiManager::MessageBox(int type, const std::string &title, const std::str
     auto flags = static_cast<uint32_t>(type);
     SDL_ShowSimpleMessageBox(flags, title.c_str(), message.c_str(), Window::getSingletonPtr()->getSDLWindow());
 }
+
+const std::string &ImGuiManager::getName() const {
+    static std::string s("ImGuiManager");
+    return s;
+}
+
+void ImGuiManager::install() {}
+
+void ImGuiManager::uninstall() {}

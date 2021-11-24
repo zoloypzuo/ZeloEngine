@@ -56,7 +56,6 @@ protected:
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
     std::unique_ptr<Core::Scene::SceneManager> m_sceneManager;
     std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem{};
-    std::unique_ptr<Core::UI::ImGuiManager> m_uiManager{};
 
     std::vector<Plugin *> m_plugins;
 
