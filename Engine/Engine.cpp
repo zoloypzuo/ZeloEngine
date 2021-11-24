@@ -49,7 +49,7 @@ void Engine::initialize() {
     m_window->initialize();
     m_renderSystem = std::make_unique<GLRenderSystem>(m_config->GetSection("RenderSystem"));
     m_renderSystem->initialize();
-    m_uiManager = std::make_unique<UIManager>();
+    m_uiManager = std::make_unique<ImGuiManager>();
     m_uiManager->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();

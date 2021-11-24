@@ -15,7 +15,7 @@
 * [x] ImGui Docking
 * [x] Style
 * [x] Font
-* [x] UIManager
+* [x] ImGuiManager
 * [x] ImGui控件，薄封装，脚本封装
 * [x] 向量类型转换 Converter
     * [x] Vector类型

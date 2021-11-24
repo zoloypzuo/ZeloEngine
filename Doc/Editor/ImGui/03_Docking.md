@@ -14,7 +14,7 @@ https://github.com/ocornut/imgui/issues/2109
 ### 启用Docking
 
 ```cpp
-UIManager.EnableDocking
+ImGuiManager.EnableDocking
 ```
 
 ### PanelWindow启动Docking

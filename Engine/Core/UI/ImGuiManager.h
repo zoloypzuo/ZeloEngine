@@ -1,4 +1,4 @@
-// UIManager.h
+// ImGuiManager.h
 // created on 2021/8/16
 // author @zoloypzuo
 #pragma once
@@ -9,8 +9,8 @@
 #include "Core/UI/Resource/Font.h"
 
 namespace Zelo::Core::UI {
-class UIManager :
-        public Singleton<UIManager>,
+class ImGuiManager :
+        public Singleton<ImGuiManager>,
         public IRuntimeModule,
         public IDrawable {
 public:
@@ -21,9 +21,9 @@ public:
         DUNE_DARK, ALTERNATIVE_DARK
     };
 public:
-    UIManager() = default;
+    ImGuiManager() = default;
 
-    ~UIManager() override = default;
+    ~ImGuiManager() override = default;
 
     void initialize() override;
 
@@ -32,9 +32,9 @@ public:
     void update() override;
 
 public:
-    static UIManager *getSingletonPtr();
+    static ImGuiManager *getSingletonPtr();
 
-    static UIManager &getSingleton();
+    static ImGuiManager &getSingleton();
 
 public:
     void draw() override;
