@@ -5,6 +5,7 @@
 #include "CraftPlugin.h"
 
 #include "Core/OS/Time.h"
+#include "Core/Window/Window.h"
 
 #include <cmath>
 #include <cstdio>
@@ -1176,7 +1177,6 @@ void CraftPlugin::initialize() {
     rand();
 
 //    glfwMakeContextCurrent(g->window);
-//    glfwSwapInterval(VSYNC);
 //    glfwSetInputMode(g->window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 //    glfwSetKeyCallback(g->window, on_key);
 //    glfwSetCharCallback(g->window, on_char);
@@ -1336,10 +1336,9 @@ void CraftPlugin::uninstall() {
 }
 
 void CraftPlugin::update() {
-//    // WINDOW SIZE AND SCALE //
-//    g->scale = get_scale_factor();
-//    glfwGetFramebufferSize(g->window, &g->width, &g->height);
-//    glViewport(0, 0, g->width, g->height);
+    // WINDOW SIZE AND SCALE //
+    g->scale = 1;
+    glViewport(0, 0, 1280, 720);
 
 //    // HANDLE MOUSE INPUT //
 //    handle_mouse_input();
