@@ -42,7 +42,7 @@ end)
 
 local plugins = {
     "CraftPlugin",
-    "ImGuiManager",
+    --"ImGuiManager",
 }
 
 global("PluginInstances")
