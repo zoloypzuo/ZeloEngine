@@ -7,6 +7,7 @@
 #include "Core/OS/Time.h"
 #include "Core/Window/Window.h"
 #include "Core/Scene/SceneManager.h"
+#include "Core/RHI/RenderSystem.h"
 
 #include <cmath>
 #include <cstdio>
@@ -1174,6 +1175,7 @@ void CraftPlugin::install() {}
 
 void CraftPlugin::initialize() {
     Zelo::Core::Scene::SceneManager::getSingletonPtr()->clear();
+    Zelo::Core::RHI::RenderSystem::getSingletonPtr()->resetRenderPipeline();
 
     // INITIALIZATION //
     srand(time(NULL));

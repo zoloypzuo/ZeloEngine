@@ -15,7 +15,7 @@ using namespace Zelo::Renderer::OpenGL;
 void GLRenderSystem::initialize() {
     ::loadGL();
 
-    if (m_config.GetBoolean("debug")){
+    if (m_config.GetBoolean("debug")) {
         ::initDebugCallback();
     }
 
@@ -36,11 +36,13 @@ void GLRenderSystem::initialize() {
 void GLRenderSystem::update() {
     const auto &sceneManager = SceneManager::getSingletonPtr();
 
-    m_renderPipeline->preRender();
+    if (m_renderPipeline) {  // pipeline can be null
+        m_renderPipeline->preRender();
 
-    if (sceneManager->getActiveCamera()) {
-        auto scene = sceneManager->getRootNode();
-        m_renderPipeline->render(*scene);
+        if (sceneManager->getActiveCamera()) {
+            auto scene = sceneManager->getRootNode();
+            m_renderPipeline->render(*scene);
+        }
     }
 }
 
