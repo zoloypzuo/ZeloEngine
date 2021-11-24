@@ -990,37 +990,37 @@ void ensure_chunks(Player *player) {
 
 void draw_triangles_3d(Attrib *attrib, GLuint buffer, int count) {
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glEnableVertexAttribArray(attrib->position);
-    glEnableVertexAttribArray(attrib->normal);
-    glEnableVertexAttribArray(attrib->uv);
-    glVertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
+    GL::EnableVertexAttribArray(attrib->position);
+    GL::EnableVertexAttribArray(attrib->normal);
+    GL::EnableVertexAttribArray(attrib->uv);
+    GL::VertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 8, 0);
-    glVertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
+    GL::VertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 3));
-    glVertexAttribPointer(attrib->uv, 2, GL_FLOAT, GL_FALSE,
+    GL::VertexAttribPointer(attrib->uv, 2, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 6));
     glDrawArrays(GL_TRIANGLES, 0, count);
-    glDisableVertexAttribArray(attrib->position);
-    glDisableVertexAttribArray(attrib->normal);
-    glDisableVertexAttribArray(attrib->uv);
+    GL::DisableVertexAttribArray(attrib->position);
+    GL::DisableVertexAttribArray(attrib->normal);
+    GL::DisableVertexAttribArray(attrib->uv);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
 void draw_triangles_3d_ao(Attrib *attrib, GLuint buffer, int count) {
     glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glEnableVertexAttribArray(attrib->position);
-    glEnableVertexAttribArray(attrib->normal);
-    glEnableVertexAttribArray(attrib->uv);
-    glVertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
+    GL::EnableVertexAttribArray(attrib->position);
+    GL::EnableVertexAttribArray(attrib->normal);
+    GL::EnableVertexAttribArray(attrib->uv);
+    GL::VertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 10, 0);
-    glVertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
+    GL::VertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 10, (GLvoid *) (sizeof(GLfloat) * 3));
-    glVertexAttribPointer(attrib->uv, 4, GL_FLOAT, GL_FALSE,
+    GL::VertexAttribPointer(attrib->uv, 4, GL_FLOAT, GL_FALSE,
                           sizeof(GLfloat) * 10, (GLvoid *) (sizeof(GLfloat) * 6));
     glDrawArrays(GL_TRIANGLES, 0, count);
-    glDisableVertexAttribArray(attrib->position);
-    glDisableVertexAttribArray(attrib->normal);
-    glDisableVertexAttribArray(attrib->uv);
+    GL::DisableVertexAttribArray(attrib->position);
+    GL::DisableVertexAttribArray(attrib->normal);
+    GL::DisableVertexAttribArray(attrib->uv);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
 }
 
