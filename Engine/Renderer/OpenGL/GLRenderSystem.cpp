@@ -14,7 +14,10 @@ using namespace Zelo::Renderer::OpenGL;
 
 void GLRenderSystem::initialize() {
     ::loadGL();
-    ::initDebugCallback();
+
+    if (m_config.GetBoolean("debug")){
+        ::initDebugCallback();
+    }
 
     m_renderPipeline = std::make_unique<ForwardPipeline>();
     m_renderPipeline->initialize();
@@ -41,7 +44,7 @@ void GLRenderSystem::update() {
     }
 }
 
-GLRenderSystem::GLRenderSystem() = default;
+GLRenderSystem::GLRenderSystem(const INIReader::Section &config) : m_config(config) {}
 
 GLRenderSystem::~GLRenderSystem() = default;
 

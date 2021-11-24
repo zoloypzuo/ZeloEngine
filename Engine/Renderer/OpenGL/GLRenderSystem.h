@@ -14,11 +14,12 @@
 #include "Core/RHI/RenderPipeline.h"
 #include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Object/Camera.h"
+#include "Core/Parser/IniReader.h"
 
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {
 public:
-    GLRenderSystem();
+    explicit GLRenderSystem(const INIReader::Section &config);
 
     ~GLRenderSystem() override;
 
@@ -31,6 +32,8 @@ public:
 private:
     int m_width{};
     int m_height{};
+
+    const INIReader::Section m_config;
 
 public: // RenderCommand
     void setViewport(int32_t x, int32_t y, int32_t width, int32_t height) override;
@@ -95,8 +98,6 @@ public: // RenderCommand
     uint8_t fetchGLState() override;
 
     void applyStateMask(uint8_t mask) override;
-
-private:
 };
 }
 #endif //ZELOENGINE_GLRENDERSYSTEM_H

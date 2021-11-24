@@ -47,7 +47,7 @@ void Engine::initialize() {
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>(m_config->GetSection("Window"));
     m_window->initialize();
-    m_renderSystem = std::make_unique<GLRenderSystem>();
+    m_renderSystem = std::make_unique<GLRenderSystem>(m_config->GetSection("RenderSystem"));
     m_renderSystem->initialize();
     m_uiManager = std::make_unique<UIManager>();
     m_uiManager->initialize();
