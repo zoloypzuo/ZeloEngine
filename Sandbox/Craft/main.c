@@ -1,40 +1,3 @@
-int chunked(float x) {
-    return floorf(roundf(x) / CHUNK_SIZE);
-}
-
-float time_of_day() {
-    if (g->day_length <= 0) {
-        return 0.5;
-    }
-    float t;
-    t = glfwGetTime();
-    t = t / g->day_length;
-    t = t - (int) t;
-    return t;
-}
-
-float get_daylight() {
-    float timer = time_of_day();
-    if (timer < 0.5) {
-        float t = (timer - 0.25) * 100;
-        return 1 / (1 + powf(2, -t));
-    } else {
-        float t = (timer - 0.85) * 100;
-        return 1 - 1 / (1 + powf(2, -t));
-    }
-}
-
-int get_scale_factor() {
-    int window_width, window_height;
-    int buffer_width, buffer_height;
-    glfwGetWindowSize(g->window, &window_width, &window_height);
-    glfwGetFramebufferSize(g->window, &buffer_width, &buffer_height);
-    int result = buffer_width / window_width;
-    result = MAX(1, result);
-    result = MIN(2, result);
-    return result;
-}
-
 void get_sight_vector(float rx, float ry, float *vx, float *vy, float *vz) {
     float m = cosf(ry);
     *vx = cosf(rx - RADIANS(90)) * m;
@@ -87,12 +50,6 @@ GLuint gen_crosshair_buffer() {
 GLuint gen_wireframe_buffer(float x, float y, float z, float n) {
     float data[72];
     make_cube_wireframe(data, x, y, z, n);
-    return gen_buffer(sizeof(data), data);
-}
-
-GLuint gen_sky_buffer() {
-    float data[12288];
-    make_sphere(data, 1, 3);
     return gen_buffer(sizeof(data), data);
 }
 
@@ -234,9 +191,6 @@ Player *find_player(int id) {
     }
     return 0;
 }
-
-
-
 
 
 void delete_player(int id) {
