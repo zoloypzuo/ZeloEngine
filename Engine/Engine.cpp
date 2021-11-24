@@ -55,17 +55,18 @@ void Engine::initialize() {
 
     m_window->makeCurrentContext();
 
-    initializePlugins();
-
     m_timeSystem = std::make_unique<Time>();
     m_timeSystem->initialize();
+
+    initializePlugins();
 
     m_isInitialised = true;
 }
 
 void Engine::finalize() {
-    m_timeSystem->finalize();
     finalizePlugins();
+
+    m_timeSystem->finalize();
     m_sceneManager->finalize();
     m_renderSystem->finalize();
     m_window->finalize();

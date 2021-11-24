@@ -560,6 +560,10 @@ float get_delta_time() {
     return Zelo::Core::OS::Time::getSingletonPtr()->getDeltaTime();
 }
 
+void reset_time() {
+    Zelo::Core::OS::Time::getSingletonPtr()->reset();
+}
+
 float time_of_day() {
     if (g->day_length <= 0) {
         return 0.5;
@@ -1300,7 +1304,6 @@ void CraftPlugin::initialize() {
     srand(time(NULL));
     rand();
 
-
     // LOAD TEXTURES //
     GLuint texture;
     glGenTextures(1, &texture);
@@ -1456,6 +1459,9 @@ void CraftPlugin::uninstall() {
 void CraftPlugin::update() {
     // WINDOW SIZE AND SCALE //
     g->scale = 1;
+    auto size = Window::getSingletonPtr()->getDrawableSize();
+    g->width = size.x;
+    g->height = size.y;
 
 //    // HANDLE MOUSE INPUT //
 //    handle_mouse_input();

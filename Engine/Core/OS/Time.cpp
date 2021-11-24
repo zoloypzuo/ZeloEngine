@@ -47,3 +47,7 @@ float Time::getDeltaTime() {
 float Time::getTotalTime() {
     return duration_cast<duration<float>>(duration_cast<seconds>(m_time - m_baseTime)).count();
 }
+
+void Time::reset() {
+    m_baseTime = high_resolution_clock::now();
+}
