@@ -4,6 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "CraftPlugin.h"
 
+#include "Core/Input/Input.h"
 #include "Core/OS/Time.h"
 #include "Core/Window/Window.h"
 #include "Core/Scene/SceneManager.h"
@@ -1002,11 +1003,11 @@ void draw_triangles_3d(Attrib *attrib, GLuint buffer, int count) {
     GL::EnableVertexAttribArray(attrib->normal);
     GL::EnableVertexAttribArray(attrib->uv);
     GL::VertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, 0);
+                            sizeof(GLfloat) * 8, 0);
     GL::VertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 3));
+                            sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 3));
     GL::VertexAttribPointer(attrib->uv, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 6));
+                            sizeof(GLfloat) * 8, (GLvoid *) (sizeof(GLfloat) * 6));
     glDrawArrays(GL_TRIANGLES, 0, count);
     GL::DisableVertexAttribArray(attrib->position);
     GL::DisableVertexAttribArray(attrib->normal);
@@ -1020,11 +1021,11 @@ void draw_triangles_3d_ao(Attrib *attrib, GLuint buffer, int count) {
     GL::EnableVertexAttribArray(attrib->normal);
     GL::EnableVertexAttribArray(attrib->uv);
     GL::VertexAttribPointer(attrib->position, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 10, 0);
+                            sizeof(GLfloat) * 10, 0);
     GL::VertexAttribPointer(attrib->normal, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 10, (GLvoid *) (sizeof(GLfloat) * 3));
+                            sizeof(GLfloat) * 10, (GLvoid *) (sizeof(GLfloat) * 3));
     GL::VertexAttribPointer(attrib->uv, 4, GL_FLOAT, GL_FALSE,
-                          sizeof(GLfloat) * 10, (GLvoid *) (sizeof(GLfloat) * 6));
+                            sizeof(GLfloat) * 10, (GLvoid *) (sizeof(GLfloat) * 6));
     glDrawArrays(GL_TRIANGLES, 0, count);
     GL::DisableVertexAttribArray(attrib->position);
     GL::DisableVertexAttribArray(attrib->normal);
@@ -1176,7 +1177,9 @@ void interpolate_player(Player *player) {
 
 void get_motion_vector(int flying, int sz, int sx, float rx, float ry,
                        float *vx, float *vy, float *vz) {
-    *vx = 0; *vy = 0; *vz = 0;
+    *vx = 0;
+    *vy = 0;
+    *vz = 0;
     if (!sz && !sx) {
         return;
     }
@@ -1196,8 +1199,7 @@ void get_motion_vector(int flying, int sz, int sx, float rx, float ry,
         *vx = cosf(rx + strafe) * m;
         *vy = y;
         *vz = sinf(rx + strafe) * m;
-    }
-    else {
+    } else {
         *vx = cosf(rx + strafe);
         *vy = 0;
         *vz = sinf(rx + strafe);
@@ -1246,6 +1248,7 @@ int collide(int height, float *x, float *y, float *z) {
 }
 
 void handle_movement(double dt) {
+    auto *input = Input::getSingletonPtr();
     static float dy = 0;
     State *s = &g->players->state;
     int sz = 0;
@@ -1254,6 +1257,14 @@ void handle_movement(double dt) {
         float m = dt * 1.0;
         g->ortho = 0;
         g->fov = 65;
+        if (input->isPressed(SDLK_w)) sz--;
+        if (input->isPressed(SDLK_s)) sz++;
+        if (input->isPressed(SDLK_a)) sx--;
+        if (input->isPressed(SDLK_d)) sx++;
+        if (input->isPressed(SDLK_LEFT)) s->rx -= m;
+        if (input->isPressed(SDLK_RIGHT)) s->rx += m;
+        if (input->isPressed(SDLK_UP)) s->ry += m;
+        if (input->isPressed(SDLK_DOWN)) s->ry -= m;
     }
     float vx, vy, vz;
     get_motion_vector(g->flying, sz, sx, s->rx, s->ry, &vx, &vy, &vz);
@@ -1271,8 +1282,7 @@ void handle_movement(double dt) {
     for (int i = 0; i < step; i++) {
         if (g->flying) {
             dy = 0;
-        }
-        else {
+        } else {
             dy -= ut * 25;
             dy = MAX(dy, -250);
         }
@@ -1288,6 +1298,35 @@ void handle_movement(double dt) {
     }
 }
 
+void handle_mouse_input() {
+    bool exclusive = true;
+    static int px = 0;
+    static int py = 0;
+    State *s = &g->players->state;
+    if (exclusive && (px || py)) {
+        int mx, my;
+        SDL_GetMouseState(&mx, &my);
+        float m = 0.0025;
+        s->rx += (mx - px) * m;
+        if (INVERT_MOUSE) {
+            s->ry += (my - py) * m;
+        } else {
+            s->ry -= (my - py) * m;
+        }
+        if (s->rx < 0) {
+            s->rx += RADIANS(360);
+        }
+        if (s->rx >= RADIANS(360)) {
+            s->rx -= RADIANS(360);
+        }
+        s->ry = MAX(s->ry, -RADIANS(90));
+        s->ry = MIN(s->ry, RADIANS(90));
+        px = mx;
+        py = my;
+    } else {
+        SDL_GetMouseState(&px, &py);
+    }
+}
 
 const std::string &CraftPlugin::getName() const {
     static std::string s("CraftPlugin");
@@ -1299,6 +1338,8 @@ void CraftPlugin::install() {}
 void CraftPlugin::initialize() {
     Zelo::Core::Scene::SceneManager::getSingletonPtr()->clear();
     Zelo::Core::RHI::RenderSystem::getSingletonPtr()->resetRenderPipeline();
+
+    SDL_ShowCursor(SDL_FALSE);
 
     // INITIALIZATION //
     srand(time(NULL));
@@ -1464,7 +1505,7 @@ void CraftPlugin::update() {
     g->height = size.y;
 
 //    // HANDLE MOUSE INPUT //
-//    handle_mouse_input();
+    handle_mouse_input();
 //
     // HANDLE MOVEMENT //
 //    handle_movement(get_delta_time());
@@ -1497,4 +1538,3 @@ void CraftPlugin::render() {
     render_chunks(&block_attrib, player);
     render_players(&block_attrib, player);
 }
-
