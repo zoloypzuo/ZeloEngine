@@ -19,7 +19,7 @@ template<> SceneManager *Singleton<SceneManager>::msSingleton = nullptr;
 
 namespace Zelo::Core::Scene {
 void SceneManager::update() {
-    rootScene->updateAll(Time::getSingletonPtr()->getDeltaTime());
+    m_rootScene->updateAll(Time::getSingletonPtr()->getDeltaTime());
 }
 
 SceneManager *SceneManager::getSingletonPtr() {
@@ -31,7 +31,7 @@ SceneManager::SceneManager() = default;
 SceneManager::~SceneManager() = default;
 
 void SceneManager::initialize() {
-    rootScene = std::make_unique<Entity>(m_entityGuidCounter);
+    m_rootScene = std::make_unique<Entity>(m_entityGuidCounter);
 }
 
 void SceneManager::finalize() {
@@ -39,13 +39,17 @@ void SceneManager::finalize() {
 }
 
 std::shared_ptr<Entity> SceneManager::getRootNode() {
-    return rootScene;
+    return m_rootScene;
+}
+
+void SceneManager::clear() {
+    m_rootScene->getChildren().clear();
 }
 
 Entity *SceneManager::CreateEntity() {
     m_entityGuidCounter++; // acc guid counter
     const auto &entity = std::make_shared<Entity>(m_entityGuidCounter);
-    rootScene->addChild(entity);
+    m_rootScene->addChild(entity);
 
     entity->ComponentAddedEvent += std::bind(&SceneManager::onComponentAdded, this, std::placeholders::_1);
     entity->ComponentRemovedEvent += std::bind(&SceneManager::onComponentRemoved, this, std::placeholders::_1);
@@ -128,5 +132,4 @@ void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
     }
 }
-
 }

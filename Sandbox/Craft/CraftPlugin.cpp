@@ -6,6 +6,7 @@
 
 #include "Core/OS/Time.h"
 #include "Core/Window/Window.h"
+#include "Core/Scene/SceneManager.h"
 
 #include <cmath>
 #include <cstdio>
@@ -1172,6 +1173,8 @@ const std::string &CraftPlugin::getName() const {
 void CraftPlugin::install() {}
 
 void CraftPlugin::initialize() {
+    Zelo::Core::Scene::SceneManager::getSingletonPtr()->clear();
+
     // INITIALIZATION //
     srand(time(NULL));
     rand();

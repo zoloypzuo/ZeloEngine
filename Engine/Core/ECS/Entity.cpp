@@ -33,8 +33,7 @@ Entity::~Entity() {
     s_DestroyedEvent.Invoke(*this);
 
     // trigger component remove event
-    Zelo::ForEach(m_components,
-                  [&](const std::shared_ptr<Component> &component) { ComponentRemovedEvent.Invoke(*component); });
+    Zelo::ForEach(m_components, [&](const auto &component) { ComponentRemovedEvent.Invoke(*component); });
 
     // cleanup component map
     if (!m_tag.empty()) {
