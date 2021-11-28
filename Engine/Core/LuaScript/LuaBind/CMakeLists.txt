@@ -1,6 +1,3 @@
-# created on 2021/7/31
-# author @zoloypzuo
-
 add_library(LuaBind
         LuaBind.cpp
         Core/LuaBind_Global.cpp
@@ -16,3 +13,5 @@ target_link_libraries(LuaBind PRIVATE
         GLSLBook
         Craft
         )
+
+target_compile_options(LuaBind PRIVATE -bigobj)  # LuaBind_ImGui.cpp : fatal error C1128
