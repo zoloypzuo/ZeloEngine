@@ -5,10 +5,27 @@
 #include <string>
 #include <inttypes.h>
 
+struct GL4API
+{
+#	include "GLAPI.h"
+};
+
 namespace
 {
 	GL4API apiHook;
 } // namespace
+
+void GetAPI4(GL4API* api, PFNGETGLPROC GetGLProc);
+
+void InjectAPITracer4(GL4API* api);
+
+void LoadAPITracer(PFNGETGLPROC GetGLProc)
+{
+	GL4API api;
+
+	GetAPI4(&api, GetGLProc);
+	InjectAPITracer4(&api);
+}
 
 using PFNGETGLPROC = void* (const char*);
 

@@ -86,10 +86,7 @@ int main()
 
 	glfwMakeContextCurrent(window);
 
-	GL4API api;
-
-	GetAPI4(&api, [](const char* func) -> void* { return (void *)glfwGetProcAddress(func); });
-	InjectAPITracer4(&api);
+	LoadAPITracer([](const char* func) -> void* { return (void *)glfwGetProcAddress(func); });
 
 	const GLuint shaderVertex = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(shaderVertex, 1, &shaderCodeVertex, nullptr);
