@@ -51,21 +51,9 @@ Craft
 * 阴影
 * 游戏编辑器
 
-# 模块列表
-
-* Core，引擎抽象层
-* ImGui，立即绘制UI
-* Input，输入
-* Lua，脚本
-* Math，数学
-* Physics，物理
-* Profile，性能剖析
-* Resource，资源加载
-* RHI，抽象渲染层
-* Window，窗口
-* ECS，实体组件
-
 # 构建 & 依赖管理
+
+[【ZeloEngine】构建概述 & 构建问题汇总](https://blog.csdn.net/zolo_mario/article/details/117652524)
 
 目前以VS2019 Win32 Debug日常开发为主。
 
@@ -95,12 +83,6 @@ NOTE 请把vcpkg装在`ThirdParty\Vcpkg`目录下
 * glad
 
 运行`Tools\build_vs2019.bat`
-
-## 构建相关笔记
-
-[【ZeloEngine】构建概述 & 构建问题汇总](https://blog.csdn.net/zolo_mario/article/details/117652524)
-
-长期更新中
 
 # 文档
 
