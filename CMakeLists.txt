@@ -49,8 +49,12 @@ add_compile_definitions(DEBUG_SHADOWMAP)  # 调试shadow-map，在右上角显�
 # vcpkg root
 if (WIN32)
     # https://github.com/microsoft/vcpkg/blob/master/docs/users/integration.md#cmake-integration
-    set(VCPKG_TARGET_TRIPLET x86-windows)
-    set(VcpkgDir ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/Vcpkg CACHE STRING "vcpkg install directory")
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 bits
+        set(VCPKG_TARGET_TRIPLET x64-windows)
+    elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 bits
+        set(VCPKG_TARGET_TRIPLET x86-windows)
+    endif()
+    set(VcpkgDir ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/Vcpkg)
     message(STATUS include=${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
     include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
 elseif (UNIX)
