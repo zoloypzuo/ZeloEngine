@@ -431,6 +431,13 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
         Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
         addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
         addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
+
+        // optional geometry shader
+        auto gs_src = result.get<sol::optional<std::string>>("geometry_shader");
+        if (gs_src.has_value()) {
+            addShaderSrc(fileName, EShaderType::GEOMETRY, gs_src.value().c_str());
+        }
+
     } else if (ext == ".lua") {
         // load in simple mode
         sol::state &lua = LuaScriptManager::getSingleton();
