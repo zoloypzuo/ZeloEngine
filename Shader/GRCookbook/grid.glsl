@@ -2,6 +2,15 @@
 // -- created on 2021/11/7
 // -- author @zoloypzuo
 // local common_shader = [[
+layout (std140) uniform EngineUBO
+{
+    mat4 ubo_model;
+    mat4 ubo_view;
+    mat4 ubo_projection;
+    vec3 ubo_viewPos;
+/* float ubo_time; */
+};
+
 /* extents of grid in world coordinates*/
 float gridSize = 100.0;
 
@@ -27,6 +36,31 @@ vec3(-1.0, 0.0,  1.0)
 const int indices[6] = int[6](
 0, 1, 2, 2, 3, 0
 );
+// ]]
+
+// local vertex_shader = [[
+#version 460 core
+
+// common:
+
+layout (location=0) out vec2 uv;
+
+void main()
+{
+    mat4 MVP = ubo_projection * ubo_view;
+
+    int idx = indices[gl_VertexID];
+    vec3 position = pos[idx] * gridSize;
+
+    gl_Position = MVP * vec4(position, 1.0);
+    uv = position.xz;
+}
+// ]]
+
+// local fragment_shader = [[
+#version 460 core
+
+// common:
 
 float log10(float x)
 {
@@ -82,38 +116,13 @@ vec4 gridColor(vec2 uv)
 
     return c;
 }
-// ]]
-
-// local vertex_shader = [[
-#version 460 core
-
-// common:
-
-layout (location=0) out vec2 uv;
-
-void main()
-{
-    mat4 MVP = proj * view;
-
-    int idx = indices[gl_VertexID];
-    vec3 position = pos[idx] * gridSize;
-
-    gl_Position = MVP * vec4(position, 1.0);
-    uv = position.xz;
-}
-// ]]
-
-// local fragment_shader = [[
-#version 460 core
-
-// common:
 
 layout (location=0) in vec2 uv;
 layout (location=0) out vec4 out_FragColor;
 
 void main()
 {
-out_FragColor = gridColor(uv);
+    out_FragColor = gridColor(uv);
 }
 // ]]
 
