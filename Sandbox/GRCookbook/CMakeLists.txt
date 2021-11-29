@@ -29,7 +29,6 @@ add_subdirectory(Chapter3/GL01_APIWrapping)
 add_subdirectory(Chapter3/GL02_VtxPulling)
 add_subdirectory(Chapter3/GL03_CubeMap)
 
-add_subdirectory(Chapter5/GL01_Grid)
 add_subdirectory(Chapter5/GL03_MeshRenderer)
 
 add_subdirectory(Chapter6/GL01_PBR)
