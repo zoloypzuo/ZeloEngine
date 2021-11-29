@@ -30,11 +30,14 @@ void ForwardPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
     updateLights();
     updateEngineUBO();
 
+
     for (const auto &renderItem: sortRenderQueue()) {
         updateEngineUBOModel(renderItem.modelMatrix);
         renderItem.material->bind();
         renderItem.mesh->render();
     }
+
+    m_grid->render();
 }
 
 RenderQueue ForwardPipeline::sortRenderQueue() const {
@@ -95,6 +98,8 @@ void ForwardPipeline::initialize() {
     m_forwardStandardShader->setUniform1i("u_DiffuseMap", 0);
     m_forwardStandardShader->setUniform1i("u_NormalMap", 1);
     m_forwardStandardShader->setUniform1i("u_SpecularMap", 2);
+
+    m_grid = std::make_unique<Grid>();
 }
 
 void ForwardPipeline::updateLights() const {

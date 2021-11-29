@@ -18,6 +18,7 @@ add_library(OpenGLRenderer
         Drawable/Line.cpp
         Drawable/Line.cpp
         Drawable/Frustum.cpp
+        Drawable/Grid.cpp Drawable/Grid.h
 
         GLUtil.cpp
 
