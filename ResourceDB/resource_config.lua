@@ -10,4 +10,5 @@ return {
     "Shader";
     "Shader/Craft";
     "Shader/GLSLBook";
+    "Shader/GRCookbook";
 }
