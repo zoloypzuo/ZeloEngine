@@ -85,7 +85,7 @@ void ShadowMapPipeline::initialize() {
     m_lightFrustum = std::make_unique<Frustum>();
     m_lightFrustum->setPerspective(50.0f, 1.0f, 5.0f, 1000.0f);
 
-    m_forwardStandardShader = std::make_unique<GLSLShaderProgram>("Shader/forward_shadow.glsl");
+    m_forwardStandardShader = std::make_unique<GLSLShaderProgram>("forward_shadow.glsl");
     m_forwardStandardShader->link();
     m_forwardStandardShader->setUniform1i("u_DiffuseMap", 0);
     m_forwardStandardShader->setUniform1i("u_NormalMap", 1);
@@ -93,10 +93,10 @@ void ShadowMapPipeline::initialize() {
     // shadow
     m_forwardStandardShader->setUniform1i("u_ShadowMap", 3);
 
-    m_shadowMapShader = std::make_unique<GLSLShaderProgram>("Shader/shadow_map.lua");
+    m_shadowMapShader = std::make_unique<GLSLShaderProgram>("shadow_map.lua");
     m_shadowMapShader->link();
 
-    m_simpleShader = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
+    m_simpleShader = std::make_unique<GLSLShaderProgram>("simple.lua");
     m_simpleShader->link();
 }
 

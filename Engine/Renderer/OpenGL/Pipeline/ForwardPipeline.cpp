@@ -90,7 +90,7 @@ void ForwardPipeline::initialize() {
             sizeof(EngineUBO), 0, 0,
             Core::RHI::EAccessSpecifier::STREAM_DRAW);
 
-    m_forwardStandardShader = std::make_shared<GLSLShaderProgram>("Shader/forward_standard.glsl");
+    m_forwardStandardShader = std::make_shared<GLSLShaderProgram>("forward_standard.glsl");
     m_forwardStandardShader->link();
     m_forwardStandardShader->setUniform1i("u_DiffuseMap", 0);
     m_forwardStandardShader->setUniform1i("u_NormalMap", 1);

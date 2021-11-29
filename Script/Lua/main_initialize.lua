@@ -41,7 +41,7 @@ end)
 --postEffectPlugin = ShadowMapPipelinePlugin.new()
 
 local plugins = {
-    "CraftPlugin",
+    --"CraftPlugin",
     --"ImGuiManager",
 }
 

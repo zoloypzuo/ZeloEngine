@@ -78,7 +78,7 @@ void BloomPipeline::initialize() {
     m_renderFbo = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
     m_fbo1 = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
     m_fbo2 = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
-    m_postShader = std::make_unique<GLSLShaderProgram>("Shader/bloom.lua");
+    m_postShader = std::make_unique<GLSLShaderProgram>("bloom.lua");
     m_postShader->link();
 
     m_postShader->setUniform1i("Width", 1280);

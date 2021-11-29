@@ -37,7 +37,7 @@ void EdgePipeline::initialize() {
     ForwardPipeline::initialize();
     m_fbo = std::make_unique<Zelo::GLFramebuffer>();
     m_fbo->resize(1280, 720);
-    m_postShader = std::make_unique<GLSLShaderProgram>("Shader/edge.glsl");
+    m_postShader = std::make_unique<GLSLShaderProgram>("edge.glsl");
     m_postShader->link();
     m_postShader->setUniform1i("RenderTex", 0);
     m_postShader->setUniform1f("EdgeThreshold", 0.05f);

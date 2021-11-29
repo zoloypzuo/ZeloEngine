@@ -7,4 +7,7 @@ return {
     "Resource/GameAIAssets";
     "Resource/GLSLBookAssets";
     "Resource/CraftAssets";
+    "Shader";
+    "Shader/Craft";
+    "Shader/GLSLBook";
 }

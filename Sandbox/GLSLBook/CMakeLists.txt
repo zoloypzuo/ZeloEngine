@@ -1,8 +1,10 @@
 add_library(GLSLBook
-        ImageProcessing/BloomPipeline.cpp
-        ImageProcessing/BlurPipeline.cpp
-        ImageProcessing/EdgePipeline.cpp
-        Shadow/ShadowMapPipeline.cpp
+        Pipeline/ImageProcessing/BloomPipeline.cpp
+        Pipeline/ImageProcessing/BlurPipeline.cpp
+        Pipeline/ImageProcessing/EdgePipeline.cpp
+        Pipeline/Shadow/ShadowMapPipeline.cpp
+
         GLSLBookPlugins.cpp GLSLBookPlugins.h
 
-        Drawable/Quad.cpp Drawable/Quad.h)
+        Drawable/Quad.cpp Drawable/Quad.h
+        )
