@@ -415,20 +415,25 @@ void GLSLShaderProgram::findUniformLocations() {
 void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     auto ext = std::filesystem::path(fileName).extension();
     if (ext == ".glsl") {
-        auto asset = Zelo::Resource(fileName);
-        std::string src(asset.read());
-        Zelo::ReplaceString(src, "//", "");
-        sol::state &lua = LuaScriptManager::getSingleton();
-        sol::table result = lua.script(src);
+        sol::state &luam = LuaScriptManager::getSingleton();
+        std::string glsl_src(Zelo::Resource(fileName).read());
+        Zelo::ReplaceString(glsl_src, "//", "");  // generate lua code
+        sol::table result = luam.script(glsl_src);
+
         std::string vertex_src = result["vertex_shader"];
         std::string fragment_src = result["fragment_shader"];
-        std::string common_src = result["common_shader"];
-        std::string common_src_vs(common_src);
-        Zelo::ReplaceString(common_src_vs, "varying", "out");
-        std::string common_src_fs(common_src);
-        Zelo::ReplaceString(common_src_fs, "varying", "in");
-        Zelo::ReplaceString(vertex_src, "common:", common_src_vs);
-        Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
+
+        // include common code
+        auto common_src = result.get<sol::optional<std::string>>("common_shader");
+        if (common_src.has_value()){
+            std::string common_src_vs(common_src.value());
+            Zelo::ReplaceString(common_src_vs, "varying", "out");
+            std::string common_src_fs(common_src.value());
+            Zelo::ReplaceString(common_src_fs, "varying", "in");
+            Zelo::ReplaceString(vertex_src, "common:", common_src_vs);
+            Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
+        }
+
         addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
         addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
 
