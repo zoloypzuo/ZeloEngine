@@ -41,7 +41,9 @@ end)
 --postEffectPlugin = ShadowMapPipelinePlugin.new()
 
 local plugins = {
+    --"TemplatePlugin",
     --"CraftPlugin",
+    "Ch5MeshRendererPlugin",
     --"ImGuiManager",
 }
 

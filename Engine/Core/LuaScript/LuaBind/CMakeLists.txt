@@ -10,8 +10,10 @@ add_library(LuaBind
         )
 
 target_link_libraries(LuaBind PRIVATE
+        TemplateSandbox
         GLSLBook
         Craft
+        GRCookbook
         )
 
 target_compile_options(LuaBind PRIVATE -bigobj)  # LuaBind_ImGui.cpp : fatal error C1128

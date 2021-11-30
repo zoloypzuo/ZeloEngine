@@ -6,6 +6,8 @@
 #include "Core/Resource/ResourceManager.h"
 #include "GLSLBook/GLSLBookPlugins.h"
 #include "Craft//CraftPlugin.h"
+#include "GRCookbook/GRCookbookPlugins.h"
+#include "_Template//TemplatePlugins.h"
 
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::Resource;
@@ -32,6 +34,14 @@ sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
 luaState.new_usertype<CraftPlugin>("CraftPlugin",
+sol::base_classes, sol::bases<Plugin>(),
+"__Dummy", []{}
+);
+luaState.new_usertype<Ch5MeshRendererPlugin>("Ch5MeshRendererPlugin",
+sol::base_classes, sol::bases<Plugin>(),
+"__Dummy", []{}
+);
+luaState.new_usertype<TemplatePlugin>("TemplatePlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );

@@ -25,7 +25,7 @@ set_property(TARGET glad          PROPERTY FOLDER "ThirdPartyLibraries")
 # shared utils code for GL and Vulkan
 add_subdirectory(shared)
 
-add_subdirectory(Chapter3/GL01_APIWrapping)
+#add_subdirectory(Chapter3/GL01_APIWrapping)
 add_subdirectory(Chapter3/GL02_VtxPulling)
 add_subdirectory(Chapter3/GL03_CubeMap)
 
@@ -45,3 +45,5 @@ add_subdirectory(Chapter10/GL02_CullingGPU)
 add_subdirectory(Chapter10/GL03_OITransparency)
 add_subdirectory(Chapter10/GL04_LazyLoading)
 add_subdirectory(Chapter10/GL05_Final)
+
+add_library(GRCookbook GRCookbookPlugins.cpp)
