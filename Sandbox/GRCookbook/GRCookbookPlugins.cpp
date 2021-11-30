@@ -5,21 +5,15 @@
 #include "GRCookbookPlugins.h"
 
 #include "Core/Input/Input.h"
-#include "Core/OS/Time.h"
-#include "Core/Window/Window.h"
 #include "Core/Scene/SceneManager.h"
-#include "Core/RHI/RenderSystem.h"
-#include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
 
-#include "shared/UtilsMath.h"
 #include "shared/glFramework/GLTexture.h"
 
 // assimp
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 #include <assimp/cimport.h>
-#include <assimp/version.h>
 
 using namespace glm;
 
@@ -142,40 +136,7 @@ void Ch7PBRPlugin::initialize() {
     // mesh
     auto meshPath = ZELO_PATH("deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/DamagedHelmet.gltf");
 
-    const aiScene *scene = aiImportFile(meshPath.c_str(), aiProcess_Triangulate);
-
-    ZELO_ASSERT(scene && scene->HasMeshes());
-
-    struct VertexData
-    {
-        vec3 pos;
-        vec3 n;
-        vec2 tc;
-    };
-
-    std::vector<VertexData> vertices;
-    std::vector<uint32_t> indices;
-    {
-        const aiMesh* mesh = scene->mMeshes[0];
-        for (unsigned i = 0; i != mesh->mNumVertices; i++)
-        {
-            const aiVector3D v = mesh->mVertices[i];
-            const aiVector3D n = mesh->mNormals[i];
-            const aiVector3D t = mesh->mTextureCoords[0][i];
-            vertices.push_back({  vec3(v.x, v.y, v.z),  vec3(n.x, n.y, n.z),  vec2(t.x, 1.0f - t.y) });
-        }
-        for (unsigned i = 0; i != mesh->mNumFaces; i++)
-        {
-            for (unsigned j = 0; j != 3; j++)
-                indices.push_back(mesh->mFaces[i].mIndices[j]);
-        }
-        aiReleaseImport(scene);
-    }
-
-    const size_t kSizeIndices = sizeof(uint32_t) * indices.size();
-    const size_t kSizeVertices = sizeof(VertexData) * vertices.size();
-
-    mesh = std::make_unique<GLMeshPVP>(indices.data(), (uint32_t)kSizeIndices, (float*)vertices.data(), (uint32_t)kSizeVertices);
+    loadMesh(meshPath);
 
     // tex
     GLTexture texAO(GL_TEXTURE_2D, ZELO_PATH("deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/Default_AO.jpg").c_str());
@@ -205,6 +166,43 @@ void Ch7PBRPlugin::initialize() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
+}
+
+void Ch7PBRPlugin::loadMesh(const std::string &meshPath) {
+    const aiScene *scene = aiImportFile(meshPath.c_str(), aiProcess_Triangulate);
+
+    ZELO_ASSERT(scene && scene->HasMeshes());
+
+    struct VertexData
+    {
+        vec3 pos;
+        vec3 n;
+        vec2 tc;
+    };
+
+    std::vector<VertexData> vertices;
+    std::vector<uint32_t> indices;
+    {
+        const aiMesh* pAiMesh = scene->mMeshes[0];
+        for (unsigned i = 0; i != pAiMesh->mNumVertices; i++)
+        {
+            const aiVector3D v = pAiMesh->mVertices[i];
+            const aiVector3D n = pAiMesh->mNormals[i];
+            const aiVector3D t = pAiMesh->mTextureCoords[0][i];
+            vertices.push_back({  vec3(v.x, v.y, v.z),  vec3(n.x, n.y, n.z),  vec2(t.x, 1.0f - t.y) });
+        }
+        for (unsigned i = 0; i != pAiMesh->mNumFaces; i++)
+        {
+            for (unsigned j = 0; j != 3; j++)
+                indices.push_back(pAiMesh->mFaces[i].mIndices[j]);
+        }
+        aiReleaseImport(scene);
+    }
+
+    const size_t kSizeIndices = sizeof(uint32_t) * indices.size();
+    const size_t kSizeVertices = sizeof(VertexData) * vertices.size();
+
+    mesh = std::make_unique<GLMeshPVP>(indices.data(), (uint32_t)kSizeIndices, (float*)vertices.data(), (uint32_t)kSizeVertices);
 }
 
 void Ch7PBRPlugin::update() {
