@@ -43,8 +43,8 @@ void main()
 layout( triangles ) in;
 layout( triangle_strip, max_vertices = 3 ) out;
 
-layout (location=0) in vec2 uv[];
-layout (location=1) in vec3 wpos[];
+layout (location=0) in vec2 uv[3];
+layout (location=1) in vec3 wpos[3];
 
 layout (location=0) out vec2 uvs;
 layout (location=1) out vec3 barycoords;
