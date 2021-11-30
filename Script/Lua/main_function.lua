@@ -296,3 +296,19 @@ local function RegisterMainFunctionEvent(name)
 end
 
 RegisterMainFunctionEvent("SpawnPrefab")
+
+function LoadAvatar()
+    local avatar = SpawnPrefab("monkey")
+    avatar.name = "avatar"
+    avatar.components.transform:SetPosition(0, 0, 5)
+    avatar.components.transform:SetScale(0.8, 0.8, 0.8)
+
+    local camera = avatar.entity:AddCamera()
+    camera.fov = PI / 2
+    camera.aspect = 800 / 600
+    camera.zNear = 0.05
+    camera.zFar = 100
+
+    avatar.entity:AddFreeMove()
+    avatar.entity:AddFreeLook()
+end
