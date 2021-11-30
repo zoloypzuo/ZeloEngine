@@ -11,17 +11,9 @@ include_directories(deps/src/ImGuizmo/src)
 
 add_subdirectory(deps/cmake/ImGuizmo)
 
-set(GLAD_SOURCES deps/glad/src/gl.c deps/glad/src/vulkan.c)
-if(WIN32)
-	set(GLAD_SOURCES ${GLAD_SOURCES} deps/glad/src/wgl.c Resource/GLMesh1.cpp Resource/GLMesh1.h Resource/GLBuffer.cpp Resource/GLBuffer.h)
-endif()
-
-add_library(glad ${GLAD_SOURCES})
-
 find_package(glfw3 CONFIG REQUIRED)
 link_libraries(glfw)
 
-set_property(TARGET glad          PROPERTY FOLDER "ThirdPartyLibraries")
 # shared utils code for GL and Vulkan
 #add_subdirectory(shared)
 
@@ -53,4 +45,7 @@ add_library(GRCookbook
 		Resource/GLMeshPVP.cpp
 
 		shared/scene/VtxData.cpp
+		shared/glFramework/GLTexture.cpp
+		shared/Bitmap.h
+		shared/UtilsCubemap.cpp
 		)

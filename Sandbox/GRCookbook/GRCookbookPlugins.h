@@ -10,6 +10,7 @@
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Resource/GLBuffer.h"
 #include "Resource/GLMesh1.h"
+#include "Resource/GLMeshPVP.h"
 
 
 class Ch5MeshRendererPlugin : public Plugin {
@@ -54,7 +55,7 @@ private:
     std::unique_ptr<GLSLShaderProgram> m_meshShader{};
     std::unique_ptr<GLBuffer> perFrameDataBuffer{};
     std::unique_ptr<GLBuffer> modelMatrices{};
-    std::unique_ptr<GLMesh1> mesh{};
+    std::unique_ptr<GLMeshPVP> mesh{};
     MeshFileHeader header;
 
     Zelo::Core::ECS::Entity *entity{};

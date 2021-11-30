@@ -47,6 +47,24 @@ static GLenum GetGLShaderType(const EShaderType &shaderType) {
     }
 }
 
+std::string prettyShaderSource(const char *text) {
+    std::stringstream ss{};
+    int line = 1;
+
+    ss << "\n(" << line << ") ";
+    while (text && *text++) {
+        if (*text == '\n') {
+            ss << "\n(" << ++line << ") ";
+        } else if (*text == '\r') {
+        } else {
+            ss << *text;
+        }
+    }
+    ss << "\n";
+
+    return ss.str();
+}
+
 GLSLShaderProgram::GLSLShaderProgram() {
     m_handle = glCreateProgram();
 }
@@ -358,7 +376,7 @@ void GLSLShaderProgram::addShaderSrc(const std::string &fileName,
             logString = c_log;
             delete[] c_log;
         }
-        spdlog::error("{}: shader compliation failed{}\n{}", fileName, logString, c_code);
+        spdlog::error("{}: shader compliation failed{}\n{}", fileName, logString, prettyShaderSource(c_code));
         ZELO_ASSERT(false);
         return;
     } else {
@@ -425,7 +443,7 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
 
         // include common code
         auto common_src = result.get<sol::optional<std::string>>("common_shader");
-        if (common_src.has_value()){
+        if (common_src.has_value()) {
             std::string common_src_vs(common_src.value());
             Zelo::ReplaceString(common_src_vs, "varying", "out");
             std::string common_src_fs(common_src.value());

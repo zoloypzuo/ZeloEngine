@@ -2,7 +2,7 @@
 #include "shared/Bitmap.h"
 #include "shared/UtilsCubemap.h"
 
-#include <glad/gl.h>
+#include <glad/glad.h>
 #include <assert.h>
 #include <stdio.h>
 #include <string>
@@ -153,8 +153,8 @@ GLTexture::GLTexture(GLenum type, const char* fileName)
 		assert(false);
 	}
 
-	handleBindless_ = glGetTextureHandleARB(handle_);
-	glMakeTextureHandleResidentARB(handleBindless_);
+//	handleBindless_ = glGetTextureHandleARB(handle_);
+//	glMakeTextureHandleResidentARB(handleBindless_);
 }
 
 GLTexture::GLTexture(int w, int h, const void* img)
@@ -169,8 +169,8 @@ GLTexture::GLTexture(int w, int h, const void* img)
 	glTextureParameteri(handle_, GL_TEXTURE_MAX_LEVEL, numMipmaps - 1);
 	glTextureParameteri(handle_, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 	glTextureParameteri(handle_, GL_TEXTURE_MAX_ANISOTROPY, 16);
-	handleBindless_ = glGetTextureHandleARB(handle_);
-	glMakeTextureHandleResidentARB(handleBindless_);
+//	handleBindless_ = glGetTextureHandleARB(handle_);
+//	glMakeTextureHandleResidentARB(handleBindless_);
 }
 
 GLTexture::GLTexture(GLTexture&& other)
@@ -185,7 +185,7 @@ GLTexture::GLTexture(GLTexture&& other)
 
 GLTexture::~GLTexture()
 {
-	if (handleBindless_)
-		glMakeTextureHandleNonResidentARB(handleBindless_);
+//	if (handleBindless_)
+//		glMakeTextureHandleNonResidentARB(handleBindless_);
 	glDeleteTextures(1, &handle_);
 }
