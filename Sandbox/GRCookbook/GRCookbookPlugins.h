@@ -32,4 +32,6 @@ private:
     std::unique_ptr<GLBuffer1> modelMatrices{};
     std::unique_ptr<GLMesh1> mesh{};
     MeshFileHeader header;
+
+    Zelo::Core::ECS::Entity *entity{};
 };

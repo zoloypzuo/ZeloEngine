@@ -68,7 +68,7 @@ Transform &Entity::getTransform() {
     return m_transform;
 }
 
-std::vector<std::shared_ptr<Entity>> Entity::getChildren() {
+std::vector<std::shared_ptr<Entity>> &Entity::getChildren() {
     return m_children;
 }
 

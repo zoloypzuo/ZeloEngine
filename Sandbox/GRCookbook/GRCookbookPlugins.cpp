@@ -67,9 +67,8 @@ void Ch5MeshRendererPlugin::initialize() {
                                      meshData.vertexData_.data());
 
     // model matrices
-    const mat4 m(glm::scale(mat4(1.0f), vec3(2.0f)));
-    modelMatrices = std::make_unique<GLBuffer1>(sizeof(mat4), value_ptr(m), GL_DYNAMIC_STORAGE_BIT);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, modelMatrices->getHandle());
+    auto *scenem = Zelo::Core::Scene::SceneManager::getSingletonPtr();
+    entity = scenem->CreateEntity();
 }
 
 void Ch5MeshRendererPlugin::update() {
@@ -79,12 +78,17 @@ void Ch5MeshRendererPlugin::update() {
 void Ch5MeshRendererPlugin::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+    const mat4 m = entity->getWorldMatrix();
+    modelMatrices = std::make_unique<GLBuffer1>(sizeof(mat4), value_ptr(m), GL_DYNAMIC_STORAGE_BIT);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, modelMatrices->getHandle());
+
     auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
+    if (!camera) { return; }
     const mat4 p = camera->getProjectionMatrix();
     const mat4 view = camera->getViewMatrix();
     const vec3 viewPos = camera->getOwner()->getPosition();
 
-    const PerFrameData perFrameData = {view,  p, glm::vec4(viewPos, 1.0f)};
+    const PerFrameData perFrameData = {view, p, glm::vec4(viewPos, 1.0f)};
     glNamedBufferSubData(perFrameDataBuffer->getHandle(), 0, kUniformBufferSize, &perFrameData);
 
     glEnable(GL_DEPTH_TEST);

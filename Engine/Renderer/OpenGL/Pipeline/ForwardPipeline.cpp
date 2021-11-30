@@ -30,7 +30,6 @@ void ForwardPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
     updateLights();
     updateEngineUBO();
 
-
     for (const auto &renderItem: sortRenderQueue()) {
         updateEngineUBOModel(renderItem.modelMatrix);
         renderItem.material->bind();

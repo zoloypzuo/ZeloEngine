@@ -98,8 +98,8 @@ void SceneManager::SetActiveCamera(PerspectiveCamera *camera) {
 }
 
 ALight *SceneManager::getMainDirectionalLight() const {
-    for(const auto &light: m_fastAccessComponents.lights){
-        if(light->GetType() == ELightType::DIRECTIONAL){
+    for (const auto &light: m_fastAccessComponents.lights) {
+        if (light->GetType() == ELightType::DIRECTIONAL) {
             return light;
         }
     }
@@ -126,6 +126,9 @@ void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<Camera *>(&component);
             !m_fastAccessComponents.cameras.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.cameras, result);
+        if (m_activeCamera == result) {
+            m_activeCamera = nullptr;
+        }
     }
     if (auto *result = dynamic_cast<ALight *>(&component);
             !m_fastAccessComponents.lights.empty() && result) {
