@@ -161,11 +161,7 @@ void dumpGLInfo(bool dumpExtensions) {
 void loadGL() {
     // Load the OpenGL functions.
     logger->info("start loadGL with GLAD");
-    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
-        logger->error("GLAD failed to initialize");
-        ZELO_ASSERT(false, "GLAD failed to initialize");
-    }
-
+    ZELO_ASSERT(gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress), "GLAD failed to initialize");
     dumpGLInfo(false);
 }
 
