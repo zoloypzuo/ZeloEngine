@@ -61,4 +61,6 @@ private:
     Zelo::Core::ECS::Entity *entity{};
 
     void loadMesh(const std::string &meshPath);
+
+    void loadTex() const;
 };

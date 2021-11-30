@@ -17,13 +17,15 @@
 
 using namespace glm;
 
+#define RES_PREFIX "deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/"
+
 struct PerFrameData {
     mat4 view;
     mat4 proj;
     vec4 cameraPos;
 };
 
-static std::string ZELO_PATH(const std::string &fileName){
+static std::string ZELO_PATH(const std::string &fileName) {
     auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
     return resourcem->resolvePath(fileName).string();
 }
@@ -134,29 +136,10 @@ void Ch7PBRPlugin::initialize() {
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, perFrameDataBuffer->getHandle(), 0, kUniformBufferSize);
 
     // mesh
-    auto meshPath = ZELO_PATH("deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/DamagedHelmet.gltf");
-
-    loadMesh(meshPath);
+    loadMesh(ZELO_PATH(RES_PREFIX "DamagedHelmet.gltf"));
 
     // tex
-    GLTexture texAO(GL_TEXTURE_2D, ZELO_PATH("deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/Default_AO.jpg").c_str());
-    GLTexture texEmissive(GL_TEXTURE_2D, ZELO_PATH("deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/Default_emissive.jpg").c_str());
-    GLTexture texAlbedo(GL_TEXTURE_2D,ZELO_PATH("deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/Default_albedo.jpg").c_str());
-    GLTexture texMeR(GL_TEXTURE_2D, ZELO_PATH("deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/Default_metalRoughness.jpg").c_str());
-    GLTexture texNormal(GL_TEXTURE_2D, ZELO_PATH("deps/src/glTF-Sample-Models/2.0/DamagedHelmet/glTF/Default_normal.jpg").c_str());
-
-    const GLuint textures[] = { texAO.getHandle(), texEmissive.getHandle(), texAlbedo.getHandle(), texMeR.getHandle(), texNormal.getHandle() };
-    glBindTextures(0, sizeof(textures)/sizeof(GLuint), textures);
-
-    // cube map
-    GLTexture envMap(GL_TEXTURE_CUBE_MAP, ZELO_PATH("data/piazza_bologni_1k.hdr").c_str());
-    GLTexture envMapIrradiance(GL_TEXTURE_CUBE_MAP, ZELO_PATH("data/piazza_bologni_1k_irradiance.hdr").c_str());
-    const GLuint envMaps[] = { envMap.getHandle(), envMapIrradiance.getHandle() };
-    glBindTextures(5, 2, envMaps);
-
-    // BRDF LUT
-    GLTexture brdfLUT(GL_TEXTURE_2D, ZELO_PATH("data/brdfLUT.ktx").c_str());
-    glBindTextureUnit(7, brdfLUT.getHandle());
+//    loadTex();
 
     // bind entity
     auto *scenem = Zelo::Core::Scene::SceneManager::getSingletonPtr();
@@ -168,13 +151,13 @@ void Ch7PBRPlugin::initialize() {
     glEnable(GL_DEPTH_TEST);
 }
 
+
 void Ch7PBRPlugin::loadMesh(const std::string &meshPath) {
     const aiScene *scene = aiImportFile(meshPath.c_str(), aiProcess_Triangulate);
 
     ZELO_ASSERT(scene && scene->HasMeshes());
 
-    struct VertexData
-    {
+    struct VertexData {
         vec3 pos;
         vec3 n;
         vec2 tc;
@@ -183,16 +166,14 @@ void Ch7PBRPlugin::loadMesh(const std::string &meshPath) {
     std::vector<VertexData> vertices;
     std::vector<uint32_t> indices;
     {
-        const aiMesh* pAiMesh = scene->mMeshes[0];
-        for (unsigned i = 0; i != pAiMesh->mNumVertices; i++)
-        {
+        const aiMesh *pAiMesh = scene->mMeshes[0];
+        for (unsigned i = 0; i != pAiMesh->mNumVertices; i++) {
             const aiVector3D v = pAiMesh->mVertices[i];
             const aiVector3D n = pAiMesh->mNormals[i];
             const aiVector3D t = pAiMesh->mTextureCoords[0][i];
-            vertices.push_back({  vec3(v.x, v.y, v.z),  vec3(n.x, n.y, n.z),  vec2(t.x, 1.0f - t.y) });
+            vertices.push_back({vec3(v.x, v.y, v.z), vec3(n.x, n.y, n.z), vec2(t.x, 1.0f - t.y)});
         }
-        for (unsigned i = 0; i != pAiMesh->mNumFaces; i++)
-        {
+        for (unsigned i = 0; i != pAiMesh->mNumFaces; i++) {
             for (unsigned j = 0; j != 3; j++)
                 indices.push_back(pAiMesh->mFaces[i].mIndices[j]);
         }
@@ -202,7 +183,8 @@ void Ch7PBRPlugin::loadMesh(const std::string &meshPath) {
     const size_t kSizeIndices = sizeof(uint32_t) * indices.size();
     const size_t kSizeVertices = sizeof(VertexData) * vertices.size();
 
-    mesh = std::make_unique<GLMeshPVP>(indices.data(), (uint32_t)kSizeIndices, (float*)vertices.data(), (uint32_t)kSizeVertices);
+    mesh = std::make_unique<GLMeshPVP>(indices.data(), (uint32_t) kSizeIndices, (float *) vertices.data(),
+                                       (uint32_t) kSizeVertices);
 }
 
 void Ch7PBRPlugin::update() {
@@ -229,4 +211,26 @@ void Ch7PBRPlugin::render() {
     glDisable(GL_BLEND);
     m_meshShader->bind();
     mesh->draw();
+}
+
+void Ch7PBRPlugin::loadTex() const {
+    GLTexture texAO(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_AO.jpg").c_str());
+    GLTexture texEmissive(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX" Default_emissive.jpg").c_str());
+    GLTexture texAlbedo(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_albedo.jpg").c_str());
+    GLTexture texMeR(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_metalRoughness.jpg").c_str());
+    GLTexture texNormal(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_normal.jpg").c_str());
+
+    const GLuint textures[] = {texAO.getHandle(), texEmissive.getHandle(), texAlbedo.getHandle(), texMeR.getHandle(),
+                               texNormal.getHandle()};
+    glBindTextures(0, sizeof(textures) / sizeof(GLuint), textures);
+
+    // cube map
+    GLTexture envMap(GL_TEXTURE_CUBE_MAP, ZELO_PATH("data/piazza_bologni_1k.hdr").c_str());
+    GLTexture envMapIrradiance(GL_TEXTURE_CUBE_MAP, ZELO_PATH("data/piazza_bologni_1k_irradiance.hdr").c_str());
+    const GLuint envMaps[] = {envMap.getHandle(), envMapIrradiance.getHandle()};
+    glBindTextures(5, 2, envMaps);
+
+    // BRDF LUT
+    GLTexture brdfLUT(GL_TEXTURE_2D, ZELO_PATH("data/brdfLUT.ktx").c_str());
+    glBindTextureUnit(7, brdfLUT.getHandle());
 }
