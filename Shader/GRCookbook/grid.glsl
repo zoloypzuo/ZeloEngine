@@ -1,6 +1,3 @@
-// -- forward_standard
-// -- created on 2021/11/7
-// -- author @zoloypzuo
 // local common_shader = [[
 layout (std140) uniform EngineUBO
 {
