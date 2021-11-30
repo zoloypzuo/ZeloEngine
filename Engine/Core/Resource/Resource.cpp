@@ -3,41 +3,14 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Resource.h"
+
 #include "Core/Resource/ResourceManager.h"
-#include "Core/LuaScript/LuaScriptManager.h"
 
 using namespace Zelo::Core::Resource;
-using namespace Zelo::Core::LuaScript;
 
 Zelo::IOStream::IOStream(const std::string &fileName) : m_fileName(fileName) {
-    // fallback search
-    std::filesystem::path filePath{};
-    std::filesystem::path resourceDir{};
-    auto *resourcem = ResourceManager::getSingletonPtr();
-    auto *scriptm = LuaScriptManager::getSingletonPtr();
-
-    auto engineDir = resourcem->getEngineDir();
-    auto _resourceConfigLuaPath = resourcem->getResourceDir() / "resource_config.lua";
-    const auto &resourceConfigPath = _resourceConfigLuaPath.string();
-    sol::table resourceDirList = scriptm->require_file(resourceConfigPath, resourceConfigPath);
-
-    for (const auto &pair: resourceDirList) {
-        resourceDir = pair.second.as<std::string>();
-        auto resourcePath = engineDir / resourceDir / fileName;
-        if (std::filesystem::exists(resourcePath)) {
-            filePath = resourcePath;
-            break;
-        };
-    }
-
-    if (filePath.empty()) {
-        auto enginePath = resourcem->getEngineDir() / fileName;
-        ZELO_ASSERT(std::filesystem::exists(enginePath));
-        filePath = enginePath;
-    }
-
     const auto mode = std::ifstream::binary | std::fstream::in | std::fstream::out;
-    m_file = new std::fstream(filePath.c_str(), mode);
+    m_file = new std::fstream(ResourceManager::getSingletonPtr()->resolvePath(fileName).c_str(), mode);
 }
 
 Zelo::IOStream::~IOStream() {
