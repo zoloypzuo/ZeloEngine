@@ -48,7 +48,7 @@ void Ch5MeshRendererPlugin::initialize() {
     m_meshShader->link();
 
     // UBO
-    perFrameDataBuffer = std::make_unique<GLBuffer1>(kUniformBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT);
+    perFrameDataBuffer = std::make_unique<GLBuffer>(kUniformBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT);
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, perFrameDataBuffer->getHandle(), 0, kUniformBufferSize);
 
     // init render
@@ -79,7 +79,7 @@ void Ch5MeshRendererPlugin::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     const mat4 m = entity->getWorldMatrix();
-    modelMatrices = std::make_unique<GLBuffer1>(sizeof(mat4), value_ptr(m), GL_DYNAMIC_STORAGE_BIT);
+    modelMatrices = std::make_unique<GLBuffer>(sizeof(mat4), value_ptr(m), GL_DYNAMIC_STORAGE_BIT);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, modelMatrices->getHandle());
 
     auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
@@ -95,4 +95,29 @@ void Ch5MeshRendererPlugin::render() {
     glDisable(GL_BLEND);
     m_meshShader->bind();
     mesh->draw(header);
+}
+
+const std::string &Ch7PBRPlugin::getName() const {
+    static std::string s = "Ch7PBRPlugin";
+    return s;
+}
+
+void Ch7PBRPlugin::install() {
+
+}
+
+void Ch7PBRPlugin::uninstall() {
+
+}
+
+void Ch7PBRPlugin::initialize() {
+    Plugin::initialize();
+}
+
+void Ch7PBRPlugin::update() {
+    Plugin::update();
+}
+
+void Ch7PBRPlugin::render() {
+    Plugin::render();
 }

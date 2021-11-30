@@ -28,8 +28,32 @@ public:
 
 private:
     std::unique_ptr<GLSLShaderProgram> m_meshShader{};
-    std::unique_ptr<GLBuffer1> perFrameDataBuffer{};
-    std::unique_ptr<GLBuffer1> modelMatrices{};
+    std::unique_ptr<GLBuffer> perFrameDataBuffer{};
+    std::unique_ptr<GLBuffer> modelMatrices{};
+    std::unique_ptr<GLMesh1> mesh{};
+    MeshFileHeader header;
+
+    Zelo::Core::ECS::Entity *entity{};
+};
+
+class Ch7PBRPlugin : public Plugin {
+public:
+    const std::string &getName() const override;;
+
+    void install() override;
+
+    void uninstall() override;
+
+    void initialize() override;
+
+    void update() override;
+
+    void render() override;
+
+private:
+    std::unique_ptr<GLSLShaderProgram> m_meshShader{};
+    std::unique_ptr<GLBuffer> perFrameDataBuffer{};
+    std::unique_ptr<GLBuffer> modelMatrices{};
     std::unique_ptr<GLMesh1> mesh{};
     MeshFileHeader header;
 

@@ -43,7 +43,8 @@ end)
 local plugins = {
     --"TemplatePlugin",
     --"CraftPlugin",
-    "Ch5MeshRendererPlugin",
+    --"Ch5MeshRendererPlugin",
+    "Ch7PBRPlugin",
     --"ImGuiManager",
 }
 

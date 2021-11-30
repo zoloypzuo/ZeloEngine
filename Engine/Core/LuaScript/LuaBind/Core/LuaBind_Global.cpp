@@ -45,6 +45,10 @@ luaState.new_usertype<TemplatePlugin>("TemplatePlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
+luaState.new_usertype<Ch7PBRPlugin>("Ch7PBRPlugin",
+sol::base_classes, sol::bases<Plugin>(),
+"__Dummy", []{}
+);
 luaState.set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
 luaState.set("RESOURCE_DIR", ResourceManager::getSingletonPtr()->getResourceDir().string());
 luaState.set_function("print", LuaScriptManager::luaPrint);

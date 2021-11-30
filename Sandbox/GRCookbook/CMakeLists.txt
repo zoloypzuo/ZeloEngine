@@ -50,6 +50,7 @@ add_library(GRCookbook
 		GRCookbookPlugins.cpp
 		Resource/GLMesh1.cpp
 		Resource/GLBuffer.cpp
+		Resource/GLMeshPVP.cpp
 
 		shared/scene/VtxData.cpp
 		)
