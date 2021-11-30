@@ -10,6 +10,7 @@
 #include "Core/RHI/Const/ETextureFilterMode.h"
 #include "Core/Resource/Resource.h"
 
+namespace Zelo::Renderer::OpenGL {
 class TextureData {
 public:
     TextureData(const unsigned char *data, int width, int height, bool filter_nearest);
@@ -27,7 +28,7 @@ private:
 
 class GLTexture : public Zelo::Core::RHI::Texture {
 public:
-    explicit GLTexture(const std::string& texFilename);
+    explicit GLTexture(const std::string &texFilename);
 
     explicit GLTexture(const Zelo::Resource &file);
 
@@ -60,3 +61,4 @@ public:
 protected:
     GLuint m_handle{};
 };
+}

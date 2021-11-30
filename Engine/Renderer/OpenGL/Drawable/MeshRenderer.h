@@ -12,6 +12,7 @@
 #include "Core/RHI/Resource/Material.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
+namespace Zelo::Renderer::OpenGL {
 class MeshRenderer : public Zelo::Core::ECS::Component {
 public:
     explicit MeshRenderer(Zelo::Core::ECS::Entity &owner);
@@ -35,5 +36,6 @@ private:
     GLMesh *m_mesh{};
     Zelo::Core::RHI::Material *m_material{};
 };
+}
 
 #endif //ZELOENGINE_MESHRENDERER_H

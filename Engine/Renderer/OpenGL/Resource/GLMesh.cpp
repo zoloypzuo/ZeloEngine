@@ -6,6 +6,8 @@
 
 #include "Core/Parser/MeshLoader.h"
 
+using namespace Zelo::Renderer::OpenGL;
+
 GLMeshData::GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
     m_vertSize = vertSize;
     m_indexSize = indexSize;
