@@ -7,6 +7,11 @@
 #include "Core/Plugin/Plugin.h"
 #include "Core/RHI/RenderSystem.h"
 
+#include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
+#include "Resource/GLBuffer.h"
+#include "Resource/GLMesh1.h"
+
+
 class Ch5MeshRendererPlugin : public Plugin {
 public:
     const std::string &getName() const override;;
@@ -22,5 +27,9 @@ public:
     void render() override;
 
 private:
-    GLuint sky_buffer{};
+    std::unique_ptr<GLSLShaderProgram> m_meshShader{};
+    std::unique_ptr<GLBuffer1> perFrameDataBuffer{};
+    std::unique_ptr<GLBuffer1> modelMatrices{};
+    std::unique_ptr<GLMesh1> mesh{};
+    MeshFileHeader header;
 };

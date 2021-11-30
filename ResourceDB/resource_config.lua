@@ -11,4 +11,5 @@ return {
     "Shader/Craft";
     "Shader/GLSLBook";
     "Shader/GRCookbook";
+    "Sandbox/GRCookbook";
 }
