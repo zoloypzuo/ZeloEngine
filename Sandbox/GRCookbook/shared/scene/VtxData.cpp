@@ -57,11 +57,11 @@ void saveMeshData(const char* fileName, const MeshData& m)
 	FILE *f = fopen(fileName, "wb");
 
 	const MeshFileHeader header = {
-		.magicValue = 0x12345678,
-		.meshCount = (uint32_t)m.meshes_.size(),
-		.dataBlockStartOffset = (uint32_t )(sizeof(MeshFileHeader) + m.meshes_.size() * sizeof(Mesh)),
-		.indexDataSize = (uint32_t)(m.indexData_.size() * sizeof(uint32_t)),
-		.vertexDataSize = (uint32_t)(m.vertexData_.size() * sizeof(float))
+		0x12345678,
+		(uint32_t)m.meshes_.size(),
+		(uint32_t )(sizeof(MeshFileHeader) + m.meshes_.size() * sizeof(Mesh)),
+		(uint32_t)(m.indexData_.size() * sizeof(uint32_t)),
+		(uint32_t)(m.vertexData_.size() * sizeof(float))
 	};
 
 	fwrite(&header, 1, sizeof(header), f);
@@ -142,11 +142,11 @@ MeshFileHeader mergeMeshData(MeshData& m, const std::vector<MeshData*> md)
 	}
 
 	return MeshFileHeader {
-		.magicValue = 0x12345678,
-		.meshCount = (uint32_t)offs,
-		.dataBlockStartOffset = (uint32_t )(sizeof(MeshFileHeader) + offs * sizeof(Mesh)),
-		.indexDataSize = static_cast<uint32_t>(totalIndexDataSize * sizeof(uint32_t)),
-		.vertexDataSize = static_cast<uint32_t>(totalVertexDataSize * sizeof(float))
+		0x12345678,
+		(uint32_t)offs,
+		(uint32_t )(sizeof(MeshFileHeader) + offs * sizeof(Mesh)),
+		static_cast<uint32_t>(totalIndexDataSize * sizeof(uint32_t)),
+		static_cast<uint32_t>(totalVertexDataSize * sizeof(float))
 	};
 }
 
