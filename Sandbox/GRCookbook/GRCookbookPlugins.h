@@ -99,18 +99,8 @@ private:
     std::unique_ptr<GLMesh2> mesh2{};
     MeshFileHeader header;
 
-    std::unique_ptr<GLTexture> texAO;
-    std::unique_ptr<GLTexture> texEmissive;
-    std::unique_ptr<GLTexture> texAlbedo;
-    std::unique_ptr<GLTexture> texMeR;
-    std::unique_ptr<GLTexture> texNormal;
-    std::unique_ptr<GLTexture> envMap;
-    std::unique_ptr<GLTexture> envMapIrradiance;
-    std::unique_ptr<GLTexture> brdfLUT;
+    std::unique_ptr<GLSceneData> sceneData1;
+    std::unique_ptr<GLSceneData> sceneData2;
 
     Zelo::Core::ECS::Entity *entity{};
-
-    void loadMesh(const std::string &meshPath);
-
-    void loadTex();
 };

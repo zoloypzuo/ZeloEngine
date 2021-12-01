@@ -268,11 +268,15 @@ void Ch7LargeScenePlugin::initialize() {
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, perFrameDataBuffer->getHandle(), 0, kUniformBufferSize);
 
     // mesh
-    GLSceneData sceneData1(ZELO_PATH("data/meshes/test.meshes").c_str(), ZELO_PATH("data/meshes/test.scene").c_str(), ZELO_PATH("data/meshes/test.materials").c_str());
-    GLSceneData sceneData2(ZELO_PATH("data/meshes/test2.meshes").c_str(), ZELO_PATH("data/meshes/test2.scene").c_str(), ZELO_PATH("data/meshes/test2.materials").c_str());
+    sceneData1 = std::make_unique<GLSceneData>(ZELO_PATH("data/meshes/test.meshes").c_str(),
+                                               ZELO_PATH("data/meshes/test.scene").c_str(),
+                                               ZELO_PATH("data/meshes/test.materials").c_str());
+    sceneData2 = std::make_unique<GLSceneData>(ZELO_PATH("data/meshes/test2.meshes").c_str(),
+                                               ZELO_PATH("data/meshes/test2.scene").c_str(),
+                                               ZELO_PATH("data/meshes/test2.materials").c_str());
 
-    mesh1 = std::make_unique<GLMesh2>(sceneData1);
-    mesh2 = std::make_unique<GLMesh2>(sceneData2);
+    mesh1 = std::make_unique<GLMesh2>(*sceneData1.get());
+    mesh2 = std::make_unique<GLMesh2>(*sceneData2.get());
 
     // bind entity
     auto *scenem = Zelo::Core::Scene::SceneManager::getSingletonPtr();
