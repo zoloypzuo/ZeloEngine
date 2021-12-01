@@ -2,10 +2,11 @@
 
 #include <mutex>
 
+#include "Resource/GLBuffer.h"
+
 #include "shared/scene/Scene.h"
 #include "shared/scene/Material.h"
 #include "shared/scene/VtxData.h"
-#include "shared/glFramework/GLShader.h"
 #include "shared/glFramework/GLTexture.h"
 #include <taskflow/taskflow.hpp>
 

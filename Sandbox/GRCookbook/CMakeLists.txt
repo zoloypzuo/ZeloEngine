@@ -39,17 +39,24 @@ link_libraries(glfw)
 #add_subdirectory(Chapter10/GL05_Final)
 
 add_library(GRCookbook
-		GRCookbookPlugins.cpp
-		Resource/GLMesh1.cpp
-		Resource/GLBuffer.cpp
-		Resource/GLMeshPVP.cpp
-		Resource/GLMesh2.cpp
+        GRCookbookPlugins.cpp
+        Resource/GLMesh1.cpp
+        Resource/GLBuffer.cpp
+        Resource/GLMeshPVP.cpp
+        Resource/GLMesh2.cpp
+        Resource/GLMesh9.cpp
 
-		shared/scene/VtxData.cpp
-		shared/glFramework/GLTexture.cpp
-		shared/Bitmap.h
-		shared/UtilsCubemap.cpp
-		shared/glFramework/GLSceneData.cpp
-		shared/scene/Scene.cpp
-		shared/scene/Material.cpp
-		)
+        shared/scene/VtxData.cpp
+        shared/scene/Scene.cpp
+        shared/scene/Material.cpp
+
+        shared/glFramework/GLTexture.cpp
+        shared/glFramework/GLSceneData.cpp
+        shared/glFramework/GLSceneDataLazy.cpp
+        shared/glFramework/GLFramebuffer.h
+
+
+        shared/Bitmap.h
+        shared/UtilsCubemap.cpp
+
+        Resource/GLMesh9.cpp Resource/GLMesh9.h)

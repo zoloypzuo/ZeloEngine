@@ -98,12 +98,12 @@ void GLSceneDataLazy::loadScene(const char* sceneFile)
 		{
 			shapes_.push_back(
 				DrawData{
-					.meshIndex = c.second,
-					.materialIndex = material->second,
-					.LOD = 0,
-					.indexOffset = meshData_.meshes_[c.second].indexOffset,
-					.vertexOffset = meshData_.meshes_[c.second].vertexOffset,
-					.transformIndex = c.first
+				c.second,
+				material->second,
+				0,
+				meshData_.meshes_[c.second].indexOffset,
+				meshData_.meshes_[c.second].vertexOffset,
+				c.first
 				});
 		}
 	}
