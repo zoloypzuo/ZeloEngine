@@ -3,8 +3,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 include_directories(.)
 include_directories(deps/src)
 include_directories(deps/src/gli)
-include_directories(deps/glad/include)
-include_directories(deps/src/taskflow)
 include_directories(deps/src/rapidjson/include)
 include_directories(deps/src/stb)
 include_directories(deps/src/ImGuizmo/src)
@@ -59,4 +57,4 @@ add_library(GRCookbook
         shared/Bitmap.h
         shared/UtilsCubemap.cpp
 
-        Resource/GLMesh9.cpp Resource/GLMesh9.h)
+        Resource/GLMesh9.cpp Resource/GLMesh9.h Resource/GLSkyboxRenderer.cpp Resource/GLSkyboxRenderer.h)
