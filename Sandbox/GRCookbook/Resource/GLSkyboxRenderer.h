@@ -14,8 +14,10 @@
 class GLSkyboxRenderer {
 public:
     GLSkyboxRenderer(
-            const char *envMap = "data/immenstadter_horn_2k.hdr",
-            const char *envMapIrradiance = "data/immenstadter_horn_2k_irradiance.hdr");
+            const char *envMap,
+            const char *envMapIrradiance,
+            const char *brdfLUTFileName
+            );
 
     ~GLSkyboxRenderer();
 

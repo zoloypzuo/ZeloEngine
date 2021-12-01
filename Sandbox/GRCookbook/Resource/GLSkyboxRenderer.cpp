@@ -4,14 +4,14 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLSkyboxRenderer.h"
 
-GLSkyboxRenderer::GLSkyboxRenderer(const char *envMap, const char *envMapIrradiance)
-        : envMap_(GL_TEXTURE_CUBE_MAP, envMap)
-        , envMapIrradiance_(GL_TEXTURE_CUBE_MAP, envMapIrradiance)
-{
+GLSkyboxRenderer::GLSkyboxRenderer(const char *envMap, const char *envMapIrradiance, const char *brdfLUTFileName) :
+        envMap_(GL_TEXTURE_CUBE_MAP, envMap),
+        envMapIrradiance_(GL_TEXTURE_CUBE_MAP, envMapIrradiance),
+        brdfLUT_(GL_TEXTURE_2D, brdfLUTFileName) {
     progCube_ = std::make_unique<GLSLShaderProgram>("cube.glsl");
 
     glCreateVertexArrays(1, &dummyVAO_);
-    const GLuint pbrTextures[] = { envMap_.getHandle(), envMapIrradiance_.getHandle(), brdfLUT_.getHandle() };
+    const GLuint pbrTextures[] = {envMap_.getHandle(), envMapIrradiance_.getHandle(), brdfLUT_.getHandle()};
     // binding points for data/shaders/PBR.sp
     glBindTextures(5, 3, pbrTextures);
 }
@@ -21,7 +21,7 @@ GLSkyboxRenderer::~GLSkyboxRenderer() {
 }
 
 void GLSkyboxRenderer::draw() {
-    progCube_.useProgram();
+    progCube_->bind();
     glBindTextureUnit(1, envMap_.getHandle());
     glDepthMask(false);
     glBindVertexArray(dummyVAO_);
