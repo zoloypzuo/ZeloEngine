@@ -1,9 +1,15 @@
 ﻿#include "GLSceneData.h"
+#include "Core/Resource/ResourceManager.h"
 
 static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTexture> &textures) {
     if (idx == INVALID_TEXTURE) return 0;
 
     return textures[idx].getHandleBindless();
+}
+
+static std::string ZELO_PATH(const std::string &fileName) {
+    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
+    return resourcem->resolvePath(fileName).string();
 }
 
 GLSceneData::GLSceneData(
@@ -17,7 +23,7 @@ GLSceneData::GLSceneData(
     loadMaterials(materialFile, materials_, textureFiles);
 
     for (const auto &f: textureFiles) {
-        allMaterialTextures_.emplace_back(GL_TEXTURE_2D, f.c_str());
+        allMaterialTextures_.emplace_back(GL_TEXTURE_2D, ZELO_PATH(f).c_str());
     }
 
     for (auto &mtl: materials_) {
