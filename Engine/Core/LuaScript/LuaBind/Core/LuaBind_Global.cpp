@@ -53,6 +53,10 @@ luaState.new_usertype<Ch7LargeScenePlugin>("Ch7LargeScenePlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
+luaState.new_usertype<Ch10FinalPlugin>("Ch10FinalPlugin",
+sol::base_classes, sol::bases<Plugin>(),
+"__Dummy", []{}
+);
 luaState.set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
 luaState.set("RESOURCE_DIR", ResourceManager::getSingletonPtr()->getResourceDir().string());
 luaState.set_function("print", LuaScriptManager::luaPrint);
