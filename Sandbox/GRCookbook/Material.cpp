@@ -1,7 +1,7 @@
-﻿#include "shared/scene/Material.h"
+﻿#include "Material.h"
 
 #include <unordered_map>
-#include "shared/Utils.h"
+#include "Utils.h"
 
 void saveStringList(FILE* f, const std::vector<std::string>& lines)
 {

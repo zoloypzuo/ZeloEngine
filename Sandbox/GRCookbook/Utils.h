@@ -12,10 +12,6 @@
 
 int endsWith(const char* s, const char* part);
 
-std::string readShaderFile(const char* fileName);
-
-void printShaderSource(const char* text);
-
 template <typename T>
 inline void mergeVectors(std::vector<T>& v1, const std::vector<T>& v2)
 {

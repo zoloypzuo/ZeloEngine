@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include "shared/scene/Scene.h"
-#include "shared/scene/Material.h"
-#include "shared/scene/VtxData.h"
+#include "GRCookbook/Scene.h"
+#include "GRCookbook/Material.h"
+#include "GRCookbook/VtxData.h"
 #include "Resource/GLBuffer.h"
-#include "shared/glFramework/GLTexture.h"
+#include "GLTexture.h"
 
 class GLSceneData
 {

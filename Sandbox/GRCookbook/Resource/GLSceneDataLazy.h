@@ -4,10 +4,10 @@
 
 #include "Resource/GLBuffer.h"
 
-#include "shared/scene/Scene.h"
-#include "shared/scene/Material.h"
-#include "shared/scene/VtxData.h"
-#include "shared/glFramework/GLTexture.h"
+#include "GRCookbook/Scene.h"
+#include "GRCookbook/Material.h"
+#include "GRCookbook/VtxData.h"
+#include "GLTexture.h"
 #include <taskflow/taskflow.hpp>
 
 class GLSceneDataLazy

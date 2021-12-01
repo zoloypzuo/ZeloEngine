@@ -38,23 +38,23 @@ link_libraries(glfw)
 
 add_library(GRCookbook
         GRCookbookPlugins.cpp
+
         Resource/GLMesh1.cpp
         Resource/GLBuffer.cpp
         Resource/GLMeshPVP.cpp
         Resource/GLMesh2.cpp
         Resource/GLMesh9.cpp
+        Resource/GLSkyboxRenderer.cpp
+        Resource/GLTexture.cpp
+        Resource/GLSceneData.cpp
+        Resource/GLSceneDataLazy.cpp
+        Resource/GLFramebuffer.cpp
 
-        shared/scene/VtxData.cpp
-        shared/scene/Scene.cpp
-        shared/scene/Material.cpp
+        VtxData.cpp
+        Scene.cpp
+        Material.cpp
+        Bitmap.h
+        UtilsCubemap.cpp
 
-        shared/glFramework/GLTexture.cpp
-        shared/glFramework/GLSceneData.cpp
-        shared/glFramework/GLSceneDataLazy.cpp
-        shared/glFramework/GLFramebuffer.h
-
-
-        shared/Bitmap.h
-        shared/UtilsCubemap.cpp
-
-        Resource/GLMesh9.cpp Resource/GLMesh9.h Resource/GLSkyboxRenderer.cpp Resource/GLSkyboxRenderer.h)
+        Utils.cpp
+        )

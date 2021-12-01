@@ -407,6 +407,7 @@ struct Ch10FinalPlugin::Impl {
     GLBuffer oitTransparencyLists;
     GLTexture oitHeads;
 
+    std::vector<BoundingBox> reorderedBoxes;
     BoundingBox bigBox{};
     std::vector<GLTexture *> luminances;  // [2]
 
@@ -418,6 +419,7 @@ struct Ch10FinalPlugin::Impl {
     GLTexture luminance1;
     GLTexture luminance2;
 
+
     GLsync fenceCulling = nullptr;
     volatile uint32_t *numVisibleMeshesPtr;
 
@@ -425,7 +427,7 @@ struct Ch10FinalPlugin::Impl {
     bool g_FreezeCullingView = false;
     bool g_DrawOpaque = true;
     bool g_DrawTransparent = true;
-    bool g_DrawGrid = true;
+    bool g_DrawGrid = false;
     bool g_EnableSSAO = true;
     bool g_EnableBlur = true;
     bool g_EnableHDR = true;
@@ -492,7 +494,6 @@ Ch10FinalPlugin::Impl::Impl(Ch10FinalPlugin &parent) :
     progAdaptation = std::make_unique<GLSLShaderProgram>("hdr/adaptation.glsl");
     progShadowMap = std::make_unique<GLSLShaderProgram>("shadow.glsl");
 
-
     glBindBufferRange(GL_UNIFORM_BUFFER, kBufferIndex_PerFrameUniforms, perFrameDataBuffer.getHandle(), 0,
                       kUniformBufferSize);
 
@@ -528,7 +529,6 @@ Ch10FinalPlugin::Impl::Impl(Ch10FinalPlugin &parent) :
     glBindImageTexture(0, oitHeads.getHandle(), 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
     glBindBufferBase(GL_ATOMIC_COUNTER_BUFFER, 0, oitAtomicCounter.getHandle());
 
-    std::vector<BoundingBox> reorderedBoxes;
     reorderedBoxes.reserve(sceneData.shapes_.size());
 
     // pretransform bounding boxes to world space
@@ -568,7 +568,6 @@ void Ch10FinalPlugin::Impl::render() {
     glClearNamedFramebufferfv(opaqueFboHandle, GL_COLOR, 0, glm::value_ptr(vec4(0.0f, 0.0f, 0.0f, 1.0f)));
     glClearNamedFramebufferfi(opaqueFboHandle, GL_DEPTH_STENCIL, 0, 1.0f, 0);
 
-
     auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
     if (!camera) { return; }
     const mat4 proj = camera->getProjectionMatrix();
@@ -589,7 +588,6 @@ void Ch10FinalPlugin::Impl::render() {
             lightProj * lightView,
             glm::vec4(viewPos, 1.0f),
     };
-
 
     getFrustumPlanes(proj * view, perFrameData.frustumPlanes);
     getFrustumCorners(proj * view, perFrameData.frustumCorners);

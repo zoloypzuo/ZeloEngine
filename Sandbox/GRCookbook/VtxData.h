@@ -4,8 +4,8 @@
 
 #include <glm/glm.hpp>
 
-#include "shared/Utils.h"
-#include "shared/UtilsMath.h"
+#include "Utils.h"
+#include "UtilsMath.h"
 
 constexpr const uint32_t kMaxLODs = 8;
 constexpr const uint32_t kMaxStreams = 8;

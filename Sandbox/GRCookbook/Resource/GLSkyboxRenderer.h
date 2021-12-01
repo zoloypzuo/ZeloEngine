@@ -7,7 +7,7 @@
 #include "ZeloGLPrerequisites.h"
 
 #include "GLBuffer.h"
-#include <shared/glFramework/GLTexture.h>
+#include "GLTexture.h"
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
@@ -27,7 +27,7 @@ private:
     // https://hdrihaven.com/hdri/?h=immenstadter_horn
     GLTexture envMap_;
     GLTexture envMapIrradiance_;
-    GLTexture brdfLUT_ = {GL_TEXTURE_2D, "data/brdfLUT.ktx"};
+    GLTexture brdfLUT_;
     std::unique_ptr<GLSLShaderProgram> progCube_;
     GLuint dummyVAO_;
 };

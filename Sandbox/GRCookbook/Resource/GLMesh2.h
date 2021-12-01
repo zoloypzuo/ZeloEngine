@@ -5,10 +5,10 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "shared/scene/VtxData.h"
+#include "GRCookbook/VtxData.h"
 
 #include "Resource/GLBuffer.h"
-#include "shared/glFramework/GLSceneData.h"
+#include "GLSceneData.h"
 
 class GLMesh2 final {
 public:

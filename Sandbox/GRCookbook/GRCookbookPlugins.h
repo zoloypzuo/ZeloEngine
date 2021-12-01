@@ -15,12 +15,12 @@
 #include "Resource/GLMesh9.h"
 #include "Resource/GLSkyboxRenderer.h"
 
-#include "shared/glFramework/GLTexture.h"
-#include "shared/glFramework/GLSceneDataLazy.h"
-#include "shared/glFramework/GLFramebuffer.h"
+#include "GRCookbook/Resource/GLTexture.h"
+#include "GRCookbook/Resource/GLSceneDataLazy.h"
+#include "GRCookbook/Resource/GLFramebuffer.h"
 
-#include "shared/scene/VtxData.h"
-#include "shared/scene/Scene.h"
+#include "VtxData.h"
+#include "Scene.h"
 
 class Ch5MeshRendererPlugin : public Plugin {
 public:

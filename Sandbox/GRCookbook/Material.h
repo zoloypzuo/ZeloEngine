@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include <cstdint>
-#include "shared/scene/vec4.h"
+#include "vec4.h"
 
 #include <string>
 #include <vector>

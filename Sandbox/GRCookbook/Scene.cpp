@@ -1,5 +1,5 @@
-﻿#include "shared/scene/Scene.h"
-#include "shared/Utils.h"
+﻿#include "Scene.h"
+#include "Utils.h"
 
 #include <algorithm>
 #include <numeric>
