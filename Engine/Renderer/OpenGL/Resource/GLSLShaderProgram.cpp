@@ -91,6 +91,7 @@ GLSLShaderProgram::GLSLShaderProgram() {
 GLSLShaderProgram::GLSLShaderProgram(const std::string &shaderAssetName) : m_name(shaderAssetName) {
     m_handle = glCreateProgram();
     GLSLShaderProgram::loadShader(shaderAssetName);
+    link();
 }
 
 GLSLShaderProgram::~GLSLShaderProgram() {
