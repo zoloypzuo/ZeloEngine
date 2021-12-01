@@ -44,7 +44,8 @@ layout(std430, binding = 1) restrict readonly buffer Vertices
 
 #extension GL_ARB_gpu_shader_int64 : enable
 
-#include <common_shader>
+#include <data/shaders/chapter07/MaterialData.h>
+#include <data/shaders/chapter10/GLBufferDeclarations.h>
 
 layout(std430, binding = 1) restrict readonly buffer Matrices
 {
@@ -61,7 +62,7 @@ layout (location=2) out vec3 v_worldPos;
 layout (location=3) out flat uint matIdx;
 layout (location=4) out vec4 v_shadowCoord;
 
-// OpenGL's Z is in -1..1
+/* OpenGL's Z is in -1..1*/
 const mat4 scaleBias = mat4(
 0.5, 0.0, 0.0, 0.0,
 0.0, 0.5, 0.0, 0.0,
@@ -91,13 +92,6 @@ void main()
 
 #include <common_shader>
 
-layout(std140, binding = 0) uniform PerFrameData
-{
-    mat4 view;
-    mat4 proj;
-    vec4 cameraPos;
-};
-
 layout(std430, binding = 2) restrict readonly buffer Materials
 {
     MaterialData in_Materials[];
@@ -107,32 +101,46 @@ layout (location=0) in vec2 v_tc;
 layout (location=1) in vec3 v_worldNormal;
 layout (location=2) in vec3 v_worldPos;
 layout (location=3) in flat uint matIdx;
+layout (location=4) in vec4 v_shadowCoord;
 
 layout (location=0) out vec4 out_FragColor;
 
+layout (binding = 4) uniform sampler2D textureShadow;
+
 layout (binding = 5) uniform samplerCube texEnvMap;
 layout (binding = 6) uniform samplerCube texEnvMapIrradiance;
-layout (binding = 7) uniform sampler2D texBRDF_LUT;
+layout (binding = 7) uniform sampler2D   texBRDF_LUT; /* not used, but required to include PBR.sp*/
 
-void runAlphaTest(float alpha, float alphaThreshold)
+#include <data/shaders/chapter07/AlphaTest.h>
+#include "pbr_sp.fsh"
+
+float PCF(int kernelSize, vec2 shadowCoord, float depth)
 {
-    if (alphaThreshold > 0.0)
-    {
-        mat4 thresholdMatrix = mat4(
-        1.0  / 17.0,  9.0 / 17.0,  3.0 / 17.0, 11.0 / 17.0,
-        13.0 / 17.0,  5.0 / 17.0, 15.0 / 17.0,  7.0 / 17.0,
-        4.0  / 17.0, 12.0 / 17.0,  2.0 / 17.0, 10.0 / 17.0,
-        16.0 / 17.0,  8.0 / 17.0, 14.0 / 17.0,  6.0 / 17.0
-        );
-
-        alpha = clamp(alpha - 0.5 * thresholdMatrix[int(mod(gl_FragCoord.x, 4.0))][int(mod(gl_FragCoord.y, 4.0))], 0.0, 1.0);
-
-        if (alpha < alphaThreshold)
-        discard;
-    }
+    float size = 1.0 / float( textureSize(textureShadow, 0 ).x );
+    float shadow = 0.0;
+    int range = kernelSize / 2;
+    for ( int v=-range; v<=range; v++ ) for ( int u=-range; u<=range; u++ )
+    shadow += (depth >= texture( textureShadow, shadowCoord + size * vec2(u, v) ).r) ? 1.0 : 0.0;
+    return shadow / (kernelSize * kernelSize);
 }
 
-#include "pbr_sp.fsh"
+float shadowFactor(vec4 shadowCoord)
+{
+    /* check if shadows are disabled*/
+    if (light[3][3] == 0.0)
+    return 1.0;
+
+    vec4 shadowCoords4 = shadowCoord / shadowCoord.w;
+
+    if (shadowCoords4.z > -1.0 && shadowCoords4.z < 1.0)
+    {
+        float depthBias = -0.001;
+        float shadowSample = PCF( 13, shadowCoords4.xy, shadowCoords4.z + depthBias );
+        return mix(1.0, 0.3, shadowSample);
+    }
+
+    return 1.0;
+}
 
 void main()
 {
@@ -141,6 +149,7 @@ void main()
     vec4 albedo = mtl.albedoColor_;
     vec3 normalSample = vec3(0.0, 0.0, 0.0);
 
+    /* fetch albedo*/
     if (mtl.albedoMap_ > uint64_t(0))
     albedo = texture( sampler2D(unpackUint2x32(mtl.albedoMap_)), v_tc);
     if (mtl.normalMap_ > uint64_t(0))
@@ -148,16 +157,19 @@ void main()
 
     runAlphaTest(albedo.a, mtl.alphaTest_);
 
+    /* world-space normal*/
     vec3 n = normalize(v_worldNormal);
 
+    /* normal mapping: skip missing normal maps*/
     if (length(normalSample) > 0.5)
     n = perturbNormal(n, normalize(cameraPos.xyz - v_worldPos.xyz), normalSample, v_tc);
 
-    vec3 lightDir = normalize(vec3(-1.0, 1.0, 0.1));
+    /* image-based lighting (diffuse only)*/
+    vec3 f0 = vec3(0.04);
+    vec3 diffuseColor = albedo.rgb * (vec3(1.0) - f0);
+    vec3 diffuse = texture(texEnvMapIrradiance, n.xyz).rgb * diffuseColor;
 
-    float NdotL = clamp( dot( n, lightDir ), 0.3, 1.0 );
-
-    out_FragColor = vec4( albedo.rgb * NdotL, 1.0 );
+    out_FragColor = vec4( diffuse * shadowFactor(v_shadowCoord), 1.0 );
 }
 // ]]
 
