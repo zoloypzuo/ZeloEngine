@@ -47,7 +47,7 @@ layout(location = 1) in vec2 v_texCoord;
 layout(location = 2) in vec3 v_normal;
 layout(location = 3) in vec3 v_tangent;
 
-// common:
+#include <common_shader>
 
 /* shadow */
 uniform mat4 u_LightSpaceMatrix;
@@ -91,7 +91,7 @@ void main()
 // local fragment_shader = [[
 #version 430 core
 
-// common:
+#include <common_shader>
 
 layout(std430, binding = 0) buffer LightSSBO
 {

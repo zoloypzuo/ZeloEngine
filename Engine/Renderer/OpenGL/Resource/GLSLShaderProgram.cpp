@@ -467,8 +467,8 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
             Zelo::ReplaceString(common_src_vs, "varying", "out");
             std::string common_src_fs(common_src.value());
             Zelo::ReplaceString(common_src_fs, "varying", "in");
-            Zelo::ReplaceString(vertex_src, "common:", common_src_vs);
-            Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
+            Zelo::ReplaceString(vertex_src, "#include <common_shader>", common_src_vs);
+            Zelo::ReplaceString(fragment_src, "#include <common_shader>", common_src_fs);
         }
 
         // include header

@@ -7,13 +7,13 @@
 
 // local vertex_shader = [[
 // ...
-// common:
+#include <common_shader>
 // ...
 // ]]
 
 // local fragment_shader = [[
 // ...
-// common:
+#include <common_shader>
 // ...
 // ]]
 

@@ -18,6 +18,25 @@ struct MaterialData
     uint64_t normalMap_;
     uint64_t opacityMap_;
 };
+
+layout(std140, binding = 0) uniform PerFrameData
+{
+    uniform mat4 model;
+    uniform mat4 MVP;
+    uniform vec4 cameraPos;
+};
+
+struct Vertex
+{
+    float p[3];
+    float n[3];
+    float tc[2];
+};
+
+layout(std430, binding = 1) restrict readonly buffer Vertices
+{
+    Vertex in_Vertices[];
+};
 // ]]
 
 // local vertex_shader = [[
@@ -26,13 +45,6 @@ struct MaterialData
 #extension GL_ARB_gpu_shader_int64 : enable
 
 #include <common_shader>
-
-layout(std140, binding = 0) uniform PerFrameData
-{
-    mat4 view;
-    mat4 proj;
-    vec4 cameraPos;
-};
 
 layout(std430, binding = 1) restrict readonly buffer Matrices
 {
@@ -47,10 +59,18 @@ layout (location=0) out vec2 v_tc;
 layout (location=1) out vec3 v_worldNormal;
 layout (location=2) out vec3 v_worldPos;
 layout (location=3) out flat uint matIdx;
+layout (location=4) out vec4 v_shadowCoord;
+
+// OpenGL's Z is in -1..1
+const mat4 scaleBias = mat4(
+0.5, 0.0, 0.0, 0.0,
+0.0, 0.5, 0.0, 0.0,
+0.0, 0.0, 0.5, 0.0,
+0.5, 0.5, 0.5, 1.0 );
 
 void main()
 {
-    mat4 model = in_Model[gl_InstanceID];
+    mat4 model = in_Model[gl_BaseInstance >> 16];
     mat4 MVP = proj * view * model;
 
     gl_Position = MVP * vec4(in_Vertex, 1.0);
@@ -58,7 +78,8 @@ void main()
     v_worldPos = (view * vec4(in_Vertex, 1.0)).xyz;
     v_worldNormal = transpose(inverse(mat3(model))) * in_Normal;
     v_tc = in_TexCoord;
-    matIdx = gl_BaseInstance;
+    matIdx = gl_BaseInstance & 0xffff;
+    v_shadowCoord = scaleBias * light * model * vec4(in_Vertex, 1.0);
 }
 // ]]
 

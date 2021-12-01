@@ -13,7 +13,7 @@ layout (location = 1) in vec2 texCoord;
 
 out vec2 texCoord0;
 
-// common:
+#include <common_shader>
 
 void main()
 {
@@ -33,7 +33,7 @@ uniform float EdgeThreshold;
 
 const vec3 lum = vec3(0.2126, 0.7152, 0.0722);
 
-// common:
+#include <common_shader>
 
 float luminance( vec3 color ) {
     return dot(lum,color);

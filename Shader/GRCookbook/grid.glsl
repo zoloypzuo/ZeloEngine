@@ -38,7 +38,7 @@ const int indices[6] = int[6](
 // local vertex_shader = [[
 #version 460 core
 
-// common:
+#include <common_shader>
 
 layout (location=0) out vec2 uv;
 
@@ -57,7 +57,7 @@ void main()
 // local fragment_shader = [[
 #version 460 core
 
-// common:
+#include <common_shader>
 
 float log10(float x)
 {
