@@ -84,7 +84,7 @@ do
     -- put one at origin
     local monkey0 = SpawnPrefab("monkey")
     monkey0.name = "origin"
-    
+
     for i = 0, 10 do
         local monkey = SpawnPrefab("monkey")
         monkey.components.transform:SetPosition(2, i * 3, 0.5)
@@ -105,8 +105,11 @@ do
 end
 
 do
-    local avatar = SpawnPrefab("monkey")
+    local avatar = CreateEntity()
+
     avatar.name = "avatar"
+
+    avatar.entity:AddTransform()
     avatar.components.transform:SetPosition(0, 0, 5)
     avatar.components.transform:SetScale(0.8, 0.8, 0.8)
 

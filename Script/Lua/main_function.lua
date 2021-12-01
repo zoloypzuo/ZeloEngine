@@ -298,8 +298,11 @@ end
 RegisterMainFunctionEvent("SpawnPrefab")
 
 function LoadAvatar()
-    local avatar = SpawnPrefab("monkey")
+    local avatar = CreateEntity()
+
     avatar.name = "avatar"
+
+    avatar.entity:AddTransform()
     avatar.components.transform:SetPosition(0, 0, 5)
     avatar.components.transform:SetScale(0.8, 0.8, 0.8)
 
