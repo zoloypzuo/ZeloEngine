@@ -3,6 +3,13 @@
 #include "GLSceneDataLazy.h"
 #include <stb/stb_image.h>
 
+#include "Core/Resource/ResourceManager.h"
+
+static std::string ZELO_PATH(const std::string &fileName) {
+    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
+    return resourcem->resolvePath(fileName).string();
+}
+
 static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<std::shared_ptr<GLTexture>>& textures)
 {
 	if (idx == INVALID_TEXTURE) return 0;
@@ -17,11 +24,15 @@ GLSceneDataLazy::GLSceneDataLazy(
     const char* dummyTextureFile
     )
 {
-   dummyTexture_ = std::make_shared<GLTexture>(GL_TEXTURE_2D, dummyTextureFile);
+    dummyTexture_ = std::make_shared<GLTexture>(GL_TEXTURE_2D, dummyTextureFile);
 
 	header_ = loadMeshData(meshFile, meshData_);
 	loadScene(sceneFile);
 	loadMaterials(materialFile, materialsLoaded_, textureFiles_);
+
+    for (auto &f: textureFiles_) {
+        f = ZELO_PATH(f);
+    }
 
 	// apply a dummy textures to everything
 	for (const auto& f: textureFiles_) {

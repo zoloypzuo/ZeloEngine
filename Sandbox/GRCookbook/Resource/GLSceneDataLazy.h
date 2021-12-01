@@ -27,7 +27,7 @@ public:
 		const uint8_t* img_ = nullptr;
 	};
 
-	 std::shared_ptr<GLTexture> dummyTexture_;
+    std::shared_ptr<GLTexture> dummyTexture_;
 
 	std::vector<std::string> textureFiles_;
 	std::vector<LoadedImageData> loadedFiles_;

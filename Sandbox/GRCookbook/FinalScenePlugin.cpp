@@ -14,9 +14,9 @@
 #include "Scene.h"
 
 #include "GRCookbook/Resource/GLBuffer.h"
+#include "GRCookbook/Resource/GLTexture.h"
 #include "GRCookbook/Resource/GLMesh9.h"
 #include "GRCookbook/Resource/GLSkyboxRenderer.h"
-#include "GRCookbook/Resource/GLTexture.h"
 #include "GRCookbook/Resource/GLSceneDataLazy.h"
 #include "GRCookbook/Resource/GLFramebuffer.h"
 
@@ -44,6 +44,8 @@ const GLuint kMaxNumObjects = 128 * 1024;
 const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
 const GLsizeiptr kBoundingBoxesBufferSize = sizeof(BoundingBox) * kMaxNumObjects;
 
+const glm::uint32_t kMaxOITFragments = 16 * 1024 * 1024;
+const GLuint kBufferIndex_TransparencyLists = kBufferIndex_Materials + 1;
 
 struct Ch10FinalPlugin::Impl {
     struct TransparentFragment {
@@ -51,31 +53,6 @@ struct Ch10FinalPlugin::Impl {
         float Depth;
         glm::uint32_t Next;
     };
-
-
-    struct SSAOParams {
-        float scale_ = 1.5f;
-        float bias_ = 0.15f;
-        float zNear = 0.1f;
-        float zFar = 1000.0f;
-        float radius = 0.05f;
-        float attScale = 1.01f;
-        float distScale = 0.6f;
-    } g_SSAOParams;
-
-    static_assert(sizeof(SSAOParams) <= sizeof(PerFrameData));
-
-    struct HDRParams {
-        float exposure_ = 0.9f;
-        float maxWhite_ = 1.17f;
-        float bloomStrength_ = 1.1f;
-        float adaptationSpeed_ = 0.1f;
-    } g_HDRParams;
-
-    static_assert(sizeof(HDRParams) <= sizeof(PerFrameData));
-
-    const glm::uint32_t kMaxOITFragments = 16 * 1024 * 1024;
-    const GLuint kBufferIndex_TransparencyLists = kBufferIndex_Materials + 1;
 
     explicit Impl(Ch10FinalPlugin &parent);
 
@@ -132,23 +109,43 @@ struct Ch10FinalPlugin::Impl {
     GLTexture luminance1;
     GLTexture luminance2;
 
-
     GLsync fenceCulling = nullptr;
     volatile glm::uint32_t *numVisibleMeshesPtr;
+
+    struct SSAOParams {
+        float scale_ = 1.5f;
+        float bias_ = 0.15f;
+        float zNear = 0.1f;
+        float zFar = 1000.0f;
+        float radius = 0.05f;
+        float attScale = 1.01f;
+        float distScale = 0.6f;
+    } g_SSAOParams;
+
+    static_assert(sizeof(SSAOParams) <= sizeof(PerFrameData));
+
+    struct HDRParams {
+        float exposure_ = 0.9f;
+        float maxWhite_ = 1.17f;
+        float bloomStrength_ = 1.1f;
+        float adaptationSpeed_ = 0.1f;
+    } g_HDRParams;
+
+    static_assert(sizeof(HDRParams) <= sizeof(PerFrameData));
 
     bool g_EnableGPUCulling = false;
     bool g_FreezeCullingView = false;
     bool g_DrawOpaque = true;
     bool g_DrawTransparent = true;
     bool g_DrawGrid = false;
-    bool g_EnableSSAO = false;
-    bool g_EnableBlur = false;
-    bool g_EnableHDR = false;
-    bool g_DrawBoxes = false;
-    bool g_EnableShadows = false;
-    bool g_ShowLightFrustum = false;
+    bool g_EnableSSAO = true;
+    bool g_EnableBlur = true;
+    bool g_EnableHDR = true;
+    bool g_EnableShadows = true;
     float g_LightTheta = 0.0f;
     float g_LightPhi = 0.0f;
+
+    glm::mat4 g_CullingView{};
 
     void clearTransparencyBuffers() const;
 
@@ -212,7 +209,8 @@ Ch10FinalPlugin::Impl::Impl(Ch10FinalPlugin &parent) :
     numVisibleMeshesPtr = (uint32_t *) glMapNamedBuffer(numVisibleMeshesBuffer.getHandle(), GL_READ_WRITE);
     assert(numVisibleMeshesPtr);
 
-//    CanvasGL canvas;
+    auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
+    g_CullingView = camera->getViewMatrix();
 
     auto isTransparent = [this](const DrawElementsIndirectCommand &c) {
         const auto mtlIndex = c.baseInstance_ & 0xffff;
@@ -280,7 +278,12 @@ void Ch10FinalPlugin::Impl::render() {
     glClearNamedFramebufferfi(opaqueFboHandle, GL_DEPTH_STENCIL, 0, 1.0f, 0);
 
     auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
-    if (!camera) { return; }
+
+    if (!g_FreezeCullingView){
+        // update cull view
+        g_CullingView = camera->getViewMatrix();
+    }
+
     const mat4 proj = camera->getProjectionMatrix();
     const mat4 view = camera->getViewMatrix();
     const vec3 viewPos = camera->getOwner()->getPosition();
@@ -488,6 +491,9 @@ void Ch10FinalPlugin::Impl::render() {
         }
         glDeleteSync(fenceCulling);
     }
+
+    // swap current and adapter luminances
+    std::swap(luminances[0], luminances[1]);
 }
 
 const std::string &Ch10FinalPlugin::getName() const {

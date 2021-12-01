@@ -29,5 +29,5 @@ private:
     GLTexture envMapIrradiance_;
     GLTexture brdfLUT_;
     std::unique_ptr<GLSLShaderProgram> progCube_;
-    GLuint dummyVAO_;
+    GLuint dummyVAO_{};
 };
