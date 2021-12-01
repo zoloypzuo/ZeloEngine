@@ -10,10 +10,11 @@
 #include "Resource/GLBuffer.h"
 #include "shared/glFramework/GLSceneData.h"
 
-const GLuint kBufferIndex_ModelMatrices = 1;
-const GLuint kBufferIndex_Materials = 2;
-
 class GLMesh2 final {
+public:
+    const GLuint kBufferIndex_ModelMatrices = 1;
+    const GLuint kBufferIndex_Materials = 2;
+
 public:
     explicit GLMesh2(GLSceneData &data);
 

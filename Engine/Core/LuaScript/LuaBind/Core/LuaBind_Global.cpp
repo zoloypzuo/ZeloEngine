@@ -53,7 +53,7 @@ luaState.new_usertype<Ch7LargeScenePlugin>("Ch7LargeScenePlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
-luaState.new_usertype<Ch10FinalPlugin>("Ch10FinalPlugin",
+luaState.new_usertype<FinalScene::Ch10FinalPlugin>("Ch10FinalPlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
