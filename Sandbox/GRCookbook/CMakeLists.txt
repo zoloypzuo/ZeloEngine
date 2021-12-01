@@ -38,6 +38,7 @@ link_libraries(glfw)
 
 add_library(GRCookbook
         GRCookbookPlugins.cpp
+        FinalScenePlugin.cpp
 
         Resource/GLMesh1.cpp
         Resource/GLBuffer.cpp

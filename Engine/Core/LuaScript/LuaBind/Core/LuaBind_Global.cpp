@@ -4,10 +4,11 @@
 #include "Engine.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
+#include "_Template//TemplatePlugins.h"
 #include "GLSLBook/GLSLBookPlugins.h"
 #include "Craft//CraftPlugin.h"
 #include "GRCookbook/GRCookbookPlugins.h"
-#include "_Template//TemplatePlugins.h"
+#include "GRCookbook/FinalScenePlugin.h"
 
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::Resource;
