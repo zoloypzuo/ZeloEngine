@@ -16,7 +16,8 @@ public:
 	GLSceneDataLazy(
 		const char* meshFile,
 		const char* sceneFile,
-		const char* materialFile);
+		const char* materialFile,
+		const char* dummyTextureFile);
 
 	struct LoadedImageData
 	{
@@ -26,7 +27,7 @@ public:
 		const uint8_t* img_ = nullptr;
 	};
 
-	const std::shared_ptr<GLTexture> dummyTexture_ = std::make_shared<GLTexture>(GL_TEXTURE_2D, "data/const1.bmp");
+	 std::shared_ptr<GLTexture> dummyTexture_;
 
 	std::vector<std::string> textureFiles_;
 	std::vector<LoadedImageData> loadedFiles_;

@@ -13,8 +13,12 @@ static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<std::sh
 GLSceneDataLazy::GLSceneDataLazy(
 	const char* meshFile,
 	const char* sceneFile,
-	const char* materialFile)
+	const char* materialFile,
+    const char* dummyTextureFile
+    )
 {
+   dummyTexture_ = std::make_shared<GLTexture>(GL_TEXTURE_2D, dummyTextureFile);
+
 	header_ = loadMeshData(meshFile, meshData_);
 	loadScene(sceneFile);
 	loadMaterials(materialFile, materialsLoaded_, textureFiles_);
