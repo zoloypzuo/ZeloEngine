@@ -1,4 +1,4 @@
-// GLMesh2.cpp
+// GLMesh22.cpp
 // created on 2021/12/1
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
@@ -12,7 +12,8 @@ struct DrawElementsIndirectCommand {
     GLuint baseInstance_;
 };
 
-GLMesh::GLMesh(const GLSceneData &data) :
+GLMesh2::GLMesh2(GLSceneData &data) :
+        m_data(data),
         numIndices_(data.header_.indexDataSize / sizeof(uint32_t)),
         bufferIndices_(data.header_.indexDataSize, data.meshData_.indexData_.data(), 0),
         bufferVertices_(data.header_.vertexDataSize, data.meshData_.vertexData_.data(), 0),
@@ -53,11 +54,11 @@ GLMesh::GLMesh(const GLSceneData &data) :
         const uint32_t meshIdx = data.shapes_[i].meshIndex;
         const uint32_t lod = data.shapes_[i].LOD;
         *cmd++ = {
-                .count_ = data.meshData_.meshes_[meshIdx].getLODIndicesCount(lod),
-                .instanceCount_ = 1,
-                .firstIndex_ = data.shapes_[i].indexOffset,
-                .baseVertex_ = data.shapes_[i].vertexOffset,
-                .baseInstance_ = data.shapes_[i].materialIndex
+                data.meshData_.meshes_[meshIdx].getLODIndicesCount(lod),
+                1,
+                data.shapes_[i].indexOffset,
+                data.shapes_[i].vertexOffset,
+                data.shapes_[i].materialIndex
         };
     }
 
@@ -69,18 +70,19 @@ GLMesh::GLMesh(const GLSceneData &data) :
         matrices[i++] = data.scene_.globalTransform_[c.transformIndex];
 
     glNamedBufferSubData(bufferModelMatrices_.getHandle(), 0, matrices.size() * sizeof(mat4), matrices.data());
+
 }
 
-void GLMesh::draw(const GLSceneData &data) const {
+void GLMesh2::draw() const {
     glBindVertexArray(vao_);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_Materials, bufferMaterials_.getHandle());
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_ModelMatrices, bufferModelMatrices_.getHandle());
     glBindBuffer(GL_DRAW_INDIRECT_BUFFER, bufferIndirect_.getHandle());
     glBindBuffer(GL_PARAMETER_BUFFER, bufferIndirect_.getHandle());
     glMultiDrawElementsIndirectCount(GL_TRIANGLES, GL_UNSIGNED_INT, (const void *) sizeof(GLsizei), 0,
-                                     (GLsizei) data.shapes_.size(), 0);
+                                     (GLsizei) m_data.shapes_.size(), 0);
 }
 
-GLMesh::~GLMesh() {
+GLMesh2::~GLMesh2() {
     glDeleteVertexArrays(1, &vao_);
 }

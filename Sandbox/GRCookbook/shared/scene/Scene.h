@@ -65,9 +65,9 @@ void markAsChanged(Scene& scene, int node);
 
 int findNodeByName(const Scene& scene, const std::string& name);
 
-inline std::string getNodeName(const Scene& scene, int node)
+inline std::string getNodeName(const Scene& scene, uint32_t node)
 {
-	int strID = scene.nameForNode_.contains(node) ? scene.nameForNode_.at(node) : -1;
+	int strID = scene.nameForNode_.count(node) ? scene.nameForNode_.at(node) : -1;
 	return (strID > -1) ? scene.names_[strID] : std::string();
 }
 

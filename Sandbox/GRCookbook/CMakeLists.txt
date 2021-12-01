@@ -49,4 +49,7 @@ add_library(GRCookbook
 		shared/glFramework/GLTexture.cpp
 		shared/Bitmap.h
 		shared/UtilsCubemap.cpp
+		shared/glFramework/GLSceneData.cpp
+		shared/scene/Scene.cpp
+		shared/scene/Material.cpp
 		)

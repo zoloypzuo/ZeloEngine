@@ -3,7 +3,7 @@
 #include "shared/scene/Scene.h"
 #include "shared/scene/Material.h"
 #include "shared/scene/VtxData.h"
-#include "shared/glFramework/GLShader.h"
+#include "Resource/GLBuffer.h"
 #include "shared/glFramework/GLTexture.h"
 
 class GLSceneData

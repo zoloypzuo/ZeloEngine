@@ -1,4 +1,4 @@
-// GLMesh2.h
+// GLMesh22.h
 // created on 2021/12/1
 // author @zoloypzuo
 #pragma once
@@ -13,20 +13,20 @@
 const GLuint kBufferIndex_ModelMatrices = 1;
 const GLuint kBufferIndex_Materials = 2;
 
-class GLMesh final {
+class GLMesh2 final {
 public:
-    explicit GLMesh(const GLSceneData &data);
+    explicit GLMesh2(GLSceneData &data);
 
-    void draw(const GLSceneData &data) const;
+    void draw() const;
 
-    ~GLMesh();
+    ~GLMesh2();
 
-    GLMesh(const GLMesh &) = delete;
+    GLMesh2(const GLMesh2 &) = delete;
 
-    GLMesh(GLMesh &&) = default;
+    GLMesh2(GLMesh2 &&) = default;
 
 private:
-    GLuint vao_;
+    GLuint vao_{};
     uint32_t numIndices_;
 
     GLBuffer bufferIndices_;
@@ -36,4 +36,6 @@ private:
     GLBuffer bufferIndirect_;
 
     GLBuffer bufferModelMatrices_;
+
+    GLSceneData &m_data;
 };

@@ -60,10 +60,8 @@ void Ch5MeshRendererPlugin::initialize() {
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, perFrameDataBuffer->getHandle(), 0, kUniformBufferSize);
 
     // mesh
-    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
-    auto meshPath = resourcem->resolvePath("data/meshes/test.meshes");
     MeshData meshData;
-    header = loadMeshData(meshPath.string().c_str(), meshData);
+    header = loadMeshData(ZELO_PATH("data/meshes/test.meshes").c_str(), meshData);
 
     mesh = std::make_unique<GLMesh1>(header, meshData.meshes_.data(), meshData.indexData_.data(),
                                      meshData.vertexData_.data());
@@ -119,7 +117,6 @@ void Ch6PBRPlugin::uninstall() {
 }
 
 void Ch6PBRPlugin::initialize() {
-
     Zelo::Core::Scene::SceneManager::getSingletonPtr()->clear();
     Zelo::Core::RHI::RenderSystem::getSingletonPtr()->resetRenderPipeline();
 
@@ -240,4 +237,79 @@ void Ch6PBRPlugin::loadTex() {
     // BRDF LUT
     brdfLUT = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH("data/brdfLUT.ktx").c_str());
     glBindTextureUnit(7, brdfLUT->getHandle());
+}
+
+const std::string &Ch7LargeScenePlugin::getName() const {
+    static std::string s = "Ch7LargeScenePlugin";
+    return s;
+}
+
+void Ch7LargeScenePlugin::install() {
+
+}
+
+void Ch7LargeScenePlugin::uninstall() {
+
+}
+
+void Ch7LargeScenePlugin::initialize() {
+    Zelo::Core::Scene::SceneManager::getSingletonPtr()->clear();
+    Zelo::Core::RHI::RenderSystem::getSingletonPtr()->resetRenderPipeline();
+
+    // load avatar
+    Zelo::Core::LuaScript::LuaScriptManager::getSingletonPtr()->luaCall("LoadAvatar");
+
+    // shader
+    m_meshShader = std::make_unique<GLSLShaderProgram>("mesh.glsl");
+    m_meshShader->link();
+
+    // UBO
+    perFrameDataBuffer = std::make_unique<GLBuffer>(kUniformBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT);
+    glBindBufferRange(GL_UNIFORM_BUFFER, 0, perFrameDataBuffer->getHandle(), 0, kUniformBufferSize);
+
+    // mesh
+    GLSceneData sceneData1(ZELO_PATH("data/meshes/test.meshes").c_str(), ZELO_PATH("data/meshes/test.scene").c_str(), ZELO_PATH("data/meshes/test.materials").c_str());
+    GLSceneData sceneData2(ZELO_PATH("data/meshes/test2.meshes").c_str(), ZELO_PATH("data/meshes/test2.scene").c_str(), ZELO_PATH("data/meshes/test2.materials").c_str());
+
+    mesh1 = std::make_unique<GLMesh2>(sceneData1);
+    mesh2 = std::make_unique<GLMesh2>(sceneData2);
+
+    // bind entity
+    auto *scenem = Zelo::Core::Scene::SceneManager::getSingletonPtr();
+    entity = scenem->CreateEntity();
+
+    // set transform
+//    entity->getTransform().setScale(vec3(3.0f));
+//    entity->getTransform().setRotation(vec3(1.0f, 0.0f, 0.0f), glm::radians(90.0f));
+
+    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_DEPTH_TEST);
+}
+
+void Ch7LargeScenePlugin::update() {
+    Plugin::update();
+}
+
+void Ch7LargeScenePlugin::render() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+    const mat4 m = entity->getWorldMatrix();
+    modelMatrices = std::make_unique<GLBuffer>(sizeof(mat4), value_ptr(m), GL_DYNAMIC_STORAGE_BIT);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, modelMatrices->getHandle());
+
+    auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
+    if (!camera) { return; }
+    const mat4 p = camera->getProjectionMatrix();
+    const mat4 view = camera->getViewMatrix();
+    const vec3 viewPos = camera->getOwner()->getPosition();
+
+    const PerFrameData perFrameData = {view, p, glm::vec4(viewPos, 1.0f)};
+    glNamedBufferSubData(perFrameDataBuffer->getHandle(), 0, kUniformBufferSize, &perFrameData);
+
+    glEnable(GL_DEPTH_TEST);
+    glDisable(GL_BLEND);
+    m_meshShader->bind();
+    mesh1->draw();
+    mesh2->draw();
 }
