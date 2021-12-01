@@ -47,6 +47,43 @@ static GLenum GetGLShaderType(const EShaderType &shaderType) {
     }
 }
 
+std::string prettyShaderSource(const char *text) {
+    std::stringstream ss{};
+    int line = 1;
+
+    ss << "\n(" << line << ") ";
+    while (text && *text++) {
+        if (*text == '\n') {
+            ss << "\n(" << ++line << ") ";
+        } else if (*text == '\r') {
+        } else {
+            ss << *text;
+        }
+    }
+    ss << "\n";
+
+    return ss.str();
+}
+
+std::string loadHeader(const std::string &headerName) {
+    sol::state &luam = LuaScriptManager::getSingleton();
+    std::string glsl_src(Zelo::Resource(headerName).read());
+    Zelo::ReplaceString(glsl_src, "//", "");  // generate lua code
+    return luam.script(glsl_src);
+}
+
+void handleInclude(std::string &code) {
+    while (code.find("#include ") != std::string::npos) {
+        const auto pos = code.find("#include ");
+        const auto p1 = code.find('"', pos);
+        const auto p2 = code.find('"', p1 + 1);
+        ZELO_ASSERT(p1 != std::string::npos && p2 != std::string::npos && p2 > p1, "include stmt syntax error");
+        const std::string name = code.substr(p1 + 1, p2 - p1 - 1);
+        const std::string include = loadHeader(name);
+        code.replace(pos, p2 - pos + 1, include.c_str());
+    }
+}
+
 GLSLShaderProgram::GLSLShaderProgram() {
     m_handle = glCreateProgram();
 }
@@ -54,6 +91,7 @@ GLSLShaderProgram::GLSLShaderProgram() {
 GLSLShaderProgram::GLSLShaderProgram(const std::string &shaderAssetName) : m_name(shaderAssetName) {
     m_handle = glCreateProgram();
     GLSLShaderProgram::loadShader(shaderAssetName);
+    link();
 }
 
 GLSLShaderProgram::~GLSLShaderProgram() {
@@ -358,7 +396,7 @@ void GLSLShaderProgram::addShaderSrc(const std::string &fileName,
             logString = c_log;
             delete[] c_log;
         }
-        spdlog::error("{}: shader compliation failed{}\n{}", fileName, logString, c_code);
+        spdlog::error("{}: shader compliation failed{}\n{}", fileName, logString, prettyShaderSource(c_code));
         ZELO_ASSERT(false);
         return;
     } else {
@@ -415,22 +453,46 @@ void GLSLShaderProgram::findUniformLocations() {
 void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     auto ext = std::filesystem::path(fileName).extension();
     if (ext == ".glsl") {
-        auto asset = Zelo::Resource(fileName);
-        std::string src(asset.read());
-        Zelo::ReplaceString(src, "//", "");
-        sol::state &lua = LuaScriptManager::getSingleton();
-        sol::table result = lua.script(src);
+        sol::state &luam = LuaScriptManager::getSingleton();
+        std::string glsl_src(Zelo::Resource(fileName).read());
+        Zelo::ReplaceString(glsl_src, "//", "");  // generate lua code
+        sol::table result = luam.script(glsl_src);
+
+        // compute shader is compiled alone
+        auto cs_src = result.get<sol::optional<std::string>>("compute_shader");
+        if (cs_src.has_value()) {
+            addShaderSrc(fileName, EShaderType::COMPUTE, cs_src.value().c_str());
+            return;
+        }
+
         std::string vertex_src = result["vertex_shader"];
         std::string fragment_src = result["fragment_shader"];
-        std::string common_src = result["common_shader"];
-        std::string common_src_vs(common_src);
-        Zelo::ReplaceString(common_src_vs, "varying", "out");
-        std::string common_src_fs(common_src);
-        Zelo::ReplaceString(common_src_fs, "varying", "in");
-        Zelo::ReplaceString(vertex_src, "common:", common_src_vs);
-        Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
+
+        // include common code
+        auto common_src = result.get<sol::optional<std::string>>("common_shader");
+        if (common_src.has_value()) {
+            std::string common_src_vs(common_src.value());
+            Zelo::ReplaceString(common_src_vs, "varying", "out");
+            std::string common_src_fs(common_src.value());
+            Zelo::ReplaceString(common_src_fs, "varying", "in");
+            Zelo::ReplaceString(vertex_src, "#include <common_shader>", common_src_vs);
+            Zelo::ReplaceString(fragment_src, "#include <common_shader>", common_src_fs);
+        }
+
+        // include header
+        handleInclude(vertex_src);
+        handleInclude(fragment_src);
+
+        // compiler and attach shader
         addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
         addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
+
+        // optional geometry shader
+        auto gs_src = result.get<sol::optional<std::string>>("geometry_shader");
+        if (gs_src.has_value()) {
+            addShaderSrc(fileName, EShaderType::GEOMETRY, gs_src.value().c_str());
+        }
+
     } else if (ext == ".lua") {
         // load in simple mode
         sol::state &lua = LuaScriptManager::getSingleton();

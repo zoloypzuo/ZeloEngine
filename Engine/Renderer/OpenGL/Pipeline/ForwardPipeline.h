@@ -11,6 +11,7 @@
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLShaderStorageBuffer.h"
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
+#include "Renderer/OpenGL/Drawable/Grid.h"
 
 namespace Zelo::Renderer::OpenGL {
 struct RenderItem {
@@ -45,7 +46,6 @@ public:
     void initialize() override;
 
 protected:
-
     void updateLights() const;
 
     void updateEngineUBO() const;
@@ -58,5 +58,8 @@ protected:
     std::unique_ptr<GLUniformBuffer> m_engineUBO{};
 
     RenderQueue sortRenderQueue() const;
+
+private:
+    std::unique_ptr<Grid> m_grid;
 };
 }

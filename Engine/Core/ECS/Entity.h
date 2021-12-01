@@ -113,7 +113,7 @@ public:
 
     Transform &getTransform();
 
-    EntityList getChildren();
+    EntityList &getChildren();
 
     glm::mat4 &getWorldMatrix();
 

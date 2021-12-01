@@ -8,6 +8,8 @@
 
 #include <stb_image.h>
 
+using namespace Zelo::Renderer::OpenGL;
+
 TextureData::TextureData(const unsigned char *data, int width, int height, bool filter_nearest) {
     glGenTextures(1, &m_textureId);
     glBindTexture(GL_TEXTURE_2D, m_textureId);

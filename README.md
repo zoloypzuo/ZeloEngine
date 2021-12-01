@@ -21,7 +21,7 @@
 
 正在施工中。
 
-# 截图
+## 截图
 
 ![Snipaste_2021-09-30_19-41-26](https://raw.githubusercontent.com/zolo-mario/image-host/main/20210930/Snipaste_2021-09-30_19-41-26.1b7emlmhome8.png)
 
@@ -33,10 +33,6 @@ Blur
 
 ![Snipaste_2021-10-18_11-33-53](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211018/Snipaste_2021-10-18_11-33-53.32tz2wzhidm0.png)
 
-BloomPipeline
-
-![Snipaste_2021-10-18_17-49-56](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211018/Snipaste_2021-10-18_17-49-56.4hhw6w5wj64.png)
-
 Shadow Map
 
 ![Snipaste_2021-10-21_00-41-23](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211021/Snipaste_2021-10-21_00-41-23.1ukj4tev8bgg.png)
@@ -44,46 +40,40 @@ Shadow Map
 Craft
 ![mc](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211124/mc.4lfwn87vrla0.gif)
 
-# 特性列表
+## 特性列表
 
 * Lua脚本
 * 前向渲染管线
-* 阴影
+* 平行光阴影（PCF）
 * 游戏编辑器
 
-# 构建 & 依赖管理
+## 构建
 
 [【ZeloEngine】构建概述 & 构建问题汇总](https://blog.csdn.net/zolo_mario/article/details/117652524)
 
-目前以VS2019 Win32 Debug日常开发为主。
+目前以VS2019 Win32 Debug日常开发为主，其他平台构建不维护。
 
 使用vcpkg来管理C++第三方库依赖，主要是方便，成本低。
 
 引擎本体将所有代码编译为一个可执行文件，避免动态链接。
 
-构建脚本在`Tools/`下，每个目标平台对应一个`buildxxx`脚本。
+开发环境安装:
 
-安装:
-
-* vcpkg
 * cmake
 * VS2019
 
-NOTE 请把vcpkg装在`ThirdParty\Vcpkg`目录下
+一键下载初始化依赖：
 
-使用vcpkg安装依赖：
+运行`Tools\Setup\setup.bat`
 
-* spdlog
-* glm
-* SDL2
-* assimp
-* stb
-* yaml-cpp
-* imgui
-* glad
+一键构建：
 
-运行`Tools\build_vs2019.bat`
+运行`Tools\Build\build_vs2019.bat`
 
-# 文档
+一键运行：
 
-文档位于`Doc/`，主要是介绍设计思路，目前没有面向UserEnd开发的打算
+运行`Hello.exe`
+
+## 文档
+
+文档位于`Doc/`，主要是介绍设计思路，目前没有面向用户端开发的打算。

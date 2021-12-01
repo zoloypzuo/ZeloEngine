@@ -161,11 +161,7 @@ void dumpGLInfo(bool dumpExtensions) {
 void loadGL() {
     // Load the OpenGL functions.
     logger->info("start loadGL with GLAD");
-    if (!gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress)) {
-        logger->error("GLAD failed to initialize");
-        ZELO_ASSERT(false, "GLAD failed to initialize");
-    }
-
+    ZELO_ASSERT(gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress), "GLAD failed to initialize");
     dumpGLInfo(false);
 }
 
@@ -297,6 +293,6 @@ void initDebugCallback() {
         glDebugMessageCallback(debugCallback, NULL);
         glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, NULL, GL_TRUE);
         glDebugMessageInsert(GL_DEBUG_SOURCE_APPLICATION, GL_DEBUG_TYPE_MARKER, 0,
-                             GL_DEBUG_SEVERITY_NOTIFICATION, -1, "Start debugging");
+                             GL_DEBUG_SEVERITY_NOTIFICATION, -1, "start debugging");
     }
 }

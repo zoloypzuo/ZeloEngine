@@ -47,7 +47,7 @@ void SimplePipeline::renderLine(const Line &line) const {
 }
 
 void SimplePipeline::initialize() {
-    m_simpleShader = std::make_unique<GLSLShaderProgram>("Shader/simple.lua");
+    m_simpleShader = std::make_unique<GLSLShaderProgram>("simple.lua");
     m_simpleShader->link();
 }
 }

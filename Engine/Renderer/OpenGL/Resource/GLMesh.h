@@ -10,6 +10,7 @@
 #include "Core/RHI/Resource/Mesh.h"
 #include "Core/Interface/IMeshData.h"
 
+namespace Zelo::Renderer::OpenGL {
 class GLMeshData {
 public:
     GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
@@ -41,5 +42,6 @@ public:
 private:
     std::shared_ptr<GLMeshData> m_meshData;
 };
+}
 
 #endif //ZELOENGINE_GLMESH_H

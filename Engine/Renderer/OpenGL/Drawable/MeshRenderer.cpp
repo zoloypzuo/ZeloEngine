@@ -6,6 +6,7 @@
 
 using namespace Zelo::Core::RHI;
 
+namespace Zelo::Renderer::OpenGL {
 MeshRenderer::MeshRenderer(Zelo::Core::ECS::Entity &owner) : Component(owner) {
 
 }
@@ -23,4 +24,5 @@ void MeshRenderer::SetMesh(GLMesh &mesh) {
 
 void MeshRenderer::SetMaterial(Material &material) {
     m_material = &material;
+}
 }

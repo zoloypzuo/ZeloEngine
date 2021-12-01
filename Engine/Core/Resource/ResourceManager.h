@@ -25,6 +25,8 @@ public:
 
     std::filesystem::path getResourceDir();
 
+    std::filesystem::path resolvePath(const std::string &fileName);
+
 private:
     std::filesystem::path m_engineDir{};
     std::filesystem::path m_configDir{};

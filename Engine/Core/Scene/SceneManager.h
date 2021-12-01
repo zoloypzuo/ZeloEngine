@@ -18,7 +18,7 @@ namespace Zelo::Core::Scene {
 class SceneManager : public Singleton<SceneManager>, public IRuntimeModule {
 public:
     struct FastAccessComponents {
-        std::vector<MeshRenderer *> meshRenderers;
+        std::vector<Renderer::OpenGL::MeshRenderer *> meshRenderers;
         std::vector<Camera *> cameras;
         std::vector<RHI::ALight *> lights;
     };

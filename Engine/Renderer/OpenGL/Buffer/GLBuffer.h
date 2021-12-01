@@ -7,7 +7,7 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/RHI/Buffer/Buffer.h"
 
-namespace Zelo {
+namespace Zelo::Renderer::OpenGL {
 
 class GLVertexBuffer : public VertexBuffer {
 public:

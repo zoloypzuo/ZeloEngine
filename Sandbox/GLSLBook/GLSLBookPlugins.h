@@ -7,10 +7,10 @@
 #include "Core/Plugin/Plugin.h"
 #include "Core/RHI/RenderSystem.h"
 
-#include "GLSLBook/ImageProcessing/EdgePipeline.h"
-#include "GLSLBook/ImageProcessing/BlurPipeline.h"
-#include "GLSLBook/ImageProcessing/BloomPipeline.h"
-#include "GLSLBook/Shadow//ShadowMapPipeline.h"
+#include "GLSLBook/Pipeline/ImageProcessing/EdgePipeline.h"
+#include "GLSLBook/Pipeline/ImageProcessing/BlurPipeline.h"
+#include "GLSLBook/Pipeline/ImageProcessing/BloomPipeline.h"
+#include "GLSLBook/Pipeline/Shadow//ShadowMapPipeline.h"
 
 template<class T>
 class PipelinePlugin : public Plugin {

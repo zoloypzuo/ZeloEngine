@@ -43,14 +43,16 @@ if (APPLE)  # TODO fix osx ZELO_ASSERT
 else ()
     add_compile_definitions(ZELO_DEBUG)
 endif ()
-add_compile_definitions(DEBUG_SHADOWMAP)  # 调试shadow-map，在右上角显示shadow-map
-#add_compile_definitions(SWIGRUNTIME_DEBUG)  # Swig运行时DebugLog，量很大，你忍一下
 
 # vcpkg root
 if (WIN32)
     # https://github.com/microsoft/vcpkg/blob/master/docs/users/integration.md#cmake-integration
-    set(VCPKG_TARGET_TRIPLET x86-windows)
-    set(VcpkgDir ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/Vcpkg CACHE STRING "vcpkg install directory")
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 bits
+        set(VCPKG_TARGET_TRIPLET x64-windows)
+    elseif(CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 bits
+        set(VCPKG_TARGET_TRIPLET x86-windows)
+    endif()
+    set(VcpkgDir ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/Vcpkg)
     message(STATUS include=${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
     include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
 elseif (UNIX)
@@ -74,13 +76,12 @@ add_subdirectory(ThirdParty)
 include_directories(ThirdParty/Lua/include)
 link_libraries(Lua)
 
-# imgui, build from source
-#find_package(imgui CONFIG REQUIRED)
-#link_libraries(imgui::imgui)
+# imgui
 include_directories(ThirdParty/ImGui)
 link_libraries(ImGui)
 
 # vcpkg import third party
+# spdlog
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
 
@@ -88,14 +89,13 @@ link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
 include_directories(ThirdParty/Optick/src)
 link_libraries(Optick)
 
-if (WIN32)
-    find_package(glm CONFIG REQUIRED)
-    link_libraries(glm)
-elseif (UNIX)
-    find_package(glm CONFIG REQUIRED)
-    link_libraries(glm::glm)
-endif ()
+# glm
+find_package(glm CONFIG REQUIRED)
+link_libraries(glm::glm)
+add_compile_definitions(GLM_FORCE_SWIZZLE)
+add_compile_definitions(GLM_FORCE_RADIANS)
 
+# assimp
 if (APPLE)
     message(WARNING "Mac OSX vcpkg install assimp failed, please run apt-get install assimp")
 else ()
@@ -103,13 +103,15 @@ else ()
     link_libraries(assimp::assimp)
 endif ()
 
+# stb
 find_path(STB_INCLUDE_DIRS "stb.h")
 include_directories(${STB_INCLUDE_DIRS})
 
+# yaml-cpp
 find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
 
-# vcpkg import sol
+# sol2
 find_package(sol2 CONFIG REQUIRED)
 link_libraries(sol2::sol2)
 # sol enable safety check
@@ -117,15 +119,14 @@ add_compile_definitions(SOL_ALL_SAFETIES_ON)
 # sol fix link error
 add_compile_definitions(SOL_USING_CXX_LUA=1)
 
-# glm
-add_compile_definitions(GLM_FORCE_SWIZZLE)
-add_compile_definitions(GLM_FORCE_RADIANS)
-
 # rttr
 find_package(rttr CONFIG REQUIRED)
 link_libraries(RTTR::Core)
 
-# memory leak check
+find_package(Taskflow CONFIG REQUIRED)
+link_libraries(Taskflow::Taskflow)
+
+# vld
 if (DetectMemoryLeak)
     add_compile_definitions(DETECT_MEMORY_LEAK)
     set(VldIncludeDir "C:/Program Files (x86)/Visual Leak Detector/include")

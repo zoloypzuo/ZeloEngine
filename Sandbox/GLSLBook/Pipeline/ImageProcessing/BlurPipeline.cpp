@@ -69,7 +69,7 @@ void BlurPipeline::initialize() {
         sum += 2 * weights[i];
     }
 
-    m_postShader1 = std::make_unique<GLSLShaderProgram>("Shader/blur.lua");
+    m_postShader1 = std::make_unique<GLSLShaderProgram>("blur.lua");
     m_postShader1->link();
     m_postShader1->setUniform1i("Texture0", 0);
 
