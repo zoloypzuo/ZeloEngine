@@ -275,8 +275,8 @@ void Ch7LargeScenePlugin::initialize() {
                                                ZELO_PATH("data/meshes/test2.scene").c_str(),
                                                ZELO_PATH("data/meshes/test2.materials").c_str());
 
-    mesh1 = std::make_unique<GLMesh2>(*sceneData1.get());
-    mesh2 = std::make_unique<GLMesh2>(*sceneData2.get());
+    mesh1 = std::make_unique<GLMesh2>(*sceneData1);
+    mesh2 = std::make_unique<GLMesh2>(*sceneData2);
 
     // bind entity
     auto *scenem = Zelo::Core::Scene::SceneManager::getSingletonPtr();
