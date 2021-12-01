@@ -43,6 +43,7 @@ add_library(GRCookbook
 		Resource/GLMesh1.cpp
 		Resource/GLBuffer.cpp
 		Resource/GLMeshPVP.cpp
+		Resource/GLMesh2.cpp
 
 		shared/scene/VtxData.cpp
 		shared/glFramework/GLTexture.cpp

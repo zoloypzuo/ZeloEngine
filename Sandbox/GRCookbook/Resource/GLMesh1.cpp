@@ -6,6 +6,14 @@
 
 using namespace glm;
 
+struct DrawElementsIndirectCommand {
+    GLuint count_;
+    GLuint instanceCount_;
+    GLuint firstIndex_;
+    GLuint baseVertex_;
+    GLuint baseInstance_;
+};
+
 GLMesh1::GLMesh1(const MeshFileHeader &header, const Mesh *meshes, const uint32_t *indices, const float *vertexData)
         : numIndices_(header.indexDataSize / sizeof(uint32_t)), bufferIndices_(header.indexDataSize, indices, 0),
           bufferVertices_(header.vertexDataSize, vertexData, 0),

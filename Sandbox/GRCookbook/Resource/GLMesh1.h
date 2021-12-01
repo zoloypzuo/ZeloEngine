@@ -9,14 +9,6 @@
 
 #include "Resource/GLBuffer.h"
 
-struct DrawElementsIndirectCommand {
-    GLuint count_;
-    GLuint instanceCount_;
-    GLuint firstIndex_;
-    GLuint baseVertex_;
-    GLuint baseInstance_;
-};
-
 class GLMesh1 final {
 public:
     GLMesh1(const MeshFileHeader &header, const Mesh *meshes, const uint32_t *indices, const float *vertexData);
