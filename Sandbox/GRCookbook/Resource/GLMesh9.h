@@ -1,4 +1,4 @@
-// GLMesh9.h
+// GLMesh99.h
 // created on 2021/12/1
 // author @zoloypzuo
 #pragma once
@@ -16,8 +16,7 @@ const GLuint kBufferIndex_PerFrameUniforms = 0;
 const GLuint kBufferIndex_ModelMatrices = 1;
 const GLuint kBufferIndex_Materials = 2;
 
-struct DrawElementsIndirectCommand
-{
+struct DrawElementsIndirectCommand {
     GLuint count_;
     GLuint instanceCount_;
     GLuint firstIndex_;
@@ -25,30 +24,15 @@ struct DrawElementsIndirectCommand
     GLuint baseInstance_;
 };
 
-class GLIndirectBuffer final
-{
+class GLIndirectBuffer final {
 public:
-    explicit GLIndirectBuffer(size_t maxDrawCommands)
-            : bufferIndirect_(sizeof(DrawElementsIndirectCommand) * maxDrawCommands, nullptr, GL_DYNAMIC_STORAGE_BIT)
-            , drawCommands_(maxDrawCommands)
-    {}
+    explicit GLIndirectBuffer(size_t maxDrawCommands);
 
-    GLuint getHandle() const { return bufferIndirect_.getHandle(); }
-    void uploadIndirectBuffer()
-    {
-        glNamedBufferSubData(bufferIndirect_.getHandle(), 0, sizeof(DrawElementsIndirectCommand) * drawCommands_.size(), drawCommands_.data());
-    }
+    GLuint getHandle() const;
 
-    void selectTo(GLIndirectBuffer& buf, const std::function<bool(const DrawElementsIndirectCommand&)>& pred)
-    {
-        buf.drawCommands_.clear();
-        for (const auto& c : drawCommands_)
-        {
-            if (pred(c))
-                buf.drawCommands_.push_back(c);
-        }
-        buf.uploadIndirectBuffer();
-    }
+    void uploadIndirectBuffer();
+
+    void selectTo(GLIndirectBuffer &buf, const std::function<bool(const DrawElementsIndirectCommand &)> &pred);
 
     std::vector<DrawElementsIndirectCommand> drawCommands_;
 
@@ -56,18 +40,17 @@ private:
     GLBuffer bufferIndirect_;
 };
 
-template <typename GLSceneDataType>
-class GLMesh final
-{
+template<typename GLSceneDataType>
+class GLMesh9 final {
 public:
-    explicit GLMesh(const GLSceneDataType& data)
-            : numIndices_(data.header_.indexDataSize / sizeof(uint32_t))
-            , bufferIndices_(data.header_.indexDataSize, data.meshData_.indexData_.data(), 0)
-            , bufferVertices_(data.header_.vertexDataSize, data.meshData_.vertexData_.data(), 0)
-            , bufferMaterials_(sizeof(MaterialDescription) * data.materials_.size(), data.materials_.data(), GL_DYNAMIC_STORAGE_BIT)
-            , bufferModelMatrices_(sizeof(glm::mat4) * data.shapes_.size(), nullptr, GL_DYNAMIC_STORAGE_BIT)
-            , bufferIndirect_(data.shapes_.size())
-    {
+    explicit GLMesh9(const GLSceneDataType &data)
+            : numIndices_(data.header_.indexDataSize / sizeof(uint32_t)),
+              bufferIndices_(data.header_.indexDataSize, data.meshData_.indexData_.data(), 0),
+              bufferVertices_(data.header_.vertexDataSize, data.meshData_.vertexData_.data(), 0),
+              bufferMaterials_(sizeof(MaterialDescription) * data.materials_.size(), data.materials_.data(),
+                               GL_DYNAMIC_STORAGE_BIT),
+              bufferModelMatrices_(sizeof(glm::mat4) * data.shapes_.size(), nullptr, GL_DYNAMIC_STORAGE_BIT),
+              bufferIndirect_(data.shapes_.size()) {
         glCreateVertexArrays(1, &vao_);
         glVertexArrayElementBuffer(vao_, bufferIndices_.getHandle());
         glVertexArrayVertexBuffer(vao_, 0, bufferVertices_.getHandle(), 0, sizeof(vec3) + sizeof(vec3) + sizeof(vec2));
@@ -87,8 +70,7 @@ public:
         std::vector<glm::mat4> matrices(data.shapes_.size());
 
         // prepare indirect commands buffer
-        for (size_t i = 0; i != data.shapes_.size(); i++)
-        {
+        for (size_t i = 0; i != data.shapes_.size(); i++) {
             const uint32_t meshIdx = data.shapes_[i].meshIndex;
             const uint32_t lod = data.shapes_[i].LOD;
             bufferIndirect_.drawCommands_[i] = {
@@ -106,27 +88,26 @@ public:
         glNamedBufferSubData(bufferModelMatrices_.getHandle(), 0, matrices.size() * sizeof(mat4), matrices.data());
     }
 
-    void updateMaterialsBuffer(const GLSceneDataType& data)
-    {
-        glNamedBufferSubData(bufferMaterials_.getHandle(), 0, sizeof(MaterialDescription) * data.materials_.size(), data.materials_.data());
+    void updateMaterialsBuffer(const GLSceneDataType &data) {
+        glNamedBufferSubData(bufferMaterials_.getHandle(), 0, sizeof(MaterialDescription) * data.materials_.size(),
+                             data.materials_.data());
     }
 
-    void draw(size_t numDrawCommands, const GLIndirectBuffer* buffer = nullptr) const
-    {
+    void draw(size_t numDrawCommands, const GLIndirectBuffer *buffer = nullptr) const {
         glBindVertexArray(vao_);
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_Materials, bufferMaterials_.getHandle());
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_ModelMatrices, bufferModelMatrices_.getHandle());
         glBindBuffer(GL_DRAW_INDIRECT_BUFFER, (buffer ? *buffer : bufferIndirect_).getHandle());
-        glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, (GLsizei)numDrawCommands, 0);
+        glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, (GLsizei) numDrawCommands, 0);
     }
 
-    ~GLMesh()
-    {
+    ~GLMesh9() {
         glDeleteVertexArrays(1, &vao_);
     }
 
-    GLMesh(const GLMesh&) = delete;
-    GLMesh(GLMesh&&) = default;
+    GLMesh9(const GLMesh9 &) = delete;
+
+    GLMesh9(GLMesh9 &&) = default;
 
 //private:
     GLuint vao_;
