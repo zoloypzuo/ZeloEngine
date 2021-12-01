@@ -44,7 +44,7 @@ local plugins = {
     --"TemplatePlugin",
     --"CraftPlugin",
     --"Ch5MeshRendererPlugin",
-    --"Ch7PBRPlugin",
+    --"Ch6PBRPlugin",
     --"Ch7LargeScenePlugin",
     "Ch10FinalPlugin",
     --"ImGuiManager",
