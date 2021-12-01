@@ -120,9 +120,9 @@ void main()
     vec4 albedo = mtl.albedoColor_;
     vec3 normalSample = vec3(0.0, 0.0, 0.0);
 
-    if (mtl.albedoMap_ > 0)
+    if (mtl.albedoMap_ > uint64_t(0))
     albedo = texture( sampler2D(unpackUint2x32(mtl.albedoMap_)), v_tc);
-    if (mtl.normalMap_ > 0)
+    if (mtl.normalMap_ > uint64_t(0))
     normalSample = texture( sampler2D(unpackUint2x32(mtl.normalMap_)), v_tc).xyz;
 
     runAlphaTest(albedo.a, mtl.alphaTest_);
