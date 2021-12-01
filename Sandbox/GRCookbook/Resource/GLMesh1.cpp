@@ -4,7 +4,6 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLMesh1.h"
 
-using namespace glm;
 
 struct DrawElementsIndirectCommand {
     GLuint count_;
@@ -21,7 +20,7 @@ GLMesh1::GLMesh1(const MeshFileHeader &header, const Mesh *meshes, const uint32_
                           GL_DYNAMIC_STORAGE_BIT) {
     glCreateVertexArrays(1, &vao_);
     glVertexArrayElementBuffer(vao_, bufferIndices_.getHandle());
-    glVertexArrayVertexBuffer(vao_, 0, bufferVertices_.getHandle(), 0, sizeof(vec3) + sizeof(vec3) + sizeof(vec2));
+    glVertexArrayVertexBuffer(vao_, 0, bufferVertices_.getHandle(), 0, sizeof(vec3) + sizeof(vec3) + sizeof(glm::vec2));
     // position
     glEnableVertexArrayAttrib(vao_, 0);
     glVertexArrayAttribFormat(vao_, 0, 3, GL_FLOAT, GL_FALSE, 0);
@@ -32,7 +31,7 @@ GLMesh1::GLMesh1(const MeshFileHeader &header, const Mesh *meshes, const uint32_
     glVertexArrayAttribBinding(vao_, 1, 0);
     // normal
     glEnableVertexArrayAttrib(vao_, 2);
-    glVertexArrayAttribFormat(vao_, 2, 3, GL_FLOAT, GL_TRUE, sizeof(vec3) + sizeof(vec2));
+    glVertexArrayAttribFormat(vao_, 2, 3, GL_FLOAT, GL_TRUE, sizeof(vec3) + sizeof(glm::vec2));
     glVertexArrayAttribBinding(vao_, 2, 0);
 
     std::vector<uint8_t> drawCommands;
