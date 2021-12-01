@@ -458,6 +458,13 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
         Zelo::ReplaceString(glsl_src, "//", "");  // generate lua code
         sol::table result = luam.script(glsl_src);
 
+        // compute shader is compiled alone
+        auto cs_src = result.get<sol::optional<std::string>>("compute_shader");
+        if (cs_src.has_value()) {
+            addShaderSrc(fileName, EShaderType::COMPUTE, cs_src.value().c_str());
+            return;
+        }
+
         std::string vertex_src = result["vertex_shader"];
         std::string fragment_src = result["fragment_shader"];
 
