@@ -123,6 +123,9 @@ add_compile_definitions(SOL_USING_CXX_LUA=1)
 find_package(rttr CONFIG REQUIRED)
 link_libraries(RTTR::Core)
 
+find_package(Taskflow CONFIG REQUIRED)
+link_libraries(Taskflow::Taskflow)
+
 # vld
 if (DetectMemoryLeak)
     add_compile_definitions(DETECT_MEMORY_LEAK)
