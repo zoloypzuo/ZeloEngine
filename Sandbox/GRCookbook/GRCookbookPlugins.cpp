@@ -8,7 +8,6 @@
 #include "Core/Scene/SceneManager.h"
 #include "Core/Resource/ResourceManager.h"
 
-#include "shared/glFramework/GLTexture.h"
 
 // assimp
 #include <assimp/scene.h>
@@ -139,11 +138,15 @@ void Ch7PBRPlugin::initialize() {
     loadMesh(ZELO_PATH(RES_PREFIX "DamagedHelmet.gltf"));
 
     // tex
-//    loadTex();
+    loadTex();
 
     // bind entity
     auto *scenem = Zelo::Core::Scene::SceneManager::getSingletonPtr();
     entity = scenem->CreateEntity();
+
+    // set transform
+    entity->getTransform().setScale(vec3(3.0f));
+    entity->getTransform().setRotation(vec3(1.0f, 0.0f, 0.0f), glm::radians(90.0f));
 
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
     glEnable(GL_BLEND);
@@ -183,8 +186,8 @@ void Ch7PBRPlugin::loadMesh(const std::string &meshPath) {
     const size_t kSizeIndices = sizeof(uint32_t) * indices.size();
     const size_t kSizeVertices = sizeof(VertexData) * vertices.size();
 
-    mesh = std::make_unique<GLMeshPVP>(indices.data(), (uint32_t) kSizeIndices, (float *) vertices.data(),
-                                       (uint32_t) kSizeVertices);
+    mesh = std::make_unique<GLMeshPVP>(indices.data(), (uint32_t) kSizeIndices,
+                                       (float *) vertices.data(), (uint32_t) kSizeVertices);
 }
 
 void Ch7PBRPlugin::update() {
@@ -213,24 +216,28 @@ void Ch7PBRPlugin::render() {
     mesh->draw();
 }
 
-void Ch7PBRPlugin::loadTex() const {
-    GLTexture texAO(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_AO.jpg").c_str());
-    GLTexture texEmissive(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX" Default_emissive.jpg").c_str());
-    GLTexture texAlbedo(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_albedo.jpg").c_str());
-    GLTexture texMeR(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_metalRoughness.jpg").c_str());
-    GLTexture texNormal(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_normal.jpg").c_str());
+void Ch7PBRPlugin::loadTex() {
+    texAO = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_AO.jpg").c_str());
+    texEmissive = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_emissive.jpg").c_str());
+    texAlbedo = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_albedo.jpg").c_str());
+    texMeR = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_metalRoughness.jpg").c_str());
+    texNormal = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_normal.jpg").c_str());
 
-    const GLuint textures[] = {texAO.getHandle(), texEmissive.getHandle(), texAlbedo.getHandle(), texMeR.getHandle(),
-                               texNormal.getHandle()};
+    const GLuint textures[] = {texAO->getHandle(),
+                               texEmissive->getHandle(),
+                               texAlbedo->getHandle(),
+                               texMeR->getHandle(),
+                               texNormal->getHandle()};
     glBindTextures(0, sizeof(textures) / sizeof(GLuint), textures);
 
     // cube map
-    GLTexture envMap(GL_TEXTURE_CUBE_MAP, ZELO_PATH("data/piazza_bologni_1k.hdr").c_str());
-    GLTexture envMapIrradiance(GL_TEXTURE_CUBE_MAP, ZELO_PATH("data/piazza_bologni_1k_irradiance.hdr").c_str());
-    const GLuint envMaps[] = {envMap.getHandle(), envMapIrradiance.getHandle()};
+    envMap = std::make_unique<GLTexture>(GL_TEXTURE_CUBE_MAP, ZELO_PATH("data/piazza_bologni_1k.hdr").c_str());
+    envMapIrradiance = std::make_unique<GLTexture>(GL_TEXTURE_CUBE_MAP,
+                                                   ZELO_PATH("data/piazza_bologni_1k_irradiance.hdr").c_str());
+    const GLuint envMaps[] = {envMap->getHandle(), envMapIrradiance->getHandle()};
     glBindTextures(5, 2, envMaps);
 
     // BRDF LUT
-    GLTexture brdfLUT(GL_TEXTURE_2D, ZELO_PATH("data/brdfLUT.ktx").c_str());
-    glBindTextureUnit(7, brdfLUT.getHandle());
+    brdfLUT = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH("data/brdfLUT.ktx").c_str());
+    glBindTextureUnit(7, brdfLUT->getHandle());
 }

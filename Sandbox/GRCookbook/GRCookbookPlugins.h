@@ -11,7 +11,7 @@
 #include "Resource/GLBuffer.h"
 #include "Resource/GLMesh1.h"
 #include "Resource/GLMeshPVP.h"
-
+#include "shared/glFramework/GLTexture.h"
 
 class Ch5MeshRendererPlugin : public Plugin {
 public:
@@ -58,9 +58,18 @@ private:
     std::unique_ptr<GLMeshPVP> mesh{};
     MeshFileHeader header;
 
+    std::unique_ptr<GLTexture> texAO;
+    std::unique_ptr<GLTexture> texEmissive;
+    std::unique_ptr<GLTexture> texAlbedo;
+    std::unique_ptr<GLTexture> texMeR;
+    std::unique_ptr<GLTexture> texNormal;
+    std::unique_ptr<GLTexture> envMap;
+    std::unique_ptr<GLTexture> envMapIrradiance;
+    std::unique_ptr<GLTexture> brdfLUT;
+
     Zelo::Core::ECS::Entity *entity{};
 
     void loadMesh(const std::string &meshPath);
 
-    void loadTex() const;
+    void loadTex();
 };
