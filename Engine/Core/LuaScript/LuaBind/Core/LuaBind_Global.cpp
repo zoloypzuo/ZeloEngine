@@ -45,7 +45,7 @@ luaState.new_usertype<TemplatePlugin>("TemplatePlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
-luaState.new_usertype<Ch7PBRPlugin>("Ch7PBRPlugin",
+luaState.new_usertype<Ch6PBRPlugin>("Ch6PBRPlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );

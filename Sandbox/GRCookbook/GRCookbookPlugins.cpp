@@ -105,20 +105,20 @@ void Ch5MeshRendererPlugin::render() {
     mesh->draw(header);
 }
 
-const std::string &Ch7PBRPlugin::getName() const {
-    static std::string s = "Ch7PBRPlugin";
+const std::string &Ch6PBRPlugin::getName() const {
+    static std::string s = "Ch6PBRPlugin";
     return s;
 }
 
-void Ch7PBRPlugin::install() {
+void Ch6PBRPlugin::install() {
 
 }
 
-void Ch7PBRPlugin::uninstall() {
+void Ch6PBRPlugin::uninstall() {
 
 }
 
-void Ch7PBRPlugin::initialize() {
+void Ch6PBRPlugin::initialize() {
 
     Zelo::Core::Scene::SceneManager::getSingletonPtr()->clear();
     Zelo::Core::RHI::RenderSystem::getSingletonPtr()->resetRenderPipeline();
@@ -155,7 +155,7 @@ void Ch7PBRPlugin::initialize() {
 }
 
 
-void Ch7PBRPlugin::loadMesh(const std::string &meshPath) {
+void Ch6PBRPlugin::loadMesh(const std::string &meshPath) {
     const aiScene *scene = aiImportFile(meshPath.c_str(), aiProcess_Triangulate);
 
     ZELO_ASSERT(scene && scene->HasMeshes());
@@ -190,11 +190,11 @@ void Ch7PBRPlugin::loadMesh(const std::string &meshPath) {
                                        (float *) vertices.data(), (uint32_t) kSizeVertices);
 }
 
-void Ch7PBRPlugin::update() {
+void Ch6PBRPlugin::update() {
     Plugin::update();
 }
 
-void Ch7PBRPlugin::render() {
+void Ch6PBRPlugin::render() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     const mat4 m = entity->getWorldMatrix();
@@ -216,7 +216,7 @@ void Ch7PBRPlugin::render() {
     mesh->draw();
 }
 
-void Ch7PBRPlugin::loadTex() {
+void Ch6PBRPlugin::loadTex() {
     texAO = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_AO.jpg").c_str());
     texEmissive = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_emissive.jpg").c_str());
     texAlbedo = std::make_unique<GLTexture>(GL_TEXTURE_2D, ZELO_PATH(RES_PREFIX "Default_albedo.jpg").c_str());

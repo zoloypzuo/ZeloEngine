@@ -37,7 +37,7 @@ private:
     Zelo::Core::ECS::Entity *entity{};
 };
 
-class Ch7PBRPlugin : public Plugin {
+class Ch6PBRPlugin : public Plugin {
 public:
     const std::string &getName() const override;;
 
