@@ -120,7 +120,20 @@ public:
     void render() override;
 
 private:
-    std::unique_ptr<GLSLShaderProgram> m_meshShader{};
+    std::unique_ptr<GLSLShaderProgram> progGrid{};
+    std::unique_ptr<GLSLShaderProgram> program{};
+    std::unique_ptr<GLSLShaderProgram> programOIT{};
+    std::unique_ptr<GLSLShaderProgram> progCombineOIT{};
+    std::unique_ptr<GLSLShaderProgram> programCulling{};
+    std::unique_ptr<GLSLShaderProgram> progSSAO{};
+    std::unique_ptr<GLSLShaderProgram> progCombineSSAO{};
+    std::unique_ptr<GLSLShaderProgram> progBlurX{};
+    std::unique_ptr<GLSLShaderProgram> progBlurY{};
+    std::unique_ptr<GLSLShaderProgram> progCombineHDR{};
+    std::unique_ptr<GLSLShaderProgram> progToLuminance{};
+    std::unique_ptr<GLSLShaderProgram> progBrightPass{};
+    std::unique_ptr<GLSLShaderProgram> progAdaptation{};
+    std::unique_ptr<GLSLShaderProgram> progShadowMap{};
     std::unique_ptr<GLBuffer> perFrameDataBuffer{};
     std::unique_ptr<GLBuffer> modelMatrices{};
     std::unique_ptr<GLMesh2> mesh1{};

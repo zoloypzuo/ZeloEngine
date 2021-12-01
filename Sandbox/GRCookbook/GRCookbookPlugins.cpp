@@ -281,12 +281,8 @@ void Ch7LargeScenePlugin::initialize() {
     // bind entity
     auto *scenem = Zelo::Core::Scene::SceneManager::getSingletonPtr();
     entity = scenem->CreateEntity();
-
-    // set transform
-//    entity->getTransform().setScale(vec3(3.0f));
-//    entity->getTransform().setRotation(vec3(1.0f, 0.0f, 0.0f), glm::radians(90.0f));
-
     glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_DEPTH_TEST);
 }
@@ -339,8 +335,20 @@ void Ch10FinalPlugin::initialize() {
     Zelo::Core::LuaScript::LuaScriptManager::getSingletonPtr()->luaCall("LoadAvatar");
 
     // shader
-    m_meshShader = std::make_unique<GLSLShaderProgram>("mesh.glsl");
-    m_meshShader->link();
+    progGrid = std::make_unique<GLSLShaderProgram>("grid.glsl");
+    program = std::make_unique<GLSLShaderProgram>("scene_IBL.glsl");
+    programOIT = std::make_unique<GLSLShaderProgram>("mesh_oit.glsl");
+    progCombineOIT = std::make_unique<GLSLShaderProgram>("oit.glsl");
+    programCulling = std::make_unique<GLSLShaderProgram>("frustum_culling.glsl");
+    progSSAO = std::make_unique<GLSLShaderProgram>("ssao.glsl");
+    progCombineSSAO = std::make_unique<GLSLShaderProgram>("ssao_combine.glsl");
+    progBlurX = std::make_unique<GLSLShaderProgram>("blurx.glsl");
+    progBlurY = std::make_unique<GLSLShaderProgram>("blury.glsl");
+    progCombineHDR = std::make_unique<GLSLShaderProgram>("hdr/hdr.glsl");
+    progToLuminance = std::make_unique<GLSLShaderProgram>("hdr/to_luminance.glsl");
+    progBrightPass = std::make_unique<GLSLShaderProgram>("hdr/bright_pass.glsl");
+    progAdaptation = std::make_unique<GLSLShaderProgram>("hdr/adaptation.glsl");
+    progShadowMap = std::make_unique<GLSLShaderProgram>("shadow.glsl");
 
     // UBO
     perFrameDataBuffer = std::make_unique<GLBuffer>(kUniformBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT);
@@ -392,7 +400,7 @@ void Ch10FinalPlugin::render() {
 
     glEnable(GL_DEPTH_TEST);
     glDisable(GL_BLEND);
-    m_meshShader->bind();
+//    m_meshShader->bind();
     mesh1->draw();
     mesh2->draw();
 }
