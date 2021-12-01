@@ -65,6 +65,25 @@ std::string prettyShaderSource(const char *text) {
     return ss.str();
 }
 
+std::string loadHeader(const std::string &headerName) {
+    sol::state &luam = LuaScriptManager::getSingleton();
+    std::string glsl_src(Zelo::Resource(headerName).read());
+    Zelo::ReplaceString(glsl_src, "//", "");  // generate lua code
+    return luam.script(glsl_src);
+}
+
+void handleInclude(std::string &code) {
+    while (code.find("#include ") != std::string::npos) {
+        const auto pos = code.find("#include ");
+        const auto p1 = code.find('"', pos);
+        const auto p2 = code.find('"', p1 + 1);
+        ZELO_ASSERT(p1 != std::string::npos && p2 != std::string::npos && p2 > p1, "include stmt syntax error");
+        const std::string name = code.substr(p1 + 1, p2 - p1 - 1);
+        const std::string include = loadHeader(name);
+        code.replace(pos, p2 - pos + 1, include.c_str());
+    }
+}
+
 GLSLShaderProgram::GLSLShaderProgram() {
     m_handle = glCreateProgram();
 }
@@ -452,6 +471,11 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
             Zelo::ReplaceString(fragment_src, "common:", common_src_fs);
         }
 
+        // include header
+        handleInclude(vertex_src);
+        handleInclude(fragment_src);
+
+        // compiler and attach shader
         addShaderSrc(fileName, EShaderType::VERTEX, vertex_src.c_str());
         addShaderSrc(fileName, EShaderType::FRAGMENT, fragment_src.c_str());
 
