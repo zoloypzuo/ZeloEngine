@@ -296,6 +296,7 @@ local function RegisterMainFunctionEvent(name)
 end
 
 RegisterMainFunctionEvent("SpawnPrefab")
+RegisterMainFunctionEvent("CreateEntity")
 
 function LoadAvatar()
     local avatar = CreateEntity()

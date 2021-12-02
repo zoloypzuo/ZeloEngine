@@ -46,8 +46,8 @@ local plugins = {
     --"Ch5MeshRendererPlugin",
     --"Ch6PBRPlugin",
     --"Ch7LargeScenePlugin",
-    "Ch10FinalPlugin",
-    --"ImGuiManager",
+    --"Ch10FinalPlugin",
+    "ImGuiManager",
 }
 
 global("PluginInstances")
@@ -83,7 +83,7 @@ function ImGuiManager.Initialize()
     local MenuBarPanel = require("editor.panels.menu_bar_panel.menu_bar_panel")
     TheFrontEnd:LoadPanel(MenuBarPanel, "", true)
 
-    local SHOW_ALL_PANEL_AT_INIT = false
+    local SHOW_ALL_PANEL_AT_INIT = true
 
     --local ProjectHubPanel = require("editor.panels.project_hub_panel.project_hub_panel")
     --TheFrontEnd:LoadPanel(ProjectHubPanel, "Project Hub", false)
@@ -109,7 +109,6 @@ function ImGuiManager.Initialize()
     TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", SHOW_ALL_PANEL_AT_INIT)
 
     UI:ResetLayout()
-end
 
--- scene
-require("scenes.scene01")
+    require("scenes.scene01")  -- TODO
+end

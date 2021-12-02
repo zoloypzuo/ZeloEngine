@@ -51,8 +51,8 @@ local HierarchyPanel = Class(PanelWindow, function(self, title, opened, panelSet
     --    EDITOR_EVENT(EntitySelectedEvent) += std::bind(&Hierarchy::SelectEntityByInstance, this, std::placeholders::_1);
     --    Entity::AttachEvent += std::bind(&Hierarchy::AttachEntityToParent, this, std::placeholders::_1);
     --    Entity::DettachEvent += std::bind(&Hierarchy::DetachFromParent, this, std::placeholders::_1);
-    MainFunctionEvent:AddEventHandler("SpawnPrefab", function(entity, name)
-        self:_OnAddEntity(entity, name)
+    MainFunctionEvent:AddEventHandler("CreateEntity", function(entity)
+        self:_OnAddEntity(entity)
     end)
 end)
 
@@ -114,7 +114,7 @@ function HierarchyPanel:Clear()
     self.m_widgetEntityLink = {}
 end
 
-function HierarchyPanel:_OnAddEntity(entity, name)
+function HierarchyPanel:_OnAddEntity(entity)
     local textSelectable = self.m_sceneRoot:CreateWidget(TreeNode, entity.name, true)
     textSelectable.leaf = true
     textSelectable:Open()

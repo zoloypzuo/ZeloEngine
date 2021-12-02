@@ -16,8 +16,8 @@ local TheEditorDrawer = require("editor.editor_drawer")
 
 local EEngineComponents = {
     {
-        name = "Camera";  -- display name
-        ctype = "PERSPECTIVE_CAMERA";  -- C++ Component getType()
+        name = "Camera"; -- display name
+        ctype = "PERSPECTIVE_CAMERA"; -- C++ Component getType()
         add_fn = "AddCamera"  -- addComponent function name
     };
     {
@@ -237,27 +237,18 @@ function Inspector:DrawMeshRenderer(component, parent)
 end
 
 function Inspector:DrawLight(component, parent)
-    -- ELightType type = ELightType::POINT;
-    -- glm::vec3 color = {1.f, 1.f, 1.f};
-    -- float intensity = 1.f;
-    -- float constant = 0.0f;
-    -- float linear = 0.0f;
-    -- float quadratic = 1.0f;
-    -- float cutoff = 12.f;
-    -- float outerCutoff = 15.f;
     local header = self.m_entityInfo:CreateWidget(Group, "Light")
     local columns = header:CreateWidget(Columns, 2)
     columns.widths[1] = 200
 
-    local light =  self.m_targetEntity.components.light
+    local light = self.m_targetEntity.components.light
     local lightTypeWidget = TheEditorDrawer:DrawEnum(columns, "Type", ELightType, function()
         return light.Type
-    end, function (value)
+    end, function(value)
         light.Type = value
     end)
 
     -- light base, color and intensity
-    -- TODO DrawColor3
     TheEditorDrawer:DrawColor(columns, "Color", false, function()
         local color = light.Color
         return { color.x, color.y, color.z }
@@ -277,20 +268,29 @@ function Inspector:DrawLight(component, parent)
 
         -- Attenuation = { "Constant", "Linear", "Quadratic" }
         -- local allFprops = {"Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff"}
-        
+
         local fpropsByType = {
-            [ELightType.POINT] = {"Constant", "Linear", "Quadratic"},
+            [ELightType.POINT] = { "Constant", "Linear", "Quadratic" },
             [ELightType.DIRECTIONAL] = {},
-            [ELightType.SPOT] = {"Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff"},
-            [ELightType.AMBIENT_BOX] = {},
-            [ELightType.AMBIENT_SPHERE] = {}
+            [ELightType.SPOT] = { "Constant", "Linear", "Quadratic", "Cutoff", "OuterCutoff" },
+            [ELightType.AMBIENT_BOX] = { },
+            [ELightType.AMBIENT_SPHERE] = { "Radius" }
         }
-        
+
         for _, fprop in ipairs(fpropsByType[light.Type]) do
             local widget = TheEditorDrawer:DrawNumber(columns.lightFPropGroup, fprop, function()
                 return light[fprop]
             end, function(value)
                 light[fprop] = value
+            end)
+        end
+
+        if light.Type == ELightType.AMBIENT_BOX then
+            TheEditorDrawer:DrawVec3(columns.lightFPropGroup, "Size", function()
+                local size = light.Size
+                return { size.x, size.y, size.z }
+            end, function(value)
+                light.Size = Vector3(value[1], value[2], value[3])
             end)
         end
     end

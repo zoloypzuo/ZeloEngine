@@ -117,6 +117,8 @@ luaState.new_usertype<ALight>("Light",
 "Quadratic", sol::property(&ALight::GetQuadratic, &ALight::SetQuadratic),
 "Cutoff", sol::property(&ALight::GetCutoff, &ALight::SetCutoff),
 "OuterCutoff", sol::property(&ALight::GetOuterCutoff, &ALight::SetOuterCutoff),
+"Size", sol::property(&ALight::GetSize, &ALight::SetSize),
+"Radius", sol::property(&ALight::GetRadius, &ALight::SetRadius),
 "__Dummy", []{}
 );
 

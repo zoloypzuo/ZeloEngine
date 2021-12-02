@@ -42,6 +42,10 @@ public:
     ZELO_SCRIPT_API void SetCutoff(float cutoff_) { cutoff = cutoff_;}
     ZELO_SCRIPT_API float GetOuterCutoff() const { return outerCutoff;}
     ZELO_SCRIPT_API void SetOuterCutoff(float outerCutoff_) { outerCutoff = outerCutoff_;}
+    ZELO_SCRIPT_API glm::vec3 GetSize() const { return size;}
+    ZELO_SCRIPT_API void SetSize(glm::vec3 size_) { size = size_;}
+    ZELO_SCRIPT_API float GetRadius() const { return size.x;}
+    ZELO_SCRIPT_API void SetRadius(float radius) { size.x = radius;}
     // @formatter:on
 
 public:
@@ -53,6 +57,7 @@ public:
     float quadratic = 1.0f;
     float cutoff = 12.f;
     float outerCutoff = 15.f;
+    glm::vec3 size = glm::vec3(1., 1., 1.);
 };
 }
 

@@ -20,9 +20,9 @@ glm::mat4 ALight::generateLightMatrix() const {
     auto position = m_owner.getPosition();
     auto forward = m_owner.getDirection();
     return glm::mat4{
-            glm::vec4(position.x, position.y, position.z, 0),
-            glm::vec4(forward.x, forward.y, forward.z, 0),
-            glm::vec4(color.x, color.y, color.z, 0),
+            glm::vec4(position.x, position.y, position.z, size.x),
+            glm::vec4(forward.x, forward.y, forward.z, size.y),
+            glm::vec4(color.x, color.y, color.z, size.z),
             glm::vec4(type, linear, quadratic, intensity)
     };
 }
