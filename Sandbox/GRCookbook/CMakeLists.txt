@@ -5,9 +5,6 @@ include_directories(deps/src)
 include_directories(deps/src/gli)
 include_directories(deps/src/rapidjson/include)
 include_directories(deps/src/stb)
-include_directories(deps/src/ImGuizmo/src)
-
-add_subdirectory(deps/cmake/ImGuizmo)
 
 find_package(glfw3 CONFIG REQUIRED)
 link_libraries(glfw)
