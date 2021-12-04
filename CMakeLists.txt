@@ -138,10 +138,10 @@ set_target_properties(Hello PROPERTIES FOLDER "Main")
 # build sandbox
 add_subdirectory(Sandbox)
 
-# copy boot config to exe directory
-message(STATUS ${CMAKE_COMMAND})
-message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
-add_custom_command(
-        TARGET Hello PRE_BUILD COMMAND
-        py ${CMAKE_CURRENT_SOURCE_DIR}/build.py ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE_DIR:Hello>
-)
+# run build.py after C++ build
+add_custom_command(TARGET Hello PRE_BUILD COMMAND
+        py ${CMAKE_CURRENT_SOURCE_DIR}/build.py
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        $<TARGET_FILE_DIR:Hello>
+        $<TARGET_FILE_DIR:Lua>/lua51.dll
+        )
