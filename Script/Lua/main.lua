@@ -6,8 +6,21 @@ if ENABLE_DEBUGGER then
     print("LuaDebuggee StartDebug @'127.0.0.1', 9826")
     require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
 end
+
+local ENABLE_MOB_DEBUG = true
+if ENABLE_MOB_DEBUG then
+    local ZBS = "D:\\Installed\\ZeroBraneStudio"
+    package.path = package.path .. ";" .. ZBS .. "\\lualibs\\?\\?.lua;" .. ZBS .. "\\lualibs\\?.lua"
+    package.cpath = package.cpath .. ";" .. ZBS .. "\\bin\\?.dll;" .. ZBS .. "\\bin\\clibs\\?.dll"
+
+    print("package.path", package.path)
+    print("package.cpath", package.cpath)
+
+    require("mobdebug").start()
+end
+
 -- LUA_PATH
--- resource
+-- resourcew
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Materials/?.lua"
