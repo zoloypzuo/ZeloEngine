@@ -6,7 +6,7 @@ add_library(LuaBind
         Core/UI/LuaBind_UI.cpp
         Core/UI/LuaBind_ImGui.cpp
 
-        ScriptLib/BitOp.cpp
+        ScriptLib/BitOp.c
         )
 
 target_link_libraries(LuaBind PRIVATE
