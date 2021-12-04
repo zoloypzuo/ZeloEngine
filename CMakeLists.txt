@@ -42,6 +42,15 @@ link_libraries(Lua)
 include_directories(ThirdParty/ImGui)
 link_libraries(ImGui)
 
+# sol2
+include_directories(ThirdParty/Sol2/include)
+
+# sol enable safety check
+add_compile_definitions(SOL_ALL_SAFETIES_ON)
+# sol fix link error
+add_compile_definitions(SOL_NO_LUA_HPP)
+#add_compile_definitions(SOL_USING_CXX_LUA=1)
+
 # import third party from vcpkg
 # sdl
 find_package(SDL2 CONFIG REQUIRED)
@@ -72,14 +81,6 @@ include_directories(${STB_INCLUDE_DIRS})
 # yaml-cpp
 find_package(yaml-cpp CONFIG REQUIRED)
 link_libraries(yaml-cpp)
-
-# sol2
-find_package(sol2 CONFIG REQUIRED)
-link_libraries(sol2::sol2)
-# sol enable safety check
-add_compile_definitions(SOL_ALL_SAFETIES_ON)
-# sol fix link error
-add_compile_definitions(SOL_USING_CXX_LUA=1)
 
 # rttr
 find_package(rttr CONFIG REQUIRED)
@@ -138,10 +139,10 @@ set_target_properties(Hello PROPERTIES FOLDER "Main")
 # build sandbox
 add_subdirectory(Sandbox)
 
-# copy boot config to exe directory
-message(STATUS ${CMAKE_COMMAND})
-message(STATUS ${CMAKE_CURRENT_SOURCE_DIR})
-add_custom_command(
-        TARGET Hello PRE_BUILD COMMAND
-        py ${CMAKE_CURRENT_SOURCE_DIR}/build.py ${CMAKE_CURRENT_SOURCE_DIR} $<TARGET_FILE_DIR:Hello>
-)
+# run build.py after C++ build
+add_custom_command(TARGET Hello PRE_BUILD COMMAND
+        py ${CMAKE_CURRENT_SOURCE_DIR}/build.py
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        $<TARGET_FILE_DIR:Hello>
+        $<TARGET_FILE_DIR:Lua>/lua51.dll
+        )

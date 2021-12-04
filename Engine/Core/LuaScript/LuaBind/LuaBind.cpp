@@ -13,7 +13,9 @@ void LuaBind_UI(sol::state &luaState);
 
 void LuaBind_ImGui(sol::state &luaState);
 
+extern "C" {
 LUALIB_API int luaopen_bit(lua_State *L);
+}
 
 void LuaBind_Main(sol::state &luaState) {
     LuaBind_Global(luaState);
