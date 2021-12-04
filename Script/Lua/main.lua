@@ -1,23 +1,6 @@
 -- main.lua
 -- created on 2021/5/5
 -- author @zoloypzuo
-local ENABLE_DEBUGGER = false
-if ENABLE_DEBUGGER then
-    print("LuaDebuggee StartDebug @'127.0.0.1', 9826")
-    require('LuaDebuggee').StartDebug('127.0.0.1', 9826)
-end
-
-local ENABLE_MOB_DEBUG = true
-if ENABLE_MOB_DEBUG then
-    local ZBS = "D:\\Installed\\ZeroBraneStudio"
-    package.path = package.path .. ";" .. ZBS .. "\\lualibs\\?\\?.lua;" .. ZBS .. "\\lualibs\\?.lua"
-    package.cpath = package.cpath .. ";" .. ZBS .. "\\bin\\?.dll;" .. ZBS .. "\\bin\\clibs\\?.dll"
-
-    print("package.path", package.path)
-    print("package.cpath", package.cpath)
-
-    require("mobdebug").start()
-end
 
 -- LUA_PATH
 -- resourcew
@@ -36,6 +19,15 @@ package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/framework/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/framework/debug/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/prefabs/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/scriptlibs/?.lua"
+
+local ENABLE_LUA_PANDA = true
+if ENABLE_LUA_PANDA then
+    local ZBS = "D:\\Installed\\ZeroBraneStudio"
+    package.path = package.path .. ";" .. ZBS .. "\\lualibs\\?\\?.lua;" .. ZBS .. "\\lualibs\\?.lua"
+    package.cpath = package.cpath .. ";" .. ZBS .. "\\bin\\?.dll;" .. ZBS .. "\\bin\\clibs\\?.dll"
+    require("debugger.LuaPanda").start("127.0.0.1", 8818)
+-- require("mobdebug").start()
+end
 
 DUMP_LUA_PATH = false
 if DUMP_LUA_PATH then
@@ -130,7 +122,7 @@ num_updating_ents = 0
 NumEnts = 0
 
 MeshGenerators = {
-    plane = PlaneMeshGen;
+    plane = PlaneMeshGen
 }
 
 ResourceMap = {}
