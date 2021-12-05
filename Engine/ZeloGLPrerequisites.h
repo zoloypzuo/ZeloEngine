@@ -13,16 +13,18 @@ extern "C"\
 
 namespace GL {
 inline void EnableVertexAttribArray(GLuint index) {
-    if(index >= GL_MAX_VERTEX_ATTRIBS) return;
-    ::glEnableVertexAttribArray(index); }
+    if (index >= GL_MAX_VERTEX_ATTRIBS) return;
+    ::glEnableVertexAttribArray(index);
+}
 
-inline void DisableVertexAttribArray(GLuint index){
-    if(index >= GL_MAX_VERTEX_ATTRIBS) return;
+inline void DisableVertexAttribArray(GLuint index) {
+    if (index >= GL_MAX_VERTEX_ATTRIBS) return;
     ::glDisableVertexAttribArray(index);
 }
 
-inline void VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer) {
-    if(index >= GL_MAX_VERTEX_ATTRIBS) return;
+inline void
+VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer) {
+    if (index >= GL_MAX_VERTEX_ATTRIBS) return;
     ::glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 }
 }

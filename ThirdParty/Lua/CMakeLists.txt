@@ -6,7 +6,7 @@ set(SRC_LIB src/lauxlib.c src/lbaselib.c src/ldblib.c src/liolib.c
 
 add_library(Lua SHARED ${SRC_CORE} ${SRC_LIB})
 
-target_include_directories(Lua PRIVATE include)
+target_include_directories(Lua PUBLIC include)
 target_compile_definitions(Lua PRIVATE LUA_BUILD_AS_DLL)
 set_target_properties(Lua PROPERTIES OUTPUT_NAME "lua51")
 

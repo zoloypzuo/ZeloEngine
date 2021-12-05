@@ -5,6 +5,8 @@
 #include "Font.h"
 #include "Core/Resource/Resource.h"
 
+#include <imgui.h>
+
 using namespace Zelo::Core::UI;
 
 Font::Font(const std::string &fontFilename, float fontSize) {

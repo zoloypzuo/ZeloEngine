@@ -1,7 +1,5 @@
 # created on 2021/8/21
 # author @zoloypzuo
-set(PROJECT_NAME ImGui)
-
 add_library(ImGui
         imconfig.h
         imgui.cpp

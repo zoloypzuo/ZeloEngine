@@ -18,8 +18,7 @@
 namespace Zelo {
 class Engine :
         public Singleton<Engine>,
-        public IRuntimeModule,
-        public Core::Interface::ISerializable {
+        public IRuntimeModule {
 public:
     typedef std::vector<Plugin *> PluginInstanceList;
 

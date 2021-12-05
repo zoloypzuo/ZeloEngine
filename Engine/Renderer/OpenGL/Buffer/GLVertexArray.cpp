@@ -33,7 +33,7 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
     vertexBuffer->bind();
 
     const auto &layout = vertexBuffer->getLayout();
-    for (const auto &element : layout) {
+    for (const auto &element: layout) {
         GLuint index{};
         GLint size{};
         GLenum type{};

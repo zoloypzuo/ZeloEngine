@@ -1,23 +1,0 @@
-2021-11-09_11-38-34 
-     100 files     200 files     300 files     400 files     438 text files.
-classified 438 filesDuplicate file check 438 files (408 known unique)Unique:      100 files                                          Unique:      200 files                                          Unique:      300 files                                          Unique:      400 files                                               438 unique files.                              
-Counting:  100Counting:  200Counting:  300Counting:  400     113 files ignored.
-
-github.com/AlDanial/cloc v 1.80  T=1.00 s (427.0 files/s, 64536.0 lines/s)
--------------------------------------------------------------------------------
-Language                     files          blank        comment           code
--------------------------------------------------------------------------------
-Lua                            137           3416           4397          18472
-C++                            114           4295           3086          18084
-C/C++ Header                   105           1980           3879           4677
-Markdown                        23            325              0            792
-CMake                           24             49             95            290
-DOS Batch                       12             33              0            168
-SWIG                             2             23              7             86
-INI                              3             28            141             83
-Python                           3             14             21             46
-Bourne Shell                     3              7              2             22
-AutoHotkey                       1              5              0             13
--------------------------------------------------------------------------------
-SUM:                           427          10175          11628          42733
--------------------------------------------------------------------------------

@@ -3,9 +3,12 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "GLRenderSystem.h"
-#include "GLUtil.h"
+
 #include "Core/Scene/SceneManager.h"
 #include "Core/Window/Window.h"
+
+#include "Renderer/OpenGL/GLUtil.h"
+#include "Renderer/OpenGL/GLLoader.h"
 #include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
 
 using namespace Zelo::Core::RHI;

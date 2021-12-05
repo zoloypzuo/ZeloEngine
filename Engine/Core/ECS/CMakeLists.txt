@@ -3,6 +3,6 @@
 
 add_library(ECS
         Entity.cpp
-        Component/CFreeMove.cpp
-        Component/CFreeLook.cpp
         )
+
+target_link_libraries(ECS PUBLIC LuaScript)

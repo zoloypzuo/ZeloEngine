@@ -11,6 +11,35 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)  # Visual Studio will group targets
 
 project(ZeloEngine)
 
+# detect platform
+if (UNIX AND NOT APPLE)
+    set(LINUX TRUE)
+endif ()
+
+# if(NOT LINUX) should work, too, if you need that
+if (LINUX)
+    message(STATUS "OS >>> Linux")
+    # linux stuff here
+elseif (WIN32)
+    message(STATUS "OS >>> Windows")
+    # stuff that should happen not on Linux
+endif ()
+
+message(STATUS "COMPILER >>> ${CMAKE_CXX_COMPILER_ID}")
+
+message(STATUS "BUILD_SHARED_LIBS >>> ${BUILD_SHARED_LIBS}")
+
+# cmake status
+message(STATUS "PROJECT_BINARY_DIR >>> ${PROJECT_BINARY_DIR}")
+message(STATUS "CMAKE_CXX_FLAGS >>> ${CMAKE_CXX_FLAGS}")
+message(STATUS "CMAKE_CXX_FLAGS_DEBUG >>> ${CMAKE_CXX_FLAGS_DEBUG}")
+message(STATUS "CMAKE_CXX_FLAGS_RELEASE >>> ${CMAKE_CXX_FLAGS_RELEASE}")
+
+# set output path
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
+
 # vcpkg root and triplet
 if (WIN32)
     if (CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 bits
@@ -34,35 +63,15 @@ if (BuildPlaybox)
     add_subdirectory(Playbox)
 endif (BuildPlaybox)
 
-# lua
-include_directories(ThirdParty/Lua/include)
-link_libraries(Lua)
-
-# imgui
-include_directories(ThirdParty/ImGui)
-link_libraries(ImGui)
-
-# sol2
-include_directories(ThirdParty/Sol2/include)
-
-# sol enable safety check
-add_compile_definitions(SOL_ALL_SAFETIES_ON)
-# sol fix link error
-add_compile_definitions(SOL_NO_LUA_HPP)
-#add_compile_definitions(SOL_USING_CXX_LUA=1)
-
-# import third party from vcpkg
-# sdl
+# find third party from vcpkg
 find_package(SDL2 CONFIG REQUIRED)
-link_libraries(SDL2::SDL2 SDL2::SDL2main)
+find_package(glad CONFIG REQUIRED)
+find_package(assimp CONFIG REQUIRED)
+find_path(STB_INCLUDE_DIRS "stb.h")
 
 # spdlog
 find_package(spdlog CONFIG REQUIRED)
 link_libraries(spdlog::spdlog spdlog::spdlog_header_only)
-
-# optick
-include_directories(ThirdParty/Optick/src)
-link_libraries(Optick)
 
 # glm
 find_package(glm CONFIG REQUIRED)
@@ -70,28 +79,8 @@ link_libraries(glm::glm)
 add_compile_definitions(GLM_FORCE_SWIZZLE)
 add_compile_definitions(GLM_FORCE_RADIANS)
 
-# assimp
-find_package(assimp CONFIG REQUIRED)
-link_libraries(assimp::assimp)
-
-# stb
-find_path(STB_INCLUDE_DIRS "stb.h")
-include_directories(${STB_INCLUDE_DIRS})
-
-# yaml-cpp
-find_package(yaml-cpp CONFIG REQUIRED)
-link_libraries(yaml-cpp)
-
-# rttr
-find_package(rttr CONFIG REQUIRED)
-link_libraries(RTTR::Core)
-
-# taskflow
-find_package(Taskflow CONFIG REQUIRED)
-link_libraries(Taskflow::Taskflow)
-
 # C++ or platform options
-if (WIN32)
+if (MSVC)
     # ignore warning
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
     # avoid some bugs with Windows...
@@ -104,45 +93,17 @@ endif ()
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
 
-# options
-# @formatter:off
-# option(DetectMemoryLeak     "DetectMemoryLeak"     OFF)
-# @formatter:on
-
 # engine option
 add_compile_definitions(ZELO_DEBUG)
 
 # build engine
-include_directories(Engine)
-include_directories(Sandbox) # TODO
 add_subdirectory(Engine)
-link_libraries(Engine)
 
 # build main
-add_executable(Hello main.cpp
-        ThirdParty/StackTrace/AutoExceptionStacktraceRegister.cpp
-        ThirdParty/StackTrace/AutoExceptionStacktraceRegister.h
-        ThirdParty/StackTrace/AutoSymInitialize.cpp
-        ThirdParty/StackTrace/AutoSymInitialize.h
-        ThirdParty/StackTrace/backward.h
-        ThirdParty/StackTrace/Exceptions.h
-        ThirdParty/StackTrace/Globals.h
-        ThirdParty/StackTrace/StackTracePrinter.cpp
-        ThirdParty/StackTrace/StackTracePrinter.h
-        )
-
-target_include_directories(Hello PRIVATE ThirdParty/StackTrace)
-
-set_target_properties(Engine PROPERTIES FOLDER "Main")
-set_target_properties(Hello PROPERTIES FOLDER "Main")
+add_subdirectory(Main)
 
 # build sandbox
 add_subdirectory(Sandbox)
 
-# run build.py after C++ build
-add_custom_command(TARGET Hello PRE_BUILD COMMAND
-        py ${CMAKE_CURRENT_SOURCE_DIR}/build.py
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        $<TARGET_FILE_DIR:Hello>
-        $<TARGET_FILE_DIR:Lua>/lua51.dll
-        )
+# build luabind
+add_subdirectory(LuaBind)

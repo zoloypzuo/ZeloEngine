@@ -31,9 +31,11 @@ add_library(RHI
         MeshGen/Ingredients/torus.cpp
         MeshGen/Ingredients/torus.h
 
-        Object/Camera.cpp
+        Object/ACamera.cpp
         Object/ALight.cpp
 
         RenderSystem.cpp RenderSystem.h
         RenderPipeline.h
         )
+
+target_link_libraries(RHI PRIVATE ECS)

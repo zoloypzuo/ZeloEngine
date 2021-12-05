@@ -3,6 +3,19 @@ import shutil
 import sys
 
 
+def copy(src, dest):
+    if os.path.dirname(src) == dest:
+        return
+    print("copy to %s => %s" % (src, src))
+    shutil.copy(src, dest)
+
+
+def write(filename, content):
+    print("write to =>", filename)
+    with open(filename, "w") as fp:
+        fp.write(content)
+
+
 def main():
     print("build.py start")
     engine_dir = sys.argv[1]
@@ -16,19 +29,15 @@ def main():
     engineDir = {}
     """.lstrip()
     content = content_template.format(engine_dir)
-    print("write to =>", boot_ini_path)
-    with open(boot_ini_path, "w") as fp:
-        fp.write(content)
+    write(boot_ini_path, content)
 
     # copy vld.ini
     vld_ini_src_path = os.path.join(engine_dir, "Config/vld.ini")
     vld_ini_dest_path = os.path.join(exe_dir, "vld.ini")
-    print("copy to %s => %s" % (vld_ini_src_path, vld_ini_dest_path))
-    shutil.copy(vld_ini_src_path, vld_ini_dest_path)
+    copy(vld_ini_src_path, vld_ini_dest_path)
 
     # copy lua51.dll
-    print("copy to %s => %s" % (lua51_dll_path, exe_dir))
-    shutil.copy(lua51_dll_path, exe_dir)
+    copy(lua51_dll_path, exe_dir)
 
     print("build.py end")
 

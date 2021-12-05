@@ -94,20 +94,9 @@ namespace Zelo {
 typedef int64_t GUID_t;
 }
 
-// fix SDL
-#ifndef SDL_MAIN_HANDLED
-#define SDL_MAIN_HANDLED
-#endif
-
-#include <SDL.h>
-
-#if _WIN32
-#undef main
-#endif
-
 // interface
 #include "Core/Interface/IRuntimeModule.h"
-#include "Core/Interface/ISerializable.h"
+//#include "Core/Interface/ISerializable.h" TODO WIP
 
 // forward declaration
 namespace Zelo { class Engine; }

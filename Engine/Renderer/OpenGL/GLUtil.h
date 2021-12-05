@@ -9,8 +9,6 @@
 
 int checkForOpenGLError(const char *, int);
 
-void loadGL();
-
 void initDebugCallback();
 
 const char *getTypeString(GLenum type);

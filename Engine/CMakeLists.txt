@@ -5,28 +5,16 @@
 include_directories(./)
 
 add_subdirectory(Core)
-link_libraries(
-        ECS
-        EventSystem
-        Scene
-        #ImGui
-        Input
-        Interface
-        LuaScript
-        Math
-        OS
-        Parser
-        #Physics
-        Plugin
-        Profiler
-        Resource
-        RHI
-        UI
-        Window
-)
 
 add_subdirectory(Renderer)
-link_libraries(OpenGLRenderer)
 
-file(GLOB CommonSrc *.cpp *.cxx *.h)
-add_library(Engine ${CommonSrc})
+add_library(Engine
+        Engine.cpp
+        ZeloStringUtil.cpp
+        )
+
+target_include_directories(Engine PUBLIC ${CMAKE_SOURCE_DIR}/Engine)
+target_link_libraries(Engine PUBLIC Core OpenGLRenderer)
+target_link_libraries(Engine PRIVATE Optick)
+
+set_target_properties(Engine PROPERTIES FOLDER "Main")

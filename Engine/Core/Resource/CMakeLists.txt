@@ -3,3 +3,5 @@
 add_library(Resource
         Resource.cpp
         ResourceManager.cpp ResourceManager.h)
+
+target_link_libraries(Resource PRIVATE LuaScript)

@@ -1,8 +1,8 @@
 # ZeloEngine
 
-[![Build Status](https://travis-ci.org/gujans/travis-gtest-cmake-example.svg?branch=master)](https://travis-ci.org/gujans/travis-gtest-cmake-example)
+[![Build status](https://ci.appveyor.com/api/projects/status/43lymnm0g9083f38?svg=true)](https://ci.appveyor.com/project/Zolo-mario/zeloengine)
 [![codecov](https://codecov.io/gh/gujans/travis-gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/travis-gtest-cmake-example)
-
+![msvc2017+](https://img.shields.io/badge/MSVC-2017+-ff69b4.svg)
 
 <img alt="platforms" src="https://img.shields.io/badge/platforms-Windows-blue?style=flat-square"/></a>
 <img alt="release" src="https://img.shields.io/github/v/release/zoloypzuo/ZeloEngine?style=flat-square"/></a>
@@ -14,6 +14,12 @@
 <img alt="license" src="https://img.shields.io/github/license/zoloypzuo/ZeloEngine?color=green&style=flat-square"/></a>
 <br/>
 </p>
+
+[![CodeScene Code Health](https://codescene.io/projects/12197/status-badges/code-health)](https://codescene.io/projects/12197)
+[![CodeScene System Mastery](https://codescene.io/projects/12197/status-badges/system-mastery)](https://codescene.io/projects/12197)
+[![CodeScene Missed Goals](https://codescene.io/projects/12197/status-badges/missed-goals)](https://codescene.io/projects/12197)
+
+![](https://codescene.io/projects/12197/status.svg)
 
 > It is all about game engine.
 
@@ -61,18 +67,16 @@ bistro
 
 [【ZeloEngine】构建概述 & 构建问题汇总](https://blog.csdn.net/zolo_mario/article/details/117652524)
 
-目前以VS2019 Win32 Debug日常开发为主，其他平台构建不维护。
+目前以VS2019 Win32 Debug作为日常开发和CI维护，其他平台的构建不维护。
 
 使用vcpkg来管理C++第三方库依赖，主要是方便，成本低。
-
-引擎本体将所有代码编译为一个可执行文件，避免动态链接。
 
 开发环境安装:
 
 * cmake
 * VS2019
 
-一键下载初始化依赖：
+一键下载和初始化依赖：
 
 运行`Tools\Setup\setup.bat`
 
@@ -82,7 +86,9 @@ bistro
 
 一键运行：
 
-运行`Hello.exe`
+运行`build_vs2019\bin\Hello.exe`
+
+美术资源分发暂时没找到比较好的方案，TODO WIP
 
 ## 文档
 

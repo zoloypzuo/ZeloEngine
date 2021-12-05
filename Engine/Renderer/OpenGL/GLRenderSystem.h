@@ -13,7 +13,7 @@
 #include "Core/RHI/RenderSystem.h"
 #include "Core/RHI/RenderPipeline.h"
 #include "Core/RHI/Resource/MeshManager.h"
-#include "Core/RHI/Object/Camera.h"
+#include "Core/RHI/Object/ACamera.h"
 #include "Core/Parser/IniReader.h"
 
 namespace Zelo::Renderer::OpenGL {

@@ -26,7 +26,7 @@ public:
 
     const std::string &getName() const override;
 
-    void install () override;
+    void install() override;
 
     void uninstall() override;
 

@@ -9,7 +9,7 @@
 
 class Grid {
 public:
-    Grid ();
+    Grid();
 
     void render() const;
 

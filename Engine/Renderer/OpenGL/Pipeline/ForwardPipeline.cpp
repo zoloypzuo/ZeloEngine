@@ -56,7 +56,7 @@ RenderQueue ForwardPipeline::sortRenderQueue() const {
 
         // use standard shader as default
 //        if (!material.hasShader()) { TODO
-            material.setShader(m_forwardStandardShader);
+        material.setShader(m_forwardStandardShader);
 //        }
 
         RenderItem renderItem{
