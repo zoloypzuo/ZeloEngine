@@ -24,3 +24,5 @@ target_include_directories(LuaBind PRIVATE
         )
 
 target_compile_options(LuaBind PRIVATE -bigobj)  # LuaBind_ImGui.cpp : fatal error C1128
+
+set_target_properties(LuaBind PROPERTIES FOLDER "LuaBind")
