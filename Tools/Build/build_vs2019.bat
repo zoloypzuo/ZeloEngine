@@ -12,6 +12,6 @@ cd /d %EngineDir%
 mkdir build_vs2019
 cd build_vs2019
 cmake -DCMAKE_GENERATOR_PLATFORM=win32 -G  "Visual Studio 16" ..
-cmake --build . --config debug
+cmake --build . --config debug -j 18
 
 cd %CurrentDir%
