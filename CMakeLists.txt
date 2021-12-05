@@ -142,9 +142,7 @@ add_compile_definitions(UNICODE)
 add_compile_definitions(ZELO_DEBUG)
 
 # build engine
-include_directories(Engine)
 add_subdirectory(Engine)
-link_libraries(Engine)
 
 # build main
 add_subdirectory(Main)

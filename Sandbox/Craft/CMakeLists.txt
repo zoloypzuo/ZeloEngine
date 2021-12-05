@@ -1,6 +1,7 @@
-
 FILE(GLOB SOURCE_FILES *.cpp lib/*.cpp)
 add_library(Craft ${SOURCE_FILES} CraftPlugin.cpp CraftPlugin.h)
+
+target_link_libraries(Craft PUBLIC Engine)
 
 find_package(CURL CONFIG REQUIRED)
 target_link_libraries(Craft PRIVATE CURL::libcurl)

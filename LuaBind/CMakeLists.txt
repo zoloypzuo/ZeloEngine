@@ -12,6 +12,7 @@ add_library(LuaBind
         )
 
 target_link_libraries(LuaBind PRIVATE
+        Engine
         TemplateSandbox
         GLSLBook
         Craft

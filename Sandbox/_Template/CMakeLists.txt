@@ -1,1 +1,2 @@
 add_library(TemplateSandbox TemplatePlugins.cpp)
+target_link_libraries(TemplateSandbox PUBLIC Engine)

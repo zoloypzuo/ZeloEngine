@@ -10,3 +10,4 @@ add_library(StackTrace
         StackTracePrinter.h)
 
 target_compile_definitions(StackTrace PRIVATE NOMINMAX WIN32_LEAN_AND_MEAN UNICODE)
+target_include_directories(StackTrace PUBLIC ${CMAKE_SOURCE_DIR}/ThirdParty/StackTrace)

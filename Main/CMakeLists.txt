@@ -1,7 +1,6 @@
 add_executable(Hello main.cpp)
 
-target_include_directories(Hello PRIVATE ${CMAKE_SOURCE_DIR}/ThirdParty/StackTrace)
-target_link_libraries(Hello PRIVATE StackTrace)
+target_link_libraries(Hello PRIVATE Engine StackTrace)
 
 # run build.py after C++ build
 add_custom_command(TARGET Hello PRE_BUILD COMMAND

@@ -56,3 +56,5 @@ add_library(GRCookbook
 
         Utils.cpp
         )
+
+target_link_libraries(GRCookbook PUBLIC Engine)

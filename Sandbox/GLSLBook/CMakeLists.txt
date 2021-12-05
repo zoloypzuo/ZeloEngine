@@ -8,3 +8,5 @@ add_library(GLSLBook
 
         Drawable/Quad.cpp Drawable/Quad.h
         )
+
+target_link_libraries(GLSLBook PUBLIC Engine)
