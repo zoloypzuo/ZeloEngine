@@ -47,11 +47,10 @@ if (WIN32)
     elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 bits
         set(VCPKG_TARGET_TRIPLET x86-windows)
     endif ()
-    set(VcpkgDir ${CMAKE_CURRENT_SOURCE_DIR}/ThirdParty/Vcpkg)
+    set(VcpkgDir ${CMAKE_SOURCE_DIR}/ThirdParty/Vcpkg)
     include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
-elseif (UNIX)
-    set(VCPKG_TARGET_TRIPLET x64-windows)
-    message(STATUS CMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE})
+else()
+    message(ERROR "platform not supported")
 endif ()
 
 # build third party from source
