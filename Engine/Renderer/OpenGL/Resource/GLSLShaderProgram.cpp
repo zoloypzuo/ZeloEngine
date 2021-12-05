@@ -181,28 +181,6 @@ void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::m
 }
 
 void GLSLShaderProgram::printActiveUniforms() const {
-#ifdef __APPLE__
-    // For OpenGL 4.1, use glGetActiveUniform
-    GLint nUniforms, size, location, maxLen;
-    GLchar *name;
-    GLsizei written;
-    GLenum type;
-
-    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLen);
-    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORMS, &nUniforms);
-
-    name = new GLchar[maxLen];
-
-    spdlog::debug("Active uniforms:");
-    spdlog::debug("------------------------------------------------");
-    for (GLuint i = 0; i < nUniforms; ++i) {
-        glGetActiveUniform(m_handle, i, maxLen, &written, &size, &type, name);
-        location = glGetUniformLocation(m_handle, name);
-        spdlog::debug(" {} {} ({})", location, name, getTypeString(type));
-    }
-
-    delete[] name;
-#else
     // For OpenGL 4.3 and above, use glGetProgramResource
     GLint numUniforms = 0;
     glGetProgramInterfaceiv(m_handle, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
@@ -221,47 +199,9 @@ void GLSLShaderProgram::printActiveUniforms() const {
         spdlog::debug("{} {} ({})", results[2], name, getTypeString(results[1]));
         delete[] name;
     }
-#endif
 }
 
 void GLSLShaderProgram::printActiveUniformBlocks() const {
-#ifdef __APPLE__
-    // For OpenGL 4.1, use glGetActiveUniformBlockiv
-    GLint written, maxLength, maxUniLen, nBlocks, binding;
-    GLchar *name;
-
-    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORM_BLOCK_MAX_NAME_LENGTH, &maxLength);
-    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORM_BLOCKS, &nBlocks);
-    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxUniLen);
-    GLchar *uniName = new GLchar[maxUniLen];
-    name = new GLchar[maxLength];
-
-    spdlog::debug("Active Uniform blocks: ");
-    spdlog::debug("------------------------------------------------");
-    for (GLuint i = 0; i < nBlocks; i++) {
-        glGetActiveUniformBlockName(m_handle, i, maxLength, &written, name);
-        glGetActiveUniformBlockiv(m_handle, i, GL_UNIFORM_BLOCK_BINDING, &binding);
-        spdlog::debug("Uniform block \"{}\" ({}):", name, binding);
-
-        GLint nUnis;
-        glGetActiveUniformBlockiv(m_handle, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORMS, &nUnis);
-        GLint *unifIndexes = new GLint[nUnis];
-        glGetActiveUniformBlockiv(m_handle, i, GL_UNIFORM_BLOCK_ACTIVE_UNIFORM_INDICES, unifIndexes);
-
-        for (int unif = 0; unif < nUnis; ++unif) {
-            GLuint uniIndex = unifIndexes[unif];
-            GLint size;
-            GLenum type;
-
-            glGetActiveUniform(m_handle, uniIndex, maxUniLen, &written, &size, &type, uniName);
-            spdlog::debug("    {} ({})", name, getTypeString(type));
-        }
-
-        delete[] unifIndexes;
-    }
-    delete[] name;
-    delete[] uniName;
-#else
     GLint numBlocks = 0;
 
     glGetProgramInterfaceiv(m_handle, GL_UNIFORM_BLOCK, GL_ACTIVE_RESOURCES, &numBlocks);
@@ -296,29 +236,9 @@ void GLSLShaderProgram::printActiveUniformBlocks() const {
 
         delete[] unifIndexes;
     }
-#endif
 }
 
 void GLSLShaderProgram::printActiveAttributes() const {
-#ifdef __APPLE__
-    // For OpenGL 4.1, use glGetActiveAttrib
-    GLint written, size, location, maxLength, nAttribs;
-    GLenum type;
-    GLchar *name;
-
-    glGetProgramiv(m_handle, GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, &maxLength);
-    glGetProgramiv(m_handle, GL_ACTIVE_ATTRIBUTES, &nAttribs);
-
-    name = new GLchar[maxLength];
-    spdlog::debug("Active Attributes: ");
-    spdlog::debug("------------------------------------------------");
-    for (int i = 0; i < nAttribs; i++) {
-        glGetActiveAttrib(m_handle, i, maxLength, &written, &size, &type, name);
-        location = glGetAttribLocation(m_handle, name);
-        spdlog::debug("{} {} ({})", location, name, getTypeString(type));
-    }
-    delete[] name;
-#else
     // >= OpenGL 4.3, use glGetProgramResource
     GLint numAttribs = 0;
     glGetProgramInterfaceiv(m_handle, GL_PROGRAM_INPUT, GL_ACTIVE_RESOURCES, &numAttribs);
@@ -336,7 +256,6 @@ void GLSLShaderProgram::printActiveAttributes() const {
         spdlog::debug("{} {} ({})", results[2], name, getTypeString(results[1]));
         delete[] name;
     }
-#endif
 }
 
 void GLSLShaderProgram::addShader(const std::string &fileName) const {
@@ -412,25 +331,6 @@ void GLSLShaderProgram::findUniformLocations() {
     m_uniformLocationMap.clear();
 
     GLint numUniforms = 0;
-#ifdef __APPLE__
-    // For OpenGL 4.1, use glGetActiveUniform
-    GLint maxLen;
-    GLchar *name;
-
-    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORM_MAX_LENGTH, &maxLen);
-    glGetProgramiv(m_handle, GL_ACTIVE_UNIFORMS, &numUniforms);
-
-    name = new GLchar[maxLen];
-    for (GLuint i = 0; i < numUniforms; ++i) {
-        GLint size;
-        GLenum type;
-        GLsizei written;
-        glGetActiveUniform(m_handle, i, maxLen, &written, &size, &type, name);
-        GLint location = glGetUniformLocation(m_handle, name);
-        m_uniformLocationMap[name] = glGetUniformLocation(m_handle, name);
-    }
-    delete[] name;
-#else
     // For OpenGL 4.3 and above, use glGetProgramResource
     glGetProgramInterfaceiv(m_handle, GL_UNIFORM, GL_ACTIVE_RESOURCES, &numUniforms);
 
@@ -447,7 +347,6 @@ void GLSLShaderProgram::findUniformLocations() {
         m_uniformLocationMap[name] = results[2];
         delete[] name;
     }
-#endif
 }
 
 void GLSLShaderProgram::loadShader(const std::string &fileName) const {
