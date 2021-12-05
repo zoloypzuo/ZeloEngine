@@ -4,9 +4,9 @@
 #include <sol/sol.hpp>
 
 #include "Core/ECS/Entity.h"
-#include "Core/RHI/Object/Camera.h"
-#include "Core/ECS/Component/CFreeMove.h"
-#include "Core/ECS/Component/CFreeLook.h"
+#include "Core/Controller/CFreeLook.h"
+#include "Core/Controller/CFreeMove.h"
+#include "Core/RHI/Object/ACamera.h"
 #include "Core/RHI/Object/ALight.h"
 
 #include "Core/RHI/MeshGen/Plane.h"

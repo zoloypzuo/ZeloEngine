@@ -1,5 +1,9 @@
 # created on 2021/3/29
 # author @zoloypzuo
+add_library(GLLoader GLLoader.cpp)
+
+target_link_libraries(GLLoader PRIVATE Window)
+
 add_library(OpenGLRenderer
         Buffer/GLBuffer.cpp
         Buffer/GLVertexArray.cpp
@@ -18,19 +22,19 @@ add_library(OpenGLRenderer
         Drawable/Line.cpp
         Drawable/Line.cpp
         Drawable/Frustum.cpp
-        Drawable/Grid.cpp Drawable/Grid.h
+        Drawable/Grid.cpp
 
         GLUtil.cpp
 
-        GLRenderSystem.cpp GLRenderSystem.h
+        GLRenderSystem.cpp
 
         Pipeline/ForwardPipeline.cpp
         Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
         )
 
-target_link_libraries(OpenGLRenderer PUBLIC Core)
 
-# GLEW replaced by GLAD
-find_package(glad CONFIG REQUIRED)
+target_link_libraries(OpenGLRenderer PUBLIC Core)
+target_link_libraries(OpenGLRenderer PRIVATE GLLoader)
+
 target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
 

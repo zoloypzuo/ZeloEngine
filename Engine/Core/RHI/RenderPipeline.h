@@ -7,7 +7,7 @@
 #include "ZeloGLPrerequisites.h"
 
 #include "Core/ECS/Entity.h"
-#include "Core/RHI/Object/Camera.h"
+#include "Core/RHI/Object/ACamera.h"
 
 namespace Zelo::Core::RHI {
 class RenderPipeline {

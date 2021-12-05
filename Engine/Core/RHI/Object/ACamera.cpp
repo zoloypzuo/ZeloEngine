@@ -2,15 +2,15 @@
 // created on 2021/3/31
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "Camera.h"
+#include "ACamera.h"
 
 #include <glm/gtx/transform.hpp>
 
 using namespace Zelo::Core::ECS;
 
-Camera::Camera(Entity &owner) : Zelo::Core::ECS::Component(owner) {}
+ACamera::ACamera(Entity &owner) : Zelo::Core::ECS::Component(owner) {}
 
-glm::mat4 Camera::getViewMatrix() const {
+glm::mat4 ACamera::getViewMatrix() const {
     return glm::inverse(m_owner.getWorldMatrix());
 }
 
@@ -26,7 +26,7 @@ float PerspectiveCamera::getFov() const {
     return m_fov;
 }
 
-PerspectiveCamera::PerspectiveCamera(Entity &owner) : Camera(owner) {
+PerspectiveCamera::PerspectiveCamera(Entity &owner) : ACamera(owner) {
     setProperty("fov", PropertyType::ANGLE, &m_fov, 0, 180);
     setProperty("aspect", PropertyType::FLOAT, &m_aspect, 0, 10);
     setProperty("zNear", PropertyType::FLOAT, &m_zNear, 0, 1);

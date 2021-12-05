@@ -78,7 +78,7 @@ const SceneManager::FastAccessComponents &SceneManager::getFastAccessComponents(
     return m_fastAccessComponents;
 }
 
-Camera *SceneManager::getActiveCamera() const {
+ACamera *SceneManager::getActiveCamera() const {
     // try user assigned camera
     if (m_activeCamera) {
         return m_activeCamera;
@@ -110,7 +110,7 @@ void SceneManager::onComponentAdded(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<MeshRenderer *>(&component)) {
         m_fastAccessComponents.meshRenderers.push_back(result);
     }
-    if (auto *result = dynamic_cast<Camera *>(&component)) {
+    if (auto *result = dynamic_cast<ACamera *>(&component)) {
         m_fastAccessComponents.cameras.push_back(result);
     }
     if (auto *result = dynamic_cast<ALight *>(&component)) {
@@ -123,7 +123,7 @@ void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
             !m_fastAccessComponents.meshRenderers.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.meshRenderers, result);
     }
-    if (auto *result = dynamic_cast<Camera *>(&component);
+    if (auto *result = dynamic_cast<ACamera *>(&component);
             !m_fastAccessComponents.cameras.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.cameras, result);
         if (m_activeCamera == result) {

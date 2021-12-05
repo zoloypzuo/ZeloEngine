@@ -11,7 +11,6 @@ static auto logger = spdlog::default_logger()->clone("gl");
 void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
                                  GLenum severity, GLsizei length,
                                  const GLchar *msg, const void *param) {
-
     std::string sourceStr;
     switch (source) {
         case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
@@ -130,40 +129,7 @@ int checkForOpenGLError(const char *file, int line) {
     return retCode;
 }
 
-void dumpGLInfo(bool dumpExtensions) {
-    const GLubyte *renderer = glGetString(GL_RENDERER);
-    const GLubyte *vendor = glGetString(GL_VENDOR);
-    const GLubyte *version = glGetString(GL_VERSION);
-    const GLubyte *glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
 
-    GLint major = 0;
-    GLint minor = 0;
-    glGetIntegerv(GL_MAJOR_VERSION, &major);
-    glGetIntegerv(GL_MINOR_VERSION, &minor);
-
-    logger->info("-------------------------------------------------------------");
-    logger->info("GL Vendor    : {}", vendor);
-    logger->info("GL Renderer  : {}", renderer);
-    logger->info("GL Version   : {}", version);
-    logger->info("GL Version   : {}.{}", major, minor);
-    logger->info("GLSL Version : {}", glslVersion);
-    logger->info("-------------------------------------------------------------");
-
-    if (dumpExtensions) {
-        GLint nExtensions = 0;
-        glGetIntegerv(GL_NUM_EXTENSIONS, &nExtensions);
-        for (int i = 0; i < nExtensions; i++) {
-            logger->info("{}", glGetStringi(GL_EXTENSIONS, i));
-        }
-    }
-}
-
-void loadGL() {
-    // Load the OpenGL functions.
-    logger->info("start loadGL with GLAD");
-    ZELO_ASSERT(gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress), "GLAD failed to initialize");
-    dumpGLInfo(false);
-}
 
 const char *getTypeString(GLenum type) {
     // There are many more types than are covered here, but

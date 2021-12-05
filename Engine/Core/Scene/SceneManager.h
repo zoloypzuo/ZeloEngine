@@ -6,7 +6,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
-#include "Core/RHI/Object/Camera.h"
+#include "Core/RHI/Object/ACamera.h"
 #include "Core/ECS/Entity.h"
 #include "Core/RHI/Object/ALight.h"
 
@@ -19,7 +19,7 @@ class SceneManager : public Singleton<SceneManager>, public IRuntimeModule {
 public:
     struct FastAccessComponents {
         std::vector<Renderer::OpenGL::MeshRenderer *> meshRenderers;
-        std::vector<Camera *> cameras;
+        std::vector<ACamera *> cameras;
         std::vector<RHI::ALight *> lights;
     };
 
@@ -44,7 +44,7 @@ public:
 
     const FastAccessComponents &getFastAccessComponents() const;
 
-    Camera *getActiveCamera() const;
+    ACamera *getActiveCamera() const;
 
     Core::RHI::ALight *getMainDirectionalLight() const;
 
@@ -65,7 +65,7 @@ private:
     GUID_t m_entityGuidCounter{};
 
     FastAccessComponents m_fastAccessComponents;
-    Camera *m_activeCamera{};
+    ACamera *m_activeCamera{};
 };
 }
 

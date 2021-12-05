@@ -63,7 +63,10 @@ if (BuildPlaybox)
     add_subdirectory(Playbox)
 endif (BuildPlaybox)
 
-# import third party from vcpkg
+# find third party from vcpkg
+find_package(SDL2 CONFIG REQUIRED)
+find_package(glad CONFIG REQUIRED)
+find_package(assimp CONFIG REQUIRED)
 
 # spdlog
 find_package(spdlog CONFIG REQUIRED)
@@ -74,10 +77,6 @@ find_package(glm CONFIG REQUIRED)
 link_libraries(glm::glm)
 add_compile_definitions(GLM_FORCE_SWIZZLE)
 add_compile_definitions(GLM_FORCE_RADIANS)
-
-# assimp
-find_package(assimp CONFIG REQUIRED)
-link_libraries(assimp::assimp)
 
 # stb
 find_path(STB_INCLUDE_DIRS "stb.h")
@@ -123,4 +122,3 @@ add_subdirectory(Sandbox)
 
 # build luabind
 add_subdirectory(LuaBind)
-

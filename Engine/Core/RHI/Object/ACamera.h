@@ -2,18 +2,18 @@
 // created on 2021/3/31
 // author @zoloypzuo
 
-#ifndef ZELOENGINE_CAMERA_H
-#define ZELOENGINE_CAMERA_H
+#ifndef ZELOENGINE_ACAMERA_H
+#define ZELOENGINE_ACAMERA_H
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
 
-class Camera : public Zelo::Core::ECS::Component {
+class ACamera : public Zelo::Core::ECS::Component {
 public:
-    Camera(Zelo::Core::ECS::Entity &owner);;
+    ACamera(Zelo::Core::ECS::Entity &owner);;
 
-    ~Camera() override = default;
+    ~ACamera() override = default;
 
     glm::mat4 getViewMatrix() const;
 
@@ -22,7 +22,7 @@ public:
     inline std::string getType() override { return "CAMERA"; }
 };
 
-class PerspectiveCamera : public Camera {
+class PerspectiveCamera : public ACamera {
 public:
     PerspectiveCamera(Zelo::Core::ECS::Entity &owner);;
 
@@ -38,4 +38,4 @@ public:  // script property
     float m_fov{}, m_aspect{}, m_zNear{}, m_zFar{};
 };
 
-#endif //ZELOENGINE_CAMERA_H
+#endif //ZELOENGINE_ACAMERA_H
