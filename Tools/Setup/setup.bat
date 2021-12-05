@@ -37,4 +37,3 @@ xcopy /y/e ThirdParty\TEMP\Optick ThirdParty\Optick
 rd /s/q ThirdParty\TEMP\Optick\.git
 
 cd %CurrentDir%
-pause
