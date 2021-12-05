@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/gujans/travis-gtest-cmake-example.svg?branch=master)](https://travis-ci.org/gujans/travis-gtest-cmake-example)
 [![codecov](https://codecov.io/gh/gujans/travis-gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/travis-gtest-cmake-example)
-
+![msvc2017+](https://img.shields.io/badge/MSVC-2017+-ff69b4.svg)
 
 <img alt="platforms" src="https://img.shields.io/badge/platforms-Windows-blue?style=flat-square"/></a>
 <img alt="release" src="https://img.shields.io/github/v/release/zoloypzuo/ZeloEngine?style=flat-square"/></a>
@@ -14,6 +14,12 @@
 <img alt="license" src="https://img.shields.io/github/license/zoloypzuo/ZeloEngine?color=green&style=flat-square"/></a>
 <br/>
 </p>
+
+[![CodeScene Code Health](https://codescene.io/projects/12197/status-badges/code-health)](https://codescene.io/projects/12197)
+[![CodeScene System Mastery](https://codescene.io/projects/12197/status-badges/system-mastery)](https://codescene.io/projects/12197)
+[![CodeScene Missed Goals](https://codescene.io/projects/12197/status-badges/missed-goals)](https://codescene.io/projects/12197)
+
+![](https://codescene.io/projects/12197/status.svg)
 
 > It is all about game engine.
 
