@@ -120,7 +120,7 @@ find_package(Taskflow CONFIG REQUIRED)
 link_libraries(Taskflow::Taskflow)
 
 # C++ or platform options
-if (WIN32)
+if (MSVC)
     # ignore warning
     add_compile_definitions(_CRT_SECURE_NO_WARNINGS)
     # avoid some bugs with Windows...
