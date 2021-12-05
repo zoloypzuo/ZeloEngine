@@ -96,7 +96,7 @@ typedef int64_t GUID_t;
 
 // interface
 #include "Core/Interface/IRuntimeModule.h"
-#include "Core/Interface/ISerializable.h"
+//#include "Core/Interface/ISerializable.h" TODO WIP
 
 // forward declaration
 namespace Zelo { class Engine; }

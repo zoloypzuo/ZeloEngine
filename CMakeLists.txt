@@ -67,6 +67,7 @@ endif (BuildPlaybox)
 find_package(SDL2 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
+find_path(STB_INCLUDE_DIRS "stb.h")
 
 # spdlog
 find_package(spdlog CONFIG REQUIRED)
@@ -77,22 +78,6 @@ find_package(glm CONFIG REQUIRED)
 link_libraries(glm::glm)
 add_compile_definitions(GLM_FORCE_SWIZZLE)
 add_compile_definitions(GLM_FORCE_RADIANS)
-
-# stb
-find_path(STB_INCLUDE_DIRS "stb.h")
-include_directories(${STB_INCLUDE_DIRS})
-
-# yaml-cpp
-find_package(yaml-cpp CONFIG REQUIRED)
-link_libraries(yaml-cpp)
-
-# rttr
-find_package(rttr CONFIG REQUIRED)
-link_libraries(RTTR::Core)
-
-# taskflow
-find_package(Taskflow CONFIG REQUIRED)
-link_libraries(Taskflow::Taskflow)
 
 # C++ or platform options
 if (MSVC)

@@ -37,4 +37,4 @@ target_link_libraries(OpenGLRenderer PUBLIC Core)
 target_link_libraries(OpenGLRenderer PRIVATE GLLoader)
 
 target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
-
+target_include_directories(OpenGLRenderer PRIVATE ${STB_INCLUDE_DIRS})

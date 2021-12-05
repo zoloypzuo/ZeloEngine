@@ -3,5 +3,5 @@
 add_library(Interface
         IMeshData.h
         IRuntimeModule.h
-        ISerializable.cpp ISerializable.h
+#        ISerializable.cpp ISerializable.h TODO WIP
         )
