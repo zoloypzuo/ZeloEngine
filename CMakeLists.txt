@@ -143,7 +143,6 @@ add_compile_definitions(ZELO_DEBUG)
 
 # build engine
 include_directories(Engine)
-include_directories(Sandbox) # TODO
 add_subdirectory(Engine)
 link_libraries(Engine)
 
@@ -167,6 +166,9 @@ set_target_properties(Hello PROPERTIES FOLDER "Main")
 
 # build sandbox
 add_subdirectory(Sandbox)
+
+# build luabind
+add_subdirectory(LuaBind)
 
 # run build.py after C++ build
 add_custom_command(TARGET Hello PRE_BUILD COMMAND
