@@ -118,7 +118,7 @@ void ForwardShadowRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera 
     glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, m_depthMap);
 
-    for (const auto &light : directionalLights) {
+    for (const auto &light: directionalLights) {
         light->updateShader(m_forwardDirectional.get());
 
         scene.renderAll(m_forwardDirectional.get());
@@ -133,7 +133,7 @@ void ForwardShadowRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera 
 
     m_forwardPoint->setUniform1f("specularIntensity", 0.5);
     m_forwardPoint->setUniform1f("specularPower", 10);
-    for (const auto &light : pointLights) {
+    for (const auto &light: pointLights) {
         light->updateShader(m_forwardPoint.get());
 
         scene.renderAll(m_forwardPoint.get());
@@ -146,7 +146,7 @@ void ForwardShadowRenderer::render(const Zelo::Core::ECS::Entity &scene, Camera 
 
     m_forwardSpot->setUniform1f("specularIntensity", 0.5);
     m_forwardSpot->setUniform1f("specularPower", 10);
-    for (const auto &light : spotLights) {
+    for (const auto &light: spotLights) {
         light->updateShader(m_forwardSpot.get());
 
         scene.renderAll(m_forwardSpot.get());

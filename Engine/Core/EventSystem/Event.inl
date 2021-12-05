@@ -35,7 +35,7 @@ uint64_t Event<ArgTypes...>::GetListenerCount() {
 
 template<class... ArgTypes>
 void Event<ArgTypes...>::Invoke(ArgTypes... args) {
-    for (auto const&[key, value] : m_callbacks)
+    for (auto const&[key, value]: m_callbacks)
         value(args...);
 }
 }

@@ -69,6 +69,6 @@ std::filesystem::path ResourceManager::resolvePath(const std::string &fileName) 
         ZELO_ASSERT(std::filesystem::exists(enginePath));
         filePath = enginePath;
     }
-    
+
     return filePath;
 }

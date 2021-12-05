@@ -17,7 +17,7 @@ void GLMaterial::bind() const {
     if (!hasShader()) { return; }
     m_shader->bind();
 //    int textureSlot = 0;
-    for (const auto&[name, value] : m_uniformsData) {
+    for (const auto&[name, value]: m_uniformsData) {
         auto *uniformData = m_shader->getUniformInfo(name);
         if (!uniformData) { continue; }
         switch (uniformData->type) {
@@ -92,7 +92,7 @@ bool GLMaterial::hasShader() const {
 
 void GLMaterial::fillUniforms() {
     m_uniformsData.clear();
-    for (const auto &element : m_shader->m_uniforms) {
+    for (const auto &element: m_shader->m_uniforms) {
         m_uniformsData.emplace(element.name, element.defaultValue);
     }
 }

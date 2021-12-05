@@ -16,7 +16,7 @@ void ISerializable::OnSerialize(YAML::Emitter &emitter) {
     emitter << YAML::Value << t.get_name().to_string();
 
     // iterate member
-    for (const auto &prop:t.get_properties()) {
+    for (const auto &prop: t.get_properties()) {
         emitter << YAML::Key << prop.get_name().to_string();
         auto value = prop.get_value(*this);
         emitter << YAML::Value << value.to_string();
