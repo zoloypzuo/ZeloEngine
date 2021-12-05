@@ -29,17 +29,6 @@ message(STATUS "COMPILER >>> ${CMAKE_CXX_COMPILER_ID}")
 
 message(STATUS "BUILD_SHARED_LIBS >>> ${BUILD_SHARED_LIBS}")
 
-#if (MSVC)
-#    add_definitions(-D_CRT_SECURE_NO_WARNINGS=1)
-#    add_definitions(-D_SCL_SECURE_NO_WARNINGS=1)
-#    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP /bigobj /W3")
-#endif ()
-#if (MINGW)
-#    if (CMAKE_BUILD_TYPE STREQUAL "Debug")
-#        add_definitions(-DDEBUG)
-#    endif ()
-#endif ()
-
 # cmake status
 message(STATUS "PROJECT_BINARY_DIR >>> ${PROJECT_BINARY_DIR}")
 message(STATUS "CMAKE_CXX_FLAGS >>> ${CMAKE_CXX_FLAGS}")
