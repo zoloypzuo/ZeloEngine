@@ -2,6 +2,8 @@ add_library(LuaBind
         LuaBind.cpp
 
         ThirdParty/LuaBind_ImGui.cpp
+        ThirdParty/LuaBind_ImGuiEnum.cpp
+        ThirdParty/LuaBind_ImGuiWidget.cpp
 
         Core/LuaBind_Core.cpp
         Core/ECS/LuaBind_Entity.cpp
