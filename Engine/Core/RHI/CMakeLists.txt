@@ -37,3 +37,5 @@ add_library(RHI
         RenderSystem.cpp RenderSystem.h
         RenderPipeline.h
         )
+
+target_link_libraries(RHI PRIVATE ECS)

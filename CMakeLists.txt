@@ -63,16 +63,10 @@ if (BuildPlaybox)
     add_subdirectory(Playbox)
 endif (BuildPlaybox)
 
-# lua
-include_directories(ThirdParty/Lua/include)
-link_libraries(Lua)
 
 # imgui
 include_directories(ThirdParty/ImGui)
 link_libraries(ImGui)
-
-# sol2
-include_directories(ThirdParty/Sol2/include)
 
 # sol enable safety check
 add_compile_definitions(SOL_ALL_SAFETIES_ON)

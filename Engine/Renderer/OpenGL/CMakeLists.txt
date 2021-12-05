@@ -28,6 +28,9 @@ add_library(OpenGLRenderer
         Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
         )
 
+target_link_libraries(OpenGLRenderer PUBLIC Core)
+
 # GLEW replaced by GLAD
 find_package(glad CONFIG REQUIRED)
 target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
+
