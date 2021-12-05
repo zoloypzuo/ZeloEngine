@@ -147,13 +147,7 @@ add_subdirectory(Engine)
 link_libraries(Engine)
 
 # build main
-add_executable(Hello main.cpp)
-
-target_include_directories(Hello PRIVATE ThirdParty/StackTrace)
-target_link_libraries(Hello PRIVATE StackTrace)
-
-set_target_properties(Engine PROPERTIES FOLDER "Main")
-set_target_properties(Hello PROPERTIES FOLDER "Main")
+add_subdirectory(Main)
 
 # build sandbox
 add_subdirectory(Sandbox)
@@ -161,10 +155,3 @@ add_subdirectory(Sandbox)
 # build luabind
 add_subdirectory(LuaBind)
 
-# run build.py after C++ build
-add_custom_command(TARGET Hello PRE_BUILD COMMAND
-        py ${CMAKE_CURRENT_SOURCE_DIR}/build.py
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        $<TARGET_FILE_DIR:Hello>
-        $<TARGET_FILE_DIR:Lua>/lua51.dll
-        )
