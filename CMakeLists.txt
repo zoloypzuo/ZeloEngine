@@ -63,21 +63,7 @@ if (BuildPlaybox)
     add_subdirectory(Playbox)
 endif (BuildPlaybox)
 
-
-# imgui
-include_directories(ThirdParty/ImGui)
-link_libraries(ImGui)
-
-# sol enable safety check
-add_compile_definitions(SOL_ALL_SAFETIES_ON)
-# sol fix link error
-add_compile_definitions(SOL_NO_LUA_HPP)
-#add_compile_definitions(SOL_USING_CXX_LUA=1)
-
 # import third party from vcpkg
-# sdl
-find_package(SDL2 CONFIG REQUIRED)
-link_libraries(SDL2::SDL2 SDL2::SDL2main)
 
 # spdlog
 find_package(spdlog CONFIG REQUIRED)
@@ -126,11 +112,6 @@ endif ()
 
 # use unicode, wstring and etc
 add_compile_definitions(UNICODE)
-
-# options
-# @formatter:off
-# option(DetectMemoryLeak     "DetectMemoryLeak"     OFF)
-# @formatter:on
 
 # engine option
 add_compile_definitions(ZELO_DEBUG)

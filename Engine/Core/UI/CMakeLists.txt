@@ -10,3 +10,6 @@ add_library(UI
         Resource/Font.cpp Resource/Font.h
         ImGuiManager.cpp ImGuiManager.h
         )
+
+target_link_libraries(UI PUBLIC Window)
+target_link_libraries(UI PRIVATE ImGui)

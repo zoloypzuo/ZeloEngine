@@ -6,12 +6,11 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloSingleton.h"
+#include "ZeloSDL.h"
+
 #include "Core/Parser/IniReader.h"
 #include "Core/Input/Input.h"
 
-#if _WIN32
-#undef main
-#endif
 
 class Window :
         public Singleton<Window>,

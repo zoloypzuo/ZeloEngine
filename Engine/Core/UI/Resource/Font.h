@@ -4,7 +4,8 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include <imgui.h>
+
+struct ImFont;  // imgui
 
 namespace Zelo::Core::UI {
 class Font {
