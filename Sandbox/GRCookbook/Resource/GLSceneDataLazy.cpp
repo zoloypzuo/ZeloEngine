@@ -1,7 +1,7 @@
 ﻿#include <memory>
 
 #include "GLSceneDataLazy.h"
-#include <stb/stb_image.h>
+#include <stb_image.h>
 
 #include "Core/Resource/ResourceManager.h"
 

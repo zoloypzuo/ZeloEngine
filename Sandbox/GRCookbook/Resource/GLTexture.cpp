@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string>
 
-#include <stb/stb_image.h>
+#include <stb_image.h>
 #include <gli/gli.hpp>
 #include <gli/texture2d.hpp>
 #include <gli/load_ktx.hpp>
