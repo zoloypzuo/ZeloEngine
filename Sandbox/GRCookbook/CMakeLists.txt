@@ -28,7 +28,7 @@ add_library(GRCookbook
 
 find_package(glfw3 CONFIG REQUIRED)
 find_package(gli CONFIG REQUIRED)
-ind_package(RapidJSON CONFIG REQUIRED)
+find_package(RapidJSON CONFIG REQUIRED)
 
 target_link_libraries(GRCookbook PUBLIC Engine)
 target_link_libraries(GRCookbook PUBLIC gli glfw)
