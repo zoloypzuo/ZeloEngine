@@ -9,6 +9,12 @@ set(CMAKE_CXX_STANDARD 17)
 # cmake option
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)  # Visual Studio will group targets into folders
 
+# MSVC 14.28 enables C5105, but the Windows SDK 10.0.18362.0 triggers it.
+if(CMAKE_C_COMPILER_ID STREQUAL "MSVC" AND NOT CMAKE_C_COMPILER_VERSION VERSION_LESS 19.28)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -wd5105")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -wd5105")
+endif()
+
 project(ZeloEngine)
 
 # detect platform
