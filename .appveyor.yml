@@ -23,5 +23,5 @@ before_build:
 build_script:
   - mkdir build_vs2019
   - cd build_vs2019
-  - cmake -DCMAKE_GENERATOR_PLATFORM=win32 -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -G  "Visual Studio 16" ..
+  - cmake -DCMAKE_GENERATOR_PLATFORM=win32 -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -DCMAKE_SYSTEM_VERSION="10.0.18362.0" -G  "Visual Studio 16" ..
   - cmake --build . --config debug -j 18
