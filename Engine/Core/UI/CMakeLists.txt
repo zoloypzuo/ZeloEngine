@@ -2,9 +2,10 @@
 # author @zoloypzuo
 
 set(ImGuiBackendSrc
-        ${CMAKE_SOURCE_DIR}/ThirdParty/ImGui/backends/imgui_impl_opengl3.cpp
-        ${CMAKE_SOURCE_DIR}/ThirdParty/ImGui/backends/imgui_impl_sdl.cpp
+        ${CMAKE_SOURCE_DIR}/Dep/src/imgui/backends/imgui_impl_opengl3.cpp
+        ${CMAKE_SOURCE_DIR}/Dep/src/imgui/backends/imgui_impl_sdl.cpp
         )
+
 add_library(UI
         ${ImGuiBackendSrc}
         Resource/Font.cpp Resource/Font.h
