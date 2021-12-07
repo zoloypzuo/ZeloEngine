@@ -14,7 +14,6 @@ cache:
 install:
   - cd c:\projects\zeloengine
   - cd tools\setup\
-  - python check_prerequisite.py
   - setup.bat
 
 before_build:

@@ -7,6 +7,10 @@ set Args=%*
 cd /d %EngineDir%
 @echo on
 
+if not exist Dep (
+    md Dep
+)
+
 cd %EngineDir%\Tools\Setup
 python check_prerequisite.py
 python bootstrap.py -b %EngineDir%\Dep --bootstrap-file bootstrap.json
