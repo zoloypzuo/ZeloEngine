@@ -13,8 +13,7 @@ cache:
 
 install:
   - cd c:\projects\zeloengine
-  - cd tools\setup\
-  - setup.bat
+  - tools\setup\setup_appveyor.bat
 
 before_build:
   - cd c:\projects\zeloengine
