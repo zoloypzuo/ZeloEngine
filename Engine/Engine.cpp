@@ -15,7 +15,7 @@
 
 #endif
 
-#include "optick.h"
+#include <optick.h>
 
 using namespace Zelo;
 using namespace Zelo::Core::OS;

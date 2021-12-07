@@ -12,4 +12,4 @@ add_library(Optick
         ${OptickSrcDir}/optick_server.cpp
         )
 
-target_include_directories(Optick PUBLIC ${OptickSrcDirDir})
+target_include_directories(Optick PUBLIC ${OptickSrcDir})
