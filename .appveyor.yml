@@ -9,7 +9,7 @@ build:
   parallel: true
 
 cache:
-  - c:\projects\zeloengine\dep\src\vcpkg\installed\
+  - c:\tools\vcpkg\installed
 
 install:
   - cd c:\projects\zeloengine
