@@ -10,6 +10,7 @@ build:
 
 cache:
   - c:\tools\vcpkg\installed
+  - c:\projects\zeloengine\dep
 
 install:
   - cd c:\projects\zeloengine
