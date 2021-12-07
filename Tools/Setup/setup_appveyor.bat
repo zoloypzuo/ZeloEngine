@@ -28,6 +28,7 @@ if not exist Vcpkg\vcpkg.exe (
     call Vcpkg\bootstrap-vcpkg.bat -disableMetrics
 )
 
-Vcpkg\vcpkg.exe install --triplet x86-windows assimp curl glad glfw3 gli glm rapidjson sdl2 spdlog sqlite3
+Vcpkg\vcpkg.exe install --triplet x86-windows assimp curl glad glfw3 gli glm rapidjson^
+    sdl2 spdlog sqlite3 taskflow
 
 cd %CurrentDir%

@@ -57,7 +57,7 @@ def main():
 
     print()
     print("install command:")
-    print("vcpkg.exe install --triplet x86-windows " + " ".join(libs))
+    print(r"Vcpkg\vcpkg.exe install --triplet x86-windows " + " ".join(libs))
 
 
 if __name__ == '__main__':
