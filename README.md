@@ -27,35 +27,6 @@
 
 正在施工中。
 
-## 截图
-
-![Snipaste_2021-09-30_19-41-26](https://raw.githubusercontent.com/zolo-mario/image-host/main/20210930/Snipaste_2021-09-30_19-41-26.1b7emlmhome8.png)
-
-Edge
-
-![Snipaste_2021-10-17_21-48-52](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211017/Snipaste_2021-10-17_21-48-52.4uwaoph4mxa0.png)
-
-Blur
-
-![Snipaste_2021-10-18_11-33-53](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211018/Snipaste_2021-10-18_11-33-53.32tz2wzhidm0.png)
-
-Shadow Map
-
-![Snipaste_2021-10-21_00-41-23](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211021/Snipaste_2021-10-21_00-41-23.1ukj4tev8bgg.png)
-
-Craft
-![mc](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211124/mc.4lfwn87vrla0.gif)
-
-PBR
-
-![Snipaste_2021-12-01_23-10-31](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211201/Snipaste_2021-12-01_23-10-31.18mulvpf469s.png)
-
-bistro
-
-![Snipaste_2021-12-01_23-04-50](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211201/Snipaste_2021-12-01_23-04-50.79gl1230jf40.png)
-
-![Snipaste_2021-12-01_23-05-04](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211201/Snipaste_2021-12-01_23-05-04.2g5wkodjr6as.png)
-
 ## 特性列表
 
 * Lua脚本
@@ -90,6 +61,59 @@ bistro
 
 美术资源分发暂时没找到比较好的方案，TODO WIP
 
+## 第三方库
+
+(运行`Tools\export_requirement.py`)
+
+build from source:
+* imgui
+* lua
+* optick
+* sol2
+* stacktrace
+* vcpkg
+
+build from vcpkg:
+* assimp
+* curl
+* glad
+* glfw3
+* gli
+* glm
+* rapidjson
+* sdl2
+* spdlog
+* unofficial-sqlite3
+
 ## 文档
 
 文档位于`Doc/`，主要是介绍设计思路，目前没有面向用户端开发的打算。
+
+## 截图
+
+![Snipaste_2021-09-30_19-41-26](https://raw.githubusercontent.com/zolo-mario/image-host/main/20210930/Snipaste_2021-09-30_19-41-26.1b7emlmhome8.png)
+
+Edge
+
+![Snipaste_2021-10-17_21-48-52](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211017/Snipaste_2021-10-17_21-48-52.4uwaoph4mxa0.png)
+
+Blur
+
+![Snipaste_2021-10-18_11-33-53](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211018/Snipaste_2021-10-18_11-33-53.32tz2wzhidm0.png)
+
+Shadow Map
+
+![Snipaste_2021-10-21_00-41-23](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211021/Snipaste_2021-10-21_00-41-23.1ukj4tev8bgg.png)
+
+MC
+![mc](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211124/mc.4lfwn87vrla0.gif)
+
+PBR
+
+![Snipaste_2021-12-01_23-10-31](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211201/Snipaste_2021-12-01_23-10-31.18mulvpf469s.png)
+
+gltf
+
+![Snipaste_2021-12-01_23-04-50](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211201/Snipaste_2021-12-01_23-04-50.79gl1230jf40.png)
+
+![Snipaste_2021-12-01_23-05-04](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211201/Snipaste_2021-12-01_23-05-04.2g5wkodjr6as.png)
