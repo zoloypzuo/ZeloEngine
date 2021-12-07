@@ -9,27 +9,11 @@ build:
   parallel: true
 
 cache:
-  - c:\tools\vcpkg\installed\
+  - c:\projects\zeloengine\dep\vcpkg\installed\
 
 install:
   - cd c:\projects\zeloengine
-  - cd ThirdParty
-  - md TEMP
-  - git clone https://gitee.com/zolozy/imgui.git --branch docking TEMP\ImGui
-  - xcopy /y/e ImGui TEMP\ImGui
-  - xcopy /y/e/q TEMP\ImGui ImGui
-  - git clone https://gitee.com/zolozy/optick.git TEMP\Optick
-  - xcopy /y/e Optick TEMP\Optick
-  - xcopy /y/e/q TEMP\Optick Optick
-  -
-  - cd c:\tools\vcpkg
-  - git pull -q
-  - .\bootstrap-vcpkg.bat -disableMetrics
-  - vcpkg.exe integrate install
-  - vcpkg.exe install --triplet x86-windows sdl2 glad assimp stb spdlog glm
-  - vcpkg.exe install --triplet x86-windows sqlite3 curl glfw3 rapidjson gli
-  - mklink /D /J c:\projects\zeloengine\ThirdParty\Vcpkg c:\tools\vcpkg\
-  - c:\projects\zeloengine\ThirdParty\Vcpkg\vcpkg.exe --version
+  - build\setup\setup.bat
 
 before_build:
   - cd c:\projects\zeloengine
