@@ -13,7 +13,7 @@ cache:
 
 install:
   - cd c:\projects\zeloengine
-  - tools\build\setup\setup.bat
+  - tools\setup\setup.bat
 
 before_build:
   - cd c:\projects\zeloengine
