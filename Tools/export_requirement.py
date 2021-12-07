@@ -38,20 +38,26 @@ def main():
     for dir_ in list_dir("../ThirdParty"):
         print("*", dir_.lower())
 
-    print("")
+    print()
     print("build from vcpkg:")
     libs = set()
     for file in iter_files("../",
                            lambda name: name == "CMakeLists.txt",
-                           ["ThirdParty", "Playbox", "deps", "__Deprecated"]):
+                           ["ThirdParty", "Playbox", "deps", "__Deprecated", "Dep"]):
         content = read(file)
         for line in content.splitlines():
             match_obj = re.search(r"find_package\((.*) CONFIG REQUIRED\)", line)
             if match_obj:
                 libs.add(match_obj.group(1).lower())
 
+    rename_map = {"unofficial-sqlite3": "sqlite3"}
+    libs = sorted([rename_map.get(lib, lib) for lib in libs])
     for dir_ in sorted(list(libs)):
         print("*", dir_)
+
+    print()
+    print("install command:")
+    print("vcpkg.exe install --triplet x86-windows " + " ".join(libs))
 
 
 if __name__ == '__main__':
