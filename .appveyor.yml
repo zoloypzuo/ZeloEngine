@@ -21,8 +21,7 @@ before_build:
   - IF "%ARCHITECTURE%" == "x86" IF "%COMPILER%" == "MSVC_16" call "c:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat" -arch=x86 -host_arch=x64
 
 build_script:
-  - echo "hello"
-#  - mkdir build_vs2019
-#  - cd build_vs2019
-#  - cmake -DCMAKE_GENERATOR_PLATFORM=win32 -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -G  "Visual Studio 16" ..
-#  - cmake --build . --config debug -j 18
+  - mkdir build_vs2019
+  - cd build_vs2019
+  - cmake -DCMAKE_GENERATOR_PLATFORM=win32 -DCMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -G  "Visual Studio 16" ..
+  - cmake --build . --config debug -j 18
