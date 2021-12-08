@@ -22,6 +22,7 @@ struct AxisValuePair {
 
 class Window;
 
+namespace Zelo {
 // TODO namespace, move to Window target
 class Input : public Singleton<Input> {
 public:
@@ -106,5 +107,6 @@ private:
     std::vector<std::function<void(const char *)>> m_textEditHandler{};
 
 };
+}
 
 #endif //ZELOENGINE_INPUT_H

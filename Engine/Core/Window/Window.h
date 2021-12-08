@@ -46,7 +46,7 @@ public:
 
     void makeCurrentContext() const;
 
-    Input *getInput();
+    Zelo::Input *getInput();
 
     SDL_Window *getSDLWindow();
 
@@ -73,7 +73,7 @@ private:
     SDL_GLContext m_glContext{};
 
 
-    Input m_input;  // window hold input
+    Zelo::Input m_input;  // window hold input
 
     bool m_quit{};
     bool m_fullscreen{};

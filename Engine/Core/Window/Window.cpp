@@ -128,7 +128,7 @@ void Window::swapBuffer() {
     SDL_GL_SwapWindow(m_window);
 }
 
-Input *Window::getInput() {
+Zelo::Input *Window::getInput() {
     return &m_input;
 }
 

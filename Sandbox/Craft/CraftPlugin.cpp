@@ -1248,7 +1248,7 @@ int collide(int height, float *x, float *y, float *z) {
 }
 
 void handle_movement(double dt) {
-    auto *input = Input::getSingletonPtr();
+    auto *input = Zelo::Input::getSingletonPtr();
     static float dy = 0;
     State *s = &g->players->state;
     int sz = 0;
