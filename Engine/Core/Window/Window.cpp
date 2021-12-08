@@ -103,6 +103,11 @@ void Window::update() {
             case SDL_QUIT:
                 m_quit = true;
                 break;
+            case SDL_WINDOWEVENT:
+                if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+                    onResize({event.window.data1, event.window.data2});
+                }
+                break;
         }
     }
 }
@@ -131,16 +136,8 @@ SDL_Window *Window::getSDLWindow() {
     return m_window;
 }
 
-int Window::getWidth() const {
-    return this->m_width;
-}
-
-int Window::getHeight() const {
-    return this->m_height;
-}
-
 glm::vec4 Window::getViewport() const {
-    return glm::vec4(0.0f, 0.0f, this->m_width, this->m_height);
+    return glm::vec4(0.0f, 0.0f, m_width, m_height);
 }
 
 glm::vec2 Window::getDisplaySize() const {
@@ -187,7 +184,6 @@ void Window::toggleFullscreen() {
     } else {
         setFullscreen(0);
     }
-
 }
 
 void *Window::getHwnd() const {

@@ -15,6 +15,7 @@
 #include "Core/RHI/Resource/MeshManager.h"
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/Parser/IniReader.h"
+#include "Core/Interface/IView.h"
 
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {
@@ -27,12 +28,18 @@ public:
 
     void update() override;
 
-private:
-    void onResize(const glm::ivec2 &size);
+    void pushView(Core::Interface::IView *view) override;
+
+    void popView() override;
+
+protected:
+    void applyCurrentView();
 
 private:
     int m_width{};
     int m_height{};
+
+    std::vector<Core::Interface::IView *> m_viewStack;
 
     const INIReader::Section m_config;
 

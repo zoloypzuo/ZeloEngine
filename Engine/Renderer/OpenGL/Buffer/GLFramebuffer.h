@@ -8,12 +8,11 @@
 #include "Core/RHI/Buffer/Framebuffer.h"
 
 namespace Zelo {
-
 class GLFramebuffer : public Core::RHI::Framebuffer {
 public:
     explicit GLFramebuffer(uint16_t width = 0, uint16_t height = 0);
 
-    ~GLFramebuffer();
+    ~GLFramebuffer() override;
 
     void bind() override;
 
@@ -28,5 +27,4 @@ private:
     uint32_t m_renderTexture = 0;
     uint32_t m_depthStencilBuffer = 0;
 };
-
 }

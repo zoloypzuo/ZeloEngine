@@ -9,7 +9,10 @@ end )
 
 function GameViewPanel:_UpdateImpl()
     self.m_fbo:Bind()
-    RenderSystem.GetSingletonPtr():Update()
+    local renderSystem = RenderSystem.GetSingletonPtr()
+    renderSystem:PushView(self.m_fbo)
+    renderSystem:Update()
+    renderSystem:PopView()
     self.m_fbo:UnBind()
     PanelView._UpdateImpl(self)
 end

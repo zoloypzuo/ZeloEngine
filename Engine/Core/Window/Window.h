@@ -11,11 +11,13 @@
 #include "Core/Parser/IniReader.h"
 #include "Core/Input/Input.h"
 #include "Core/EventSystem/Event.h"
+#include "Core/Interface/IView.h"
 
 // TODO move namespace
 class Window :
         public Singleton<Window>,
-        public IRuntimeModule {
+        public IRuntimeModule,
+        public Zelo::Core::Interface::IView {
 public:
     explicit Window(const INIReader::Section &windowConfig);
 
@@ -31,10 +33,6 @@ public:
 
 public:
     void swapBuffer();
-
-    int getWidth() const;
-
-    int getHeight() const;
 
     glm::vec4 getViewport() const;
 
@@ -74,8 +72,6 @@ private:
     SDL_Window *m_window{};
     SDL_GLContext m_glContext{};
 
-    int m_width{};
-    int m_height{};
 
     Input m_input;  // window hold input
 

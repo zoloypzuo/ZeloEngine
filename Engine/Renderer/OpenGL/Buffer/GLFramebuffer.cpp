@@ -36,6 +36,8 @@ void Zelo::GLFramebuffer::unbind() {
 }
 
 void Zelo::GLFramebuffer::resize(uint32_t width, uint32_t height) {
+    onResize({width, height});
+
     glBindTexture(GL_TEXTURE_2D, m_renderTexture);
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);

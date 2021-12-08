@@ -36,24 +36,13 @@ void GLRenderSystem::initialize() {
     setCapabilityEnabled(ERenderCapability::MULTISAMPLE, true);
     setCapabilityEnabled(ERenderCapability::CULL_FACE, true);
 
-    auto windowSize = Window::getSingletonPtr()->getDrawableSize();
-
-    Window::getSingletonPtr()->WindowEvent.AddListener([this](SDL_Event *pEvent) {
-        auto &event = *pEvent;
-        switch (event.type) {
-            case SDL_WINDOWEVENT:
-                if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
-                    onResize({event.window.data1, event.window.data2});
-                }
-                break;
-        }
-    });
+    pushView(Window::getSingletonPtr());
 }
 
 void GLRenderSystem::update() {
     const auto &sceneManager = SceneManager::getSingletonPtr();
 
-    if (m_renderPipeline) {  // pipeline can be null
+    if (m_renderPipeline && !m_viewStack.empty()) {  // render only if pipeline and view exists
         m_renderPipeline->preRender();
 
         if (sceneManager->getActiveCamera()) {
@@ -63,11 +52,19 @@ void GLRenderSystem::update() {
     }
 }
 
-void GLRenderSystem::onResize(const glm::ivec2 &size) {
-    m_width = size.x;
-    m_height = size.y;
+void GLRenderSystem::applyCurrentView() {
+    auto *view = m_viewStack.back();
+    setViewport(0, 0, view->getWidth(), view->getHeight());
+}
 
-    setViewport(0, 0, m_width, m_height);
+void GLRenderSystem::pushView(Core::Interface::IView *view) {
+    m_viewStack.push_back(view);
+    applyCurrentView();
+}
+
+void GLRenderSystem::popView() {
+    m_viewStack.pop_back();
+    applyCurrentView();
 }
 
 #include "Renderer/OpenGL/GLRenderCommand.inl"
