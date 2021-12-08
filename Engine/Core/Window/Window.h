@@ -9,7 +9,7 @@
 #include "ZeloSDL.h"
 
 #include "Core/Parser/IniReader.h"
-#include "Core/Input/Input.h"
+#include "Core/Window/Input.h"
 #include "Core/EventSystem/Event.h"
 #include "Core/Interface/IView.h"
 

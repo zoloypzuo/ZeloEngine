@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "CraftPlugin.h"
 
-#include "Core/Input/Input.h"
+#include "Core/Window/Input.h"
 #include "Core/OS/Time.h"
 #include "Core/Window/Window.h"
 #include "Core/Scene/SceneManager.h"

@@ -3,7 +3,7 @@
 //
 #include "ZeloPreCompiledHeader.h"
 #include "CFreeMove.h"
-#include "Core/Input/Input.h"
+#include "Core/Window/Input.h"
 
 using namespace Zelo::Core::ECS;
 

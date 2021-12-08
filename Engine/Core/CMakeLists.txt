@@ -5,7 +5,6 @@ add_subdirectory(Controller)
 add_subdirectory(ECS)
 add_subdirectory(EventSystem)
 add_subdirectory(Scene)
-add_subdirectory(Input)
 add_subdirectory(Interface)
 add_subdirectory(LuaScript)
 add_subdirectory(Math)
@@ -22,7 +21,6 @@ set_target_properties(Controller PROPERTIES FOLDER "Core")
 set_target_properties(ECS PROPERTIES FOLDER "Core")
 set_target_properties(EventSystem PROPERTIES FOLDER "Core")
 set_target_properties(Scene PROPERTIES FOLDER "Core")
-set_target_properties(Input PROPERTIES FOLDER "Core")
 set_target_properties(Interface PROPERTIES FOLDER "Core")
 set_target_properties(LuaScript PROPERTIES FOLDER "Core")
 set_target_properties(Math PROPERTIES FOLDER "Core")
@@ -42,7 +40,6 @@ target_link_libraries(Core INTERFACE
         ECS
         EventSystem
         Scene
-        Input
         Interface
         LuaScript
         Math
