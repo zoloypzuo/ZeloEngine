@@ -22,9 +22,9 @@
 #include "item.h"
 #include "map.h"
 #include "matrix.h"
-#include "lib/noise.h"
+#include "thirdparty/noise.h"
 #include "sign.h"
-#include "lib/tinycthread.h"
+#include "thirdparty/tinycthread.h"
 #include "util.h"
 #include "world.h"
 

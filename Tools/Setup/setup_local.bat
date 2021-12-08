@@ -7,19 +7,15 @@ set Args=%*
 cd /d %EngineDir%
 @echo on
 
-if not exist Dep (
-    md Dep
-)
-
 cd %EngineDir%\Tools\Setup
-python check_prerequisite.py
 python bootstrap.py -b %EngineDir%\Dep --bootstrap-file bootstrap.json
 
 cd %EngineDir%\ThirdParty
 
-if not exist Vcpkg (
-    mklink /D /J Vcpkg %EngineDir%\Dep\src\vcpkg
-)
+rmdir /S /Q Vcpkg
+mklink /D /J Vcpkg C:\_Root\Portable\vcpkg
+rmdir /S /Q Resource
+mklink /D /J Resource C:\_Root\Svn\ZeloEngineResource
 
 if not exist Vcpkg\vcpkg.exe (
     setx X_VCPKG_ASSET_SOURCES "x-azurl,http://106.15.181.5/"

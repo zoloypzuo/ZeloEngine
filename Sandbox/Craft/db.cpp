@@ -2,7 +2,7 @@
 #include "db.h"
 #include "ring.h"
 #include "sqlite3.h"
-#include "lib/tinycthread.h"
+#include "thirdparty/tinycthread.h"
 
 #include "map.h"
 #include "sign.h"

@@ -13,16 +13,18 @@ if not exist Dep (
 
 cd %EngineDir%\Tools\Setup
 python check_prerequisite.py
-python bootstrap.py -b %EngineDir%\Dep --bootstrap-file bootstrap.json
+python bootstrap.py -b %EngineDir%\Dep --bootstrap-file bootstrap.json --skip vcpkg
 
 cd %EngineDir%\ThirdParty
 
 if not exist Vcpkg (
-    mklink /D /J Vcpkg %EngineDir%\Dep\src\vcpkg
+    mklink /D /J Vcpkg c:\tools\vcpkg
+    pushd Vcpkg
+    git pull -q
+    popd
 )
 
 if not exist Vcpkg\vcpkg.exe (
-    setx X_VCPKG_ASSET_SOURCES "x-azurl,http://106.15.181.5/"
     call Vcpkg\bootstrap-vcpkg.bat -disableMetrics
 )
 

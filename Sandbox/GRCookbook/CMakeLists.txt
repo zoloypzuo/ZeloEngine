@@ -1,5 +1,3 @@
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
 include_directories(.)
 
 add_library(GRCookbook
@@ -29,8 +27,11 @@ add_library(GRCookbook
 find_package(glfw3 CONFIG REQUIRED)
 find_package(gli CONFIG REQUIRED)
 find_package(RapidJSON CONFIG REQUIRED)
+find_package(Taskflow CONFIG REQUIRED)
+
 
 target_link_libraries(GRCookbook PUBLIC Engine)
 target_link_libraries(GRCookbook PUBLIC gli glfw)
 target_include_directories(GRCookbook PUBLIC ${RAPIDJSON_INCLUDE_DIRS})
 target_include_directories(GRCookbook PRIVATE ${STB_INCLUDE_DIRS})
+target_link_libraries(GRCookbook PRIVATE Taskflow::Taskflow)
