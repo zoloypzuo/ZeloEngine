@@ -20,9 +20,9 @@ struct AxisValuePair {
     float value;
 };
 
+namespace Zelo {
 class Window;
 
-namespace Zelo {
 // TODO namespace, move to Window target
 class Input : public Singleton<Input> {
 public:

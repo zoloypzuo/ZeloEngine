@@ -13,6 +13,7 @@
 #include "Core/EventSystem/Event.h"
 #include "Core/Interface/IView.h"
 
+namespace Zelo {
 // TODO move namespace
 class Window :
         public Singleton<Window>,
@@ -46,7 +47,7 @@ public:
 
     void makeCurrentContext() const;
 
-    Zelo::Input *getInput();
+    Input *getInput();
 
     SDL_Window *getSDLWindow();
 
@@ -63,8 +64,8 @@ public:
     void *getHwnd() const;
 
 public:
-    Zelo::Core::EventSystem::Event<SDL_Event *> WindowEvent;
-    Zelo::Core::EventSystem::Event<void *> PreWindowEvent; // TODO Event with no args
+    Core::EventSystem::Event<SDL_Event *> WindowEvent;
+    Core::EventSystem::Event<void *> PreWindowEvent; // TODO Event with no args
 
 private:
     const INIReader::Section m_windowConfig;
@@ -73,7 +74,7 @@ private:
     SDL_GLContext m_glContext{};
 
 
-    Zelo::Input m_input;  // window hold input
+    Input m_input;  // window hold input
 
     bool m_quit{};
     bool m_fullscreen{};
@@ -82,5 +83,6 @@ private:
 
     std::shared_ptr<spdlog::logger> m_logger{};
 };
+}
 
 #endif //ZELOENGINE_WINDOW_H

@@ -1500,7 +1500,7 @@ void CraftPlugin::uninstall() {
 void CraftPlugin::update() {
     // WINDOW SIZE AND SCALE //
     g->scale = 1;
-    auto size = Window::getSingletonPtr()->getDrawableSize();
+    auto size = Zelo::Window::getSingletonPtr()->getDrawableSize();
     g->width = size.x;
     g->height = size.y;
 

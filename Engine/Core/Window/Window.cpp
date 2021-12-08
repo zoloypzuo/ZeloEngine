@@ -7,6 +7,9 @@
 
 #include <SDL_syswm.h>
 
+template<> Zelo::Window *Singleton<Zelo::Window>::msSingleton = nullptr;
+
+namespace Zelo {
 Window::Window(const INIReader::Section &windowConfig) :
         m_windowConfig(windowConfig),
         m_input(*this) {
@@ -118,7 +121,6 @@ void Window::finalize() {
     SDL_Quit();
 }
 
-template<> Window *Singleton<Window>::msSingleton = nullptr;
 
 Window *Window::getSingletonPtr() {
     return msSingleton;
@@ -128,7 +130,7 @@ void Window::swapBuffer() {
     SDL_GL_SwapWindow(m_window);
 }
 
-Zelo::Input *Window::getInput() {
+Input *Window::getInput() {
     return &m_input;
 }
 
@@ -191,4 +193,5 @@ void *Window::getHwnd() const {
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(m_window, &wmInfo);
     return wmInfo.info.win.window;
+}
 }
