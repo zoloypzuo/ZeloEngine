@@ -3,6 +3,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/43lymnm0g9083f38?svg=true)](https://ci.appveyor.com/project/Zolo-mario/zeloengine)
 [![codecov](https://codecov.io/gh/gujans/travis-gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/travis-gtest-cmake-example)
 ![msvc2017+](https://img.shields.io/badge/MSVC-2017+-ff69b4.svg)
+[![Gitter](https://badges.gitter.im/ZeloEngine/community.svg)](https://gitter.im/ZeloEngine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 <img alt="platforms" src="https://img.shields.io/badge/platforms-Windows-blue?style=flat-square"/></a>
 <img alt="release" src="https://img.shields.io/github/v/release/zoloypzuo/ZeloEngine?style=flat-square"/></a>
