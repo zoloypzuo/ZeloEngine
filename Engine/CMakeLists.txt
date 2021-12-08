@@ -15,6 +15,6 @@ add_library(Engine
 
 target_include_directories(Engine PUBLIC ${CMAKE_SOURCE_DIR}/Engine)
 target_link_libraries(Engine PUBLIC Core OpenGLRenderer)
-target_link_libraries(Engine PRIVATE Optick)
+target_link_libraries(Engine PRIVATE Optick Whereami)
 
 set_target_properties(Engine PROPERTIES FOLDER "Main")

@@ -20,5 +20,12 @@
             "type": "git",
             "url": "https://github.com.cnpmjs.org/Microsoft/vcpkg.git"
         }
+    },
+    {
+        "name": "whereami",
+        "source": {
+            "type": "git",
+            "url": "https://github.com.cnpmjs.org/gpakosz/whereami.git"
+        }
     }
 ]

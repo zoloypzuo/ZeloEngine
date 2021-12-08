@@ -3,19 +3,12 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
-#include "Core/OS/whereami.h"
+#include "Core/Plugin/Plugin.h"
 #include "Core/Profiler/Profiler.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
-#include "Core/Plugin/Plugin.h"
-
-// enable vld
-#ifdef DETECT_MEMORY_LEAK
-
-#include <vld.h>
-
-#endif
 
 #include <optick.h>
+#include <whereami.h>
 
 using namespace Zelo;
 using namespace Zelo::Core::OS;
