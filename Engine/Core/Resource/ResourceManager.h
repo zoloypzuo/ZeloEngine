@@ -32,6 +32,8 @@ private:
     std::filesystem::path m_configDir{};
     std::filesystem::path m_scriptDir{};
     std::filesystem::path m_resourceDir{};
+
+    std::vector<std::filesystem::path> m_resourcePathList{};
 };
 }
 
