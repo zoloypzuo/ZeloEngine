@@ -18,7 +18,7 @@
 
 [![CodeScene Code Health](https://codescene.io/projects/12197/status-badges/code-health)](https://codescene.io/projects/12197)
 [![CodeScene System Mastery](https://codescene.io/projects/12197/status-badges/system-mastery)](https://codescene.io/projects/12197)
-[![CodeScene Missed Goals](https://codescene.io/projects/12197/status-badges/missed-goals)](https://codescene.io/projects/12197) [![Join the chat at https://gitter.im/ZeloEngine/community](https://badges.gitter.im/ZeloEngine/community.svg)](https://gitter.im/ZeloEngine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![CodeScene Missed Goals](https://codescene.io/projects/12197/status-badges/missed-goals)](https://codescene.io/projects/12197)
 
 ![](https://codescene.io/projects/12197/status.svg)
 
