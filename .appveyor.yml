@@ -20,7 +20,7 @@ environment:
       configuration: Release
       cmake_args: -DCMAKE_SYSTEM_VERSION="10.0.18362.0"
       platform_name: Windows
-      
+
 # clone directory
 clone_folder: c:\projects\zeloengine
 

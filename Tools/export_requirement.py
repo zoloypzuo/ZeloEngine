@@ -57,9 +57,12 @@ def main():
 
     print()
     print("install command:")
-    print(r"Vcpkg\vcpkg.exe install --triplet x86-windows " + " ".join(libs))
-    print(r"Vcpkg\vcpkg.exe install --triplet x86-windows "
-          "glad[extensions,gl-api-latest,gles1-api-latest,gles2-api-latest,glsc2-api-latest] --recurse")
+
+    triplets = ["x86-windows", "x64-windows"]
+    for triplet in triplets:
+        print(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet + " ".join(libs))
+        print(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet +
+              "glad[extensions,gl-api-latest,gles1-api-latest,gles2-api-latest,glsc2-api-latest] --recurse")
 
 
 if __name__ == '__main__':
