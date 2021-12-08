@@ -20,21 +20,14 @@ struct AxisValuePair {
     float value;
 };
 
+class Window;
+
+// TODO namespace, move to Window target
 class Input : public Singleton<Input> {
 public:
-    Input();
+    explicit Input(Window &window);
 
     ~Input();
-
-    void handleKeyboardEvent(SDL_KeyboardEvent keyEvent);
-
-    void handleMouseEvent(SDL_MouseButtonEvent buttonEvent);
-
-    void handleMouseWheelEvent(Sint32 x, Sint32 y);
-
-    void handleMultiGesture(SDL_MultiGestureEvent multiGestureEvent);
-
-    void handleTextEdit(const char *text);
 
     bool isPressed(SDL_Keycode key);
 
@@ -43,10 +36,6 @@ public:
     bool mouseIsPressed(Uint8 button);
 
     bool mouseIsReleased(Uint8 button);
-
-    void setMouseDelta(int x, int y);
-
-    void setMousePosition(int x, int y);
 
     glm::vec2 getMouseDelta() const;
 
@@ -82,20 +71,40 @@ public:
     static Input &getSingleton();
 
 private:
-    std::map<SDL_Keycode, Uint8> m_keyState;
-    std::map<Uint8, Uint8> m_buttonState;
-    SDL_Keymod m_keyModState;
+    void handleWindowEvent(SDL_Event *pEvent);
 
-    glm::ivec2 m_mouseDelta;
-    glm::ivec2 m_mousePosition;
-    glm::ivec2 m_mouseWheel;
+    void handlePreWindowEvent(void *);
 
-    std::map<Uint8, std::string> m_buttonToAction;
-    std::map<SDL_Keycode, std::string> m_keyToAction;
-    std::map<SDL_Keycode, AxisValuePair> m_keyToAxis;
-    std::map<std::string, std::map<InputEvent, std::function<void()>>> m_actionInputEventHandler;
-    std::map<std::string, std::function<void(float)>> m_axisHandler;
-    std::vector<std::function<void(const char *)>> m_textEditHandler;
+    void setMouseDelta(int x, int y);
+
+    void setMousePosition(int x, int y);
+
+    void handleKeyboardEvent(SDL_KeyboardEvent keyEvent);
+
+    void handleMouseEvent(SDL_MouseButtonEvent buttonEvent);
+
+    void handleMouseWheelEvent(Sint32 x, Sint32 y);
+
+    void handleMultiGesture(SDL_MultiGestureEvent multiGestureEvent);
+
+    void handleTextEdit(const char *text);
+
+private:
+    std::map<SDL_Keycode, Uint8> m_keyState{};
+    std::map<Uint8, Uint8> m_buttonState{};
+    SDL_Keymod m_keyModState{};
+
+    glm::ivec2 m_mouseDelta = glm::vec2(0, 0);
+    glm::ivec2 m_mousePosition = glm::vec2(0, 0);
+    glm::ivec2 m_mouseWheel{};
+
+    std::map<Uint8, std::string> m_buttonToAction{};
+    std::map<SDL_Keycode, std::string> m_keyToAction{};
+    std::map<SDL_Keycode, AxisValuePair> m_keyToAxis{};
+    std::map<std::string, std::map<InputEvent, std::function<void()>>> m_actionInputEventHandler{};
+    std::map<std::string, std::function<void(float)>> m_axisHandler{};
+    std::vector<std::function<void(const char *)>> m_textEditHandler{};
+
 };
 
 #endif //ZELOENGINE_INPUT_H

@@ -7,7 +7,9 @@
 
 #include <SDL_syswm.h>
 
-Window::Window(const INIReader::Section &windowConfig) : m_windowConfig(windowConfig) {
+Window::Window(const INIReader::Section &windowConfig) :
+        m_windowConfig(windowConfig),
+        m_input(*this) {
 }
 
 Window::~Window() = default;
@@ -89,47 +91,19 @@ void Window::initialize() {
 
 void Window::update() {
     ZELO_PROFILE_FUNCTION();
-    m_input.setMouseDelta(0, 0);
+
+    PreWindowEvent.Invoke(nullptr);
 
     SDL_Event event;
 
-    bool mouseWheelEvent = false;
-
     while (SDL_PollEvent(&event)) {
-        if (m_eventHandler) {
-            m_eventHandler(&event);
-        }
+        WindowEvent.Invoke(&event);
+
         switch (event.type) {
-            case SDL_MOUSEMOTION:
-                m_input.setMouseDelta(event.motion.xrel, event.motion.yrel);
-                m_input.setMousePosition(event.motion.x, event.motion.y);
-                break;
-            case SDL_KEYDOWN:
-            case SDL_KEYUP:
-                m_input.handleKeyboardEvent(event.key);
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-            case SDL_MOUSEBUTTONUP:
-                m_input.handleMouseEvent(event.button);
-                break;
-            case SDL_MOUSEWHEEL:
-                m_input.handleMouseWheelEvent(event.wheel.x, event.wheel.y);
-                mouseWheelEvent = true;
-                break;
-            case SDL_TEXTINPUT:
-                m_input.handleTextEdit(event.text.text);
-                break;
-            case SDL_MULTIGESTURE:
-                m_input.handleMultiGesture(event.mgesture);
-                break;
             case SDL_QUIT:
                 m_quit = true;
                 break;
         }
-    }
-
-    if (!mouseWheelEvent) {
-        m_input.handleMouseWheelEvent(0, 0);
     }
 }
 
@@ -221,8 +195,4 @@ void *Window::getHwnd() const {
     SDL_VERSION(&wmInfo.version);
     SDL_GetWindowWMInfo(m_window, &wmInfo);
     return wmInfo.info.win.window;
-}
-
-void Window::registerEventHandler(std::function<void(SDL_Event *)> eventHandler) {
-    m_eventHandler = std::move(eventHandler);
 }
