@@ -26,7 +26,7 @@ if not exist Vcpkg\vcpkg.exe (
     call Vcpkg\bootstrap-vcpkg.bat -disableMetrics
 )
 
-cd %CurrentDir%
+cd %EngineDir%\Tools\Setup
 call vcpkg_install.bat
 
 cd %CurrentDir%
