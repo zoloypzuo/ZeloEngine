@@ -9,7 +9,7 @@
 
 #include "Renderer/OpenGL/GLUtil.h"
 #include "Renderer/OpenGL/GLLoader.h"
-#include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
+#include "Renderer/OpenGL/Pipeline/ForwardStandardPipeline.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
@@ -22,7 +22,7 @@ void GLRenderSystem::initialize() {
         ::initDebugCallback();
     }
 
-    m_renderPipeline = std::make_unique<ForwardPipeline>();
+    m_renderPipeline = std::make_unique<ForwardStandardPipeline>();
     m_renderPipeline->initialize();
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});

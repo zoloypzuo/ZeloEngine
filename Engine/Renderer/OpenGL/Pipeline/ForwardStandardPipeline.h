@@ -1,4 +1,4 @@
-// ForwardPipeline.h
+// ForwardStandardPipeline.h
 // created on 2021/3/29
 // author @zoloypzuo
 #pragma once
@@ -23,7 +23,7 @@ struct RenderItem {
 
 using RenderQueue = std::vector<RenderItem>;
 
-class ForwardPipeline : public Core::RHI::RenderPipeline {
+class ForwardStandardPipeline : public Core::RHI::RenderPipeline {
 public:
     ZELO_PACKED
     (struct EngineUBO {
@@ -35,9 +35,9 @@ public:
      };)
 
 public:
-    ForwardPipeline();
+    ForwardStandardPipeline();
 
-    ~ForwardPipeline() override;
+    ~ForwardStandardPipeline() override;
 
     void preRender() override;
 

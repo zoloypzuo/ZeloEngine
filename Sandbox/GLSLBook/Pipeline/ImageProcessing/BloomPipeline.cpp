@@ -22,7 +22,7 @@ void BloomPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    ForwardPipeline::render(scene);
+    ForwardStandardPipeline::render(scene);
 
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
@@ -74,7 +74,7 @@ void BloomPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
 }
 
 void BloomPipeline::initialize() {
-    ForwardPipeline::initialize();
+    ForwardStandardPipeline::initialize();
     m_renderFbo = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
     m_fbo1 = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
     m_fbo2 = std::make_unique<Zelo::GLFramebuffer>(1280, 720);

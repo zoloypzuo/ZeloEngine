@@ -11,11 +11,11 @@
 #include "Renderer/OpenGL/Drawable/Frustum.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 #include "Renderer/OpenGL/Buffer/GLShadowMap.h"
-#include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
+#include "Renderer/OpenGL/Pipeline/ForwardStandardPipeline.h"
 #include "GLSLBook/Drawable/Quad.h"
 
 
-class ShadowMapPipeline : public Zelo::Renderer::OpenGL::ForwardPipeline  {
+class ShadowMapPipeline : public Zelo::Renderer::OpenGL::ForwardStandardPipeline  {
 public:
     ShadowMapPipeline();
 
