@@ -58,7 +58,7 @@ def main():
     print()
     print("install command:")
 
-    triplets = ["x86-windows", "x64-windows"]
+    triplets = ["x86-windows"]
     for triplet in triplets:
         print(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet + " ".join(libs))
         print(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet +

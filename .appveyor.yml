@@ -9,24 +9,6 @@ environment:
       cmake_args: -DCMAKE_SYSTEM_VERSION="10.0.18362.0"
       platform_name: Windows
 
-    # Win32/x86/Release
-    - platform: Win32
-      configuration: Release
-      cmake_args: -DCMAKE_SYSTEM_VERSION="10.0.18362.0"
-      platform_name: Windows
-
-    # Win32/x64/Debug
-    - platform: x64
-      configuration: Debug
-      cmake_args: -DCMAKE_SYSTEM_VERSION="10.0.18362.0"
-      platform_name: Windows
-
-    # Win32/x64/Release
-    - platform: x64
-      configuration: Release
-      cmake_args: -DCMAKE_SYSTEM_VERSION="10.0.18362.0"
-      platform_name: Windows
-
 # clone directory
 clone_folder: c:\projects\zeloengine
 
