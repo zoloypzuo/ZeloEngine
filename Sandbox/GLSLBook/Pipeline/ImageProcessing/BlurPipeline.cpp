@@ -23,7 +23,7 @@ void BlurPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    ForwardPipeline::render(scene);
+    ForwardStandardPipeline::render(scene);
 
     glDepthFunc(GL_LESS);
     glDepthMask(GL_TRUE);
@@ -57,7 +57,7 @@ void BlurPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
 }
 
 void BlurPipeline::initialize() {
-    ForwardPipeline::initialize();
+    ForwardStandardPipeline::initialize();
     m_fbo = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
     m_fbo2 = std::make_unique<Zelo::GLFramebuffer>(1280, 720);
     // Compute and sum the weights

@@ -3,15 +3,54 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Input.h"
+#include "Core/Window/Window.h"
 
 #include <utility>
 
-Input::Input() {
-    m_mouseDelta = glm::vec2(0, 0);
-    m_mousePosition = glm::vec2(0, 0);
+Input::Input(Window &window) {
+    window.PreWindowEvent.AddListener([](void *p) { Input::getSingletonPtr()->handlePreWindowEvent(p); });
+    window.WindowEvent.AddListener([](auto *event) { Input::getSingletonPtr()->handleWindowEvent(event); });
 }
 
-Input::~Input() {
+Input::~Input() = default;
+
+void Input::handlePreWindowEvent(void *p) {
+    (void) p;
+    setMouseDelta(0, 0);
+}
+
+void Input::handleWindowEvent(SDL_Event *pEvent) {
+    auto &event = *pEvent;
+    bool mouseWheelEvent = false;
+
+    switch (event.type) {
+        case SDL_MOUSEMOTION:
+            setMouseDelta(event.motion.xrel, event.motion.yrel);
+            setMousePosition(event.motion.x, event.motion.y);
+            break;
+        case SDL_KEYDOWN:
+        case SDL_KEYUP:
+            handleKeyboardEvent(event.key);
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+        case SDL_MOUSEBUTTONUP:
+            handleMouseEvent(event.button);
+            break;
+        case SDL_MOUSEWHEEL:
+            handleMouseWheelEvent(event.wheel.x, event.wheel.y);
+            mouseWheelEvent = true;
+            break;
+        case SDL_TEXTINPUT:
+            handleTextEdit(event.text.text);
+            break;
+        case SDL_MULTIGESTURE:
+            handleMultiGesture(event.mgesture);
+            break;
+    }
+
+    if (!mouseWheelEvent) {
+        handleMouseWheelEvent(0, 0);
+    }
 }
 
 void Input::handleKeyboardEvent(SDL_KeyboardEvent keyEvent) {
@@ -199,3 +238,4 @@ void Input::handleTextEdit(const char *text) {
 void Input::bindTextEdit(std::function<void(const char *)> handler) {
     m_textEditHandler.push_back(std::move(handler));
 }
+

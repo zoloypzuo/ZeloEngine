@@ -9,11 +9,15 @@
 
 #include "Renderer/OpenGL/GLUtil.h"
 #include "Renderer/OpenGL/GLLoader.h"
-#include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
+#include "Renderer/OpenGL/Pipeline/ForwardStandardPipeline.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
 using namespace Zelo::Renderer::OpenGL;
+
+GLRenderSystem::GLRenderSystem(const INIReader::Section &config) : m_config(config) {}
+
+GLRenderSystem::~GLRenderSystem() = default;
 
 void GLRenderSystem::initialize() {
     ::loadGL();
@@ -22,7 +26,7 @@ void GLRenderSystem::initialize() {
         ::initDebugCallback();
     }
 
-    m_renderPipeline = std::make_unique<ForwardPipeline>();
+    m_renderPipeline = std::make_unique<ForwardStandardPipeline>();
     m_renderPipeline->initialize();
 
     setClearColor({0.0f, 0.0f, 0.0f, 1.0f});
@@ -32,14 +36,13 @@ void GLRenderSystem::initialize() {
     setCapabilityEnabled(ERenderCapability::MULTISAMPLE, true);
     setCapabilityEnabled(ERenderCapability::CULL_FACE, true);
 
-    auto windowSize = Window::getSingletonPtr()->getDrawableSize();
-    setDrawSize(windowSize);
+    pushView(Window::getSingletonPtr());
 }
 
 void GLRenderSystem::update() {
     const auto &sceneManager = SceneManager::getSingletonPtr();
 
-    if (m_renderPipeline) {  // pipeline can be null
+    if (m_renderPipeline && !m_viewStack.empty()) {  // render only if pipeline and view exists
         m_renderPipeline->preRender();
 
         if (sceneManager->getActiveCamera()) {
@@ -49,15 +52,19 @@ void GLRenderSystem::update() {
     }
 }
 
-GLRenderSystem::GLRenderSystem(const INIReader::Section &config) : m_config(config) {}
+void GLRenderSystem::applyCurrentView() {
+    auto *view = m_viewStack.back();
+    setViewport(0, 0, view->getWidth(), view->getHeight());
+}
 
-GLRenderSystem::~GLRenderSystem() = default;
+void GLRenderSystem::pushView(Core::Interface::IView *view) {
+    m_viewStack.push_back(view);
+    applyCurrentView();
+}
 
-void GLRenderSystem::setDrawSize(const glm::ivec2 &size) {
-    this->m_width = size.x;
-    this->m_height = size.y;
-
-    setViewport(0, 0, this->m_width, this->m_height);
+void GLRenderSystem::popView() {
+    m_viewStack.pop_back();
+    applyCurrentView();
 }
 
 #include "Renderer/OpenGL/GLRenderCommand.inl"

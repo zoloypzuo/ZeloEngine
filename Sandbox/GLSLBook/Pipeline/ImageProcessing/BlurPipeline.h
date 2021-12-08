@@ -10,11 +10,11 @@
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
-#include "Renderer/OpenGL/Pipeline/ForwardPipeline.h"
+#include "Renderer/OpenGL/Pipeline/ForwardStandardPipeline.h"
 #include "GLSLBook/Drawable/Quad.h"
 
 
-class BlurPipeline : public Zelo::Renderer::OpenGL::ForwardPipeline {
+class BlurPipeline : public Zelo::Renderer::OpenGL::ForwardStandardPipeline {
 public:
     BlurPipeline();
 

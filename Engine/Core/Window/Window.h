@@ -10,11 +10,14 @@
 
 #include "Core/Parser/IniReader.h"
 #include "Core/Input/Input.h"
+#include "Core/EventSystem/Event.h"
+#include "Core/Interface/IView.h"
 
-
+// TODO move namespace
 class Window :
         public Singleton<Window>,
-        public IRuntimeModule {
+        public IRuntimeModule,
+        public Zelo::Core::Interface::IView {
 public:
     explicit Window(const INIReader::Section &windowConfig);
 
@@ -30,10 +33,6 @@ public:
 
 public:
     void swapBuffer();
-
-    int getWidth() const;
-
-    int getHeight() const;
 
     glm::vec4 getViewport() const;
 
@@ -63,7 +62,9 @@ public:
 
     void *getHwnd() const;
 
-    void registerEventHandler(std::function<void(SDL_Event *)> eventHandler);
+public:
+    Zelo::Core::EventSystem::Event<SDL_Event *> WindowEvent;
+    Zelo::Core::EventSystem::Event<void *> PreWindowEvent; // TODO Event with no args
 
 private:
     const INIReader::Section m_windowConfig;
@@ -71,10 +72,8 @@ private:
     SDL_Window *m_window{};
     SDL_GLContext m_glContext{};
 
-    int m_width{};
-    int m_height{};
 
-    Input m_input;
+    Input m_input;  // window hold input
 
     bool m_quit{};
     bool m_fullscreen{};
@@ -82,8 +81,6 @@ private:
     bool m_vSync{};
 
     std::shared_ptr<spdlog::logger> m_logger{};
-
-    std::function<void(SDL_Event *event)> m_eventHandler;
 };
 
 #endif //ZELOENGINE_WINDOW_H

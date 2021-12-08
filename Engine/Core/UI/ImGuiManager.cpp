@@ -39,7 +39,7 @@ void ImGuiManager::initialize() {
     // ... SDL and OpenGL setup before imgui initialize
 
     // register SDL input
-    Window::getSingletonPtr()->registerEventHandler(ImGui_ImplSDL2_ProcessEvent);
+    Window::getSingletonPtr()->WindowEvent.AddListener(ImGui_ImplSDL2_ProcessEvent);
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();

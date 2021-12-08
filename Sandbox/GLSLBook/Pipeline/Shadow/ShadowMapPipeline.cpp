@@ -68,7 +68,7 @@ void ShadowMapPipeline::render(const Entity &scene) const {
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, m_shadowFbo->getDepthTexture());
         m_forwardStandardShader->setUniformMatrix4f("u_LightSpaceMatrix", lightSpaceMatrix);
-        ForwardPipeline::render(scene);
+        ForwardStandardPipeline::render(scene);
     }
 
     auto *camera = SceneManager::getSingletonPtr()->getActiveCamera();
@@ -80,7 +80,7 @@ void ShadowMapPipeline::render(const Entity &scene) const {
 }
 
 void ShadowMapPipeline::initialize() {
-    ForwardPipeline::initialize();
+    ForwardStandardPipeline::initialize();
     m_shadowFbo = std::make_unique<Zelo::GLShadowMap>(1280, 720);
     m_lightFrustum = std::make_unique<Frustum>();
     m_lightFrustum->setPerspective(50.0f, 1.0f, 5.0f, 1000.0f);

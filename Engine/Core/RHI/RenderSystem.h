@@ -11,6 +11,7 @@
 #include "Core/RHI/RenderPipeline.h"
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/RHI/Resource/MeshManager.h"
+#include "Core/Interface/IView.h"
 
 namespace Zelo::Core::RHI {
 class RenderSystem :
@@ -50,6 +51,10 @@ public:
     void setRenderPipeline(std::unique_ptr<Core::RHI::RenderPipeline> renderPipeline);
 
     void resetRenderPipeline();
+
+    virtual void pushView(Core::Interface::IView *view) = 0;
+
+    virtual void popView() = 0;
 
 private:
     FrameInfo m_frameInfo;

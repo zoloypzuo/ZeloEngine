@@ -28,7 +28,7 @@ add_library(OpenGLRenderer
 
         GLRenderSystem.cpp
 
-        Pipeline/ForwardPipeline.cpp
+        Pipeline/ForwardStandardPipeline.cpp
         Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
         )
 

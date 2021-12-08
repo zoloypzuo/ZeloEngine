@@ -17,7 +17,7 @@ void EdgePipeline::render(const Zelo::Core::ECS::Entity &scene) const {
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    ForwardPipeline::render(scene);
+    ForwardStandardPipeline::render(scene);
 
     m_fbo->unbind();
 
@@ -34,7 +34,7 @@ void EdgePipeline::render(const Zelo::Core::ECS::Entity &scene) const {
 }
 
 void EdgePipeline::initialize() {
-    ForwardPipeline::initialize();
+    ForwardStandardPipeline::initialize();
     m_fbo = std::make_unique<Zelo::GLFramebuffer>();
     m_fbo->resize(1280, 720);
     m_postShader = std::make_unique<GLSLShaderProgram>("edge.glsl");

@@ -157,9 +157,13 @@ sol::base_classes, sol::bases<IMeshData>(),
 "__Dummy", []{}
 );
 
+luaState.new_usertype<IView>("IView",
+"__Dummy", []{}
+);
 
 luaState.new_usertype<GLFramebuffer>("Framebuffer",
 sol::constructors<GLFramebuffer(uint16_t, uint16_t)>(),
+sol::base_classes, sol::bases<IView>(),
 "GetRenderTextureID", &GLFramebuffer::getRenderTextureID,
 "Bind", &GLFramebuffer::bind,
 "UnBind", &GLFramebuffer::unbind,
@@ -170,6 +174,8 @@ sol::constructors<GLFramebuffer(uint16_t, uint16_t)>(),
 luaState.new_usertype<RenderSystem>("RenderSystem",
 "GetSingletonPtr", &RenderSystem::getSingletonPtr,
 "Update", &RenderSystem::update,
+"PushView", &RenderSystem::pushView,
+"PopView", &RenderSystem::popView,
 "__Dummy", []{}
 );
 
