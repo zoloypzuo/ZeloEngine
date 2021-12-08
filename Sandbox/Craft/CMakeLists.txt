@@ -1,4 +1,4 @@
-FILE(GLOB SOURCE_FILES *.cpp lib/*.cpp)
+FILE(GLOB SOURCE_FILES *.cpp thirdparty/*.cpp)
 add_library(Craft ${SOURCE_FILES} CraftPlugin.cpp CraftPlugin.h)
 
 target_link_libraries(Craft PUBLIC Engine)
