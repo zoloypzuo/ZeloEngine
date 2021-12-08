@@ -26,9 +26,7 @@ if not exist Vcpkg\vcpkg.exe (
     call Vcpkg\bootstrap-vcpkg.bat -disableMetrics
 )
 
-Vcpkg\vcpkg.exe install --triplet x86-windows assimp curl glad glfw3 gli glm rapidjson sdl2 spdlog sqlite3 taskflow
-Vcpkg\vcpkg.exe install --triplet x86-windows glad[extensions,gl-api-latest,gles1-api-latest,gles2-api-latest,glsc2-api-latest] --recurse
-Vcpkg\vcpkg.exe install --triplet x64-windows assimp curl glad glfw3 gli glm rapidjson sdl2 spdlog sqlite3 taskflow
-Vcpkg\vcpkg.exe install --triplet x64-windows glad[extensions,gl-api-latest,gles1-api-latest,gles2-api-latest,glsc2-api-latest] --recurse
+cd %CurrentDir%
+call vcpkg_install.bat
 
 cd %CurrentDir%

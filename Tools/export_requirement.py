@@ -64,6 +64,23 @@ def main():
         print(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet +
               "glad[extensions,gl-api-latest,gles1-api-latest,gles2-api-latest,glsc2-api-latest] --recurse")
 
+    code = ["@echo off",
+            "set CurrentDir=%cd%",
+            "set ScriptDir=%~dp0",
+            "set EngineDir=%ScriptDir%\..\..",
+            "set Args=%*",
+            "",
+            "cd /d %EngineDir%",
+            "@echo on",
+            "",
+            "cd %EngineDir%\ThirdParty",]
+    for triplet in triplets:
+        code.append(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet + " ".join(libs))
+        code.append(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet +
+          "glad[extensions,gl-api-latest,gles1-api-latest,gles2-api-latest,glsc2-api-latest] --recurse")
+    code.append("cd %CurrentDir%")
+    code = "\n".join(code)
+    write("Setup/vcpkg_install.bat", code)
 
 if __name__ == '__main__':
     main()
