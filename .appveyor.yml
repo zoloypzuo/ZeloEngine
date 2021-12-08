@@ -1,7 +1,15 @@
 image:
   - Visual Studio 2019
 
+# branches to build
+branches:
+  # blacklist
+  except:
+    - gh-pages
+
 environment:
+  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+
   matrix:
     # Win32/x86/Debug
     - platform: Win32
