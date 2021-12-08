@@ -15,6 +15,10 @@ using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
 using namespace Zelo::Renderer::OpenGL;
 
+GLRenderSystem::GLRenderSystem(const INIReader::Section &config) : m_config(config) {}
+
+GLRenderSystem::~GLRenderSystem() = default;
+
 void GLRenderSystem::initialize() {
     ::loadGL();
 
@@ -33,7 +37,17 @@ void GLRenderSystem::initialize() {
     setCapabilityEnabled(ERenderCapability::CULL_FACE, true);
 
     auto windowSize = Window::getSingletonPtr()->getDrawableSize();
-    setDrawSize(windowSize);
+
+    Window::getSingletonPtr()->WindowEvent.AddListener([this](SDL_Event *pEvent) {
+        auto &event = *pEvent;
+        switch (event.type) {
+            case SDL_WINDOWEVENT:
+                if (event.window.event == SDL_WINDOWEVENT_RESIZED) {
+                    onResize({event.window.data1, event.window.data2});
+                }
+                break;
+        }
+    });
 }
 
 void GLRenderSystem::update() {
@@ -49,15 +63,11 @@ void GLRenderSystem::update() {
     }
 }
 
-GLRenderSystem::GLRenderSystem(const INIReader::Section &config) : m_config(config) {}
+void GLRenderSystem::onResize(const glm::ivec2 &size) {
+    m_width = size.x;
+    m_height = size.y;
 
-GLRenderSystem::~GLRenderSystem() = default;
-
-void GLRenderSystem::setDrawSize(const glm::ivec2 &size) {
-    this->m_width = size.x;
-    this->m_height = size.y;
-
-    setViewport(0, 0, this->m_width, this->m_height);
+    setViewport(0, 0, m_width, m_height);
 }
 
 #include "Renderer/OpenGL/GLRenderCommand.inl"

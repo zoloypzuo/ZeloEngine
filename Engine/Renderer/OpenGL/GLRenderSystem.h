@@ -27,7 +27,8 @@ public:
 
     void update() override;
 
-    void setDrawSize(const glm::ivec2 &size);
+private:
+    void onResize(const glm::ivec2 &size);
 
 private:
     int m_width{};
