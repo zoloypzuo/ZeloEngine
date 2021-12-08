@@ -20,6 +20,7 @@ struct AxisValuePair {
     float value;
 };
 
+namespace Zelo {
 class Window;
 
 // TODO namespace, move to Window target
@@ -106,5 +107,6 @@ private:
     std::vector<std::function<void(const char *)>> m_textEditHandler{};
 
 };
+}
 
 #endif //ZELOENGINE_INPUT_H

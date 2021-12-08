@@ -5,8 +5,9 @@
 #include "Input.h"
 #include "Core/Window/Window.h"
 
-#include <utility>
+template<> Zelo::Input *Singleton<Zelo::Input>::msSingleton = nullptr;
 
+namespace Zelo {
 Input::Input(Window &window) {
     window.PreWindowEvent.AddListener([](void *p) { Input::getSingletonPtr()->handlePreWindowEvent(p); });
     window.WindowEvent.AddListener([](auto *event) { Input::getSingletonPtr()->handleWindowEvent(event); });
@@ -218,7 +219,6 @@ void Input::registerButtonToAction(Uint8 button, const std::string &action) {
     m_buttonToAction[button] = action;
 }
 
-template<> Input *Singleton<Input>::msSingleton = nullptr;
 
 Input *Input::getSingletonPtr() {
     return msSingleton;
@@ -238,4 +238,4 @@ void Input::handleTextEdit(const char *text) {
 void Input::bindTextEdit(std::function<void(const char *)> handler) {
     m_textEditHandler.push_back(std::move(handler));
 }
-
+}

@@ -9,10 +9,11 @@
 #include "ZeloSDL.h"
 
 #include "Core/Parser/IniReader.h"
-#include "Core/Input/Input.h"
+#include "Core/Window/Input.h"
 #include "Core/EventSystem/Event.h"
 #include "Core/Interface/IView.h"
 
+namespace Zelo {
 // TODO move namespace
 class Window :
         public Singleton<Window>,
@@ -63,8 +64,8 @@ public:
     void *getHwnd() const;
 
 public:
-    Zelo::Core::EventSystem::Event<SDL_Event *> WindowEvent;
-    Zelo::Core::EventSystem::Event<void *> PreWindowEvent; // TODO Event with no args
+    Core::EventSystem::Event<SDL_Event *> WindowEvent;
+    Core::EventSystem::Event<void *> PreWindowEvent; // TODO Event with no args
 
 private:
     const INIReader::Section m_windowConfig;
@@ -82,5 +83,6 @@ private:
 
     std::shared_ptr<spdlog::logger> m_logger{};
 };
+}
 
 #endif //ZELOENGINE_WINDOW_H
