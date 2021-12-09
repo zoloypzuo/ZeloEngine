@@ -10,7 +10,7 @@
 namespace Zelo::Core::RHI {
 class Material {
 public:
-    virtual ~Material();
+    virtual ~Material() = default;
 
     virtual void bind() const = 0;
 
