@@ -5,7 +5,7 @@
 
 // common header
 #include "ZeloPlatform.h"  // platform macro first
-#include "ZeloAlgorithmUtil.h"  // stl algorithm patch
+#include "Foundation/ZeloAlgorithmUtil.h"  // stl algorithm patch
 #include "ZeloMemory.h"  // memory macro
 #include "Foundation/ZeloStringUtil.h" // string patch
 #include "Core/Math/Mathf.h"  // common math patch
