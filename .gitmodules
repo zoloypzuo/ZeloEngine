@@ -1,0 +1,3 @@
+[submodule "Script/Lua/scriptlibs"]
+	path = Script/Lua/scriptlibs
+	url = https://github.com.cnpmjs.org/zoloypzuo/ZeloScriptLib.git
