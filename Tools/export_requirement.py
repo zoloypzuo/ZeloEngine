@@ -43,7 +43,7 @@ def main():
     libs = set()
     for file in iter_files("../",
                            lambda name: name == "CMakeLists.txt",
-                           ["ThirdParty", "Playbox", "deps", "__Deprecated", "Dep"]):
+                           ["ThirdParty", "Playbox", "deps", "__Deprecated", "Dep", "Resource"]):
         content = read(file)
         for line in content.splitlines():
             match_obj = re.search(r"find_package\((.*) CONFIG REQUIRED\)", line)
