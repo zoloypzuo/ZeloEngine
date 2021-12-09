@@ -3,7 +3,6 @@
 
 add_subdirectory(Controller)
 add_subdirectory(ECS)
-add_subdirectory(EventSystem)
 add_subdirectory(Scene)
 add_subdirectory(Interface)
 add_subdirectory(LuaScript)
@@ -19,7 +18,6 @@ add_subdirectory(Window)
 
 set_target_properties(Controller PROPERTIES FOLDER "Core")
 set_target_properties(ECS PROPERTIES FOLDER "Core")
-set_target_properties(EventSystem PROPERTIES FOLDER "Core")
 set_target_properties(Scene PROPERTIES FOLDER "Core")
 set_target_properties(Interface PROPERTIES FOLDER "Core")
 set_target_properties(LuaScript PROPERTIES FOLDER "Core")
@@ -38,7 +36,6 @@ target_include_directories(Core INTERFACE ${CMAKE_SOURCE_DIR}/Engine)
 target_link_libraries(Core INTERFACE
         Controller
         ECS
-        EventSystem
         Scene
         Interface
         LuaScript

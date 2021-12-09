@@ -7,7 +7,7 @@
 #include "ZeloPrerequisites.h"
 #include "Core/Math/Transform.h"
 #include "Core/RHI/Resource/Shader.h"
-#include "Core/EventSystem/Event.h"
+#include "Foundation/ZeloEvent.h"
 
 namespace Zelo::Core::ECS {
 // TODO 解开Entity和场景图的依赖关系，不要在Entity类里递归，和注册

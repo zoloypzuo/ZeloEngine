@@ -10,7 +10,7 @@
 
 #include "Core/Parser/IniReader.h"
 #include "Core/Window/Input.h"
-#include "Core/EventSystem/Event.h"
+#include "Foundation/ZeloEvent.h"
 #include "Core/Interface/IView.h"
 
 namespace Zelo {
