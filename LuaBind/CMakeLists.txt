@@ -18,6 +18,7 @@ add_library(LuaBind
 
 target_link_libraries(LuaBind PRIVATE
         ImGui
+        LuaBitOp
         Engine
         TemplateSandbox
         GLSLBook
