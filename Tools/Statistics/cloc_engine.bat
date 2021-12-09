@@ -17,13 +17,10 @@ set "HH=%dt:~8,2%" & set "Min=%dt:~10,2%" & set "Sec=%dt:~12,2%"
 
 set "fullstamp=%YYYY%-%MM%-%DD%_%HH%-%Min%-%Sec%"
 
-echo %fullstamp% >> Tools\cloc_result.txt
+echo %fullstamp% >> %EngineDir%\Tools\Statistics\cloc_result.txt
 
-cloc --exclude-dir=.git,.github,.idea,.vscode,build,build_vs2019,cmake-build-debug,Editor,ThirdParty,__Deprecated --exclude-ext=cxx . >> Tools\cloc_result.txt
-
-echo %fullstamp%
-
-cloc --exclude-dir=.git,.github,.idea,.vscode,build,build_vs2019,cmake-build-debug,Editor,ThirdParty,__Deprecated --exclude-ext=cxx .
+@echo on
+cloc --vcs=git >> %EngineDir%\Tools\Statistics\cloc_result.txt
 
 cd %CurrentDir%
 pause
