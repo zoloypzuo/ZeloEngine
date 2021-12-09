@@ -1,9 +1,1 @@
-ImGui/
-!ImGui/CMakeLists.txt
-
 Vcpkg/
-!Vcpkg/vcpkg_list.txt
-
-Optick/**
-!Optick/src
-!Optick/src/CMakeLists.txt

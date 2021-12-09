@@ -7,16 +7,10 @@ void LuaBind_Core(sol::state &luaState);
 
 void LuaBind_Sandbox(sol::state &luaState);
 
-void LuaBind_ImGui(sol::state &luaState);
-
-extern "C" {
-LUALIB_API int luaopen_bit(lua_State *L);
-}
+void LuaBind_ThirdParty(sol::state &luaState);
 
 void LuaBind_Main(sol::state &luaState) {
-    LuaBind_ImGui(luaState);
+    LuaBind_ThirdParty(luaState);
     LuaBind_Core(luaState);
     LuaBind_Sandbox(luaState);
-
-    luaState.require("bit", luaopen_bit);
 }

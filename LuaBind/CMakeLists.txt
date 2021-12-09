@@ -1,10 +1,12 @@
 add_library(LuaBind
         LuaBind.cpp
 
-        ThirdParty/LuaBind_ImGui.cpp
-        ThirdParty/LuaBind_ImGuiEnum.cpp
-        ThirdParty/LuaBind_ImGuiWidget.cpp
-        ThirdParty/LuaBind_ImGuiWindow.cpp
+        ThirdParty/LuaBind_ThirdParty.cpp
+        ThirdParty/ImGui/LuaBind_ImGui.cpp
+        ThirdParty/ImGui/LuaBind_ImGuiEnum.cpp
+        ThirdParty/ImGui/LuaBind_ImGuiWidget.cpp
+        ThirdParty/ImGui/LuaBind_ImGuiWindow.cpp
+        ThirdParty/LuaBitOp/LuaBind_LuaBitOp.cpp
 
         Core/LuaBind_Core.cpp
         Core/ECS/LuaBind_Entity.cpp
@@ -12,12 +14,11 @@ add_library(LuaBind
         Core/UI/LuaBind_UI.cpp
 
         Sandbox/LuaBind_Sandbox.cpp
-
-        ScriptLib/BitOp.c
         )
 
 target_link_libraries(LuaBind PRIVATE
         ImGui
+        LuaBitOp
         Engine
         TemplateSandbox
         GLSLBook
