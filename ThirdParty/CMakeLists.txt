@@ -4,10 +4,11 @@
 # lua <= sol <= engine object system
 add_subdirectory(Lua)
 add_subdirectory(ImGui)
-add_subdirectory(Optick/src)
+add_subdirectory(Optick)
 add_subdirectory(StackTrace)
 add_subdirectory(Sol2)
 add_subdirectory(Whereami)
+add_subdirectory(LuaBitOp)
 
 set_target_properties(Lua PROPERTIES FOLDER "ThirdParty")
 set_target_properties(ImGui PROPERTIES FOLDER "ThirdParty")
@@ -15,3 +16,4 @@ set_target_properties(Optick PROPERTIES FOLDER "ThirdParty")
 set_target_properties(StackTrace PROPERTIES FOLDER "ThirdParty")
 set_target_properties(Sol2 PROPERTIES FOLDER "ThirdParty")
 set_target_properties(Whereami PROPERTIES FOLDER "ThirdParty")
+set_target_properties(LuaBitOp PROPERTIES FOLDER "ThirdParty")
