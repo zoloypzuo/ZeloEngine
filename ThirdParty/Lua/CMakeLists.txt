@@ -1,17 +1,44 @@
-set(SRC_CORE src/lapi.c src/lcode.c src/ldebug.c src/ldo.c src/ldump.c src/lfunc.c src/lgc.c src/llex.c
-        src/lmem.c src/lobject.c src/lopcodes.c src/lparser.c src/lstate.c src/lstring.c src/ltable.c
-        src/ltm.c src/lundump.c src/lvm.c src/lzio.c)
-set(SRC_LIB src/lauxlib.c src/lbaselib.c src/ldblib.c src/liolib.c
-        src/lmathlib.c src/loslib.c src/lstrlib.c src/ltablib.c src/loadlib.c src/linit.c)
+set(LuaSrcDir ${CMAKE_SOURCE_DIR}/Dep/src/lua/src)
+set(LuaHppDir ${CMAKE_SOURCE_DIR}/Dep/src/lua/etc)
+
+set(SRC_CORE
+        ${LuaSrcDir}/lapi.c
+        ${LuaSrcDir}/lcode.c
+        ${LuaSrcDir}/ldebug.c
+        ${LuaSrcDir}/ldo.c
+        ${LuaSrcDir}/ldump.c
+        ${LuaSrcDir}/lfunc.c
+        ${LuaSrcDir}/lgc.c
+        ${LuaSrcDir}/llex.c
+        ${LuaSrcDir}/lmem.c
+        ${LuaSrcDir}/lobject.c
+        ${LuaSrcDir}/lopcodes.c
+        ${LuaSrcDir}/lparser.c
+        ${LuaSrcDir}/lstate.c
+        ${LuaSrcDir}/lstring.c
+        ${LuaSrcDir}/ltable.c
+        ${LuaSrcDir}/ltm.c
+        ${LuaSrcDir}/lundump.c
+        ${LuaSrcDir}/lvm.c
+        ${LuaSrcDir}/lzio.c
+        )
+set(SRC_LIB
+        ${LuaSrcDir}/lauxlib.c
+        ${LuaSrcDir}/lbaselib.c
+        ${LuaSrcDir}/ldblib.c
+        ${LuaSrcDir}/liolib.c
+        ${LuaSrcDir}/lmathlib.c
+        ${LuaSrcDir}/loslib.c
+        ${LuaSrcDir}/lstrlib.c
+        ${LuaSrcDir}/ltablib.c
+        ${LuaSrcDir}/loadlib.c
+        ${LuaSrcDir}/linit.c
+        )
 
 add_library(Lua SHARED ${SRC_CORE} ${SRC_LIB})
 
-target_include_directories(Lua PUBLIC include)
+target_include_directories(Lua PUBLIC ${LuaSrcDir})
 target_compile_definitions(Lua PRIVATE LUA_BUILD_AS_DLL)
 set_target_properties(Lua PROPERTIES OUTPUT_NAME "lua51")
 
-if (BuildLuaInterpreter)
-    set(SRC_LUA src/lua.c)
-    add_executable(LuaInterpreter ${SRC_LUA})
-    target_link_libraries(LuaInterpreter Lua)
-endif ()
+target_include_directories(Lua INTERFACE ${LuaHppDir})

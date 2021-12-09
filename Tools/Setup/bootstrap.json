@@ -35,5 +35,13 @@
             "url": "http://bitop.luajit.org/download/LuaBitOp-1.0.2.zip",
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36"
         }
+    },
+    {
+        "name": "lua",
+        "source": {
+            "type": "archive",
+            "url": "https://www.lua.org/ftp/lua-5.1.4.tar.gz",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36"
+        }
     }
 ]
