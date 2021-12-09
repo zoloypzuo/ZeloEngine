@@ -6,7 +6,7 @@
 #define ZELOENGINE_INPUT_H
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 #include "ZeloSDL.h"
 
 enum InputEvent {

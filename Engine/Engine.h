@@ -5,7 +5,7 @@
 #define ZELOENGINE_ENGINE_H
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 #include "Core/Scene/SceneManager.h"
 #include "Core/Window/Window.h"
 #include "Core/RHI/RenderSystem.h"

@@ -4,7 +4,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 #include "Core/UI/Resource/Font.h"
 #include "Foundation/ZeloPlugin.h"
 

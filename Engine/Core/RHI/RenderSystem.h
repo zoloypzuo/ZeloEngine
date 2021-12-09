@@ -5,7 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 #include "Core/RHI/RenderSystem.h"
 #include "Core/RHI/RenderCommand.h"
 #include "Core/RHI/RenderPipeline.h"

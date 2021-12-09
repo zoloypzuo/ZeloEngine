@@ -5,7 +5,7 @@
 #define ZELOENGINE_WINDOW_H
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 #include "ZeloSDL.h"
 
 #include "Core/Parser/IniReader.h"
