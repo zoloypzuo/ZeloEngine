@@ -38,3 +38,6 @@ target_link_libraries(OpenGLRenderer PRIVATE GLLoader)
 
 target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
 target_include_directories(OpenGLRenderer PRIVATE ${STB_INCLUDE_DIRS})
+
+set_target_properties(GLLoader PROPERTIES FOLDER "OpenGL")
+set_target_properties(OpenGLRenderer PROPERTIES FOLDER "OpenGL")
