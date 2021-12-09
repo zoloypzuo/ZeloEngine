@@ -4,8 +4,8 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
+#include "ZeloGLPrerequisites.h"  // GLuint GLfloat
 #include "Core/Interface/IMeshData.h"
-#include <glad/glad.h>  // GLuint GLfloat
 
 class TriangleMeshAdapter : public Zelo::Core::Interface::IMeshData {
 public:

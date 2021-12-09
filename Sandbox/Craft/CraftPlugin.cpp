@@ -2,6 +2,8 @@
 // created on 2021/11/23
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
+#include "thirdparty/noise.h"
+#include "thirdparty/tinycthread.h"
 #include "CraftPlugin.h"
 
 #include "Core/Window/Input.h"
@@ -10,7 +12,6 @@
 #include "Core/Scene/SceneManager.h"
 #include "Core/RHI/RenderSystem.h"
 
-#include <cmath>
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
@@ -22,9 +23,7 @@
 #include "item.h"
 #include "map.h"
 #include "matrix.h"
-#include "thirdparty/noise.h"
 #include "sign.h"
-#include "thirdparty/tinycthread.h"
 #include "util.h"
 #include "world.h"
 

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include <glad/glad.h>
+#include "ZeloGLPrerequisites.h"
 #include <memory>
 #include "GLTexture.h"
 

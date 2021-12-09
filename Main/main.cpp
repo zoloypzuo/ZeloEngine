@@ -1,8 +1,8 @@
-#include "Zelo.h"
-
 #include "AutoSymInitialize.h"
 #include "AutoExceptionStacktraceRegister.h"
 #include "StackTracePrinter.h"
+
+#include "Zelo.h"
 
 using namespace ExceptionsStacktrace;
 
