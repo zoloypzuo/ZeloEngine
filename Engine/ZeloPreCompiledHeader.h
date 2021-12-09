@@ -7,7 +7,7 @@
 #include "ZeloPlatform.h"  // platform macro first
 #include "ZeloAlgorithmUtil.h"  // stl algorithm patch
 #include "ZeloMemory.h"  // memory macro
-#include "ZeloStringUtil.h" // string patch
+#include "Foundation/ZeloStringUtil.h" // string patch
 #include "Core/Math/Mathf.h"  // common math patch
 
 // This ignores all warnings raised inside External headers
