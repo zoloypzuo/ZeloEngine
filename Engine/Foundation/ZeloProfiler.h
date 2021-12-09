@@ -2,8 +2,8 @@
 // created on 2021/4/3
 // author @zoloypzuo
 
-#ifndef ZELOENGINE_PROFILER_H
-#define ZELOENGINE_PROFILER_H
+#ifndef ZELOENGINE_ZELOPROFILER_H
+#define ZELOENGINE_ZELOPROFILER_H
 
 #include "ZeloPrerequisites.h"
 
@@ -162,4 +162,4 @@ constexpr auto CleanupOutputString(const char(&expr)[N], const char(&remove)[K])
 #define ZELO_PROFILE_FUNCTION()
 #endif
 
-#endif //ZELOENGINE_PROFILER_H
+#endif //ZELOENGINE_ZELOPROFILER_H

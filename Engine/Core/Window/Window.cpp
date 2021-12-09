@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
-#include "Core/Profiler/Profiler.h"
+#include "Foundation/ZeloProfiler.h"
 
 #include <SDL_syswm.h>
 
