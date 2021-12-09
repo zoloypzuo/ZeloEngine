@@ -7,7 +7,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloSingleton.h"
-#include "ZeloSDL.h"
+#include "Foundation/ZeloSDL.h"
 
 enum InputEvent {
     IE_PRESSED,

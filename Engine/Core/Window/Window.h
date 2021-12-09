@@ -6,7 +6,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloSingleton.h"
-#include "ZeloSDL.h"
+#include "Foundation/ZeloSDL.h"
 
 #include "Core/Parser/IniReader.h"
 #include "Core/Window/Input.h"

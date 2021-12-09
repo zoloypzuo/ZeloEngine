@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLLoader.h"
 
-#include "ZeloSDL.h"  // SDL_GL_GetProcAddress
+#include "Foundation/ZeloSDL.h"  // SDL_GL_GetProcAddress
 
 static auto logger = spdlog::default_logger()->clone("gl");
 

@@ -16,4 +16,4 @@ target_include_directories(Engine PUBLIC ./Engine)
 target_link_libraries(Engine PUBLIC Foundation Core Renderer)
 target_link_libraries(Engine PRIVATE Optick Whereami)
 
-set_target_properties(Engine PROPERTIES FOLDER "Main")
+set_target_properties(Engine PROPERTIES FOLDER "Engine")
