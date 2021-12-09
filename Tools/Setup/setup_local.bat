@@ -7,6 +7,8 @@ set Args=%*
 cd /d %EngineDir%
 @echo on
 
+git submodule update
+
 cd %EngineDir%\Tools\Setup
 python bootstrap.py -b %EngineDir%\Dep --bootstrap-file bootstrap.json
 

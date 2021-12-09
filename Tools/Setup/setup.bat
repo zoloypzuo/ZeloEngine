@@ -7,6 +7,8 @@ set Args=%*
 cd /d %EngineDir%
 @echo on
 
+git submodule update
+
 if not exist Dep (
     md Dep
 )
