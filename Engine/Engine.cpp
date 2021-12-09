@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
-#include "Core/Plugin/Plugin.h"
+#include "Foundation/ZeloPlugin.h"
 #include "Core/Profiler/Profiler.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
 

@@ -5,7 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Core/Plugin/Plugin.h"
+#include "Foundation/ZeloPlugin.h"
 
 struct Attrib {
     GLuint program;

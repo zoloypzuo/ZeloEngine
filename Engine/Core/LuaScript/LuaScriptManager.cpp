@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
-#include "Core/Plugin/Plugin.h"
+#include "Foundation/ZeloPlugin.h"
 
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;

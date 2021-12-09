@@ -5,7 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 
-#include "Core/Plugin/Plugin.h"
+#include "Foundation/ZeloPlugin.h"
 
 
 namespace FinalScene {

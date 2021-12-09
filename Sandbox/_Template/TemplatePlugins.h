@@ -4,7 +4,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Core/Plugin/Plugin.h"
+#include "Foundation/ZeloPlugin.h"
 
 class TemplatePlugin : public Plugin {
 public:

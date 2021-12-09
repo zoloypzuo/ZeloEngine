@@ -9,7 +9,6 @@ add_subdirectory(LuaScript)
 add_subdirectory(Math)
 add_subdirectory(OS)
 add_subdirectory(Parser)
-add_subdirectory(Plugin)
 add_subdirectory(Profiler)
 add_subdirectory(Resource)
 add_subdirectory(RHI)
@@ -24,7 +23,6 @@ set_target_properties(LuaScript PROPERTIES FOLDER "Core")
 set_target_properties(Math PROPERTIES FOLDER "Core")
 set_target_properties(OS PROPERTIES FOLDER "Core")
 set_target_properties(Parser PROPERTIES FOLDER "Core")
-set_target_properties(Plugin PROPERTIES FOLDER "Core")
 set_target_properties(Profiler PROPERTIES FOLDER "Core")
 set_target_properties(Resource PROPERTIES FOLDER "Core")
 set_target_properties(RHI PROPERTIES FOLDER "Core")
@@ -42,7 +40,6 @@ target_link_libraries(Core INTERFACE
         Math
         OS
         Parser
-        Plugin
         Profiler
         Resource
         RHI
