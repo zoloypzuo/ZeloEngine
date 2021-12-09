@@ -63,6 +63,9 @@ SNAPSHOT_DIR = os.path.join(BASE_DIR, SNAPSHOT_DIR_BASE)
 DEFAULT_PNUM = 3
 DEBUG_OUTPUT = False
 FALLBACK_URL = ""
+DEFAULT_USER_AGENT = "Mozilla/5.0 (Macintosh; " \
+                     "Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36"
+
 
 USE_TAR = False
 USE_UNZIP = False
@@ -325,7 +328,7 @@ def computeFileHash(filename):
             buf = afile.read(blocksize)
     return hasher.hexdigest()
 
-def downloadFile(url, download_dir, target_dir_name, sha1_hash = None, force_download = False, user_agent = None):
+def downloadFile(url, download_dir, target_dir_name, sha1_hash = None, force_download = False, user_agent = DEFAULT_USER_AGENT):
     if not os.path.isdir(download_dir):
         os.mkdir(download_dir)
 
