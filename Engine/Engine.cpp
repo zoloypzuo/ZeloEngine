@@ -3,8 +3,8 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "Engine.h"
-#include "Core/Plugin/Plugin.h"
-#include "Core/Profiler/Profiler.h"
+#include "Foundation/ZeloPlugin.h"
+#include "Foundation/ZeloProfiler.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
 
 #include <optick.h>

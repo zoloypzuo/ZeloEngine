@@ -4,7 +4,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Core/Plugin/Plugin.h"
+#include "Foundation/ZeloPlugin.h"
 #include "Core/RHI/RenderSystem.h"
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"

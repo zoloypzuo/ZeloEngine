@@ -2,6 +2,7 @@
 # author @zoloypzuo
 add_library(Resource
         Resource.cpp
-        ResourceManager.cpp ResourceManager.h)
+        ResourceManager.cpp
+        )
 
 target_link_libraries(Resource PRIVATE Sol2)

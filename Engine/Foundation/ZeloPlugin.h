@@ -7,9 +7,9 @@
 
 class Plugin {
 public:
-    Plugin();
+    Plugin() = default;;
 
-    virtual ~Plugin();
+    virtual ~Plugin() = default;;
 
     virtual const std::string &getName() const = 0;
 

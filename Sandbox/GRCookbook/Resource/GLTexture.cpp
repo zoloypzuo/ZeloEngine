@@ -2,7 +2,6 @@
 #include "GRCookbook/Bitmap.h"
 #include "GRCookbook/UtilsCubemap.h"
 
-#include <glad/glad.h>
 #include <assert.h>
 #include <stdio.h>
 #include <string>

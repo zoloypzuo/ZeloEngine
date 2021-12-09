@@ -5,7 +5,7 @@
 #define ZELOENGINE_SCENEMANAGER_H
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/ECS/Entity.h"
 #include "Core/RHI/Object/ALight.h"

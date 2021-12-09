@@ -4,7 +4,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 
 #include <sol/sol.hpp> // sol::state
 #include <spdlog/spdlog.h>  // logger

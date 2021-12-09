@@ -4,9 +4,9 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 #include "Core/UI/Resource/Font.h"
-#include "Core/Plugin/Plugin.h"
+#include "Foundation/ZeloPlugin.h"
 
 namespace Zelo::Core::UI {
 class ImGuiManager :

@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "MeshLoader.h"
-#include "Core/Resource/Resource.h"
+#include "Foundation/ZeloIOStream.h"
 #include "Renderer/OpenGL/Resource/GLMaterial.h"
 
 #include <assimp/scene.h>
@@ -15,6 +15,7 @@
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
+using namespace Zelo;
 
 class CustomIOStream : public Assimp::IOStream {
     friend class CustomIOSystem;

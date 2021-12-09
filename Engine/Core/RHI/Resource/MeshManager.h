@@ -4,7 +4,7 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "ZeloSingleton.h"
+#include "Foundation/ZeloSingleton.h"
 
 namespace Zelo::Core::RHI {
 class MeshManager : public Singleton<MeshManager> {

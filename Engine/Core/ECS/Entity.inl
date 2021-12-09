@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #pragma once
 
-#include "ZeloStringUtil.h"
+#include "Foundation/ZeloStringUtil.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 
 namespace Zelo::Core::ECS {

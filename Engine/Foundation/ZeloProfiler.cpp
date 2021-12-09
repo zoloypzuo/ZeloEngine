@@ -2,7 +2,7 @@
 // created on 2021/4/3
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "Profiler.h"
+#include "ZeloProfiler.h"
 
 void Zelo::Profiler::BeginSession(const std::string &name, const std::string &filename) {
     std::lock_guard lock(m_Mutex);
