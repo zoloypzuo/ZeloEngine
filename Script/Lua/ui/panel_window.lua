@@ -57,12 +57,7 @@ function PanelWindow:SetOpened(value)
     end
 end
 
-function PanelWindow:_UpdateImpl()
-    if not self.opened then
-        return
-    end
-    local windowFlags = GenFlagFromTable(ImGuiWindowFlags, self.panelSettings, DefaultPanelWindowSettings)
-
+function PanelWindow:_UpdateSizeConstraint()
     local minSizeConstraint = Vector2(self.minSize.x, self.minSize.y)
     local maxSizeConstraint = Vector2(self.maxSize.x, self.maxSize.y)
 
@@ -75,39 +70,38 @@ function PanelWindow:_UpdateImpl()
         maxSizeConstraint = Vector2(10000, 10000)
     end
 
-    ImGui.SetNextWindowSizeConstraints(minSizeConstraint.x, minSizeConstraint.y,
+    ImGui.SetNextWindowSizeConstraints(
+            minSizeConstraint.x, minSizeConstraint.y,
             maxSizeConstraint.x, maxSizeConstraint.y)
+end
 
+function PanelWindow:_UpdateStatus()
+    self.m_windowSize = {ImGui.GetWindowSize()}
+    self.hovered = ImGui.IsWindowHovered()
+    self.focused = ImGui.IsWindowFocused()
+    local scrollY = ImGui.GetScrollY()
+    self.m_scrolledToBottom = scrollY == ImGui.GetScrollMaxY()
+    self.m_scrolledToTop = scrollY == 0
+
+    if not self.opened then
+        self.CloseEvent:HandleEvent()
+    end
+end
+
+function PanelWindow:_UpdateImpl()
+    if not self.opened then
+        return
+    end
+
+    self:_UpdateSizeConstraint()
+
+    local windowFlags = GenFlagFromTable(ImGuiWindowFlags, self.panelSettings, DefaultPanelWindowSettings)
     local shouldDraw
     self.opened, shouldDraw = ImGui.Begin(self.name .. self.id, self.opened, windowFlags)
     if shouldDraw then
-        self.m_windowSize = {ImGui.GetWindowSize()}
-
-        self.hovered = ImGui.IsWindowHovered()
-        self.focused = ImGui.IsWindowFocused()
-
-        local scrollY = ImGui.GetScrollY()
-        self.m_scrolledToBottom = scrollY == ImGui.GetScrollMaxY()
-        self.m_scrolledToTop = scrollY == 0
-
-        if not shouldDraw then
-            self.CloseEvent:HandleEvent()
-        end
-
+        self:_UpdateStatus()
         self:UpdateTransform()
-
-        if self.m_mustScrollToBottom then
-            ImGui.SetScrollY(ImGui.GetScrollMaxY())
-            self.m_mustScrollToBottom = false
-        end
-
-        if self.m_scrolledToTop then
-            ImGui.SetScrollY(0)
-            self.m_mustScrollToTop = false
-        end
-
         self:UpdateWidgets()
-
         ImGui.End()
     end
 end

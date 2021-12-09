@@ -83,30 +83,25 @@ function ImGuiManager.Initialize()
     local MenuBarPanel = require("editor.panels.menu_bar_panel.menu_bar_panel")
     TheFrontEnd:LoadPanel(MenuBarPanel, "", true)
 
-    local SHOW_ALL_PANEL_AT_INIT = true
-
-    --local ProjectHubPanel = require("editor.panels.project_hub_panel.project_hub_panel")
-    --TheFrontEnd:LoadPanel(ProjectHubPanel, "Project Hub", false)
-
     local HierarchyPanel = require("editor.panels.hierarchy_panel.hierarchy_panel")
-    TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy", SHOW_ALL_PANEL_AT_INIT)
+    TheFrontEnd:LoadPanel(HierarchyPanel, "Hierarchy", true)
     local InspectorPanel = require("editor.panels.inspector_panel.inspector_panel")
-    TheFrontEnd:LoadPanel(InspectorPanel, "Inspector", SHOW_ALL_PANEL_AT_INIT)
+    TheFrontEnd:LoadPanel(InspectorPanel, "Inspector", true)
 
     local ProjectSettingPanel = require("editor.panels.project_setting_panel.project_setting_panel")
-    TheFrontEnd:LoadPanel(ProjectSettingPanel, "Project Setting", SHOW_ALL_PANEL_AT_INIT)
+    TheFrontEnd:LoadPanel(ProjectSettingPanel, "Project Setting", false)
 
     local ConsolePanel = require("editor.panels.console_panel.console_panel")
-    TheFrontEnd:LoadPanel(ConsolePanel, "Console", SHOW_ALL_PANEL_AT_INIT)
+    TheFrontEnd:LoadPanel(ConsolePanel, "Console", true)
 
     local GameViewPanel = require("editor.panels.game_view_panel.game_view_panel")
-    TheFrontEnd:LoadPanel(GameViewPanel, "Game View", SHOW_ALL_PANEL_AT_INIT)
+    TheFrontEnd:LoadPanel(GameViewPanel, "Game View", true)
 
     local DemoPanel = require("editor.panels.demo_panel")
-    TheFrontEnd:LoadPanel(DemoPanel, "Demo", SHOW_ALL_PANEL_AT_INIT)
+    TheFrontEnd:LoadPanel(DemoPanel, "Demo", false)
 
     local MaterialEditor = require("editor.panels.material_editor_panel.material_editor_panel")
-    TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", SHOW_ALL_PANEL_AT_INIT)
+    TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", false)
 
     UI:ResetLayout()
 
