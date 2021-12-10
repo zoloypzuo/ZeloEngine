@@ -122,7 +122,7 @@ def escapifyPath(path):
         return "\"" + path + "\""
     return path.replace("\\ ", " ")
 
-def cloneRepository(type, url, target_name, revision = None, try_only_local_operations = False, branch=None):
+def cloneRepository(type, url, target_name, revision = None, try_only_local_operations = False, branch=None, submodule=None):
     target_dir = escapifyPath(os.path.join(SRC_DIR, target_name))
     target_dir_exists = os.path.exists(target_dir)
     log("Cloning " + url + " to " + target_dir)
@@ -156,10 +156,12 @@ def cloneRepository(type, url, target_name, revision = None, try_only_local_oper
                 dlog("Removing directory " + target_dir + " before cloning")
                 shutil.rmtree(target_dir)
             branch_cmd = " --branch " + branch + " " if branch else ""
-            dieIfNonZero(executeCommand(TOOL_COMMAND_GIT + " clone --recursive " + branch_cmd + url + " " + target_dir))
+            submodule_cmd = " --recursive " if submodule else ""
+            dieIfNonZero(executeCommand(TOOL_COMMAND_GIT + " clone " + submodule_cmd + branch_cmd + url + " " + target_dir))
         elif not try_only_local_operations:
             log("Repository " + target_dir + " already exists; fetching instead of cloning")
-            dieIfNonZero(executeCommand(TOOL_COMMAND_GIT + " -C " + target_dir + " fetch --recurse-submodules"))
+            submodule_cmd = " --recurse-submodules" if submodule else ""
+            dieIfNonZero(executeCommand(TOOL_COMMAND_GIT + " -C " + target_dir + " fetch " + submodule_cmd))
 
         if revision is None:
             revision = "HEAD"
@@ -766,6 +768,7 @@ def main(argv):
                 else:
                     revision = source.get('revision', None)
                     branch = source.get('branch', None)
+                    submodule = source.get('submodule', None)
 
                     archive_name = name + ".tar.gz" # for reading or writing of snapshot archives
                     if revision is not None:
@@ -774,7 +777,7 @@ def main(argv):
                     try:
                         if force_fallback:
                             raise RuntimeError
-                        cloneRepository(src_type, src_url, name, revision, branch=branch)
+                        cloneRepository(src_type, src_url, name, revision, branch=branch, submodule=submodule)
 
                         if create_repo_snapshots:
                             log("Creating snapshot of library repository " + name)

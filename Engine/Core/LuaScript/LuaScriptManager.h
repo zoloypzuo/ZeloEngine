@@ -8,6 +8,7 @@
 
 #include <sol/sol.hpp> // sol::state
 #include <spdlog/spdlog.h>  // logger
+#include <refl.hpp>
 
 namespace Zelo {
 class Plugin;
@@ -50,12 +51,21 @@ public:
     template<typename... Args>
     void luaCall(const std::string &functionName, Args &&... args);
 
+    template<typename TypeToRegister>
+    void registerType() noexcept;
+
+    template<typename TypeToRegister>
+    void registerEnumType() noexcept;
+
 private:
     void initEvents();
 
     void initLuaContext();
 
     void loadLuaMain();
+
+    template<typename TypeToRegister, typename... Members>
+    void registerTypeImpl(refl::type_list<Members...>) noexcept;
 
 private:
     static int luaExceptionHandler(lua_State *L,

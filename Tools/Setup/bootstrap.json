@@ -41,5 +41,12 @@
             "type": "archive",
             "url": "https://www.lua.org/ftp/lua-5.1.4.tar.gz"
         }
+    },
+    {
+        "name": "tuple-utils",
+        "source": {
+            "type": "git",
+            "url": "https://github.com.cnpmjs.org/zoloypzuo/murrayc-tuple-utils.git"
+        }
     }
 ]

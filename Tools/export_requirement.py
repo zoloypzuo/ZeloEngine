@@ -40,6 +40,12 @@ def rename_vcpkg_pkg(name):
         return name[len(prefix):]
     return name
 
+def find_package(patterns, line):
+    for pattern in patterns:
+        match_obj = re.search(pattern, line)
+        if match_obj:
+            return match_obj.group(1)
+    return ""
 
 def main():
     print("build from source:")
@@ -54,23 +60,17 @@ def main():
                            ["ThirdParty", "Playbox", "deps", "__Deprecated", "Dep", "Resource"]):
         content = read(file)
         for line in content.splitlines():
-            match_obj = re.search(r"find_package\((.*) CONFIG REQUIRED\)", line)
-            if match_obj:
-                libs.add(match_obj.group(1).lower())
+            result = find_package([r"find_package\((.*) CONFIG REQUIRED\)", r"find_path\((.*)_INCLUDE_DIRS"], line)
+            if result:
+                lib_name = result.lower().replace("_", "-")
+                libs.add(lib_name)
 
     libs = sorted([rename_vcpkg_pkg(lib) for lib in libs])
     for dir_ in sorted(list(libs)):
         print("*", dir_)
 
     print()
-    print("install command:")
-
     triplets = ["x86-windows"]
-    for triplet in triplets:
-        print(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet + " ".join(libs))
-        print(r"Vcpkg\vcpkg.exe install --triplet %s " % triplet +
-              "glad[extensions,gl-api-latest,gles1-api-latest,gles2-api-latest,glsc2-api-latest] --recurse")
-
     code = [r"@echo off",
             r"set CurrentDir=%cd%",
             r"set ScriptDir=%~dp0",
