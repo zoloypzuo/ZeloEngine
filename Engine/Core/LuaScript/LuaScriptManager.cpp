@@ -32,49 +32,6 @@ void LuaScriptManager::initialize() {
     loadLuaMain();
 }
 
-struct WindowSettings {
-    static const int32_t DontCare = -1;
-    std::string title;
-    uint16_t width{};
-    uint16_t height{};
-    int16_t minimumWidth = DontCare;
-    int16_t minimumHeight = DontCare;
-    int16_t maximumWidth = DontCare;
-    int16_t maximumHeight = DontCare;
-    bool fullscreen = false;
-    bool decorated = true;
-    bool resizable = true;
-    bool focused = true;
-    bool maximized = false;
-    bool floating = false;
-    bool visible = true;
-    bool autoIconify = true;
-    int32_t refreshRate = WindowSettings::DontCare;
-    uint32_t samples = 4;
-};
-
-REFL_AUTO(
-        type(WindowSettings),
-        field(DontCare),
-        field(title),
-        field(width),
-        field(height),
-        field(minimumWidth),
-        field(minimumHeight),
-        field(maximumWidth),
-        field(maximumHeight),
-        field(fullscreen),
-        field(decorated),
-        field(resizable),
-        field(focused),
-        field(maximized),
-        field(floating),
-        field(visible),
-        field(autoIconify),
-        field(refreshRate),
-        field(samples)
-)
-
 void LuaScriptManager::initLuaContext() {
     set_exception_handler(luaExceptionHandler);
     set_panic(luaAtPanic);
@@ -105,8 +62,6 @@ void LuaScriptManager::initLuaContext() {
     );
 
     LuaBind_Main(*this);
-
-    registerType<WindowSettings>();
 }
 
 void LuaScriptManager::finalize() {
