@@ -41,7 +41,7 @@ def file_size(filename):
 
 
 def main():
-    for file in sorted([_ for _ in iter_files("../Engine", match_ext(".cpp"), [])], key=file_size):
+    for file in sorted([_ for _ in iter_files("../../Engine", match_ext(".cpp"), [])], key=file_size):
         if file_size(file) < 200:
             print(file, file_size(file))
 
