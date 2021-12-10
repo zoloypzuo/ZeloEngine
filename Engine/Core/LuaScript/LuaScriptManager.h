@@ -54,6 +54,9 @@ public:
     template<typename TypeToRegister>
     void registerType() noexcept;
 
+    template<typename TypeToRegister>
+    void registerEnumType() noexcept;
+
 private:
     void initEvents();
 
