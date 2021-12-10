@@ -13,9 +13,10 @@ cd %EngineDir%\Tools\Setup
 python bootstrap.py -b %EngineDir%\Dep --bootstrap-file bootstrap.json
 
 cd %EngineDir%\ThirdParty
-
 rmdir /S /Q Vcpkg
 mklink /D /J Vcpkg C:\_Root\Portable\vcpkg
+
+cd %EngineDir%
 rmdir /S /Q Resource
 mklink /D /J Resource C:\_Root\Svn\ZeloEngineResource
 
