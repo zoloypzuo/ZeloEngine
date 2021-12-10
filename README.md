@@ -5,22 +5,19 @@
 ![msvc2017+](https://img.shields.io/badge/MSVC-2017+-ff69b4.svg)
 [![Gitter](https://badges.gitter.im/ZeloEngine/community.svg)](https://gitter.im/ZeloEngine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+[![CodeScene Code Health](https://codescene.io/projects/12197/status-badges/code-health)](https://codescene.io/projects/12197)
+[![CodeScene System Mastery](https://codescene.io/projects/12197/status-badges/system-mastery)](https://codescene.io/projects/12197)
+
 <img alt="platforms" src="https://img.shields.io/badge/platforms-Windows-blue?style=flat-square"/></a>
 <img alt="release" src="https://img.shields.io/github/v/release/zoloypzuo/ZeloEngine?style=flat-square"/></a>
 <img alt="size" src="https://img.shields.io/github/repo-size/zoloypzuo/ZeloEngine?style=flat-square"/></a>
+<img alt="license" src="https://img.shields.io/github/license/zoloypzuo/ZeloEngine?color=green&style=flat-square"/></a>
 <br/>
 <img alt="issues" src="https://img.shields.io/github/issues-raw/zoloypzuo/ZeloEngine.svg?color=yellow&style=flat-square"/></a>
 <img alt="pulls" src="https://img.shields.io/github/issues-pr-raw/zoloypzuo/ZeloEngine?color=yellow&style=flat-square"/></a>
-<br/>
-<img alt="license" src="https://img.shields.io/github/license/zoloypzuo/ZeloEngine?color=green&style=flat-square"/></a>
-<br/>
 </p>
 
-[![CodeScene Code Health](https://codescene.io/projects/12197/status-badges/code-health)](https://codescene.io/projects/12197)
-[![CodeScene System Mastery](https://codescene.io/projects/12197/status-badges/system-mastery)](https://codescene.io/projects/12197)
-[![CodeScene Missed Goals](https://codescene.io/projects/12197/status-badges/missed-goals)](https://codescene.io/projects/12197)
-
-![](https://codescene.io/projects/12197/status.svg)
+<a target="_top" href="https://flamingtext.com/" ><img src="https://blog.flamingtext.com/blog/2021/12/10/flamingtext_com_1639115962_727159265.png" border="0" alt="Logo Design by FlamingText.com" title="Logo Design by FlamingText.com"></a>
 
 > It is all about game engine.
 
