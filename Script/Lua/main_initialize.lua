@@ -65,18 +65,18 @@ function ImGuiManager.Initialize()
     UI:UseFont(LoadResource("Ruda-Bold.ttf"))
 
     -- hook debug
-    -- ENABLE_HOOK_DEBUG_IMGUI = false
-    -- if ENABLE_HOOK_DEBUG_IMGUI then
-    --     local _ImGui = {}
-    --     for name, fn in pairs(ImGui) do
-    --         _ImGui[name] = function(...)
-    --             print("ImGui.", name, ...)
-    --             return fn(...)
-    --         end
-    --     end
+    ENABLE_HOOK_DEBUG_IMGUI = false
+    if ENABLE_HOOK_DEBUG_IMGUI then
+        local _ImGui = {}
+        for name, fn in pairs(ImGui) do
+            _ImGui[name] = function(...)
+                print("ImGui." .. name, ...)
+                return fn(...)
+            end
+        end
 
-    --     ImGui = _ImGui
-    -- end
+        ImGui = _ImGui
+    end
 
     require("editor.editor_actions")
 

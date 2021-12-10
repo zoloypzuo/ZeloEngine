@@ -102,8 +102,8 @@ function PanelWindow:_UpdateImpl()
         self:_UpdateStatus()
         self:UpdateTransform()
         self:UpdateWidgets()
-        ImGui.End()
     end
+    ImGui.End()
 end
 
 return PanelWindow
