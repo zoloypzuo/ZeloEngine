@@ -1,22 +1,20 @@
 // Window.h
 // created on 2021/3/28
 // author @zoloypzuo
-#ifndef ZELOENGINE_WINDOW_H
-#define ZELOENGINE_WINDOW_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloSingleton.h"
 #include "Foundation/ZeloSDL.h"
-
-#include "Core/Parser/IniReader.h"
-#include "Core/Window/Input.h"
 #include "Foundation/ZeloEvent.h"
+
+#include "Core/OS/Input.h"
+#include "Core/Parser/IniReader.h"
 #include "Core/Interface/IView.h"
 
-namespace Zelo {
-// TODO move namespace
+namespace Zelo::Core::OS {
 class Window :
-        public Singleton<Window>,
+        public Singleton<Zelo::Core::OS::Window>,
         public IRuntimeModule,
         public Zelo::Core::Interface::IView {
 public:
@@ -30,7 +28,7 @@ public:
 
     void finalize() override;
 
-    static Window *getSingletonPtr();
+    static Zelo::Core::OS::Window *getSingletonPtr();
 
 public:
     void swapBuffer();
@@ -47,7 +45,7 @@ public:
 
     void makeCurrentContext() const;
 
-    Input *getInput();
+    Zelo::Core::OS::Input *getInput();
 
     SDL_Window *getSDLWindow();
 
@@ -74,7 +72,7 @@ private:
     SDL_GLContext m_glContext{};
 
 
-    Input m_input;  // window hold input
+    Zelo::Core::OS::Input m_input;  // window hold input
 
     bool m_quit{};
     bool m_fullscreen{};
@@ -84,5 +82,3 @@ private:
     std::shared_ptr<spdlog::logger> m_logger{};
 };
 }
-
-#endif //ZELOENGINE_WINDOW_H

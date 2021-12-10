@@ -12,6 +12,6 @@ add_library(UI
         ImGuiManager.cpp ImGuiManager.h
         )
 
-target_link_libraries(UI PUBLIC Window)
+target_link_libraries(UI PUBLIC OS)
 target_link_libraries(UI PRIVATE ImGui)
 target_link_libraries(UI PRIVATE unofficial::nativefiledialog::nfd)

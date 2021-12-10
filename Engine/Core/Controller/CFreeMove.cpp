@@ -3,9 +3,10 @@
 //
 #include "ZeloPreCompiledHeader.h"
 #include "CFreeMove.h"
-#include "Core/Window/Input.h"
+#include "Core/OS/Input.h"
 
 using namespace Zelo::Core::ECS;
+using namespace Zelo::Core::OS;
 
 CFreeMove::CFreeMove(Entity &owner) : Component(owner) {
     setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 20);

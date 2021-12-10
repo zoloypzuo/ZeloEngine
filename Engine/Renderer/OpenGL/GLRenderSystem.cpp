@@ -5,13 +5,14 @@
 #include "GLRenderSystem.h"
 
 #include "Core/Scene/SceneManager.h"
-#include "Core/Window/Window.h"
+#include "Core/OS/Window.h"
 
 #include "Renderer/OpenGL/GLUtil.h"
 #include "Renderer/OpenGL/GLLoader.h"
 #include "Renderer/OpenGL/Pipeline/ForwardStandardPipeline.h"
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::OS;
 using namespace Zelo::Core::Scene;
 using namespace Zelo::Renderer::OpenGL;
 

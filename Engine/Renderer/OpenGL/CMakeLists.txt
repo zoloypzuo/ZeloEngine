@@ -1,9 +1,5 @@
 # created on 2021/3/29
 # author @zoloypzuo
-add_library(GLLoader GLLoader.cpp)
-
-target_link_libraries(GLLoader PRIVATE Window)
-
 add_library(OpenGLRenderer
         Buffer/GLBuffer.cpp
         Buffer/GLVertexArray.cpp
@@ -25,6 +21,7 @@ add_library(OpenGLRenderer
         Drawable/Grid.cpp
 
         GLUtil.cpp
+        GLLoader.cpp
 
         GLRenderSystem.cpp
 
@@ -34,10 +31,7 @@ add_library(OpenGLRenderer
 
 
 target_link_libraries(OpenGLRenderer PUBLIC Core)
-target_link_libraries(OpenGLRenderer PRIVATE GLLoader)
-
-target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
+target_link_libraries(OpenGLRenderer PRIVATE SDL glad::glad)
 target_include_directories(OpenGLRenderer PRIVATE ${STB_INCLUDE_DIRS})
 
-set_target_properties(GLLoader PROPERTIES FOLDER "OpenGL")
 set_target_properties(OpenGLRenderer PROPERTIES FOLDER "OpenGL")

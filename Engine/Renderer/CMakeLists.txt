@@ -3,4 +3,4 @@
 add_subdirectory(OpenGL)
 
 add_library(Renderer INTERFACE)
-target_link_libraries(Renderer INTERFACE GLLoader OpenGLRenderer)
+target_link_libraries(Renderer INTERFACE OpenGLRenderer)

@@ -64,11 +64,15 @@ if (BuildPlaybox)
 endif (BuildPlaybox)
 
 # find third party from vcpkg
-find_package(SDL2 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 find_path(STB_INCLUDE_DIRS "stb.h")
 find_package(unofficial-nativefiledialog CONFIG REQUIRED)
+
+# sdl
+find_package(SDL2 CONFIG REQUIRED)
+add_library(SDL INTERFACE)
+target_link_libraries(SDL INTERFACE SDL2::SDL2 SDL2::SDL2main)
 
 # spdlog
 find_package(spdlog CONFIG REQUIRED)

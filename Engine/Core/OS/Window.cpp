@@ -7,9 +7,9 @@
 
 #include <SDL_syswm.h>
 
-template<> Zelo::Window *Singleton<Zelo::Window>::msSingleton = nullptr;
+template<> Zelo::Core::OS::Window *Singleton<Zelo::Core::OS::Window>::msSingleton = nullptr;
 
-namespace Zelo {
+namespace Zelo::Core::OS {
 Window::Window(const INIReader::Section &windowConfig) :
         m_windowConfig(windowConfig),
         m_input(*this) {

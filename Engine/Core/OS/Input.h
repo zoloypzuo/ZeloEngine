@@ -1,9 +1,7 @@
 // Input.h
 // created on 2021/3/28
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_INPUT_H
-#define ZELOENGINE_INPUT_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloSingleton.h"
@@ -20,10 +18,9 @@ struct AxisValuePair {
     float value;
 };
 
-namespace Zelo {
+namespace Zelo::Core::OS {
 class Window;
 
-// TODO namespace, move to Window target
 class Input : public Singleton<Input> {
 public:
     explicit Input(Window &window);
@@ -108,5 +105,3 @@ private:
 
 };
 }
-
-#endif //ZELOENGINE_INPUT_H

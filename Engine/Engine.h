@@ -1,18 +1,18 @@
 // Engine.h
 // created on 2021/3/28
 // author @zoloypzuo
-#ifndef ZELOENGINE_ENGINE_H
-#define ZELOENGINE_ENGINE_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloSingleton.h"
-#include "Core/Scene/SceneManager.h"
-#include "Core/Window/Window.h"
-#include "Core/RHI/RenderSystem.h"
-#include "Core/Parser/IniReader.h"
 #include "Core/LuaScript/LuaScriptManager.h"
-#include "Core/Resource/ResourceManager.h"
 #include "Core/OS/Time.h"
+#include "Core/OS/Window.h"
+#include "Core/OS/Input.h"
+#include "Core/Parser/IniReader.h"
+#include "Core/RHI/RenderSystem.h"
+#include "Core/Resource/ResourceManager.h"
+#include "Core/Scene/SceneManager.h"
 #include "Core/UI/ImGuiManager.h"
 
 namespace Zelo {
@@ -50,7 +50,7 @@ protected:
     std::unique_ptr<INIReader> m_config;
 
     std::unique_ptr<Core::OS::Time> m_timeSystem{};
-    std::unique_ptr<Window> m_window;
+    std::unique_ptr<Zelo::Core::OS::Window> m_window;
     std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
     std::unique_ptr<Core::Scene::SceneManager> m_sceneManager;
@@ -78,5 +78,3 @@ private:
     void renderPlugins();
 };
 }
-
-#endif //ZELOENGINE_ENGINE_H

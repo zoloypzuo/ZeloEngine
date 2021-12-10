@@ -12,7 +12,6 @@ add_subdirectory(Parser)
 add_subdirectory(Resource)
 add_subdirectory(RHI)
 add_subdirectory(UI)
-add_subdirectory(Window)
 
 set_target_properties(Controller PROPERTIES FOLDER "Core")
 set_target_properties(ECS PROPERTIES FOLDER "Core")
@@ -25,7 +24,6 @@ set_target_properties(Parser PROPERTIES FOLDER "Core")
 set_target_properties(Resource PROPERTIES FOLDER "Core")
 set_target_properties(RHI PROPERTIES FOLDER "Core")
 set_target_properties(UI PROPERTIES FOLDER "Core")
-set_target_properties(Window PROPERTIES FOLDER "Core")
 
 add_library(Core INTERFACE)
 target_include_directories(Core INTERFACE ${CMAKE_SOURCE_DIR}/Engine)
@@ -41,5 +39,4 @@ target_link_libraries(Core INTERFACE
         Resource
         RHI
         UI
-        Window
         )

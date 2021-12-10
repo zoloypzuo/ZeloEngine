@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GRCookbookPlugins.h"
 
-#include "Core/Window/Input.h"
+#include "Core/OS/Input.h"
 #include "Core/Scene/SceneManager.h"
 #include "Core/Resource/ResourceManager.h"
 

@@ -4,10 +4,10 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ImGuiManager.h"
 
-#include "Core/Window/Window.h"
+#include "Core/OS/Input.h"
+#include "Core/OS/Window.h"
 #include "Core/Resource/Resource.h"
 
-#include "ZeloGLPrerequisites.h"  // glad
 #include <imgui.h>
 #include <imgui_internal.h>
 
@@ -18,6 +18,7 @@
 #include <nfd.h>
 
 using namespace Zelo::Core::UI;
+using namespace Zelo::Core::OS;
 
 template<> ImGuiManager *Singleton<ImGuiManager>::msSingleton = nullptr;
 

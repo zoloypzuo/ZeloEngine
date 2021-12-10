@@ -6,9 +6,9 @@
 #include "thirdparty/tinycthread.h"
 #include "CraftPlugin.h"
 
-#include "Core/Window/Input.h"
+#include "Core/OS/Input.h"
 #include "Core/OS/Time.h"
-#include "Core/Window/Window.h"
+#include "Core/OS/Window.h"
 #include "Core/Scene/SceneManager.h"
 #include "Core/RHI/RenderSystem.h"
 
@@ -1247,7 +1247,7 @@ int collide(int height, float *x, float *y, float *z) {
 }
 
 void handle_movement(double dt) {
-    auto *input = Zelo::Input::getSingletonPtr();
+    auto *input = Zelo::Core::OS::Input::getSingletonPtr();
     static float dy = 0;
     State *s = &g->players->state;
     int sz = 0;
@@ -1499,7 +1499,7 @@ void CraftPlugin::uninstall() {
 void CraftPlugin::update() {
     // WINDOW SIZE AND SCALE //
     g->scale = 1;
-    auto size = Zelo::Window::getSingletonPtr()->getDrawableSize();
+    auto size = Zelo::Core::OS::Window::getSingletonPtr()->getDrawableSize();
     g->width = size.x;
     g->height = size.y;
 

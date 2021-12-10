@@ -2,12 +2,11 @@
 // created on 2021/3/28
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "Input.h"
-#include "Core/Window/Window.h"
+#include "Window.h"
 
-template<> Zelo::Input *Singleton<Zelo::Input>::msSingleton = nullptr;
+template<> Zelo::Core::OS::Input *Singleton<Zelo::Core::OS::Input>::msSingleton = nullptr;
 
-namespace Zelo {
+namespace Zelo::Core::OS {
 Input::Input(Window &window) {
     window.PreWindowEvent.AddListener([](void *p) { Input::getSingletonPtr()->handlePreWindowEvent(p); });
     window.WindowEvent.AddListener([](auto *event) { Input::getSingletonPtr()->handleWindowEvent(event); });
