@@ -1,4 +1,4 @@
-set(TupleUtilsSrcDir ${CMAKE_SOURCE_DIR}/Dep/src/tuple-utils/tuple-utils)
+set(TupleUtilsSrcDir ${CMAKE_SOURCE_DIR}/Dep/src/tuple-utils)
 
 add_library(TupleUtils INTERFACE)
 
