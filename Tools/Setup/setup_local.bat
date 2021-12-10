@@ -20,6 +20,7 @@ cd %EngineDir%
 rmdir /S /Q Resource
 mklink /D /J Resource C:\_Root\Svn\ZeloEngineResource
 
+cd %EngineDir%\ThirdParty
 if not exist Vcpkg\vcpkg.exe (
     setx X_VCPKG_ASSET_SOURCES "x-azurl,http://106.15.181.5/"
     call Vcpkg\bootstrap-vcpkg.bat -disableMetrics
