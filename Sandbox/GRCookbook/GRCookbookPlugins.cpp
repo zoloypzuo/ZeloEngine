@@ -77,7 +77,7 @@ void Ch5MeshRendererPlugin::initialize() {
 }
 
 void Ch5MeshRendererPlugin::update() {
-    Plugin::update();
+    Zelo::Plugin::update();
 }
 
 void Ch5MeshRendererPlugin::render() {
@@ -187,7 +187,7 @@ void Ch6PBRPlugin::loadMesh(const std::string &meshPath) {
 }
 
 void Ch6PBRPlugin::update() {
-    Plugin::update();
+    Zelo::Plugin::update();
 }
 
 void Ch6PBRPlugin::render() {
@@ -287,7 +287,7 @@ void Ch7LargeScenePlugin::initialize() {
 }
 
 void Ch7LargeScenePlugin::update() {
-    Plugin::update();
+    Zelo::Plugin::update();
 }
 
 void Ch7LargeScenePlugin::render() {

@@ -22,7 +22,7 @@
 #include "VtxData.h"
 #include "Scene.h"
 
-class Ch5MeshRendererPlugin : public Plugin {
+class Ch5MeshRendererPlugin : public Zelo::Plugin {
 public:
     const std::string &getName() const override;;
 
@@ -46,7 +46,7 @@ private:
     Zelo::Core::ECS::Entity *entity{};
 };
 
-class Ch6PBRPlugin : public Plugin {
+class Ch6PBRPlugin : public Zelo::Plugin {
 public:
     const std::string &getName() const override;;
 
@@ -85,7 +85,7 @@ private:
 
 };
 
-class Ch7LargeScenePlugin : public Plugin {
+class Ch7LargeScenePlugin : public Zelo::Plugin {
 public:
     const std::string &getName() const override;;
 

@@ -97,36 +97,3 @@ typedef int64_t GUID_t;
 // interface
 #include "Core/Interface/IRuntimeModule.h"
 //#include "Core/Interface/ISerializable.h" TODO WIP
-
-// forward declaration
-namespace Zelo { class Engine; }
-
-class Input;
-
-class DirectionalLight;
-
-class PointLight;
-
-class SpotLight;
-
-class Plugin;
-
-namespace Zelo::Core::ECS {
-class Entity;
-
-class Component;
-
-class Behaviour;
-
-}
-
-namespace Zelo::Core::RHI {
-class Mesh;
-
-class Material;
-}
-
-namespace Zelo::Renderer::OpenGL {
-class MeshRenderer;
-}
-

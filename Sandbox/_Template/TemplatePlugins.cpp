@@ -18,13 +18,13 @@ void TemplatePlugin::uninstall() {
 }
 
 void TemplatePlugin::initialize() {
-    Plugin::initialize();
+    Zelo::Plugin::initialize();
 }
 
 void TemplatePlugin::update() {
-    Plugin::update();
+    Zelo::Plugin::update();
 }
 
 void TemplatePlugin::render() {
-    Plugin::render();
+    Zelo::Plugin::render();
 }

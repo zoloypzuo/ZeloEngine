@@ -5,6 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 
+namespace Zelo {
 class Plugin {
 public:
     Plugin() = default;;
@@ -26,3 +27,4 @@ public:
 
     virtual void render() {};
 };
+}

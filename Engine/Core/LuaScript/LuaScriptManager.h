@@ -9,6 +9,10 @@
 #include <sol/sol.hpp> // sol::state
 #include <spdlog/spdlog.h>  // logger
 
+namespace Zelo {
+class Plugin;
+}
+
 namespace Zelo::Core::LuaScript {
 class LuaScriptManager :
         public sol::state,

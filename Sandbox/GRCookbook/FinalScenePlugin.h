@@ -7,9 +7,12 @@
 
 #include "Foundation/ZeloPlugin.h"
 
+namespace Zelo::Core::ECS{
+class Entity;
+}
 
 namespace FinalScene {
-class Ch10FinalPlugin : public Plugin {
+class Ch10FinalPlugin : public Zelo::Plugin {
 public:
 
 public:

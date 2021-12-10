@@ -13,6 +13,12 @@
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 #include "Renderer/OpenGL/Drawable/Grid.h"
 
+namespace Zelo::Core::RHI {
+class Mesh;
+
+class Material;
+}
+
 namespace Zelo::Renderer::OpenGL {
 struct RenderItem {
     glm::mat4 modelMatrix;

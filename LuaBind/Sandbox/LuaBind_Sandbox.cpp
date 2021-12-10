@@ -11,6 +11,8 @@
 #include "GRCookbook/GRCookbookPlugins.h"
 #include "GRCookbook/FinalScenePlugin.h"
 
+using namespace Zelo;
+
 void LuaBind_Sandbox(sol::state &luaState) {
 // @formatter:off
 luaState.new_usertype<EdgePipelinePlugin>("EdgePipelinePlugin",

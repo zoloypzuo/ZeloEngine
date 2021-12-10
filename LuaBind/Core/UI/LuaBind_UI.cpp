@@ -15,7 +15,7 @@ sol::constructors<Font(const std::string&, float)>()
 
 luaState.new_usertype<ImGuiManager>("ImGuiManager",
 sol::constructors<ImGuiManager()>(),
-sol::base_classes, sol::bases<Plugin>(),
+sol::base_classes, sol::bases<Zelo::Plugin>(),
 "GetSingletonPtr", &ImGuiManager::getSingletonPtr,
 "ApplyStyle", &ImGuiManager::ApplyStyle,
 "UseFont", &ImGuiManager::UseFont,

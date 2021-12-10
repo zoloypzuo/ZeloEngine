@@ -14,6 +14,10 @@ namespace Zelo::Core::RHI {
 class ALight;
 }
 
+namespace Zelo::Renderer::OpenGL{
+ class MeshRenderer;
+}
+
 namespace Zelo::Core::Scene {
 class SceneManager : public Singleton<SceneManager>, public IRuntimeModule {
 public:

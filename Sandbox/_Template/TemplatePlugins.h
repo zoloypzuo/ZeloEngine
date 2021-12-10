@@ -6,7 +6,7 @@
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloPlugin.h"
 
-class TemplatePlugin : public Plugin {
+class TemplatePlugin : public Zelo::Plugin {
 public:
     const std::string &getName() const override;;
 

@@ -2,9 +2,11 @@
 // created on 2021/8/6
 // author @zoloypzuo
 #include "Engine.h"
+#include "Foundation/ZeloPlugin.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
 
+using namespace Zelo;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::Resource;
 
@@ -23,7 +25,7 @@ luaState.new_usertype<Plugin>("Plugin",
 luaState.set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
 luaState.set("RESOURCE_DIR", ResourceManager::getSingletonPtr()->getResourceDir().string());
 luaState.set_function("print", LuaScriptManager::luaPrint);
-luaState.set_function("install", [](Plugin *plugin) { Zelo::Engine::getSingletonPtr()->installPlugin(plugin); });
+luaState.set_function("install", [](Plugin *plugin) { Engine::getSingletonPtr()->installPlugin(plugin); });
 // @formatter:on
 
     LuaBind_Entity(luaState);

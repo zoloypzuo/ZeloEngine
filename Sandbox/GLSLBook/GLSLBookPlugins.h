@@ -13,7 +13,7 @@
 #include "GLSLBook/Pipeline/Shadow//ShadowMapPipeline.h"
 
 template<class T>
-class PipelinePlugin : public Plugin {
+class PipelinePlugin : public Zelo::Plugin {
 public:
     const std::string &getName() const override;;
 

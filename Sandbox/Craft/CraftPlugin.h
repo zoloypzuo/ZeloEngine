@@ -22,7 +22,7 @@ struct Attrib {
     GLuint extra4;
 };
 
-class CraftPlugin : public Plugin {
+class CraftPlugin : public Zelo::Plugin {
 public:
     const std::string &getName() const override;;
 
