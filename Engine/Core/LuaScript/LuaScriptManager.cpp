@@ -132,14 +132,17 @@ void LuaScriptManager::doFile(const std::string &luaFile) {
     }
 }
 
-int LuaScriptManager::luaExceptionHandler(
-        lua_State *L,
-        sol::optional<const std::exception &>,
-        sol::string_view what) {
-    std::shared_ptr<spdlog::logger> &logger = LuaScriptManager::getSingletonPtr()->m_logger;
-    logger->error("[sol3] An exception occurred: {}", std::string(what.data(), what.size()));
-    lua_pushlstring(L, what.data(), what.size()); // NOLINT(readability-container-size-empty)
-    return 1;
+int LuaScriptManager::luaExceptionHandler(lua_State *L,
+                                          sol::optional<const std::exception &> exception,
+                                          sol::string_view description) {
+    auto &logger = LuaScriptManager::getSingletonPtr()->m_logger;
+    if (exception.has_value()) {
+        logger->error("[sol3] An exception occurred (from exception): {}", exception->what());
+    } else {
+        const auto &what = std::string(description.data(), description.size());
+        logger->error("[sol3] An exception occurred (from description): {}", what);
+    }
+    return sol::stack::push(L, description);
 }
 
 int LuaScriptManager::luaAtPanic(lua_State *L) {
@@ -148,7 +151,7 @@ int LuaScriptManager::luaAtPanic(lua_State *L) {
     if (message) {
         std::string err(message, message_size);
         lua_settop(L, 0);
-        std::shared_ptr<spdlog::logger> &logger = LuaScriptManager::getSingletonPtr()->m_logger;
+        auto &logger = LuaScriptManager::getSingletonPtr()->m_logger;
         logger->error("[sol3] An error occurred and panic has been invoked: {}", err);
         throw sol::error(err);
     }
