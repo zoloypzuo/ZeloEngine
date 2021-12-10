@@ -7,13 +7,9 @@
 using namespace Zelo::Core::OS;
 using namespace std::chrono;
 
-Time::Time() {
+Time::Time() = default;
 
-}
-
-Time::~Time() {
-
-}
+Time::~Time() = default;
 
 template<> Time *Singleton<Time>::msSingleton = nullptr;
 
