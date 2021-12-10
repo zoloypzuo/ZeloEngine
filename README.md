@@ -1,21 +1,31 @@
 # ZeloEngine
 
-[![Build status](https://ci.appveyor.com/api/projects/status/43lymnm0g9083f38?svg=true)](https://ci.appveyor.com/project/Zolo-mario/zeloengine)
-[![codecov](https://codecov.io/gh/gujans/travis-gtest-cmake-example/branch/master/graph/badge.svg)](https://codecov.io/gh/gujans/travis-gtest-cmake-example)
-![msvc2017+](https://img.shields.io/badge/MSVC-2017+-ff69b4.svg)
+[//]: # (build status)
+
+[![Build Status](https://ci.appveyor.com/api/projects/status/43lymnm0g9083f38?svg=true)](https://ci.appveyor.com/project/Zolo-mario/zeloengine)
+
+[//]: # (platform and compiler)
+
+![Platform](https://img.shields.io/badge/platforms-Windows-blue)
+![Compiler](https://img.shields.io/badge/MSVC-2019-ff69b4.svg)
+
+[//]: # (repo status)
+
+![Release](https://img.shields.io/github/v/release/zoloypzuo/ZeloEngine)
+![Size](https://img.shields.io/github/repo-size/zoloypzuo/ZeloEngine)
+![Licence](https://img.shields.io/github/license/zoloypzuo/ZeloEngine)
+![Issues](https://img.shields.io/github/issues-raw/zoloypzuo/ZeloEngine.svg)
+![PR](https://img.shields.io/github/issues-pr-raw/zoloypzuo/ZeloEngine)
+[![Activity](https://img.shields.io/github/commit-activity/m/zoloypzuo/ZeloEngine.svg)](https://github.com/zoloypzuo/ZeloEngine/pulse)
+
+[//]: # (interaction)
+
 [![Gitter](https://badges.gitter.im/ZeloEngine/community.svg)](https://gitter.im/ZeloEngine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
+[//]: # (code scene)
 
 [![CodeScene Code Health](https://codescene.io/projects/12197/status-badges/code-health)](https://codescene.io/projects/12197)
 [![CodeScene System Mastery](https://codescene.io/projects/12197/status-badges/system-mastery)](https://codescene.io/projects/12197)
-
-<img alt="platforms" src="https://img.shields.io/badge/platforms-Windows-blue?style=flat-square"/></a>
-<img alt="release" src="https://img.shields.io/github/v/release/zoloypzuo/ZeloEngine?style=flat-square"/></a>
-<img alt="size" src="https://img.shields.io/github/repo-size/zoloypzuo/ZeloEngine?style=flat-square"/></a>
-<img alt="license" src="https://img.shields.io/github/license/zoloypzuo/ZeloEngine?color=green&style=flat-square"/></a>
-<br/>
-<img alt="issues" src="https://img.shields.io/github/issues-raw/zoloypzuo/ZeloEngine.svg?color=yellow&style=flat-square"/></a>
-<img alt="pulls" src="https://img.shields.io/github/issues-pr-raw/zoloypzuo/ZeloEngine?color=yellow&style=flat-square"/></a>
-</p>
 
 <a target="_top" href="https://flamingtext.com/" ><img src="https://blog.flamingtext.com/blog/2021/12/10/flamingtext_com_1639115962_727159265.png" border="0" alt="Logo Design by FlamingText.com" title="Logo Design by FlamingText.com"></a>
 
