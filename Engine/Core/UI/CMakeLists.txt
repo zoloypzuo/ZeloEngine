@@ -14,3 +14,4 @@ add_library(UI
 
 target_link_libraries(UI PUBLIC Window)
 target_link_libraries(UI PRIVATE ImGui)
+target_link_libraries(UI PRIVATE unofficial::nativefiledialog::nfd)

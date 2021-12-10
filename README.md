@@ -69,10 +69,12 @@
 build from source:
 * imgui
 * lua
+* luabitop
 * optick
 * sol2
 * stacktrace
 * vcpkg
+* whereami
 
 build from vcpkg:
 * assimp
@@ -81,10 +83,12 @@ build from vcpkg:
 * glfw3
 * gli
 * glm
+* nativefiledialog
 * rapidjson
 * sdl2
 * spdlog
-* unofficial-sqlite3
+* sqlite3
+* taskflow
 
 ## 文档
 

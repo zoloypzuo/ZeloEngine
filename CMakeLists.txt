@@ -68,6 +68,7 @@ find_package(SDL2 CONFIG REQUIRED)
 find_package(glad CONFIG REQUIRED)
 find_package(assimp CONFIG REQUIRED)
 find_path(STB_INCLUDE_DIRS "stb.h")
+find_package(unofficial-nativefiledialog CONFIG REQUIRED)
 
 # spdlog
 find_package(spdlog CONFIG REQUIRED)

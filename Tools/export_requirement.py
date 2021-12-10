@@ -33,6 +33,14 @@ def iter_files(root, predicate, ignore):
                 yield os.path.join(root, file)
 
 
+def rename_vcpkg_pkg(name):
+    # type: (str) -> str
+    prefix = "unofficial-"
+    if name.startswith(prefix):
+        return name[len(prefix):]
+    return name
+
+
 def main():
     print("build from source:")
     for dir_ in list_dir("../ThirdParty"):
@@ -50,8 +58,7 @@ def main():
             if match_obj:
                 libs.add(match_obj.group(1).lower())
 
-    rename_map = {"unofficial-sqlite3": "sqlite3"}
-    libs = sorted([rename_map.get(lib, lib) for lib in libs])
+    libs = sorted([rename_vcpkg_pkg(lib) for lib in libs])
     for dir_ in sorted(list(libs)):
         print("*", dir_)
 

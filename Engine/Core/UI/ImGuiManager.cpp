@@ -4,9 +4,10 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ImGuiManager.h"
 
-#include "ZeloGLPrerequisites.h"
 #include "Core/Window/Window.h"
+#include "Core/Resource/Resource.h"
 
+#include "ZeloGLPrerequisites.h"  // glad
 #include <imgui.h>
 #include <imgui_internal.h>
 
@@ -14,13 +15,7 @@
 
 #include <backends/imgui_impl_opengl3.h>
 #include <backends/imgui_impl_sdl.h>
-#include "Core/Window/Window.h"
-#include "Core/OS/FileDialogs.h"
-#include "Core/Resource/Resource.h"
-
-#include <locale>
-#include <codecvt>
-#include <string>
+#include <nfd.h>
 
 using namespace Zelo::Core::UI;
 
@@ -289,19 +284,25 @@ void ImGuiManager::ResetLayout() const {
 }
 
 std::string ImGuiManager::OpenFileDialog() {
-    void *window = Window::getSingletonPtr()->getHwnd();
-    auto result = FileDialogs::OpenFile(L"All Files\0*.*\0\0", window);
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::string narrow = converter.to_bytes(result);
-    return narrow;
+    nfdchar_t *outPath = NULL;
+    nfdresult_t result = NFD_OpenDialog(NULL, NULL, &outPath);
+    if (result == NFD_OKAY) {
+        std::string s(outPath);
+        free(outPath);
+        return s;
+    }
+    return "";
 }
 
 std::string ImGuiManager::SaveFileDialog() {
-    void *window = Window::getSingletonPtr()->getHwnd();
-    auto result = FileDialogs::SaveFile(L"All Files\0*.*\0\0", window);
-    std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-    std::string narrow = converter.to_bytes(result);
-    return narrow;
+    nfdchar_t *outPath = NULL;
+    nfdresult_t result = NFD_SaveDialog(NULL, NULL, &outPath);
+    if (result == NFD_OKAY) {
+        std::string s(outPath);
+        free(outPath);
+        return s;
+    }
+    return "";
 }
 
 void ImGuiManager::MessageBox(int type, const std::string &title, const std::string &message) {
