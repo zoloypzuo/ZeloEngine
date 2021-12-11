@@ -4,6 +4,7 @@
 #pragma once
 
 struct WindowConfig {
+    std::string title{};
     int window_x = 0;
     int window_y = 45;
     int windowed_width = 1280;
