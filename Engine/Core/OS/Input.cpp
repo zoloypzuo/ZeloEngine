@@ -7,7 +7,8 @@
 template<> Zelo::Core::OS::Input *Singleton<Zelo::Core::OS::Input>::msSingleton = nullptr;
 
 namespace Zelo::Core::OS {
-Input::Input(Window &window) {
+Input::Input() {
+    auto &window = Window::getSingleton();
     window.PreWindowEvent.AddListener([](void *p) { Input::getSingletonPtr()->handlePreWindowEvent(p); });
     window.WindowEvent.AddListener([](auto *event) { Input::getSingletonPtr()->handleWindowEvent(event); });
 }
