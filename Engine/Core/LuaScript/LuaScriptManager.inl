@@ -6,6 +6,10 @@
 #include "Foundation/ZeloStringUtil.h"
 
 #include <tuple-utils/tuple_interlace.h>
+
+#define MAGIC_ENUM_RANGE_MIN 0
+#define MAGIC_ENUM_RANGE_MAX 64
+
 #include <magic_enum.hpp>
 
 namespace Zelo::Core::LuaScript {
@@ -57,6 +61,9 @@ void LuaScriptManager::registerTypeImpl(refl::type_list<Members...>) noexcept {
 
 template<typename TypeToRegister>
 void LuaScriptManager::registerEnumType() noexcept {
+    static_assert(magic_enum::is_scoped_enum<TypeToRegister>(), "enum must be enum class");
+    static_assert(magic_enum::enum_count<TypeToRegister>() <= 8, "enum count must be <= 8");
+
     // typename
     constexpr auto current_name = magic_enum::enum_type_name<TypeToRegister>();
     std::string final_name(current_name);
@@ -66,44 +73,18 @@ void LuaScriptManager::registerEnumType() noexcept {
     }
 
     // build args
-    if (magic_enum::is_unscoped_enum<TypeToRegister>()) {
-        // ImGuiWindowFlags_
-        final_name = Zelo::Trim(final_name, "_");
-        auto start = current_name.size();
-        auto _enum_names = magic_enum::enum_names<TypeToRegister>();
-        std::array<std::string, _enum_names.size()> _enum_names_sub;
-        std::size_t i = 0;
-        for (auto name: _enum_names) {
-            _enum_names_sub[i] = Zelo::Trim(std::string(name.substr(start)), "_");
-            i++;
-        }
-        auto enum_names = std::tuple_cat(_enum_names_sub);
-        auto enum_values = std::tuple_cat(magic_enum::enum_values<TypeToRegister>());
-        auto final_table = tupleutils::tuple_interlace(enum_names, enum_values);
+    auto enum_names = std::tuple_cat(magic_enum::enum_names<TypeToRegister>());
+    auto enum_values = std::tuple_cat(magic_enum::enum_values<TypeToRegister>());
+    auto final_table = tupleutils::tuple_interlace(enum_names, enum_values);
 
-        // new_enum
-        try {
-            std::apply([this, &final_name](auto &&... params) {
-                new_enum(final_name, std::forward<decltype(params)>(params)...);
-            }, final_table);
-        }
-        catch (const std::exception &error) {
-            spdlog::error("register type error: {}", error.what());
-        }
-    } else {
-        auto enum_names = std::tuple_cat(magic_enum::enum_names<TypeToRegister>());
-        auto enum_values = std::tuple_cat(magic_enum::enum_values<TypeToRegister>());
-        auto final_table = tupleutils::tuple_interlace(enum_names, enum_values);
-
-        // new_enum
-        try {
-            std::apply([this, &final_name](auto &&... params) {
-                new_enum(final_name, std::forward<decltype(params)>(params)...);
-            }, final_table);
-        }
-        catch (const std::exception &error) {
-            spdlog::error("register type error: {}", error.what());
-        }
+    // new_enum
+    try {
+        std::apply([this, &final_name](auto &&... params) {
+            new_enum(final_name, std::forward<decltype(params)>(params)...);
+        }, final_table);
+    }
+    catch (const std::exception &error) {
+        spdlog::error("register type error: {}", error.what());
     }
 }
 }
