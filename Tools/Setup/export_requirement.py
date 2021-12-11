@@ -2,6 +2,9 @@ import os
 import re
 import shutil
 
+EngineDir = "../.."
+ThirdPartyDir = os.path.join(EngineDir, "ThirdParty")
+
 
 def copy(src, dest):
     if os.path.dirname(src) == dest:
@@ -40,6 +43,7 @@ def rename_vcpkg_pkg(name):
         return name[len(prefix):]
     return name
 
+
 def find_package(patterns, line):
     for pattern in patterns:
         match_obj = re.search(pattern, line)
@@ -47,15 +51,16 @@ def find_package(patterns, line):
             return match_obj.group(1)
     return ""
 
+
 def main():
     print("build from source:")
-    for dir_ in list_dir("../ThirdParty"):
+    for dir_ in list_dir(ThirdPartyDir):
         print("*", dir_.lower())
 
     print()
     print("build from vcpkg:")
     libs = set()
-    for file in iter_files("../",
+    for file in iter_files(EngineDir,
                            lambda name: name == "CMakeLists.txt",
                            ["ThirdParty", "Playbox", "deps", "__Deprecated", "Dep", "Resource"]):
         content = read(file)
@@ -87,7 +92,7 @@ def main():
                     "glad[extensions,gl-api-latest,gles1-api-latest,gles2-api-latest,glsc2-api-latest] --recurse")
     code.append("cd %CurrentDir%")
     code = "\n".join(code)
-    write("Setup/vcpkg_install.bat", code)
+    write("vcpkg_install.bat", code)
 
 
 if __name__ == '__main__':

@@ -32,5 +32,5 @@ code = template % (
     join([stmt_run_script % (script_id(script), script) for script in scripts])
 )
 
-with open("../build.ahk", "w") as fp:
+with open("../../build.ahk", "w") as fp:
     fp.write(code.strip())

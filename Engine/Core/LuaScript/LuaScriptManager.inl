@@ -2,7 +2,14 @@
 // created on 2021/8/16
 // author @zoloypzuo
 #pragma once
+
+#include "Foundation/ZeloStringUtil.h"
+
 #include <tuple-utils/tuple_interlace.h>
+
+#define MAGIC_ENUM_RANGE_MIN 0
+#define MAGIC_ENUM_RANGE_MAX 64
+
 #include <magic_enum.hpp>
 
 namespace Zelo::Core::LuaScript {
@@ -54,6 +61,9 @@ void LuaScriptManager::registerTypeImpl(refl::type_list<Members...>) noexcept {
 
 template<typename TypeToRegister>
 void LuaScriptManager::registerEnumType() noexcept {
+    static_assert(magic_enum::is_scoped_enum<TypeToRegister>(), "enum must be enum class");
+    static_assert(magic_enum::enum_count<TypeToRegister>() <= 8, "enum count must be <= 8");
+
     // typename
     constexpr auto current_name = magic_enum::enum_type_name<TypeToRegister>();
     std::string final_name(current_name);
@@ -61,7 +71,6 @@ void LuaScriptManager::registerEnumType() noexcept {
     if (std::size_t found = current_name.find_last_of(':'); found != std::string::npos) {
         final_name = current_name.substr(found + 1);
     }
-    Zelo::Trim(final_name, "_");  // ImGuiWindowFlags_
 
     // build args
     auto enum_names = std::tuple_cat(magic_enum::enum_names<TypeToRegister>());

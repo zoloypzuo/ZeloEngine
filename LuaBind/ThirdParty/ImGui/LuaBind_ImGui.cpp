@@ -10,7 +10,6 @@
 void LuaBind_ImGui(sol::state &luaState);
 
 namespace sol_ImGui {
-void LuaBind_ImGuiEnum(sol::state &luaState);
 
 void LuaBind_ImGuiWindow(sol::table &ImGui);
 
@@ -883,8 +882,6 @@ inline void Init(sol::table &ImGui) {
 }
 
 void LuaBind_ImGui(sol::state &luaState) {
-    sol_ImGui::LuaBind_ImGuiEnum(luaState);
-
     sol::table ImGui = luaState.create_named_table("ImGui");
     sol_ImGui::LuaBind_ImGuiWindow(ImGui);
     sol_ImGui::LuaBind_ImGuiWidget(ImGui);

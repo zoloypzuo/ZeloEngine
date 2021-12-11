@@ -3,7 +3,6 @@ add_library(LuaBind
 
         ThirdParty/LuaBind_ThirdParty.cpp
         ThirdParty/ImGui/LuaBind_ImGui.cpp
-        ThirdParty/ImGui/LuaBind_ImGuiEnum.cpp
         ThirdParty/ImGui/LuaBind_ImGuiWidget.cpp
         ThirdParty/ImGui/LuaBind_ImGuiWindow.cpp
         ThirdParty/LuaBitOp/LuaBind_LuaBitOp.cpp
