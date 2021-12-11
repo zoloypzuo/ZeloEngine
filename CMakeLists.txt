@@ -48,11 +48,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # vcpkg root and triplet
 if (WIN32)
-    if (CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 bits
-        set(VCPKG_TARGET_TRIPLET x64-windows)
-    elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 bits
+#    if (CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 bits
+#        set(VCPKG_TARGET_TRIPLET x64-windows)
+#    elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 bits
         set(VCPKG_TARGET_TRIPLET x86-windows)
-    endif ()
+#    endif ()
     set(VcpkgDir ${CMAKE_SOURCE_DIR}/ThirdParty/Vcpkg)
     include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
     message(STATUS vcpkg-toolchain-file=${VcpkgDir} \t triplet=${VCPKG_TARGET_TRIPLET})
