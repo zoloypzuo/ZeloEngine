@@ -4,16 +4,17 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
 #include "Foundation/ZeloProfiler.h"
+#include "Core/LuaScript/LuaScriptManager.h"
 
 #include <SDL_syswm.h>
+
+using namespace Zelo::Core::LuaScript;
 
 template<> Zelo::Core::OS::Window *Singleton<Zelo::Core::OS::Window>::msSingleton = nullptr;
 
 namespace Zelo::Core::OS {
-Window::Window(const INIReader::Section &windowConfig) :
-        m_windowConfig(windowConfig),
-        m_input(*this) {
-}
+Window::Window() : m_windowConfig(*LuaScriptManager::getSingletonPtr()->loadConfig<WindowConfig>("window_config.lua")) {
+};
 
 Window::~Window() = default;
 
@@ -56,20 +57,19 @@ void Window::initialize() {
     SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
 #endif
 
-    m_fullscreen = m_windowConfig.GetBoolean("fullscreen");
 
     uint32_t flags = SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE;
 
-    if (m_fullscreen) {
+    if (m_windowConfig.fullscreen) {
         flags |= SDL_WINDOW_FULLSCREEN;
     }
 
     m_window = SDL_CreateWindow(
-            m_windowConfig.GetCString("title"),
+            m_windowConfig.title.c_str(),
             SDL_WINDOWPOS_CENTERED,
             SDL_WINDOWPOS_CENTERED,
-            m_windowConfig.GetInteger("windowed_width"),
-            m_windowConfig.GetInteger("windowed_height"),
+            m_windowConfig.windowed_width,
+            m_windowConfig.windowed_height,
             flags);
     if (m_window == nullptr) {
         m_logger->error("SDL_CreateWindow error: {}", SDL_GetError());
@@ -80,8 +80,8 @@ void Window::initialize() {
         m_logger->error("SDL_GL_CreateContext error: {}", SDL_GetError());
     }
 
-    m_vSync = m_windowConfig.GetBoolean("vsync");
-    SDL_GL_SetSwapInterval(m_vSync ? 1 : 0);
+    bool vSync = m_windowConfig.vsync;
+    SDL_GL_SetSwapInterval(vSync ? 1 : 0);
 
     int display_w{};
     int display_h{};
@@ -89,7 +89,7 @@ void Window::initialize() {
     m_width = display_w;
     m_height = display_h;
 
-    m_logger->info("window initialize info: {} x {}, vsync={}", m_width, m_height, m_vSync);
+    m_logger->info("window initialize info: {} x {}, vsync={}", m_width, m_height, vSync);
 }
 
 void Window::update() {
@@ -128,10 +128,6 @@ Window *Window::getSingletonPtr() {
 
 void Window::swapBuffer() {
     SDL_GL_SwapWindow(m_window);
-}
-
-Input *Window::getInput() {
-    return &m_input;
 }
 
 SDL_Window *Window::getSDLWindow() {
@@ -179,9 +175,9 @@ void Window::setFullscreen(uint32_t flag) {
 }
 
 void Window::toggleFullscreen() {
-    m_fullscreen = !m_fullscreen;
+    m_windowConfig.fullscreen = !m_windowConfig.fullscreen;
 
-    if (m_fullscreen) {
+    if (m_windowConfig.fullscreen) {
         setFullscreen(SDL_WINDOW_FULLSCREEN);
     } else {
         setFullscreen(0);
@@ -194,4 +190,5 @@ void *Window::getHwnd() const {
     SDL_GetWindowWMInfo(m_window, &wmInfo);
     return wmInfo.info.win.window;
 }
+
 }
