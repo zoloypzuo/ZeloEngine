@@ -3,7 +3,10 @@
 -- author @zoloypzuo
 
 -- LUA_PATH
--- resourcew
+-- config
+package.path = package.path .. ";" .. CONFIG_DIR .. "/?.lua"
+
+-- resource
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Materials/?.lua"
@@ -20,7 +23,7 @@ package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/framework/debug/
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/prefabs/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/scriptlibs/?.lua"
 
-local ENABLE_LUA_PANDA = false
+local ENABLE_LUA_PANDA = true
 if ENABLE_LUA_PANDA then
     local ZBS = "D:\\Installed\\ZeroBraneStudio"
     package.path = package.path .. ";" .. ZBS .. "\\lualibs\\?\\?.lua;" .. ZBS .. "\\lualibs\\?.lua"

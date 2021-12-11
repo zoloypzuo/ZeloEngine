@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Foundation/ZeloStringUtil.h"
+#include "Core/Resource/ResourceManager.h"
 
 #include <tuple-utils/tuple_interlace.h>
 
@@ -49,14 +50,14 @@ void LuaScriptManager::registerTypeImpl(refl::type_list<Members...>) noexcept {
     auto final_table = std::tuple_cat(name_table, std::make_tuple(Members::name.c_str(), Members::pointer)...);
 
     // new_usertype
-    try {
-        std::apply([this](auto &&... params) {
-            this->new_usertype<TypeToRegister>(std::forward<decltype(params)>(params)...);
-        }, final_table);
-    }
-    catch (const std::exception &error) {
-//        ZELO_CORE_ERROR("register type error: {}", error.what());
-    }
+    std::apply([this](auto &&... params) {
+        auto userType = this->new_usertype<TypeToRegister>(
+//                sol::meta_function::call, [](const TypeToRegister &self, sol::table &data) {
+//
+//                },
+                std::forward<decltype(params)>(params)...);
+
+    }, final_table);
 }
 
 template<typename TypeToRegister>
@@ -90,6 +91,7 @@ void LuaScriptManager::registerEnumType() noexcept {
 
 template<typename T>
 T *LuaScriptManager::loadConfig(const std::string &configName) {
-    return script_file(configName);
+    auto configPath = Core::Resource::ResourceManager::getSingletonPtr()->getConfigDir() / configName;
+    return require_file(configPath.string(), configPath.string()).as<T *>();
 }
 }

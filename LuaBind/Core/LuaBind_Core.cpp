@@ -22,6 +22,7 @@ luaState.new_usertype<Plugin>("Plugin",
 "__Dummy", []{}
 );
 
+luaState.set("CONFIG_DIR", ResourceManager::getSingletonPtr()->getConfigDir().string());
 luaState.set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
 luaState.set("RESOURCE_DIR", ResourceManager::getSingletonPtr()->getResourceDir().string());
 luaState.set_function("print", LuaScriptManager::luaPrint);
