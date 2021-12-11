@@ -1,9 +1,8 @@
+# build config: Ninja/Visual Studio 2019/Win32/x86/Debug
 image:
   - Visual Studio 2019
 
-# branches to build
 branches:
-  # blacklist
   except:
     - gh-pages
 
@@ -11,16 +10,8 @@ environment:
   APPVEYOR_SAVE_CACHE_ON_ERROR: true
 
   matrix:
-    # Win32/x86/Debug
-    - platform: Win32
-      configuration: Debug
-      cmake_args: -DCMAKE_SYSTEM_VERSION="10.0.18362.0"
-      platform_name: Windows
-      COMPILER: MSVC_16
-      ARCHITECTURE: x86
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+    - cmake_args: -DCMAKE_SYSTEM_VERSION="10.0.18362.0"
 
-# clone directory
 clone_folder: c:\projects\zeloengine
 
 cache:
@@ -33,10 +24,11 @@ install:
 
 before_build:
   - cd c:\projects\zeloengine
-  - IF "%ARCHITECTURE%" == "x86" IF "%COMPILER%" == "MSVC_16" call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat" -arch=x86 -host_arch=x64
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\Tools\vsdevcmd.bat" -arch=x86 -host_arch=x64
   - echo.%cmake_args%
   - cmake %cmake_args% -S . -B ./build -G Ninja
 
 build_script:
+  - cd c:\projects\zeloengine
   - cd build
   - cmake --build .
