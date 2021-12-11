@@ -316,3 +316,15 @@ function LoadAvatar()
     avatar.entity:AddFreeMove()
     avatar.entity:AddFreeLook()
 end
+
+function registerConfig(klass_name)
+    local klass = _G[klass_name]
+    local mt = getmetatable(klass)
+    mt.__call = function(class_tbl, data)
+        local o = class_tbl.new()
+        for k, v in pairs(data) do
+            o[k] = v
+        end
+        return o
+    end
+end

@@ -30,6 +30,8 @@ void LuaScriptManager::initialize() {
     initLuaContext();
 
     loadLuaMain();
+
+    luaCall("registerConfig", "WindowConfig");
 }
 
 void LuaScriptManager::initLuaContext() {
