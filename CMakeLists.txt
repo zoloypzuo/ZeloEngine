@@ -9,6 +9,12 @@ set(CMAKE_CXX_STANDARD 17)
 # cmake option
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)  # Visual Studio will group targets into folders
 
+option(BuildProfile "BuildProfile" OFF)
+if (BuildProfile)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CMAKE_COMMAND} -E time")
+    # set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK "${CMAKE_COMMAND} -E time") failed on windows
+endif ()
+
 project(ZeloEngine)
 
 # detect platform
@@ -50,18 +56,12 @@ if (WIN32)
     set(VcpkgDir ${CMAKE_SOURCE_DIR}/ThirdParty/Vcpkg)
     include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
     message(STATUS vcpkg-toolchain-file=${VcpkgDir} \t triplet=${VCPKG_TARGET_TRIPLET})
-else()
+else ()
     message(ERROR "platform not supported")
 endif ()
 
 # build third party from source
 add_subdirectory(ThirdParty)
-
-option(BuildPlaybox "BuildPlaybox" OFF)
-if (BuildPlaybox)
-    # build Playbox alone first
-    add_subdirectory(Playbox)
-endif (BuildPlaybox)
 
 # find third party from vcpkg
 find_package(glad CONFIG REQUIRED)
