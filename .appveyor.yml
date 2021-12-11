@@ -30,9 +30,8 @@ install:
 
 before_build:
   - cd c:\projects\zeloengine
-  - echo %PLATFORM%
   - echo.%cmake_args%
-  - cmake %cmake_args% -S . -B ./build -G Ninja -A %PLATFORM%
+  - cmake %cmake_args% -S . -B ./build -G Ninja
 
 build_script:
   - cd build
