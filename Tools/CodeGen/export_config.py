@@ -9,7 +9,7 @@ EngineDir = "../../"
 ImGuiSrcDir = os.path.join(EngineDir, "Dep", "src", "imgui")
 ImGui_h_Path = os.path.join(ImGuiSrcDir, "imgui.h")
 
-EngineConfigDir = os.path.join(EngineDir, "Config")
+EngineConfigDir = os.path.join(EngineDir, "Engine", "Config")
 
 
 def filter_by_node_kind(nodes, kinds):
@@ -30,7 +30,6 @@ def parse_header(filename):
     for struct_node in struct_nodes:
         structs.append((struct_node.spelling, find_all_struct_items(struct_node)))
     return structs
-
 
 
 '''
@@ -66,6 +65,7 @@ def write(filename, content):
     with open(filename, "w") as fp:
         fp.write(content)
 
+
 def iter_files(root, predicate, ignore):
     for root, dirs, files in os.walk(root, topdown=True):
         dirs[:] = [d for d in dirs if d not in ignore]
@@ -73,10 +73,12 @@ def iter_files(root, predicate, ignore):
             if predicate(file):
                 yield os.path.join(root, file)
 
+
 def main():
-    enums = parse_header(ImGui_h_Path)
-    codes = list(gen_lua_enums(enums))
-    write("../../Script/Lua/scriptlibs/imgui_consts.lua", "\n".join(codes))
+    for file in iter_files(EngineConfigDir, lambda file: True, []):
+        structs = parse_header(file)
+        import pprint
+        pprint.pprint(structs)
 
 
 if __name__ == '__main__':
