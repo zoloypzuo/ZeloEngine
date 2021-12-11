@@ -55,7 +55,7 @@ void LuaScriptManager::registerTypeImpl(refl::type_list<Members...>) noexcept {
         }, final_table);
     }
     catch (const std::exception &error) {
-        ZELO_CORE_ERROR("register type error: {}", error.what());
+//        ZELO_CORE_ERROR("register type error: {}", error.what());
     }
 }
 

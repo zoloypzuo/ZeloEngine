@@ -1,6 +1,8 @@
 add_library(LuaBind
         LuaBind.cpp
 
+        Config/LuaBind_Config.cpp
+
         ThirdParty/LuaBind_ThirdParty.cpp
         ThirdParty/ImGui/LuaBind_ImGui.cpp
         ThirdParty/ImGui/LuaBind_ImGuiWidget.cpp

@@ -33,32 +33,30 @@ def parse_header(filename):
 
 
 '''
-ELightType = {
-    POINT = 0,
-    DIRECTIONAL = 1,
-    SPOT = 2,
-    AMBIENT_BOX = 3,
-    AMBIENT_SPHERE = 4
-};
+REFL_AUTO(
+    type(WindowSettings),
+    field(title),
+    field(width),
+    field(height),
+    field(minimumWidth),
+    field(minimumHeight),
+    field(maximumWidth),
+    field(maximumHeight),
+    field(fullscreen),
+    field(decorated),
+    field(resizable),
+    field(focused),
+    field(maximized),
+    field(floating),
+    field(visible),
+    field(autoIconify),
+    field(refreshRate),
+    field(samples)
+)
 '''
 
-
-def lua_assign_stmt(l, r):
-    return l + " = " + r
-
-
-def lua_table_ctor(value_pairs):
-    return "{\n\t" + ",\n\t".join(["{} = {}".format(first, second) for first, second in value_pairs]) + "\n}\n"
-
-
-def lua_enum(name, value_pairs):
-    return lua_assign_stmt(name, lua_table_ctor(value_pairs))
-
-
-def gen_lua_enums(enums):
-    for name, value_pairs in enums:
-        yield lua_enum(name, value_pairs)
-
+def refl(op, *args, root=False):
+    return op + "(" + ",".join(args) + ")"
 
 def write(filename, content):
     print("write to =>", filename)
@@ -73,13 +71,15 @@ def iter_files(root, predicate, ignore):
             if predicate(file):
                 yield os.path.join(root, file)
 
+def gen_refl_decl(struct):
+    struct_name, struct_fields = struct
+    return refl("REFL_AUTO", refl("type", struct_name), *[refl("field", field) for field in struct_fields], root=True)
 
 def main():
     for file in iter_files(EngineConfigDir, lambda file: True, []):
         structs = parse_header(file)
-        import pprint
-        pprint.pprint(structs)
-
+        for struct in structs:
+            print(gen_refl_decl(struct))
 
 if __name__ == '__main__':
     main()
