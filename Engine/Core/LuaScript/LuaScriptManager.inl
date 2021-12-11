@@ -87,4 +87,9 @@ void LuaScriptManager::registerEnumType() noexcept {
         spdlog::error("register type error: {}", error.what());
     }
 }
+
+template<typename T>
+T *LuaScriptManager::loadConfig(const std::string &configName) {
+    return script_file(configName);
+}
 }

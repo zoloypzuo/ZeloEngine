@@ -57,6 +57,9 @@ public:
     template<typename TypeToRegister>
     void registerEnumType() noexcept;
 
+    template<typename T>
+    T *loadConfig(const std::string &configName);
+
 private:
     void initEvents();
 
