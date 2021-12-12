@@ -317,7 +317,7 @@ function LoadAvatar()
     avatar.entity:AddFreeLook()
 end
 
-function registerConfig(klass_name)
+function registerConfigClass(klass_name)
     local klass = _G[klass_name]
     local mt = getmetatable(klass)
     mt.__call = function(class_tbl, data)

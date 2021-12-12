@@ -126,9 +126,7 @@ NewWallUpdatingEnts = {}
 num_updating_ents = 0
 NumEnts = 0
 
-MeshGenerators = {
-    plane = PlaneMeshGen
-}
+MeshGenerators = {}
 
 ResourceMap = {}
 ResourceLoaders = {}

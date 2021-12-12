@@ -7,8 +7,4 @@ local function Update()
     tick = tick + 1
 end
 
-function ImGuiManager.Update()
-    TheFrontEnd:Update()
-end
-
 return Update

@@ -7,8 +7,15 @@
 -- singleton
 TheSim = Game.GetSingletonPtr()
 
+
+function ImGuiManager.Update()
+    TheFrontEnd:Update()
+end
+
 -- resource
 table.insert(package.loaders, 1, ResourceMetaDataLoader)
+
+MeshGenerators["plane"] = PlaneMeshGen
 
 RegisterResourceLoader("MESH", function(name, data)
     local loader = MeshLoader.new(name, data.mesh_index)

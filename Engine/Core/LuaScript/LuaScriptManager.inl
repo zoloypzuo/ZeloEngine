@@ -53,6 +53,9 @@ void LuaScriptManager::registerTypeImpl(refl::type_list<Members...>) noexcept {
     std::apply([this](auto &&... params) {
         auto userType = this->new_usertype<TypeToRegister>(std::forward<decltype(params)>(params)...);
     }, final_table);
+    
+    // bind __call
+    luaCall("registerConfigClass", final_name.c_str());
 }
 
 template<typename TypeToRegister>
