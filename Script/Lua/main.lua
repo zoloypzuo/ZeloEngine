@@ -1,6 +1,7 @@
 -- main.lua
 -- created on 2021/5/5
 -- author @zoloypzuo
+print("start running main.lua")
 
 -- LUA_PATH
 -- config
@@ -107,7 +108,6 @@ if CHEATS_ENABLED then
     require "debugkeys"
 end
 
-print("running main.lua")
 
 --math.randomseed(TheSim:GetRealTime())
 FRAME = 1 / 30
@@ -141,3 +141,5 @@ inGamePlay = false
 
 require "stacktrace"
 require "debughelpers"
+
+print("finish running main.lua")

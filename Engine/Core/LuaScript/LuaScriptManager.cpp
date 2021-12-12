@@ -58,7 +58,6 @@ void LuaScriptManager::initialize() {
     LuaBind_PreMain(*this);
 
     auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-//    require_file("main", mainLuaPath.string());
     doFile(mainLuaPath.string());
 
     LuaBind_Main(*this);
