@@ -88,8 +88,8 @@ void LuaScriptManager::registerEnumType() noexcept {
 }
 
 template<typename T>
-T *LuaScriptManager::loadConfig(const std::string &configName) {
+T &LuaScriptManager::loadConfig(const std::string &configName) {
     auto configPath = Core::Resource::ResourceManager::getSingletonPtr()->getConfigDir() / configName;
-    return require_file(configName, configPath.string()).as<T *>();
+    return require_file(configName, configPath.string()).as<T &>();
 }
 }

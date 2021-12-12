@@ -58,7 +58,7 @@ public:
     void registerEnumType() noexcept;
 
     template<typename T>
-    T *loadConfig(const std::string &configName);
+    T &loadConfig(const std::string &configName);
 
 private:
 
