@@ -35,10 +35,11 @@ std::filesystem::path ResourceManager::getResourceDir() {
     return m_resourceDir;
 }
 
-ResourceManager::ResourceManager(std::filesystem::path mEngineDir, std::filesystem::path mConfigDir,
-                                 std::filesystem::path mScriptDir, std::filesystem::path mResourceDir)
-        : m_engineDir(std::move(mEngineDir)), m_configDir(std::move(mConfigDir)),
-          m_scriptDir(std::move(mScriptDir)), m_resourceDir(std::move(mResourceDir)) {
+ResourceManager::ResourceManager(std::filesystem::path mEngineDir)
+        : m_engineDir(std::move(mEngineDir)),
+          m_configDir(m_engineDir / "Config"),
+          m_scriptDir(m_engineDir / "Script"),
+          m_resourceDir(m_engineDir / "ResourceDB") {
     auto _resourceConfigLuaPath = getResourceDir() / "resource_config.lua";
     const auto &resourceConfigPath = _resourceConfigLuaPath.string();
     sol::state luaState;

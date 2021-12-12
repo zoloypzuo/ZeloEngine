@@ -6,6 +6,7 @@
 
 #include "Core/Scene/SceneManager.h"
 #include "Core/OS/Window.h"
+#include "Core/LuaScript/LuaScriptManager.h"
 
 #include "Renderer/OpenGL/GLUtil.h"
 #include "Renderer/OpenGL/GLLoader.h"
@@ -14,16 +15,19 @@
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::OS;
 using namespace Zelo::Core::Scene;
+using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Renderer::OpenGL;
 
-GLRenderSystem::GLRenderSystem(const INIReader::Section &config) : m_config(config) {}
+
+GLRenderSystem::GLRenderSystem() : m_config(
+        LuaScriptManager::getSingletonPtr()->loadConfig<RenderSystemConfig>("render_system_config.lua")) {}
 
 GLRenderSystem::~GLRenderSystem() = default;
 
 void GLRenderSystem::initialize() {
     ::loadGL();
 
-    if (m_config.GetBoolean("debug")) {
+    if (m_config.debug) {
         ::initDebugCallback();
     }
 

@@ -17,10 +17,12 @@
 #include "Core/Parser/IniReader.h"
 #include "Core/Interface/IView.h"
 
+#include "Config/RenderSystemConfig.h"
+
 namespace Zelo::Renderer::OpenGL {
 class GLRenderSystem : public Core::RHI::RenderSystem {
 public:
-    explicit GLRenderSystem(const INIReader::Section &config);
+    GLRenderSystem();
 
     ~GLRenderSystem() override;
 
@@ -41,7 +43,7 @@ private:
 
     std::vector<Core::Interface::IView *> m_viewStack;
 
-    const INIReader::Section m_config;
+    RenderSystemConfig &m_config;
 
 public: // RenderCommand
     void setViewport(int32_t x, int32_t y, int32_t width, int32_t height) override;

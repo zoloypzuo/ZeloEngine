@@ -75,11 +75,26 @@ def gen_refl_decl(struct):
     struct_name, struct_fields = struct
     return refl("REFL_AUTO", refl("type", struct_name), *[refl("field", field) for field in struct_fields], root=True)
 
+def gen_include(struct):
+    struct_name, struct_fields = struct
+    return "#include \""  "Config/" + struct_name + ".h\""
+
+def gen_impl(struct):
+    struct_name, struct_fields = struct
+    return "L->registerType<" + struct_name + ">();"
+
 def main():
+    decl_buffer = []
+    impl_buffer = []
     for file in iter_files(EngineConfigDir, lambda file: True, []):
         structs = parse_header(file)
         for struct in structs:
-            print(gen_refl_decl(struct))
+            decl_buffer.append(gen_include(struct))
+            decl_buffer.append(gen_refl_decl(struct))
+            impl_buffer.append(gen_impl(struct))
+
+    write("../../LuaBind/Config/ConfigDecl.inl", "\n".join(decl_buffer))
+    write("../../LuaBind/Config/ConfigImpl.inl", "\n".join(impl_buffer))
 
 if __name__ == '__main__':
     main()

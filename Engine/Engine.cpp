@@ -29,19 +29,17 @@ void Engine::initialize() {
     spdlog::set_default_logger(logger);
 
     if (!m_configInitialized) {
-        initConfig();
+        initBootConfig();
     }
     m_configInitialized = true;
 
-    m_resourceManager = std::make_unique<ResourceManager>(
-            m_engineDir, m_configDir, m_scriptDir, m_resourceDir
-    );
+    m_resourceManager = std::make_unique<ResourceManager>(m_engineDir);
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>();
     m_input = std::make_unique<Input>();
     m_window->initialize();
-    m_renderSystem = std::make_unique<GLRenderSystem>(m_config->GetSection("RenderSystem"));
+    m_renderSystem = std::make_unique<GLRenderSystem>();
     m_renderSystem->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
@@ -136,7 +134,7 @@ Engine &Engine::getSingleton() {
     return *msSingleton;
 }
 
-void Engine::initConfig() {
+void Engine::initBootConfig() {
     char exePathRaw[256];
     auto length = 256;
     wai_getExecutablePath(exePathRaw, length, &length);
@@ -151,17 +149,6 @@ void Engine::initConfig() {
         return;
     }
     m_engineDir = bootConfig->GetString("boot", "engineDir", "").c_str();
-    m_configDir = m_engineDir / "Config";
-    m_scriptDir = m_engineDir / "Script";
-    m_resourceDir = m_engineDir / "ResourceDB";
-
-    auto engineIniPath = m_configDir / "engine_boot.ini";
-    m_config = std::make_unique<INIReader>(engineIniPath.string());
-    if (m_config->ParseError()) {
-        spdlog::error("engine_boot.ini not found, path={}", engineIniPath.string());
-        ZELO_CORE_ASSERT(false, "engine_boot.ini not found");
-        return;
-    }
 }
 
 void Engine::initializePlugins() {

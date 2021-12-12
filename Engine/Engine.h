@@ -63,12 +63,9 @@ protected:
     bool m_configInitialized{};
 
     std::filesystem::path m_engineDir{};
-    std::filesystem::path m_configDir{};
-    std::filesystem::path m_scriptDir{};
-    std::filesystem::path m_resourceDir{};
 
 private:
-    void initConfig();
+    void initBootConfig();
 
     void initializePlugins();
 
