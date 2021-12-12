@@ -23,7 +23,7 @@ class Window;
 
 class Input : public Singleton<Input> {
 public:
-    explicit Input(Window &window);
+    explicit Input();
 
     ~Input();
 
@@ -102,6 +102,5 @@ private:
     std::map<std::string, std::map<InputEvent, std::function<void()>>> m_actionInputEventHandler{};
     std::map<std::string, std::function<void(float)>> m_axisHandler{};
     std::vector<std::function<void(const char *)>> m_textEditHandler{};
-
 };
 }

@@ -1,9 +1,13 @@
 -- main.lua
 -- created on 2021/5/5
 -- author @zoloypzuo
+print("start running main.lua")
 
 -- LUA_PATH
--- resourcew
+-- config
+package.path = package.path .. ";" .. CONFIG_DIR .. "/?.lua"
+
+-- resource
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/?.lua"
 package.path = package.path .. ";" .. RESOURCE_DIR .. "/Entities/Materials/?.lua"
@@ -20,7 +24,7 @@ package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/framework/debug/
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/prefabs/?.lua"
 package.path = package.path .. ";" .. SCRIPT_DIR .. "/Lua" .. "/scriptlibs/?.lua"
 
-local ENABLE_LUA_PANDA = false
+local ENABLE_LUA_PANDA = true
 if ENABLE_LUA_PANDA then
     local ZBS = "D:\\Installed\\ZeroBraneStudio"
     package.path = package.path .. ";" .. ZBS .. "\\lualibs\\?\\?.lua;" .. ZBS .. "\\lualibs\\?.lua"
@@ -54,42 +58,17 @@ require("consts")
 require("debugprint")
 
 require("config")
---require("languages/language")
 require("main_function")
---require("preloadsounds")
---require("mods")
---require("json")
 require("vector3")
---require("tuning")
---require("strings")
---require("stringutil")
---require("dlcsupport_strings")
---require("constants")
 require("class")
---require("actions")
 require("debug/debugtools")
---require("simutil")
---require("util")
 require("scheduler")
 require("stategraph")
 require("behaviourtree")
 require("prefabs")
 require("entityscript")
 require("profiler")
---require("recipes")
 require("brain")
---require("emitters")
---require("dumper")
---require("input")
---require("upsell")
---require("stats")
-
---require("fileutil")
---require("screens/scripterrorscreen")
---require("prefablist")
---require("standardcomponents")
---require("update")
---require("mathutil")
 
 require("ui.ui_root")
 require("framework.events")
@@ -104,9 +83,6 @@ if CHEATS_ENABLED then
     require "debugkeys"
 end
 
-print("running main.lua")
-
---math.randomseed(TheSim:GetRealTime())
 FRAME = 1 / 30
 
 Prefabs = {}
@@ -123,9 +99,7 @@ NewWallUpdatingEnts = {}
 num_updating_ents = 0
 NumEnts = 0
 
-MeshGenerators = {
-    plane = PlaneMeshGen
-}
+MeshGenerators = {}
 
 ResourceMap = {}
 ResourceLoaders = {}
@@ -140,3 +114,5 @@ inGamePlay = false
 
 require "stacktrace"
 require "debughelpers"
+
+print("finish running main.lua")

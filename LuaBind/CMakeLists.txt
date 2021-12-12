@@ -1,5 +1,8 @@
 add_library(LuaBind
         LuaBind.cpp
+        LuaBind_PreMain.cpp
+
+        Config/LuaBind_Config.cpp
 
         ThirdParty/LuaBind_ThirdParty.cpp
         ThirdParty/ImGui/LuaBind_ImGui.cpp
@@ -16,6 +19,7 @@ add_library(LuaBind
         )
 
 target_link_libraries(LuaBind PRIVATE
+        LuaScript
         ImGui
         LuaBitOp
         Engine

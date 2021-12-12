@@ -12,13 +12,15 @@
 #include "Core/Parser/IniReader.h"
 #include "Core/Interface/IView.h"
 
+#include "Config/WindowConfig.h"
+
 namespace Zelo::Core::OS {
 class Window :
         public Singleton<Zelo::Core::OS::Window>,
         public IRuntimeModule,
         public Zelo::Core::Interface::IView {
 public:
-    explicit Window(const INIReader::Section &windowConfig);
+     Window();
 
     ~Window() override;
 
@@ -45,8 +47,6 @@ public:
 
     void makeCurrentContext() const;
 
-    Zelo::Core::OS::Input *getInput();
-
     SDL_Window *getSDLWindow();
 
     SDL_GLContext getGLContext() { return m_glContext; }
@@ -66,19 +66,12 @@ public:
     Core::EventSystem::Event<void *> PreWindowEvent; // TODO Event with no args
 
 private:
-    const INIReader::Section m_windowConfig;
+    WindowConfig &m_windowConfig;
+    std::shared_ptr<spdlog::logger> m_logger{};
 
     SDL_Window *m_window{};
     SDL_GLContext m_glContext{};
 
-
-    Zelo::Core::OS::Input m_input;  // window hold input
-
     bool m_quit{};
-    bool m_fullscreen{};
-
-    bool m_vSync{};
-
-    std::shared_ptr<spdlog::logger> m_logger{};
 };
 }

@@ -4,6 +4,7 @@
 #pragma once
 
 #include "Foundation/ZeloStringUtil.h"
+#include "Core/Resource/ResourceManager.h"
 
 #include <tuple-utils/tuple_interlace.h>
 
@@ -19,14 +20,14 @@ void LuaScriptManager::luaCall(sol::protected_function pfr, Args &&... args) {
     sol::protected_function_result pfrResult = pfr.call(std::forward<Args>(args)...);
     if (!pfrResult.valid()) {
         sol::error err = pfrResult;
-        ZELO_CORE_ERROR(err.what());
+//        ZELO_CORE_ERROR(err.what());
     }
 }
 
 template<typename... Args>
 void LuaScriptManager::luaCall(const std::string &functionName, Args &&... args) {
     sol::optional<sol::protected_function> pfrResult = get<sol::protected_function>(functionName);
-    ZELO_ASSERT(pfrResult.has_value());
+//    ZELO_ASSERT(pfrResult.has_value());
     luaCall(pfrResult.value(), std::forward<Args>(args)...);
 }
 
@@ -49,14 +50,12 @@ void LuaScriptManager::registerTypeImpl(refl::type_list<Members...>) noexcept {
     auto final_table = std::tuple_cat(name_table, std::make_tuple(Members::name.c_str(), Members::pointer)...);
 
     // new_usertype
-    try {
-        std::apply([this](auto &&... params) {
-            this->new_usertype<TypeToRegister>(std::forward<decltype(params)>(params)...);
-        }, final_table);
-    }
-    catch (const std::exception &error) {
-        ZELO_CORE_ERROR("register type error: {}", error.what());
-    }
+    std::apply([this](auto &&... params) {
+        auto userType = this->new_usertype<TypeToRegister>(std::forward<decltype(params)>(params)...);
+    }, final_table);
+
+    // bind __call
+    luaCall("registerConfigClass", final_name.c_str());
 }
 
 template<typename TypeToRegister>
@@ -86,5 +85,11 @@ void LuaScriptManager::registerEnumType() noexcept {
     catch (const std::exception &error) {
         spdlog::error("register type error: {}", error.what());
     }
+}
+
+template<typename T>
+T &LuaScriptManager::loadConfig(const std::string &configName) {
+    auto configPath = Core::Resource::ResourceManager::getSingletonPtr()->getConfigDir() / configName;
+    return require_file(configName, configPath.string()).as<T &>();
 }
 }

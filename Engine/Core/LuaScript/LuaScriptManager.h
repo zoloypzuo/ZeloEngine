@@ -57,12 +57,10 @@ public:
     template<typename TypeToRegister>
     void registerEnumType() noexcept;
 
+    template<typename T>
+    T &loadConfig(const std::string &configName);
+
 private:
-    void initEvents();
-
-    void initLuaContext();
-
-    void loadLuaMain();
 
     template<typename TypeToRegister, typename... Members>
     void registerTypeImpl(refl::type_list<Members...>) noexcept;

@@ -7,3 +7,4 @@ add_library(OS
         )
 
 target_link_libraries(OS PUBLIC SDL)
+target_link_libraries(OS PRIVATE LuaScript)
