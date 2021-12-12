@@ -2,7 +2,7 @@
 -- created on 2021/9/30
 -- author @zoloypzuo
 local PanelWindow = require("ui.panel_window")
-local ShowDemoWindow = require("ui.demo.demo")
+local ShowDemoWindow = require("imgui.demo.demo")
 
 local DemoPanel = Class(PanelWindow, function(self, title, opened, panelSetting)
     PanelWindow._ctor(self, title, opened, panelSetting)

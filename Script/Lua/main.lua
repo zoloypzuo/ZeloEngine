@@ -52,7 +52,7 @@ CWD = SCRIPT_DIR .. "/Lua"
 -- global require
 --require("strict")
 
-require("scriptlibs.imgui_consts")
+require("imgui.imgui_consts")
 
 require("consts")
 require("debugprint")

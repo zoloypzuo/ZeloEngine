@@ -83,7 +83,7 @@ def main():
     enums = parse_header(ImGui_h_Path)
     enums = fix_names(enums)
     codes = list(gen_lua_enums(enums))
-    write("../../Script/Lua/scriptlibs/imgui_consts.lua", "\n".join(codes))
+    write("../../Script/Lua/scriptlibs/imgui/imgui_consts.lua", "\n".join(codes))
 
 
 if __name__ == '__main__':
