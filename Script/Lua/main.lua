@@ -58,42 +58,17 @@ require("consts")
 require("debugprint")
 
 require("config")
---require("languages/language")
 require("main_function")
---require("preloadsounds")
---require("mods")
---require("json")
 require("vector3")
---require("tuning")
---require("strings")
---require("stringutil")
---require("dlcsupport_strings")
---require("constants")
 require("class")
---require("actions")
 require("debug/debugtools")
---require("simutil")
---require("util")
 require("scheduler")
 require("stategraph")
 require("behaviourtree")
 require("prefabs")
 require("entityscript")
 require("profiler")
---require("recipes")
 require("brain")
---require("emitters")
---require("dumper")
---require("input")
---require("upsell")
---require("stats")
-
---require("fileutil")
---require("screens/scripterrorscreen")
---require("prefablist")
---require("standardcomponents")
---require("update")
---require("mathutil")
 
 require("ui.ui_root")
 require("framework.events")
@@ -108,8 +83,6 @@ if CHEATS_ENABLED then
     require "debugkeys"
 end
 
-
---math.randomseed(TheSim:GetRealTime())
 FRAME = 1 / 30
 
 Prefabs = {}
