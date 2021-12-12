@@ -1,8 +1,7 @@
 -- window_config.lua
 -- created on 2021/12/11
 -- author @zoloypzuo
-return WindowConfig
-{
+return WindowConfig {
     title = "ZeloEngine";
     window_x = 0;
     window_y = 45;
