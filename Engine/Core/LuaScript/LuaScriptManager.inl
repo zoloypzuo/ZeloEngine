@@ -51,12 +51,7 @@ void LuaScriptManager::registerTypeImpl(refl::type_list<Members...>) noexcept {
 
     // new_usertype
     std::apply([this](auto &&... params) {
-        auto userType = this->new_usertype<TypeToRegister>(
-//                sol::meta_function::call, [](const TypeToRegister &self, sol::table &data) {
-//
-//                },
-                std::forward<decltype(params)>(params)...);
-
+        auto userType = this->new_usertype<TypeToRegister>(std::forward<decltype(params)>(params)...);
     }, final_table);
 }
 
