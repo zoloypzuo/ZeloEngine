@@ -1,11 +1,8 @@
 # ZeloEngine
 
-[//]: # (build status)
+[//]: # (build status, platform and compiler)
 
 [![Build Status](https://ci.appveyor.com/api/projects/status/43lymnm0g9083f38?svg=true)](https://ci.appveyor.com/project/Zolo-mario/zeloengine)
-
-[//]: # (platform and compiler)
-
 ![Platform](https://img.shields.io/badge/platforms-Windows-blue)
 ![Compiler](https://img.shields.io/badge/MSVC-2019-ff69b4.svg)
 
@@ -20,7 +17,7 @@
 
 [//]: # (interaction)
 
-[![Gitter](https://badges.gitter.im/ZeloEngine/community.svg)](https://gitter.im/ZeloEngine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[comment]: <> ([![Gitter]&#40;https://badges.gitter.im/ZeloEngine/community.svg&#41;]&#40;https://gitter.im/ZeloEngine/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&#41;)
 
 [//]: # (code scene)
 
