@@ -73,34 +73,7 @@
 
 (运行`Tools\export_requirement.py`)
 
-build from source:
-* imgui
-* lua
-* luabitop
-* optick
-* sol2
-* stacktrace
-* tupleutils
-* vcpkg
-* whereami
-
-build from vcpkg:
-* assimp
-* curl
-* glad
-* glfw3
-* gli
-* glm
-* magic-enum
-* nativefiledialog
-* rapidjson
-* refl-cpp
-* rttr
-* sdl2
-* spdlog
-* sqlite3
-* stb
-* taskflow
+[Doc/ThirdParty.md](Doc/ThirdParty.md)
 
 ## 文档
 

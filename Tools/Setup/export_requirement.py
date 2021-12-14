@@ -53,12 +53,6 @@ def find_package(patterns, line):
 
 
 def main():
-    print("build from source:")
-    for dir_ in list_dir(ThirdPartyDir):
-        print("*", dir_.lower())
-
-    print()
-    print("build from vcpkg:")
     libs = set()
     for file in iter_files(EngineDir,
                            lambda name: name == "CMakeLists.txt",
@@ -71,10 +65,18 @@ def main():
                 libs.add(lib_name)
 
     libs = sorted([rename_vcpkg_pkg(lib) for lib in libs])
-    for dir_ in sorted(list(libs)):
-        print("*", dir_)
 
-    print()
+    doc_buffer = []
+    doc_buffer.append("build from source:\n")
+    for dir_ in list_dir(ThirdPartyDir):
+        doc_buffer.append("* " + dir_.lower())
+    doc_buffer.append("")
+    doc_buffer.append("build from vcpkg:\n")
+    for dir_ in sorted(list(libs)):
+        doc_buffer.append("* " + dir_)
+
+    write("../../Doc/ThirdParty.md", "\n".join(doc_buffer))
+
     triplets = ["x86-windows"]
     code = [r"@echo off",
             r"set CurrentDir=%cd%",
