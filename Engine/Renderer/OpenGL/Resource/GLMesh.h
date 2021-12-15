@@ -13,7 +13,7 @@
 namespace Zelo::Renderer::OpenGL {
 class GLMeshData {
 public:
-    GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
+    GLMeshData(Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize);
 
     virtual ~GLMeshData();
 
@@ -28,12 +28,13 @@ private:
     int m_indexSize{}, m_vertSize{};
 };
 
-class GLMesh : public Zelo::Core::RHI::Mesh {
+class GLMesh : public Core::RHI::Mesh {
 public:
-    GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[],
-           int indexSize);
+    GLMesh(const std::string &identifier,
+           Core::RHI::Vertex vertices[], int vertSize,
+           unsigned int indices[], int indexSize);
 
-    explicit GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen);
+    explicit GLMesh(Core::Interface::IMeshData &iMeshGen);
 
     virtual ~GLMesh();
 

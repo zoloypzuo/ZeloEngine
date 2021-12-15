@@ -67,12 +67,13 @@ GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[]
     }
 }
 
-GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) : GLMesh(iMeshGen.getId(),
-                                                                    &iMeshGen.getVertices()[0],
-                                                                    iMeshGen.getVertices().size(),
-                                                                    &iMeshGen.getIndices()[0],
-                                                                    iMeshGen.getIndices().size()
-) {
+GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
+        GLMesh(iMeshGen.getId(),
+               &iMeshGen.getVertices()[0],
+               iMeshGen.getVertices().size(),
+               &iMeshGen.getIndices()[0],
+               iMeshGen.getIndices().size()
+        ) {
 }
 
 GLMesh::~GLMesh() = default;
