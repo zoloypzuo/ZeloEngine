@@ -6,6 +6,7 @@
 #include "ZeloPrerequisites.h"
 
 namespace Zelo::Core::RHI {
+ZELO_PACKED(
 struct Vertex {
     glm::vec3 position{};
     glm::vec2 texCoord{};
@@ -22,5 +23,5 @@ struct Vertex {
         this->normal = normal;
         this->tangent = tangent;
     }
-};
+};)
 }
