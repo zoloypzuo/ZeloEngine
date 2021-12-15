@@ -29,7 +29,7 @@ void GLVertexArray::unbind() const {
 void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexBuffer) {
     ZELO_CORE_ASSERT(!vertexBuffer->getLayout().getElements().empty(), "Vertex Buffer has no layout!");
 
-    this->bind();
+    bind();
     vertexBuffer->bind();
 
     const auto &layout = vertexBuffer->getLayout();
@@ -94,7 +94,7 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
 }
 
 void GLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer) {
-    glBindVertexArray(m_RendererID);
+    bind();
     indexBuffer->bind();
 
     m_IndexBuffer = indexBuffer;
