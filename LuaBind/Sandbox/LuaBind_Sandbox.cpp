@@ -10,6 +10,7 @@
 #include "Craft//CraftPlugin.h"
 #include "GRCookbook/GRCookbookPlugins.h"
 #include "GRCookbook/FinalScenePlugin.h"
+#include "GRCookbook/PBRPlugin.h"
 
 using namespace Zelo;
 

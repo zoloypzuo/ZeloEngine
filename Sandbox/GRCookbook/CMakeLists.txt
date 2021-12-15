@@ -3,6 +3,7 @@ include_directories(.)
 add_library(GRCookbook
         GRCookbookPlugins.cpp
         FinalScenePlugin.cpp
+        PBRPlugin.cpp
 
         Resource/GLMesh1.cpp
         Resource/GLBuffer.cpp
