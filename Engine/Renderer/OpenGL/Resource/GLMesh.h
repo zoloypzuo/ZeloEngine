@@ -9,12 +9,14 @@
 #include "Core/RHI/Buffer/Vertex.h"
 #include "Core/Interface/IMeshData.h"
 
+#include "Renderer/OpenGL/Buffer/GLVertexArray.h"
+
 namespace Zelo::Renderer::OpenGL {
 class GLMesh : public Core::RHI::Mesh {
 public:
     GLMesh(const std::string &identifier,
-           Core::RHI::Vertex vertices[], int vertSize,
-           unsigned int indices[], int indexSize);
+           Core::RHI::Vertex vertices[], size_t vertSize,
+           unsigned int indices[], size_t indexSize);
 
     explicit GLMesh(Core::Interface::IMeshData &iMeshGen);
 
@@ -28,5 +30,7 @@ private:
     GLuint m_ibo{};
 
     int m_indexSize{}, m_vertSize{};
+
+    GLVertexArray m_va{};
 };
 }
