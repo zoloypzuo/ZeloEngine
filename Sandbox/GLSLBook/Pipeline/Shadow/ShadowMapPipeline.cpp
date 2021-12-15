@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ShadowMapPipeline.h"
 #include "Core/Scene/SceneManager.h"
-#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
+#include "Core/RHI/MeshRenderer.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;

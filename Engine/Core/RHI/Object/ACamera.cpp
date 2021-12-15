@@ -8,25 +8,25 @@
 
 using namespace Zelo::Core::ECS;
 
-ACamera::ACamera(Entity &owner) : Zelo::Core::ECS::Component(owner) {}
+Zelo::Core::RHI::ACamera::ACamera(Entity &owner) : Zelo::Core::ECS::Component(owner) {}
 
-glm::mat4 ACamera::getViewMatrix() const {
+glm::mat4 Zelo::Core::RHI::ACamera::getViewMatrix() const {
     return glm::inverse(m_owner.getWorldMatrix());
 }
 
-glm::mat4 PerspectiveCamera::getProjectionMatrix() const {
+glm::mat4 Zelo::Core::RHI::PerspectiveCamera::getProjectionMatrix() const {
     return glm::perspective(m_fov, m_aspect, m_zNear, m_zFar);
 }
 
-void PerspectiveCamera::setFov(float fov) {
+void Zelo::Core::RHI::PerspectiveCamera::setFov(float fov) {
     m_fov = fov;
 }
 
-float PerspectiveCamera::getFov() const {
+float Zelo::Core::RHI::PerspectiveCamera::getFov() const {
     return m_fov;
 }
 
-PerspectiveCamera::PerspectiveCamera(Entity &owner) : ACamera(owner) {
+Zelo::Core::RHI::PerspectiveCamera::PerspectiveCamera(Entity &owner) : ACamera(owner) {
     setProperty("fov", PropertyType::ANGLE, &m_fov, 0, 180);
     setProperty("aspect", PropertyType::FLOAT, &m_aspect, 0, 10);
     setProperty("zNear", PropertyType::FLOAT, &m_zNear, 0, 1);

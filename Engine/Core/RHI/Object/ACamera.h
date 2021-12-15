@@ -9,9 +9,10 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
 
+namespace Zelo::Core::RHI {
 class ACamera : public Zelo::Core::ECS::Component {
 public:
-    ACamera(Zelo::Core::ECS::Entity &owner);;
+    ACamera(ECS::Entity &owner);;
 
     ~ACamera() override = default;
 
@@ -22,9 +23,9 @@ public:
     inline std::string getType() override { return "CAMERA"; }
 };
 
-class PerspectiveCamera : public ACamera {
+class PerspectiveCamera : public Zelo::Core::RHI::ACamera {
 public:
-    PerspectiveCamera(Zelo::Core::ECS::Entity &owner);;
+    PerspectiveCamera(ECS::Entity &owner);;
 
     glm::mat4 getProjectionMatrix() const override;
 
@@ -37,5 +38,6 @@ public:
 public:  // script property
     float m_fov{}, m_aspect{}, m_zNear{}, m_zFar{};
 };
+}
 
 #endif //ZELOENGINE_ACAMERA_H

@@ -1,10 +1,7 @@
 // MeshRenderer.h
 // created on 2021/3/31
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_MESHRENDERER_H
-#define ZELOENGINE_MESHRENDERER_H
-
+#pragma once
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 #include "Core/ECS/Entity.h"
@@ -12,30 +9,26 @@
 #include "Core/RHI/Resource/Material.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
-namespace Zelo::Renderer::OpenGL {
+namespace Zelo::Core::RHI {
 class MeshRenderer : public Zelo::Core::ECS::Component {
 public:
     explicit MeshRenderer(Zelo::Core::ECS::Entity &owner);
 
     ~MeshRenderer() override;
 
-    void render();
-
     inline std::string getType() override { return "MESH_RENDERER"; }
 
 public:
-    ZELO_SCRIPT_API GLMesh &GetMesh() { return *m_mesh; }
+    ZELO_SCRIPT_API Core::RHI::Mesh &GetMesh() { return *m_mesh; }
 
-    ZELO_SCRIPT_API Zelo::Core::RHI::Material &GetMaterial() { return *m_material; }
+    ZELO_SCRIPT_API Core::RHI::Material &GetMaterial() { return *m_material; }
 
-    ZELO_SCRIPT_API void SetMesh(GLMesh &mesh);
+    ZELO_SCRIPT_API void SetMesh(Core::RHI::Mesh &mesh);
 
-    ZELO_SCRIPT_API void SetMaterial(Zelo::Core::RHI::Material &material);
+    ZELO_SCRIPT_API void SetMaterial(Core::RHI::Material &material);
 
 private:
-    GLMesh *m_mesh{};
-    Zelo::Core::RHI::Material *m_material{};
+    Core::RHI::Mesh *m_mesh{};
+    Core::RHI::Material *m_material{};
 };
 }
-
-#endif //ZELOENGINE_MESHRENDERER_H

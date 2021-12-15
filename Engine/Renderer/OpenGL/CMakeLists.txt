@@ -14,7 +14,6 @@ add_library(OpenGLRenderer
         Resource/GLMaterial.cpp Resource/GLMaterial.h
 
         Drawable/skybox.cpp
-        Drawable/MeshRenderer.cpp
         Drawable/Line.cpp
         Drawable/Line.cpp
         Drawable/Frustum.cpp

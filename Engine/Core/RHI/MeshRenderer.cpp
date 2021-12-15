@@ -4,21 +4,15 @@
 #include "ZeloPreCompiledHeader.h"
 #include "MeshRenderer.h"
 
-using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::ECS;
 
-namespace Zelo::Renderer::OpenGL {
-MeshRenderer::MeshRenderer(Zelo::Core::ECS::Entity &owner) : Component(owner) {
-
+namespace Zelo::Core::RHI {
+MeshRenderer::MeshRenderer(Entity &owner) : Component(owner) {
 }
 
 MeshRenderer::~MeshRenderer() = default;
 
-void MeshRenderer::render() {
-    m_material->bind();
-    m_mesh->render();
-}
-
-void MeshRenderer::SetMesh(GLMesh &mesh) {
+void MeshRenderer::SetMesh(Mesh &mesh) {
     m_mesh = &mesh;
 }
 

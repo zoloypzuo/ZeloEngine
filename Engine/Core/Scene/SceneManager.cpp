@@ -5,7 +5,7 @@
 #include "SceneManager.h"
 #include "Core/OS/Time.h"
 #include "Core/RHI/MeshGen/Plane.h"
-#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
+#include "Core/RHI/MeshRenderer.h"
 #include "Core/RHI/Object/ALight.h"
 
 using namespace Zelo::Core::OS;
@@ -78,7 +78,7 @@ const SceneManager::FastAccessComponents &SceneManager::getFastAccessComponents(
     return m_fastAccessComponents;
 }
 
-ACamera *SceneManager::getActiveCamera() const {
+RHI::ACamera *SceneManager::getActiveCamera() const {
     // try user assigned camera
     if (m_activeCamera) {
         return m_activeCamera;
@@ -93,7 +93,7 @@ ACamera *SceneManager::getActiveCamera() const {
 }
 
 // TODO fix sol base class 
-void SceneManager::SetActiveCamera(PerspectiveCamera *camera) {
+void SceneManager::SetActiveCamera(RHI::PerspectiveCamera *camera) {
     m_activeCamera = camera;
 }
 
@@ -110,7 +110,7 @@ void SceneManager::onComponentAdded(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<MeshRenderer *>(&component)) {
         m_fastAccessComponents.meshRenderers.push_back(result);
     }
-    if (auto *result = dynamic_cast<ACamera *>(&component)) {
+    if (auto *result = dynamic_cast<RHI::ACamera *>(&component)) {
         m_fastAccessComponents.cameras.push_back(result);
     }
     if (auto *result = dynamic_cast<ALight *>(&component)) {
@@ -123,7 +123,7 @@ void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
             !m_fastAccessComponents.meshRenderers.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.meshRenderers, result);
     }
-    if (auto *result = dynamic_cast<ACamera *>(&component);
+    if (auto *result = dynamic_cast<RHI::ACamera *>(&component);
             !m_fastAccessComponents.cameras.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.cameras, result);
         if (m_activeCamera == result) {

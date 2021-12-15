@@ -9,9 +9,8 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/Interface/IMeshData.h"
 
-namespace Zelo::Parser {
-
-class MeshLoader : public Core::Interface::IMeshData {
+namespace Zelo::Core::Parser {
+class MeshLoader : public ::Zelo::Core::Interface::IMeshData {
 public:
     MeshLoader(const std::string &meshFileName, int meshIndex);
 
@@ -20,14 +19,14 @@ public:
 public: // IMeshGen
     std::string getId() override;
 
-    std::vector<Core::RHI::Vertex> getVertices() override;
+    std::vector<::Zelo::Core::RHI::Vertex> getVertices() override;
 
     std::vector<uint32_t> getIndices() override;
 
 private:
     // IMeshGen
     std::string m_id{};
-    std::vector<Core::RHI::Vertex> m_vertices{};
+    std::vector<::Zelo::Core::RHI::Vertex> m_vertices{};
     std::vector<uint32_t> m_indices{};
 };
 }

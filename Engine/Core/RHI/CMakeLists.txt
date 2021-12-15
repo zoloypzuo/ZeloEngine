@@ -32,6 +32,7 @@ add_library(RHI
         Object/ACamera.cpp
         Object/ALight.cpp
 
+        MeshRenderer.cpp
         RenderSystem.cpp RenderSystem.h
         RenderPipeline.h
         )
