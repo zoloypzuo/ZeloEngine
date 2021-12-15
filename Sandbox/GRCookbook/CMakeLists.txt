@@ -16,7 +16,7 @@ add_library(GRCookbook
         Resource/GLSceneDataLazy.cpp
         Resource/GLFramebuffer.cpp
 
-        VtxData.cpp
+        VtxData/MeshData.cpp
         Scene.cpp
         Material.cpp
         Bitmap.h

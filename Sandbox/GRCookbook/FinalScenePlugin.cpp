@@ -10,7 +10,7 @@
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
-#include "VtxData.h"
+#include "GRCookbook/VtxData/MeshData.h"
 #include "Scene.h"
 
 #include "GRCookbook/Resource/GLBuffer.h"

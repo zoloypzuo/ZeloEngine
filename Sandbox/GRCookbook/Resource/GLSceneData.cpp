@@ -1,5 +1,6 @@
 ﻿#include "GLSceneData.h"
 #include "Core/Resource/ResourceManager.h"
+#include "VtxData/DrawData.h"
 
 static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTexture> &textures) {
     if (idx == INVALID_TEXTURE) return 0;

@@ -5,9 +5,11 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "GRCookbook/VtxData.h"
+#include "GRCookbook/VtxData/MeshData.h"
+#include "GRCookbook/VtxData/Mesh.h"
 
 #include "Resource/GLBuffer.h"
+#include "VtxData/MeshFileHeader.h"
 
 class GLMesh1 final {
 public:

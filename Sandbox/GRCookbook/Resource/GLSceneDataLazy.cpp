@@ -4,6 +4,7 @@
 #include <stb_image.h>
 
 #include "Core/Resource/ResourceManager.h"
+#include "VtxData/DrawData.h"
 
 static std::string ZELO_PATH(const std::string &fileName) {
     auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();

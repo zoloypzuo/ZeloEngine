@@ -2,9 +2,11 @@
 
 #include "GRCookbook/Scene.h"
 #include "GRCookbook/Material.h"
-#include "GRCookbook/VtxData.h"
+#include "GRCookbook/VtxData/MeshData.h"
 #include "Resource/GLBuffer.h"
 #include "GLTexture.h"
+#include "VtxData/MeshFileHeader.h"
+#include "VtxData/DrawData.h"
 
 class GLSceneData
 {

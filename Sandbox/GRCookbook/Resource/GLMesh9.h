@@ -5,7 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "GRCookbook/VtxData.h"
+#include "GRCookbook/VtxData/MeshData.h"
 
 #include "Resource/GLBuffer.h"
 #include "GLSceneData.h"

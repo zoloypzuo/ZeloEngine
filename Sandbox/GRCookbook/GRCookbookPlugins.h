@@ -13,8 +13,9 @@
 #include "Resource/GLMesh1.h"
 #include "Resource/GLMesh2.h"
 
-#include "VtxData.h"
+#include "GRCookbook/VtxData/MeshData.h"
 #include "Scene.h"
+#include "VtxData/MeshFileHeader.h"
 
 class Ch5MeshRendererPlugin : public Zelo::Plugin {
 public:

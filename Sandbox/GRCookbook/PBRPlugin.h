@@ -11,7 +11,8 @@
 
 #include "GRCookbook/Resource/GLTexture.h"
 
-#include "VtxData.h"
+#include "GRCookbook/VtxData/MeshData.h"
+#include "VtxData/MeshFileHeader.h"
 
 class Ch6PBRPlugin : public Zelo::Plugin {
 public:

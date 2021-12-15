@@ -6,8 +6,10 @@
 
 #include "GRCookbook/Scene.h"
 #include "GRCookbook/Material.h"
-#include "GRCookbook/VtxData.h"
+#include "GRCookbook/VtxData/MeshData.h"
 #include "GLTexture.h"
+#include "VtxData/MeshFileHeader.h"
+#include "VtxData/DrawData.h"
 #include <taskflow/taskflow.hpp>
 
 class GLSceneDataLazy
