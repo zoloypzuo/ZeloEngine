@@ -3,12 +3,45 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "BufferLayout.h"
-#include "Renderer/OpenGL/GLUtil.h"
 
 using namespace Zelo::Core::RHI;
 
+uint32_t ShaderDataTypeSize(EBufferDataType type) {
+    switch (type) {
+        case EBufferDataType::Float:
+            return 4;
+        case EBufferDataType::Float2:
+            return 4 * 2;
+        case EBufferDataType::Float3:
+            return 4 * 3;
+        case EBufferDataType::Float4:
+            return 4 * 4;
+        case EBufferDataType::UByte:
+            return 4 * 1;
+        case EBufferDataType::Mat3:
+            return 4 * 3 * 3;
+        case EBufferDataType::Mat4:
+            return 4 * 4 * 4;
+        case EBufferDataType::Int:
+            return 4;
+        case EBufferDataType::Int2:
+            return 4 * 2;
+        case EBufferDataType::Int3:
+            return 4 * 3;
+        case EBufferDataType::Int4:
+            return 4 * 4;
+        case EBufferDataType::Bool:
+            return 1;
+        case EBufferDataType::None:
+            break;
+    }
+
+    ZELO_CORE_ASSERT(false, "Unknown ShaderDataType!");
+    return 0;
+}
+
 BufferElement::BufferElement(
-        ShaderDataType type,
+        EBufferDataType type,
         const std::string &name,
         bool normalized
 ) : Name(name),
@@ -20,31 +53,31 @@ BufferElement::BufferElement(
 
 uint32_t BufferElement::getComponentCount() const {
     switch (Type) {
-        case ShaderDataType::Float:
+        case EBufferDataType::Float:
             return 1;
-        case ShaderDataType::Float2:
+        case EBufferDataType::Float2:
             return 2;
-        case ShaderDataType::Float3:
+        case EBufferDataType::Float3:
             return 3;
-        case ShaderDataType::Float4:
+        case EBufferDataType::Float4:
             return 4;
-        case ShaderDataType::UByte:
+        case EBufferDataType::UByte:
             return 4;
-        case ShaderDataType::Mat3:
+        case EBufferDataType::Mat3:
             return 3; // 3* float3
-        case ShaderDataType::Mat4:
+        case EBufferDataType::Mat4:
             return 4; // 4* float4
-        case ShaderDataType::Int:
+        case EBufferDataType::Int:
             return 1;
-        case ShaderDataType::Int2:
+        case EBufferDataType::Int2:
             return 2;
-        case ShaderDataType::Int3:
+        case EBufferDataType::Int3:
             return 3;
-        case ShaderDataType::Int4:
+        case EBufferDataType::Int4:
             return 4;
-        case ShaderDataType::Bool:
+        case EBufferDataType::Bool:
             return 1;
-        case ShaderDataType::None:
+        case EBufferDataType::None:
             break;
     }
 

@@ -5,8 +5,44 @@
 #include "GLVertexArray.h"
 #include "Renderer/OpenGL/GLUtil.h"
 #include "Core/RHI/Const/EShaderType.h"
+#include"Core/RHI/Const/EBufferDataType.h"
 
 using namespace Zelo::Core::RHI;
+
+
+GLenum BufferDataTypeToOpenGLBaseType(const EBufferDataType &type) {
+    switch (type) {
+        case EBufferDataType::Float:
+            return GL_FLOAT;
+        case EBufferDataType::Float2:
+            return GL_FLOAT;
+        case EBufferDataType::Float3:
+            return GL_FLOAT;
+        case EBufferDataType::Float4:
+            return GL_FLOAT;
+        case EBufferDataType::UByte:
+            return GL_UNSIGNED_BYTE;
+        case EBufferDataType::Mat3:
+            return GL_FLOAT;
+        case EBufferDataType::Mat4:
+            return GL_FLOAT;
+        case EBufferDataType::Int:
+            return GL_INT;
+        case EBufferDataType::Int2:
+            return GL_INT;
+        case EBufferDataType::Int3:
+            return GL_INT;
+        case EBufferDataType::Int4:
+            return GL_INT;
+        case EBufferDataType::Bool:
+            return GL_BOOL;
+        default:
+            break;
+    }
+
+    ZELO_CORE_ASSERT(false, "Unknown ShaderDataType!");
+    return 0;
+}
 
 namespace Zelo {
 
@@ -43,17 +79,17 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
 
         index = m_VertexBufferIndex;
         size = static_cast<GLint>(element.getComponentCount());
-        type = ShaderDataTypeToOpenGLBaseType(element.Type);
+        type = BufferDataTypeToOpenGLBaseType(element.Type);
         normalized = element.Normalized ? GL_TRUE : GL_FALSE;
         stride = static_cast<GLsizei>(layout.getStride());
         pointer = (const void *) element.Offset;
 
         switch (element.Type) {
-            case ShaderDataType::Float:
-            case ShaderDataType::Float2:
-            case ShaderDataType::Float3:
-            case ShaderDataType::Float4:
-            case ShaderDataType::UByte: {
+            case EBufferDataType::Float:
+            case EBufferDataType::Float2:
+            case EBufferDataType::Float3:
+            case EBufferDataType::Float4:
+            case EBufferDataType::UByte: {
                 glEnableVertexAttribArray(index);
                 glVertexAttribPointer(index, size, type, normalized, stride, pointer);
                 index++;
@@ -61,11 +97,11 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
                 m_VertexBufferIndex = index;
                 break;
             }
-            case ShaderDataType::Int:
-            case ShaderDataType::Int2:
-            case ShaderDataType::Int3:
-            case ShaderDataType::Int4:
-            case ShaderDataType::Bool: {
+            case EBufferDataType::Int:
+            case EBufferDataType::Int2:
+            case EBufferDataType::Int3:
+            case EBufferDataType::Int4:
+            case EBufferDataType::Bool: {
                 glEnableVertexAttribArray(index);
                 glVertexAttribIPointer(index, size, type, stride, pointer);
                 index++;
@@ -73,8 +109,8 @@ void GLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer> &vertexB
                 m_VertexBufferIndex = index;
                 break;
             }
-            case ShaderDataType::Mat3:
-            case ShaderDataType::Mat4: {
+            case EBufferDataType::Mat3:
+            case EBufferDataType::Mat4: {
                 for (auto i = 0; i < size; i++) {
                     glEnableVertexAttribArray(index);
                     glVertexAttribPointer(index, size, type, normalized, stride, pointer);

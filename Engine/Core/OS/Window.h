@@ -20,7 +20,7 @@ class Window :
         public IRuntimeModule,
         public Zelo::Core::Interface::IView {
 public:
-     Window();
+    Window();
 
     ~Window() override;
 

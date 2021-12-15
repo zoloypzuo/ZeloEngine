@@ -13,13 +13,13 @@ using namespace Zelo::Renderer::OpenGL;
 GLMesh::GLMesh(Vertex vertices[], size_t vertSize, uint32_t indices[],
                size_t indexSize) {
 
-    auto vertexBuffer = std::make_shared<GLVertexBuffer>((float *)vertices, vertSize * sizeof(Vertex));
+    auto vertexBuffer = std::make_shared<GLVertexBuffer>((float *) vertices, vertSize * sizeof(Vertex));
     vertexBuffer->setLayout(BufferLayout(
             {
-                    BufferElement(ShaderDataType::Float3, "position"),
-                    BufferElement(ShaderDataType::Float2, "texCoord"),
-                    BufferElement(ShaderDataType::Float3, "normal"),
-                    BufferElement(ShaderDataType::Float3, "tangent")
+                    BufferElement(EBufferDataType::Float3, "position"),
+                    BufferElement(EBufferDataType::Float2, "texCoord"),
+                    BufferElement(EBufferDataType::Float3, "normal"),
+                    BufferElement(EBufferDataType::Float3, "tangent")
             }));
     auto indexBuffer = std::make_shared<GLIndexBuffer>(indices, indexSize);
 
