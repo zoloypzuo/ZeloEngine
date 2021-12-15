@@ -5,45 +5,26 @@
 #include "GLMesh.h"
 
 #include "Core/Parser/MeshLoader.h"
+#include "Renderer/OpenGL/Buffer/GLBuffer.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
-GLMesh::GLMesh(Vertex vertices[], size_t vertSize, unsigned int indices[],
+GLMesh::GLMesh(Vertex vertices[], size_t vertSize, uint32_t indices[],
                size_t indexSize) {
-    m_vertSize = vertSize;
-    m_indexSize = indexSize;
 
-    glGenVertexArrays(1, &m_vao);
-    glBindVertexArray(m_vao);
+    auto vertexBuffer = std::make_shared<GLVertexBuffer>((float *)vertices, vertSize * sizeof(Vertex));
+    vertexBuffer->setLayout(BufferLayout(
+            {
+                    BufferElement(ShaderDataType::Float3, "position"),
+                    BufferElement(ShaderDataType::Float2, "texCoord"),
+                    BufferElement(ShaderDataType::Float3, "normal"),
+                    BufferElement(ShaderDataType::Float3, "tangent")
+            }));
+    auto indexBuffer = std::make_shared<GLIndexBuffer>(indices, indexSize);
 
-    glGenBuffers(1, &m_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertSize * sizeof(Vertex), vertices, GL_STATIC_DRAW);
-
-    glGenBuffers(1, &m_ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), 0);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex),
-                          (GLvoid *) sizeof(glm::vec3));
-
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex),
-                          (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2)));
-
-    glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Vertex),
-                          (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
-
-    glBindVertexArray(0);
+    m_vao.addVertexBuffer(vertexBuffer);
+    m_vao.setIndexBuffer(indexBuffer);
 }
 
 GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
@@ -53,14 +34,11 @@ GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
                iMeshGen.getIndices().size()) {
 }
 
-GLMesh::~GLMesh() {
-    glDeleteBuffers(1, &m_vbo);
-    glDeleteVertexArrays(1, &m_vao);
-};
+GLMesh::~GLMesh() = default;
 
 void GLMesh::render() const {
-    glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, m_indexSize, GL_UNSIGNED_INT, (void *) 0);
-    glBindVertexArray(0);
+    m_vao.bind();
+    glDrawElements(GL_TRIANGLES, m_vao.getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+    m_vao.unbind();
 }
 
