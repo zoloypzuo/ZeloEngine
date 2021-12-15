@@ -16,7 +16,6 @@ struct MeshData {
     std::vector<Mesh> meshes_;
     std::vector<BoundingBox> boxes_;
 };
-
 static_assert(sizeof(BoundingBox) == sizeof(float) * 6);
 
 MeshFileHeader loadMeshData(const char *meshFile, MeshData &out);

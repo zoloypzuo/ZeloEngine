@@ -3,7 +3,6 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "GLMesh1.h"
-#include "VtxData/MeshFileHeader.h"
 
 
 struct DrawElementsIndirectCommand {

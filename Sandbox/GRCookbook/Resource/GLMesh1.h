@@ -9,7 +9,6 @@
 #include "GRCookbook/VtxData/Mesh.h"
 
 #include "Resource/GLBuffer.h"
-#include "VtxData/MeshFileHeader.h"
 
 class GLMesh1 final {
 public:

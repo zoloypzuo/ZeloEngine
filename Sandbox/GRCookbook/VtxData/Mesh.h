@@ -1,10 +1,5 @@
 #pragma once
 
-#include <stdint.h>
-#include <glm/glm.hpp>
-#include "GRCookbook/Util/Utils.h"
-#include "GRCookbook/Util/UtilsMath.h"
-
 constexpr const uint32_t kMaxLODs = 8;
 constexpr const uint32_t kMaxStreams = 8;
 

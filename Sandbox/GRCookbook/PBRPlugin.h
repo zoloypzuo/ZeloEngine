@@ -11,8 +11,6 @@
 
 #include "GRCookbook/Texture/GLTexture.h"
 
-#include "VtxData/MeshFileHeader.h"
-
 class Ch6PBRPlugin : public Zelo::Plugin {
 public:
     const std::string &getName() const override;;
@@ -37,7 +35,6 @@ private:
     std::unique_ptr<GLBuffer> perFrameDataBuffer{};
     std::unique_ptr<GLBuffer> modelMatrices{};
     std::unique_ptr<GLMeshPVP> mesh{};
-    MeshFileHeader header;
 
     std::unique_ptr<GLTexture> texAO;
     std::unique_ptr<GLTexture> texEmissive;

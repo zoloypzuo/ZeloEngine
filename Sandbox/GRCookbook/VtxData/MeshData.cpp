@@ -1,5 +1,4 @@
 #include "MeshData.h"
-#include "VtxData/MeshFileHeader.h"
 
 #include <algorithm>
 #include <assert.h>
