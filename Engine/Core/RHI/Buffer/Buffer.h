@@ -1,14 +1,12 @@
 // Buffer.h
 // created on 2021/6/6
 // author @zoloypzuo
-
 #pragma once
 
 #include "ZeloPrerequisites.h"
 #include "BufferLayout.h"
 
 namespace Zelo {
-
 class VertexBuffer {
 public:
     virtual ~VertexBuffer() = default;
@@ -22,10 +20,6 @@ public:
     virtual const BufferLayout &getLayout() const = 0;
 
     virtual void setLayout(const BufferLayout &layout) = 0;
-
-//    static std::shared_ptr<VertexBuffer> Create(uint32_t size);
-//
-//    static std::shared_ptr<VertexBuffer> Create(float *vertices, uint32_t size);
 };
 
 // Currently Zelo only supports 32-bit index buffers
@@ -38,8 +32,5 @@ public:
     virtual void unbind() const = 0;
 
     virtual int32_t getCount() const = 0;
-
-//    static std::shared_ptr<IndexBuffer> Create(uint32_t *indices, uint32_t count);
 };
-
 }

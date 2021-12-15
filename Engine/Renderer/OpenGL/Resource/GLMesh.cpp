@@ -8,7 +8,8 @@
 
 using namespace Zelo::Renderer::OpenGL;
 
-GLMeshData::GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
+GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[],
+               int indexSize) {
     m_vertSize = vertSize;
     m_indexSize = indexSize;
 
@@ -44,29 +45,6 @@ GLMeshData::GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigne
     glBindVertexArray(0);
 }
 
-GLMeshData::~GLMeshData() {
-    glDeleteBuffers(1, &m_vbo);
-    glDeleteVertexArrays(1, &m_vao);
-}
-
-void GLMeshData::render() const {
-    glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, m_indexSize, GL_UNSIGNED_INT, (void *) 0);
-    glBindVertexArray(0);
-}
-
-std::map<std::string, std::weak_ptr<GLMeshData>> m_meshCache;
-
-GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[],
-               int indexSize) {
-    auto it = m_meshCache.find(identifier);
-
-    if (it == m_meshCache.end() || !(m_meshData = it->second.lock())) {
-        m_meshData = std::make_shared<GLMeshData>(vertices, vertSize, indices, indexSize);
-        m_meshCache[identifier] = m_meshData;
-    }
-}
-
 GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
         GLMesh(iMeshGen.getId(),
                &iMeshGen.getVertices()[0],
@@ -76,10 +54,14 @@ GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
         ) {
 }
 
-GLMesh::~GLMesh() = default;
+GLMesh::~GLMesh() {
+    glDeleteBuffers(1, &m_vbo);
+    glDeleteVertexArrays(1, &m_vao);
+};
 
 void GLMesh::render() const {
-    m_meshData->render();
+    glBindVertexArray(m_vao);
+    glDrawElements(GL_TRIANGLES, m_indexSize, GL_UNSIGNED_INT, (void *) 0);
+    glBindVertexArray(0);
 }
-
 
