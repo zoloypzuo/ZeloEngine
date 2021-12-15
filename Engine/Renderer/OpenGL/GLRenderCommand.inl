@@ -22,17 +22,6 @@ void GLRenderSystem::setViewport(int32_t x, int32_t y, int32_t width, int32_t he
     glViewport(x, y, width, height);
 }
 
-void GLRenderSystem::drawIndexed(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t indexCount) {
-    int32_t count = indexCount ? indexCount : vertexArray->getIndexBuffer()->getCount();
-    glDrawElements(GL_TRIANGLES, count, GL_UNSIGNED_INT, nullptr);
-    glBindTexture(GL_TEXTURE_2D, 0);
-}
-
-void GLRenderSystem::drawArray(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) {
-    count = count ? count : vertexArray->getIndexBuffer()->getCount();
-    glDrawArrays(GL_TRIANGLES, start, count);
-}
-
 void GLRenderSystem::setCapabilityEnabled(ERenderCapability capability, bool value) {
     (value ? glEnable : glDisable)(static_cast<GLenum>(capability));
 }

@@ -52,10 +52,6 @@ public: // RenderCommand
 
     void clear(bool colorBuffer, bool depthBuffer, bool stencilBuffer) override;
 
-    void drawIndexed(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t indexCount) override;
-
-    void drawArray(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) override;
-
     void setCapabilityEnabled(Core::RHI::ERenderCapability capability, bool value) override;
 
     bool getCapabilityEnabled(Core::RHI::ERenderCapability capability) override;
