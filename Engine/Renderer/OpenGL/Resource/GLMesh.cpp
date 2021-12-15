@@ -9,7 +9,7 @@
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
-GLMesh::GLMesh(const std::string &identifier, Vertex vertices[], size_t vertSize, unsigned int indices[],
+GLMesh::GLMesh(Vertex vertices[], size_t vertSize, unsigned int indices[],
                size_t indexSize) {
     m_vertSize = vertSize;
     m_indexSize = indexSize;
@@ -47,8 +47,7 @@ GLMesh::GLMesh(const std::string &identifier, Vertex vertices[], size_t vertSize
 }
 
 GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
-        GLMesh(iMeshGen.getId(),
-               &iMeshGen.getVertices()[0],
+        GLMesh(&iMeshGen.getVertices()[0],
                iMeshGen.getVertices().size(),
                &iMeshGen.getIndices()[0],
                iMeshGen.getIndices().size()) {

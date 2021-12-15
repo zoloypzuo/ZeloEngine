@@ -14,8 +14,7 @@
 namespace Zelo::Renderer::OpenGL {
 class GLMesh : public Core::RHI::Mesh {
 public:
-    GLMesh(const std::string &identifier,
-           Core::RHI::Vertex vertices[], size_t vertSize,
+    GLMesh(Core::RHI::Vertex vertices[], size_t vertSize,
            unsigned int indices[], size_t indexSize);
 
     explicit GLMesh(Core::Interface::IMeshData &iMeshGen);
