@@ -4,10 +4,10 @@
 
 #include "Resource/GLBuffer.h"
 
-#include "GRCookbook/Scene.h"
-#include "GRCookbook/Material.h"
+#include "GRCookbook/Scene/Scene.h"
+#include "GRCookbook/Material/Material.h"
 #include "GRCookbook/VtxData/MeshData.h"
-#include "GLTexture.h"
+#include "GRCookbook/Texture/GLTexture.h"
 #include "VtxData/MeshFileHeader.h"
 #include "VtxData/DrawData.h"
 #include <taskflow/taskflow.hpp>

@@ -1,5 +1,5 @@
 ﻿#include "Scene.h"
-#include "Utils.h"
+#include "GRCookbook/Util/Utils.h"
 
 #include <algorithm>
 #include <numeric>
@@ -251,99 +251,6 @@ using ItemMap = std::unordered_map<uint32_t, uint32_t>;
 void mergeMaps(ItemMap &m, const ItemMap &otherMap, int indexOffset, int itemOffset) {
     for (const auto &i: otherMap)
         m[i.first + indexOffset] = i.second + itemOffset;
-}
-
-/**
-	There are different use cases for scene merging.
-	The simplest one is the direct "gluing" of multiple scenes into one [all the material lists and mesh lists are merged and indices in all scene nodes are shifted appropriately]
-	The second one is creating a "grid" of objects (or scenes) with the same material and mesh sets.
-	For the second use case we need two flags: 'mergeMeshes' and 'mergeMaterials' to avoid shifting mesh indices
-*/
-void mergeScenes(Scene &scene, const std::vector<Scene *> &scenes, const std::vector<glm::mat4> &rootTransforms,
-                 const std::vector<uint32_t> &meshCounts,
-                 bool mergeMeshes, bool mergeMaterials) {
-    // Create new root node
-    scene.hierarchy_ = {
-            {
-                    -1,
-                    1,
-                    -1,
-                    -1,
-                    0
-            }
-    };
-
-    scene.nameForNode_[0] = 0;
-    scene.names_ = {"NewRoot"};
-
-    scene.localTransform_.push_back(glm::mat4(1.f));
-    scene.globalTransform_.push_back(glm::mat4(1.f));
-
-    if (scenes.empty())
-        return;
-
-    int offs = 1;
-    int meshOffs = 0;
-    int nameOffs = (int) scene.names_.size();
-    int materialOfs = 0;
-    auto meshCount = meshCounts.begin();
-
-    if (!mergeMaterials)
-        scene.materialNames_ = scenes[0]->materialNames_;
-
-    // FIXME: too much logic (for all the components in a scene, though mesh data and materials go separately - there are dedicated data lists)
-    for (const Scene *s: scenes) {
-        mergeVectors(scene.localTransform_, s->localTransform_);
-        mergeVectors(scene.globalTransform_, s->globalTransform_);
-
-        mergeVectors(scene.hierarchy_, s->hierarchy_);
-
-        mergeVectors(scene.names_, s->names_);
-        if (mergeMaterials)
-            mergeVectors(scene.materialNames_, s->materialNames_);
-
-        int nodeCount = (int) s->hierarchy_.size();
-
-        shiftNodes(scene, offs, nodeCount, offs);
-
-        mergeMaps(scene.meshes_, s->meshes_, offs, mergeMeshes ? meshOffs : 0);
-        mergeMaps(scene.materialForNode_, s->materialForNode_, offs, mergeMaterials ? materialOfs : 0);
-        mergeMaps(scene.nameForNode_, s->nameForNode_, offs, nameOffs);
-
-        offs += nodeCount;
-
-        materialOfs += (int) s->materialNames_.size();
-        nameOffs += (int) s->names_.size();
-
-        if (mergeMeshes) {
-            meshOffs += *meshCount;
-            meshCount++;
-        }
-    }
-
-    // fixing 'nextSibling' fields in the old roots (zero-index in all the scenes)
-    offs = 1;
-    int idx = 0;
-    for (const Scene *s: scenes) {
-        int nodeCount = (int) s->hierarchy_.size();
-        bool isLast = (idx == scenes.size() - 1);
-        // calculate new next sibling for the old scene roots
-        int next = isLast ? -1 : offs + nodeCount;
-        scene.hierarchy_[offs].nextSibling_ = next;
-        // attach to new root
-        scene.hierarchy_[offs].parent_ = 0;
-
-        // transform old root nodes, if the transforms are given
-        if (!rootTransforms.empty())
-            scene.localTransform_[offs] = rootTransforms[idx] * scene.localTransform_[offs];
-
-        offs += nodeCount;
-        idx++;
-    }
-
-    // now shift levels of all nodes below the root
-    for (auto i = scene.hierarchy_.begin() + 1; i != scene.hierarchy_.end(); i++)
-        i->level_++;
 }
 
 void dumpSceneToDot(const char *fileName, const Scene &scene, int *visited) {

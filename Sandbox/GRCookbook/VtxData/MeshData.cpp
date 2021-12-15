@@ -111,46 +111,6 @@ void loadBoundingBoxes(const char* fileName, std::vector<BoundingBox>& boxes)
 	fclose(f);
 }
 
-// Combine a list of meshes to a single mesh container
-MeshFileHeader mergeMeshData(MeshData& m, const std::vector<MeshData*> md)
-{
-	uint32_t totalVertexDataSize = 0;
-	uint32_t totalIndexDataSize  = 0;
-
-	uint32_t offs = 0;
-	for (const MeshData* i: md)
-	{
-		mergeVectors(m.indexData_, i->indexData_);
-		mergeVectors(m.vertexData_, i->vertexData_);
-		mergeVectors(m.meshes_, i->meshes_);
-		mergeVectors(m.boxes_, i->boxes_);
-
-		uint32_t vtxOffset = totalVertexDataSize / 8;  /* 8 is the number of per-vertex attributes: position, normal + UV */
-
-		for (size_t j = 0 ; j < (uint32_t)i->meshes_.size() ; j++)
-			// m.vertexCount, m.lodCount and m.streamCount do not change
-			// m.vertexOffset also does not change, because vertex offsets are local (i.e., baked into the indices)
-			m.meshes_[offs + j].indexOffset += totalIndexDataSize;
-
-		// shift individual indices
-		for(size_t j = 0 ; j < i->indexData_.size() ; j++)
-			m.indexData_[totalIndexDataSize + j] += vtxOffset;
-
-		offs += (uint32_t)i->meshes_.size();
-
-		totalIndexDataSize += (uint32_t)i->indexData_.size();
-		totalVertexDataSize += (uint32_t)i->vertexData_.size();
-	}
-
-	return MeshFileHeader {
-		0x12345678,
-		(uint32_t)offs,
-		(uint32_t )(sizeof(MeshFileHeader) + offs * sizeof(Mesh)),
-		static_cast<uint32_t>(totalIndexDataSize * sizeof(uint32_t)),
-		static_cast<uint32_t>(totalVertexDataSize * sizeof(float))
-	};
-}
-
 void recalculateBoundingBoxes(MeshData& m)
 {
 	m.boxes_.clear();

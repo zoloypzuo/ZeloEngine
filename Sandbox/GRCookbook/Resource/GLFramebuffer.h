@@ -2,7 +2,7 @@
 
 #include "ZeloGLPrerequisites.h"
 #include <memory>
-#include "GLTexture.h"
+#include "GRCookbook/Texture/GLTexture.h"
 
 class GLFramebuffer
 {

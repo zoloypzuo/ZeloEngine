@@ -11,10 +11,10 @@
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 #include "GRCookbook/VtxData/MeshData.h"
-#include "Scene.h"
+#include "GRCookbook/Scene/Scene.h"
 
 #include "GRCookbook/Resource/GLBuffer.h"
-#include "GRCookbook/Resource/GLTexture.h"
+#include "GRCookbook/Texture/GLTexture.h"
 #include "GRCookbook/Resource/GLMesh9.h"
 #include "GRCookbook/Resource/GLSkyboxRenderer.h"
 #include "GRCookbook/Resource/GLSceneDataLazy.h"

@@ -9,9 +9,8 @@
 #include "Resource/GLBuffer.h"
 #include "Resource/GLMeshPVP.h"
 
-#include "GRCookbook/Resource/GLTexture.h"
+#include "GRCookbook/Texture/GLTexture.h"
 
-#include "GRCookbook/VtxData/MeshData.h"
 #include "VtxData/MeshFileHeader.h"
 
 class Ch6PBRPlugin : public Zelo::Plugin {

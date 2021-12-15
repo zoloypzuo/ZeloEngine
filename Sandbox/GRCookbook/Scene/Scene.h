@@ -90,8 +90,5 @@ void printChangedNodes(const Scene& scene);
 
 void dumpSceneToDot(const char* fileName, const Scene& scene, int* visited = nullptr);
 
-void mergeScenes(Scene& scene, const std::vector<Scene*>& scenes, const std::vector<glm::mat4>& rootTransforms, const std::vector<uint32_t>& meshCounts,
-		bool mergeMeshes = true, bool mergeMaterials = true);
-
 // Delete a collection of nodes from a scenegraph
 void deleteSceneNodes(Scene& scene, const std::vector<uint32_t>& nodesToDelete);

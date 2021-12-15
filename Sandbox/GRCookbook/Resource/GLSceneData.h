@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#include "GRCookbook/Scene.h"
-#include "GRCookbook/Material.h"
+#include "GRCookbook/Scene/Scene.h"
+#include "GRCookbook/Material/Material.h"
 #include "GRCookbook/VtxData/MeshData.h"
 #include "Resource/GLBuffer.h"
-#include "GLTexture.h"
+#include "GRCookbook/Texture/GLTexture.h"
 #include "VtxData/MeshFileHeader.h"
 #include "VtxData/DrawData.h"
 

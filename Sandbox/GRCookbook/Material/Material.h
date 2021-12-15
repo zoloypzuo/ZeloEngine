@@ -39,13 +39,3 @@ static_assert(sizeof(MaterialDescription) % 16 == 0, "MaterialDescription should
 
 void saveMaterials(const char* fileName, const std::vector<MaterialDescription>& materials, const std::vector<std::string>& files);
 void loadMaterials(const char* fileName, std::vector<MaterialDescription>& materials, std::vector<std::string>& files);
-
-// Merge material lists from multiple scenes (follows the logic of merging in mergeScenes)
-void mergeMaterialLists(
-	// Input:
-	const std::vector< std::vector<MaterialDescription>* >& oldMaterials, // all materials
-	const std::vector< std::vector<std::string>* >& oldTextures,          // all textures from all material lists
-	// Output:
-	std::vector<MaterialDescription>& allMaterials,
-	std::vector<std::string>& newTextures                                // all textures (merged from oldTextures, only unique items)
-);
