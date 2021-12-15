@@ -10,35 +10,10 @@
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 #include "Resource/GLBuffer.h"
-#include "Resource/GLMesh1.h"
 #include "Resource/GLMesh2.h"
 
 #include "GRCookbook/Scene/Scene.h"
 #include "VtxData/MeshFileHeader.h"
-
-class Ch5MeshRendererPlugin : public Zelo::Plugin {
-public:
-    const std::string &getName() const override;;
-
-    void install() override;
-
-    void uninstall() override;
-
-    void initialize() override;
-
-    void update() override;
-
-    void render() override;
-
-private:
-    std::unique_ptr<GLSLShaderProgram> m_meshShader{};
-    std::unique_ptr<GLBuffer> perFrameDataBuffer{};
-    std::unique_ptr<GLBuffer> modelMatrices{};
-    std::unique_ptr<GLMesh1> mesh{};
-    MeshFileHeader header;
-
-    Zelo::Core::ECS::Entity *entity{};
-};
 
 class Ch7LargeScenePlugin : public Zelo::Plugin {
 public:

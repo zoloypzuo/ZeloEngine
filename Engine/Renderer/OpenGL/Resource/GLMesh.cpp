@@ -75,8 +75,7 @@ GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) : GLMesh(iMeshGen.get
 ) {
 }
 
-GLMesh::~GLMesh() {
-}
+GLMesh::~GLMesh() = default;
 
 void GLMesh::render() const {
     m_meshData->render();

@@ -36,34 +36,6 @@ luaState.new_usertype<CraftPlugin>("CraftPlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}
 );
-luaState.new_usertype<Ch5MeshRendererPlugin>("Ch5MeshRendererPlugin",
-sol::base_classes, sol::bases<Plugin>(),
-"__Dummy", []{}
-);
-luaState.new_usertype<TemplatePlugin>("TemplatePlugin",
-sol::base_classes, sol::bases<Plugin>(),
-"__Dummy", []{}
-);
-luaState.new_usertype<Ch6PBRPlugin>("Ch6PBRPlugin",
-sol::base_classes, sol::bases<Plugin>(),
-"__Dummy", []{}
-);
-luaState.new_usertype<Ch7LargeScenePlugin>("Ch7LargeScenePlugin",
-sol::base_classes, sol::bases<Plugin>(),
-"__Dummy", []{}
-);
-luaState.new_usertype<FinalScene::Ch10FinalPlugin>("Ch10FinalPlugin",
-sol::base_classes, sol::bases<Plugin>(),
-"__Dummy", []{}
-);
-luaState.new_usertype<CraftPlugin>("CraftPlugin",
-sol::base_classes, sol::bases<Plugin>(),
-"__Dummy", []{}
-);
-luaState.new_usertype<Ch5MeshRendererPlugin>("Ch5MeshRendererPlugin",
-sol::base_classes, sol::bases<Plugin>(),
-"__Dummy", []{}
-);
 luaState.new_usertype<TemplatePlugin>("TemplatePlugin",
 sol::base_classes, sol::bases<Plugin>(),
 "__Dummy", []{}

@@ -5,7 +5,6 @@ add_library(GRCookbook
         FinalScenePlugin.cpp
         PBRPlugin.cpp
 
-        Resource/GLMesh1.cpp
         Resource/GLBuffer.cpp
         Resource/GLMeshPVP.cpp
         Resource/GLMesh2.cpp
