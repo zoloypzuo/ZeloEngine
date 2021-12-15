@@ -7,7 +7,6 @@
 #include "Buffer.h"
 
 namespace Zelo {
-
 class VertexArray {
 public:
     virtual ~VertexArray() = default;
@@ -24,6 +23,4 @@ public:
 
     virtual const std::shared_ptr<IndexBuffer> &getIndexBuffer() const = 0;
 };
-
 }
-
