@@ -279,7 +279,7 @@ void Ch10FinalPlugin::Impl::render() {
 
     auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
 
-    if (!g_FreezeCullingView){
+    if (!g_FreezeCullingView) {
         // update cull view
         g_CullingView = camera->getViewMatrix();
     }

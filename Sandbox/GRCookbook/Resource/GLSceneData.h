@@ -8,22 +8,21 @@
 #include "VtxData/MeshFileHeader.h"
 #include "VtxData/DrawData.h"
 
-class GLSceneData
-{
+class GLSceneData {
 public:
-	GLSceneData(
-		const char* meshFile,
-		const char* sceneFile,
-		const char* materialFile);
+    GLSceneData(
+            const char *meshFile,
+            const char *sceneFile,
+            const char *materialFile);
 
-	std::vector<GLTexture> allMaterialTextures_;
+    std::vector<GLTexture> allMaterialTextures_;
 
-	MeshFileHeader header_;
-	MeshData meshData_;
+    MeshFileHeader header_;
+    MeshData meshData_;
 
-	Scene scene_;
-	std::vector<MaterialDescription> materials_;
-	std::vector<DrawData> shapes_;
+    Scene scene_;
+    std::vector<MaterialDescription> materials_;
+    std::vector<DrawData> shapes_;
 
-	void loadScene(const char* sceneFile);
+    void loadScene(const char *sceneFile);
 };

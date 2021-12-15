@@ -7,7 +7,7 @@
 
 #include "Foundation/ZeloPlugin.h"
 
-namespace Zelo::Core::ECS{
+namespace Zelo::Core::ECS {
 class Entity;
 }
 

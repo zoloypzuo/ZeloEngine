@@ -17,7 +17,7 @@ public:
             const char *envMap,
             const char *envMapIrradiance,
             const char *brdfLUTFileName
-            );
+    );
 
     ~GLSkyboxRenderer();
 
