@@ -43,7 +43,7 @@ local PanelWindow = Class(PanelTransformable, function(self, name, opened, panel
     self.m_scrolledToBottom = false;
     self.m_scrolledToTop = false;
 
-    self.m_windowSize = {0, 0}
+    self.m_windowSize = { 0, 0 }
 end)
 
 function PanelWindow:SetOpened(value)
@@ -76,7 +76,7 @@ function PanelWindow:_UpdateSizeConstraint()
 end
 
 function PanelWindow:_UpdateStatus()
-    self.m_windowSize = {ImGui.GetWindowSize()}
+    self.m_windowSize = { ImGui.GetWindowSize() }
     self.hovered = ImGui.IsWindowHovered()
     self.focused = ImGui.IsWindowFocused()
     local scrollY = ImGui.GetScrollY()
@@ -102,8 +102,10 @@ function PanelWindow:_UpdateImpl()
         self:_UpdateStatus()
         self:UpdateTransform()
         self:UpdateWidgets()
+        ImGui.End();
+    elseif self.opened then
+        ImGui.End();
     end
-    ImGui.End()
 end
 
 return PanelWindow
