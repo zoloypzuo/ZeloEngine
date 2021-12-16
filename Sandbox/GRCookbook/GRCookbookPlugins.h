@@ -37,8 +37,5 @@ private:
     std::unique_ptr<GLMesh2> mesh2{};
     MeshFileHeader header;
 
-    std::unique_ptr<GLSceneData> sceneData1;
-    std::unique_ptr<GLSceneData> sceneData2;
-
     Zelo::Core::ECS::Entity *entity{};
 };
