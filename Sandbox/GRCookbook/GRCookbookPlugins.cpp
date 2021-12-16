@@ -58,8 +58,7 @@ void Ch7LargeScenePlugin::initialize() {
     glBindBufferRange(GL_UNIFORM_BUFFER, 0, perFrameDataBuffer->getHandle(), 0, kUniformBufferSize);
 
     // mesh
-    std::unique_ptr<GLSceneData> sceneData1;
-    std::unique_ptr<GLSceneData> sceneData2;
+
     sceneData1 = std::make_unique<GLSceneData>(ZELO_PATH("data/meshes/test.meshes").c_str(),
                                                ZELO_PATH("data/meshes/test.scene").c_str(),
                                                ZELO_PATH("data/meshes/test.materials").c_str());
