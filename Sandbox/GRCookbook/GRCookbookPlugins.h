@@ -19,25 +19,22 @@ class Ch7LargeScenePlugin : public Zelo::Plugin {
 public:
     const std::string &getName() const override;;
 
-    void install() override;
+    void install() override {}
 
-    void uninstall() override;
+    void uninstall() override {}
 
     void initialize() override;
 
-    void update() override;
+    void update() override {}
 
     void render() override;
 
 private:
     std::unique_ptr<GLSLShaderProgram> m_meshShader{};
     std::unique_ptr<GLBuffer> perFrameDataBuffer{};
-    std::unique_ptr<GLBuffer> modelMatrices{};
     std::unique_ptr<GLMesh2> mesh1{};
     std::unique_ptr<GLMesh2> mesh2{};
     MeshFileHeader header;
     std::unique_ptr<GLSceneData> sceneData1;
     std::unique_ptr<GLSceneData> sceneData2;
-
-    Zelo::Core::ECS::Entity *entity{};
 };

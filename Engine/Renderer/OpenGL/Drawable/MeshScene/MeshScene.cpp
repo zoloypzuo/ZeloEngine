@@ -5,7 +5,6 @@
 #include "MeshScene.h"
 
 #include "Core/RHI/Buffer/Vertex.h"
-#include "Core/Interface/IMeshData.h"
 #include "Core/Resource/ResourceManager.h"
 
 #include "Renderer/OpenGL/Buffer/GLBuffer.h"  // GLBufferImmutable
@@ -17,7 +16,6 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/Mesh.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshFileHeader.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
@@ -57,8 +55,8 @@ struct MeshScene::Impl {
 
     std::unique_ptr<GLIndirectCommandBuffer> bufferIndirect_;
 
-    GLShaderStorageBuffer bufferMaterials_;
-    GLShaderStorageBuffer bufferModelMatrices_;
+    GLShaderStorageBuffer bufferMaterials_;  // Matrices
+    GLShaderStorageBuffer bufferModelMatrices_;  // Materials
 
     std::vector<GLTexture> allMaterialTextures_;
 
@@ -68,7 +66,6 @@ struct MeshScene::Impl {
     Scene scene_;
     std::vector<MaterialDescription> materials_;
     std::vector<DrawData> shapes_;
-
 
     explicit Impl() :
             bufferMaterials_(Core::RHI::EAccessSpecifier::STREAM_DRAW),
@@ -173,9 +170,8 @@ struct MeshScene::Impl {
         bufferMaterials_.bind(kBufferIndex_Materials);
         bufferModelMatrices_.bind(kBufferIndex_ModelMatrices);
         bufferIndirect_->bind();
-        glMultiDrawElementsIndirectCount(
-                GL_TRIANGLES, GL_UNSIGNED_INT,
-                (const void *) sizeof(GLsizei), 0, m_count, 0);
+        const void *pStart = (const void *) sizeof(GLsizei); // NOLINT(performance-no-int-to-ptr)
+        glMultiDrawElementsIndirectCount(GL_TRIANGLES, GL_UNSIGNED_INT, pStart, 0, m_count, 0);
     }
 };
 
