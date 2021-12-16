@@ -10,17 +10,19 @@
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
+const static BufferLayout s_BufferLayout(
+        {
+                BufferElement(EBufferDataType::Float3, "position"),
+                BufferElement(EBufferDataType::Float2, "texCoord"),
+                BufferElement(EBufferDataType::Float3, "normal"),
+                BufferElement(EBufferDataType::Float3, "tangent")
+        });
+
 GLMesh::GLMesh(Vertex vertices[], size_t vertSize, uint32_t indices[],
                size_t indexSize) {
 
     auto vertexBuffer = std::make_shared<GLVertexBuffer>((float *) vertices, vertSize * sizeof(Vertex));
-    vertexBuffer->setLayout(BufferLayout(
-            {
-                    BufferElement(EBufferDataType::Float3, "position"),
-                    BufferElement(EBufferDataType::Float2, "texCoord"),
-                    BufferElement(EBufferDataType::Float3, "normal"),
-                    BufferElement(EBufferDataType::Float3, "tangent")
-            }));
+    vertexBuffer->setLayout(s_BufferLayout);
     auto indexBuffer = std::make_shared<GLIndexBuffer>(indices, indexSize);
 
     m_vao.addVertexBuffer(vertexBuffer);
