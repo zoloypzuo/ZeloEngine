@@ -11,13 +11,14 @@ add_library(OpenGLRenderer
         Resource/GLMesh.cpp
         Resource/GLTexture.cpp
         Resource/GLSLShaderProgram.cpp
-        Resource/GLMaterial.cpp Resource/GLMaterial.h
+        Resource/GLMaterial.cpp
 
-        Drawable/skybox.cpp
+        Drawable/SkyBox.cpp
         Drawable/Line.cpp
         Drawable/Line.cpp
         Drawable/Frustum.cpp
         Drawable/Grid.cpp
+        Drawable/MeshScene/MeshScene.cpp
 
         GLUtil.cpp
         GLLoader.cpp
