@@ -53,9 +53,9 @@ local plugins = {
     --"CraftPlugin",
     --"Ch5MeshRendererPlugin",
     --"Ch6PBRPlugin",
-    "Ch7LargeScenePlugin",
+    --"Ch7LargeScenePlugin",
     --"Ch10FinalPlugin",
-    --"ImGuiManager",
+    "ImGuiManager",
 }
 
 global("PluginInstances")
