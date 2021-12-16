@@ -3,6 +3,7 @@
 -- author @zoloypzuo
 
 -- singleton
+global("TheSim")
 TheSim = Game.GetSingletonPtr()
 
 require("resource_loaders")
