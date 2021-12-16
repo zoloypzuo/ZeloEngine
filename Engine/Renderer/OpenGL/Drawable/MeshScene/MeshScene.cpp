@@ -78,9 +78,12 @@ struct MeshScene::Impl {
             const char *meshFile;
             const char *sceneFile;
             const char *materialFile;
-            meshFile = ZELO_PATH("data/meshes/test.meshes").c_str();
-            sceneFile = ZELO_PATH("data/meshes/test.scene").c_str();
-            materialFile = ZELO_PATH("data/meshes/test.materials").c_str();
+            auto p = ZELO_PATH("data/meshes/test.meshes");
+            meshFile = p.c_str();
+            auto q = ZELO_PATH("data/meshes/test.scene");
+            sceneFile = q.c_str();
+            auto r = ZELO_PATH("data/meshes/test.materials");
+            materialFile = r.c_str();
             header_ = loadMeshData(meshFile, meshData_);
             ::loadScene(sceneFile, scene_);
 
@@ -180,10 +183,8 @@ MeshScene::MeshScene() {
     pimpl = std::make_shared<Impl>();
 }
 
+MeshScene::~MeshScene() = default;
+
 void MeshScene::render() const {
     pimpl->render();
-}
-
-MeshScene::~MeshScene() {
-
 }

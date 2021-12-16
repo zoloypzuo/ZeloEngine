@@ -11,9 +11,11 @@
 namespace Zelo::Renderer::OpenGL {
 class GLMaterial : public Core::RHI::Material {
 public:
-    GLMaterial(GLTexture &diffuseMap,
-               GLTexture &normalMap,
-               GLTexture &specularMap);
+    ZELO_SCRIPT_API GLMaterial(
+            GLTexture &diffuseMap,
+            GLTexture &normalMap,
+            GLTexture &specularMap,
+            GLSLShaderProgram *shaderProgram);
 
     ~GLMaterial() override;
 
@@ -21,7 +23,7 @@ public:
 
     void unbind();
 
-    void setShader(std::shared_ptr<Shader> shader) override;
+    void setShader(Shader *shader) override;
 
     bool hasShader() const override;
 
@@ -44,7 +46,7 @@ private:
     GLTexture &m_normalMap;
 
     // shader and shader uniforms
-    std::shared_ptr<GLSLShaderProgram> m_shader{};
+    GLSLShaderProgram *m_shader{};
     std::map<std::string, std::any> m_uniformsData;
 
     // extra parameters

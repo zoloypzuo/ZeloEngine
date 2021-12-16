@@ -14,7 +14,6 @@ void GLMaterial::bind() const {
     m_diffuseMap.bind(0);
     m_normalMap.bind(1);
     m_specularMap.bind(2);
-    if (!hasShader()) { return; }
     m_shader->bind();
 //    int textureSlot = 0;
     for (const auto&[name, value]: m_uniformsData) {
@@ -62,11 +61,13 @@ void GLMaterial::bind() const {
     }
 }
 
-GLMaterial::GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap) :
+GLMaterial::GLMaterial(
+        GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap,
+        GLSLShaderProgram *shaderProgram) :
         m_diffuseMap(diffuseMap),
         m_normalMap(normalMap),
-        m_specularMap(specularMap) {
-
+        m_specularMap(specularMap),
+        m_shader(shaderProgram) {
 }
 
 void GLMaterial::unbind() {
@@ -75,13 +76,12 @@ void GLMaterial::unbind() {
     }
 }
 
-void GLMaterial::setShader(std::shared_ptr<Shader> shader) {
-    m_shader = std::dynamic_pointer_cast<GLSLShaderProgram>(shader);
-    ZELO_ASSERT(m_shader, "shader cast failed");
+void GLMaterial::setShader(Shader *shader) {
+    m_shader = dynamic_cast<GLSLShaderProgram *>(shader);
     if (m_shader) {
         GLUniformBuffer::bindBlockToShader(*m_shader, "EngineUBO");
         fillUniforms();
-    } else {
+    } else {  // set null
         m_uniformsData.clear();
     }
 }

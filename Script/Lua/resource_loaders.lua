@@ -1,6 +1,8 @@
 -- resource_loaders.lua
 -- created on 2021/12/16
 -- author @zoloypzuo
+local RegisterResourceLoader = RegisterResourceLoader
+
 table.insert(package.loaders, 1, ResourceMetaDataLoader)
 
 MeshGenerators["plane"] = PlaneMeshGen
@@ -26,5 +28,17 @@ RegisterResourceLoader("MATERIAL", function(name, data)
     local tex_diffuse = LoadResource(data.diffuse)
     local tex_normal = LoadResource(data.normal)
     local tex_specular = LoadResource(data.specular)
-    return Material.new(tex_diffuse, tex_normal, tex_specular)
+    local shader = nil
+    if data.shader then
+        shader = LoadResource(data.shader)
+    end
+    return Material.new(tex_diffuse, tex_normal, tex_specular, shader)
+end)
+
+RegisterResourceLoader("SCENE", function(name, data)
+    return Scene.new()
+end)
+
+RegisterResourceLoader("SHADER", function(name, data)
+    return Shader.new(name)
 end)

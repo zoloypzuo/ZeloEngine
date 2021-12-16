@@ -17,6 +17,8 @@
 
 #include "Core/Parser/MeshLoader.h"
 
+#include "Renderer/OpenGL/Drawable/MeshScene/MeshScene.h"
+
 using namespace Zelo;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::LuaScript;
@@ -147,8 +149,19 @@ sol::constructors<GLTexture(std::string )>(),
 );
 
 luaState.new_usertype<GLMaterial>("Material",
-sol::constructors<GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap)>(),
+sol::constructors<GLMaterial(GLTexture &, GLTexture &, GLTexture &, GLSLShaderProgram *)>(),
 sol::base_classes, sol::bases<Material>(),
+"__Dummy", []{}
+);
+
+luaState.new_usertype<MeshScene>("Scene",
+sol::constructors<MeshScene()>(),
+sol::base_classes,  sol::bases<Mesh>(),
+"__Dummy", []{}
+);
+
+luaState.new_usertype<GLSLShaderProgram>("Shader",
+sol::constructors<GLSLShaderProgram(const std::string &)>(),
 "__Dummy", []{}
 );
 

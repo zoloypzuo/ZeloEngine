@@ -3,10 +3,12 @@
 #include <algorithm>
 #include <assert.h>
 #include <stdio.h>
+#include <locale.h>
 
 MeshFileHeader loadMeshData(const char *meshFile, MeshData &out) {
     MeshFileHeader header;
 
+    setlocale(LC_ALL, ".65001");
     FILE *f = fopen(meshFile, "rb");
 
     assert(f); // Did you forget to run "Ch5_Tool05_MeshConvert"?
