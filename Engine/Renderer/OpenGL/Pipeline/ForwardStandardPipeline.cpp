@@ -108,7 +108,7 @@ void ForwardStandardPipeline::updateLights() const {
     for (const auto &light: lights) {
         lightMatrices.push_back(light->generateLightMatrix());
     }
-    m_lightSSBO->sendBlocks<glm::mat4>(lightMatrices.data(), lightMatrices.size() * sizeof(glm::mat4));
+    m_lightSSBO->sendBlocks<glm::mat4>(lightMatrices);
 }
 
 void ForwardStandardPipeline::updateEngineUBO() const {

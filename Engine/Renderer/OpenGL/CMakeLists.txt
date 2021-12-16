@@ -19,6 +19,7 @@ add_library(OpenGLRenderer
         Drawable/Frustum.cpp
         Drawable/Grid.cpp
         Drawable/MeshScene/MeshScene.cpp
+        Drawable/MeshScene/Material/Material.cpp
 
         GLUtil.cpp
         GLLoader.cpp

@@ -22,6 +22,9 @@ public:
     template<typename T>
     void sendBlocks(T *data, size_t size) const;
 
+    template<typename T>
+    void sendBlocks(std::vector<T> data) const;
+
 private:
     uint32_t m_bufferID{};
     uint32_t m_bindingPoint = 0;

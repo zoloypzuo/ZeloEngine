@@ -5,20 +5,6 @@
 #include "GLBuffer.h"
 
 namespace Zelo::Renderer::OpenGL {
-
-GLBufferImmutable::GLBufferImmutable(uint32_t size, const void *data, uint32_t flags) {
-    glCreateBuffers(1, &m_RendererID);
-    glNamedBufferStorage(m_RendererID, size, data, flags);
-}
-
-GLBufferImmutable::~GLBufferImmutable() {
-    glDeleteBuffers(1, &m_RendererID);
-}
-
-uint32_t GLBufferImmutable::getHandle() const {
-    return m_RendererID;
-}
-
 GLVertexBuffer::GLVertexBuffer() {
     glGenBuffers(1, &m_RendererID);
 }

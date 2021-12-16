@@ -15,11 +15,12 @@ public:
 
     virtual void unbind() const = 0;
 
-    virtual void setData(const void *data, uint32_t size) = 0;
+    const BufferLayout &getLayout() const { return m_Layout; }
 
-    virtual const BufferLayout &getLayout() const = 0;
+    void setLayout(const BufferLayout &layout) { m_Layout = layout; }
 
-    virtual void setLayout(const BufferLayout &layout) = 0;
+protected:
+    BufferLayout m_Layout;
 };
 
 // Currently Zelo only supports 32-bit index buffers
@@ -31,6 +32,6 @@ public:
 
     virtual void unbind() const = 0;
 
-    virtual int32_t getCount() const = 0;
+    virtual uint32_t getCount() const = 0;
 };
 }
