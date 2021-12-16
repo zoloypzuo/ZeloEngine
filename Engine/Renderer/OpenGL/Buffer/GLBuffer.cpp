@@ -6,9 +6,19 @@
 
 namespace Zelo::Renderer::OpenGL {
 
-/////////////////////////////////////////////////////////////////////////////
-// VertexBuffer /////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
+GLBufferImmutable::GLBufferImmutable(uint32_t size, const void *data, uint32_t flags) {
+    glCreateBuffers(1, &m_RendererID);
+    glNamedBufferStorage(m_RendererID, size, data, flags);
+}
+
+GLBufferImmutable::~GLBufferImmutable() {
+    glDeleteBuffers(1, &m_RendererID);
+}
+
+uint32_t GLBufferImmutable::getHandle() const {
+    return m_RendererID;
+}
+
 GLVertexBuffer::GLVertexBuffer() {
     glGenBuffers(1, &m_RendererID);
 }
@@ -41,10 +51,6 @@ void GLVertexBuffer::setData(const void *data, uint32_t size) {
     glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
     glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// IndexBuffer //////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////
 
 GLIndexBuffer::GLIndexBuffer(uint32_t *indices, uint32_t count)
         : m_Count(count) {

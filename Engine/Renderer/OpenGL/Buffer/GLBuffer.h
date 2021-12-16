@@ -8,6 +8,17 @@
 #include "Core/RHI/Buffer/Buffer.h"
 
 namespace Zelo::Renderer::OpenGL {
+class GLBufferImmutable {
+public:
+    GLBufferImmutable(uint32_t size, const void *data, uint32_t flags);
+
+    ~GLBufferImmutable();
+
+    uint32_t getHandle() const;
+
+private:
+    uint32_t m_RendererID{};
+};
 
 class GLVertexBuffer : public VertexBuffer {
 public:
