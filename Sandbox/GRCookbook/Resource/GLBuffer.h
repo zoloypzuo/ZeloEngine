@@ -6,6 +6,7 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
+// TODO remove it
 class GLBuffer {
 public:
     GLBuffer(GLsizeiptr size, const void *data, GLbitfield flags);
