@@ -4,7 +4,6 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Core/RHI/Buffer/VertexArray.h"
 #include "Core/RHI/Const/ERenderCapability.h"
 
 namespace Zelo::Core::RHI {
@@ -18,10 +17,6 @@ public:
     virtual void setClearColor(const glm::vec4 &color) = 0;
 
     virtual void clear(bool colorBuffer, bool depthBuffer, bool stencilBuffer) = 0;
-
-    virtual void drawIndexed(const std::shared_ptr<VertexArray> &vertexArray, int32_t indexCount) = 0;
-
-    virtual void drawArray(const std::shared_ptr<VertexArray> &vertexArray, int32_t start, int32_t count) = 0;
 
     virtual void setCapabilityEnabled(ERenderCapability capability, bool value) = 0;
 

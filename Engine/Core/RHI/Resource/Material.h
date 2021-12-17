@@ -18,7 +18,7 @@ public:
 
     virtual bool hasShader() const = 0;
 
-    virtual void setShader(std::shared_ptr<Shader> shader) = 0;
+    virtual void setShader(Shader *shader) = 0;
 };
 }
 

@@ -191,4 +191,7 @@ void *Window::getHwnd() const {
     return wmInfo.info.win.window;
 }
 
+void Window::delay(uint32_t delayInMs) {
+    SDL_Delay(delayInMs);
+}
 }

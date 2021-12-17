@@ -9,9 +9,7 @@
 #include "Resource/GLBuffer.h"
 #include "Resource/GLMeshPVP.h"
 
-#include "GRCookbook/Resource/GLTexture.h"
-
-#include "VtxData.h"
+#include "GRCookbook/Texture/GLTexture.h"
 
 class Ch6PBRPlugin : public Zelo::Plugin {
 public:
@@ -37,7 +35,6 @@ private:
     std::unique_ptr<GLBuffer> perFrameDataBuffer{};
     std::unique_ptr<GLBuffer> modelMatrices{};
     std::unique_ptr<GLMeshPVP> mesh{};
-    MeshFileHeader header;
 
     std::unique_ptr<GLTexture> texAO;
     std::unique_ptr<GLTexture> texEmissive;

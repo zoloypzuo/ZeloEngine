@@ -7,7 +7,7 @@
 #include "ZeloGLPrerequisites.h"
 
 #include "GLBuffer.h"
-#include "GLTexture.h"
+#include "GRCookbook/Texture/GLTexture.h"
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
@@ -17,7 +17,7 @@ public:
             const char *envMap,
             const char *envMapIrradiance,
             const char *brdfLUTFileName
-            );
+    );
 
     ~GLSkyboxRenderer();
 

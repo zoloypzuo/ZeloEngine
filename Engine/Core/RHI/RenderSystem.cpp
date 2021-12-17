@@ -34,7 +34,6 @@ template<> RenderSystem *Singleton<RenderSystem>::msSingleton = nullptr;
 
 RenderSystem *RenderSystem::getSingletonPtr() {
     return msSingleton;
-
 }
 
 RenderSystem &RenderSystem::getSingleton() {

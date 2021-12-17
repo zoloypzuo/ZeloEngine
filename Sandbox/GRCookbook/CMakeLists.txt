@@ -1,28 +1,26 @@
 include_directories(.)
 
 add_library(GRCookbook
-        GRCookbookPlugins.cpp
         FinalScenePlugin.cpp
         PBRPlugin.cpp
 
-        Resource/GLMesh1.cpp
         Resource/GLBuffer.cpp
         Resource/GLMeshPVP.cpp
-        Resource/GLMesh2.cpp
         Resource/GLMesh9.cpp
         Resource/GLSkyboxRenderer.cpp
-        Resource/GLTexture.cpp
         Resource/GLSceneData.cpp
         Resource/GLSceneDataLazy.cpp
         Resource/GLFramebuffer.cpp
 
-        VtxData.cpp
-        Scene.cpp
-        Material.cpp
-        Bitmap.h
-        UtilsCubemap.cpp
+        VtxData/MeshData.cpp
+        Scene/Scene.cpp
+        Material/Material.cpp
 
-        Utils.cpp
+        Texture/GLTexture.cpp
+        Texture/Bitmap.h
+
+        Util/UtilsCubemap.cpp
+        Util/Utils.cpp
         )
 
 find_package(glfw3 CONFIG REQUIRED)

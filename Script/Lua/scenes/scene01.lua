@@ -135,3 +135,7 @@ do
 
     TheSim:SetActiveCamera(camera)
 end
+
+do
+    local entity = SpawnPrefab("bistro")
+end

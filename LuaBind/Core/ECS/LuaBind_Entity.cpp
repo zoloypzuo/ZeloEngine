@@ -10,20 +10,22 @@
 #include "Core/RHI/Object/ALight.h"
 
 #include "Core/RHI/MeshGen/Plane.h"
-#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
+#include "Core/RHI/MeshRenderer.h"
 #include "Renderer/OpenGL/Resource/GLMaterial.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 #include "Core/RHI/RenderSystem.h"
 
 #include "Core/Parser/MeshLoader.h"
 
+#include "Renderer/OpenGL/Drawable/MeshScene/MeshScene.h"
+
+using namespace Zelo;
+using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::LuaScript;
+using namespace Zelo::Core::Interface;
+using namespace Zelo::Core::Parser;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
-using namespace Zelo::Parser;
-using namespace Zelo::Core::ECS;
-using namespace Zelo::Core::Interface;
-using namespace Zelo;
 
 bool sol_lua_check(sol::types<glm::vec3>, lua_State *L, int index,
                    std::function<sol::check_handler_type> handler,
@@ -84,9 +86,9 @@ luaState.new_usertype<Transform>("Transform",
 );
 
 luaState.new_usertype<PerspectiveCamera>("Camera",
-"fov", &PerspectiveCamera::m_fov, 
-"aspect", &PerspectiveCamera::m_aspect, 
-"zNear", &PerspectiveCamera::m_zNear, 
+"fov", &PerspectiveCamera::m_fov,
+"aspect", &PerspectiveCamera::m_aspect,
+"zNear", &PerspectiveCamera::m_zNear,
 "zFar", &PerspectiveCamera::m_zFar,
 "__Dummy", []{}
 );
@@ -137,6 +139,7 @@ sol::base_classes, sol::bases<IMeshData>(),
 
 luaState.new_usertype<GLMesh>("Mesh",
 sol::constructors<GLMesh(IMeshData &)>(),
+sol::base_classes,  sol::bases<Mesh>(),
 "__Dummy", []{}
 );
 
@@ -146,8 +149,19 @@ sol::constructors<GLTexture(std::string )>(),
 );
 
 luaState.new_usertype<GLMaterial>("Material",
-sol::constructors<GLMaterial(GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap)>(),
+sol::constructors<GLMaterial(GLTexture &, GLTexture &, GLTexture &, GLSLShaderProgram *)>(),
 sol::base_classes, sol::bases<Material>(),
+"__Dummy", []{}
+);
+
+luaState.new_usertype<MeshScene>("Scene",
+sol::constructors<MeshScene(const std::string&, const std::string&, const std::string&)>(),
+sol::base_classes,  sol::bases<Mesh>(),
+"__Dummy", []{}
+);
+
+luaState.new_usertype<GLSLShaderProgram>("Shader",
+sol::constructors<GLSLShaderProgram(const std::string &)>(),
 "__Dummy", []{}
 );
 

@@ -20,7 +20,7 @@ class Window :
         public IRuntimeModule,
         public Zelo::Core::Interface::IView {
 public:
-     Window();
+    Window();
 
     ~Window() override;
 
@@ -60,6 +60,8 @@ public:
     void toggleFullscreen();
 
     void *getHwnd() const;
+
+    void delay(uint32_t delayInMs);
 
 public:
     Core::EventSystem::Event<SDL_Event *> WindowEvent;

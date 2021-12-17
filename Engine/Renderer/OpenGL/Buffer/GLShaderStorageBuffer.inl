@@ -12,4 +12,9 @@ inline void GLShaderStorageBuffer::sendBlocks(T *data, size_t size) const {
     glBufferData(GL_SHADER_STORAGE_BUFFER, size, data, GL_DYNAMIC_DRAW);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
+
+template<typename T>
+void GLShaderStorageBuffer::sendBlocks(std::vector<T> data) const {
+    sendBlocks(data.data(), data.size() * sizeof(T));
+}
 }

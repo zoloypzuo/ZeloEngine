@@ -38,9 +38,6 @@ protected:
     void applyCurrentView();
 
 private:
-    int m_width{};
-    int m_height{};
-
     std::vector<Core::Interface::IView *> m_viewStack;
 
     RenderSystemConfig &m_config;
@@ -51,10 +48,6 @@ public: // RenderCommand
     void setClearColor(const glm::vec4 &color) override;
 
     void clear(bool colorBuffer, bool depthBuffer, bool stencilBuffer) override;
-
-    void drawIndexed(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t indexCount) override;
-
-    void drawArray(const std::shared_ptr<Zelo::VertexArray> &vertexArray, int32_t start, int32_t count) override;
 
     void setCapabilityEnabled(Core::RHI::ERenderCapability capability, bool value) override;
 

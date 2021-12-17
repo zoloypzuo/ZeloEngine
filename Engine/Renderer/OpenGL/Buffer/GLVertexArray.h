@@ -8,7 +8,7 @@
 #include "Core/RHI/Buffer/VertexArray.h"
 
 namespace Zelo {
-
+namespace Renderer::OpenGL {
 class GLVertexArray : public VertexArray {
 public:
     GLVertexArray();
@@ -36,5 +36,5 @@ private:
     std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
     std::shared_ptr<IndexBuffer> m_IndexBuffer;
 };
-
+}
 }

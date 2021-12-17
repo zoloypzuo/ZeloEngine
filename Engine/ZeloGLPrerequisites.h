@@ -3,7 +3,15 @@
 // author @zoloypzuo
 #pragma once
 
+#ifdef ZELO_GL_TRACER
+
+#include "Renderer/OpenGL/Tracer/GLTracer.h"
+
+#else
+
 #include <glad/glad.h>
+
+#endif
 
 #define FORCE_DEDICATED_GPU \
 extern "C"\
@@ -14,17 +22,17 @@ extern "C"\
 namespace GL {
 inline void EnableVertexAttribArray(GLuint index) {
     if (index >= GL_MAX_VERTEX_ATTRIBS) return;
-    ::glEnableVertexAttribArray(index);
+    glEnableVertexAttribArray(index);
 }
 
 inline void DisableVertexAttribArray(GLuint index) {
     if (index >= GL_MAX_VERTEX_ATTRIBS) return;
-    ::glDisableVertexAttribArray(index);
+    glDisableVertexAttribArray(index);
 }
 
 inline void
 VertexAttribPointer(GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *pointer) {
     if (index >= GL_MAX_VERTEX_ATTRIBS) return;
-    ::glVertexAttribPointer(index, size, type, normalized, stride, pointer);
+    glVertexAttribPointer(index, size, type, normalized, stride, pointer);
 }
 }

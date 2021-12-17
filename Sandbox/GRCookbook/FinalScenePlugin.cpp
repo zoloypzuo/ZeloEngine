@@ -10,11 +10,11 @@
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
-#include "VtxData.h"
-#include "Scene.h"
+#include "GRCookbook/VtxData/MeshData.h"
+#include "GRCookbook/Scene/Scene.h"
 
 #include "GRCookbook/Resource/GLBuffer.h"
-#include "GRCookbook/Resource/GLTexture.h"
+#include "GRCookbook/Texture/GLTexture.h"
 #include "GRCookbook/Resource/GLMesh9.h"
 #include "GRCookbook/Resource/GLSkyboxRenderer.h"
 #include "GRCookbook/Resource/GLSceneDataLazy.h"
@@ -279,7 +279,7 @@ void Ch10FinalPlugin::Impl::render() {
 
     auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
 
-    if (!g_FreezeCullingView){
+    if (!g_FreezeCullingView) {
         // update cull view
         g_CullingView = camera->getViewMatrix();
     }

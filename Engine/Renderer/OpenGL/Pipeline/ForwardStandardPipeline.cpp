@@ -6,7 +6,7 @@
 
 #include "Core/Scene/SceneManager.h"
 #include "Core/RHI/RenderSystem.h"
-#include "Renderer/OpenGL/Drawable/MeshRenderer.h"
+#include "Core/RHI/MeshRenderer.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::RHI;
@@ -55,9 +55,9 @@ RenderQueue ForwardStandardPipeline::sortRenderQueue() const {
         auto &material = meshRenderer->GetMaterial();
 
         // use standard shader as default
-//        if (!material.hasShader()) { TODO
-        material.setShader(m_forwardStandardShader);
-//        }
+        if (!material.hasShader()) {
+            material.setShader(m_forwardStandardShader.get());
+        }
 
         RenderItem renderItem{
                 meshRenderer->getOwner()->getWorldMatrix(),
@@ -93,7 +93,6 @@ void ForwardStandardPipeline::initialize() {
             Core::RHI::EAccessSpecifier::STREAM_DRAW);
 
     m_forwardStandardShader = std::make_shared<GLSLShaderProgram>("forward_standard.glsl");
-    m_forwardStandardShader->link();
     m_forwardStandardShader->setUniform1i("u_DiffuseMap", 0);
     m_forwardStandardShader->setUniform1i("u_NormalMap", 1);
     m_forwardStandardShader->setUniform1i("u_SpecularMap", 2);
@@ -108,7 +107,7 @@ void ForwardStandardPipeline::updateLights() const {
     for (const auto &light: lights) {
         lightMatrices.push_back(light->generateLightMatrix());
     }
-    m_lightSSBO->sendBlocks<glm::mat4>(lightMatrices.data(), lightMatrices.size() * sizeof(glm::mat4));
+    m_lightSSBO->sendBlocks<glm::mat4>(lightMatrices);
 }
 
 void ForwardStandardPipeline::updateEngineUBO() const {

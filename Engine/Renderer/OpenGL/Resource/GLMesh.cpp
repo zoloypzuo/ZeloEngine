@@ -5,81 +5,42 @@
 #include "GLMesh.h"
 
 #include "Core/Parser/MeshLoader.h"
+#include "Renderer/OpenGL/Buffer/GLBuffer.h"
 
+using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
-GLMeshData::GLMeshData(Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[], int indexSize) {
-    m_vertSize = vertSize;
-    m_indexSize = indexSize;
+const static BufferLayout s_BufferLayout(
+        {
+                BufferElement(EBufferDataType::Float3, "position"),
+                BufferElement(EBufferDataType::Float2, "texCoord"),
+                BufferElement(EBufferDataType::Float3, "normal"),
+                BufferElement(EBufferDataType::Float3, "tangent")
+        });
 
-    glGenVertexArrays(1, &m_vao);
-    glBindVertexArray(m_vao);
+GLMesh::GLMesh(Vertex vertices[], size_t vertSize, uint32_t indices[],
+               size_t indexSize) {
 
-    glGenBuffers(1, &m_vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, m_vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertSize * sizeof(Zelo::Core::RHI::Vertex), vertices, GL_STATIC_DRAW);
+    auto vertexBuffer = std::make_shared<GLVertexBuffer>((float *) vertices, vertSize * sizeof(Vertex));
+    vertexBuffer->setLayout(s_BufferLayout);
+    auto indexBuffer = std::make_shared<GLIndexBuffer>(indices, indexSize);
 
-    glGenBuffers(1, &m_ibo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexSize * sizeof(unsigned int), indices, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Zelo::Core::RHI::Vertex), 0);
-
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE,
-                          sizeof(Zelo::Core::RHI::Vertex),
-                          (GLvoid *) sizeof(glm::vec3));
-
-    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Zelo::Core::RHI::Vertex),
-                          (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2)));
-
-    glEnableVertexAttribArray(3);
-    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE,
-                          sizeof(Zelo::Core::RHI::Vertex),
-                          (GLvoid *) (sizeof(glm::vec3) + sizeof(glm::vec2) + sizeof(glm::vec3)));
-
-    glBindVertexArray(0);
+    m_vao.addVertexBuffer(vertexBuffer);
+    m_vao.setIndexBuffer(indexBuffer);
 }
 
-GLMeshData::~GLMeshData() {
-    glDeleteBuffers(1, &m_vbo);
-    glDeleteVertexArrays(1, &m_vao);
+GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
+        GLMesh(&iMeshGen.getVertices()[0],
+               iMeshGen.getVertices().size(),
+               &iMeshGen.getIndices()[0],
+               iMeshGen.getIndices().size()) {
 }
 
-void GLMeshData::render() const {
-    glBindVertexArray(m_vao);
-    glDrawElements(GL_TRIANGLES, m_indexSize, GL_UNSIGNED_INT, (void *) 0);
-    glBindVertexArray(0);
-}
-
-std::map<std::string, std::weak_ptr<GLMeshData>> m_meshCache;
-
-GLMesh::GLMesh(const std::string &identifier, Zelo::Core::RHI::Vertex vertices[], int vertSize, unsigned int indices[],
-               int indexSize) {
-    auto it = m_meshCache.find(identifier);
-
-    if (it == m_meshCache.end() || !(m_meshData = it->second.lock())) {
-        m_meshData = std::make_shared<GLMeshData>(vertices, vertSize, indices, indexSize);
-        m_meshCache[identifier] = m_meshData;
-    }
-}
-
-GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) : GLMesh(iMeshGen.getId(),
-                                                                    &iMeshGen.getVertices()[0],
-                                                                    iMeshGen.getVertices().size(),
-                                                                    &iMeshGen.getIndices()[0],
-                                                                    iMeshGen.getIndices().size()
-) {
-}
-
-GLMesh::~GLMesh() {
-}
+GLMesh::~GLMesh() = default;
 
 void GLMesh::render() const {
-    m_meshData->render();
+    m_vao.bind();
+    glDrawElements(GL_TRIANGLES, m_vao.getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+    m_vao.unbind();
 }
-
 

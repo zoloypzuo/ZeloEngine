@@ -13,9 +13,10 @@
 #include <assimp/Importer.hpp>
 #include <assimp/postprocess.h>
 
+using namespace Zelo;
+using namespace Zelo::Core::Parser;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
-using namespace Zelo;
 
 class CustomIOStream : public Assimp::IOStream {
     friend class CustomIOSystem;
@@ -129,7 +130,7 @@ void CustomIOSystem::Close(Assimp::IOStream *pFile) {
     delete pFile;
 }
 
-Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIndex) {
+MeshLoader::MeshLoader(const std::string &meshFileName, int meshIndex) {
     Assimp::Importer importer;
     importer.SetIOHandler(new CustomIOSystem());
 
@@ -176,16 +177,16 @@ Zelo::Parser::MeshLoader::MeshLoader(const std::string &meshFileName, int meshIn
     }
 }
 
-Zelo::Parser::MeshLoader::~MeshLoader() = default;
+MeshLoader::~MeshLoader() = default;
 
-std::string Zelo::Parser::MeshLoader::getId() {
+std::string MeshLoader::getId() {
     return m_id;
 }
 
-std::vector<Vertex> Zelo::Parser::MeshLoader::getVertices() {
+std::vector<Vertex> MeshLoader::getVertices() {
     return m_vertices;
 }
 
-std::vector<uint32_t> Zelo::Parser::MeshLoader::getIndices() {
+std::vector<uint32_t> MeshLoader::getIndices() {
     return m_indices;
 }

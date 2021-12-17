@@ -8,7 +8,6 @@
 #include "Core/RHI/Buffer/Buffer.h"
 
 namespace Zelo::Renderer::OpenGL {
-
 class GLVertexBuffer : public VertexBuffer {
 public:
     GLVertexBuffer();
@@ -23,18 +22,12 @@ public:
 
     void unbind() const override;
 
-    void setData(const void *data, uint32_t size) override;
+    void setData(const void *data, uint32_t size);
 
-    const BufferLayout &getLayout() const override { return m_Layout; }
-
-    void setLayout(const BufferLayout &layout) override { m_Layout = layout; }
-
-public:
-    uint32_t getHandle() const { return m_RendererID; }
+    uint32_t getHandle() const override { return m_RendererID; }
 
 private:
     uint32_t m_RendererID{};
-    BufferLayout m_Layout;
 };
 
 class GLIndexBuffer : public IndexBuffer {
@@ -47,11 +40,13 @@ public:
 
     void unbind() const override;
 
-    int32_t getCount() const override { return m_Count; }
+    uint32_t getHandle() const override { return m_RendererID; }
+
+    uint32_t getCount() const override { return m_Count; }
 
 private:
     uint32_t m_RendererID{};
-    int32_t m_Count;
+    uint32_t m_Count;
 };
 
 class GLMapBufferJanitor {
@@ -65,5 +60,4 @@ public:
 private:
     unsigned char *m_bufferData{};
 };
-
 }

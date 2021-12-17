@@ -25,6 +25,8 @@ GLRenderSystem::GLRenderSystem() : m_config(
 GLRenderSystem::~GLRenderSystem() = default;
 
 void GLRenderSystem::initialize() {
+    ::initGLTracerLogger();
+
     ::loadGL();
 
     if (m_config.debug) {

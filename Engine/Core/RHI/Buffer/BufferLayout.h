@@ -6,10 +6,11 @@
 
 #include "ZeloPrerequisites.h"
 #include "Core/RHI/Const/EShaderType.h"
+#include"Core/RHI/Const/EBufferDataType.h"
 
 struct BufferElement {
     std::string Name{};
-    Zelo::Core::RHI::ShaderDataType Type{};
+    Zelo::Core::RHI::EBufferDataType Type{};
     uint32_t Size{};
     size_t Offset{};
     bool Normalized{};
@@ -17,7 +18,7 @@ struct BufferElement {
     BufferElement() = default;
 
     BufferElement(
-            Zelo::Core::RHI::ShaderDataType type,
+            Zelo::Core::RHI::EBufferDataType type,
             const std::string &name,
             bool normalized = false
     );

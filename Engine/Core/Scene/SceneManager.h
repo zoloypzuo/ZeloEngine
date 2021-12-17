@@ -12,19 +12,19 @@
 
 namespace Zelo::Core::RHI {
 class ALight;
-}
 
-namespace Zelo::Renderer::OpenGL{
- class MeshRenderer;
+class ACamera;
+
+class MeshRenderer;
 }
 
 namespace Zelo::Core::Scene {
 class SceneManager : public Singleton<SceneManager>, public IRuntimeModule {
 public:
     struct FastAccessComponents {
-        std::vector<Renderer::OpenGL::MeshRenderer *> meshRenderers;
-        std::vector<ACamera *> cameras;
+        std::vector<RHI::ACamera *> cameras;
         std::vector<RHI::ALight *> lights;
+        std::vector<RHI::MeshRenderer *> meshRenderers;
     };
 
 public:
@@ -48,7 +48,7 @@ public:
 
     const FastAccessComponents &getFastAccessComponents() const;
 
-    ACamera *getActiveCamera() const;
+    RHI::ACamera *getActiveCamera() const;
 
     Core::RHI::ALight *getMainDirectionalLight() const;
 
@@ -57,7 +57,7 @@ public:
 
     ZELO_SCRIPT_API ECS::Entity *CreateEntity();
 
-    ZELO_SCRIPT_API void SetActiveCamera(PerspectiveCamera *camera);
+    ZELO_SCRIPT_API void SetActiveCamera(RHI::PerspectiveCamera *camera);
 
 private:
     void onComponentAdded(ECS::Component &component);
@@ -69,7 +69,7 @@ private:
     GUID_t m_entityGuidCounter{};
 
     FastAccessComponents m_fastAccessComponents;
-    ACamera *m_activeCamera{};
+    RHI::ACamera *m_activeCamera{};
 };
 }
 
