@@ -352,9 +352,6 @@ struct MeshScene::Impl {
         size_t startOffset = 0;
         perFrameDataBuffer->setSubData(perFrameData, std::ref(startOffset));
 
-//        glEnable(GL_DEPTH_TEST);
-//        glDisable(GL_BLEND);
-
         m_vao.bind();
         bufferMaterials_->bind(kBufferIndex_Materials);
         bufferModelMatrices_->bind(kBufferIndex_ModelMatrices);
@@ -375,8 +372,6 @@ MeshScene::MeshScene() {
     perFrameDataBuffer = std::make_unique<GLUniformBuffer>(
             sizeof(PerFrameData), 0, 0, Core::RHI::EAccessSpecifier::STREAM_DRAW);
 
-//    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-//    glEnable(GL_DEPTH_TEST);
     pimpl = std::make_shared<Impl>();
 }
 
