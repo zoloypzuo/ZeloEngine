@@ -4,12 +4,10 @@
 #include "ZeloPreCompiledHeader.h"
 #include "MeshScene.h"
 
-#include "Core/RHI/Buffer/Vertex.h"
 #include "Core/Resource/ResourceManager.h"
 
-#include "Renderer/OpenGL/Buffer/GLBuffer.h"  // GLBufferImmutable
 #include "Renderer/OpenGL/Buffer/GLVertexArray.h"
-#include "Renderer/OpenGL/Buffer/GLShaderStorageBuffer.h"
+#include "Renderer/OpenGL/Buffer/GLShaderStorageBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Scene/Scene.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
@@ -20,8 +18,6 @@
 
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 #include "Renderer/OpenGL/Buffer/GLVertexArrayDSA.h"
-#include "Renderer/OpenGL/Buffer/GLBufferDSA.h"
-#include "Renderer/OpenGL/Buffer/GLShaderStorageBufferDSA.h"
 
 using namespace Zelo::Core::RHI;
 
@@ -132,8 +128,8 @@ struct MeshScene::Impl {
 
     GLVertexArrayDSA m_vao;
 
-    std::unique_ptr<GLShaderStorageBuffer> bufferMaterials_;
-    std::unique_ptr<GLShaderStorageBuffer> bufferModelMatrices_;
+    std::unique_ptr<GLShaderStorageBufferDSA> bufferMaterials_;
+    std::unique_ptr<GLShaderStorageBufferDSA> bufferModelMatrices_;
 
     std::unique_ptr<GLIndirectCommandBuffer> bufferIndirect_;
 
@@ -172,7 +168,7 @@ struct MeshScene::Impl {
 
         // bufferMaterials_
         {
-            bufferMaterials_ = std::make_unique<GLShaderStorageBuffer>(
+            bufferMaterials_ = std::make_unique<GLShaderStorageBufferDSA>(
                     g_SceneData->materials_.size() * sizeof(MaterialDescription),
                     g_SceneData->materials_.data(), 0
             );
@@ -180,7 +176,7 @@ struct MeshScene::Impl {
 
         // bufferModelMatrices_
         {
-            bufferModelMatrices_ = std::make_unique<GLShaderStorageBuffer>(
+            bufferModelMatrices_ = std::make_unique<GLShaderStorageBufferDSA>(
                     g_SceneData->shapes_.size() * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
             std::vector<glm::mat4> matrices(g_SceneData->shapes_.size());
             size_t i = 0;
@@ -215,12 +211,12 @@ struct MeshScene::Impl {
     }
 };
 
-MeshScene::MeshScene() {
-    auto x = ZELO_PATH("data/meshes/test.meshes");
-    auto y = ZELO_PATH("data/meshes/test.scene");
-    auto z = ZELO_PATH("data/meshes/test.materials");
+MeshScene::MeshScene(const std::string &sceneFile, const std::string &meshFile, const std::string& materialFile) {
+    auto x = ZELO_PATH(sceneFile);
+    auto y = ZELO_PATH(meshFile);
+    auto z = ZELO_PATH(materialFile);
 
-    g_SceneData = new GLSceneData(x.c_str(), y.c_str(), z.c_str());
+    g_SceneData = new GLSceneData(y.c_str(), x.c_str(), z.c_str());
 
     // UBO
     perFrameDataBuffer = std::make_unique<GLUniformBuffer>(
@@ -234,4 +230,5 @@ MeshScene::~MeshScene() = default;
 void MeshScene::render() const {
     pimpl->render();
 }
+
 }

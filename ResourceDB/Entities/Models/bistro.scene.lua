@@ -3,6 +3,7 @@
 -- author @zoloypzuo
 return {
     type = "SCENE";
-    file = "monkey3.obj";
-    mesh_index = 0;
+    scene_file = "data/meshes/test.scene";
+    mesh_file = "data/meshes/test.meshes";
+    material_file = "data/meshes/test.materials";
 }

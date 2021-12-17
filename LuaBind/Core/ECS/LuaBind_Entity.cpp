@@ -155,7 +155,7 @@ sol::base_classes, sol::bases<Material>(),
 );
 
 luaState.new_usertype<MeshScene>("Scene",
-sol::constructors<MeshScene()>(),
+sol::constructors<MeshScene(const std::string&, const std::string&, const std::string&)>(),
 sol::base_classes,  sol::bases<Mesh>(),
 "__Dummy", []{}
 );

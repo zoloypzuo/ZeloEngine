@@ -10,7 +10,7 @@
 namespace Zelo::Renderer::OpenGL {
 class MeshScene : public Core::RHI::Mesh {
 public:
-    explicit MeshScene();
+    MeshScene(const std::string &sceneFile, const std::string &meshFile, const std::string& materialFile);
 
     void render() const override;
 
