@@ -19,6 +19,8 @@
 #include "Core/Scene/SceneManager.h"
 
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
+#include "Renderer/OpenGL/Buffer/GLVertexArrayDSA.h"
+#include "GLVertexArrayDSA.h"
 
 using namespace Zelo::Core::RHI;
 

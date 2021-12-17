@@ -1,5 +1,5 @@
-// GLVertexArray.h
-// created on 2021/6/6
+// GLVertexArrayDSA.h
+// created on 2021/12/17
 // author @zoloypzuo
 #pragma once
 
@@ -7,13 +7,12 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/RHI/Buffer/VertexArray.h"
 
-namespace Zelo {
-namespace Renderer::OpenGL {
-class GLVertexArray : public VertexArray {
+namespace Zelo::Renderer::OpenGL {
+class GLVertexArrayDSA : public Zelo::VertexArray {
 public:
-    GLVertexArray();
+    GLVertexArrayDSA();
 
-    ~GLVertexArray() override;
+    ~GLVertexArrayDSA() override;
 
     void bind() const override;
 
@@ -23,7 +22,8 @@ public:
 
     void setIndexBuffer(const std::shared_ptr<IndexBuffer> &indexBuffer) override;
 
-    const std::vector<std::shared_ptr<VertexBuffer>> &getVertexBuffers() const override { return m_VertexBuffers; }
+    const std::vector<std::shared_ptr<VertexBuffer>> &
+    getVertexBuffers() const override { return m_VertexBuffers; }
 
     const std::shared_ptr<IndexBuffer> &getIndexBuffer() const override { return m_IndexBuffer; }
 
@@ -36,5 +36,4 @@ private:
     std::vector<std::shared_ptr<VertexBuffer>> m_VertexBuffers;
     std::shared_ptr<IndexBuffer> m_IndexBuffer;
 };
-}
 }

@@ -193,3 +193,37 @@ void initDebugCallback() {
                              GL_DEBUG_SEVERITY_NOTIFICATION, -1, "start debugging");
     }
 }
+
+GLenum BufferDataTypeToOpenGLBaseType(const EBufferDataType &type) {
+    switch (type) {
+        case EBufferDataType::Float:
+            return GL_FLOAT;
+        case EBufferDataType::Float2:
+            return GL_FLOAT;
+        case EBufferDataType::Float3:
+            return GL_FLOAT;
+        case EBufferDataType::Float4:
+            return GL_FLOAT;
+        case EBufferDataType::UByte:
+            return GL_UNSIGNED_BYTE;
+        case EBufferDataType::Mat3:
+            return GL_FLOAT;
+        case EBufferDataType::Mat4:
+            return GL_FLOAT;
+        case EBufferDataType::Int:
+            return GL_INT;
+        case EBufferDataType::Int2:
+            return GL_INT;
+        case EBufferDataType::Int3:
+            return GL_INT;
+        case EBufferDataType::Int4:
+            return GL_INT;
+        case EBufferDataType::Bool:
+            return GL_BOOL;
+        default:
+            break;
+    }
+
+    ZELO_CORE_ASSERT(false, "Unknown ShaderDataType!");
+    return 0;
+}
