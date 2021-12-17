@@ -34,9 +34,15 @@ add_library(OpenGLRenderer
         Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
         )
 
+option(ZeloGLTracer "ZeloGLTracer" OFF)
+if (ZeloGLTracer)
+    target_compile_definitions(OpenGLRenderer PUBLIC ZELO_GL_TRACER)
+    target_sources(OpenGLRenderer PRIVATE Tracer/GLTracerImpl.cpp Tracer/GLTracer.cpp)
+endif ()
 
 target_link_libraries(OpenGLRenderer PUBLIC Core)
-target_link_libraries(OpenGLRenderer PRIVATE SDL glad::glad)
+target_link_libraries(OpenGLRenderer PRIVATE SDL)
+target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
 target_include_directories(OpenGLRenderer PRIVATE ${STB_INCLUDE_DIRS})
 
 set_target_properties(OpenGLRenderer PROPERTIES FOLDER "OpenGL")
