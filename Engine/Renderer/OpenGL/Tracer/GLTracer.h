@@ -23,3 +23,5 @@
 #include "GladTracer.h"
 
 #include "GladFunction.h"
+
+void initGLTracerLogger();

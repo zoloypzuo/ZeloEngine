@@ -37,7 +37,7 @@ add_library(OpenGLRenderer
         Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
         )
 
-option(ZeloGLTracer "ZeloGLTracer" OFF)
+option(ZeloGLTracer "ZeloGLTracer" ON)
 if (ZeloGLTracer)
     target_compile_definitions(OpenGLRenderer PUBLIC ZELO_GL_TRACER)
     target_sources(OpenGLRenderer PRIVATE Tracer/GLTracerImpl.cpp Tracer/GLTracer.cpp)

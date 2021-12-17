@@ -38,9 +38,6 @@ protected:
     void applyCurrentView();
 
 private:
-    int m_width{};
-    int m_height{};
-
     std::vector<Core::Interface::IView *> m_viewStack;
 
     RenderSystemConfig &m_config;

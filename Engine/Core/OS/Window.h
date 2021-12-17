@@ -61,6 +61,8 @@ public:
 
     void *getHwnd() const;
 
+    void delay(uint32_t delayInMs);
+
 public:
     Core::EventSystem::Event<SDL_Event *> WindowEvent;
     Core::EventSystem::Event<void *> PreWindowEvent; // TODO Event with no args

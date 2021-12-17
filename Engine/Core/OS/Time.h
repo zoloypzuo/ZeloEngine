@@ -32,10 +32,15 @@ public:
 
     void reset();
 
+    void lockFrameRate(int frameRate);
+
 private:
     std::chrono::high_resolution_clock::time_point m_baseTime{};
     std::chrono::high_resolution_clock::time_point m_time{};
     std::chrono::high_resolution_clock::time_point m_lastTime{};
     std::chrono::microseconds m_deltaTime{};
+
+    bool m_lockFrameRate{};
+    uint32_t m_iFrameRate{};
 };
 }
