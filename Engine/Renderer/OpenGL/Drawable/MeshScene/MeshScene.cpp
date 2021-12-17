@@ -120,6 +120,54 @@ private:
     DrawElementsIndirectCommand *commandQueue;
 };
 
+
+class GLShaderStorageBuffer : public GLBuffer {
+public:
+    GLShaderStorageBuffer(uint32_t size, const void *data = nullptr, uint32_t flags = GL_DYNAMIC_STORAGE_BIT) :
+            GLBuffer(size, data, flags) {}
+
+    ~GLShaderStorageBuffer();
+
+    void bind(uint32_t bindingPoint);
+
+    void unbind() const override;
+
+    GLBufferType getType() const override { return GLBufferType::SHADER_STORAGE_BUFFER; }
+
+    template<typename T>
+    void sendBlocks(T *data, size_t size) const;
+
+    template<typename T>
+    void sendBlocks(std::vector<T> data) const;
+
+private:
+    uint32_t m_bindingPoint = 0;
+    Core::RHI::EAccessSpecifier m_accessSpecifier;
+};
+
+GLShaderStorageBuffer::~GLShaderStorageBuffer() {
+    glDeleteBuffers(1, &m_RendererID);
+}
+
+void GLShaderStorageBuffer::bind(uint32_t bindingPoint) {
+    m_bindingPoint = bindingPoint;
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, m_RendererID);
+}
+
+void GLShaderStorageBuffer::unbind() const {
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bindingPoint, 0);
+}
+
+template<typename T>
+inline void GLShaderStorageBuffer::sendBlocks(T *data, size_t size) const {
+    glNamedBufferSubData(m_RendererID, 0, size, data);
+}
+
+template<typename T>
+void GLShaderStorageBuffer::sendBlocks(std::vector<T> data) const {
+    sendBlocks(data.data(), data.size() * sizeof(T));
+}
+
 const static BufferLayout s_BufferLayout(
         {
                 BufferElement(EBufferDataType::Float3, "position"),
@@ -227,21 +275,16 @@ struct MeshScene::Impl {
 
     GLBufferImmutable bufferIndices_;
     GLBufferImmutable bufferVertices_;
-    GLBufferImmutable bufferMaterials_;
 
-//    GLBufferImmutable bufferIndirect_;
-
-    GLBufferImmutable bufferModelMatrices_;
+    std::unique_ptr<GLShaderStorageBuffer> bufferMaterials_;
+    std::unique_ptr<GLShaderStorageBuffer> bufferModelMatrices_;
 
     std::unique_ptr<GLIndirectCommandBuffer> bufferIndirect_;
 
     explicit Impl() :
             numIndices_(g_SceneData->header_.indexDataSize / sizeof(uint32_t)),
             bufferIndices_(g_SceneData->header_.indexDataSize, g_SceneData->meshData_.indexData_.data(), 0),
-            bufferVertices_(g_SceneData->header_.vertexDataSize, g_SceneData->meshData_.vertexData_.data(), 0),
-            bufferMaterials_(sizeof(MaterialDescription) * g_SceneData->materials_.size(),
-                             g_SceneData->materials_.data(), 0),
-            bufferModelMatrices_(sizeof(glm::mat4) * g_SceneData->shapes_.size(), nullptr, GL_DYNAMIC_STORAGE_BIT) {
+            bufferVertices_(g_SceneData->header_.vertexDataSize, g_SceneData->meshData_.vertexData_.data(), 0) {
 
         glCreateVertexArrays(1, &vao_);
         glVertexArrayElementBuffer(vao_, bufferIndices_.getHandle());
@@ -259,7 +302,7 @@ struct MeshScene::Impl {
         glVertexArrayAttribFormat(vao_, 2, 3, GL_FLOAT, GL_TRUE, sizeof(vec3) + sizeof(vec2));
         glVertexArrayAttribBinding(vao_, 2, 0);
 
-
+        // bufferIndirect_
         {
             bufferIndirect_ = std::make_unique<GLIndirectCommandBuffer>(
                     sizeof(DrawElementsIndirectCommand) * g_SceneData->shapes_.size() + sizeof(GLsizei),
@@ -281,12 +324,27 @@ struct MeshScene::Impl {
             bufferIndirect_->sendBlocks();
         }
 
-        std::vector<glm::mat4> matrices(g_SceneData->shapes_.size());
-        size_t i = 0;
-        for (const auto &c: g_SceneData->shapes_)
-            matrices[i++] = g_SceneData->scene_.globalTransform_[c.transformIndex];
+        // bufferMaterials_
+        {
+            bufferMaterials_ = std::make_unique<GLShaderStorageBuffer>(
+                    g_SceneData->materials_.size() * sizeof(MaterialDescription),
+                    g_SceneData->materials_.data(), 0
+                    );
+        }
 
-        glNamedBufferSubData(bufferModelMatrices_.getHandle(), 0, matrices.size() * sizeof(mat4), matrices.data());
+        // bufferModelMatrices_
+        {
+            bufferModelMatrices_ = std::make_unique<GLShaderStorageBuffer>(
+                    g_SceneData->shapes_.size() * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+            std::vector<glm::mat4> matrices(g_SceneData->shapes_.size());
+            size_t i = 0;
+            for (const auto &c: g_SceneData->shapes_) {
+                matrices[i++] = g_SceneData->scene_.globalTransform_[c.transformIndex];
+            }
+
+            bufferModelMatrices_->sendBlocks(matrices);
+        }
+
     }
 
     ~Impl() = default;
@@ -306,8 +364,8 @@ struct MeshScene::Impl {
 //        glDisable(GL_BLEND);
 
         glBindVertexArray(vao_);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_Materials, bufferMaterials_.getHandle());
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_ModelMatrices, bufferModelMatrices_.getHandle());
+        bufferMaterials_->bind(kBufferIndex_Materials);
+        bufferModelMatrices_->bind(kBufferIndex_ModelMatrices);
         bufferIndirect_->bind();
         glMultiDrawElementsIndirectCount(GL_TRIANGLES, GL_UNSIGNED_INT, (const void *) sizeof(GLsizei), 0,
                                          (GLsizei) g_SceneData->shapes_.size(), 0);
