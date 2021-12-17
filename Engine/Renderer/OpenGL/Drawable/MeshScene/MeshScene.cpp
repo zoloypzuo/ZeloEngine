@@ -57,6 +57,8 @@ public:
 
     void unbind() const override { GLBuffer::unbind(); }
 
+    uint32_t getHandle() const override { return m_RendererID; }
+
     GLBufferType getType() const override { return GLBufferType::ARRAY_BUFFER; }
 };
 
@@ -70,6 +72,8 @@ public:
     void bind() const override { GLBuffer::bind(); }
 
     void unbind() const override { GLBuffer::unbind(); }
+
+    uint32_t getHandle() const override { return m_RendererID; }
 
     GLBufferType getType() const override { return GLBufferType::ELEMENT_ARRAY_BUFFER; }
 
@@ -271,37 +275,24 @@ const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
 std::unique_ptr<GLUniformBuffer> perFrameDataBuffer{};
 
 struct MeshScene::Impl {
-    GLuint vao_{};
-    uint32_t numIndices_;
 
-    GLBufferImmutable bufferIndices_;
-    GLBufferImmutable bufferVertices_;
+    GLVertexArrayDSA m_vao;
 
     std::unique_ptr<GLShaderStorageBuffer> bufferMaterials_;
     std::unique_ptr<GLShaderStorageBuffer> bufferModelMatrices_;
 
     std::unique_ptr<GLIndirectCommandBuffer> bufferIndirect_;
 
-    explicit Impl() :
-            numIndices_(g_SceneData->header_.indexDataSize / sizeof(uint32_t)),
-            bufferIndices_(g_SceneData->header_.indexDataSize, g_SceneData->meshData_.indexData_.data(), 0),
-            bufferVertices_(g_SceneData->header_.vertexDataSize, g_SceneData->meshData_.vertexData_.data(), 0) {
+    explicit Impl() {
 
-        glCreateVertexArrays(1, &vao_);
-        glVertexArrayElementBuffer(vao_, bufferIndices_.getHandle());
-        glVertexArrayVertexBuffer(vao_, 0, bufferVertices_.getHandle(), 0, sizeof(vec3) + sizeof(vec3) + sizeof(vec2));
-        // position
-        glEnableVertexArrayAttrib(vao_, 0);
-        glVertexArrayAttribFormat(vao_, 0, 3, GL_FLOAT, GL_FALSE, 0);
-        glVertexArrayAttribBinding(vao_, 0, 0);
-        // uv
-        glEnableVertexArrayAttrib(vao_, 1);
-        glVertexArrayAttribFormat(vao_, 1, 2, GL_FLOAT, GL_FALSE, sizeof(vec3));
-        glVertexArrayAttribBinding(vao_, 1, 0);
-        // normal
-        glEnableVertexArrayAttrib(vao_, 2);
-        glVertexArrayAttribFormat(vao_, 2, 3, GL_FLOAT, GL_TRUE, sizeof(vec3) + sizeof(vec2));
-        glVertexArrayAttribBinding(vao_, 2, 0);
+        auto bufferIndices_ = std::make_shared<GLIndexBufferImmutable>(
+                g_SceneData->header_.indexDataSize, g_SceneData->meshData_.indexData_.data(), 0);
+        auto bufferVertices_ = std::make_shared<GLVertexBufferImmutable>(
+                g_SceneData->header_.vertexDataSize, g_SceneData->meshData_.vertexData_.data(), 0);
+
+        bufferVertices_->setLayout(s_BufferLayout);
+        m_vao.addVertexBuffer(bufferVertices_);
+        m_vao.setIndexBuffer(bufferIndices_);
 
         // bufferIndirect_
         {
@@ -330,7 +321,7 @@ struct MeshScene::Impl {
             bufferMaterials_ = std::make_unique<GLShaderStorageBuffer>(
                     g_SceneData->materials_.size() * sizeof(MaterialDescription),
                     g_SceneData->materials_.data(), 0
-                    );
+            );
         }
 
         // bufferModelMatrices_
@@ -364,7 +355,7 @@ struct MeshScene::Impl {
 //        glEnable(GL_DEPTH_TEST);
 //        glDisable(GL_BLEND);
 
-        glBindVertexArray(vao_);
+        m_vao.bind();
         bufferMaterials_->bind(kBufferIndex_Materials);
         bufferModelMatrices_->bind(kBufferIndex_ModelMatrices);
         bufferIndirect_->bind();

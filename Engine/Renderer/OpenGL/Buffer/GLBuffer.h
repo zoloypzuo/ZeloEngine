@@ -24,7 +24,7 @@ public:
 
     void setData(const void *data, uint32_t size);
 
-    uint32_t getHandle() const { return m_RendererID; }
+    uint32_t getHandle() const override { return m_RendererID; }
 
 private:
     uint32_t m_RendererID{};
@@ -39,6 +39,8 @@ public:
     void bind() const override;
 
     void unbind() const override;
+
+    uint32_t getHandle() const override { return m_RendererID; }
 
     uint32_t getCount() const override { return m_Count; }
 

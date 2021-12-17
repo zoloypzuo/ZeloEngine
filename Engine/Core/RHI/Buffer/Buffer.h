@@ -15,6 +15,8 @@ public:
 
     virtual void unbind() const = 0;
 
+    virtual uint32_t getHandle() const = 0;
+
     const BufferLayout &getLayout() const { return m_Layout; }
 
     void setLayout(const BufferLayout &layout) { m_Layout = layout; }
@@ -31,6 +33,8 @@ public:
     virtual void bind() const = 0;
 
     virtual void unbind() const = 0;
+
+    virtual uint32_t getHandle() const = 0;
 
     virtual uint32_t getCount() const = 0;
 };
