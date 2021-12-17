@@ -18,6 +18,8 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
 #include "Core/Scene/SceneManager.h"
 
+#include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
+
 using namespace Zelo::Core::RHI;
 
 namespace Zelo::Renderer::OpenGL {
@@ -217,7 +219,7 @@ struct PerFrameData {
 };
 const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
 
-std::unique_ptr<GLBufferImmutable> perFrameDataBuffer{};
+std::unique_ptr<GLUniformBuffer> perFrameDataBuffer{};
 
 struct MeshScene::Impl {
     GLuint vao_{};
@@ -297,7 +299,8 @@ struct MeshScene::Impl {
         const vec3 viewPos = camera->getOwner()->getPosition();
 
         const PerFrameData perFrameData = {view, p, glm::vec4(viewPos, 1.0f)};
-        glNamedBufferSubData(perFrameDataBuffer->getHandle(), 0, kUniformBufferSize, &perFrameData);
+        size_t startOffset = 0;
+        perFrameDataBuffer->setSubData(perFrameData, std::ref(startOffset));
 
 //        glEnable(GL_DEPTH_TEST);
 //        glDisable(GL_BLEND);
@@ -319,8 +322,8 @@ MeshScene::MeshScene() {
     g_SceneData = new GLSceneData(x.c_str(), y.c_str(), z.c_str());
 
     // UBO
-    perFrameDataBuffer = std::make_unique<GLBufferImmutable>(kUniformBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT);
-    glBindBufferRange(GL_UNIFORM_BUFFER, 0, perFrameDataBuffer->getHandle(), 0, kUniformBufferSize);
+    perFrameDataBuffer = std::make_unique<GLUniformBuffer>(
+            sizeof(PerFrameData), 0, 0, Core::RHI::EAccessSpecifier::STREAM_DRAW);
 
 //    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 //    glEnable(GL_DEPTH_TEST);
@@ -333,6 +336,3 @@ void MeshScene::render() const {
     pimpl->render();
 }
 }
-
-// VAO
-// SSBO UBO
