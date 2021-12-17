@@ -218,5 +218,4 @@ MeshScene::~MeshScene() = default;
 void MeshScene::render() const {
     pimpl->render();
 }
-
 }
