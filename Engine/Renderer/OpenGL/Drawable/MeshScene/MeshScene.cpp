@@ -123,6 +123,7 @@ private:
 
 class GLShaderStorageBuffer : public GLBuffer {
 public:
+    // pass data = null, flag = GL_DYNAMIC_STORAGE_BIT, and upload data later by sendBlocks
     GLShaderStorageBuffer(uint32_t size, const void *data = nullptr, uint32_t flags = GL_DYNAMIC_STORAGE_BIT) :
             GLBuffer(size, data, flags) {}
 
