@@ -8,6 +8,8 @@ add_library(OpenGLRenderer
         Buffer/GLUniformBuffer.cpp
         Buffer/GLShaderStorageBuffer.cpp
         Buffer/GLVertexArrayDSA.cpp
+        Buffer/GLBufferDSA.cpp
+        Buffer/GLShaderStorageBufferDSA.cpp
 
         Resource/GLMesh.cpp
         Resource/GLTexture.cpp

@@ -20,178 +20,12 @@
 
 #include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
 #include "Renderer/OpenGL/Buffer/GLVertexArrayDSA.h"
-#include "GLVertexArrayDSA.h"
+#include "Renderer/OpenGL/Buffer/GLBufferDSA.h"
+#include "Renderer/OpenGL/Buffer/GLShaderStorageBufferDSA.h"
 
 using namespace Zelo::Core::RHI;
 
 namespace Zelo::Renderer::OpenGL {
-
-enum class GLBufferType {
-    ARRAY_BUFFER = GL_ARRAY_BUFFER,
-    ATOMIC_COUNTER_BUFFER = GL_ATOMIC_COUNTER_BUFFER,
-    COPY_READ_BUFFER = GL_COPY_READ_BUFFER,
-    COPY_WRITE_BUFFER = GL_COPY_WRITE_BUFFER,
-    DISPATCH_INDIRECT_BUFFER = GL_DISPATCH_INDIRECT_BUFFER,
-    DRAW_INDIRECT_BUFFER = GL_DRAW_INDIRECT_BUFFER,
-    ELEMENT_ARRAY_BUFFER = GL_ELEMENT_ARRAY_BUFFER,
-    PIXEL_PACK_BUFFER = GL_PIXEL_PACK_BUFFER,
-    PIXEL_UNPACK_BUFFER = GL_PIXEL_UNPACK_BUFFER,
-    QUERY_BUFFER = GL_QUERY_BUFFER,
-    SHADER_STORAGE_BUFFER = GL_SHADER_STORAGE_BUFFER,
-    TEXTURE_BUFFER = GL_TEXTURE_BUFFER,
-    TRANSFORM_FEEDBACK_BUFFER = GL_TRANSFORM_FEEDBACK_BUFFER,
-    UNIFORM_BUFFER = GL_UNIFORM_BUFFER
-};
-
-class GLBuffer {
-public:
-    GLBuffer(uint32_t size, const void *data, uint32_t flags) {
-        glCreateBuffers(1, &m_RendererID);
-        glNamedBufferStorage(m_RendererID, size, data, flags);
-    }
-
-    ~GLBuffer() {
-        glDeleteBuffers(1, &m_RendererID);
-    }
-
-    uint32_t getHandle() const { return m_RendererID; }
-
-    virtual void bind() const { glBindBuffer(static_cast<GLenum>(getType()), m_RendererID); }
-
-    virtual void unbind() const { glBindBuffer(static_cast<GLenum>(getType()), 0); }
-
-    virtual GLBufferType getType() const = 0;
-
-protected:
-    uint32_t m_RendererID{};
-};
-
-class GLVertexBufferImmutable : public VertexBuffer, public GLBuffer {
-public:
-    GLVertexBufferImmutable(uint32_t size, const void *data, uint32_t flags) :
-            GLBuffer(size, data, flags) {}
-
-    ~GLVertexBufferImmutable() override = default;
-
-    void bind() const override { GLBuffer::bind(); }
-
-    void unbind() const override { GLBuffer::unbind(); }
-
-    uint32_t getHandle() const override { return m_RendererID; }
-
-    GLBufferType getType() const override { return GLBufferType::ARRAY_BUFFER; }
-};
-
-class GLIndexBufferImmutable : public IndexBuffer, public GLBuffer {
-public:
-    GLIndexBufferImmutable(uint32_t size, const void *data, uint32_t flags) :
-            GLBuffer(size, data, flags) {}
-
-    ~GLIndexBufferImmutable() override = default;
-
-    void bind() const override { GLBuffer::bind(); }
-
-    void unbind() const override { GLBuffer::unbind(); }
-
-    uint32_t getHandle() const override { return m_RendererID; }
-
-    GLBufferType getType() const override { return GLBufferType::ELEMENT_ARRAY_BUFFER; }
-
-    uint32_t getCount() const override { return 0; }
-};
-
-struct DrawElementsIndirectCommand {
-    GLuint count_;
-    GLuint instanceCount_;
-    GLuint firstIndex_;
-    GLuint baseVertex_;
-    GLuint baseInstance_;
-};
-
-class GLIndirectCommandBuffer : public GLBuffer {
-public:
-    GLIndirectCommandBuffer(uint32_t size, const void *data, uint32_t flags, GLsizei numCommands) :
-            GLBuffer(size, data, flags) {
-
-        drawCommandBuffer.resize(size);
-
-        // store the number of draw commands in the very beginning of the buffer
-        memcpy(drawCommandBuffer.data(), &numCommands, sizeof(GLsizei));
-
-        auto *startOffset = drawCommandBuffer.data() + sizeof(GLsizei);
-        commandQueue = std::launder(reinterpret_cast<DrawElementsIndirectCommand *>(startOffset));
-    }
-
-    void bind() const override {
-        glBindBuffer(GL_DRAW_INDIRECT_BUFFER, m_RendererID);
-        glBindBuffer(GL_PARAMETER_BUFFER, m_RendererID);
-    }
-
-    ~GLIndirectCommandBuffer() = default;
-
-    GLBufferType getType() const override { return GLBufferType::DRAW_INDIRECT_BUFFER; }
-
-    void sendBlocks() {
-        glNamedBufferSubData(m_RendererID, 0, drawCommandBuffer.size(), drawCommandBuffer.data());
-    }
-
-    DrawElementsIndirectCommand *getCommandQueue() const { return commandQueue; }
-
-private:
-    // num of commands, followed by command queue
-    std::vector<uint8_t> drawCommandBuffer;
-    // start offset of command queue
-    DrawElementsIndirectCommand *commandQueue;
-};
-
-
-class GLShaderStorageBuffer : public GLBuffer {
-public:
-    // pass data = null, flag = GL_DYNAMIC_STORAGE_BIT, and upload data later by sendBlocks
-    GLShaderStorageBuffer(uint32_t size, const void *data = nullptr, uint32_t flags = GL_DYNAMIC_STORAGE_BIT) :
-            GLBuffer(size, data, flags) {}
-
-    ~GLShaderStorageBuffer();
-
-    void bind(uint32_t bindingPoint);
-
-    void unbind() const override;
-
-    GLBufferType getType() const override { return GLBufferType::SHADER_STORAGE_BUFFER; }
-
-    template<typename T>
-    void sendBlocks(T *data, size_t size) const;
-
-    template<typename T>
-    void sendBlocks(std::vector<T> data) const;
-
-private:
-    uint32_t m_bindingPoint = 0;
-    Core::RHI::EAccessSpecifier m_accessSpecifier;
-};
-
-GLShaderStorageBuffer::~GLShaderStorageBuffer() {
-    glDeleteBuffers(1, &m_RendererID);
-}
-
-void GLShaderStorageBuffer::bind(uint32_t bindingPoint) {
-    m_bindingPoint = bindingPoint;
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, m_RendererID);
-}
-
-void GLShaderStorageBuffer::unbind() const {
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bindingPoint, 0);
-}
-
-template<typename T>
-inline void GLShaderStorageBuffer::sendBlocks(T *data, size_t size) const {
-    glNamedBufferSubData(m_RendererID, 0, size, data);
-}
-
-template<typename T>
-void GLShaderStorageBuffer::sendBlocks(std::vector<T> data) const {
-    sendBlocks(data.data(), data.size() * sizeof(T));
-}
 
 const static BufferLayout s_BufferLayout(
         {
@@ -305,9 +139,9 @@ struct MeshScene::Impl {
 
     explicit Impl() {
 
-        auto bufferIndices_ = std::make_shared<GLIndexBufferImmutable>(
+        auto bufferIndices_ = std::make_shared<GLIndexBufferDSA>(
                 g_SceneData->header_.indexDataSize, g_SceneData->meshData_.indexData_.data(), 0);
-        auto bufferVertices_ = std::make_shared<GLVertexBufferImmutable>(
+        auto bufferVertices_ = std::make_shared<GLVertexBufferDSA>(
                 g_SceneData->header_.vertexDataSize, g_SceneData->meshData_.vertexData_.data(), 0);
 
         bufferVertices_->setLayout(s_BufferLayout);
