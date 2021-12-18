@@ -5,9 +5,7 @@
 #include "GLShaderStorageBufferDSA.h"
 
 namespace Zelo::Renderer::OpenGL{
-GLShaderStorageBufferDSA::~GLShaderStorageBufferDSA() {
-    glDeleteBuffers(1, &m_RendererID);
-}
+GLShaderStorageBufferDSA::~GLShaderStorageBufferDSA() = default;
 
 void GLShaderStorageBufferDSA::bind(uint32_t bindingPoint) {
     m_bindingPoint = bindingPoint;

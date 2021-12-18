@@ -1,19 +1,19 @@
-﻿#include "Scene.h"
+﻿#include "SceneGraph.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Util/Utils.h"
 
 #include <algorithm>
 #include <numeric>
+#include <stack>
 
-void saveStringList(FILE *f, const std::vector<std::string> &lines);
-
+namespace Zelo::Renderer::OpenGL {
 void loadStringList(FILE *f, std::vector<std::string> &lines);
 
-int addNode(Scene &scene, int parent, int level) {
+int addNode(SceneGraph &scene, int parent, int level) {
     int node = (int) scene.hierarchy_.size();
     {
-        // TODO: resize aux arrays (local/global etc.)
-        scene.localTransform_.push_back(glm::mat4(1.0f));
-        scene.globalTransform_.push_back(glm::mat4(1.0f));
+        // TODO(PERF): resize aux arrays (local/global etc.)
+        scene.localTransform_.emplace_back(1.0f);
+        scene.globalTransform_.emplace_back(1.0f);
     }
     scene.hierarchy_.push_back({parent, -1});
     if (parent > -1) {
@@ -38,16 +38,23 @@ int addNode(Scene &scene, int parent, int level) {
     return node;
 }
 
-void markAsChanged(Scene &scene, int node) {
-    int level = scene.hierarchy_[node].level_;
-    scene.changedAtThisFrame_[level].push_back(node);
+void markAsChanged(SceneGraph &scene, int root) {
+    std::stack<int> stack;
+    stack.emplace(root);
+    while (!stack.empty()) {
+        int node = stack.top();
 
-    // TODO: use non-recursive iteration with aux stack
-    for (int s = scene.hierarchy_[node].firstChild_; s != -1; s = scene.hierarchy_[s].nextSibling_)
-        markAsChanged(scene, s);
+        int level = scene.hierarchy_[node].level_;
+        scene.changedAtThisFrame_[level].push_back(node);
+
+        stack.pop();
+        for (auto s: getNodeChildren(scene, node)) {
+            stack.emplace(s);
+        }
+    }
 }
 
-int findNodeByName(const Scene &scene, const std::string &name) {
+int findNodeByName(const SceneGraph &scene, const std::string &name) {
     // Extremely simple linear search without any hierarchy reference
     // To support DFS/BFS searches separate traversal routines are needed
 
@@ -62,7 +69,7 @@ int findNodeByName(const Scene &scene, const std::string &name) {
     return -1;
 }
 
-int getNodeLevel(const Scene &scene, int n) {
+int getNodeLevel(const SceneGraph &scene, int n) {
     int level = -1;
     for (int p = 0; p != -1; p = scene.hierarchy_[p].parent_, level++);
     return level;
@@ -73,7 +80,7 @@ bool mat4IsIdentity(const glm::mat4 &m);
 void fprintfMat4(FILE *f, const glm::mat4 &m);
 
 // CPU version of global transform update []
-void recalculateGlobalTransforms(Scene &scene) {
+void recalculateGlobalTransforms(SceneGraph &scene) {
     if (!scene.changedAtThisFrame_[0].empty()) {
         int c = scene.changedAtThisFrame_[0][0];
         scene.globalTransform_[c] = scene.localTransform_[c];
@@ -101,7 +108,7 @@ void loadMap(FILE *f, std::unordered_map<uint32_t, uint32_t> &map) {
         map[ms[i * 2 + 0]] = ms[i * 2 + 1];
 }
 
-void loadScene(const char *fileName, Scene &scene) {
+void loadScene(const char *fileName, SceneGraph &scene) {
     FILE *f = fopen(fileName, "rb");
 
     if (!f) {
@@ -136,41 +143,6 @@ void loadScene(const char *fileName, Scene &scene) {
     fclose(f);
 }
 
-void saveMap(FILE *f, const std::unordered_map<uint32_t, uint32_t> &map) {
-    std::vector<uint32_t> ms;
-    ms.reserve(map.size() * 2);
-    for (const auto &m: map) {
-        ms.push_back(m.first);
-        ms.push_back(m.second);
-    }
-    const uint32_t sz = static_cast<uint32_t>(ms.size());
-    fwrite(&sz, sizeof(sz), 1, f);
-    fwrite(ms.data(), sizeof(int), ms.size(), f);
-}
-
-void saveScene(const char *fileName, const Scene &scene) {
-    FILE *f = fopen(fileName, "wb");
-
-    const uint32_t sz = (uint32_t) scene.hierarchy_.size();
-    fwrite(&sz, sizeof(sz), 1, f);
-
-    fwrite(scene.localTransform_.data(), sizeof(glm::mat4), sz, f);
-    fwrite(scene.globalTransform_.data(), sizeof(glm::mat4), sz, f);
-    fwrite(scene.hierarchy_.data(), sizeof(Hierarchy), sz, f);
-
-    // Mesh for node [index to some list of buffers]
-    saveMap(f, scene.materialForNode_);
-    saveMap(f, scene.meshes_);
-
-    if (!scene.names_.empty() && !scene.nameForNode_.empty()) {
-        saveMap(f, scene.nameForNode_);
-        saveStringList(f, scene.names_);
-
-        saveStringList(f, scene.materialNames_);
-    }
-    fclose(f);
-}
-
 bool mat4IsIdentity(const glm::mat4 &m) {
     return (m[0][0] == 1 && m[0][1] == 0 && m[0][2] == 0 && m[0][3] == 0 &&
             m[1][0] == 0 && m[1][1] == 1 && m[1][2] == 0 && m[1][3] == 0 &&
@@ -191,7 +163,7 @@ void fprintfMat4(FILE *f, const glm::mat4 &m) {
     }
 }
 
-void dumpTransforms(const char *fileName, const Scene &scene) {
+void dumpTransforms(const char *fileName, const SceneGraph &scene) {
     FILE *f = fopen(fileName, "a+");
     for (size_t i = 0; i < scene.localTransform_.size(); i++) {
         fprintf(f, "Node[%d].localTransform: ", (int) i);
@@ -204,7 +176,7 @@ void dumpTransforms(const char *fileName, const Scene &scene) {
     fclose(f);
 }
 
-void printChangedNodes(const Scene &scene) {
+void printChangedNodes(const SceneGraph &scene) {
     for (int i = 0; i < MAX_NODE_LEVEL && (!scene.changedAtThisFrame_[i].empty()); i++) {
         printf("Changed at level(%d):\n", i);
 
@@ -222,7 +194,7 @@ void printChangedNodes(const Scene &scene) {
 }
 
 // Shift all hierarchy components in the nodes
-void shiftNodes(Scene &scene, int startOffset, int nodeCount, int shiftAmount) {
+void shiftNodes(SceneGraph &scene, int startOffset, int nodeCount, int shiftAmount) {
     auto shiftNode = [shiftAmount](Hierarchy &node) {
         if (node.parent_ > -1)
             node.parent_ += shiftAmount;
@@ -253,7 +225,7 @@ void mergeMaps(ItemMap &m, const ItemMap &otherMap, int indexOffset, int itemOff
         m[i.first + indexOffset] = i.second + itemOffset;
 }
 
-void dumpSceneToDot(const char *fileName, const Scene &scene, int *visited) {
+void dumpSceneToDot(const char *fileName, const SceneGraph &scene, int *visited) {
     FILE *f = fopen(fileName, "w");
     fprintf(f, "digraph G\n{\n");
     for (size_t i = 0; i < scene.globalTransform_.size(); i++) {
@@ -288,14 +260,14 @@ static void addUniqueIdx(std::vector<uint32_t> &v, uint32_t index) {
 }
 
 // Recurse down from a node and collect all nodes which are already marked for deletion
-static void collectNodesToDelete(const Scene &scene, int node, std::vector<uint32_t> &nodes) {
-    for (int n = scene.hierarchy_[node].firstChild_; n != -1; n = scene.hierarchy_[n].nextSibling_) {
+static void collectNodesToDelete(const SceneGraph &scene, int node, std::vector<uint32_t> &nodes) {
+    for(auto n : getNodeChildren(scene, node)){
         addUniqueIdx(nodes, n);
         collectNodesToDelete(scene, n, nodes);
     }
 }
 
-int findLastNonDeletedItem(const Scene &scene, const std::vector<int> &newIndices, int node) {
+int findLastNonDeletedItem(const SceneGraph &scene, const std::vector<int> &newIndices, int node) {
     // we have to be more subtle:
     //   if the (newIndices[firstChild_] == -1), we should follow the link and extract the last non-removed item
     //   ..
@@ -318,7 +290,7 @@ void shiftMapIndices(std::unordered_map<uint32_t, uint32_t> &items, const std::v
 }
 
 // Approximately an O ( N * Log(N) * Log(M)) algorithm (N = scene.size, M = nodesToDelete.size) to delete a collection of nodes from scene graph
-void deleteSceneNodes(Scene &scene, const std::vector<uint32_t> &nodesToDelete) {
+void deleteSceneNodes(SceneGraph &scene, const std::vector<uint32_t> &nodesToDelete) {
     // 0) Add all the nodes down below in the hierarchy
     auto indicesToDelete = nodesToDelete;
     for (auto i: indicesToDelete)
@@ -364,4 +336,13 @@ void deleteSceneNodes(Scene &scene, const std::vector<uint32_t> &nodesToDelete) 
 
     // 5) scene node names list is not modified, but in principle it can be (remove all non-used items and adjust the nameForNode_ map)
     // 6) Material names list is not modified also, but if some materials fell out of use
+}
+
+std::vector<SceneNode> getNodeChildren(const SceneGraph &scene, SceneNode node) {
+    std::vector<SceneNode> children;
+    for (SceneNode s = scene.hierarchy_[node].firstChild_; s != -1; s = scene.hierarchy_[s].nextSibling_) {
+        children.emplace_back(s);
+    }
+    return children;
+}
 }

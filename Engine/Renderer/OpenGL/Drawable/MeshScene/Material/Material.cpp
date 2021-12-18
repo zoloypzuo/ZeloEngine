@@ -3,6 +3,7 @@
 #include <unordered_map>
 #include "Renderer/OpenGL/Drawable/MeshScene/Util/Utils.h"
 
+namespace Zelo::Renderer::OpenGL {
 void saveStringList(FILE *f, const std::vector<std::string> &lines) {
     uint32_t sz = (uint32_t) lines.size();
     fwrite(&sz, sizeof(uint32_t), 1, f);
@@ -56,4 +57,4 @@ void loadMaterials(const char *fileName, std::vector<MaterialDescription> &mater
     loadStringList(f, files);
     fclose(f);
 }
-
+}

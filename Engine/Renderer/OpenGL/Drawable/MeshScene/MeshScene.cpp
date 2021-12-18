@@ -7,12 +7,11 @@
 #include "Core/Resource/ResourceManager.h"
 #include "Core/Scene/SceneManager.h"
 
-#include "Renderer/OpenGL/Buffer/GLVertexArray.h"
-#include "Renderer/OpenGL/Buffer/GLShaderStorageBufferDSA.h"
-#include "Renderer/OpenGL/Buffer/GLUniformBuffer.h"
-#include "Renderer/OpenGL/Buffer/GLVertexArrayDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLUniformBufferDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLVertexArrayDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Scene/Scene.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/Mesh.h"
@@ -29,8 +28,9 @@ const static BufferLayout s_BufferLayout(
                 BufferElement(EBufferDataType::Float3, "normal")
         });
 
-const uint32_t kBufferIndex_ModelMatrices = 1;
-const uint32_t kBufferIndex_Materials = 2;
+const GLuint kBufferIndex_PerFrameUniforms = 0;
+const GLuint kBufferIndex_ModelMatrices = 1;
+const GLuint kBufferIndex_Materials = 2;
 
 static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTexture> &textures) {
     if (idx == INVALID_TEXTURE) return 0;
@@ -51,25 +51,31 @@ struct PerFrameData {
 const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
 
 struct MeshScene::Impl {
-    // scene
-    std::vector<GLTexture> allMaterialTextures_;
-
+#pragma region static
+    // mesh
     MeshFileHeader header_{};
     MeshData meshData_;
-
-    Scene scene_;
+    // scene
+    SceneGraph scene_;
+    // material
     std::vector<MaterialDescription> materials_;
-    std::vector<DrawData> shapes_;
+#pragma endregion static
 
-    // gl
-    GLVertexArrayDSA m_vao;
+#pragma region runtime
+    // material
+    std::vector<GLTexture> allMaterialTextures_;
+    std::vector<DrawData> drawDataList;
+
+    // buffer
+    GLVertexArrayDSA vao;
 
     std::unique_ptr<GLShaderStorageBufferDSA> bufferMaterials_;
     std::unique_ptr<GLShaderStorageBufferDSA> bufferModelMatrices_;
 
     std::unique_ptr<GLIndirectCommandBuffer> bufferIndirect_;
 
-    std::unique_ptr<GLUniformBuffer> perFrameDataBuffer{};
+    std::unique_ptr<GLUniformBufferDSA> perFrameDataBuffer{};
+#pragma endregion runtime
 
     Impl(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile);
 
@@ -82,22 +88,24 @@ struct MeshScene::Impl {
 
 MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
     {
-        header_ = loadMeshData(meshFile.c_str(), meshData_);
-        ::loadScene(sceneFile.c_str(), scene_);
+        // load mesh
+        header_ = ::loadMeshData(meshFile.c_str(), meshData_);
 
-        // prepare draw data buffer
+        // load scene
+        loadScene(sceneFile.c_str(), scene_);
+
+        // construct draw data buffer
+        auto &materialForNode = scene_.materialForNode_;
         for (const auto &c: scene_.meshes_) {
-            auto material = scene_.materialForNode_.find(c.first);
-            if (material != scene_.materialForNode_.end()) {
-                shapes_.push_back(
-                        DrawData{
-                                c.second,
-                                material->second,
-                                0,
-                                meshData_.meshes_[c.second].indexOffset,
-                                meshData_.meshes_[c.second].vertexOffset,
-                                c.first
-                        });
+            if (auto material = materialForNode.find(c.first); material != materialForNode.end()) {
+                drawDataList.emplace_back(
+                        c.second,
+                        material->second,
+                        0,
+                        meshData_.meshes_[c.second].indexOffset,
+                        meshData_.meshes_[c.second].vertexOffset,
+                        c.first
+                );
             }
         }
 
@@ -105,11 +113,13 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
         markAsChanged(scene_, 0);
         recalculateGlobalTransforms(scene_);
 
+        // load material
         std::vector<std::string> textureFiles;
         loadMaterials(materialFile.c_str(), materials_, textureFiles);
 
-        for (const auto &f: textureFiles) {
-            allMaterialTextures_.emplace_back(GL_TEXTURE_2D, ZELO_PATH(f).c_str());
+        // construct material runtime
+        for (const auto &tf: textureFiles) {
+            allMaterialTextures_.emplace_back(GL_TEXTURE_2D, ZELO_PATH(tf).c_str());
         }
 
         for (auto &mtl: materials_) {
@@ -129,26 +139,26 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
                 header_.vertexDataSize, meshData_.vertexData_.data(), 0);
 
         bufferVertices_->setLayout(s_BufferLayout);
-        m_vao.addVertexBuffer(bufferVertices_);
-        m_vao.setIndexBuffer(bufferIndices_);
+        vao.addVertexBuffer(bufferVertices_);
+        vao.setIndexBuffer(bufferIndices_);
     }
 
     // bufferIndirect_
     {
         bufferIndirect_ = std::make_unique<GLIndirectCommandBuffer>(
-                sizeof(DrawElementsIndirectCommand) * shapes_.size() + sizeof(GLsizei),
-                nullptr, GL_DYNAMIC_STORAGE_BIT, shapes_.size());
+                sizeof(DrawElementsIndirectCommand) * drawDataList.size() + sizeof(GLsizei),
+                nullptr, GL_DYNAMIC_STORAGE_BIT, drawDataList.size());
         // prepare indirect commands buffer
         auto *cmd = bufferIndirect_->getCommandQueue();
-        for (size_t i = 0; i != shapes_.size(); i++) {
-            const uint32_t meshIdx = shapes_[i].meshIndex;
-            const uint32_t lod = shapes_[i].LOD;
+        for (size_t i = 0; i != drawDataList.size(); i++) {
+            const uint32_t meshIdx = drawDataList[i].meshIndex;
+            const uint32_t lod = drawDataList[i].LOD;
             *cmd++ = {
                     meshData_.meshes_[meshIdx].getLODIndicesCount(lod),
                     1,
-                    shapes_[i].indexOffset,
-                    shapes_[i].vertexOffset,
-                    shapes_[i].materialIndex
+                    drawDataList[i].indexOffset,
+                    drawDataList[i].vertexOffset,
+                    drawDataList[i].materialIndex
             };
         }
 
@@ -166,10 +176,10 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
     // bufferModelMatrices_
     {
         bufferModelMatrices_ = std::make_unique<GLShaderStorageBufferDSA>(
-                shapes_.size() * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
-        std::vector<glm::mat4> matrices(shapes_.size());
+                drawDataList.size() * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+        std::vector<glm::mat4> matrices(drawDataList.size());
         size_t i = 0;
-        for (const auto &c: shapes_) {
+        for (const auto &c: drawDataList) {
             matrices[i++] = scene_.globalTransform_[c.transformIndex];
         }
 
@@ -178,12 +188,11 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
     // perFrameDataBuffer
     {
-        perFrameDataBuffer = std::make_unique<GLUniformBuffer>(
-                sizeof(PerFrameData), 0, 0, Core::RHI::EAccessSpecifier::STREAM_DRAW);
+        perFrameDataBuffer = std::make_unique<GLUniformBufferDSA>(kBufferIndex_PerFrameUniforms, sizeof(PerFrameData));
     }
 }
 
-int MeshScene::Impl::getDrawCount() const { return shapes_.size(); }
+int MeshScene::Impl::getDrawCount() const { return drawDataList.size(); }
 
 void MeshScene::Impl::render() const {
     // perFrameDataBuffer
@@ -195,12 +204,11 @@ void MeshScene::Impl::render() const {
         const vec3 viewPos = camera->getOwner()->getPosition();
 
         const PerFrameData perFrameData = {view, p, glm::vec4(viewPos, 1.0f)};
-        size_t startOffset = 0;
-        perFrameDataBuffer->setSubData(perFrameData, std::ref(startOffset));
+        perFrameDataBuffer->sendBlocks(perFrameData);
     }
 
     // draw call
-    m_vao.bind();
+    vao.bind();
     bufferMaterials_->bind(kBufferIndex_Materials);
     bufferModelMatrices_->bind(kBufferIndex_ModelMatrices);
     bufferIndirect_->bind();
