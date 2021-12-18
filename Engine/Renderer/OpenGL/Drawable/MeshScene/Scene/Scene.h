@@ -29,7 +29,16 @@ struct Hierarchy {
 /* This scene is converted into a descriptorSet(s) in MultiRenderer class 
    This structure is also used as a storage type in SceneExporter tool
  */
+// struct Node (pseudocode)
+// 1. name
+// 2. hierarchy
+// 3. mesh
+// 4. material
+// 5. transform local
+// 6. transform global
+// 7. transform dirty
 struct Scene {
+#pragma region runtime
     // local transformations for each node and global transforms
     // + an array of 'dirty/changed' local transforms
     std::vector<mat4> localTransform_;
@@ -37,6 +46,7 @@ struct Scene {
 
     // list of nodes whose global transform must be recalculated
     std::vector<int> changedAtThisFrame_[MAX_NODE_LEVEL];
+#pragma endregion runtime
 
     // Hierarchy component
     std::vector<Hierarchy> hierarchy_;
