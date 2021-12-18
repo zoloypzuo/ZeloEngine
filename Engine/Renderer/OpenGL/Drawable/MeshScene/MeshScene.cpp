@@ -28,8 +28,9 @@ const static BufferLayout s_BufferLayout(
                 BufferElement(EBufferDataType::Float3, "normal")
         });
 
-const uint32_t kBufferIndex_ModelMatrices = 1;
-const uint32_t kBufferIndex_Materials = 2;
+const GLuint kBufferIndex_PerFrameUniforms = 0;
+const GLuint kBufferIndex_ModelMatrices = 1;
+const GLuint kBufferIndex_Materials = 2;
 
 static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTexture> &textures) {
     if (idx == INVALID_TEXTURE) return 0;
@@ -187,8 +188,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
     // perFrameDataBuffer
     {
-        perFrameDataBuffer = std::make_unique<GLUniformBufferDSA>(
-                sizeof(PerFrameData), 0, 0, Core::RHI::EAccessSpecifier::STREAM_DRAW);
+        perFrameDataBuffer = std::make_unique<GLUniformBufferDSA>(kBufferIndex_PerFrameUniforms, sizeof(PerFrameData));
     }
 }
 
@@ -204,8 +204,7 @@ void MeshScene::Impl::render() const {
         const vec3 viewPos = camera->getOwner()->getPosition();
 
         const PerFrameData perFrameData = {view, p, glm::vec4(viewPos, 1.0f)};
-        size_t startOffset = 0;
-        perFrameDataBuffer->setSubData(perFrameData, std::ref(startOffset));
+        perFrameDataBuffer->sendBlocks(perFrameData);
     }
 
     // draw call

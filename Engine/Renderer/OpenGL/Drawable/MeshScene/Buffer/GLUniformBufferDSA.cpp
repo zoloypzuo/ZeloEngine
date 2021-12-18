@@ -8,43 +8,12 @@
 using namespace Zelo;
 using namespace Zelo::Core::RHI;
 
-GLUniformBufferDSA::GLUniformBufferDSA(size_t size, uint32_t bindingPoint, uint32_t offset,
-                                 EAccessSpecifier accessSpecifier) {
-    glGenBuffers(1, &m_bufferID);
-    glBindBuffer(GL_UNIFORM_BUFFER, m_bufferID);
-    glBufferData(GL_UNIFORM_BUFFER, size, NULL, static_cast<GLint>(accessSpecifier));
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-    glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, m_bufferID, offset, size);
+namespace Zelo::Renderer::OpenGL {
+GLUniformBufferDSA::GLUniformBufferDSA(
+        uint32_t bindingPoint, uint32_t size, const void *data, uint32_t flags) :
+        GLBufferDSABase(size, data, flags) {
+    glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, m_RendererID, 0, size);
 }
 
-GLUniformBufferDSA::~GLUniformBufferDSA() {
-    glDeleteBuffers(1, &m_bufferID);
-}
-
-void GLUniformBufferDSA::bind() const {
-    glBindBuffer(GL_UNIFORM_BUFFER, m_bufferID);
-}
-
-void GLUniformBufferDSA::unbind() {
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-}
-
-GLuint GLUniformBufferDSA::getHandle() const {
-    return m_bufferID;
-}
-
-void GLUniformBufferDSA::bindBlockToShader(const GLSLShaderProgram &shader,
-                                        uint32_t uniformBlockLocation,
-                                        uint32_t bindingPoint) {
-    glUniformBlockBinding(shader.getHandle(), uniformBlockLocation, bindingPoint);
-}
-
-void GLUniformBufferDSA::bindBlockToShader(const GLSLShaderProgram &shader,
-                                        const std::string &name,
-                                        uint32_t bindingPoint) {
-    glUniformBlockBinding(shader.getHandle(), getBlockLocation(shader, name), bindingPoint);
-}
-
-uint32_t GLUniformBufferDSA::getBlockLocation(const GLSLShaderProgram &shader, const std::string &name) {
-    return glGetUniformBlockIndex(shader.getHandle(), name.c_str());
+GLUniformBufferDSA::~GLUniformBufferDSA() = default;
 }

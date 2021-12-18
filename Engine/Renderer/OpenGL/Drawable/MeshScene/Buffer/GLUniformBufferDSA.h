@@ -5,58 +5,28 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Core/RHI/Const/EAccessSpecifier.h"
+
+#include "GLBufferDSA.h"  // GLBufferDSABase
 
 class GLSLShaderProgram;
 
-namespace Zelo {
-
-class GLUniformBufferDSA {
+namespace Zelo::Renderer::OpenGL {
+class GLUniformBufferDSA : public GLBufferDSABase {
 public:
-
-    explicit GLUniformBufferDSA(size_t size, uint32_t bindingPoint = 0, uint32_t offset = 0,
-                             Core::RHI::EAccessSpecifier accessSpecifier = Core::RHI::EAccessSpecifier::DYNAMIC_DRAW);
+    explicit GLUniformBufferDSA(
+            uint32_t bindingPoint, uint32_t size, const void *data = nullptr, uint32_t flags = GL_DYNAMIC_STORAGE_BIT);
 
     ~GLUniformBufferDSA();
 
-    void bind() const;
-
-    void unbind();
+    GLBufferType getType() const override { return GLBufferType::UNIFORM_BUFFER; }
 
     template<typename T>
-    void setSubData(const T &data, size_t offset);
-
-    template<typename T>
-    void setSubData(const T &data, std::reference_wrapper<size_t> offsetInOut);
-
-    uint32_t getHandle() const;
-
-    static void bindBlockToShader(const GLSLShaderProgram &shader,
-                                  uint32_t uniformBlockLocation,
-                                  uint32_t bindingPoint = 0);
-
-    static void bindBlockToShader(const GLSLShaderProgram &shader, const std::string &name, uint32_t bindingPoint = 0);
-
-    static uint32_t getBlockLocation(const GLSLShaderProgram &shader, const std::string &name);
-
-private:
-    uint32_t m_bufferID{};
+    void sendBlocks(const T &data);
 };
 
 template<typename T>
-inline void GLUniformBufferDSA::setSubData(const T &data, size_t offsetInOut) {
-    bind();
-    glBufferSubData(GL_UNIFORM_BUFFER, offsetInOut, sizeof(T), std::addressof(data));
-    unbind();
-}
-
-template<typename T>
-inline void GLUniformBufferDSA::setSubData(const T &data, std::reference_wrapper<size_t> offsetInOut) {
-    bind();
-    size_t dataSize = sizeof(T);
-    glBufferSubData(GL_UNIFORM_BUFFER, offsetInOut.get(), dataSize, std::addressof(data));
-    offsetInOut.get() += dataSize;
-    unbind();
+void GLUniformBufferDSA::sendBlocks(const T &data) {
+    glNamedBufferSubData(m_RendererID, 0, sizeof(T), &data);
 }
 }
 
