@@ -3,30 +3,19 @@
 // author @zoloypzuo
 #include <sol/sol.hpp>
 
-#include "Core/ECS/Entity.h"
-#include "Core/Controller/CFreeLook.h"
-#include "Core/Controller/CFreeMove.h"
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/RHI/Object/ALight.h"
-
 #include "Core/RHI/MeshGen/Plane.h"
 #include "Core/RHI/MeshRenderer.h"
-#include "Renderer/OpenGL/Resource/GLMaterial.h"
-#include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 #include "Core/RHI/RenderSystem.h"
-
-#include "Core/Parser/MeshLoader.h"
-
-#include "Renderer/OpenGL/Drawable/MeshScene/MeshScene.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::Interface;
-using namespace Zelo::Core::Parser;
 using namespace Zelo::Core::RHI;
-using namespace Zelo::Renderer::OpenGL;
 
+// TODO struct specialization in header ??? ALight.Color
 bool sol_lua_check(sol::types<glm::vec3>, lua_State *L, int index,
                    std::function<sol::check_handler_type> handler,
                    sol::stack::record &tracking) {
@@ -57,56 +46,13 @@ int sol_lua_push(sol::types<glm::vec3>, lua_State *L, const glm::vec3 &v) {
     return amount;
 }
 
-void LuaBind_Entity(sol::state &luaState) {
-    using namespace Zelo::Core::ECS;
-
+void LuaBind_RHI(sol::state &luaState) {
 // @formatter:off
-luaState.new_usertype<Entity>("Entity",
-"tag", sol::property(&Entity::GetTag, &Entity::AddTag),
-"active", sol::property(&Entity::IsActive, &Entity::SetActive),
-"GetGUID", &Entity::GetGUID,
-"AddTag", &Entity::AddTag,
-"AddTransform", &Entity::AddTransform,
-"AddCamera", &Entity::AddComponent<PerspectiveCamera>,
-"AddFreeMove", &Entity::AddComponent<CFreeMove>,
-"AddFreeLook", &Entity::AddComponent<CFreeLook>,
-"AddLight", &Entity::AddComponent<ALight>,
-"AddMeshRenderer", &Entity::AddComponent<MeshRenderer>,
-"__Dummy", []{}
-);
-
-luaState.new_usertype<Transform>("Transform",
-"position", sol::property(&Transform::getPosition, &Transform::setPosition),
-"rotation", sol::property(&Transform::GetRotation),
-"scale", sol::property(&Transform::getScale, & Transform::setScale),
-"SetPosition", &Transform::SetPosition,
-"SetScale", &Transform::SetScale,
-"Rotate", &Transform::Rotate,
-"__Dummy", []{}
-);
-
 luaState.new_usertype<PerspectiveCamera>("Camera",
 "fov", &PerspectiveCamera::m_fov,
 "aspect", &PerspectiveCamera::m_aspect,
 "zNear", &PerspectiveCamera::m_zNear,
 "zFar", &PerspectiveCamera::m_zFar,
-"__Dummy", []{}
-);
-
-
-luaState.new_usertype<glm::vec3>("vec3",
-sol::constructors<
-        glm::vec3(), 
-        glm::vec3(float), 
-        glm::vec3(float, float, float)>(),
-"x", &glm::vec3::x,
-"y", &glm::vec3::y,
-"z", &glm::vec3::z,
-sol::meta_function::multiplication, sol::overload(
-    [](const glm::vec3& v1, const glm::vec3& v2) -> glm::vec3 { return v1*v2; },
-    [](const glm::vec3& v1, float f) -> glm::vec3 { return v1*f; },
-    [](float f, const glm::vec3& v1) -> glm::vec3 { return f*v1; }
-),
 "__Dummy", []{}
 );
 
@@ -136,52 +82,12 @@ sol::constructors<Plane()>(),
 sol::base_classes, sol::bases<IMeshData>(),
 "__Dummy", []{}
 );
-
-luaState.new_usertype<GLMesh>("Mesh",
-sol::constructors<GLMesh(IMeshData &)>(),
-sol::base_classes,  sol::bases<Mesh>(),
-"__Dummy", []{}
-);
-
-luaState.new_usertype<GLTexture>("Texture",
-sol::constructors<GLTexture(std::string )>(),
-"__Dummy", []{}
-);
-
-luaState.new_usertype<GLMaterial>("Material",
-sol::constructors<GLMaterial(GLTexture &, GLTexture &, GLTexture &, GLSLShaderProgram *)>(),
-sol::base_classes, sol::bases<Material>(),
-"__Dummy", []{}
-);
-
-luaState.new_usertype<MeshScene>("Scene",
-sol::constructors<MeshScene(const std::string&, const std::string&, const std::string&)>(),
-sol::base_classes,  sol::bases<Mesh>(),
-"__Dummy", []{}
-);
-
 luaState.new_usertype<GLSLShaderProgram>("Shader",
 sol::constructors<GLSLShaderProgram(const std::string &)>(),
 "__Dummy", []{}
 );
 
-luaState.new_usertype<MeshLoader>("MeshLoader",
-sol::constructors<MeshLoader(const std::string &, int)>(),
-sol::base_classes, sol::bases<IMeshData>(),
-"__Dummy", []{}
-);
-
 luaState.new_usertype<IView>("IView",
-"__Dummy", []{}
-);
-
-luaState.new_usertype<GLFramebuffer>("Framebuffer",
-sol::constructors<GLFramebuffer(uint16_t, uint16_t)>(),
-sol::base_classes, sol::bases<IView>(),
-"GetRenderTextureID", &GLFramebuffer::getRenderTextureID,
-"Bind", &GLFramebuffer::bind,
-"UnBind", &GLFramebuffer::unbind,
-"Resize", &GLFramebuffer::resize,
 "__Dummy", []{}
 );
 
@@ -192,6 +98,5 @@ luaState.new_usertype<RenderSystem>("RenderSystem",
 "PopView", &RenderSystem::popView,
 "__Dummy", []{}
 );
-
 // @formatter:on
 }

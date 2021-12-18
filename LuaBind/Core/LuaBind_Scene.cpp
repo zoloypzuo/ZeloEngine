@@ -6,7 +6,7 @@
 
 using namespace Zelo::Core::Scene;
 
-void LuaBind_Game(sol::state &luaState) {
+void LuaBind_Scene(sol::state &luaState) {
 // @formatter:off
 luaState.new_usertype<SceneManager>("Game",
 "CreateEntity", &SceneManager::CreateEntity,

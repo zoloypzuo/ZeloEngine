@@ -5,15 +5,19 @@ add_library(LuaBind
         Config/LuaBind_Config.cpp
 
         ThirdParty/LuaBind_ThirdParty.cpp
+        ThirdParty/Glm/LuaBind_Glm.cpp
         ThirdParty/ImGui/LuaBind_ImGui.cpp
         ThirdParty/ImGui/LuaBind_ImGuiWidget.cpp
         ThirdParty/ImGui/LuaBind_ImGuiWindow.cpp
         ThirdParty/LuaBitOp/LuaBind_LuaBitOp.cpp
 
         Core/LuaBind_Core.cpp
-        Core/ECS/LuaBind_Entity.cpp
-        Core/Game/LuaBind_Game.cpp
-        Core/UI/LuaBind_UI.cpp
+        Core/LuaBind_Entity.cpp
+        Core/LuaBind_RHI.cpp
+        Core/LuaBind_Scene.cpp
+        Core/LuaBind_UI.cpp
+
+        Renderer/LuaBind_Renderer.cpp
 
         Sandbox/LuaBind_Sandbox.cpp
         )
