@@ -3,3 +3,4 @@
 Lib/** filter=lfs diff=lfs merge=lfs -text
 3rdParty/** filter=lfs diff=lfs merge=lfs -text
 *.dds filter=lfs diff=lfs merge=lfs -text
+*.h linguist-language=C++
