@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+namespace Zelo::Renderer::OpenGL {
 enum MaterialFlags {
     sMaterialFlags_CastShadow = 0x1,
     sMaterialFlags_ReceiveShadow = 0x2,
@@ -39,3 +40,4 @@ void saveMaterials(const char *fileName, const std::vector<MaterialDescription> 
                    const std::vector<std::string> &files);
 
 void loadMaterials(const char *fileName, std::vector<MaterialDescription> &materials, std::vector<std::string> &files);
+}

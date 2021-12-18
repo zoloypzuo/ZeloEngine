@@ -11,7 +11,7 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLUniformBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLVertexArrayDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Scene/Scene.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/Mesh.h"
@@ -56,7 +56,7 @@ struct MeshScene::Impl {
     MeshFileHeader header_{};
     MeshData meshData_;
     // scene
-    Scene scene_;
+    SceneGraph scene_;
     // material
     std::vector<MaterialDescription> materials_;
 #pragma endregion static
@@ -92,7 +92,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
         header_ = ::loadMeshData(meshFile.c_str(), meshData_);
 
         // load scene
-        ::loadScene(sceneFile.c_str(), scene_);
+        loadScene(sceneFile.c_str(), scene_);
 
         // construct draw data buffer
         auto &materialForNode = scene_.materialForNode_;
@@ -115,7 +115,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
         // load material
         std::vector<std::string> textureFiles;
-        ::loadMaterials(materialFile.c_str(), materials_, textureFiles);
+        loadMaterials(materialFile.c_str(), materials_, textureFiles);
 
         // construct material runtime
         for (const auto &tf: textureFiles) {
