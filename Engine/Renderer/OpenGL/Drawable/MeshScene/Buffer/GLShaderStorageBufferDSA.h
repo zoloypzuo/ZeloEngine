@@ -5,7 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-#include "Renderer/OpenGL/Buffer/GLBufferDSA.h"  // GLBufferDSABase
+#include "GLBufferDSA.h"  // GLBufferDSABase
 
 namespace Zelo::Renderer::OpenGL {
 class GLShaderStorageBufferDSA : public GLBufferDSABase {

@@ -5,7 +5,7 @@
 #include "GLVertexArrayDSA.h"
 
 #include "Renderer/OpenGL/GLUtil.h"
-#include "GLVertexArray.h"
+#include "Renderer/OpenGL/Buffer/GLVertexArray.h"
 
 namespace Zelo::Renderer::OpenGL {
 GLVertexArrayDSA::GLVertexArrayDSA() {
