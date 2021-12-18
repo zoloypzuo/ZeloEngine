@@ -16,5 +16,6 @@ rd /s/q build_vs2017
 rd /s/q build_vs2019
 rd /s/q build_vs2019_x64
 rd /s/q cmake-build-debug
+rd /s/q build_ninja
 
 cd %CurrentDir%
