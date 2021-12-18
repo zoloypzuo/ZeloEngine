@@ -7,7 +7,7 @@
 #include "ZeloGLPrerequisites.h"
 
 #include "GLBuffer.h"
-#include "GRCookbook/Texture/GLTexture.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Texture/GLTexture.h"
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 

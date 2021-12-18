@@ -24,11 +24,26 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Buffer/GLUniformBufferDSA.cpp
         Drawable/MeshScene/Buffer/GLVertexArrayDSA.cpp
 
+        Drawable/MeshSceneFinal/MeshSceneFinal.cpp
         Drawable/MeshScene/Material/Material.cpp
         Drawable/MeshScene/Scene/SceneGraph.cpp
         Drawable/MeshScene/Texture/GLTexture.cpp
         Drawable/MeshScene/Util/Utils.cpp
         Drawable/MeshScene/Util/UtilsCubemap.cpp
+
+        Drawable/MeshSceneFinal/GLBuffer.cpp
+        Drawable/MeshSceneFinal/GLMesh9.cpp
+        Drawable/MeshSceneFinal/GLSkyboxRenderer.cpp
+        Drawable/MeshSceneFinal/GLSceneData.cpp
+        Drawable/MeshSceneFinal/GLSceneDataLazy.cpp
+        Drawable/MeshSceneFinal/GLFramebuffer.cpp
+        Drawable/MeshSceneFinal/VtxData/MeshData.cpp
+        Drawable/MeshSceneFinal/Scene/Scene.cpp
+        Drawable/MeshSceneFinal/Material/Material.cpp
+        Drawable/MeshSceneFinal/Texture/GLTexture.cpp
+        Drawable/MeshSceneFinal/Texture/Bitmap.h
+        Drawable/MeshSceneFinal/Util/UtilsCubemap.cpp
+        Drawable/MeshSceneFinal/Util/Utils.cpp
 
         GLUtil.cpp
         GLLoader.cpp
@@ -51,3 +66,12 @@ target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
 target_include_directories(OpenGLRenderer PRIVATE ${STB_INCLUDE_DIRS})
 
 set_target_properties(OpenGLRenderer PROPERTIES FOLDER "OpenGL")
+
+find_package(glfw3 CONFIG REQUIRED)
+find_package(gli CONFIG REQUIRED)
+find_package(RapidJSON CONFIG REQUIRED)
+find_package(Taskflow CONFIG REQUIRED)
+
+
+target_link_libraries(OpenGLRenderer PUBLIC gli)
+target_link_libraries(OpenGLRenderer PRIVATE Taskflow::Taskflow)

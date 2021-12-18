@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "GRCookbook/Texture/Bitmap.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Texture/Bitmap.h"
 
 Bitmap convertEquirectangularMapToVerticalCross(const Bitmap &b);
 

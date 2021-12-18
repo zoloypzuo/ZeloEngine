@@ -1,8 +1,8 @@
-// FinalScenePlugin.cpp
-// created on 2021/11/30
+// MeshSceneFinalFinal.cpp.cc
+// created on 2021/12/18
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "FinalScenePlugin.h"
+#include "MeshSceneFinal.h"
 
 #include "Core/Resource/ResourceManager.h"
 #include "Core/Scene/SceneManager.h"
@@ -10,22 +10,15 @@
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
-#include "GRCookbook/VtxData/MeshData.h"
-#include "GRCookbook/Scene/Scene.h"
+#include "GLMesh9.h"
+#include "GLSkyboxRenderer.h"
+#include "GLSceneDataLazy.h"
+#include "GLFramebuffer.h"
 
-#include "GRCookbook/Resource/GLBuffer.h"
-#include "GRCookbook/Texture/GLTexture.h"
-#include "GRCookbook/Resource/GLMesh9.h"
-#include "GRCookbook/Resource/GLSkyboxRenderer.h"
-#include "GRCookbook/Resource/GLSceneDataLazy.h"
-#include "GRCookbook/Resource/GLFramebuffer.h"
+using namespace Zelo::Core::RHI;
 
-static std::string ZELO_PATH(const std::string &fileName) {
-    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
-    return resourcem->resolvePath(fileName).string();
-}
+namespace Zelo::Renderer::OpenGL {
 
-namespace FinalScene {
 struct PerFrameData {
     mat4 view;
     mat4 proj;
@@ -35,6 +28,37 @@ struct PerFrameData {
     vec4 frustumCorners[8];
     uint32_t numShapesToCull;
 };
+
+struct TransparentFragment {
+    float R, G, B, A;
+    float Depth;
+    glm::uint32_t Next;
+};
+
+struct SSAOParams {
+    float scale_ = 1.5f;
+    float bias_ = 0.15f;
+    float zNear = 0.1f;
+    float zFar = 1000.0f;
+    float radius = 0.05f;
+    float attScale = 1.01f;
+    float distScale = 0.6f;
+} g_SSAOParams;
+
+static_assert(sizeof(SSAOParams) <= sizeof(PerFrameData));
+
+struct HDRParams {
+    float exposure_ = 0.9f;
+    float maxWhite_ = 1.17f;
+    float bloomStrength_ = 1.1f;
+    float adaptationSpeed_ = 0.1f;
+} g_HDRParams;
+
+static_assert(sizeof(HDRParams) <= sizeof(PerFrameData));
+
+const GLuint kBufferIndex_PerFrameUniforms = 0;
+const GLuint kBufferIndex_ModelMatrices = 1;
+const GLuint kBufferIndex_Materials = 2;
 
 const GLuint kBufferIndex_BoundingBoxes = kBufferIndex_PerFrameUniforms + 1;
 const GLuint kBufferIndex_DrawCommands = kBufferIndex_PerFrameUniforms + 2;
@@ -47,19 +71,26 @@ const GLsizeiptr kBoundingBoxesBufferSize = sizeof(BoundingBox) * kMaxNumObjects
 const glm::uint32_t kMaxOITFragments = 16 * 1024 * 1024;
 const GLuint kBufferIndex_TransparencyLists = kBufferIndex_Materials + 1;
 
-struct Ch10FinalPlugin::Impl {
-    struct TransparentFragment {
-        float R, G, B, A;
-        float Depth;
-        glm::uint32_t Next;
-    };
+//const static BufferLayout s_BufferLayout(
+//        {
+//                BufferElement(EBufferDataType::Float3, "position"),
+//                BufferElement(EBufferDataType::Float2, "texCoord"),
+//                BufferElement(EBufferDataType::Float3, "normal")
+//        });
 
-    explicit Impl(Ch10FinalPlugin &parent);
 
-    ~Impl() = default;
+static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTexture> &textures) {
+    if (idx == INVALID_TEXTURE) return 0;
 
-    Ch10FinalPlugin &m_parent;
+    return textures[idx].getHandleBindless();
+}
 
+static std::string ZELO_PATH(const std::string &fileName) {
+    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
+    return resourcem->resolvePath(fileName).string();
+}
+
+struct MeshSceneFinal::Impl {
     std::unique_ptr<GLSLShaderProgram> progGrid{};
     std::unique_ptr<GLSLShaderProgram> program{};
     std::unique_ptr<GLSLShaderProgram> programOIT{};
@@ -112,27 +143,6 @@ struct Ch10FinalPlugin::Impl {
     GLsync fenceCulling = nullptr;
     volatile glm::uint32_t *numVisibleMeshesPtr;
 
-    struct SSAOParams {
-        float scale_ = 1.5f;
-        float bias_ = 0.15f;
-        float zNear = 0.1f;
-        float zFar = 1000.0f;
-        float radius = 0.05f;
-        float attScale = 1.01f;
-        float distScale = 0.6f;
-    } g_SSAOParams;
-
-    static_assert(sizeof(SSAOParams) <= sizeof(PerFrameData));
-
-    struct HDRParams {
-        float exposure_ = 0.9f;
-        float maxWhite_ = 1.17f;
-        float bloomStrength_ = 1.1f;
-        float adaptationSpeed_ = 0.1f;
-    } g_HDRParams;
-
-    static_assert(sizeof(HDRParams) <= sizeof(PerFrameData));
-
     bool g_EnableGPUCulling = false;
     bool g_FreezeCullingView = false;
     bool g_DrawOpaque = true;
@@ -147,13 +157,29 @@ struct Ch10FinalPlugin::Impl {
 
     glm::mat4 g_CullingView{};
 
-    void clearTransparencyBuffers() const;
+    void clearTransparencyBuffers() const {
+        const uint32_t minusOne = 0xFFFFFFFF;
+        const uint32_t zero = 0;
+        glClearTexImage(oitHeads.getHandle(), 0, GL_RED_INTEGER, GL_UNSIGNED_INT, &minusOne);
+        glNamedBufferSubData(oitAtomicCounter.getHandle(), 0, sizeof(uint32_t), &zero);
+    }
+
+    Impl(const std::string &meshFile,
+         const std::string &sceneFile,
+         const std::string &materialFile,
+         const std::string &dummyTextureFile);
+
+    ~Impl() = default;
 
     void render();
+
 };
 
-Ch10FinalPlugin::Impl::Impl(Ch10FinalPlugin &parent) :
-        m_parent(parent),
+MeshSceneFinal::Impl::Impl(
+        const std::string &meshFile,
+        const std::string &sceneFile,
+        const std::string &materialFile,
+        const std::string &dummyTextureFile) :
         sceneData(ZELO_PATH("data/meshes/bistro_all.meshes").c_str(),
                   ZELO_PATH("data/meshes/bistro_all.scene").c_str(),
                   ZELO_PATH("data/meshes/bistro_all.materials").c_str(),
@@ -186,7 +212,6 @@ Ch10FinalPlugin::Impl::Impl(Ch10FinalPlugin &parent) :
         // ping-pong textures for light adaptation
         luminance1(GL_TEXTURE_2D, 1, 1, GL_RGBA16F),
         luminance2(GL_TEXTURE_2D, 1, 1, GL_RGBA16F) {
-
     // shader
     progGrid = std::make_unique<GLSLShaderProgram>("grid.glsl");
     program = std::make_unique<GLSLShaderProgram>("scene_IBL.glsl");
@@ -218,10 +243,10 @@ Ch10FinalPlugin::Impl::Impl(Ch10FinalPlugin &parent) :
         return (mtl.flags_ & sMaterialFlags_Transparent) > 0;
     };
 
-    mesh.bufferIndirect_.selectTo(meshesOpaque, [&isTransparent](const DrawElementsIndirectCommand &c) -> bool {
+    mesh.bufferIndirect_.selectTo(meshesOpaque, [&isTransparent](const auto &c) -> bool {
         return !isTransparent(c);
     });
-    mesh.bufferIndirect_.selectTo(meshesTransparent, [&isTransparent](const DrawElementsIndirectCommand &c) -> bool {
+    mesh.bufferIndirect_.selectTo(meshesTransparent, [&isTransparent](const auto &c) -> bool {
         return isTransparent(c);
     });
 
@@ -258,17 +283,9 @@ Ch10FinalPlugin::Impl::Impl(Ch10FinalPlugin &parent) :
     const GLint swizzleMask[] = {GL_RED, GL_RED, GL_RED, GL_ONE};
     glTextureParameteriv(shadowMap.getTextureColor().getHandle(), GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
     glTextureParameteriv(shadowMap.getTextureDepth().getHandle(), GL_TEXTURE_SWIZZLE_RGBA, swizzleMask);
-
 }
 
-void Ch10FinalPlugin::Impl::clearTransparencyBuffers() const {
-    const uint32_t minusOne = 0xFFFFFFFF;
-    const uint32_t zero = 0;
-    glClearTexImage(oitHeads.getHandle(), 0, GL_RED_INTEGER, GL_UNSIGNED_INT, &minusOne);
-    glNamedBufferSubData(oitAtomicCounter.getHandle(), 0, sizeof(uint32_t), &zero);
-}
-
-void Ch10FinalPlugin::Impl::render() {
+void MeshSceneFinal::Impl::render() {
     if (sceneData.uploadLoadedTextures()) {
         mesh.updateMaterialsBuffer(sceneData);
     }
@@ -496,42 +513,19 @@ void Ch10FinalPlugin::Impl::render() {
     std::swap(luminances[0], luminances[1]);
 }
 
-const std::string &Ch10FinalPlugin::getName() const {
-    static std::string s = "Ch10FinalPlugin";
-    return s;
+MeshSceneFinal::MeshSceneFinal(const std::string &meshFile,
+                               const std::string &sceneFile,
+                               const std::string &materialFile,
+                               const std::string &dummyTextureFile) {
+    pimpl = std::make_shared<Impl>(ZELO_PATH(meshFile),
+                                   ZELO_PATH(sceneFile),
+                                   ZELO_PATH(materialFile),
+                                   ZELO_PATH(dummyTextureFile));
 }
 
-void Ch10FinalPlugin::install() {
+MeshSceneFinal::~MeshSceneFinal() = default;
 
-}
-
-void Ch10FinalPlugin::uninstall() {
-
-}
-
-void Ch10FinalPlugin::initialize() {
-    Zelo::Core::Scene::SceneManager::getSingletonPtr()->clear();
-    Zelo::Core::RHI::RenderSystem::getSingletonPtr()->resetRenderPipeline();
-
-    // load avatar
-    Zelo::Core::LuaScript::LuaScriptManager::getSingletonPtr()->luaCall("LoadAvatar");
-
-    pimpl = std::make_shared<Impl>(*this);
-
-    // bind entity
-    auto *scenem = Zelo::Core::Scene::SceneManager::getSingletonPtr();
-    entity = scenem->CreateEntity();
-
-    glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glEnable(GL_DEPTH_TEST);
-}
-
-void Ch10FinalPlugin::update() {
-    Plugin::update();
-}
-
-void Ch10FinalPlugin::render() {
+void MeshSceneFinal::render() {
     pimpl->render();
 }
 }

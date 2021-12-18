@@ -2,14 +2,14 @@
 
 #include <mutex>
 
-#include "Resource/GLBuffer.h"
+#include "GLBuffer.h"
 
-#include "GRCookbook/Scene/Scene.h"
-#include "GRCookbook/Material/Material.h"
-#include "GRCookbook/VtxData/MeshData.h"
-#include "GRCookbook/Texture/GLTexture.h"
-#include "VtxData/MeshFileHeader.h"
-#include "VtxData/DrawData.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Scene/Scene.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Material/Material.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/VtxData/MeshData.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Texture/GLTexture.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/VtxData/MeshFileHeader.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/VtxData/DrawData.h"
 #include <taskflow/taskflow.hpp>
 
 class GLSceneDataLazy {

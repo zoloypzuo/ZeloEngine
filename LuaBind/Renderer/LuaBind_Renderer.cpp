@@ -7,6 +7,7 @@
 #include "Renderer/OpenGL/Resource/GLMaterial.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/MeshScene.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/MeshSceneFinal.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::Interface;
@@ -32,8 +33,8 @@ sol::base_classes, sol::bases<Material>(),
 "__Dummy", []{}
 );
 
-luaState.new_usertype<MeshScene>("Scene",
-sol::constructors<MeshScene(const std::string&, const std::string&, const std::string&)>(),
+luaState.new_usertype<MeshSceneFinal>("Scene",
+sol::constructors<MeshSceneFinal(const std::string&, const std::string&, const std::string&, const std::string &)>(),
 sol::base_classes,  sol::bases<Mesh>(),
 "__Dummy", []{}
 );

@@ -4,11 +4,11 @@
 
 #include <glm/glm.hpp>
 
-#include "GRCookbook/Util/Utils.h"
-#include "GRCookbook/Util/UtilsMath.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Util/Utils.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Util/UtilsMath.h"
 
 #include "Mesh.h"
-#include "VtxData/MeshFileHeader.h"
+#include "MeshFileHeader.h"
 
 struct MeshData {
     std::vector<uint32_t> indexData_;

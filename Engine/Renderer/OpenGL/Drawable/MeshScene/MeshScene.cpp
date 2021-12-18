@@ -81,7 +81,7 @@ struct MeshScene::Impl {
 
     ~Impl() = default;
 
-    void render() const;
+    void render() ;
 
     int getDrawCount() const;
 };
@@ -194,7 +194,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
 int MeshScene::Impl::getDrawCount() const { return drawDataList.size(); }
 
-void MeshScene::Impl::render() const {
+void MeshScene::Impl::render()  {
     // perFrameDataBuffer
     {
         auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
@@ -223,7 +223,7 @@ MeshScene::MeshScene(const std::string &sceneFile, const std::string &meshFile, 
 
 MeshScene::~MeshScene() = default;
 
-void MeshScene::render() const {
+void MeshScene::render()  {
     pimpl->render();
 }
 }

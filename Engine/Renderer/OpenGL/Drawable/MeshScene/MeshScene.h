@@ -12,7 +12,7 @@ class MeshScene : public Core::RHI::Mesh {
 public:
     MeshScene(const std::string &sceneFile, const std::string &meshFile, const std::string& materialFile);
 
-    void render() const override;
+    void render()  override;
 
     ~MeshScene();
 

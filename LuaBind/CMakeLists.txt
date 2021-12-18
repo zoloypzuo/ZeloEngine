@@ -30,7 +30,6 @@ target_link_libraries(LuaBind PRIVATE
         TemplateSandbox
         GLSLBook
         Craft
-        GRCookbook
         )
 
 target_include_directories(LuaBind PRIVATE

@@ -1,6 +1,6 @@
 ﻿#include "GLTexture.h"
-#include "GRCookbook/Texture/Bitmap.h"
-#include "GRCookbook/Util/UtilsCubemap.h"
+#include "Bitmap.h"
+#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Util/UtilsCubemap.h"
 
 #include <assert.h>
 #include <stdio.h>

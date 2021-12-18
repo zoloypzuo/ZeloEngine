@@ -38,7 +38,7 @@ GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
 
 GLMesh::~GLMesh() = default;
 
-void GLMesh::render() const {
+void GLMesh::render()  {
     m_vao.bind();
     glDrawElements(GL_TRIANGLES, m_vao.getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
     m_vao.unbind();
