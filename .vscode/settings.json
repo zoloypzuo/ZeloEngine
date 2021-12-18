@@ -16,6 +16,7 @@
         "future": "cpp",
         "functional": "cpp",
         "variant": "cpp",
-        "*.h++": "cpp"
+        "*.h++": "cpp",
+        "list": "cpp"
     }
 }
