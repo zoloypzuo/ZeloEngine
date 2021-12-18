@@ -7,10 +7,6 @@ add_library(OpenGLRenderer
         Buffer/GLShadowMap.cpp
         Buffer/GLUniformBuffer.cpp
         Buffer/GLShaderStorageBuffer.cpp
-        Buffer/GLVertexArrayDSA.cpp
-        Buffer/GLBufferDSA.cpp
-        Buffer/GLShaderStorageBufferDSA.cpp
-
         Resource/GLMesh.cpp
         Resource/GLTexture.cpp
         Resource/GLSLShaderProgram.cpp
@@ -21,7 +17,13 @@ add_library(OpenGLRenderer
         Drawable/Line.cpp
         Drawable/Frustum.cpp
         Drawable/Grid.cpp
+
         Drawable/MeshScene/MeshScene.cpp
+        Drawable/MeshScene/Buffer/GLBufferDSA.cpp
+        Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.cpp
+        Drawable/MeshScene/Buffer/GLUniformBufferDSA.cpp
+        Drawable/MeshScene/Buffer/GLVertexArrayDSA.cpp
+
         Drawable/MeshScene/Material/Material.cpp
         Drawable/MeshScene/Scene/Scene.cpp
         Drawable/MeshScene/Texture/GLTexture.cpp
