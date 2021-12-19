@@ -110,7 +110,7 @@ struct MeshSceneFinal::Impl {
     int height = 720;
     GLSkyboxRenderer skybox;
     GLSceneDataLazy sceneData;
-    GLMesh9<GLSceneDataLazy> mesh;
+    GLMesh9 mesh;
     GLTexture rotationPattern;
     GLIndirectBuffer meshesOpaque;
     GLIndirectBuffer meshesTransparent;

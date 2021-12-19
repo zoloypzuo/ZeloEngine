@@ -2,7 +2,7 @@
 
 #include "ZeloGLPrerequisites.h"
 #include <memory>
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Texture/GLTexture.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
 
 class GLFramebuffer {
 public:

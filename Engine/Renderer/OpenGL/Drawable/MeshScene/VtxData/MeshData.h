@@ -8,7 +8,7 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/Util/UtilsMath.h"
 
 #include "Mesh.h"
-#include "VtxData/MeshFileHeader.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshFileHeader.h"
 
 struct MeshData {
     std::vector<uint32_t> indexData_;

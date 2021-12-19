@@ -4,8 +4,8 @@
 #include <stb_image.h>
 
 #include "Core/Resource/ResourceManager.h"
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/VtxData/DrawData.h"
 
+namespace Zelo::Renderer::OpenGL {
 static std::string ZELO_PATH(const std::string &fileName) {
     auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
     return resourcem->resolvePath(fileName).string();
@@ -96,7 +96,7 @@ void GLSceneDataLazy::updateMaterials() {
 }
 
 void GLSceneDataLazy::loadScene(const char *sceneFile) {
-    ::loadScene(sceneFile, scene_);
+    ::Zelo::Renderer::OpenGL::loadScene(sceneFile, scene_);
 
     // prepare draw data buffer
     for (const auto &c: scene_.meshes_) {
@@ -117,4 +117,5 @@ void GLSceneDataLazy::loadScene(const char *sceneFile) {
     // force recalculation of all global transformations
     markAsChanged(scene_, 0);
     recalculateGlobalTransforms(scene_);
+}
 }

@@ -4,14 +4,15 @@
 
 #include "GLBuffer.h"
 
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Scene/Scene.h"
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Material/Material.h"
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/VtxData/MeshData.h"
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/Texture/GLTexture.h"
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/VtxData/MeshFileHeader.h"
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/VtxData/DrawData.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshFileHeader.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
 #include <taskflow/taskflow.hpp>
 
+namespace Zelo::Renderer::OpenGL {
 class GLSceneDataLazy {
 public:
     GLSceneDataLazy(
@@ -37,7 +38,7 @@ public:
     MeshFileHeader header_;
     MeshData meshData_;
 
-    Scene scene_;
+    SceneGraph scene_;
     std::vector<MaterialDescription> materialsLoaded_; // materials loaded from scene
     std::vector<MaterialDescription> materials_; // materials uploaded to GPU buffers
     std::vector<DrawData> shapes_;
@@ -52,3 +53,4 @@ private:
 
     void updateMaterials();
 };
+}

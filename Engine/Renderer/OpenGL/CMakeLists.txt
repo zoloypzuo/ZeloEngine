@@ -24,26 +24,19 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Buffer/GLUniformBufferDSA.cpp
         Drawable/MeshScene/Buffer/GLVertexArrayDSA.cpp
 
-        Drawable/MeshSceneFinal/MeshSceneFinal.cpp
+        Drawable/MeshScene/VtxData/MeshData.cpp
         Drawable/MeshScene/Material/Material.cpp
         Drawable/MeshScene/Scene/SceneGraph.cpp
         Drawable/MeshScene/Texture/GLTexture.cpp
         Drawable/MeshScene/Util/Utils.cpp
         Drawable/MeshScene/Util/UtilsCubemap.cpp
 
+        Drawable/MeshSceneFinal/MeshSceneFinal.cpp
         Drawable/MeshSceneFinal/GLBuffer.cpp
         Drawable/MeshSceneFinal/GLMesh9.cpp
         Drawable/MeshSceneFinal/GLSkyboxRenderer.cpp
-        Drawable/MeshSceneFinal/GLSceneData.cpp
         Drawable/MeshSceneFinal/GLSceneDataLazy.cpp
         Drawable/MeshSceneFinal/GLFramebuffer.cpp
-        Drawable/MeshSceneFinal/VtxData/MeshData.cpp
-        Drawable/MeshSceneFinal/Scene/Scene.cpp
-        Drawable/MeshSceneFinal/Material/Material.cpp
-        Drawable/MeshSceneFinal/Texture/GLTexture.cpp
-        Drawable/MeshSceneFinal/Texture/Bitmap.h
-        Drawable/MeshSceneFinal/Util/UtilsCubemap.cpp
-        Drawable/MeshSceneFinal/Util/Utils.cpp
 
         GLUtil.cpp
         GLLoader.cpp
