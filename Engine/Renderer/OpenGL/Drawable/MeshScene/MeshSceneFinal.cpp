@@ -473,6 +473,8 @@ MeshSceneFinal::Impl::Impl(
         const auto &commandQueue = bufferIndirect_->getCommandQueue();
         std::vector<DrawElementsIndirectCommand> opaqueCommandQueue{};
         std::vector<DrawElementsIndirectCommand> transparentCommandQueue{};
+        opaqueCommandQueue.reserve(commandQueue.size() / 2);
+        transparentCommandQueue.reserve(commandQueue.size() / 2);
         for (const auto &c: commandQueue) {
             if (isTransparent(c)) {
                 transparentCommandQueue.emplace_back(c);
