@@ -10,36 +10,20 @@
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
-#include "GLSkyboxRenderer.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/GLSkyboxRenderer.h"
+
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLFramebufferDSA.h"
-
-#include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshFileHeader.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
-#include <taskflow/taskflow.hpp>
-#include <stb_image.h>
-
-#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
-
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLUniformBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLVertexArrayDSA.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
+
 #include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/Mesh.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
 
-#include "GLBuffer.h"
-
-#include <functional>
+#include <taskflow/taskflow.hpp>
+#include <stb_image.h>
 
 using namespace Zelo::Core::RHI;
 
@@ -155,6 +139,7 @@ struct MeshSceneFinal::Impl {
 #pragma endregion scene
 
 #pragma region buffer
+
     void updateMaterialsBuffer();
 
     void draw(const GLIndirectCommandBufferDSA &buffer) const;
@@ -251,7 +236,6 @@ struct MeshSceneFinal::Impl {
 
 };
 
-
 void MeshSceneFinal::Impl::updateMaterials() {
     const size_t numMaterials = materialsLoaded_.size();
 
@@ -292,7 +276,6 @@ bool MeshSceneFinal::Impl::uploadLoadedTextures() {
     return true;
 }
 
-
 void MeshSceneFinal::Impl::updateMaterialsBuffer() {
     glNamedBufferSubData(bufferMaterials_->getHandle(), 0, sizeof(MaterialDescription) * materials_.size(),
                          materials_.data());
@@ -305,7 +288,7 @@ void MeshSceneFinal::Impl::draw(const GLIndirectCommandBufferDSA &buffer) const 
     bufferModelMatrices_->bind(kBufferIndex_ModelMatrices);
     buffer.bind();
 
-    GLsizei numDrawCommands = (GLsizei) buffer.getDrawCount();
+    auto numDrawCommands = (GLsizei) buffer.getDrawCount();
     glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, numDrawCommands, 0);
 }
 

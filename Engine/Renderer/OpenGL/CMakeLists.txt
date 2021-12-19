@@ -31,9 +31,9 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Util/Utils.cpp
         Drawable/MeshScene/Util/UtilsCubemap.cpp
 
-        Drawable/MeshSceneFinal/MeshSceneFinal.cpp
-        Drawable/MeshSceneFinal/GLBuffer.cpp
-        Drawable/MeshSceneFinal/GLSkyboxRenderer.cpp
+        Drawable/MeshScene/MeshSceneFinal.cpp
+        Drawable/MeshScene/GLBuffer.cpp
+        Drawable/MeshScene/GLSkyboxRenderer.cpp
         Drawable/MeshScene/Buffer/GLFramebufferDSA.cpp
 
         GLUtil.cpp
@@ -46,7 +46,7 @@ add_library(OpenGLRenderer
 
         Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.cpp Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h
 
-        )
+        Drawable/MeshScene/Buffer/GLAtomicCounterDSA.cpp Drawable/MeshScene/Buffer/GLAtomicCounterDSA.h)
 
 option(ZeloGLTracer "ZeloGLTracer" ON)
 if (ZeloGLTracer)

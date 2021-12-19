@@ -7,7 +7,7 @@
 #include "Renderer/OpenGL/Resource/GLMaterial.h"
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/MeshScene.h"
-#include "Renderer/OpenGL/Drawable/MeshSceneFinal/MeshSceneFinal.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/MeshSceneFinal.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::Interface;
