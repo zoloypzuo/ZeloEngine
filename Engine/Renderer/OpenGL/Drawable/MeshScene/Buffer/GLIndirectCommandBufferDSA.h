@@ -15,13 +15,14 @@ struct DrawElementsIndirectCommand {
     GLuint baseInstance_;
 };
 
-class GLIndirectCommandBufferDSA : public GLBufferDSABase {
+// glMultiDrawElementsIndirectCount
+class GLIndirectCommandBufferCountDSA : public GLBufferDSABase {
 public:
-    explicit GLIndirectCommandBufferDSA(size_t numCommands);
+    explicit GLIndirectCommandBufferCountDSA(size_t numCommands);
 
     void bind() const override;
 
-    ~GLIndirectCommandBufferDSA() = default;
+    ~GLIndirectCommandBufferCountDSA() = default;
 
     GLBufferType getType() const override;
 
@@ -29,15 +30,41 @@ public:
 
     DrawElementsIndirectCommand *getCommandQueue() const;
 
-    void sort();
-
 private:
-    GLIndirectCommandBufferDSA(uint32_t size, const void *data, uint32_t flags, size_t numCommands);
+    GLIndirectCommandBufferCountDSA(uint32_t size, const void *data, uint32_t flags, size_t numCommands);
 
     // num of commands, followed by command queue
     std::vector<uint8_t> m_drawCommandBuffer{};
     // start offset of command queue
     DrawElementsIndirectCommand *m_commandQueue{};
     size_t m_numCommands{};
+};
+
+// glMultiDrawElementsIndirect
+class GLIndirectCommandBufferDSA : public GLBufferDSABase {
+public:
+    using CommandQueue = std::vector<DrawElementsIndirectCommand>;
+
+public:
+    // alloc size, fill data then
+    explicit GLIndirectCommandBufferDSA(size_t numCommands);
+
+    // fill data directly
+    explicit GLIndirectCommandBufferDSA(std::vector<DrawElementsIndirectCommand> &commandQueue);
+
+    ~GLIndirectCommandBufferDSA() = default;
+
+    GLBufferType getType() const override;
+
+    void sendBlocks();
+
+    const CommandQueue &getCommandQueue() const;
+
+    CommandQueue &getCommandQueue();
+
+    size_t getDrawCount() const;
+
+private:
+    CommandQueue m_commandQueue{};
 };
 }

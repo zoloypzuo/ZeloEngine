@@ -112,8 +112,8 @@ struct MeshSceneFinal::Impl {
     GLSceneDataLazy sceneData;
     GLMesh9 mesh;
     GLTexture rotationPattern;
-    GLIndirectBuffer meshesOpaque;
-    GLIndirectBuffer meshesTransparent;
+    std::unique_ptr<GLIndirectCommandBufferDSA> meshesOpaque;
+    std::unique_ptr<GLIndirectCommandBufferDSA> meshesTransparent;
     GLFramebufferDSA opaqueFramebuffer;
     GLFramebufferDSA framebuffer;
     GLFramebufferDSA luminance;
@@ -186,8 +186,6 @@ MeshSceneFinal::Impl::Impl(
                   ZELO_PATH("data/const1.bmp").c_str()),
         mesh(sceneData),
         rotationPattern(GL_TEXTURE_2D, ZELO_PATH("data/rot_texture.bmp").c_str()),
-        meshesOpaque(sceneData.shapes_.size()),
-        meshesTransparent(sceneData.shapes_.size()),
         opaqueFramebuffer(width, height, GL_RGBA16F, GL_DEPTH_COMPONENT24),
         framebuffer(width, height, GL_RGBA16F, GL_DEPTH_COMPONENT24),
         luminance(64, 64, GL_RGBA16F, 0),
@@ -237,18 +235,28 @@ MeshSceneFinal::Impl::Impl(
     auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
     g_CullingView = camera->getViewMatrix();
 
-    auto isTransparent = [this](const DrawElementsIndirectCommand &c) {
-        const auto mtlIndex = c.baseInstance_ & 0xffff;
-        const auto &mtl = this->sceneData.materials_[mtlIndex];
-        return (mtl.flags_ & sMaterialFlags_Transparent) > 0;
-    };
+    // meshesOpaque meshesTransparent
+    {
+        auto isTransparent = [this](const DrawElementsIndirectCommand &c) {
+            const auto mtlIndex = c.baseInstance_ & 0xffff;
+            const auto &mtl = this->sceneData.materials_[mtlIndex];
+            return (mtl.flags_ & sMaterialFlags_Transparent) > 0;
+        };
 
-    mesh.bufferIndirect_.selectTo(meshesOpaque, [&isTransparent](const auto &c) -> bool {
-        return !isTransparent(c);
-    });
-    mesh.bufferIndirect_.selectTo(meshesTransparent, [&isTransparent](const auto &c) -> bool {
-        return isTransparent(c);
-    });
+        const auto &commandQueue = mesh.bufferIndirect_.getCommandQueue();
+        std::vector<DrawElementsIndirectCommand> opaqueCommandQueue;
+        std::vector<DrawElementsIndirectCommand> transparentCommandQueue;
+        for(const auto &c: commandQueue){
+            if(isTransparent(c)){
+                transparentCommandQueue.emplace_back(c);
+            } else{
+                opaqueCommandQueue.emplace_back(c);
+            }
+        }
+
+        meshesOpaque = std::make_unique<GLIndirectCommandBufferDSA>(opaqueCommandQueue);
+        meshesTransparent = std::make_unique<GLIndirectCommandBufferDSA>(transparentCommandQueue);
+    }
 
     // create a texture view into the last mip-level (1x1 pixel) of our luminance framebuffer
 
@@ -333,15 +341,15 @@ void MeshSceneFinal::Impl::render() {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_BoundingBoxes, boundingBoxesBuffer.getHandle());
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_NumVisibleMeshes, numVisibleMeshesBuffer.getHandle());
 
-        perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesOpaque.drawCommands_.size() : 0u;
+        perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesOpaque->getDrawCount() : 0u;
         glNamedBufferSubData(perFrameDataBuffer.getHandle(), 0, kUniformBufferSize, &perFrameData);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesOpaque.getHandle());
-        glDispatchCompute(1 + (GLuint) meshesOpaque.drawCommands_.size() / 64, 1, 1);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesOpaque->getHandle());
+        glDispatchCompute(1 + (GLuint) meshesOpaque->getDrawCount() / 64, 1, 1);
 
-        perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesTransparent.drawCommands_.size() : 0u;
+        perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesTransparent->getDrawCount() : 0u;
         glNamedBufferSubData(perFrameDataBuffer.getHandle(), 0, kUniformBufferSize, &perFrameData);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesTransparent.getHandle());
-        glDispatchCompute(1 + (GLuint) meshesTransparent.drawCommands_.size() / 64, 1, 1);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesTransparent->getHandle());
+        glDispatchCompute(1 + (GLuint) meshesTransparent->getDrawCount() / 64, 1, 1);
 
         glMemoryBarrier(GL_COMMAND_BARRIER_BIT | GL_SHADER_STORAGE_BARRIER_BIT | GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT);
         fenceCulling = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
@@ -360,7 +368,7 @@ void MeshSceneFinal::Impl::render() {
         glClearNamedFramebufferfi(shadowMap.getHandle(), GL_DEPTH_STENCIL, 0, 1.0f, 0);
         shadowMap.bind();
         progShadowMap->bind();
-        mesh.draw(mesh.bufferIndirect_.drawCommands_.size());
+        mesh.draw(mesh.bufferIndirect_);
         shadowMap.unbind();
         perFrameData.light = lightProj * lightView;
         glBindTextureUnit(4, shadowMap.getTextureDepth().getHandle());
@@ -379,7 +387,7 @@ void MeshSceneFinal::Impl::render() {
     // 1.1 Bistro
     if (g_DrawOpaque) {
         program->bind();
-        mesh.draw(meshesOpaque.drawCommands_.size(), &meshesOpaque);
+        mesh.draw(*meshesOpaque);
     }
     if (g_DrawGrid) {
         glEnable(GL_BLEND);
@@ -392,7 +400,7 @@ void MeshSceneFinal::Impl::render() {
         glDepthMask(GL_FALSE);
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
         programOIT->bind();
-        mesh.draw(meshesTransparent.drawCommands_.size(), &meshesTransparent);
+        mesh.draw(*meshesTransparent);
         glFlush();
         glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
         glDepthMask(GL_TRUE);

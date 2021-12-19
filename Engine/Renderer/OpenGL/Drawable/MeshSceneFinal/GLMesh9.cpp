@@ -9,27 +9,6 @@ const GLuint kBufferIndex_PerFrameUniforms = 0;
 const GLuint kBufferIndex_ModelMatrices = 1;
 const GLuint kBufferIndex_Materials = 2;
 
-GLIndirectBuffer::GLIndirectBuffer(size_t maxDrawCommands)
-        : bufferIndirect_(sizeof(DrawElementsIndirectCommand) * maxDrawCommands, nullptr, GL_DYNAMIC_STORAGE_BIT),
-          drawCommands_(maxDrawCommands) {}
-
-GLuint GLIndirectBuffer::getHandle() const { return bufferIndirect_.getHandle(); }
-
-void GLIndirectBuffer::uploadIndirectBuffer() {
-    glNamedBufferSubData(bufferIndirect_.getHandle(), 0, sizeof(DrawElementsIndirectCommand) * drawCommands_.size(),
-                         drawCommands_.data());
-}
-
-void
-GLIndirectBuffer::selectTo(GLIndirectBuffer &buf,
-                           const std::function<bool(const DrawElementsIndirectCommand &)> &pred) {
-    buf.drawCommands_.clear();
-    for (const auto &c : drawCommands_) {
-        if (pred(c))
-            buf.drawCommands_.push_back(c);
-    }
-    buf.uploadIndirectBuffer();
-}
 
 GLMesh9::GLMesh9(const GLSceneDataLazy &data)
         : numIndices_(data.header_.indexDataSize / sizeof(uint32_t)),
@@ -61,7 +40,7 @@ GLMesh9::GLMesh9(const GLSceneDataLazy &data)
     for (size_t i = 0; i != data.shapes_.size(); i++) {
         const uint32_t meshIdx = data.shapes_[i].meshIndex;
         const uint32_t lod = data.shapes_[i].LOD;
-        bufferIndirect_.drawCommands_[i] = {
+        bufferIndirect_.getCommandQueue()[i] = {
                 data.meshData_.meshes_[meshIdx].getLODIndicesCount(lod),
                 1,
                 data.shapes_[i].indexOffset,
@@ -71,7 +50,7 @@ GLMesh9::GLMesh9(const GLSceneDataLazy &data)
         matrices[i] = data.scene_.globalTransform_[data.shapes_[i].transformIndex];
     }
 
-    bufferIndirect_.uploadIndirectBuffer();
+    bufferIndirect_.sendBlocks();
 
     glNamedBufferSubData(bufferModelMatrices_.getHandle(), 0, matrices.size() * sizeof(glm::mat4), matrices.data());
 }
@@ -81,13 +60,14 @@ void GLMesh9::updateMaterialsBuffer(const GLSceneDataLazy &data) {
                          data.materials_.data());
 }
 
-void GLMesh9::draw(size_t numDrawCommands,
-                   const GLIndirectBuffer *buffer) const {
+void GLMesh9::draw(const GLIndirectCommandBufferDSA &buffer) const {
     glBindVertexArray(vao_);
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_Materials, bufferMaterials_.getHandle());
     glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_ModelMatrices, bufferModelMatrices_.getHandle());
-    glBindBuffer(GL_DRAW_INDIRECT_BUFFER, (buffer ? *buffer : bufferIndirect_).getHandle());
-    glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, (GLsizei) numDrawCommands, 0);
+    buffer.bind();
+
+    GLsizei numDrawCommands = (GLsizei) buffer.getDrawCount();
+    glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, numDrawCommands, 0);
 }
 
 GLMesh9::~GLMesh9() {

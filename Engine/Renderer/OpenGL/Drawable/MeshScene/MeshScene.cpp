@@ -73,7 +73,7 @@ struct MeshScene::Impl {
     std::unique_ptr<GLShaderStorageBufferDSA> bufferMaterials_;
     std::unique_ptr<GLShaderStorageBufferDSA> bufferModelMatrices_;
 
-    std::unique_ptr<GLIndirectCommandBufferDSA> bufferIndirect_;
+    std::unique_ptr<GLIndirectCommandBufferCountDSA> bufferIndirect_;
 
     std::unique_ptr<GLUniformBufferDSA> perFrameDataBuffer{};
 #pragma endregion runtime
@@ -82,7 +82,7 @@ struct MeshScene::Impl {
 
     ~Impl() = default;
 
-    void render() ;
+    void render() const ;
 
     int getDrawCount() const;
 };
@@ -146,7 +146,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
     // bufferIndirect_
     {
-        bufferIndirect_ = std::make_unique<GLIndirectCommandBufferDSA>(drawDataList.size());
+        bufferIndirect_ = std::make_unique<GLIndirectCommandBufferCountDSA>(drawDataList.size());
         // prepare indirect commands buffer
         auto *cmd = bufferIndirect_->getCommandQueue();
         for (size_t i = 0; i != drawDataList.size(); i++) {
@@ -193,7 +193,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
 int MeshScene::Impl::getDrawCount() const { return drawDataList.size(); }
 
-void MeshScene::Impl::render()  {
+void MeshScene::Impl::render() const  {
     // perFrameDataBuffer
     {
         auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();

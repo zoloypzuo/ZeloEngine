@@ -5,6 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
 #include "Renderer/OpenGL/Drawable/MeshSceneFinal/GLSceneDataLazy.h"
@@ -15,37 +16,13 @@
 
 namespace Zelo::Renderer::OpenGL {
 
-struct DrawElementsIndirectCommand {
-    GLuint count_;
-    GLuint instanceCount_;
-    GLuint firstIndex_;
-    GLuint baseVertex_;
-    GLuint baseInstance_;
-};
-
-class GLIndirectBuffer final {
-public:
-    explicit GLIndirectBuffer(size_t maxDrawCommands);
-
-    GLuint getHandle() const;
-
-    void uploadIndirectBuffer();
-
-    void selectTo(GLIndirectBuffer &buf, const std::function<bool(const DrawElementsIndirectCommand &)> &pred);
-
-    std::vector<DrawElementsIndirectCommand> drawCommands_;
-
-private:
-    GLBuffer bufferIndirect_;
-};
-
 class GLMesh9 final {
 public:
     explicit GLMesh9(const GLSceneDataLazy &data);
 
     void updateMaterialsBuffer(const GLSceneDataLazy &data);
 
-    void draw(size_t numDrawCommands, const GLIndirectBuffer *buffer = nullptr) const;
+    void draw(const GLIndirectCommandBufferDSA &buffer) const;
 
     ~GLMesh9();
 
@@ -62,7 +39,7 @@ public:
     GLBuffer bufferMaterials_;
     GLBuffer bufferModelMatrices_;
 
-    GLIndirectBuffer bufferIndirect_;
+    GLIndirectCommandBufferDSA bufferIndirect_;
 };
 }
 
