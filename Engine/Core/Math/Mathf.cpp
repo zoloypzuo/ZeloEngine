@@ -3,8 +3,8 @@
 // author @zoloypzuo
 #define _USE_MATH_DEFINES
 
-#include <cmath>  // for float computation
 #include "Mathf.h"
+#include <cmath>  // for float computation
 
 float Mathf::Deg2Rad = static_cast<float>(M_2_PI) / 360.0f;
 float Mathf::Epsilon = 1.401298e-45f;

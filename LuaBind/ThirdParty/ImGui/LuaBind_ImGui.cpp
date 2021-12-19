@@ -2,9 +2,8 @@
 // created on 2021/8/21
 // author @zoloypzuo
 // TODO [] BeginChild, SetNextWindowPos, PushStyleColor, PushClipRect, IsMouseHoveringRect, too many params
-#include <string>
 #include <imgui.h>
-#include <imgui_internal.h>
+#include <string>
 #include <sol/sol.hpp>
 
 void LuaBind_ImGui(sol::state &luaState);

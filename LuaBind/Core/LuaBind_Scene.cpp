@@ -1,8 +1,8 @@
 // LuaBind_Game.cpp
 // created on 2021/8/9
 // author @zoloypzuo
-#include <sol/sol.hpp>
 #include "Core/Scene/SceneManager.h"
+#include <sol/sol.hpp>
 
 using namespace Zelo::Core::Scene;
 

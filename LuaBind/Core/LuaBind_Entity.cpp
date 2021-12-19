@@ -3,15 +3,15 @@
 // author @zoloypzuo
 #include <sol/sol.hpp>
 
-#include "Core/ECS/Entity.h"
 #include "Core/Controller/CFreeLook.h"
 #include "Core/Controller/CFreeMove.h"
+#include "Core/ECS/Entity.h"
 
 #include "Core/Parser/MeshLoader.h"
 
+#include "Core/RHI/MeshRenderer.h"
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/RHI/Object/ALight.h"
-#include "Core/RHI/MeshRenderer.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::ECS;
