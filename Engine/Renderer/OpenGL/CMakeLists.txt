@@ -32,7 +32,6 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Util/UtilsCubemap.cpp
 
         Drawable/MeshScene/MeshSceneFinal.cpp
-        Drawable/MeshScene/GLBuffer.cpp
         Drawable/MeshScene/GLSkyboxRenderer.cpp
         Drawable/MeshScene/Buffer/GLFramebufferDSA.cpp
 
