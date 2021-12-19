@@ -23,4 +23,3 @@ echo %fullstamp% >> %EngineDir%\Tools\Statistics\cloc_result.txt
 cloc --vcs=git >> %EngineDir%\Tools\Statistics\cloc_result.txt
 
 cd %CurrentDir%
-pause
