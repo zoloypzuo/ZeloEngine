@@ -26,6 +26,17 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
 
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLUniformBufferDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLVertexArrayDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/Mesh.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
+
 #include "GLBuffer.h"
 
 #include <functional>
@@ -86,12 +97,12 @@ const GLsizeiptr kBoundingBoxesBufferSize = sizeof(BoundingBox) * kMaxNumObjects
 const glm::uint32_t kMaxOITFragments = 16 * 1024 * 1024;
 const GLuint kBufferIndex_TransparencyLists = kBufferIndex_Materials + 1;
 
-//const static BufferLayout s_BufferLayout(
-//        {
-//                BufferElement(EBufferDataType::Float3, "position"),
-//                BufferElement(EBufferDataType::Float2, "texCoord"),
-//                BufferElement(EBufferDataType::Float3, "normal")
-//        });
+const static BufferLayout s_BufferLayout(
+        {
+                BufferElement(EBufferDataType::Float3, "position"),
+                BufferElement(EBufferDataType::Float2, "texCoord"),
+                BufferElement(EBufferDataType::Float3, "normal")
+        });
 
 static std::string ZELO_PATH(const std::string &fileName) {
     auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
@@ -132,7 +143,7 @@ struct MeshSceneFinal::Impl {
     SceneGraph scene_;
     std::vector<MaterialDescription> materialsLoaded_; // materials loaded from scene
     std::vector<MaterialDescription> materials_; // materials uploaded to GPU buffers
-    std::vector<DrawData> shapes_;
+    std::vector<DrawData> drawDataList;
 
     tf::Taskflow taskflow_;
     tf::Executor executor_;
@@ -143,23 +154,20 @@ struct MeshSceneFinal::Impl {
 
 #pragma endregion scene
 
-#pragma region mesh
-
+#pragma region buffer
     void updateMaterialsBuffer();
 
     void draw(const GLIndirectCommandBufferDSA &buffer) const;
 
-//private:
-    GLuint vao_;
-    uint32_t numIndices_;
+    GLVertexArrayDSA vao;
 
-    GLBuffer bufferIndices_;
-    GLBuffer bufferVertices_;
-    GLBuffer bufferMaterials_;
-    GLBuffer bufferModelMatrices_;
+    std::unique_ptr<GLShaderStorageBufferDSA> bufferMaterials_;
+    std::unique_ptr<GLShaderStorageBufferDSA> bufferModelMatrices_;
 
-    GLIndirectCommandBufferDSA bufferIndirect_;
-#pragma endregion mesh
+    std::unique_ptr<GLIndirectCommandBufferDSA> bufferIndirect_;
+
+//    std::unique_ptr<GLUniformBufferDSA> perFrameDataBuffer{};
+#pragma endregion buffer
 
     std::unique_ptr<GLSLShaderProgram> progGrid{};
     std::unique_ptr<GLSLShaderProgram> program{};
@@ -237,9 +245,7 @@ struct MeshSceneFinal::Impl {
          const std::string &materialFile,
          const std::string &dummyTextureFile);
 
-    ~Impl() {
-        glDeleteVertexArrays(1, &vao_);
-    }
+    ~Impl() = default;
 
     void render();
 
@@ -288,14 +294,15 @@ bool MeshSceneFinal::Impl::uploadLoadedTextures() {
 
 
 void MeshSceneFinal::Impl::updateMaterialsBuffer() {
-    glNamedBufferSubData(bufferMaterials_.getHandle(), 0, sizeof(MaterialDescription) * materials_.size(),
+    glNamedBufferSubData(bufferMaterials_->getHandle(), 0, sizeof(MaterialDescription) * materials_.size(),
                          materials_.data());
 }
 
 void MeshSceneFinal::Impl::draw(const GLIndirectCommandBufferDSA &buffer) const {
-    glBindVertexArray(vao_);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_Materials, bufferMaterials_.getHandle());
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_ModelMatrices, bufferModelMatrices_.getHandle());
+
+    vao.bind();
+    bufferMaterials_->bind(kBufferIndex_Materials);
+    bufferModelMatrices_->bind(kBufferIndex_ModelMatrices);
     buffer.bind();
 
     GLsizei numDrawCommands = (GLsizei) buffer.getDrawCount();
@@ -308,14 +315,6 @@ MeshSceneFinal::Impl::Impl(
         const std::string &sceneFile,
         const std::string &materialFile,
         const std::string &dummyTextureFile) :
-        // mesh
-        numIndices_(header_.indexDataSize / sizeof(uint32_t)),
-        bufferIndices_(header_.indexDataSize, meshData_.indexData_.data(), 0),
-        bufferVertices_(header_.vertexDataSize, meshData_.vertexData_.data(), 0),
-        bufferMaterials_(sizeof(MaterialDescription) * materials_.size(), materials_.data(), GL_DYNAMIC_STORAGE_BIT),
-        bufferModelMatrices_(sizeof(glm::mat4) * shapes_.size(), nullptr, GL_DYNAMIC_STORAGE_BIT),
-        bufferIndirect_(shapes_.size()),
-        // mesh end
         rotationPattern(GL_TEXTURE_2D, ZELO_PATH("data/rot_texture.bmp").c_str()),
         opaqueFramebuffer(width, height, GL_RGBA16F, GL_DEPTH_COMPONENT24),
         framebuffer(width, height, GL_RGBA16F, GL_DEPTH_COMPONENT24),
@@ -356,7 +355,7 @@ MeshSceneFinal::Impl::Impl(
             for (const auto &c: scene_.meshes_) {
                 auto material = scene_.materialForNode_.find(c.first);
                 if (material != scene_.materialForNode_.end()) {
-                    shapes_.emplace_back(
+                    drawDataList.emplace_back(
                             c.second,
                             material->second,
                             0,
@@ -399,45 +398,58 @@ MeshSceneFinal::Impl::Impl(
         executor_.run(taskflow_);
     }
 
-    // mesh
+    // vao
     {
-        glCreateVertexArrays(1, &vao_);
-        glVertexArrayElementBuffer(vao_, bufferIndices_.getHandle());
-        glVertexArrayVertexBuffer(vao_, 0, bufferVertices_.getHandle(), 0, sizeof(vec3) + sizeof(vec3) + sizeof(vec2));
-        // position
-        glEnableVertexArrayAttrib(vao_, 0);
-        glVertexArrayAttribFormat(vao_, 0, 3, GL_FLOAT, GL_FALSE, 0);
-        glVertexArrayAttribBinding(vao_, 0, 0);
-        // uv
-        glEnableVertexArrayAttrib(vao_, 1);
-        glVertexArrayAttribFormat(vao_, 1, 2, GL_FLOAT, GL_FALSE, sizeof(vec3));
-        glVertexArrayAttribBinding(vao_, 1, 0);
-        // normal
-        glEnableVertexArrayAttrib(vao_, 2);
-        glVertexArrayAttribFormat(vao_, 2, 3, GL_FLOAT, GL_TRUE, sizeof(vec3) + sizeof(vec2));
-        glVertexArrayAttribBinding(vao_, 2, 0);
+        auto bufferIndices_ = std::make_shared<GLIndexBufferDSA>(
+                header_.indexDataSize, meshData_.indexData_.data(), 0);
+        auto bufferVertices_ = std::make_shared<GLVertexBufferDSA>(
+                header_.vertexDataSize, meshData_.vertexData_.data(), 0);
 
-        std::vector<glm::mat4> matrices(shapes_.size());
-
-        // prepare indirect commands buffer
-        for (size_t i = 0; i != shapes_.size(); i++) {
-            const uint32_t meshIdx = shapes_[i].meshIndex;
-            const uint32_t lod = shapes_[i].LOD;
-            bufferIndirect_.getCommandQueue()[i] = {
-                    meshData_.meshes_[meshIdx].getLODIndicesCount(lod),
-                    1,
-                    shapes_[i].indexOffset,
-                    shapes_[i].vertexOffset,
-                    shapes_[i].materialIndex + (uint32_t(i) << 16)
-            };
-            matrices[i] = scene_.globalTransform_[shapes_[i].transformIndex];
-        }
-
-        bufferIndirect_.sendBlocks();
-
-        glNamedBufferSubData(bufferModelMatrices_.getHandle(), 0, matrices.size() * sizeof(glm::mat4), matrices.data());
+        bufferVertices_->setLayout(s_BufferLayout);
+        vao.addVertexBuffer(bufferVertices_);
+        vao.setIndexBuffer(bufferIndices_);
     }
 
+    // bufferIndirect_
+    {
+        bufferIndirect_ = std::make_unique<GLIndirectCommandBufferDSA>(drawDataList.size());
+        // prepare indirect commands buffer
+        for (size_t i = 0; i != drawDataList.size(); i++) {
+            const uint32_t meshIdx = drawDataList[i].meshIndex;
+            const uint32_t lod = drawDataList[i].LOD;
+            bufferIndirect_->getCommandQueue()[i] = {
+                    meshData_.meshes_[meshIdx].getLODIndicesCount(lod),
+                    1,
+                    drawDataList[i].indexOffset,
+                    drawDataList[i].vertexOffset,
+                    drawDataList[i].materialIndex + (uint32_t(i) << 16)  // NOTE HERE
+            };
+        }
+
+        bufferIndirect_->sendBlocks();
+    }
+
+    // bufferMaterials_
+    {
+        bufferMaterials_ = std::make_unique<GLShaderStorageBufferDSA>(
+                materials_.size() * sizeof(MaterialDescription),
+                materials_.data(), GL_DYNAMIC_STORAGE_BIT
+        );
+    }
+
+    // bufferModelMatrices_
+    {
+        // can be merged into bufferIndirect_ loop
+        bufferModelMatrices_ = std::make_unique<GLShaderStorageBufferDSA>(
+                drawDataList.size() * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+        std::vector<glm::mat4> matrices(drawDataList.size());
+        size_t i = 0;
+        for (const auto &c: drawDataList) {
+            matrices[i++] = scene_.globalTransform_[c.transformIndex];
+        }
+
+        bufferModelMatrices_->sendBlocks(matrices);
+    }
 
     // shader
     progGrid = std::make_unique<GLSLShaderProgram>("grid.glsl");
@@ -472,7 +484,7 @@ MeshSceneFinal::Impl::Impl(
             return (mtl.flags_ & sMaterialFlags_Transparent) > 0;
         };
 
-        const auto &commandQueue = bufferIndirect_.getCommandQueue();
+        const auto &commandQueue = bufferIndirect_->getCommandQueue();
         std::vector<DrawElementsIndirectCommand> opaqueCommandQueue;
         std::vector<DrawElementsIndirectCommand> transparentCommandQueue;
         for (const auto &c: commandQueue) {
@@ -500,10 +512,10 @@ MeshSceneFinal::Impl::Impl(
     glBindImageTexture(0, oitHeads.getHandle(), 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
     glBindBufferBase(GL_ATOMIC_COUNTER_BUFFER, 0, oitAtomicCounter.getHandle());
 
-    reorderedBoxes.reserve(shapes_.size());
+    reorderedBoxes.reserve(drawDataList.size());
 
     // pretransform bounding boxes to world space
-    for (const auto &c: shapes_) {
+    for (const auto &c: drawDataList) {
         const mat4 model = scene_.globalTransform_[c.transformIndex];
         reorderedBoxes.push_back(meshData_.boxes_[c.meshIndex]);
         reorderedBoxes.back().transform(model);
@@ -597,7 +609,7 @@ void MeshSceneFinal::Impl::render() {
         glClearNamedFramebufferfi(shadowMap.getHandle(), GL_DEPTH_STENCIL, 0, 1.0f, 0);
         shadowMap.bind();
         progShadowMap->bind();
-        draw(bufferIndirect_);
+        draw(*bufferIndirect_);
         shadowMap.unbind();
         perFrameData.light = lightProj * lightView;
         glBindTextureUnit(4, shadowMap.getTextureDepth().getHandle());
