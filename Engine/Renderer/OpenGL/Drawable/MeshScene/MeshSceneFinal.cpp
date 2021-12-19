@@ -157,6 +157,7 @@ struct MeshSceneFinal::Impl {
 
 #pragma endregion buffer
 
+#pragma region shader
     std::unique_ptr<GLSLShaderProgram> progGrid{};
     std::unique_ptr<GLSLShaderProgram> program{};
     std::unique_ptr<GLSLShaderProgram> programOIT{};
@@ -171,6 +172,7 @@ struct MeshSceneFinal::Impl {
     std::unique_ptr<GLSLShaderProgram> progBrightPass{};
     std::unique_ptr<GLSLShaderProgram> progAdaptation{};
     std::unique_ptr<GLSLShaderProgram> progShadowMap{};
+#pragma endregion shader
 
     int width = 1280;
     int height = 720;
@@ -178,6 +180,8 @@ struct MeshSceneFinal::Impl {
     GLTexture rotationPattern;
     std::unique_ptr<GLIndirectCommandBufferDSA> meshesOpaque;
     std::unique_ptr<GLIndirectCommandBufferDSA> meshesTransparent;
+
+#pragma region framebuffer
     GLFramebufferDSA opaqueFramebuffer;
     GLFramebufferDSA framebuffer;
     GLFramebufferDSA luminance;
@@ -187,6 +191,7 @@ struct MeshSceneFinal::Impl {
     GLFramebufferDSA ssao;
     GLFramebufferDSA blur;
     GLFramebufferDSA shadowMap;
+#pragma endregion framebuffer
 
     GLAtomicCounterDSA oitAtomicCounter;
     GLShaderStorageBufferDSA oitTransparencyLists;
@@ -466,8 +471,8 @@ MeshSceneFinal::Impl::Impl(
         };
 
         const auto &commandQueue = bufferIndirect_->getCommandQueue();
-        std::vector<DrawElementsIndirectCommand> opaqueCommandQueue;
-        std::vector<DrawElementsIndirectCommand> transparentCommandQueue;
+        std::vector<DrawElementsIndirectCommand> opaqueCommandQueue{};
+        std::vector<DrawElementsIndirectCommand> transparentCommandQueue{};
         for (const auto &c: commandQueue) {
             if (isTransparent(c)) {
                 transparentCommandQueue.emplace_back(c);
