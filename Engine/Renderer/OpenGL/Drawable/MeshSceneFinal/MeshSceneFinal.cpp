@@ -10,19 +10,34 @@
 
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
-#include "GLMesh9.h"
 #include "GLSkyboxRenderer.h"
-#include "GLSceneDataLazy.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLFramebufferDSA.h"
+
+#include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshFileHeader.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
+#include <taskflow/taskflow.hpp>
+#include <stb_image.h>
+
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
+
+#include "GLBuffer.h"
+
+#include <functional>
 
 using namespace Zelo::Core::RHI;
 
 namespace Zelo::Renderer::OpenGL {
 
 struct PerFrameData {
-    mat4 view;
-    mat4 proj;
-    mat4 light;
+    glm::mat4 view;
+    glm::mat4 proj;
+    glm::mat4 light;
     vec4 cameraPos;
     vec4 frustumPlanes[6];
     vec4 frustumCorners[8];
@@ -78,6 +93,10 @@ const GLuint kBufferIndex_TransparencyLists = kBufferIndex_Materials + 1;
 //                BufferElement(EBufferDataType::Float3, "normal")
 //        });
 
+static std::string ZELO_PATH(const std::string &fileName) {
+    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
+    return resourcem->resolvePath(fileName).string();
+}
 
 static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTexture> &textures) {
     if (idx == INVALID_TEXTURE) return 0;
@@ -85,12 +104,63 @@ static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTextu
     return textures[idx].getHandleBindless();
 }
 
-static std::string ZELO_PATH(const std::string &fileName) {
-    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
-    return resourcem->resolvePath(fileName).string();
+static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<std::shared_ptr<GLTexture>> &textures) {
+    if (idx == INVALID_TEXTURE) return 0;
+
+    return textures[idx]->getHandleBindless();
 }
 
 struct MeshSceneFinal::Impl {
+#pragma region scene
+    struct LoadedImageData {
+        int index_ = 0;
+        int w_ = 0;
+        int h_ = 0;
+        const uint8_t *img_ = nullptr;
+    };
+
+    std::shared_ptr<GLTexture> dummyTexture_;
+
+    std::vector<std::string> textureFiles_;
+    std::vector<LoadedImageData> loadedFiles_;
+    std::mutex loadedFilesMutex_;
+    std::vector<std::shared_ptr<GLTexture>> allMaterialTextures_;
+
+    MeshFileHeader header_;
+    MeshData meshData_;
+
+    SceneGraph scene_;
+    std::vector<MaterialDescription> materialsLoaded_; // materials loaded from scene
+    std::vector<MaterialDescription> materials_; // materials uploaded to GPU buffers
+    std::vector<DrawData> shapes_;
+
+    tf::Taskflow taskflow_;
+    tf::Executor executor_;
+
+    void updateMaterials();
+
+    bool uploadLoadedTextures();
+
+#pragma endregion scene
+
+#pragma region mesh
+
+    void updateMaterialsBuffer();
+
+    void draw(const GLIndirectCommandBufferDSA &buffer) const;
+
+//private:
+    GLuint vao_;
+    uint32_t numIndices_;
+
+    GLBuffer bufferIndices_;
+    GLBuffer bufferVertices_;
+    GLBuffer bufferMaterials_;
+    GLBuffer bufferModelMatrices_;
+
+    GLIndirectCommandBufferDSA bufferIndirect_;
+#pragma endregion mesh
+
     std::unique_ptr<GLSLShaderProgram> progGrid{};
     std::unique_ptr<GLSLShaderProgram> program{};
     std::unique_ptr<GLSLShaderProgram> programOIT{};
@@ -109,8 +179,6 @@ struct MeshSceneFinal::Impl {
     int width = 1280;
     int height = 720;
     GLSkyboxRenderer skybox;
-    GLSceneDataLazy sceneData;
-    GLMesh9 mesh;
     GLTexture rotationPattern;
     std::unique_ptr<GLIndirectCommandBufferDSA> meshesOpaque;
     std::unique_ptr<GLIndirectCommandBufferDSA> meshesTransparent;
@@ -169,22 +237,85 @@ struct MeshSceneFinal::Impl {
          const std::string &materialFile,
          const std::string &dummyTextureFile);
 
-    ~Impl() = default;
+    ~Impl() {
+        glDeleteVertexArrays(1, &vao_);
+    }
 
     void render();
 
 };
+
+
+void MeshSceneFinal::Impl::updateMaterials() {
+    const size_t numMaterials = materialsLoaded_.size();
+
+    materials_.resize(numMaterials);
+
+    for (size_t i = 0; i != numMaterials; i++) {
+        const auto &in = materialsLoaded_[i];
+        auto &out = materials_[i];
+        out = in;
+        out.ambientOcclusionMap_ = getTextureHandleBindless(in.ambientOcclusionMap_, allMaterialTextures_);
+        out.emissiveMap_ = getTextureHandleBindless(in.emissiveMap_, allMaterialTextures_);
+        out.albedoMap_ = getTextureHandleBindless(in.albedoMap_, allMaterialTextures_);
+        out.metallicRoughnessMap_ = getTextureHandleBindless(in.metallicRoughnessMap_, allMaterialTextures_);
+        out.normalMap_ = getTextureHandleBindless(in.normalMap_, allMaterialTextures_);
+    }
+}
+
+bool MeshSceneFinal::Impl::uploadLoadedTextures() {
+    LoadedImageData data;
+
+    {
+        std::lock_guard lock(loadedFilesMutex_);
+
+        if (loadedFiles_.empty())
+            return false;
+
+        data = loadedFiles_.back();
+
+        loadedFiles_.pop_back();
+    }
+
+    allMaterialTextures_[data.index_] = std::make_shared<GLTexture>(data.w_, data.h_, data.img_);
+
+    stbi_image_free((void *) data.img_);
+
+    updateMaterials();
+
+    return true;
+}
+
+
+void MeshSceneFinal::Impl::updateMaterialsBuffer() {
+    glNamedBufferSubData(bufferMaterials_.getHandle(), 0, sizeof(MaterialDescription) * materials_.size(),
+                         materials_.data());
+}
+
+void MeshSceneFinal::Impl::draw(const GLIndirectCommandBufferDSA &buffer) const {
+    glBindVertexArray(vao_);
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_Materials, bufferMaterials_.getHandle());
+    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_ModelMatrices, bufferModelMatrices_.getHandle());
+    buffer.bind();
+
+    GLsizei numDrawCommands = (GLsizei) buffer.getDrawCount();
+    glMultiDrawElementsIndirect(GL_TRIANGLES, GL_UNSIGNED_INT, nullptr, numDrawCommands, 0);
+}
+
 
 MeshSceneFinal::Impl::Impl(
         const std::string &meshFile,
         const std::string &sceneFile,
         const std::string &materialFile,
         const std::string &dummyTextureFile) :
-        sceneData(ZELO_PATH("data/meshes/bistro_all.meshes").c_str(),
-                  ZELO_PATH("data/meshes/bistro_all.scene").c_str(),
-                  ZELO_PATH("data/meshes/bistro_all.materials").c_str(),
-                  ZELO_PATH("data/const1.bmp").c_str()),
-        mesh(sceneData),
+        // mesh
+        numIndices_(header_.indexDataSize / sizeof(uint32_t)),
+        bufferIndices_(header_.indexDataSize, meshData_.indexData_.data(), 0),
+        bufferVertices_(header_.vertexDataSize, meshData_.vertexData_.data(), 0),
+        bufferMaterials_(sizeof(MaterialDescription) * materials_.size(), materials_.data(), GL_DYNAMIC_STORAGE_BIT),
+        bufferModelMatrices_(sizeof(glm::mat4) * shapes_.size(), nullptr, GL_DYNAMIC_STORAGE_BIT),
+        bufferIndirect_(shapes_.size()),
+        // mesh end
         rotationPattern(GL_TEXTURE_2D, ZELO_PATH("data/rot_texture.bmp").c_str()),
         opaqueFramebuffer(width, height, GL_RGBA16F, GL_DEPTH_COMPONENT24),
         framebuffer(width, height, GL_RGBA16F, GL_DEPTH_COMPONENT24),
@@ -210,6 +341,104 @@ MeshSceneFinal::Impl::Impl(
         // ping-pong textures for light adaptation
         luminance1(GL_TEXTURE_2D, 1, 1, GL_RGBA16F),
         luminance2(GL_TEXTURE_2D, 1, 1, GL_RGBA16F) {
+
+    // scene
+    {
+
+        dummyTexture_ = std::make_shared<GLTexture>(GL_TEXTURE_2D, dummyTextureFile.c_str());
+
+        header_ = loadMeshData(meshFile.c_str(), meshData_);
+        // load scene
+        {
+            ::Zelo::Renderer::OpenGL::loadScene(sceneFile.c_str(), scene_);
+
+            // prepare draw data buffer
+            for (const auto &c: scene_.meshes_) {
+                auto material = scene_.materialForNode_.find(c.first);
+                if (material != scene_.materialForNode_.end()) {
+                    shapes_.emplace_back(
+                            c.second,
+                            material->second,
+                            0,
+                            meshData_.meshes_[c.second].indexOffset,
+                            meshData_.meshes_[c.second].vertexOffset,
+                            c.first
+                    );
+                }
+            }
+
+            // force recalculation of all global transformations
+            markAsChanged(scene_, 0);
+            recalculateGlobalTransforms(scene_);
+        }
+        loadMaterials(materialFile.c_str(), materialsLoaded_, textureFiles_);
+
+        for (auto &f: textureFiles_) {
+            f = ZELO_PATH(f);
+        }
+
+        // apply a dummy textures to everything
+        for (const auto &f: textureFiles_) {
+            allMaterialTextures_.emplace_back(dummyTexture_);
+        }
+
+        updateMaterials();
+
+        loadedFiles_.reserve(textureFiles_.size());
+
+        taskflow_.for_each_index(0u, (uint32_t) textureFiles_.size(), 1u, [this](int idx) {
+                                     int w, h;
+                                     const uint8_t *img = stbi_load(this->textureFiles_[idx].c_str(), &w, &h, nullptr, STBI_rgb_alpha);
+                                     if (img) {
+                                         std::lock_guard lock(loadedFilesMutex_);
+                                         loadedFiles_.emplace_back(LoadedImageData{idx, w, h, img});
+                                     }
+                                 }
+        );
+
+        executor_.run(taskflow_);
+    }
+
+    // mesh
+    {
+        glCreateVertexArrays(1, &vao_);
+        glVertexArrayElementBuffer(vao_, bufferIndices_.getHandle());
+        glVertexArrayVertexBuffer(vao_, 0, bufferVertices_.getHandle(), 0, sizeof(vec3) + sizeof(vec3) + sizeof(vec2));
+        // position
+        glEnableVertexArrayAttrib(vao_, 0);
+        glVertexArrayAttribFormat(vao_, 0, 3, GL_FLOAT, GL_FALSE, 0);
+        glVertexArrayAttribBinding(vao_, 0, 0);
+        // uv
+        glEnableVertexArrayAttrib(vao_, 1);
+        glVertexArrayAttribFormat(vao_, 1, 2, GL_FLOAT, GL_FALSE, sizeof(vec3));
+        glVertexArrayAttribBinding(vao_, 1, 0);
+        // normal
+        glEnableVertexArrayAttrib(vao_, 2);
+        glVertexArrayAttribFormat(vao_, 2, 3, GL_FLOAT, GL_TRUE, sizeof(vec3) + sizeof(vec2));
+        glVertexArrayAttribBinding(vao_, 2, 0);
+
+        std::vector<glm::mat4> matrices(shapes_.size());
+
+        // prepare indirect commands buffer
+        for (size_t i = 0; i != shapes_.size(); i++) {
+            const uint32_t meshIdx = shapes_[i].meshIndex;
+            const uint32_t lod = shapes_[i].LOD;
+            bufferIndirect_.getCommandQueue()[i] = {
+                    meshData_.meshes_[meshIdx].getLODIndicesCount(lod),
+                    1,
+                    shapes_[i].indexOffset,
+                    shapes_[i].vertexOffset,
+                    shapes_[i].materialIndex + (uint32_t(i) << 16)
+            };
+            matrices[i] = scene_.globalTransform_[shapes_[i].transformIndex];
+        }
+
+        bufferIndirect_.sendBlocks();
+
+        glNamedBufferSubData(bufferModelMatrices_.getHandle(), 0, matrices.size() * sizeof(glm::mat4), matrices.data());
+    }
+
+
     // shader
     progGrid = std::make_unique<GLSLShaderProgram>("grid.glsl");
     program = std::make_unique<GLSLShaderProgram>("scene_IBL.glsl");
@@ -239,17 +468,17 @@ MeshSceneFinal::Impl::Impl(
     {
         auto isTransparent = [this](const DrawElementsIndirectCommand &c) {
             const auto mtlIndex = c.baseInstance_ & 0xffff;
-            const auto &mtl = this->sceneData.materials_[mtlIndex];
+            const auto &mtl = this->materials_[mtlIndex];
             return (mtl.flags_ & sMaterialFlags_Transparent) > 0;
         };
 
-        const auto &commandQueue = mesh.bufferIndirect_.getCommandQueue();
+        const auto &commandQueue = bufferIndirect_.getCommandQueue();
         std::vector<DrawElementsIndirectCommand> opaqueCommandQueue;
         std::vector<DrawElementsIndirectCommand> transparentCommandQueue;
-        for(const auto &c: commandQueue){
-            if(isTransparent(c)){
+        for (const auto &c: commandQueue) {
+            if (isTransparent(c)) {
                 transparentCommandQueue.emplace_back(c);
-            } else{
+            } else {
                 opaqueCommandQueue.emplace_back(c);
             }
         }
@@ -271,12 +500,12 @@ MeshSceneFinal::Impl::Impl(
     glBindImageTexture(0, oitHeads.getHandle(), 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
     glBindBufferBase(GL_ATOMIC_COUNTER_BUFFER, 0, oitAtomicCounter.getHandle());
 
-    reorderedBoxes.reserve(sceneData.shapes_.size());
+    reorderedBoxes.reserve(shapes_.size());
 
     // pretransform bounding boxes to world space
-    for (const auto &c: sceneData.shapes_) {
-        const mat4 model = sceneData.scene_.globalTransform_[c.transformIndex];
-        reorderedBoxes.push_back(sceneData.meshData_.boxes_[c.meshIndex]);
+    for (const auto &c: shapes_) {
+        const mat4 model = scene_.globalTransform_[c.transformIndex];
+        reorderedBoxes.push_back(meshData_.boxes_[c.meshIndex]);
         reorderedBoxes.back().transform(model);
     }
     glNamedBufferSubData(boundingBoxesBuffer.getHandle(), 0, reorderedBoxes.size() * sizeof(BoundingBox),
@@ -294,8 +523,8 @@ MeshSceneFinal::Impl::Impl(
 }
 
 void MeshSceneFinal::Impl::render() {
-    if (sceneData.uploadLoadedTextures()) {
-        mesh.updateMaterialsBuffer(sceneData);
+    if (uploadLoadedTextures()) {
+        updateMaterialsBuffer();
     }
 
     GLuint opaqueFboHandle = opaqueFramebuffer.getHandle();
@@ -368,7 +597,7 @@ void MeshSceneFinal::Impl::render() {
         glClearNamedFramebufferfi(shadowMap.getHandle(), GL_DEPTH_STENCIL, 0, 1.0f, 0);
         shadowMap.bind();
         progShadowMap->bind();
-        mesh.draw(mesh.bufferIndirect_);
+        draw(bufferIndirect_);
         shadowMap.unbind();
         perFrameData.light = lightProj * lightView;
         glBindTextureUnit(4, shadowMap.getTextureDepth().getHandle());
@@ -387,7 +616,7 @@ void MeshSceneFinal::Impl::render() {
     // 1.1 Bistro
     if (g_DrawOpaque) {
         program->bind();
-        mesh.draw(*meshesOpaque);
+        draw(*meshesOpaque);
     }
     if (g_DrawGrid) {
         glEnable(GL_BLEND);
@@ -400,7 +629,7 @@ void MeshSceneFinal::Impl::render() {
         glDepthMask(GL_FALSE);
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
         programOIT->bind();
-        mesh.draw(*meshesTransparent);
+        draw(*meshesTransparent);
         glFlush();
         glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
         glDepthMask(GL_TRUE);

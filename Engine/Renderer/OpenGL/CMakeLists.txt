@@ -33,9 +33,7 @@ add_library(OpenGLRenderer
 
         Drawable/MeshSceneFinal/MeshSceneFinal.cpp
         Drawable/MeshSceneFinal/GLBuffer.cpp
-        Drawable/MeshSceneFinal/GLMesh9.cpp
         Drawable/MeshSceneFinal/GLSkyboxRenderer.cpp
-        Drawable/MeshSceneFinal/GLSceneDataLazy.cpp
         Drawable/MeshScene/Buffer/GLFramebufferDSA.cpp
 
         GLUtil.cpp
