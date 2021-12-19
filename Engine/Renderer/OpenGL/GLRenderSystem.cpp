@@ -1,15 +1,14 @@
 // GLRenderSystem.cpp
 // created on 2021/3/29
 // author @zoloypzuo
-#include "ZeloPreCompiledHeader.h"
 #include "GLRenderSystem.h"
 
-#include "Core/Scene/SceneManager.h"
-#include "Core/OS/Window.h"
 #include "Core/LuaScript/LuaScriptManager.h"
+#include "Core/OS/Window.h"
+#include "Core/Scene/SceneManager.h"
 
-#include "Renderer/OpenGL/GLUtil.h"
 #include "Renderer/OpenGL/GLLoader.h"
+#include "Renderer/OpenGL/GLUtil.h"
 #include "Renderer/OpenGL/Pipeline/ForwardStandardPipeline.h"
 
 using namespace Zelo::Core::RHI;

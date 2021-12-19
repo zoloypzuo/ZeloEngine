@@ -3,10 +3,10 @@
 // author @zoloypzuo
 #include <sol/sol.hpp>
 
-#include "Foundation/ZeloPlugin.h"
-#include "Core/Resource/ResourceManager.h"
-#include "Core/LuaScript/LuaScriptManager.h"
 #include "Engine.h"
+#include "Core/LuaScript/LuaScriptManager.h"
+#include "Core/Resource/ResourceManager.h"
+#include "Foundation/ZeloPlugin.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::LuaScript;

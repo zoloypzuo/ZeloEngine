@@ -4,12 +4,12 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Foundation/ZeloPlugin.h"
 #include "Core/RHI/RenderSystem.h"
+#include "Foundation/ZeloPlugin.h"
 
-#include "GLSLBook/Pipeline/ImageProcessing/EdgePipeline.h"
-#include "GLSLBook/Pipeline/ImageProcessing/BlurPipeline.h"
 #include "GLSLBook/Pipeline/ImageProcessing/BloomPipeline.h"
+#include "GLSLBook/Pipeline/ImageProcessing/BlurPipeline.h"
+#include "GLSLBook/Pipeline/ImageProcessing/EdgePipeline.h"
 #include "GLSLBook/Pipeline/Shadow//ShadowMapPipeline.h"
 
 template<class T>

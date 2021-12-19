@@ -3,9 +3,9 @@
 // author @zoloypzuo
 #include "Engine.h"
 
-#include "_Template//TemplatePlugins.h"
-#include "GLSLBook/GLSLBookPlugins.h"
 #include "Craft//CraftPlugin.h"
+#include "GLSLBook/GLSLBookPlugins.h"
+#include "_Template//TemplatePlugins.h"
 
 using namespace Zelo;
 

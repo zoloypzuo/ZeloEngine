@@ -1,5 +1,5 @@
-#include <sol/sol.hpp>
 #include <glm/glm.hpp>
+#include <sol/sol.hpp>
 
 void LuaBind_Glm(sol::state &luaState) {
 // @formatter:off

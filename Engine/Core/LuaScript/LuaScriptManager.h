@@ -6,9 +6,9 @@
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloSingleton.h"
 
+#include <refl.hpp>
 #include <sol/sol.hpp> // sol::state
 #include <spdlog/spdlog.h>  // logger
-#include <refl.hpp>
 
 namespace Zelo {
 class Plugin;

@@ -1,7 +1,7 @@
 #include "GLTracer.h"
 #include <string>
+#include <spdlog/sinks/rotating_file_sink.h>
 #include <spdlog/spdlog.h>
-#include "spdlog/sinks/rotating_file_sink.h"
 
 #include "Renderer/OpenGL/GLRenderSystem.h"
 

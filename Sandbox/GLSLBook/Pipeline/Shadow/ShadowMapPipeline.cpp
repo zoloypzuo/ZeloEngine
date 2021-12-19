@@ -1,10 +1,9 @@
 // ShadowMapPipeline.cpp
 // created on 2021/3/29
 // author @zoloypzuo
-#include "ZeloPreCompiledHeader.h"
 #include "ShadowMapPipeline.h"
-#include "Core/Scene/SceneManager.h"
 #include "Core/RHI/MeshRenderer.h"
+#include "Core/Scene/SceneManager.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::Scene;
