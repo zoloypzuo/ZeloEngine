@@ -15,10 +15,9 @@ public:
 
     GLBufferType getType() const override { return GLBufferType::ATOMIC_COUNTER_BUFFER; }
 
-
-
-    void sendZero(){
-
+    void sendZero() const {
+        const uint32_t zero = 0;
+        glNamedBufferSubData(m_RendererID, 0, sizeof(uint32_t), &zero);
     }
 };
 }

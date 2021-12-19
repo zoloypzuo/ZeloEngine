@@ -12,6 +12,7 @@
 
 #include "Renderer/OpenGL/Drawable/MeshScene/GLSkyboxRenderer.h"
 
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLAtomicCounterDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLFramebufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.h"
@@ -73,6 +74,8 @@ const GLuint kBufferIndex_Materials = 2;
 const GLuint kBufferIndex_BoundingBoxes = kBufferIndex_PerFrameUniforms + 1;
 const GLuint kBufferIndex_DrawCommands = kBufferIndex_PerFrameUniforms + 2;
 const GLuint kBufferIndex_NumVisibleMeshes = kBufferIndex_PerFrameUniforms + 3;
+
+const GLuint kBufferIndex_OitAtomicCounter = 0;
 
 const GLuint kMaxNumObjects = 128 * 1024;
 const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
@@ -185,7 +188,7 @@ struct MeshSceneFinal::Impl {
     GLFramebufferDSA blur;
     GLFramebufferDSA shadowMap;
 
-    GLBuffer oitAtomicCounter;
+    GLAtomicCounterDSA oitAtomicCounter;
     GLBuffer oitTransparencyLists;
     GLTexture oitHeads;
 
@@ -220,9 +223,8 @@ struct MeshSceneFinal::Impl {
 
     void clearTransparencyBuffers() const {
         const uint32_t minusOne = 0xFFFFFFFF;
-        const uint32_t zero = 0;
         glClearTexImage(oitHeads.getHandle(), 0, GL_RED_INTEGER, GL_UNSIGNED_INT, &minusOne);
-        glNamedBufferSubData(oitAtomicCounter.getHandle(), 0, sizeof(uint32_t), &zero);
+        oitAtomicCounter.sendZero();
     }
 
     Impl(const std::string &meshFile,
@@ -308,7 +310,6 @@ MeshSceneFinal::Impl::Impl(
         ssao(1024, 1024, GL_RGBA8, 0),
         blur(1024, 1024, GL_RGBA8, 0),
         shadowMap(8192, 8192, GL_R8, GL_DEPTH_COMPONENT24),
-        oitAtomicCounter(sizeof(uint32_t), nullptr, GL_DYNAMIC_STORAGE_BIT),
         oitTransparencyLists(sizeof(TransparentFragment) * kMaxOITFragments, nullptr, GL_DYNAMIC_STORAGE_BIT),
         oitHeads(GL_TEXTURE_2D, width, height, GL_R32UI),
 
@@ -493,7 +494,7 @@ MeshSceneFinal::Impl::Impl(
 
 
     glBindImageTexture(0, oitHeads.getHandle(), 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
-    glBindBufferBase(GL_ATOMIC_COUNTER_BUFFER, 0, oitAtomicCounter.getHandle());
+    oitAtomicCounter.bind(kBufferIndex_OitAtomicCounter);
 
     reorderedBoxes.reserve(drawDataList.size());
 
