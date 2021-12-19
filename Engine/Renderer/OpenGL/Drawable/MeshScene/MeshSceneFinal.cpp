@@ -451,7 +451,7 @@ MeshSceneFinal::Impl::Impl(
     progAdaptation = std::make_unique<GLSLShaderProgram>("hdr/adaptation.glsl");
     progShadowMap = std::make_unique<GLSLShaderProgram>("shadow.glsl");
 
-    numVisibleMeshesPtr = (uint32_t *) glMapNamedBuffer(numVisibleMeshesBuffer.getHandle(), GL_READ_WRITE);
+    numVisibleMeshesPtr = numVisibleMeshesBuffer.getMappedPtr();
     assert(numVisibleMeshesPtr);
 
     auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
@@ -493,21 +493,22 @@ MeshSceneFinal::Impl::Impl(
     glBindImageTexture(0, oitHeads.getHandle(), 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
     oitAtomicCounter.bind(kBufferIndex_OitAtomicCounter);
 
-    reorderedBoxes.reserve(drawDataList.size());
+    {
+        reorderedBoxes.reserve(drawDataList.size());
 
-    // pretransform bounding boxes to world space
-    for (const auto &c: drawDataList) {
-        const mat4 model = scene_.globalTransform_[c.transformIndex];
-        reorderedBoxes.push_back(meshData_.boxes_[c.meshIndex]);
-        reorderedBoxes.back().transform(model);
-    }
-    glNamedBufferSubData(boundingBoxesBuffer.getHandle(), 0, reorderedBoxes.size() * sizeof(BoundingBox),
-                         reorderedBoxes.data());
+        // pretransform bounding boxes to world space
+        for (const auto &c: drawDataList) {
+            const mat4 model = scene_.globalTransform_[c.transformIndex];
+            reorderedBoxes.push_back(meshData_.boxes_[c.meshIndex]);
+            reorderedBoxes.back().transform(model);
+        }
+        boundingBoxesBuffer.sendBlocks(reorderedBoxes);
 
-    bigBox = reorderedBoxes.front();
-    for (const auto &b: reorderedBoxes) {
-        bigBox.combinePoint(b.min_);
-        bigBox.combinePoint(b.max_);
+        bigBox = reorderedBoxes.front();
+        for (const auto &b: reorderedBoxes) {
+            bigBox.combinePoint(b.min_);
+            bigBox.combinePoint(b.max_);
+        }
     }
 
     const GLint swizzleMask[] = {GL_RED, GL_RED, GL_RED, GL_ONE};
@@ -560,8 +561,8 @@ void MeshSceneFinal::Impl::render() {
         *numVisibleMeshesPtr = 0;
         programCulling->bind();
         glMemoryBarrier(GL_BUFFER_UPDATE_BARRIER_BIT);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_BoundingBoxes, boundingBoxesBuffer.getHandle());
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_NumVisibleMeshes, numVisibleMeshesBuffer.getHandle());
+        boundingBoxesBuffer.bind(kBufferIndex_BoundingBoxes);
+        numVisibleMeshesBuffer.bind(kBufferIndex_NumVisibleMeshes);
 
         perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesOpaque->getDrawCount() : 0u;
         perFrameDataBuffer.sendBlocks(perFrameData);
