@@ -1,5 +1,55 @@
 # Changelog
 
+## [v0.5](https://github.com/zoloypzuo/ZeloEngine/tree/v0.5) (2021-12-19)
+
+[Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/v0.4...v0.5)
+
+**Fixed bugs:**
+
+- 高分屏的分辨率问题 [\#320](https://github.com/zoloypzuo/ZeloEngine/issues/320)
+- Assertion failed: mouse\_button \>= 0 && mouse\_button \< ImGuiMouseButton\_COUNT [\#318](https://github.com/zoloypzuo/ZeloEngine/issues/318)
+
+**Closed issues:**
+
+- Test Rttr [\#305](https://github.com/zoloypzuo/ZeloEngine/issues/305)
+- Overload [\#299](https://github.com/zoloypzuo/ZeloEngine/issues/299)
+- Fix ShadowMap [\#264](https://github.com/zoloypzuo/ZeloEngine/issues/264)
+
+**Merged pull requests:**
+
+- Pipeline [\#355](https://github.com/zoloypzuo/ZeloEngine/pull/355) ([zoloypzuo](https://github.com/zoloypzuo))
+- Cr scenem [\#354](https://github.com/zoloypzuo/ZeloEngine/pull/354) ([zoloypzuo](https://github.com/zoloypzuo))
+- Scenem [\#353](https://github.com/zoloypzuo/ZeloEngine/pull/353) ([zoloypzuo](https://github.com/zoloypzuo))
+- Refl config [\#352](https://github.com/zoloypzuo/ZeloEngine/pull/352) ([zoloypzuo](https://github.com/zoloypzuo))
+- Ninja [\#351](https://github.com/zoloypzuo/ZeloEngine/pull/351) ([zoloypzuo](https://github.com/zoloypzuo))
+- Refl enum [\#350](https://github.com/zoloypzuo/ZeloEngine/pull/350) ([zoloypzuo](https://github.com/zoloypzuo))
+- Refl [\#349](https://github.com/zoloypzuo/ZeloEngine/pull/349) ([zoloypzuo](https://github.com/zoloypzuo))
+- Foundation [\#348](https://github.com/zoloypzuo/ZeloEngine/pull/348) ([zoloypzuo](https://github.com/zoloypzuo))
+- Cr luascriptlib [\#347](https://github.com/zoloypzuo/ZeloEngine/pull/347) ([zoloypzuo](https://github.com/zoloypzuo))
+- Cr input [\#346](https://github.com/zoloypzuo/ZeloEngine/pull/346) ([zoloypzuo](https://github.com/zoloypzuo))
+- Resize [\#345](https://github.com/zoloypzuo/ZeloEngine/pull/345) ([zoloypzuo](https://github.com/zoloypzuo))
+- Add a Gitter chat badge to README.md [\#344](https://github.com/zoloypzuo/ZeloEngine/pull/344) ([gitter-badger](https://github.com/gitter-badger))
+- cr setup [\#343](https://github.com/zoloypzuo/ZeloEngine/pull/343) ([zoloypzuo](https://github.com/zoloypzuo))
+- Ether [\#342](https://github.com/zoloypzuo/ZeloEngine/pull/342) ([zoloypzuo](https://github.com/zoloypzuo))
+- Luadebug [\#341](https://github.com/zoloypzuo/ZeloEngine/pull/341) ([zoloypzuo](https://github.com/zoloypzuo))
+- Gr cookbook [\#340](https://github.com/zoloypzuo/ZeloEngine/pull/340) ([zoloypzuo](https://github.com/zoloypzuo))
+- Craft [\#339](https://github.com/zoloypzuo/ZeloEngine/pull/339) ([zoloypzuo](https://github.com/zoloypzuo))
+- Sandbox [\#338](https://github.com/zoloypzuo/ZeloEngine/pull/338) ([zoloypzuo](https://github.com/zoloypzuo))
+- Refactor resource [\#337](https://github.com/zoloypzuo/ZeloEngine/pull/337) ([zoloypzuo](https://github.com/zoloypzuo))
+- Material editor [\#336](https://github.com/zoloypzuo/ZeloEngine/pull/336) ([zoloypzuo](https://github.com/zoloypzuo))
+- fix light [\#335](https://github.com/zoloypzuo/ZeloEngine/pull/335) ([zoloypzuo](https://github.com/zoloypzuo))
+- light component editor [\#334](https://github.com/zoloypzuo/ZeloEngine/pull/334) ([zoloypzuo](https://github.com/zoloypzuo))
+- Render queue [\#333](https://github.com/zoloypzuo/ZeloEngine/pull/333) ([zoloypzuo](https://github.com/zoloypzuo))
+- Refactor ecs renderer [\#332](https://github.com/zoloypzuo/ZeloEngine/pull/332) ([zoloypzuo](https://github.com/zoloypzuo))
+- Merge standard shader [\#331](https://github.com/zoloypzuo/ZeloEngine/pull/331) ([zoloypzuo](https://github.com/zoloypzuo))
+- Optick [\#330](https://github.com/zoloypzuo/ZeloEngine/pull/330) ([zoloypzuo](https://github.com/zoloypzuo))
+- setup [\#329](https://github.com/zoloypzuo/ZeloEngine/pull/329) ([zoloypzuo](https://github.com/zoloypzuo))
+- Pcf [\#328](https://github.com/zoloypzuo/ZeloEngine/pull/328) ([zoloypzuo](https://github.com/zoloypzuo))
+- Shadow map [\#327](https://github.com/zoloypzuo/ZeloEngine/pull/327) ([zoloypzuo](https://github.com/zoloypzuo))
+- Bloom [\#326](https://github.com/zoloypzuo/ZeloEngine/pull/326) ([zoloypzuo](https://github.com/zoloypzuo))
+- Blur [\#325](https://github.com/zoloypzuo/ZeloEngine/pull/325) ([zoloypzuo](https://github.com/zoloypzuo))
+- Edge [\#324](https://github.com/zoloypzuo/ZeloEngine/pull/324) ([zoloypzuo](https://github.com/zoloypzuo))
+
 ## [v0.4](https://github.com/zoloypzuo/ZeloEngine/tree/v0.4) (2021-08-29)
 
 [Full Changelog](https://github.com/zoloypzuo/ZeloEngine/compare/v0.3...v0.4)
