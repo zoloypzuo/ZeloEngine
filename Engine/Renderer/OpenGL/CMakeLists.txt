@@ -36,7 +36,7 @@ add_library(OpenGLRenderer
         Drawable/MeshSceneFinal/GLMesh9.cpp
         Drawable/MeshSceneFinal/GLSkyboxRenderer.cpp
         Drawable/MeshSceneFinal/GLSceneDataLazy.cpp
-        Drawable/MeshSceneFinal/GLFramebuffer.cpp
+        Drawable/MeshScene/Buffer/GLFramebufferDSA.cpp
 
         GLUtil.cpp
         GLLoader.cpp
@@ -45,6 +45,9 @@ add_library(OpenGLRenderer
 
         Pipeline/ForwardStandardPipeline.cpp
         Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
+
+        Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.cpp Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h
+
         )
 
 option(ZeloGLTracer "ZeloGLTracer" ON)

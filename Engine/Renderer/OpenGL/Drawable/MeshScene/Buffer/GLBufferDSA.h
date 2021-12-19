@@ -81,48 +81,4 @@ public:
 
     uint32_t getCount() const override { return 0; }
 };
-
-struct DrawElementsIndirectCommand {
-    GLuint count_;
-    GLuint instanceCount_;
-    GLuint firstIndex_;
-    GLuint baseVertex_;
-    GLuint baseInstance_;
-};
-
-class GLIndirectCommandBuffer : public GLBufferDSABase {
-public:
-    GLIndirectCommandBuffer(uint32_t size, const void *data, uint32_t flags, GLsizei numCommands) :
-            GLBufferDSABase(size, data, flags) {
-
-        drawCommandBuffer.resize(size);
-
-        // store the number of draw commands in the very beginning of the buffer
-        memcpy(drawCommandBuffer.data(), &numCommands, sizeof(GLsizei));
-
-        auto *startOffset = drawCommandBuffer.data() + sizeof(GLsizei);
-        commandQueue = std::launder(reinterpret_cast<DrawElementsIndirectCommand *>(startOffset));
-    }
-
-    void bind() const override {
-        glBindBuffer(GL_DRAW_INDIRECT_BUFFER, m_RendererID);
-        glBindBuffer(GL_PARAMETER_BUFFER, m_RendererID);
-    }
-
-    ~GLIndirectCommandBuffer() = default;
-
-    GLBufferType getType() const override { return GLBufferType::DRAW_INDIRECT_BUFFER; }
-
-    void sendBlocks() {
-        glNamedBufferSubData(m_RendererID, 0, drawCommandBuffer.size(), drawCommandBuffer.data());
-    }
-
-    DrawElementsIndirectCommand *getCommandQueue() const { return commandQueue; }
-
-private:
-    // num of commands, followed by command queue
-    std::vector<uint8_t> drawCommandBuffer;
-    // start offset of command queue
-    DrawElementsIndirectCommand *commandQueue;
-};
 }

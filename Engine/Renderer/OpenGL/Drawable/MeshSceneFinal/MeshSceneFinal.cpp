@@ -13,7 +13,7 @@
 #include "GLMesh9.h"
 #include "GLSkyboxRenderer.h"
 #include "GLSceneDataLazy.h"
-#include "GLFramebuffer.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLFramebufferDSA.h"
 
 using namespace Zelo::Core::RHI;
 
@@ -114,15 +114,15 @@ struct MeshSceneFinal::Impl {
     GLTexture rotationPattern;
     GLIndirectBuffer meshesOpaque;
     GLIndirectBuffer meshesTransparent;
-    GLFramebuffer opaqueFramebuffer;
-    GLFramebuffer framebuffer;
-    GLFramebuffer luminance;
-    GLFramebuffer brightPass;
-    GLFramebuffer bloom1;
-    GLFramebuffer bloom2;
-    GLFramebuffer ssao;
-    GLFramebuffer blur;
-    GLFramebuffer shadowMap;
+    GLFramebufferDSA opaqueFramebuffer;
+    GLFramebufferDSA framebuffer;
+    GLFramebufferDSA luminance;
+    GLFramebufferDSA brightPass;
+    GLFramebufferDSA bloom1;
+    GLFramebufferDSA bloom2;
+    GLFramebufferDSA ssao;
+    GLFramebufferDSA blur;
+    GLFramebufferDSA shadowMap;
 
     GLBuffer oitAtomicCounter;
     GLBuffer oitTransparencyLists;

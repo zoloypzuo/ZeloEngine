@@ -4,15 +4,16 @@
 #include <memory>
 #include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
 
-class GLFramebuffer {
+namespace Zelo::Renderer::OpenGL {
+class GLFramebufferDSA {
 public:
-    GLFramebuffer(int width, int height, GLenum formatColor, GLenum formatDepth);
+    GLFramebufferDSA(int width, int height, GLenum formatColor, GLenum formatDepth);
 
-    ~GLFramebuffer();
+    ~GLFramebufferDSA();
 
-    GLFramebuffer(const GLFramebuffer &) = delete;
+    GLFramebufferDSA(const GLFramebufferDSA &) = delete;
 
-    GLFramebuffer(GLFramebuffer &&) = default;
+    GLFramebufferDSA(GLFramebufferDSA &&) = default;
 
     GLuint getHandle() const { return handle_; }
 
@@ -32,3 +33,4 @@ private:
     std::unique_ptr<GLTexture> texColor_;
     std::unique_ptr<GLTexture> texDepth_;
 };
+}
