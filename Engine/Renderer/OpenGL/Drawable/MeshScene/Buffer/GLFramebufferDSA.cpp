@@ -1,9 +1,10 @@
 ﻿#pragma once
 
-#include "GLFramebuffer.h"
+#include "GLFramebufferDSA.h"
 #include <cassert>
 
-GLFramebuffer::GLFramebuffer(int width, int height, GLenum formatColor, GLenum formatDepth)
+namespace Zelo::Renderer::OpenGL {
+GLFramebufferDSA::GLFramebufferDSA(int width, int height, GLenum formatColor, GLenum formatDepth)
         : width_(width), height_(height) {
     glCreateFramebuffers(1, &handle_);
 
@@ -27,16 +28,17 @@ GLFramebuffer::GLFramebuffer(int width, int height, GLenum formatColor, GLenum f
     assert(status == GL_FRAMEBUFFER_COMPLETE);
 }
 
-GLFramebuffer::~GLFramebuffer() {
+GLFramebufferDSA::~GLFramebufferDSA() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
     glDeleteFramebuffers(1, &handle_);
 }
 
-void GLFramebuffer::bind() {
+void GLFramebufferDSA::bind() {
     glBindFramebuffer(GL_FRAMEBUFFER, handle_);
     glViewport(0, 0, width_, height_);
 }
 
-void GLFramebuffer::unbind() {
+void GLFramebufferDSA::unbind() {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
 }

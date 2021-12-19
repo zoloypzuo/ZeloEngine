@@ -4,15 +4,14 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLShaderStorageBufferDSA.h"
 
-namespace Zelo::Renderer::OpenGL{
-GLShaderStorageBufferDSA::~GLShaderStorageBufferDSA() = default;
+namespace Zelo::Renderer::OpenGL {
+GLShaderStorageBufferDSA::GLShaderStorageBufferDSA(uint32_t size, const void *data, uint32_t flags) :
+        GLBufferDSABase(size, data, flags) {}
 
-void GLShaderStorageBufferDSA::bind(uint32_t bindingPoint) {
-    m_bindingPoint = bindingPoint;
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, bindingPoint, m_RendererID);
-}
 
-void GLShaderStorageBufferDSA::unbind() const {
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, m_bindingPoint, 0);
+GLBufferType GLShaderStorageBufferDSA::getType() const { return GLBufferType::SHADER_STORAGE_BUFFER; }
+
+uint32_t *GLShaderStorageBufferDSA::getMappedPtr() const {
+    return (uint32_t *) glMapNamedBuffer(m_RendererID, GL_READ_WRITE);
 }
 }

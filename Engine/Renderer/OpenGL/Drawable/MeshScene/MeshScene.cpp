@@ -7,6 +7,7 @@
 #include "Core/Resource/ResourceManager.h"
 #include "Core/Scene/SceneManager.h"
 
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLUniformBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLVertexArrayDSA.h"
@@ -72,7 +73,7 @@ struct MeshScene::Impl {
     std::unique_ptr<GLShaderStorageBufferDSA> bufferMaterials_;
     std::unique_ptr<GLShaderStorageBufferDSA> bufferModelMatrices_;
 
-    std::unique_ptr<GLIndirectCommandBuffer> bufferIndirect_;
+    std::unique_ptr<GLIndirectCommandBufferCountDSA> bufferIndirect_;
 
     std::unique_ptr<GLUniformBufferDSA> perFrameDataBuffer{};
 #pragma endregion runtime
@@ -81,7 +82,7 @@ struct MeshScene::Impl {
 
     ~Impl() = default;
 
-    void render() const;
+    void render() const ;
 
     int getDrawCount() const;
 };
@@ -145,9 +146,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
     // bufferIndirect_
     {
-        bufferIndirect_ = std::make_unique<GLIndirectCommandBuffer>(
-                sizeof(DrawElementsIndirectCommand) * drawDataList.size() + sizeof(GLsizei),
-                nullptr, GL_DYNAMIC_STORAGE_BIT, drawDataList.size());
+        bufferIndirect_ = std::make_unique<GLIndirectCommandBufferCountDSA>(drawDataList.size());
         // prepare indirect commands buffer
         auto *cmd = bufferIndirect_->getCommandQueue();
         for (size_t i = 0; i != drawDataList.size(); i++) {
@@ -194,7 +193,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
 int MeshScene::Impl::getDrawCount() const { return drawDataList.size(); }
 
-void MeshScene::Impl::render() const {
+void MeshScene::Impl::render() const  {
     // perFrameDataBuffer
     {
         auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
@@ -223,7 +222,7 @@ MeshScene::MeshScene(const std::string &sceneFile, const std::string &meshFile, 
 
 MeshScene::~MeshScene() = default;
 
-void MeshScene::render() const {
+void MeshScene::render()  {
     pimpl->render();
 }
 }

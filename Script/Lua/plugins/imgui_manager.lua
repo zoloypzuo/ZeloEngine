@@ -46,8 +46,6 @@ function ImGuiManager.Initialize()
     TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", false)
 
     UI:ResetLayout()
-
-    require("scenes.scene01")  -- TODO
 end
 
 function ImGuiManager.Update()

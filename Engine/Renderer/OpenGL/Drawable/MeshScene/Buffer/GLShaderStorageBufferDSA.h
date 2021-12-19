@@ -12,25 +12,17 @@ class GLShaderStorageBufferDSA : public GLBufferDSABase {
 public:
     // pass data = null, flag = GL_DYNAMIC_STORAGE_BIT, and upload data later by sendBlocks
     explicit GLShaderStorageBufferDSA(
-            uint32_t size, const void *data = nullptr, uint32_t flags = GL_DYNAMIC_STORAGE_BIT) :
-            GLBufferDSABase(size, data, flags) {}
+            uint32_t size, const void *data = nullptr, uint32_t flags = GL_DYNAMIC_STORAGE_BIT);
 
-    ~GLShaderStorageBufferDSA();
+    GLBufferType getType() const override;
 
-    void bind(uint32_t bindingPoint);
-
-    void unbind() const override;
-
-    GLBufferType getType() const override { return GLBufferType::SHADER_STORAGE_BUFFER; }
+    uint32_t *getMappedPtr() const;
 
     template<typename T>
     void sendBlocks(T *data, size_t size) const;
 
     template<typename T>
     void sendBlocks(std::vector<T> data) const;
-
-private:
-    uint32_t m_bindingPoint = 0;
 };
 
 template<typename T>

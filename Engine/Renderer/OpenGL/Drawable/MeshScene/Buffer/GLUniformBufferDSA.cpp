@@ -14,6 +14,4 @@ GLUniformBufferDSA::GLUniformBufferDSA(
         GLBufferDSABase(size, data, flags) {
     glBindBufferRange(GL_UNIFORM_BUFFER, bindingPoint, m_RendererID, 0, size);
 }
-
-GLUniformBufferDSA::~GLUniformBufferDSA() = default;
 }

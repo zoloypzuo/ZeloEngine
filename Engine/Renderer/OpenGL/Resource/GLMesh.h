@@ -21,7 +21,7 @@ public:
 
     virtual ~GLMesh();
 
-    void render() const override;
+    void render()  override;
 
 private:
     GLVertexArray m_vao{};

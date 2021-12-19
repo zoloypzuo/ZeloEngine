@@ -16,8 +16,6 @@ public:
     explicit GLUniformBufferDSA(
             uint32_t bindingPoint, uint32_t size, const void *data = nullptr, uint32_t flags = GL_DYNAMIC_STORAGE_BIT);
 
-    ~GLUniformBufferDSA();
-
     GLBufferType getType() const override { return GLBufferType::UNIFORM_BUFFER; }
 
     template<typename T>

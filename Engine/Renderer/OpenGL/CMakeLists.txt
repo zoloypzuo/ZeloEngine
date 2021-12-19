@@ -24,11 +24,16 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Buffer/GLUniformBufferDSA.cpp
         Drawable/MeshScene/Buffer/GLVertexArrayDSA.cpp
 
+        Drawable/MeshScene/VtxData/MeshData.cpp
         Drawable/MeshScene/Material/Material.cpp
         Drawable/MeshScene/Scene/SceneGraph.cpp
         Drawable/MeshScene/Texture/GLTexture.cpp
         Drawable/MeshScene/Util/Utils.cpp
         Drawable/MeshScene/Util/UtilsCubemap.cpp
+
+        Drawable/MeshScene/MeshSceneFinal.cpp
+        Drawable/MeshScene/GLSkyboxRenderer.cpp
+        Drawable/MeshScene/Buffer/GLFramebufferDSA.cpp
 
         GLUtil.cpp
         GLLoader.cpp
@@ -37,7 +42,10 @@ add_library(OpenGLRenderer
 
         Pipeline/ForwardStandardPipeline.cpp
         Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
-        )
+
+        Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.cpp Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h
+
+        Drawable/MeshScene/Buffer/GLAtomicCounterDSA.cpp Drawable/MeshScene/Buffer/GLAtomicCounterDSA.h)
 
 option(ZeloGLTracer "ZeloGLTracer" ON)
 if (ZeloGLTracer)
@@ -51,3 +59,12 @@ target_link_libraries(OpenGLRenderer PRIVATE glad::glad)
 target_include_directories(OpenGLRenderer PRIVATE ${STB_INCLUDE_DIRS})
 
 set_target_properties(OpenGLRenderer PROPERTIES FOLDER "OpenGL")
+
+find_package(glfw3 CONFIG REQUIRED)
+find_package(gli CONFIG REQUIRED)
+find_package(RapidJSON CONFIG REQUIRED)
+find_package(Taskflow CONFIG REQUIRED)
+
+
+target_link_libraries(OpenGLRenderer PUBLIC gli)
+target_link_libraries(OpenGLRenderer PRIVATE Taskflow::Taskflow)

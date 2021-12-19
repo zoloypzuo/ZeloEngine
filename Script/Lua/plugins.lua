@@ -14,7 +14,7 @@ local plugins = {
     --"Ch6PBRPlugin",
     --"Ch7LargeScenePlugin",
     --"Ch10FinalPlugin",
-    "ImGuiManager",
+    --"ImGuiManager",
 }
 
 global("PluginInstances")

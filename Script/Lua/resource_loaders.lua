@@ -36,8 +36,7 @@ RegisterResourceLoader("MATERIAL", function(name, data)
 end)
 
 RegisterResourceLoader("SCENE", function(name, data)
-    local scene_file, mesh_file, material_file = data.scene_file, data.mesh_file, data.material_file
-    return Scene.new(scene_file, mesh_file, material_file)
+    return Scene.new(data.scene_file, data.mesh_file, data.material_file, data.dummy_texture_file)
 end)
 
 RegisterResourceLoader("SHADER", function(name, data)
