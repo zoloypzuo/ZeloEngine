@@ -64,11 +64,17 @@ One-click operation:
 
 Run `build_vs2019/bin/Hello.exe`
 
+## Demo
+
+Code Binary：
+
+[Release v0.5 ZeloEngineBinary.zip](https://github.com/zoloypzuo/ZeloEngine/releases/tag/v0.5)
+
 Art resources:
 
-Download and unzip it to the root directory `Resource`, only the lastest art resources corresponding to the latest version of the code is kept 
+Download and unzip it to the root directory `Resource`, only the lastest art resources corresponding to the latest version of the code is kept. 
 
-[Onedrive Resource.zip](https://1drv.ms/u/s!AtVMh2FmVQ2aanRFvNFlHOprqRI?e=IbSybb)
+[Resource.zip](https://1drv.ms/u/s!AtVMh2FmVQ2aanRFvNFlHOprqRI?e=IbSybb)
 
 ## Third Party Library
 

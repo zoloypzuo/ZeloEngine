@@ -64,11 +64,17 @@
 
 运行`build_vs2019/bin/Hello.exe`
 
+## Demo
+
+程序二进制包：
+
+[Release v0.5 ZeloEngineBinary.zip](https://github.com/zoloypzuo/ZeloEngine/releases/tag/v0.5)
+
 美术资源：
 
 下载解压到根目录`Resource`即可，仅保留代码最新版本对应的美术资源
 
-[Onedrive Resource.zip](https://1drv.ms/u/s!AtVMh2FmVQ2aanRFvNFlHOprqRI?e=IbSybb)
+[Resource.zip](https://1drv.ms/u/s!AtVMh2FmVQ2aanRFvNFlHOprqRI?e=IbSybb)
 
 ## 第三方库
 
