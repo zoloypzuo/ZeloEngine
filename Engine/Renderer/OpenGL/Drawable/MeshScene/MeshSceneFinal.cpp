@@ -16,6 +16,7 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLFramebufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLUniformBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLVertexArrayDSA.h"
 
 #include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
@@ -154,7 +155,6 @@ struct MeshSceneFinal::Impl {
 
     std::unique_ptr<GLIndirectCommandBufferDSA> bufferIndirect_;
 
-//    std::unique_ptr<GLUniformBufferDSA> perFrameDataBuffer{};
 #pragma endregion buffer
 
     std::unique_ptr<GLSLShaderProgram> progGrid{};
@@ -189,16 +189,16 @@ struct MeshSceneFinal::Impl {
     GLFramebufferDSA shadowMap;
 
     GLAtomicCounterDSA oitAtomicCounter;
-    GLBuffer oitTransparencyLists;
+    GLShaderStorageBufferDSA oitTransparencyLists;
     GLTexture oitHeads;
 
     std::vector<BoundingBox> reorderedBoxes;
     BoundingBox bigBox{};
     std::vector<GLTexture *> luminances;  // [2]
 
-    GLBuffer perFrameDataBuffer;
-    GLBuffer boundingBoxesBuffer;
-    GLBuffer numVisibleMeshesBuffer;
+    GLUniformBufferDSA perFrameDataBuffer;
+    GLShaderStorageBufferDSA boundingBoxesBuffer;
+    GLShaderStorageBufferDSA numVisibleMeshesBuffer;
 
     GLuint luminance1x1{};
     GLTexture luminance1;
@@ -317,7 +317,7 @@ MeshSceneFinal::Impl::Impl(
                ZELO_PATH("data/immenstadter_horn_2k_irradiance.hdr").c_str(),
                ZELO_PATH("data/brdfLUT.ktx").c_str()),
 
-        perFrameDataBuffer(kUniformBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT),
+        perFrameDataBuffer(kBufferIndex_PerFrameUniforms, kUniformBufferSize),
         boundingBoxesBuffer(kBoundingBoxesBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT),
         numVisibleMeshesBuffer(sizeof(uint32_t), nullptr,
                                GL_MAP_READ_BIT | GL_MAP_WRITE_BIT | GL_MAP_PERSISTENT_BIT | GL_MAP_COHERENT_BIT),
@@ -451,9 +451,6 @@ MeshSceneFinal::Impl::Impl(
     progAdaptation = std::make_unique<GLSLShaderProgram>("hdr/adaptation.glsl");
     progShadowMap = std::make_unique<GLSLShaderProgram>("shadow.glsl");
 
-    glBindBufferRange(GL_UNIFORM_BUFFER, kBufferIndex_PerFrameUniforms, perFrameDataBuffer.getHandle(), 0,
-                      kUniformBufferSize);
-
     numVisibleMeshesPtr = (uint32_t *) glMapNamedBuffer(numVisibleMeshesBuffer.getHandle(), GL_READ_WRITE);
     assert(numVisibleMeshesPtr);
 
@@ -567,12 +564,12 @@ void MeshSceneFinal::Impl::render() {
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_NumVisibleMeshes, numVisibleMeshesBuffer.getHandle());
 
         perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesOpaque->getDrawCount() : 0u;
-        glNamedBufferSubData(perFrameDataBuffer.getHandle(), 0, kUniformBufferSize, &perFrameData);
+        perFrameDataBuffer.sendBlocks(perFrameData);
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesOpaque->getHandle());
         glDispatchCompute(1 + (GLuint) meshesOpaque->getDrawCount() / 64, 1, 1);
 
         perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesTransparent->getDrawCount() : 0u;
-        glNamedBufferSubData(perFrameDataBuffer.getHandle(), 0, kUniformBufferSize, &perFrameData);
+        perFrameDataBuffer.sendBlocks(perFrameData);
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesTransparent->getHandle());
         glDispatchCompute(1 + (GLuint) meshesTransparent->getDrawCount() / 64, 1, 1);
 
@@ -580,7 +577,7 @@ void MeshSceneFinal::Impl::render() {
         fenceCulling = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
     }
 
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_TransparencyLists, oitTransparencyLists.getHandle());
+    oitTransparencyLists.bind(kBufferIndex_TransparencyLists);
 
     // 1. Render shadow map
     if (g_EnableShadows) {
@@ -588,7 +585,7 @@ void MeshSceneFinal::Impl::render() {
         glEnable(GL_DEPTH_TEST);
         // Calculate light parameters
         const PerFrameData perFrameDataShadows = {lightView, lightProj};
-        glNamedBufferSubData(perFrameDataBuffer.getHandle(), 0, kUniformBufferSize, &perFrameDataShadows);
+        perFrameDataBuffer.sendBlocks(perFrameDataShadows);
         glClearNamedFramebufferfv(shadowMap.getHandle(), GL_COLOR, 0, glm::value_ptr(vec4(0.0f, 0.0f, 0.0f, 1.0f)));
         glClearNamedFramebufferfi(shadowMap.getHandle(), GL_DEPTH_STENCIL, 0, 1.0f, 0);
         shadowMap.bind();
@@ -601,7 +598,7 @@ void MeshSceneFinal::Impl::render() {
         // disable shadows
         perFrameData.light = mat4(0.0f);
     }
-    glNamedBufferSubData(perFrameDataBuffer.getHandle(), 0, kUniformBufferSize, &perFrameData);
+    perFrameDataBuffer.sendBlocks(perFrameData);
 
     // 1. Render scene
     opaqueFramebuffer.bind();
@@ -636,7 +633,7 @@ void MeshSceneFinal::Impl::render() {
     if (g_EnableSSAO) {
         glDisable(GL_DEPTH_TEST);
         glClearNamedFramebufferfv(ssao.getHandle(), GL_COLOR, 0, glm::value_ptr(vec4(0.0f, 0.0f, 0.0f, 1.0f)));
-        glNamedBufferSubData(perFrameDataBuffer.getHandle(), 0, sizeof(g_SSAOParams), &g_SSAOParams);
+        perFrameDataBuffer.sendBlocks(g_SSAOParams);
         ssao.bind();
         progSSAO->bind();
         glBindTextureUnit(0, opaqueFramebuffer.getTextureDepth().getHandle());
@@ -683,7 +680,7 @@ void MeshSceneFinal::Impl::render() {
     //
     // pass HDR params to shaders
     if (g_EnableHDR) {
-        glNamedBufferSubData(perFrameDataBuffer.getHandle(), 0, sizeof(g_HDRParams), &g_HDRParams);
+        perFrameDataBuffer.sendBlocks(g_HDRParams);
         // 2.1 Downscale and convert to luminance
         luminance.bind();
         progToLuminance->bind();
