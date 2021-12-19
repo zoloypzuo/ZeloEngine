@@ -2,8 +2,8 @@
 // created on 2021/3/28
 // author @zoloypzuo
 #include "Transform.h"
-#include <glm/gtx/transform.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <glm/gtx/transform.hpp>
 
 Transform::Transform(const glm::vec3 &position, const glm::quat &rotation, const glm::vec3 &scale) {
     this->m_position = position;

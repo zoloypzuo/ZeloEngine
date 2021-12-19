@@ -1,12 +1,11 @@
 // SimplePipeline.cpp
 // created on 2021/11/21
 // author @zoloypzuo
-#include "ZeloPreCompiledHeader.h"
 #include "SimplePipeline.h"
 
-#include "Core/Scene/SceneManager.h"
-#include "Core/RHI/RenderSystem.h"
 #include "Core/RHI/MeshRenderer.h"
+#include "Core/RHI/RenderSystem.h"
+#include "Core/Scene/SceneManager.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::RHI;

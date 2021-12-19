@@ -4,9 +4,9 @@
 #include "ZeloPreCompiledHeader.h"
 #include "ForwardStandardPipeline.h"
 
-#include "Core/Scene/SceneManager.h"
-#include "Core/RHI/RenderSystem.h"
 #include "Core/RHI/MeshRenderer.h"
+#include "Core/RHI/RenderSystem.h"
+#include "Core/Scene/SceneManager.h"
 
 using namespace Zelo;
 using namespace Zelo::Core::RHI;

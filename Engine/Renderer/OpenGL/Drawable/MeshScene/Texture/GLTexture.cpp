@@ -8,7 +8,6 @@
 
 #include <stb_image.h>
 #include <gli/gli.hpp>
-#include <gli/texture2d.hpp>
 #include <gli/load_ktx.hpp>
 
 int getNumMipMapLevels2D(int w, int h) {
