@@ -68,7 +68,7 @@
 
 下载解压到根目录`Resource`即可，仅保留代码最新版本对应的美术资源
 
-[https://1drv.ms/u/s!AtVMh2FmVQ2aanRFvNFlHOprqRI?e=IbSybb](https://1drv.ms/u/s!AtVMh2FmVQ2aanRFvNFlHOprqRI?e=IbSybb)
+[Onedrive Resource.zip](https://1drv.ms/u/s!AtVMh2FmVQ2aanRFvNFlHOprqRI?e=IbSybb)
 
 ## 第三方库
 
