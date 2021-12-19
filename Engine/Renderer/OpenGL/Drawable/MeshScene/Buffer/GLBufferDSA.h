@@ -7,7 +7,7 @@
 #include "ZeloGLPrerequisites.h"
 #include "Core/RHI/Buffer/Buffer.h"
 
-namespace Zelo::Renderer::OpenGL{
+namespace Zelo::Renderer::OpenGL {
 enum class GLBufferType {
     ARRAY_BUFFER = GL_ARRAY_BUFFER,
     ATOMIC_COUNTER_BUFFER = GL_ATOMIC_COUNTER_BUFFER,
@@ -32,7 +32,7 @@ public:
         glNamedBufferStorage(m_RendererID, size, data, flags);
     }
 
-    ~GLBufferDSABase() {
+    virtual ~GLBufferDSABase() {
         glDeleteBuffers(1, &m_RendererID);
     }
 
@@ -41,6 +41,14 @@ public:
     virtual void bind() const { glBindBuffer(static_cast<GLenum>(getType()), m_RendererID); }
 
     virtual void unbind() const { glBindBuffer(static_cast<GLenum>(getType()), 0); }
+
+    void bind(uint32_t bindingPoint) const {
+        glBindBufferBase(static_cast<GLenum>(getType()), bindingPoint, m_RendererID);
+    }
+
+    void unbind(uint32_t bindingPoint) const {
+        glBindBufferBase(static_cast<GLenum>(getType()), bindingPoint, 0);
+    }
 
     virtual GLBufferType getType() const = 0;
 

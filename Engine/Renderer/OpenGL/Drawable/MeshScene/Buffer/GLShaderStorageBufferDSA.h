@@ -15,12 +15,6 @@ public:
             uint32_t size, const void *data = nullptr, uint32_t flags = GL_DYNAMIC_STORAGE_BIT) :
             GLBufferDSABase(size, data, flags) {}
 
-    ~GLShaderStorageBufferDSA();
-
-    void bind(uint32_t bindingPoint);
-
-    void unbind() const override;
-
     GLBufferType getType() const override { return GLBufferType::SHADER_STORAGE_BUFFER; }
 
     template<typename T>
