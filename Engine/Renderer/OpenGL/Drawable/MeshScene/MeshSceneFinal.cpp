@@ -305,7 +305,7 @@ MeshSceneFinal::Impl::Impl(
         const std::string &sceneFile,
         const std::string &materialFile,
         const std::string &dummyTextureFile) :
-        rotationPattern(GL_TEXTURE_2D, ZELO_PATH("data/rot_texture.bmp").c_str()),
+        rotationPattern(GL_TEXTURE_2D, ZELO_PATH("rot_texture.bmp").c_str()),
         opaqueFramebuffer(width, height, GL_RGBA16F, GL_DEPTH_COMPONENT24),
         framebuffer(width, height, GL_RGBA16F, GL_DEPTH_COMPONENT24),
         luminance(64, 64, GL_RGBA16F, 0),
@@ -318,9 +318,9 @@ MeshSceneFinal::Impl::Impl(
         oitTransparencyLists(sizeof(TransparentFragment) * kMaxOITFragments, nullptr, GL_DYNAMIC_STORAGE_BIT),
         oitHeads(GL_TEXTURE_2D, width, height, GL_R32UI),
 
-        skybox(ZELO_PATH("data/immenstadter_horn_2k.hdr").c_str(),
-               ZELO_PATH("data/immenstadter_horn_2k_irradiance.hdr").c_str(),
-               ZELO_PATH("data/brdfLUT.ktx").c_str()),
+        skybox(ZELO_PATH("immenstadter_horn_2k.hdr").c_str(),
+               ZELO_PATH("immenstadter_horn_2k_irradiance.hdr").c_str(),
+               ZELO_PATH("brdfLUT.ktx").c_str()),
 
         perFrameDataBuffer(kBufferIndex_PerFrameUniforms, kUniformBufferSize),
         boundingBoxesBuffer(kBoundingBoxesBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT),

@@ -7,9 +7,9 @@ return {
     "Resource/GameAIAssets";
     "Resource/GLSLBookAssets";
     "Resource/CraftAssets";
+    "Resource/GRCookbookAssets";
     "Shader";
     "Shader/Craft";
     "Shader/GLSLBook";
     "Shader/GRCookbook";
-    "Sandbox/GRCookbook";
 }
