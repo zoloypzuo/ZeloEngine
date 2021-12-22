@@ -183,7 +183,7 @@ std::string getShaderTypeString(GLenum shaderType) {
 void initDebugCallback() {
     int flags{};
     glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
-    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT && glDebugMessageCallback) {
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT) {
         // initialize debug output
         logger->info("GL debug context initialized, hook glDebugMessageCallback");
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
