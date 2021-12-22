@@ -30,7 +30,7 @@ void RenderSystem::ClearFrameInfo() {
     m_frameInfo.polyCount = 0;
 }
 
-template<> RenderSystem *Singleton<RenderSystem>::msSingleton = nullptr;
+template<> RenderSystem *Zelo::Singleton<RenderSystem>::msSingleton = nullptr;
 
 RenderSystem *RenderSystem::getSingletonPtr() {
     return msSingleton;

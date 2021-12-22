@@ -123,7 +123,7 @@ Engine::Engine() = default;
 
 Engine::~Engine() = default;
 
-template<> Engine *Singleton<Engine>::msSingleton = nullptr;
+template<> Engine *Zelo::Singleton<Engine>::msSingleton = nullptr;
 
 Engine *Engine::getSingletonPtr() {
     return msSingleton;

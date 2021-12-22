@@ -6,7 +6,7 @@
 
 using namespace Zelo::Core::RHI;
 
-template<> MeshManager *Singleton<MeshManager>::msSingleton = nullptr;
+template<> MeshManager *Zelo::Singleton<MeshManager>::msSingleton = nullptr;
 
 MeshManager *MeshManager::getSingletonPtr() {
     return msSingleton;

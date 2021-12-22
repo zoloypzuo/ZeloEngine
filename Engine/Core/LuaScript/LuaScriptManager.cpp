@@ -13,7 +13,7 @@ void LuaBind_PreMain(sol::state &luaState);
 
 void LuaBind_Main(sol::state &luaState);
 
-template<> LuaScriptManager *Singleton<LuaScriptManager>::msSingleton = nullptr;
+template<> LuaScriptManager *Zelo::Singleton<LuaScriptManager>::msSingleton = nullptr;
 
 LuaScriptManager *LuaScriptManager::getSingletonPtr() {
     return msSingleton;

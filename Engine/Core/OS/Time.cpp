@@ -12,7 +12,7 @@ Time::Time() = default;
 
 Time::~Time() = default;
 
-template<> Time *Singleton<Time>::msSingleton = nullptr;
+template<> Time *Zelo::Singleton<Time>::msSingleton = nullptr;
 
 Time *Time::getSingletonPtr() {
     return msSingleton;

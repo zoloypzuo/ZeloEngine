@@ -1,9 +1,7 @@
 // ZeloSingleton.h
 // created on 2021/3/28
 // author @zoloypzuo
-
-#ifndef ZELOENGINE_ZELOSINGLETON_H
-#define ZELOENGINE_ZELOSINGLETON_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 
@@ -12,26 +10,21 @@
 #   pragma warning ( disable: 4661)
 #endif
 
-/** Template class for creating single-instance global classes.
- *
- * This implementation slightly derives from the textbook pattern, by requiring
- * manual instantiation, instead of implicitly doing it in #getSingleton. This is useful for classes that
- * want to do some involved initialization, which should be done at a well defined time-point or need some
- * additional parameters in their constructor.
- *
- * It also allows you to manage the singleton lifetime through RAII.
- *
- * @note Be aware that #getSingleton will fail before the global instance is created. (check via
- * #getSingletonPtr)
- */
+namespace Zelo {
+/// template class for creating single-instance global classes
+/// class instance needs manual initialization, allows you to manage singleton lifetime through RAII
+/// thread safe
+/// \tparam T
 template<typename T>
 class Singleton {
-private:
-    /** @brief Explicit private copy constructor. This is a forbidden operation.*/
-    Singleton(const Singleton<T> &);
+public:
+    Singleton(const Singleton &) = delete;
 
-    /** @brief Private operator= . This is a forbidden operation. */
-    Singleton &operator=(const Singleton<T> &);
+    Singleton(Singleton &&) = delete;
+
+    Singleton &operator=(const Singleton &) = delete;
+
+    Singleton &operator=(Singleton &&) = delete;
 
 protected:
     static T *msSingleton;
@@ -56,11 +49,8 @@ public:
     /// @copydoc getSingleton
     static T *getSingletonPtr() { return msSingleton; }
 };
-/** @} */
-/** @} */
+}
 
 #if ZELO_COMPILER == ZELO_COMPILER_MSVC
 #   pragma warning (pop)
 #endif
-
-#endif //ZELOENGINE_ZELOSINGLETON_H

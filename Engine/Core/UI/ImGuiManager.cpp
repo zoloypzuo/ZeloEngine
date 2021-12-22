@@ -20,7 +20,7 @@
 using namespace Zelo::Core::UI;
 using namespace Zelo::Core::OS;
 
-template<> ImGuiManager *Singleton<ImGuiManager>::msSingleton = nullptr;
+template<> ImGuiManager *Zelo::Singleton<ImGuiManager>::msSingleton = nullptr;
 
 ImGuiManager *ImGuiManager::getSingletonPtr() {
     return msSingleton;

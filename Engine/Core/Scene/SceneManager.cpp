@@ -15,7 +15,7 @@ using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::Scene;
 using namespace Zelo::Renderer::OpenGL;
 
-template<> SceneManager *Singleton<SceneManager>::msSingleton = nullptr;
+template<> SceneManager *Zelo::Singleton<SceneManager>::msSingleton = nullptr;
 
 namespace Zelo::Core::Scene {
 void SceneManager::update() {

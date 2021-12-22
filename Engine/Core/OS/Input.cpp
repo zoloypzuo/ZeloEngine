@@ -4,7 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Window.h"
 
-template<> Zelo::Core::OS::Input *Singleton<Zelo::Core::OS::Input>::msSingleton = nullptr;
+template<> Zelo::Core::OS::Input *Zelo::Singleton<Zelo::Core::OS::Input>::msSingleton = nullptr;
 
 namespace Zelo::Core::OS {
 Input::Input() {

@@ -8,7 +8,7 @@
 
 using namespace Zelo::Core::Resource;
 
-template<> ResourceManager *Singleton<ResourceManager>::msSingleton = nullptr;
+template<> ResourceManager *Zelo::Singleton<ResourceManager>::msSingleton = nullptr;
 
 ResourceManager *ResourceManager::getSingletonPtr() {
     return msSingleton;
