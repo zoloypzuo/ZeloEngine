@@ -31,6 +31,18 @@ elseif (WIN32)
     # stuff that should happen not on Linux
 endif ()
 
+if (CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 bits
+    set(X64 TRUE)
+elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 bits
+    set(X32 TRUE)
+endif ()
+
+if (X64)
+    message(STATUS "OS >>> X64")
+else ()
+    message(STATUS "OS >>> X32")
+endif ()
+
 message(STATUS "COMPILER >>> ${CMAKE_CXX_COMPILER_ID}")
 
 message(STATUS "BUILD_SHARED_LIBS >>> ${BUILD_SHARED_LIBS}")
@@ -48,11 +60,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # vcpkg root and triplet
 if (WIN32)
-#    if (CMAKE_SIZEOF_VOID_P EQUAL 8)  # 64 bits
-#        set(VCPKG_TARGET_TRIPLET x64-windows)
-#    elseif (CMAKE_SIZEOF_VOID_P EQUAL 4)  # 32 bits
-        set(VCPKG_TARGET_TRIPLET x86-windows)
-#    endif ()
+    set(VCPKG_TARGET_TRIPLET x86-windows)
     set(VcpkgDir ${CMAKE_SOURCE_DIR}/ThirdParty/Vcpkg)
     include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
     message(STATUS vcpkg-toolchain-file=${VcpkgDir} \t triplet=${VCPKG_TARGET_TRIPLET})
@@ -93,6 +101,21 @@ if (MSVC)
     # We do this to speed up the build process,
     # it reduces the size of the Win32 header files by excluding some of the less used APIs.
     add_compile_definitions(WIN32_LEAN_AND_MEAN)
+
+    # vld
+    option(DetectMemoryLeak "DetectMemoryLeak" OFF)
+    if (DetectMemoryLeak)
+        add_compile_definitions(DETECT_MEMORY_LEAK)
+        set(VldIncludeDir "C:/Program Files (x86)/Visual Leak Detector/include")
+        if (X32)
+            set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win32")
+        else ()
+            set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win64")
+        endif ()
+        add_library(Vld INTERFACE)
+        target_include_directories(Vld INTERFACE ${VldIncludeDir})
+        target_link_directories(Vld INTERFACE ${VldLibDir})
+    endif ()
 endif ()
 
 # use unicode, wstring and etc

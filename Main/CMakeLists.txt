@@ -2,6 +2,10 @@ add_executable(Hello main.cpp)
 
 target_link_libraries(Hello PRIVATE Engine StackTrace)
 
+if (DetectMemoryLeak)
+    target_link_libraries(Hello PRIVATE Vld)
+endif ()
+
 # run build.py after C++ build
 add_custom_command(TARGET Hello PRE_BUILD COMMAND
         py ${CMAKE_SOURCE_DIR}/build.py

@@ -31,6 +31,11 @@ def main():
     content = content_template.format(engine_dir)
     write(boot_ini_path, content)
 
+    # copy vld.ini
+    vld_ini_src_path = os.path.join(engine_dir, "Config", "vld.ini")
+    vld_ini_dest_path = os.path.join(exe_dir, "vld.ini")
+    copy(vld_ini_src_path, vld_ini_dest_path)
+
     # copy lua51.dll
     copy(lua51_dll_path, exe_dir)
 
