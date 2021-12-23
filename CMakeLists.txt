@@ -126,9 +126,6 @@ add_compile_definitions(ZELO_DEBUG)
 # build engine
 add_subdirectory(Engine)
 
-# build main
-add_subdirectory(Main)
-
 # build sandbox
 add_subdirectory(Sandbox)
 

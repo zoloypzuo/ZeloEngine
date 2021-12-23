@@ -1,4 +1,4 @@
-add_executable(Hello main.cpp)
+add_executable(Hello Main.cpp)
 
 target_link_libraries(Hello PRIVATE Engine)
 
