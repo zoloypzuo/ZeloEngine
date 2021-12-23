@@ -11,6 +11,7 @@
 #include <whereami.h>
 
 using namespace Zelo;
+using namespace Zelo::Core::Log;
 using namespace Zelo::Core::OS;
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
@@ -32,10 +33,7 @@ void Engine::initialize() {
         m_luaScriptManager->initBoot();
     }
 
-    // init complete logger
-    {
-
-    }
+    m_logManager = std::make_unique<LogManager>();
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>();
     m_input = std::make_unique<Input>();

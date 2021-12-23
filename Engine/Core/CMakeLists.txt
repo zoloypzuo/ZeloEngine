@@ -5,6 +5,7 @@ add_subdirectory(Controller)
 add_subdirectory(ECS)
 add_subdirectory(Scene)
 add_subdirectory(Interface)
+add_subdirectory(LogM)
 add_subdirectory(LuaScript)
 add_subdirectory(Math)
 add_subdirectory(OS)
@@ -17,6 +18,7 @@ set_target_properties(Controller PROPERTIES FOLDER "Core")
 set_target_properties(ECS PROPERTIES FOLDER "Core")
 set_target_properties(Scene PROPERTIES FOLDER "Core")
 set_target_properties(Interface PROPERTIES FOLDER "Core")
+set_target_properties(LogM PROPERTIES FOLDER "Core")
 set_target_properties(LuaScript PROPERTIES FOLDER "Core")
 set_target_properties(Math PROPERTIES FOLDER "Core")
 set_target_properties(OS PROPERTIES FOLDER "Core")
@@ -32,6 +34,7 @@ target_link_libraries(Core INTERFACE
         ECS
         Scene
         Interface
+        LogM
         LuaScript
         Math
         OS

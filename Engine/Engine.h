@@ -5,6 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloSingleton.h"
+#include "Core/LogM/LogManager.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/OS/Time.h"
 #include "Core/OS/Window.h"
@@ -50,11 +51,10 @@ public:
     static Engine &getSingleton();
 
 protected:
-    std::unique_ptr<INIReader> m_config;
-
+    std::unique_ptr<Core::Log::LogManager> m_logManager{};
     std::unique_ptr<Core::OS::Time> m_timeSystem{};
-    std::unique_ptr<Zelo::Core::OS::Input> m_input{};
-    std::unique_ptr<Zelo::Core::OS::Window> m_window{};
+    std::unique_ptr<Core::OS::Input> m_input{};
+    std::unique_ptr<Core::OS::Window> m_window{};
     std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
     std::unique_ptr<Core::Scene::SceneManager> m_sceneManager;
