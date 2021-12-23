@@ -105,7 +105,6 @@ if (MSVC)
     # vld
     option(DetectMemoryLeak "DetectMemoryLeak" OFF)
     if (DetectMemoryLeak)
-        add_compile_definitions(DETECT_MEMORY_LEAK)
         set(VldIncludeDir "C:/Program Files (x86)/Visual Leak Detector/include")
         if (X32)
             set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win32")
