@@ -3,6 +3,11 @@ import shutil
 
 import sys
 
+content_template = """
+    [boot]
+    engineDir = {}
+    """.lstrip()
+
 
 def copy(src, dest):
     if os.path.dirname(src) == dest:
@@ -25,10 +30,6 @@ def main():
 
     # create boot.ini
     boot_ini_path = os.path.join(exe_dir, "boot.ini")
-    content_template = """
-    [boot]
-    engineDir = {}
-    """.lstrip()
     engine_relative_dir = os.path.relpath(engine_dir, exe_dir)
     write(boot_ini_path, content_template.format(engine_relative_dir))
 
