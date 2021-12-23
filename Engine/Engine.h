@@ -5,6 +5,7 @@
 
 #include "ZeloPrerequisites.h"
 #include "Foundation/ZeloSingleton.h"
+#include "Core/LogM/LogManager.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/OS/Time.h"
 #include "Core/OS/Window.h"
@@ -42,16 +43,18 @@ public:
     const PluginInstanceList &getInstalledPlugins() const { return m_plugins; }
 
 public:
+    ZELO_SCRIPT_API static void install(Plugin *plugin);
+
+public:
     static Engine *getSingletonPtr();
 
     static Engine &getSingleton();
 
 protected:
-    std::unique_ptr<INIReader> m_config;
-
+    std::unique_ptr<Core::Log::LogManager> m_logManager{};
     std::unique_ptr<Core::OS::Time> m_timeSystem{};
-    std::unique_ptr<Zelo::Core::OS::Input> m_input{};
-    std::unique_ptr<Zelo::Core::OS::Window> m_window{};
+    std::unique_ptr<Core::OS::Input> m_input{};
+    std::unique_ptr<Core::OS::Window> m_window{};
     std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
     std::unique_ptr<Core::Scene::SceneManager> m_sceneManager;
@@ -60,12 +63,9 @@ protected:
     std::vector<Plugin *> m_plugins;
 
     bool m_isInitialised{};
-    bool m_configInitialized{};
-
-    std::filesystem::path m_engineDir{};
 
 private:
-    void initBootConfig();
+    std::filesystem::path loadBootConfig();
 
     void initializePlugins();
 
@@ -74,5 +74,7 @@ private:
     void updatePlugins();
 
     void renderPlugins();
+
+    void initBootLogger() const;
 };
 }

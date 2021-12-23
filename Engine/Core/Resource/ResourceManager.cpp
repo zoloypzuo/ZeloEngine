@@ -35,8 +35,8 @@ std::filesystem::path ResourceManager::getResourceDir() {
     return m_resourceDir;
 }
 
-ResourceManager::ResourceManager(std::filesystem::path mEngineDir)
-        : m_engineDir(std::move(mEngineDir)),
+ResourceManager::ResourceManager(std::filesystem::path &engineDir)
+        : m_engineDir(std::move(engineDir)),
           m_configDir(m_engineDir / "Config"),
           m_scriptDir(m_engineDir / "Script"),
           m_resourceDir(m_engineDir / "ResourceDB") {

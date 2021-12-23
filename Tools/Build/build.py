@@ -1,6 +1,12 @@
 import os
 import shutil
+
 import sys
+
+content_template = """
+    [boot]
+    engineDir = {}
+    """.lstrip()
 
 
 def copy(src, dest):
@@ -24,12 +30,8 @@ def main():
 
     # create boot.ini
     boot_ini_path = os.path.join(exe_dir, "boot.ini")
-    content_template = """
-    [boot]
-    engineDir = {}
-    """.lstrip()
-    content = content_template.format(engine_dir)
-    write(boot_ini_path, content)
+    engine_relative_dir = engine_dir  # os.path.relpath(engine_dir, exe_dir) for release build
+    write(boot_ini_path, content_template.format(engine_relative_dir))
 
     # copy vld.ini
     vld_ini_src_path = os.path.join(engine_dir, "Config", "vld.ini")

@@ -11,6 +11,8 @@
 #include <spdlog/spdlog.h>  // logger
 
 namespace Zelo {
+class Engine;
+
 class Plugin;
 }
 
@@ -20,6 +22,11 @@ class LuaScriptManager :
         public Singleton<LuaScriptManager>,
         public IRuntimeModule {
 public:
+    friend class Zelo::Engine;  // initBoot
+
+public:
+    LuaScriptManager();
+
     static LuaScriptManager *getSingletonPtr();
 
     static LuaScriptManager &getSingleton();
@@ -32,7 +39,7 @@ public:
     void update() override;
 
 public:
-    static void luaPrint(sol::variadic_args va);
+    ZELO_SCRIPT_API static void luaPrint(sol::variadic_args va);
 
 public:
     void callLuaInitializeFn();
@@ -44,6 +51,13 @@ public:
     void doString(const std::string &luaCode);
 
     void doFile(const std::string &luaFile);
+
+    /// fail if key does not exist
+    /// \tparam T
+    /// \param key
+    /// \return sol::optional<T>
+    template<typename T>
+    decltype(auto) get_safe(const std::string &key) const;
 
     template<typename... Args>
     void luaCall(sol::protected_function pfr, Args &&... args);
@@ -61,6 +75,7 @@ public:
     T &loadConfig(const std::string &configName);
 
 private:
+    void initBoot();
 
     template<typename TypeToRegister, typename... Members>
     void registerTypeImpl(refl::type_list<Members...>) noexcept;
@@ -74,6 +89,8 @@ private:
 
 private:
     std::shared_ptr<spdlog::logger> m_logger{};
+    std::string m_bootLuaPath{};  // boot.lua
+    std::string m_mainLuaPath{};  // main.lua
 };
 }
 

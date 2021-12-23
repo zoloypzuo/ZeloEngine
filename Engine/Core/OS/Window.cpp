@@ -19,7 +19,7 @@ Window::Window() : m_windowConfig(LuaScriptManager::getSingletonPtr()->loadConfi
 Window::~Window() = default;
 
 void Window::initialize() {
-    m_logger = spdlog::default_logger()->clone("window");
+    m_logger = spdlog::get("window");
     m_logger->info("start Window::initialize()");
 
     if (SDL_Init(SDL_INIT_EVERYTHING & ~(SDL_INIT_TIMER | SDL_INIT_HAPTIC)) != 0) {
