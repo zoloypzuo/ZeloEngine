@@ -2,7 +2,21 @@ add_executable(Hello Main.cpp)
 
 target_link_libraries(Hello PRIVATE Engine)
 
-if (DetectMemoryLeak)
+# vld
+option(DETECT_MEMORY_LEAK "DetectMemoryLeak" OFF)
+if (DETECT_MEMORY_LEAK)
+    set(VldIncludeDir "C:/Program Files (x86)/Visual Leak Detector/include")
+    if (X32)
+        set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win32")
+    else ()
+        set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win64")
+    endif ()
+    add_library(Vld INTERFACE)
+    target_include_directories(Vld INTERFACE ${VldIncludeDir})
+    target_link_directories(Vld INTERFACE ${VldLibDir})
+endif ()
+
+if (DETECT_MEMORY_LEAK)
     add_compile_definitions(DETECT_MEMORY_LEAK)
     target_link_libraries(Hello PRIVATE Vld)
 endif ()

@@ -101,20 +101,6 @@ if (MSVC)
     # We do this to speed up the build process,
     # it reduces the size of the Win32 header files by excluding some of the less used APIs.
     add_compile_definitions(WIN32_LEAN_AND_MEAN)
-
-    # vld
-    option(DetectMemoryLeak "DetectMemoryLeak" OFF)
-    if (DetectMemoryLeak)
-        set(VldIncludeDir "C:/Program Files (x86)/Visual Leak Detector/include")
-        if (X32)
-            set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win32")
-        else ()
-            set(VldLibDir "C:/Program Files (x86)/Visual Leak Detector/lib/Win64")
-        endif ()
-        add_library(Vld INTERFACE)
-        target_include_directories(Vld INTERFACE ${VldIncludeDir})
-        target_link_directories(Vld INTERFACE ${VldLibDir})
-    endif ()
 endif ()
 
 # use unicode, wstring and etc

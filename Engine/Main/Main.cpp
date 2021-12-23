@@ -1,7 +1,7 @@
 #include "Foundation/ZeloWindows.h"
 #include "Zelo.h"
 
-#ifdef DetectMemoryLeak
+#ifdef DETECT_MEMORY_LEAK
 #include "Foundation/ZeloMemoryLeak.h"
 #endif
 
