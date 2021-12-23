@@ -1,5 +1,6 @@
 import os
 import shutil
+
 import sys
 
 
@@ -28,8 +29,8 @@ def main():
     [boot]
     engineDir = {}
     """.lstrip()
-    content = content_template.format(engine_dir)
-    write(boot_ini_path, content)
+    engine_relative_dir = os.path.relpath(engine_dir, exe_dir)
+    write(boot_ini_path, content_template.format(engine_relative_dir))
 
     # copy vld.ini
     vld_ini_src_path = os.path.join(engine_dir, "Config", "vld.ini")
