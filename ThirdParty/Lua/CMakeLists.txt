@@ -38,7 +38,7 @@ set(SRC_LIB
 add_library(Lua SHARED ${SRC_CORE} ${SRC_LIB})
 
 target_include_directories(Lua PUBLIC ${LuaSrcDir})
-target_compile_definitions(Lua PRIVATE LUA_BUILD_AS_DLL)
+target_compile_definitions(Lua PRIVATE LUA_BUILD_AS_DLL LUA_USE_APICHECK)
 set_target_properties(Lua PROPERTIES OUTPUT_NAME "lua51")
 
 target_include_directories(Lua INTERFACE ${LuaHppDir})
