@@ -48,5 +48,12 @@
             "type": "git",
             "url": "https://github.com.cnpmjs.org/zoloypzuo/murrayc-tuple-utils.git"
         }
+    },
+    {
+        "name": "backward-cpp",
+        "source": {
+            "type": "git",
+            "url": "https://github.com.cnpmjs.org/zoloypzuo/backward-cpp.git"
+        }
     }
 ]

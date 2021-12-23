@@ -1,22 +1,12 @@
-#include "AutoSymInitialize.h"
-#include "AutoExceptionStacktraceRegister.h"
-#include "StackTracePrinter.h"
+#include "Zelo.h"
 
 #ifdef DetectMemoryLeak
 #include "Foundation/ZeloMemoryLeak.h"
 #endif
 
-#include "Zelo.h"
-
-using namespace ExceptionsStacktrace;
+#include "Foundation/ZeloStackTrace.h"
 
 int main() {
-    AutoSymInitialize autoSymInitialize;
-    AutoExceptionStacktraceRegister autoExceptionStacktraceRegister;
-    try {
-        Zelo::Engine().start();
-    } catch (...) {
-        messageBoxStacktrace();
-    }
+    Zelo::Engine().start();
     return 0;
 }
