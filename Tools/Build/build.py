@@ -30,7 +30,7 @@ def main():
 
     # create boot.ini
     boot_ini_path = os.path.join(exe_dir, "boot.ini")
-    engine_relative_dir = os.path.relpath(engine_dir, exe_dir)
+    engine_relative_dir = exe_dir  # os.path.relpath(engine_dir, exe_dir) for release build
     write(boot_ini_path, content_template.format(engine_relative_dir))
 
     # copy vld.ini

@@ -21,19 +21,10 @@ using namespace Zelo::Core::Scene;
 
 void Engine::initialize() {
     // init config and logger first
-    spdlog::set_level(spdlog::level::debug);  // show all log
-    spdlog::set_pattern("[%T.%e] [%n] [%^%l%$] %v");  // remove datetime in ts
+    initBootLogger();
+    auto engineDir = loadBootConfig();
 
-    // set logger name
-    auto logger = spdlog::default_logger()->clone("root");
-    spdlog::set_default_logger(logger);
-
-    if (!m_configInitialized) {
-        initBootConfig();
-    }
-    m_configInitialized = true;
-
-    m_resourceManager = std::make_unique<ResourceManager>(m_engineDir);
+    m_resourceManager = std::make_unique<ResourceManager>(engineDir);
     m_luaScriptManager = std::make_unique<LuaScriptManager>();
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>();
@@ -53,6 +44,13 @@ void Engine::initialize() {
     initializePlugins();
 
     m_isInitialised = true;
+}
+
+void Engine::initBootLogger() const {
+    auto logger = spdlog::default_logger()->clone("boot");
+    logger->set_level(spdlog::level::debug);  // show all log
+    logger->set_pattern("[%T.%e] [%n] [%^%l%$] %v");  // remove datetime in ts
+    spdlog::set_default_logger(logger);
 }
 
 void Engine::finalize() {
@@ -134,7 +132,7 @@ Engine &Engine::getSingleton() {
     return *msSingleton;
 }
 
-void Engine::initBootConfig() {
+std::filesystem::path Engine::loadBootConfig() {
     char exePathRaw[256];
     auto length = 256;
     wai_getExecutablePath(exePathRaw, length, &length);
@@ -146,9 +144,9 @@ void Engine::initBootConfig() {
     if (bootConfig->ParseError()) {
         spdlog::error("boot.ini not found, path={}", bootIniPath.string());
         ZELO_CORE_ASSERT(false, "boot.ini not found");
-        return;
+        return "";
     }
-    m_engineDir = bootConfig->GetString("boot", "engineDir", "").c_str();
+    return bootConfig->GetString("boot", "engineDir", "");
 }
 
 void Engine::initializePlugins() {

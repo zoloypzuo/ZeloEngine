@@ -60,12 +60,9 @@ protected:
     std::vector<Plugin *> m_plugins;
 
     bool m_isInitialised{};
-    bool m_configInitialized{};
-
-    std::filesystem::path m_engineDir{};
 
 private:
-    void initBootConfig();
+    std::filesystem::path loadBootConfig();
 
     void initializePlugins();
 
@@ -74,5 +71,7 @@ private:
     void updatePlugins();
 
     void renderPlugins();
+
+    void initBootLogger() const;
 };
 }
