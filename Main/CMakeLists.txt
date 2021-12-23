@@ -1,6 +1,6 @@
 add_executable(Hello main.cpp)
 
-target_link_libraries(Hello PRIVATE Engine StackTrace)
+target_link_libraries(Hello PRIVATE Engine Backward)
 
 if (DetectMemoryLeak)
     add_compile_definitions(DETECT_MEMORY_LEAK)
