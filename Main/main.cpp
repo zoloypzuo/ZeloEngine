@@ -1,10 +1,10 @@
+#include "Zelo.h"
+
 #ifdef DetectMemoryLeak
 #include "Foundation/ZeloMemoryLeak.h"
 #endif
 
-#include "Zelo.h"
-
-#include "backward.hpp"
+#include "Foundation/ZeloStackTrace.h"
 
 int main() {
     Zelo::Engine().start();
