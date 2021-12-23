@@ -9,7 +9,7 @@ endif ()
 
 # run build.py after C++ build
 add_custom_command(TARGET Hello PRE_BUILD COMMAND
-        py ${CMAKE_SOURCE_DIR}/build.py
+        python ${CMAKE_SOURCE_DIR}/Tools/Build/build.py
         ${CMAKE_SOURCE_DIR}
         $<TARGET_FILE_DIR:Hello>
         $<TARGET_FILE_DIR:Lua>/lua51.dll

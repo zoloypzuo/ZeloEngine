@@ -8,11 +8,11 @@ Return
 
 ButtonBuild\build_vs2019_bat:
 Gui, Submit, NoHide
-    Run, Tools\Build\build_vs2019.bat
+    Run, ..\Build\build_vs2019.bat
 Return
 
 
 ButtonRunner\run_zelo_bat:
 Gui, Submit, NoHide
-    Run, Tools\Runner\run_zelo.bat
+    Run, ..\Runner\run_zelo.bat
 Return
