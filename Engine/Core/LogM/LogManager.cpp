@@ -21,7 +21,7 @@ LogManager::LogManager() {
     {
         const std::string pattern = "[%T.%e] [%n] [%^%l%$] %v";  // remove datetime in ts
         auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-        console_sink->set_level(spdlog::level::debug);
+        console_sink->set_level(spdlog::level::info);
         console_sink->set_pattern(pattern);
 
         auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/root.log", true);
