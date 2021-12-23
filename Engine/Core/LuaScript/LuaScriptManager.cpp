@@ -9,11 +9,18 @@
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
 
-void LuaBind_PreMain(sol::state &luaState);
+void LuaBind_Boot(sol::state &luaState);
+
+void LuaBind_Config(sol::state &luaState);
 
 void LuaBind_Main(sol::state &luaState);
 
 template<> LuaScriptManager *Zelo::Singleton<LuaScriptManager>::msSingleton = nullptr;
+
+LuaScriptManager::LuaScriptManager() :
+        sol::state(),
+        m_bootLuaPath((ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "boot.lua").string()),
+        m_mainLuaPath((ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua").string()) {}
 
 LuaScriptManager *LuaScriptManager::getSingletonPtr() {
     return msSingleton;
@@ -24,7 +31,8 @@ LuaScriptManager &LuaScriptManager::getSingleton() {
     return *msSingleton;
 }
 
-void LuaScriptManager::initialize() {
+void LuaScriptManager::initBoot() {
+    // clone boot logger
     m_logger = spdlog::default_logger()->clone("lua");
 
     set_exception_handler(luaExceptionHandler);
@@ -55,10 +63,18 @@ void LuaScriptManager::initialize() {
             sol::lib::utf8
     );
 
-    LuaBind_PreMain(*this);
+    LuaBind_Boot(*this);
 
-    auto mainLuaPath = ResourceManager::getSingletonPtr()->getScriptDir() / "Lua" / "main.lua";
-    doFile(mainLuaPath.string());
+    doFile(m_bootLuaPath);
+
+    LuaBind_Config(*this);
+}
+
+void LuaScriptManager::initialize() {
+    // clone main logger
+    m_logger = spdlog::default_logger()->clone("lua");
+
+    doFile(m_mainLuaPath);
 
     LuaBind_Main(*this);
 }

@@ -42,6 +42,9 @@ public:
     const PluginInstanceList &getInstalledPlugins() const { return m_plugins; }
 
 public:
+    ZELO_SCRIPT_API static void install(Plugin *plugin);
+
+public:
     static Engine *getSingletonPtr();
 
     static Engine &getSingleton();

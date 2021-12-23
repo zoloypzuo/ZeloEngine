@@ -3,7 +3,7 @@
 // author @zoloypzuo
 #pragma once
 
-#include "Foundation/ZeloStringUtil.h"
+#include "ZeloPreCompiledHeader.h"
 #include "Core/Resource/ResourceManager.h"
 
 #include <tuple-utils/tuple_interlace.h>
@@ -14,20 +14,26 @@
 #include <magic_enum.hpp>
 
 namespace Zelo::Core::LuaScript {
+template <typename T>
+decltype(auto) LuaScriptManager::get_safe(const std::string &key) const {
+    auto o = get<sol::optional<T>>(key);
+    ZELO_ASSERT(o.has_value(), key);
+    return o;
+}
+
 template<typename... Args>
 void LuaScriptManager::luaCall(sol::protected_function pfr, Args &&... args) {
     pfr.set_default_handler(get<sol::object>("GlobalErrorHandler"));
     sol::protected_function_result pfrResult = pfr.call(std::forward<Args>(args)...);
     if (!pfrResult.valid()) {
         sol::error err = pfrResult;
-//        ZELO_CORE_ERROR(err.what());
+        ZELO_CORE_ERROR(err.what());
     }
 }
 
 template<typename... Args>
 void LuaScriptManager::luaCall(const std::string &functionName, Args &&... args) {
-    sol::optional<sol::protected_function> pfrResult = get<sol::protected_function>(functionName);
-//    ZELO_ASSERT(pfrResult.has_value());
+    auto pfrResult = get_safe<sol::protected_function>(functionName);
     luaCall(pfrResult.value(), std::forward<Args>(args)...);
 }
 

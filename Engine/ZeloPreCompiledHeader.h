@@ -14,16 +14,10 @@
 #pragma warning(push, 0)
 
 #include <spdlog/spdlog.h>
+#include <spdlog/fmt/fmt.h>
 #include <spdlog/fmt/ostr.h>
 
 #pragma warning(pop)
-
-// windows.h
-#ifdef ZELO_PLATFORM_WINDOWS
-
-//#include <Windows.h> TODO pch
-
-#endif
 
 // debug break
 #ifdef ZELO_DEBUG
@@ -52,7 +46,6 @@
 #define ZELO_CORE_ERROR(...)    spdlog::error(__VA_ARGS__)
 #define ZELO_CORE_CRITICAL(...) spdlog::critical(__VA_ARGS__)
 
-// Client log macros
 #define ZELO_TRACE(...)         spdlog::trace(__VA_ARGS__)
 #define ZELO_INFO(...)          spdlog::info(__VA_ARGS__)
 #define ZELO_WARN(...)          spdlog::warn(__VA_ARGS__)
