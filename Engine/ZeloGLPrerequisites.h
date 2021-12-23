@@ -3,6 +3,16 @@
 // author @zoloypzuo
 #pragma once
 
+#include "Foundation/ZeloPlatform.h"  // ZELO_PLATFORM_WINDOWS
+
+#ifdef ZELO_PLATFORM_WINDOWS
+
+// include windows before glad to fix:
+// warning C4005: 'APIENTRY': macro redefinition
+#include "Foundation/ZeloWindows.h"
+
+#endif
+
 #ifdef ZELO_GL_TRACER
 
 #include "Renderer/OpenGL/Tracer/GLTracer.h"
