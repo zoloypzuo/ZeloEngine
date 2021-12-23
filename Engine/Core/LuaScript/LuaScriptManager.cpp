@@ -33,7 +33,7 @@ LuaScriptManager &LuaScriptManager::getSingleton() {
 
 void LuaScriptManager::initBoot() {
     // clone boot logger
-    m_logger = spdlog::default_logger()->clone("lua");
+    m_logger = spdlog::default_logger()->clone("lua-boot");
 
     set_exception_handler(luaExceptionHandler);
     set_panic(luaAtPanic);
@@ -72,7 +72,7 @@ void LuaScriptManager::initBoot() {
 
 void LuaScriptManager::initialize() {
     // clone main logger
-    m_logger = spdlog::default_logger()->clone("lua");
+    m_logger = spdlog::get("lua");
 
     doFile(m_mainLuaPath);
 

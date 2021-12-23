@@ -13,10 +13,7 @@ extern std::string Enum2String( GLenum e );
 std::shared_ptr<spdlog::logger> s_logger{};
 
 void initGLTracerLogger(){
-    const int _50mb = 1048576 * 50;
-    s_logger = spdlog::rotating_logger_mt("gltracer", "logs/gltracer.log", _50mb, 1);
-    s_logger->set_pattern("[%T.%e] %v");
-    s_logger->set_level(spdlog::level::debug);
+    s_logger = spdlog::get("gltracer");
 }
 
 #define GL_TRACER_LOG s_logger->debug

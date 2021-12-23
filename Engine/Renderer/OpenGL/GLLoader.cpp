@@ -6,18 +6,19 @@
 
 #include "Foundation/ZeloSDL.h"  // SDL_GL_GetProcAddress
 
-static auto logger = spdlog::default_logger()->clone("gl");
-
 static void dumpGLInfo(bool dumpExtensions);
 
 void loadGL() {
     // Load the OpenGL functions.
+    auto logger = spdlog::get("gl");
     logger->info("start loadGL with GLAD");
     ZELO_ASSERT(gladLoadGLLoader((GLADloadproc) SDL_GL_GetProcAddress), "GLAD failed to initialize");
     dumpGLInfo(false);
 }
 
 void dumpGLInfo(bool dumpExtensions) {
+    auto logger = spdlog::get("gl");
+
     const GLubyte *renderer = glGetString(GL_RENDERER);
     const GLubyte *vendor = glGetString(GL_VENDOR);
     const GLubyte *version = glGetString(GL_VERSION);

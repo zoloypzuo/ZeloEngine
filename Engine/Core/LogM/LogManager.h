@@ -10,7 +10,7 @@ namespace Zelo::Core::Log {
 
 class LogManager : public Singleton<LogManager> {
 public:
-    LogManager() = default;
+    LogManager();
 
     ~LogManager() = default;
 

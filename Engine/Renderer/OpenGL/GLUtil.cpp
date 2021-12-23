@@ -6,11 +6,10 @@
 
 using namespace Zelo::Core::RHI;
 
-static auto logger = spdlog::default_logger()->clone("gl");
-
 void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
                                  GLenum severity, GLsizei length,
                                  const GLchar *msg, const void *param) {
+    auto logger = spdlog::get("gl");
     std::string sourceStr;
     switch (source) {
         case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
@@ -94,6 +93,8 @@ void ZELO_CALLBACK debugCallback(GLenum source, GLenum type, GLuint id,
 }
 
 int checkForOpenGLError(const char *file, int line) {
+    auto logger = spdlog::get("gl");
+
     //
     // Returns 1 if an OpenGL error occurred, 0 otherwise.
     //
@@ -181,6 +182,8 @@ std::string getShaderTypeString(GLenum shaderType) {
 }
 
 void initDebugCallback() {
+    auto logger = spdlog::get("gl");
+
     int flags{};
     glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
     if (flags & GL_CONTEXT_FLAG_DEBUG_BIT) {
