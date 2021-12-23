@@ -1,5 +1,5 @@
 add_library(LuaBind
-        LuaBind.cpp
+        LuaBind_Main.cpp
         LuaBind_PreMain.cpp
 
         Config/LuaBind_Config.cpp
