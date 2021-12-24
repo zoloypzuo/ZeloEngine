@@ -3,11 +3,15 @@
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
 #include "GLSLShaderProgram.h"
-#include "Renderer/OpenGL/GLUtil.h"
+
 #include "Core/LuaScript/LuaScriptManager.h"
+
+#include "Renderer/OpenGL/Resource/GLTexture.h"
+#include "Renderer/OpenGL/GLUtil.h"
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::LuaScript;
+using namespace Zelo::Renderer::OpenGL;
 
 struct shader_file_extension {
     const std::string &ext;
@@ -162,6 +166,12 @@ void GLSLShaderProgram::setUniform1f(const std::string &name, float value) {
     glUniform1f(getUniformLocation(name), value);
 }
 
+void GLSLShaderProgram::setUniformVec2f(const std::string &name, glm::vec2 vector) {
+    bind();
+
+    glUniform2f(getUniformLocation(name), vector.x, vector.y);
+}
+
 void GLSLShaderProgram::setUniformVec3f(const std::string &name, glm::vec3 vector) {
     bind();
 
@@ -178,6 +188,36 @@ void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::m
     bind();
 
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
+}
+
+int GLSLShaderProgram::getUniform1i(const std::string &name) {
+    int i{};
+    glGetUniformiv(m_handle, getUniformLocation(name), &i);
+    return i;
+}
+
+float GLSLShaderProgram::getUniform1f(const std::string &name) {
+    float f{};
+    glGetUniformfv(m_handle, getUniformLocation(name), &f);
+    return f;
+}
+
+glm::vec2 GLSLShaderProgram::getUniformVec2(const std::string &name) {
+    glm::vec2 v2{};
+    glGetUniformfv(m_handle, getUniformLocation(name), glm::value_ptr(v2));
+    return v2;
+}
+
+glm::vec3 GLSLShaderProgram::getUniformVec3(const std::string &name) {
+    glm::vec3 v3{};
+    glGetUniformfv(m_handle, getUniformLocation(name), glm::value_ptr(v3));
+    return v3;
+}
+
+glm::vec4 GLSLShaderProgram::getUniformVec4(const std::string &name) {
+    glm::vec4 v4{};
+    glGetUniformfv(m_handle, getUniformLocation(name), glm::value_ptr(v4));
+    return v4;
 }
 
 void GLSLShaderProgram::printActiveUniforms() const {
@@ -433,31 +473,29 @@ void GLSLShaderProgram::queryUniforms() {
         std::string name(static_cast<char *>(nameData.data()), actualLength);
 
         if (isEngineUBOMember(name)) continue;
+        continue;  // TODO
         std::any defaultValue;
-// TODO getUniform*
-//        switch (static_cast<UniformType>(type)) {
-//            case UniformType::UNIFORM_BOOL:
-//                defaultValue = std::make_any<bool>(getUniformi(name));
-//                break;
-//            case UniformType::UNIFORM_INT:
-//                defaultValue = std::make_any<int>(GetUniformInt(name));
-//                break;
-//            case UniformType::UNIFORM_FLOAT:
-//                defaultValue = std::make_any<float>(GetUniformFloat(name));
-//                break;
-//            case UniformType::UNIFORM_FLOAT_VEC2:
-//                defaultValue = std::make_any<OvMaths::FVector2>(GetUniformVec2(name));
-//                break;
-//            case UniformType::UNIFORM_FLOAT_VEC3:
-//                defaultValue = std::make_any<OvMaths::FVector3>(GetUniformVec3(name));
-//                break;
-//            case UniformType::UNIFORM_FLOAT_VEC4:
-//                defaultValue = std::make_any<OvMaths::FVector4>(GetUniformVec4(name));
-//                break;
-//            case UniformType::UNIFORM_SAMPLER_2D:
-//                defaultValue = std::make_any<Texture *>(nullptr);
-//                break;
-//        }
+        switch (static_cast<UniformType>(type)) {
+            case UniformType::UNIFORM_BOOL:
+            case UniformType::UNIFORM_INT:
+                defaultValue = std::make_any<int>(getUniform1i(name));
+                break;
+            case UniformType::UNIFORM_FLOAT:
+                defaultValue = std::make_any<float>(getUniform1f(name));
+                break;
+            case UniformType::UNIFORM_FLOAT_VEC2:
+                defaultValue = std::make_any<glm::vec2>(getUniformVec2(name));
+                break;
+            case UniformType::UNIFORM_FLOAT_VEC3:
+                defaultValue = std::make_any<glm::vec3>(getUniformVec3(name));
+                break;
+            case UniformType::UNIFORM_FLOAT_VEC4:
+                defaultValue = std::make_any<glm::vec4>(getUniformVec4(name));
+                break;
+            case UniformType::UNIFORM_SAMPLER_2D:
+                defaultValue = std::make_any<GLTexture *>(nullptr);
+                break;
+        }
 
         if (defaultValue.has_value()) {
             m_uniforms.emplace_back(
