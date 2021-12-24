@@ -11,9 +11,6 @@ using namespace Zelo::Core::ECS;
 ALight::~ALight() = default;
 
 ALight::ALight(Entity &owner) : Component(owner) {
-    // TODO refactor property
-    setProperty("color", PropertyType::COLOR, &color.x, 0, 1);
-    setProperty("intensity", PropertyType::FLOAT, &intensity, 0, 100);
 }
 
 glm::mat4 ALight::generateLightMatrix() const {

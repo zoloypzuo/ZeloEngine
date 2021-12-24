@@ -9,11 +9,6 @@ using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::OS;
 
 CFreeMove::CFreeMove(Entity &owner) : Component(owner) {
-    setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 20);
-    setProperty("forwards velocity", PropertyType::FLOAT, &m_forwardsVelocity, -1, 1);
-    setProperty("strafe velocity", PropertyType::FLOAT, &m_strafeVelocity, -1, 1);
-    setProperty("forwards", PropertyType::BOOLEAN, &m_moveForwards);
-    setProperty("sprinting", PropertyType::BOOLEAN, &m_sprinting);
 }
 
 CFreeMove::~CFreeMove() = default;

@@ -1,8 +1,7 @@
 // Entity.h
 // created on 2021/3/28
 // author @zoloypzuo
-#ifndef ZELOENGINE_ENTITY_H
-#define ZELOENGINE_ENTITY_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "Core/Math/Transform.h"
@@ -12,21 +11,6 @@
 namespace Zelo::Core::ECS {
 class Entity;
 // TODO 解开Entity和场景图的依赖关系，不要在Entity类里递归，和注册
-
-// TODO use lua type
-enum class PropertyType {
-    FLOAT,
-    FLOAT3,
-    BOOLEAN,
-    ANGLE,
-    COLOR
-};
-struct Property {
-    PropertyType type;
-    void *p;
-    float min;
-    float max;
-};
 
 class Component {
 public:
@@ -55,18 +39,9 @@ public:
 
     virtual void OnLateUpdate(float deltaTime) {}
 
-    // region property
-    // TODO remove it
-    void setProperty(const char *name, PropertyType type, void *p, float min, float max);
-
-    void setProperty(const char *name, PropertyType type, void *p);
-
     Entity *getOwner() { return &m_owner; }
 
     Transform &getTransform() const;
-
-    typedef std::map<const char *, Property> PropertyMap;
-    PropertyMap m_properties{};
 
 protected:
     Entity &m_owner;
@@ -218,5 +193,3 @@ public:
 }
 
 #include "Core/ECS/Entity.inl"
-
-#endif //ZELOENGINE_ENTITY_H

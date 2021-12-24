@@ -9,8 +9,6 @@ using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::OS;
 
 CFreeLook::CFreeLook(Entity &owner) : Component(owner) {
-    setProperty("speed", PropertyType::FLOAT, &m_speed, 0, 5);
-    setProperty("look", PropertyType::BOOLEAN, &m_look);
 }
 
 CFreeLook::~CFreeLook() = default;
