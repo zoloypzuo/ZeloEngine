@@ -8,12 +8,22 @@
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
 
+GLMaterial::GLMaterial(
+        GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap,
+        GLSLShaderProgram *shaderProgram) :
+        m_diffuseMap(diffuseMap),
+        m_normalMap(normalMap),
+        m_specularMap(specularMap),
+        m_shader(shaderProgram) {
+}
+
 GLMaterial::~GLMaterial() = default;
 
 void GLMaterial::bind() const {
     m_diffuseMap.bind(0);
     m_normalMap.bind(1);
     m_specularMap.bind(2);
+
     m_shader->bind();
     int textureSlot = 0;
     for (const auto&[name, value]: m_uniformsData) {
@@ -43,7 +53,7 @@ void GLMaterial::bind() const {
                 break;
             case UniformType::UNIFORM_SAMPLER_2D: {
                 if (value.type() == typeid(GLTexture *)) {
-                    if (auto *tex = std::any_cast<Texture *>(value); tex) {
+                    if (auto *tex = std::any_cast<GLTexture *>(value); tex) {
                         tex->bind(textureSlot);
                         m_shader->setUniform1i(uniformData->name, textureSlot++);
                     }
@@ -60,15 +70,6 @@ void GLMaterial::bind() const {
     }
 }
 
-GLMaterial::GLMaterial(
-        GLTexture &diffuseMap, GLTexture &normalMap, GLTexture &specularMap,
-        GLSLShaderProgram *shaderProgram) :
-        m_diffuseMap(diffuseMap),
-        m_normalMap(normalMap),
-        m_specularMap(specularMap),
-        m_shader(shaderProgram) {
-}
-
 void GLMaterial::unbind() {
     if (hasShader()) {
         m_shader->unbind();
@@ -83,6 +84,11 @@ void GLMaterial::setShader(Shader *shader) {
     } else {  // set null
         m_uniformsData.clear();
     }
+
+    // TODO init order
+//    set("u_DiffuseMap", &m_diffuseMap);
+//    set("u_SpecularMap", &m_specularMap);
+//    set("u_NormalMap", &m_normalMap);
 }
 
 bool GLMaterial::hasShader() const {

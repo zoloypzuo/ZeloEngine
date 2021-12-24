@@ -473,6 +473,7 @@ void GLSLShaderProgram::queryUniforms() {
         std::string name(static_cast<char *>(nameData.data()), actualLength);
 
         if (isEngineUBOMember(name)) continue;
+        continue;  // TODO
         std::any defaultValue;
         switch (static_cast<UniformType>(type)) {
             case UniformType::UNIFORM_BOOL:
