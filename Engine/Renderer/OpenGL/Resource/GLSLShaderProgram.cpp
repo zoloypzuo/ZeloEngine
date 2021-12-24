@@ -166,6 +166,12 @@ void GLSLShaderProgram::setUniform1f(const std::string &name, float value) {
     glUniform1f(getUniformLocation(name), value);
 }
 
+void GLSLShaderProgram::setUniformVec2f(const std::string &name, glm::vec2 vector) {
+    bind();
+
+    glUniform2f(getUniformLocation(name), vector.x, vector.y);
+}
+
 void GLSLShaderProgram::setUniformVec3f(const std::string &name, glm::vec3 vector) {
     bind();
 
@@ -468,7 +474,6 @@ void GLSLShaderProgram::queryUniforms() {
 
         if (isEngineUBOMember(name)) continue;
         std::any defaultValue;
-// TODO getUniform*
         switch (static_cast<UniformType>(type)) {
             case UniformType::UNIFORM_BOOL:
             case UniformType::UNIFORM_INT:

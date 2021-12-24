@@ -75,6 +75,8 @@ public:
 
     GLint getUniformLocation(const std::string &name);
 
+    void setUniformVec2f(const std::string &name, glm::vec2 vector);
+
     void setUniformVec3f(const std::string &name, glm::vec3 vector) override;
 
     void setUniformVec4f(const std::string &name, glm::vec4 vector) override;
@@ -87,7 +89,7 @@ public:
 
     void setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) override;
 
-    int getUniform1i(const std::string& name);
+    int getUniform1i(const std::string &name);
 
     float getUniform1f(const std::string &name);
 

@@ -15,7 +15,7 @@ void GLMaterial::bind() const {
     m_normalMap.bind(1);
     m_specularMap.bind(2);
     m_shader->bind();
-//    int textureSlot = 0;
+    int textureSlot = 0;
     for (const auto&[name, value]: m_uniformsData) {
         auto *uniformData = m_shader->getUniformInfo(name);
         if (!uniformData) { continue; }
@@ -30,9 +30,8 @@ void GLMaterial::bind() const {
                 if (value.type() == typeid(float)) m_shader->setUniform1f(name, std::any_cast<float>(value));
                 break;
             case UniformType::UNIFORM_FLOAT_VEC2:
-// TODO
-//                if (value.type() == typeid(FVector2))
-//                    m_shader->set(name, std::any_cast<FVector2>(value));
+                if (value.type() == typeid(glm::vec2))
+                    m_shader->setUniformVec2f(name, std::any_cast<glm::vec2>(value));
                 break;
             case UniformType::UNIFORM_FLOAT_VEC3:
                 if (value.type() == typeid(glm::vec3))
@@ -43,16 +42,16 @@ void GLMaterial::bind() const {
                     m_shader->setUniformVec4f(name, std::any_cast<glm::vec4>(value));
                 break;
             case UniformType::UNIFORM_SAMPLER_2D: {
-// TODO
-//                if (value.type() == typeid(Texture * )) {
-//                    if (auto tex = std::any_cast<Texture *>(value); tex) {
-//                        tex->Bind(textureSlot);
-//                        m_shader->SetUniformInt(uniformData->name, textureSlot++);
-//                    } else if (emptyTexture) {
+                if (value.type() == typeid(GLTexture *)) {
+                    if (auto *tex = std::any_cast<Texture *>(value); tex) {
+                        tex->bind(textureSlot);
+                        m_shader->setUniform1i(uniformData->name, textureSlot++);
+                    }
+//                    else if (emptyTexture) {
 //                        emptyTexture->Bind(textureSlot);
 //                        m_shader->SetUniformInt(uniformData->name, textureSlot++);
 //                    }
-//                }
+                }
             }
             default:
 //                ZELO_ERROR("not implemented");
