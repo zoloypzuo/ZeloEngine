@@ -29,7 +29,6 @@ target_link_libraries(LuaBind PRIVATE
         Engine
         TemplateSandbox
         GLSLBook
-        Craft
         )
 
 target_include_directories(LuaBind PRIVATE
