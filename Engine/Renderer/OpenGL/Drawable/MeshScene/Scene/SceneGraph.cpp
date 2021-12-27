@@ -143,6 +143,47 @@ void loadScene(const char *fileName, SceneGraph &scene) {
     fclose(f);
 }
 
+void saveMap(FILE* f, const std::unordered_map<uint32_t, uint32_t>& map)
+{
+	std::vector<uint32_t> ms;
+	ms.reserve(map.size() * 2);
+	for (const auto& m : map)
+	{
+		ms.push_back(m.first);
+		ms.push_back(m.second);
+	}
+	const uint32_t sz = static_cast<uint32_t>(ms.size());
+	fwrite(&sz, sizeof(sz), 1, f);
+	fwrite(ms.data(), sizeof(int), ms.size(), f);
+}
+
+void saveStringList(FILE *f, const std::vector<std::string> &lines);
+
+void saveScene(const char* fileName, const SceneGraph& scene)
+{
+	FILE* f = fopen(fileName, "wb");
+
+	const uint32_t sz = (uint32_t)scene.hierarchy_.size();
+	fwrite(&sz, sizeof(sz), 1, f);
+
+	fwrite(scene.localTransform_.data(), sizeof(glm::mat4), sz, f);
+	fwrite(scene.globalTransform_.data(), sizeof(glm::mat4), sz, f);
+	fwrite(scene.hierarchy_.data(), sizeof(Hierarchy), sz, f);
+
+	// Mesh for node [index to some list of buffers]
+	saveMap(f, scene.materialForNode_);
+	saveMap(f, scene.meshes_);
+
+	if (!scene.names_.empty() && !scene.nameForNode_.empty())
+	{
+		saveMap(f, scene.nameForNode_);
+		saveStringList(f, scene.names_);
+
+		saveStringList(f, scene.materialNames_);
+	}
+	fclose(f);
+}
+
 bool mat4IsIdentity(const glm::mat4 &m) {
     return (m[0][0] == 1 && m[0][1] == 0 && m[0][2] == 0 && m[0][3] == 0 &&
             m[1][0] == 0 && m[1][1] == 1 && m[1][2] == 0 && m[1][3] == 0 &&

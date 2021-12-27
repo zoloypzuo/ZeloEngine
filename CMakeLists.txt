@@ -60,7 +60,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 # vcpkg root and triplet
 if (WIN32)
-    set(VCPKG_TARGET_TRIPLET x86-windows)
+    if (X64)
+        set(VCPKG_TARGET_TRIPLET x64-windows)
+    else ()
+        set(VCPKG_TARGET_TRIPLET x86-windows)
+    endif ()
     set(VcpkgDir ${CMAKE_SOURCE_DIR}/ThirdParty/Vcpkg)
     include(${VcpkgDir}/scripts/buildsystems/vcpkg.cmake)
     message(STATUS vcpkg-toolchain-file=${VcpkgDir} \t triplet=${VCPKG_TARGET_TRIPLET})
@@ -117,3 +121,6 @@ add_subdirectory(Sandbox)
 
 # build luabind
 add_subdirectory(LuaBind)
+
+# build tool
+add_subdirectory(Tools)

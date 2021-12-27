@@ -94,6 +94,8 @@ void recalculateGlobalTransforms(SceneGraph &scene);
 
 void loadScene(const char *fileName, SceneGraph &scene);
 
+void saveScene(const char* fileName, const SceneGraph& scene);
+
 void dumpTransforms(const char *fileName, const SceneGraph &scene);
 
 void printChangedNodes(const SceneGraph &scene);
