@@ -1,0 +1,31 @@
+{
+  "output_prefix": "GRCookbookAssets",
+  "merge_config": {
+    "output_mesh": "meshes/bistro_all.meshes",
+    "output_scene": "meshes/bistro_all.scene",
+    "output_materials": "meshes/bistro_all.materials",
+    "material_names": [
+      "Foliage_Linde_Tree_Large_Orange_Leaves",
+      "Foliage_Linde_Tree_Large_Green_Leaves",
+      "Foliage_Linde_Tree_Large_Trunk"
+    ]
+  },
+  "scenes": [
+    {
+      "input_scene": "data/bistro/Exterior/exterior.obj",
+      "output_mesh": "meshes/test.meshes",
+      "output_scene": "meshes/test.scene",
+      "output_materials": "meshes/test.materials",
+      "scale": 0.01,
+      "calculate_LODs": false
+    },
+    {
+      "input_scene": "data/bistro/Interior/interior.obj",
+      "output_mesh": "meshes/test2.meshes",
+      "output_scene": "meshes/test2.scene",
+      "output_materials": "meshes/test2.materials",
+      "scale": 0.01,
+      "calculate_LODs": false
+    }
+  ]
+}
