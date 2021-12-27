@@ -77,7 +77,7 @@ def main():
 
     write("../../Doc/ThirdParty.md", "\n".join(doc_buffer))
 
-    triplets = ["x86-windows"]
+    triplets = ["x86-windows", "x64-windows"]
     code = [r"@echo off",
             r"set CurrentDir=%cd%",
             r"set ScriptDir=%~dp0",

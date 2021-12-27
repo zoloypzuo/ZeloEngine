@@ -10,6 +10,7 @@ using namespace Zelo::Core::Resource;
 
 template<> ResourceManager *Zelo::Singleton<ResourceManager>::msSingleton = nullptr;
 
+namespace Zelo::Core::Resource {
 ResourceManager *ResourceManager::getSingletonPtr() {
     return msSingleton;
 }
@@ -65,9 +66,44 @@ std::filesystem::path ResourceManager::resolvePath(const std::string &fileName) 
 
     if (filePath.empty()) {
         auto enginePath = getEngineDir() / fileName;
-        ZELO_ASSERT(std::filesystem::exists(enginePath));
+        ZELO_ASSERT(std::filesystem::exists(enginePath), fileName);
         filePath = enginePath;
     }
 
     return filePath;
+}
+
+std::filesystem::path ResourceManager::resolvePath(const std::string &fileName, const std::string &defaultPath) {
+    // fallback search
+    std::filesystem::path filePath{};
+
+    for (const auto &resourceDir: m_resourcePathList) {
+        auto resourcePath = resourceDir / fileName;
+        if (std::filesystem::exists(resourcePath)) {
+            filePath = resourcePath;
+            break;
+        };
+    }
+
+    if (filePath.empty()) {
+        auto enginePath = getEngineDir() / fileName;
+        if (std::filesystem::exists(enginePath)) {
+            filePath = enginePath;
+        }
+    }
+
+    if (filePath.empty()) {
+        filePath = defaultPath;
+    }
+
+    return filePath;
+}
+
+std::string ZELO_PATH(const std::string &fileName) {
+    return ResourceManager::getSingletonPtr()->resolvePath(fileName).string();
+}
+
+std::string ZELO_PATH(const std::string &fileName, const std::string &defaultPath) {
+    return ResourceManager::getSingletonPtr()->resolvePath(fileName, defaultPath).string();
+}
 }

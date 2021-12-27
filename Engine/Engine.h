@@ -34,6 +34,9 @@ public:
 
     void update() override;
 
+    /// after bootstrap, you can load resource, load config, print log
+    void bootstrap();
+
     void start();
 
     void installPlugin(Plugin *plugin);
