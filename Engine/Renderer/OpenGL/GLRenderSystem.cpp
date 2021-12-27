@@ -24,7 +24,9 @@ GLRenderSystem::GLRenderSystem() : m_config(
 GLRenderSystem::~GLRenderSystem() = default;
 
 void GLRenderSystem::initialize() {
+#ifdef ZELO_GL_TRACER
     ::initGLTracerLogger();
+#endif
 
     ::loadGL();
 

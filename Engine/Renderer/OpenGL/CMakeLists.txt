@@ -47,8 +47,8 @@ add_library(OpenGLRenderer
 
         Drawable/MeshScene/Buffer/GLAtomicCounterDSA.cpp Drawable/MeshScene/Buffer/GLAtomicCounterDSA.h)
 
-option(ZeloGLTracer "ZeloGLTracer" ON)
-if (ZeloGLTracer)
+option(ZELO_GL_TRACER "ZeloGLTracer" ON)
+if (ZELO_GL_TRACER)
     target_compile_definitions(OpenGLRenderer PUBLIC ZELO_GL_TRACER)
     target_sources(OpenGLRenderer PRIVATE Tracer/GLTracerImpl.cpp Tracer/GLTracer.cpp)
 endif ()

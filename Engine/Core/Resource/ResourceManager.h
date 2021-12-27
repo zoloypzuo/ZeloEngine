@@ -26,6 +26,8 @@ public:
 
     std::filesystem::path resolvePath(const std::string &fileName);
 
+    std::filesystem::path resolvePath(const std::string &fileName, const std::string &defaultPath);
+
 private:
     std::filesystem::path m_engineDir{};
     std::filesystem::path m_configDir{};
@@ -34,5 +36,9 @@ private:
 
     std::vector<std::filesystem::path> m_resourcePathList{};
 };
+
+std::string ZELO_PATH(const std::string &fileName);
+
+std::string ZELO_PATH(const std::string &fileName, const std::string &defaultPath);
 }
 

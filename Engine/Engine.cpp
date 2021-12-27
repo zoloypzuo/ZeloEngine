@@ -21,17 +21,7 @@ using namespace Zelo::Core::UI;
 using namespace Zelo::Core::Scene;
 
 void Engine::initialize() {
-    // bootstrap
-    // after bootstrap, you can load resource, load config, print log
-    {
-        // init config and logger first
-        initBootLogger();
-        auto engineDir = loadBootConfig();
-
-        m_resourceManager = std::make_unique<ResourceManager>(engineDir);
-        m_luaScriptManager = std::make_unique<LuaScriptManager>();
-        m_luaScriptManager->initBoot();
-    }
+    bootstrap();
 
     m_logManager = std::make_unique<LogManager>();
     m_luaScriptManager->initialize();
@@ -52,6 +42,16 @@ void Engine::initialize() {
     initializePlugins();
 
     m_isInitialised = true;
+}
+
+void Engine::bootstrap() {
+    // init config and logger first
+    initBootLogger();
+    auto engineDir = loadBootConfig();
+
+    m_resourceManager = std::make_unique<ResourceManager>(engineDir);
+    m_luaScriptManager = std::make_unique<LuaScriptManager>();
+    m_luaScriptManager->initBoot();
 }
 
 void Engine::initBootLogger() const {
