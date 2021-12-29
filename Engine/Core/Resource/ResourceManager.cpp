@@ -48,7 +48,7 @@ ResourceManager::ResourceManager(std::filesystem::path &engineDir)
     for (const auto &pair: resourceDirList) {
         std::filesystem::path resourceDir = pair.second.as<std::string>();
         auto resourceDirPath = getEngineDir() / resourceDir;
-        m_resourcePathList.emplace_back(resourceDirPath);
+        m_resourceLocations.emplace_back(resourceDirPath);
     }
 }
 
@@ -56,7 +56,7 @@ std::filesystem::path ResourceManager::resolvePath(const std::string &fileName) 
     // fallback search
     std::filesystem::path filePath{};
 
-    for (const auto &resourceDir: m_resourcePathList) {
+    for (const auto &resourceDir: m_resourceLocations) {
         auto resourcePath = resourceDir / fileName;
         if (std::filesystem::exists(resourcePath)) {
             filePath = resourcePath;
@@ -77,7 +77,7 @@ std::filesystem::path ResourceManager::resolvePath(const std::string &fileName, 
     // fallback search
     std::filesystem::path filePath{};
 
-    for (const auto &resourceDir: m_resourcePathList) {
+    for (const auto &resourceDir: m_resourceLocations) {
         auto resourcePath = resourceDir / fileName;
         if (std::filesystem::exists(resourcePath)) {
             filePath = resourcePath;
@@ -97,6 +97,10 @@ std::filesystem::path ResourceManager::resolvePath(const std::string &fileName, 
     }
 
     return filePath;
+}
+
+void ResourceManager::addResourceLocation(const std::string &resourceLocation) {
+    m_resourceLocations.emplace_back(resourceLocation);
 }
 
 std::string ZELO_PATH(const std::string &fileName) {

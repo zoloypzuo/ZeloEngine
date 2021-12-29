@@ -28,13 +28,15 @@ public:
 
     std::filesystem::path resolvePath(const std::string &fileName, const std::string &defaultPath);
 
+    void addResourceLocation(const std::string &resourceLocation);
+
 private:
     std::filesystem::path m_engineDir{};
     std::filesystem::path m_configDir{};
     std::filesystem::path m_scriptDir{};
     std::filesystem::path m_resourceDir{};
 
-    std::vector<std::filesystem::path> m_resourcePathList{};
+    std::vector<std::filesystem::path> m_resourceLocations{};
 };
 
 std::string ZELO_PATH(const std::string &fileName);
