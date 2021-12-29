@@ -77,6 +77,8 @@ void LuaScriptManager::initialize() {
     doFile(m_mainLuaPath);
 
     LuaBind_Main(*this);
+
+    sol::protected_function::set_default_handler(get<sol::function>("GlobalErrorHandler"));
 }
 
 void LuaScriptManager::finalize() {
