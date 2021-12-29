@@ -1,7 +1,40 @@
-2021-08-23_12-37-57 
-     100 files     200 files     300 files     400 files     440 text files.
-classified 440 filesDuplicate file check 440 files (418 known unique)Unique:      100 files                                          Unique:      200 files                                          Unique:      300 files                                          Unique:      400 files                                               439 unique files.                              
-Counting:  100Counting:  200Counting:  300Counting:  400     112 files ignored.
+2019-10-15
+PS D:\ZeloEngine> .\cloc.exe Src Util
+      65 text files.
+      65 unique files.
+      22 files ignored.
+
+github.com/AlDanial/cloc v 1.80  T=0.50 s (118.0 files/s, 19230.0 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+C++                             14            683            428           3245
+C/C++ Header                    18            537            587           2479
+Lua                             18            178            668            **743**
+CMake                            7             11             16             20
+PowerShell                       2              4              8              8
+-------------------------------------------------------------------------------
+SUM:                            59           1413           1707           **6495**
+-------------------------------------------------------------------------------
+
+2021-08-23_12-37-57
+     100 files
+     200 files
+     300 files
+     400 files
+     440 text files.
+classified 440 files
+Duplicate file check 440 files (418 known unique)
+Unique:      100 files                                          
+Unique:      200 files                                          
+Unique:      300 files                                          
+Unique:      400 files                                          
+     439 unique files.                              
+Counting:  100
+Counting:  200
+Counting:  300
+Counting:  400
+     112 files ignored.
 
 github.com/AlDanial/cloc v 1.80  T=1.00 s (425.0 files/s, 63843.0 lines/s)
 -------------------------------------------------------------------------------
@@ -23,9 +56,23 @@ PO File                          1              1              6             16
 SUM:                           425          10564          11934          41345
 -------------------------------------------------------------------------------
 2021-08-29_10-50-02 
-     100 files     200 files     300 files     400 files     447 text files.
-classified 447 filesDuplicate file check 447 files (424 known unique)Unique:      100 files                                          Unique:      200 files                                          Unique:      300 files                                          Unique:      400 files                                               446 unique files.                              
-Counting:  100Counting:  200Counting:  300Counting:  400     117 files ignored.
+     100 files
+     200 files
+     300 files
+     400 files
+     447 text files.
+classified 447 files
+Duplicate file check 447 files (424 known unique)
+Unique:      100 files                                          
+Unique:      200 files                                          
+Unique:      300 files                                          
+Unique:      400 files                                          
+     446 unique files.                              
+Counting:  100
+Counting:  200
+Counting:  300
+Counting:  400
+     117 files ignored.
 
 github.com/AlDanial/cloc v 1.80  T=0.50 s (866.0 files/s, 126466.0 lines/s)
 -------------------------------------------------------------------------------
@@ -47,9 +94,20 @@ PO File                          1              1              6             16
 SUM:                           433          10439          11300          41494
 -------------------------------------------------------------------------------
 2021-09-05_15-50-47 
-     100 files     200 files     300 files     391 text files.
-classified 391 filesDuplicate file check 391 files (370 known unique)Unique:      100 files                                          Unique:      200 files                                          Unique:      300 files                                               391 unique files.                              
-Counting:  100Counting:  200Counting:  300      97 files ignored.
+     100 files
+     200 files
+     300 files
+     391 text files.
+classified 391 files
+Duplicate file check 391 files (370 known unique)
+Unique:      100 files                                          
+Unique:      200 files                                          
+Unique:      300 files                                          
+     391 unique files.                              
+Counting:  100
+Counting:  200
+Counting:  300
+      97 files ignored.
 
 github.com/AlDanial/cloc v 1.80  T=1.00 s (381.0 files/s, 56611.0 lines/s)
 -------------------------------------------------------------------------------
@@ -71,8 +129,19 @@ SUM:                           381           9175          10578          36858
 -------------------------------------------------------------------------------
 2021-12-18_22-39-53 
      536 text files.
-classified 536 filesDuplicate file check 536 files (487 known unique)Unique:      100 files                                          Unique:      200 files                                          Unique:      300 files                                          Unique:      400 files                                               527 unique files.                              
-Counting:  100Counting:  200Counting:  300Counting:  400Counting:  500      26 files ignored.
+classified 536 files
+Duplicate file check 536 files (487 known unique)
+Unique:      100 files                                          
+Unique:      200 files                                          
+Unique:      300 files                                          
+Unique:      400 files                                          
+     527 unique files.                              
+Counting:  100
+Counting:  200
+Counting:  300
+Counting:  400
+Counting:  500
+      26 files ignored.
 
 github.com/AlDanial/cloc v 1.80  T=1.00 s (511.0 files/s, 91351.0 lines/s)
 -------------------------------------------------------------------------------
@@ -96,8 +165,19 @@ SUM:                           511          15133           7043          69175
 -------------------------------------------------------------------------------
 2021-12-19_20-34-40 
      504 text files.
-classified 504 filesDuplicate file check 504 files (464 known unique)Unique:      100 files                                          Unique:      200 files                                          Unique:      300 files                                          Unique:      400 files                                               504 unique files.                              
-Counting:  100Counting:  200Counting:  300Counting:  400Counting:  500      16 files ignored.
+classified 504 files
+Duplicate file check 504 files (464 known unique)
+Unique:      100 files                                          
+Unique:      200 files                                          
+Unique:      300 files                                          
+Unique:      400 files                                          
+     504 unique files.                              
+Counting:  100
+Counting:  200
+Counting:  300
+Counting:  400
+Counting:  500
+      16 files ignored.
 
 github.com/AlDanial/cloc v 1.80  T=2.00 s (244.5 files/s, 44922.5 lines/s)
 -------------------------------------------------------------------------------
@@ -118,4 +198,28 @@ YAML                             2              8              1             26
 AutoHotkey                       1              5              0             13
 -------------------------------------------------------------------------------
 SUM:                           489          14834           6973          68038
+-------------------------------------------------------------------------------
+2021-12-29_18-07-12 
+     486 text files.
+classified 486 filesDuplicate file check 486 files (451 known unique)Unique:      100 files                                          Unique:      200 files                                          Unique:      300 files                                          Unique:      400 files                                               486 unique files.                              
+Counting:  100Counting:  200Counting:  300Counting:  400      16 files ignored.
+
+github.com/AlDanial/cloc v 1.80  T=1.00 s (471.0 files/s, 74141.0 lines/s)
+-------------------------------------------------------------------------------
+Language                     files          blank        comment           code
+-------------------------------------------------------------------------------
+C/C++ Header                   126           6533           2061          30339
+C++                            107           3133            749          13743
+Lua                            124           1888           1056           8541
+GLSL                            22            412            305           1338
+Python                          10            295             96           1016
+Markdown                        28            388             12            841
+CMake                           34            110             66            459
+JSON                             6              0              0            265
+DOS Batch                        9             36              0            160
+INI                              2             28            141             77
+YAML                             2              8              1             26
+AutoHotkey                       1              5              0             13
+-------------------------------------------------------------------------------
+SUM:                           471          12836           4487          56818
 -------------------------------------------------------------------------------
