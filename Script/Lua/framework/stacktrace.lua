@@ -109,7 +109,7 @@ function getdebugstack(res, start, top, bottom)
     end
     local results = {}
     local s = { "stack traceback:" }
-    for i = 1, top, 1 do
+    for i = 2, top, 1 do
         local info = getinfo(start + i - 1)
         local s = getformatinfo(info)
         res[#res + 1] = s
@@ -142,9 +142,3 @@ function StackTrace(err)
     return retval
 end
 
-function StackTraceToLog()
-    local s = StackTrace()
-    print(s)
-end
-
-_TRACEBACK = StackTrace

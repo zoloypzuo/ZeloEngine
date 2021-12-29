@@ -23,12 +23,8 @@ decltype(auto) LuaScriptManager::get_safe(const std::string &key) const {
 
 template<typename... Args>
 void LuaScriptManager::luaCall(sol::protected_function pfr, Args &&... args) {
-    pfr.set_default_handler(get<sol::object>("GlobalErrorHandler"));
     sol::protected_function_result pfrResult = pfr.call(std::forward<Args>(args)...);
-    if (!pfrResult.valid()) {
-        sol::error err = pfrResult;
-        ZELO_CORE_ERROR(err.what());
-    }
+    ZELO_ASSERT(pfrResult.valid());
 }
 
 template<typename... Args>
