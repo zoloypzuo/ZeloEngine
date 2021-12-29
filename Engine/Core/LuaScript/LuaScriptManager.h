@@ -39,7 +39,9 @@ public:
     void update() override;
 
 public:
-    ZELO_SCRIPT_API static void luaPrint(sol::variadic_args va);
+    ZELO_SCRIPT_API static void luaLogDebug(sol::variadic_args va);
+
+    ZELO_SCRIPT_API static void luaLogError(sol::variadic_args va);
 
 public:
     void callLuaInitializeFn();
@@ -86,6 +88,8 @@ private:
                                    sol::string_view description);
 
     static int luaAtPanic(lua_State *L);
+
+    static std::string vaToString(sol::variadic_args &va);
 
 private:
     std::shared_ptr<spdlog::logger> m_logger{};

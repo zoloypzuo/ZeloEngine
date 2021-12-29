@@ -142,9 +142,4 @@ function StackTrace(err)
     return retval
 end
 
-function StackTraceToLog()
-    local s = StackTrace()
-    print(s)
-end
-
 _TRACEBACK = StackTrace

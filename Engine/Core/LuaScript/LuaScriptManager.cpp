@@ -87,11 +87,20 @@ void LuaScriptManager::update() {
     luaCall("Update");
 }
 
-void LuaScriptManager::luaPrint(sol::variadic_args va) {
+void LuaScriptManager::luaLogDebug(sol::variadic_args va) {
     auto &logger = LuaScriptManager::getSingleton().m_logger;
+    logger->debug(vaToString(va));
+}
 
+void LuaScriptManager::luaLogError(sol::variadic_args va) {
+    auto &logger = LuaScriptManager::getSingleton().m_logger;
+    logger->error(vaToString(va));
+}
+
+std::string LuaScriptManager::vaToString(sol::variadic_args &va) {
     // " ".join(va)
     std::vector<std::string> va_string;
+    va_string.reserve(va.size());
     for (auto v: va) {
         va_string.push_back(v.as<std::string>());
     }
@@ -99,7 +108,7 @@ void LuaScriptManager::luaPrint(sol::variadic_args va) {
     std::ostringstream oss;
     std::copy(va_string.begin(), va_string.end(), std::ostream_iterator<std::string>(oss, " "));
 
-    logger->debug(oss.str());
+    return oss.str();
 }
 
 void LuaScriptManager::callLuaInitializeFn() {

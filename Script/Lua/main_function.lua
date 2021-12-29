@@ -21,7 +21,7 @@ end
 function GlobalErrorHandler(message)
     -- handle lua error when C call lua function
     -- print error and stack trace
-    StackTraceToLog()
+    logError(StackTrace())
     return message
 end
 

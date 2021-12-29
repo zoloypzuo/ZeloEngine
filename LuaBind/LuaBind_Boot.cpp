@@ -19,6 +19,8 @@ void LuaBind_Boot(sol::state &luaState) {
     luaState.set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
     luaState.set("RESOURCE_DIR", ResourceManager::getSingletonPtr()->getResourceDir().string());
 
-    luaState.set_function("print", LuaScriptManager::luaPrint);
+    luaState.set_function("print", LuaScriptManager::luaLogDebug);
+    luaState.set_function("logDebug", LuaScriptManager::luaLogDebug);
+    luaState.set_function("logError", LuaScriptManager::luaLogError);
     luaState.set_function("install", Engine::install);
 }
