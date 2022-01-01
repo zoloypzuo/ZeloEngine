@@ -103,3 +103,7 @@ Mesh Scene
 
 Transparent
 ![Snipaste_2021-12-01_23-05-04](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211201/Snipaste_2021-12-01_23-05-04.2g5wkodjr6as.png)
+
+## Game Engine Architecture
+
+![fig-runtime-arch](https://raw.githubusercontent.com/zolo-mario/image-host/main/20220101/fig-runtime-arch.7bxat45r9xk0.jpg)
