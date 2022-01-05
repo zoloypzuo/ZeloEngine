@@ -2,7 +2,6 @@
 // created on 2021/12/27
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "SceneImporter.h"
 
 #include <algorithm>
 #include <execution>
