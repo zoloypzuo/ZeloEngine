@@ -1,11 +1,15 @@
 # Reference
 
-## Engines / Github Repos
+## Engines
+
+### Toy Engine
 * Engine
 * Hazel
 * Overload
-* OpenGL-4-Shading-Language-Cookbook-Third-Edition
-* 3D-Graphics-Rendering-Cookbook
+
+### Open Source Engine
+* Ogre
+* Godot
 
 ## Books
 
