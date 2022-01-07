@@ -1,6 +1,6 @@
 project(Chapter7)
 add_executable(SceneImporter
-        SceneImporter_fb.cpp
+        SceneImporter.cpp
         SceneMergeUtil.cpp
         )
 
