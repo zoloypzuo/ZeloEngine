@@ -26,12 +26,7 @@
 
 #include "SceneMergeUtil.h"  // mergeXXX
 
-#define STB_IMAGE_IMPLEMENTATION
-#include <stb_image.h>
-#define STB_IMAGE_WRITE_IMPLEMENTATION
-#include <stb_image_write.h>
-#define STB_IMAGE_RESIZE_IMPLEMENTATION
-#include "stb_image_resize.h"
+#include "Foundation/ZeloStb.h"
 
 #include <meshoptimizer.h>
 
@@ -47,35 +42,90 @@ uint32_t g_vertexOffset = 0;
 
 const uint32_t g_numElementsToStore = 3 + 3 + 2; // pos(vec3) + normal(vec3) + uv(vec2)
 
-struct SceneConfig
-{
-    std::string fileName;
+struct SceneConfig {
+    std::string inputScene;
     std::string outputMesh;
     std::string outputScene;
     std::string outputMaterials;
     float scale;
     bool calculateLODs;
-    bool mergeInstances;
 };
 
-MaterialDescription convertAIMaterialToDescription(const aiMaterial* M, std::vector<std::string>& files, std::vector<std::string>& opacityMaps)
-{
+struct MergeConfig {
+    std::string outputMesh;
+    std::string outputScene;
+    std::string outputMaterials;
+    std::vector<std::string> materialNames;
+};
+
+struct SceneConverterConfig {
+    std::string outputPrefix;
+    MergeConfig mergeConfig;
+    std::vector<SceneConfig> scenes;
+};
+
+const SceneConverterConfig *g_config;
+
+auto OUTPUT_PREFIX = [](const std::string &path) {
+    return (ResourceManager::getSingletonPtr()->resolvePath(g_config->outputPrefix) / path).string();
+};
+
+SceneConverterConfig readConfigFile(const char *cfgFileName) {
+    std::ifstream ifs(cfgFileName);
+    ZELO_ASSERT(ifs.is_open(), "Failed to load configuration file.");
+
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document root;
+    const rapidjson::ParseResult parseResult = root.ParseStream(isw);
+    ZELO_ASSERT(!parseResult.IsError());
+
+    SceneConverterConfig config;
+    g_config = &config;
+
+    config.outputPrefix = root["output_prefix"].GetString();
+
+    auto mergeDoc = root["merge_config"].GetObject();
+    auto &mergeConfig = config.mergeConfig;
+    mergeConfig.outputMesh = OUTPUT_PREFIX(mergeDoc["output_mesh"].GetString());
+    mergeConfig.outputScene = OUTPUT_PREFIX(mergeDoc["output_scene"].GetString());
+    mergeConfig.outputMaterials = OUTPUT_PREFIX(mergeDoc["output_materials"].GetString());
+    auto materialNamesDoc = mergeDoc["material_names"].GetArray();
+    for (rapidjson::SizeType i = 0; i < materialNamesDoc.Size(); i++) {
+        mergeConfig.materialNames.emplace_back(materialNamesDoc[i].GetString());
+    }
+
+    auto scenesDoc = root["scenes"].GetArray();
+    std::vector<SceneConfig> &configList = config.scenes;
+
+    for (rapidjson::SizeType i = 0; i < scenesDoc.Size(); i++) {
+        configList.emplace_back(SceneConfig{
+                scenesDoc[i]["input_scene"].GetString(),
+                OUTPUT_PREFIX(scenesDoc[i]["output_mesh"].GetString()),
+                OUTPUT_PREFIX(scenesDoc[i]["output_scene"].GetString()),
+                OUTPUT_PREFIX(scenesDoc[i]["output_materials"].GetString()),
+                (float) scenesDoc[i]["scale"].GetDouble(),
+                scenesDoc[i]["calculate_LODs"].GetBool()
+        });
+    }
+
+    return config;
+}
+
+MaterialDescription convertAIMaterialToDescription(const aiMaterial *M, std::vector<std::string> &files,
+                                                   std::vector<std::string> &opacityMaps) {
     MaterialDescription D;
 
     aiColor4D Color;
 
-    if (aiGetMaterialColor(M, AI_MATKEY_COLOR_AMBIENT, &Color) == AI_SUCCESS)
-    {
-        D.emissiveColor_ = { Color.r, Color.g, Color.b, Color.a };
+    if (aiGetMaterialColor(M, AI_MATKEY_COLOR_AMBIENT, &Color) == AI_SUCCESS) {
+        D.emissiveColor_ = {Color.r, Color.g, Color.b, Color.a};
         if (D.emissiveColor_.w > 1.0f) D.emissiveColor_.w = 1.0f;
     }
-    if (aiGetMaterialColor(M, AI_MATKEY_COLOR_DIFFUSE, &Color) == AI_SUCCESS)
-    {
-        D.albedoColor_ = { Color.r, Color.g, Color.b, Color.a };
+    if (aiGetMaterialColor(M, AI_MATKEY_COLOR_DIFFUSE, &Color) == AI_SUCCESS) {
+        D.albedoColor_ = {Color.r, Color.g, Color.b, Color.a};
         if (D.albedoColor_.w > 1.0f) D.albedoColor_.w = 1.0f;
     }
-    if (aiGetMaterialColor(M, AI_MATKEY_COLOR_EMISSIVE, &Color) == AI_SUCCESS)
-    {
+    if (aiGetMaterialColor(M, AI_MATKEY_COLOR_EMISSIVE, &Color) == AI_SUCCESS) {
         D.emissiveColor_.x += Color.r;
         D.emissiveColor_.y += Color.g;
         D.emissiveColor_.z += Color.b;
@@ -86,14 +136,12 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial* M, std::vec
     const float opaquenessThreshold = 0.05f;
     float Opacity = 1.0f;
 
-    if (aiGetMaterialFloat(M, AI_MATKEY_OPACITY, &Opacity) == AI_SUCCESS)
-    {
+    if (aiGetMaterialFloat(M, AI_MATKEY_OPACITY, &Opacity) == AI_SUCCESS) {
         D.transparencyFactor_ = glm::clamp(1.0f - Opacity, 0.0f, 1.0f);
         if (D.transparencyFactor_ >= 1.0f - opaquenessThreshold) D.transparencyFactor_ = 0.0f;
     }
 
-    if (aiGetMaterialColor(M, AI_MATKEY_COLOR_TRANSPARENT, &Color) == AI_SUCCESS)
-    {
+    if (aiGetMaterialColor(M, AI_MATKEY_COLOR_TRANSPARENT, &Color) == AI_SUCCESS) {
         const float opacity = std::max(std::max(Color.r, Color.g), Color.b);
         D.transparencyFactor_ = glm::clamp(opacity, 0.0f, 1.0f);
         if (D.transparencyFactor_ >= 1.0f - opaquenessThreshold) D.transparencyFactor_ = 0.0f;
@@ -105,23 +153,23 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial* M, std::vec
         D.metallicFactor_ = tmp;
 
     if (aiGetMaterialFloat(M, AI_MATKEY_GLTF_PBRMETALLICROUGHNESS_ROUGHNESS_FACTOR, &tmp) == AI_SUCCESS)
-        D.roughness_ = { tmp, tmp, tmp, tmp };
+        D.roughness_ = {tmp, tmp, tmp, tmp};
 
     aiString Path;
     aiTextureMapping Mapping;
     unsigned int UVIndex = 0;
     float Blend = 1.0f;
     aiTextureOp TextureOp = aiTextureOp_Add;
-    aiTextureMapMode TextureMapMode[2] = { aiTextureMapMode_Wrap, aiTextureMapMode_Wrap };
+    aiTextureMapMode TextureMapMode[2] = {aiTextureMapMode_Wrap, aiTextureMapMode_Wrap};
     unsigned int TextureFlags = 0;
 
-    if ( aiGetMaterialTexture( M, aiTextureType_EMISSIVE, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp, TextureMapMode, &TextureFlags ) == AI_SUCCESS )
-    {
+    if (aiGetMaterialTexture(M, aiTextureType_EMISSIVE, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp,
+                             TextureMapMode, &TextureFlags) == AI_SUCCESS) {
         D.emissiveMap_ = addUnique(files, Path.C_Str());
     }
 
-    if ( aiGetMaterialTexture( M, aiTextureType_DIFFUSE, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp, TextureMapMode, &TextureFlags ) == AI_SUCCESS )
-    {
+    if (aiGetMaterialTexture(M, aiTextureType_DIFFUSE, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp, TextureMapMode,
+                             &TextureFlags) == AI_SUCCESS) {
         D.albedoMap_ = addUnique(files, Path.C_Str());
         const std::string albedoMap = std::string(Path.C_Str());
         if (albedoMap.find("grey_30") != std::string::npos)
@@ -129,17 +177,18 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial* M, std::vec
     }
 
     // first try tangent space normal map
-    if ( aiGetMaterialTexture( M, aiTextureType_NORMALS, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp, TextureMapMode, &TextureFlags) == AI_SUCCESS )
-    {
+    if (aiGetMaterialTexture(M, aiTextureType_NORMALS, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp, TextureMapMode,
+                             &TextureFlags) == AI_SUCCESS) {
         D.normalMap_ = addUnique(files, Path.C_Str());
     }
     // then height map
     if (D.normalMap_ == 0xFFFFFFFF)
-        if ( aiGetMaterialTexture( M, aiTextureType_HEIGHT, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp, TextureMapMode, &TextureFlags ) == AI_SUCCESS )
+        if (aiGetMaterialTexture(M, aiTextureType_HEIGHT, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp,
+                                 TextureMapMode, &TextureFlags) == AI_SUCCESS)
             D.normalMap_ = addUnique(files, Path.C_Str());
 
-    if ( aiGetMaterialTexture( M, aiTextureType_OPACITY, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp, TextureMapMode, &TextureFlags ) == AI_SUCCESS )
-    {
+    if (aiGetMaterialTexture(M, aiTextureType_OPACITY, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp, TextureMapMode,
+                             &TextureFlags) == AI_SUCCESS) {
         D.opacityMap_ = addUnique(opacityMaps, Path.C_Str());
         D.alphaTest_ = 0.5f;
     }
@@ -147,26 +196,20 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial* M, std::vec
     // patch materials
     aiString Name;
     std::string materialName;
-    if (aiGetMaterialString(M, AI_MATKEY_NAME, &Name) == AI_SUCCESS)
-    {
+    if (aiGetMaterialString(M, AI_MATKEY_NAME, &Name) == AI_SUCCESS) {
         materialName = Name.C_Str();
     }
     // apply heuristics
     if ((materialName.find("Glass") != std::string::npos) ||
-        (materialName.find("Vespa_Headlight") != std::string::npos))
-    {
+        (materialName.find("Vespa_Headlight") != std::string::npos)) {
         D.alphaTest_ = 0.75f;
         D.transparencyFactor_ = 0.1f;
         D.flags_ |= sMaterialFlags_Transparent;
-    }
-    else if (materialName.find("Bottle") != std::string::npos)
-    {
+    } else if (materialName.find("Bottle") != std::string::npos) {
         D.alphaTest_ = 0.54f;
         D.transparencyFactor_ = 0.4f;
         D.flags_ |= sMaterialFlags_Transparent;
-    }
-    else if (materialName.find("Metal") != std::string::npos)
-    {
+    } else if (materialName.find("Metal") != std::string::npos) {
         D.metallicFactor_ = 1.0f;
         D.roughness_ = gpuvec4(0.1f, 0.1f, 0.0f, 0.0f);
     }
@@ -174,33 +217,30 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial* M, std::vec
     return D;
 }
 
-void processLods(std::vector<uint32_t>& indices, std::vector<float>& vertices, std::vector<std::vector<uint32_t>>& outLods)
-{
+void
+processLods(std::vector<uint32_t> &indices, std::vector<float> &vertices, std::vector<std::vector<uint32_t>> &outLods) {
     size_t verticesCountIn = vertices.size() / 2;
     size_t targetIndicesCount = indices.size();
 
     uint8_t LOD = 1;
 
-	spdlog::debug("   LOD0: {} indices", int(indices.size()));
+    spdlog::debug("   LOD0: {} indices", int(indices.size()));
 
     outLods.push_back(indices);
 
-    while ( targetIndicesCount > 1024 && LOD < 8 )
-    {
+    while (targetIndicesCount > 1024 && LOD < 8) {
         targetIndicesCount = indices.size() / 2;
 
         size_t numOptIndices = meshopt_simplify(
                 indices.data(),
-                indices.data(), (uint32_t)indices.size(),
+                indices.data(), (uint32_t) indices.size(),
                 vertices.data(), verticesCountIn,
-                sizeof( float ) * 3,
-                targetIndicesCount, 0.02f );
+                sizeof(float) * 3,
+                targetIndicesCount, 0.02f);
 
         // cannot simplify further
-        if (static_cast<size_t>(numOptIndices * 1.1f) > indices.size())
-        {
-            if (LOD > 1)
-            {
+        if (static_cast<size_t>(numOptIndices * 1.1f) > indices.size()) {
+            if (LOD > 1) {
                 // try harder
                 numOptIndices = meshopt_simplifySloppy(
                         indices.data(),
@@ -209,8 +249,7 @@ void processLods(std::vector<uint32_t>& indices, std::vector<float>& vertices, s
                         sizeof(float) * 3,
                         targetIndicesCount, 0.02f, nullptr);
                 if (numOptIndices == indices.size()) break;
-            }
-            else
+            } else
                 break;
         }
 
@@ -226,8 +265,7 @@ void processLods(std::vector<uint32_t>& indices, std::vector<float>& vertices, s
     }
 }
 
-Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
-{
+Mesh convertAIMesh(MeshData &g_MeshData, const aiMesh *m, const SceneConfig &cfg) {
     const bool hasTexCoords = m->HasTextureCoords(0);
     const auto streamElementSize = static_cast<uint32_t>(g_numElementsToStore * sizeof(float));
 
@@ -236,8 +274,8 @@ Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
             .indexOffset = g_indexOffset,
             .vertexOffset = g_vertexOffset,
             .vertexCount = m->mNumVertices,
-            .streamOffset = { g_vertexOffset * streamElementSize },
-            .streamElementSize = { streamElementSize }
+            .streamOffset = {g_vertexOffset * streamElementSize},
+            .streamElementSize = {streamElementSize}
     };
 
     // Original data for LOD calculation
@@ -246,16 +284,14 @@ Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
 
     std::vector<std::vector<uint32_t>> outLods;
 
-    auto& vertices = g_MeshData.vertexData_;
+    auto &vertices = g_MeshData.vertexData_;
 
-    for (size_t i = 0; i != m->mNumVertices; i++)
-    {
+    for (size_t i = 0; i != m->mNumVertices; i++) {
         const aiVector3D v = m->mVertices[i];
         const aiVector3D n = m->mNormals[i];
         const aiVector3D t = hasTexCoords ? m->mTextureCoords[0][i] : aiVector3D();
 
-        if (cfg.calculateLODs)
-        {
+        if (cfg.calculateLODs) {
             srcVertices.push_back(v.x);
             srcVertices.push_back(v.y);
             srcVertices.push_back(v.z);
@@ -273,8 +309,7 @@ Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
         vertices.push_back(n.z);
     }
 
-    for (size_t i = 0; i != m->mNumFaces; i++)
-    {
+    for (size_t i = 0; i != m->mNumFaces; i++) {
         if (m->mFaces[i].mNumIndices != 3)
             continue;
         for (unsigned j = 0; j != m->mFaces[i].mNumIndices; j++)
@@ -290,19 +325,18 @@ Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
 
     uint32_t numIndices = 0;
 
-    for (size_t l = 0 ; l < outLods.size() ; l++)
-    {
+    for (size_t l = 0; l < outLods.size(); l++) {
         for (unsigned int i : outLods[l])
             g_MeshData.indexData_.push_back(i);
 
         result.lodOffset[l] = numIndices;
-        numIndices += (int)outLods[l].size();
+        numIndices += (int) outLods[l].size();
     }
 
     result.lodOffset[outLods.size()] = numIndices;
-    result.lodCount = (uint32_t)outLods.size();
+    result.lodCount = (uint32_t) outLods.size();
 
-    g_indexOffset  += numIndices;
+    g_indexOffset += numIndices;
     g_vertexOffset += m->mNumVertices;
 
     return result;
@@ -310,56 +344,62 @@ Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
 
 #define DEBUG_LOG_INDENTED(indent, fmt, ...) do{ spdlog::debug(fmt, std::string(indent, '\t'), __VA_ARGS__); } while(0)
 
-void printMat4(const aiMatrix4x4& m)
-{
-    if (!m.IsIdentity())
-    {
-        for (int i = 0 ; i < 4 ; i++)
-            for (int j = 0 ; j < 4 ; j++)
+void printMat4(const aiMatrix4x4 &m) {
+    if (!m.IsIdentity()) {
+        for (int i = 0; i < 4; i++)
+            for (int j = 0; j < 4; j++)
                 spdlog::debug("{} ;", m[i][j]);
-    } else
-    {
+    } else {
         spdlog::debug(" Identity");
     }
 }
 
-glm::mat4 toMat4(const aiMatrix4x4& from)
-{
+glm::mat4 toMat4(const aiMatrix4x4 &from) {
     glm::mat4 to;
-    to[0][0] = (float)from.a1; to[0][1] = (float)from.b1;  to[0][2] = (float)from.c1; to[0][3] = (float)from.d1;
-    to[1][0] = (float)from.a2; to[1][1] = (float)from.b2;  to[1][2] = (float)from.c2; to[1][3] = (float)from.d2;
-    to[2][0] = (float)from.a3; to[2][1] = (float)from.b3;  to[2][2] = (float)from.c3; to[2][3] = (float)from.d3;
-    to[3][0] = (float)from.a4; to[3][1] = (float)from.b4;  to[3][2] = (float)from.c4; to[3][3] = (float)from.d4;
+    to[0][0] = (float) from.a1;
+    to[0][1] = (float) from.b1;
+    to[0][2] = (float) from.c1;
+    to[0][3] = (float) from.d1;
+    to[1][0] = (float) from.a2;
+    to[1][1] = (float) from.b2;
+    to[1][2] = (float) from.c2;
+    to[1][3] = (float) from.d2;
+    to[2][0] = (float) from.a3;
+    to[2][1] = (float) from.b3;
+    to[2][2] = (float) from.c3;
+    to[2][3] = (float) from.d3;
+    to[3][0] = (float) from.a4;
+    to[3][1] = (float) from.b4;
+    to[3][2] = (float) from.c4;
+    to[3][3] = (float) from.d4;
     return to;
 }
 
-void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int parent, int ofs)
-{
+void traverse(const aiScene *sourceScene, SceneGraph &scene, aiNode *N, int parent, int ofs) {
     int newNode = addNode(scene, parent, ofs);
 
-    if (N->mName.C_Str())
-    {
+    if (N->mName.C_Str()) {
         DEBUG_LOG_INDENTED(ofs, "{}Node[{}].name = {}", newNode, N->mName.C_Str());
 
-        auto stringID = (uint32_t)scene.names_.size();
+        auto stringID = (uint32_t) scene.names_.size();
         scene.names_.emplace_back(N->mName.C_Str());
         scene.nameForNode_[newNode] = stringID;
     }
 
-    for (size_t i = 0; i < N->mNumMeshes ; i++)
-    {
+    for (size_t i = 0; i < N->mNumMeshes; i++) {
         int newSubNode = addNode(scene, newNode, ofs + 1);
 
-        auto stringID = (uint32_t)scene.names_.size();
+        auto stringID = (uint32_t) scene.names_.size();
         scene.names_.push_back(std::string(N->mName.C_Str()) + "_Mesh_" + std::to_string(i));
         scene.nameForNode_[newSubNode] = stringID;
 
-        int mesh = (int)N->mMeshes[i];
+        int mesh = (int) N->mMeshes[i];
         scene.meshes_[newSubNode] = mesh;
         scene.materialForNode_[newSubNode] = sourceScene->mMeshes[mesh]->mMaterialIndex;
 
-        DEBUG_LOG_INDENTED(ofs, "{}Node[{}].SubNode[{}].mesh     = {}", newNode, newSubNode, (int)mesh);
-        DEBUG_LOG_INDENTED(ofs, "{}Node[{}].SubNode[{}].material = {}", newNode, newSubNode, sourceScene->mMeshes[mesh]->mMaterialIndex);
+        DEBUG_LOG_INDENTED(ofs, "{}Node[{}].SubNode[{}].mesh     = {}", newNode, newSubNode, (int) mesh);
+        DEBUG_LOG_INDENTED(ofs, "{}Node[{}].SubNode[{}].material = {}", newNode, newSubNode,
+                           sourceScene->mMeshes[mesh]->mMaterialIndex);
 
         scene.globalTransform_[newSubNode] = glm::mat4(1.0f);
         scene.localTransform_[newSubNode] = glm::mat4(1.0f);
@@ -370,17 +410,19 @@ void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int pare
 
     if (N->mParent != nullptr) {
         DEBUG_LOG_INDENTED(ofs, "{}\tNode[{}].parent         = {}", newNode, N->mParent->mName.C_Str());
-        DEBUG_LOG_INDENTED(ofs, "{}\tNode[{}].localTransform = ", newNode); printMat4(N->mTransformation); spdlog::debug("");
+        DEBUG_LOG_INDENTED(ofs, "{}\tNode[{}].localTransform = ", newNode);
+        printMat4(N->mTransformation);
+        spdlog::debug("");
     }
 
-    for (unsigned int n = 0 ; n  < N->mNumChildren ; n++)
+    for (unsigned int n = 0; n < N->mNumChildren; n++)
         traverse(sourceScene, scene, N->mChildren[n], newNode, ofs + 1);
 }
 
-void dumpMaterial(const std::vector<std::string>& files, const MaterialDescription& d)
-{
-    spdlog::debug("files: {}", (int)files.size());
-    spdlog::debug("maps: {}/{}/{}/{}/{}", (uint32_t)d.albedoMap_, (uint32_t)d.ambientOcclusionMap_, (uint32_t)d.emissiveMap_, (uint32_t)d.opacityMap_, (uint32_t)d.metallicRoughnessMap_);
+void dumpMaterial(const std::vector<std::string> &files, const MaterialDescription &d) {
+    spdlog::debug("files: {}", (int) files.size());
+    spdlog::debug("maps: {}/{}/{}/{}/{}", (uint32_t) d.albedoMap_, (uint32_t) d.ambientOcclusionMap_,
+                  (uint32_t) d.emissiveMap_, (uint32_t) d.opacityMap_, (uint32_t) d.metallicRoughnessMap_);
     spdlog::debug(" albedo:    {}", (d.albedoMap_ < 0xFFFF) ? files[d.albedoMap_].c_str() : "");
     spdlog::debug(" occlusion: {}", (d.ambientOcclusionMap_ < 0xFFFF) ? files[d.ambientOcclusionMap_].c_str() : "");
     spdlog::debug(" emission:  {}", (d.emissiveMap_ < 0xFFFF) ? files[d.emissiveMap_].c_str() : "");
@@ -389,27 +431,24 @@ void dumpMaterial(const std::vector<std::string>& files, const MaterialDescripti
     spdlog::debug(" Normal:    {}", (d.normalMap_ < 0xFFFF) ? files[d.normalMap_].c_str() : "");
 }
 
-std::string replaceAll( const std::string& str, const std::string& oldSubStr, const std::string& newSubStr )
-{
+std::string replaceAll(const std::string &str, const std::string &oldSubStr, const std::string &newSubStr) {
     std::string result = str;
 
-    for ( size_t p = result.find( oldSubStr ); p != std::string::npos; p = result.find( oldSubStr ) )
-        result.replace( p, oldSubStr.length(), newSubStr );
+    for (size_t p = result.find(oldSubStr); p != std::string::npos; p = result.find(oldSubStr))
+        result.replace(p, oldSubStr.length(), newSubStr);
 
     return result;
 }
 
 /* Convert 8-bit ASCII string to upper case */
-std::string lowercaseString(const std::string& s)
-{
+std::string lowercaseString(const std::string &s) {
     std::string out(s.length(), ' ');
     std::transform(s.begin(), s.end(), out.begin(), tolower);
     return out;
 }
 
 /* find a file in directory which "almost" coincides with the origFile (their lowercase versions coincide) */
-std::string findSubstitute(const std::string& origFile)
-{
+std::string findSubstitute(const std::string &origFile) {
     // Make absolute path
     auto apath = fs::absolute(fs::path(origFile));
     // Absolute lowercase filename [we compare with it]
@@ -418,56 +457,54 @@ std::string findSubstitute(const std::string& origFile)
     auto dir = fs::path(origFile).remove_filename();
 
     // Iterate each file non-recursively and compare lowercase absolute path with 'afile'
-    for(auto& p: fs::directory_iterator(dir))
+    for (auto &p: fs::directory_iterator(dir))
         if (afile == lowercaseString(p.path().filename().string()))
             return p.path().string();
 
-    return std::string {};
+    return std::string{};
 }
 
-std::string fixTextureFile(const std::string& file)
-{
+std::string fixTextureFile(const std::string &file) {
     // TODO: check the findSubstitute() function
     return fs::exists(file) ? file : findSubstitute(file);
 }
 
-std::string convertTexture(const std::string& file, const std::string& basePath, std::unordered_map<std::string, uint32_t>& opacityMapIndices, const std::vector<std::string>& opacityMaps)
-{
+std::string convertTexture(const std::string &file, const std::string &basePath,
+                           std::unordered_map<std::string, uint32_t> &opacityMapIndices,
+                           const std::vector<std::string> &opacityMaps) {
     const int maxNewWidth = 512;
     const int maxNewHeight = 512;
 
-    const auto srcFile = replaceAll(basePath + file, "\\",  "/");
-    auto newFile = std::string("out_textures/") + lowercaseString(replaceAll(replaceAll(srcFile, "..", "__"), "/", "__") + std::string("__rescaled")) + std::string(".png");
+    const auto srcFile = replaceAll(basePath + file, "\\", "/");
+    const std::string &_fileName = lowercaseString(
+            replaceAll(replaceAll(srcFile, "..", "__"), "/", "__") + std::string("__rescaled"));
+    auto newFile = OUTPUT_PREFIX(std::string("out_textures/") + _fileName + std::string(".png"));
 
     // load this image
-    int texWidth, texHeight, texChannels;
-    stbi_uc* pixels = stbi_load(fixTextureFile(srcFile).c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
-    uint8_t* src = pixels;
+    int texWidth, texHeight, texChannels; // NOLINT(cppcoreguidelines-init-variables)
+    stbi_uc *pixels = stbi_load(fixTextureFile(srcFile).c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    uint8_t *src = pixels;
     texChannels = STBI_rgb_alpha;
 
     std::vector<uint8_t> tmpImage(maxNewWidth * maxNewHeight * 4);
 
-    if (!src)
-    {
+    if (!src) {
         spdlog::debug("Failed to load [{}] texture", srcFile.c_str());
         texWidth = maxNewWidth;
         texHeight = maxNewHeight;
         texChannels = STBI_rgb_alpha;
         src = tmpImage.data();
-    }
-    else
-    {
+    } else {
         spdlog::debug("Loaded [{}] {}x{} texture with {} channels", srcFile.c_str(), texWidth, texHeight, texChannels);
     }
 
-    if (opacityMapIndices.count(file) > 0)
-    {
+    if (opacityMapIndices.count(file) > 0) {
         const auto opacityMapFile = replaceAll(basePath + opacityMaps[opacityMapIndices[file]], "\\", "/");
-        int opacityWidth, opacityHeight;
-        stbi_uc* opacityPixels = stbi_load(fixTextureFile(opacityMapFile).c_str(), &opacityWidth, &opacityHeight, nullptr, 1);
+        int opacityWidth, opacityHeight; // NOLINT(cppcoreguidelines-init-variables)
+        stbi_uc *opacityPixels = stbi_load(fixTextureFile(opacityMapFile).c_str(), &opacityWidth, &opacityHeight,
+                                           nullptr, 1);
 
-        if (!opacityPixels)
-        {
+        if (!opacityPixels) {
             spdlog::debug("Failed to load opacity mask [{}]", opacityMapFile.c_str());
         }
 
@@ -486,7 +523,7 @@ std::string convertTexture(const std::string& file, const std::string& basePath,
 
     const uint32_t imgSize = texWidth * texHeight * texChannels;
     std::vector<uint8_t> mipData(imgSize);
-    uint8_t* dst = mipData.data();
+    uint8_t *dst = mipData.data();
 
     const int newW = std::min(texWidth, maxNewWidth);
     const int newH = std::min(texHeight, maxNewHeight);
@@ -503,62 +540,27 @@ std::string convertTexture(const std::string& file, const std::string& basePath,
 }
 
 void convertAndDownscaleAllTextures(
-        const std::vector<MaterialDescription>& materials, const std::string& basePath, std::vector<std::string>& files, std::vector<std::string>& opacityMaps
-)
-{
+        const std::vector<MaterialDescription> &materials, const std::string &basePath, std::vector<std::string> &files,
+        std::vector<std::string> &opacityMaps
+) {
     std::unordered_map<std::string, uint32_t> opacityMapIndices(files.size());
 
-    for (const auto& m : materials)
+    for (const auto &m : materials)
         if (m.opacityMap_ != 0xFFFFFFFF && m.albedoMap_ != 0xFFFFFFFF)
-            opacityMapIndices[files[m.albedoMap_]] = (uint32_t)m.opacityMap_;
+            opacityMapIndices[files[m.albedoMap_]] = (uint32_t) m.opacityMap_;
 
-    auto converter = [&](const std::string& s) -> std::string
-    {
+    auto converter = [&](const std::string &s) -> std::string {
         return convertTexture(s, basePath, opacityMapIndices, opacityMaps);
     };
 
     std::transform(std::execution::par, std::begin(files), std::end(files), std::begin(files), converter);
 }
 
-std::vector<SceneConfig> readConfigFile(const char* cfgFileName)
-{
-    std::ifstream ifs(cfgFileName);
-    if (!ifs.is_open())
-    {
-        spdlog::debug("Failed to load configuration file.");
-        exit(EXIT_FAILURE);
-    }
-
-    rapidjson::IStreamWrapper isw(ifs);
-    rapidjson::Document document;
-    const rapidjson::ParseResult parseResult = document.ParseStream(isw);
-    assert(!parseResult.IsError());
-    assert(document.IsArray());
-
-    std::vector<SceneConfig> configList;
-
-
-    for (rapidjson::SizeType i = 0; i < document.Size(); i++)
-    {
-        configList.emplace_back(SceneConfig {
-                .fileName = document[i]["input_scene"].GetString(),
-                .outputMesh = document[i]["output_mesh"].GetString(),
-                .outputScene = document[i]["output_scene"].GetString(),
-                .outputMaterials = document[i]["output_materials"].GetString(),
-                .scale = (float)document[i]["scale"].GetDouble(),
-                .calculateLODs = document[i]["calculate_LODs"].GetBool(),
-                .mergeInstances = document[i]["merge_instances"].GetBool()
-        });
-    }
-
-    return configList;
-}
-
-void processScene(const SceneConfig& cfg)
-{
+void processScene(const SceneConfig &cfg) {
     // extract base model path
-    const std::size_t pathSeparator = cfg.fileName.find_last_of("/\\");
-    const std::string basePath = (pathSeparator != std::string::npos) ? cfg.fileName.substr(0, pathSeparator + 1) : std::string();
+    const std::size_t pathSeparator = cfg.inputScene.find_last_of("/\\");
+    const std::string basePath = (pathSeparator != std::string::npos) ? cfg.inputScene.substr(0, pathSeparator + 1)
+                                                                      : std::string();
 
     const unsigned int flags = 0 |
                                aiProcess_JoinIdenticalVertices |
@@ -572,9 +574,9 @@ void processScene(const SceneConfig& cfg)
                                aiProcess_FindInvalidData |
                                aiProcess_GenUVCoords;
 
-    spdlog::debug("Loading scene from '{}'...", cfg.fileName.c_str());
+    spdlog::debug("Loading scene from '{}'...", cfg.inputScene.c_str());
 
-    const aiScene* scene = aiImportFile(cfg.fileName.c_str(), flags);
+    const aiScene *scene = aiImportFile(cfg.inputScene.c_str(), flags);
 
     {
         MeshData g_MeshData;
@@ -589,9 +591,8 @@ void processScene(const SceneConfig& cfg)
         g_vertexOffset = 0;
 
 
-        if (!scene || !scene->HasMeshes())
-        {
-            spdlog::debug("Unable to load '{}'", cfg.fileName.c_str());
+        if (!scene || !scene->HasMeshes()) {
+            spdlog::debug("Unable to load '{}'", cfg.inputScene.c_str());
             exit(EXIT_FAILURE);
         }
 
@@ -599,8 +600,7 @@ void processScene(const SceneConfig& cfg)
         g_MeshData.meshes_.reserve(scene->mNumMeshes);
         g_MeshData.boxes_.reserve(scene->mNumMeshes);
 
-        for (unsigned int i = 0; i != scene->mNumMeshes; i++)
-        {
+        for (unsigned int i = 0; i != scene->mNumMeshes; i++) {
             //		spdlog::debug("Converting meshes {}/{}...", i + 1, scene->mNumMeshes);
             Mesh mesh = convertAIMesh(g_MeshData, scene->mMeshes[i], cfg);
             g_MeshData.meshes_.push_back(mesh);
@@ -616,14 +616,13 @@ void processScene(const SceneConfig& cfg)
     // 2. Material conversion
     {
         std::vector<MaterialDescription> materials;
-        std::vector<std::string>& materialNames = ourScene.materialNames_;
+        std::vector<std::string> &materialNames = ourScene.materialNames_;
 
         std::vector<std::string> files;
         std::vector<std::string> opacityMaps;
 
-        for (unsigned int m = 0 ; m < scene->mNumMaterials ; m++)
-        {
-            aiMaterial* mm = scene->mMaterials[m];
+        for (unsigned int m = 0; m < scene->mNumMaterials; m++) {
+            aiMaterial *mm = scene->mMaterials[m];
 
             spdlog::debug("Material [{}] {}", mm->GetName().C_Str(), m);
             materialNames.emplace_back(mm->GetName().C_Str());
@@ -646,77 +645,75 @@ void processScene(const SceneConfig& cfg)
 }
 
 /** Chapter9: Merge meshes (interior/exterior) */
-void mergeBistro()
-{
+void mergeScene(const SceneConverterConfig &config) {
+    const auto &mergeConfig = config.mergeConfig;
+
     SceneGraph scene1, scene2;
-    std::vector<SceneGraph*> scenes = { &scene1, &scene2 };
+    std::vector<SceneGraph *> scenes = {&scene1, &scene2};
 
     MeshData m1, m2;
-    MeshFileHeader header1 = loadMeshData("data/meshes/test.meshes", m1);
-    MeshFileHeader header2 = loadMeshData("data/meshes/test2.meshes", m2);
+    MeshFileHeader header1 = loadMeshData(config.scenes[0].outputMesh.c_str(), m1);
+    MeshFileHeader header2 = loadMeshData(config.scenes[1].outputMesh.c_str(), m2);
 
-    std::vector<uint32_t> meshCounts = { header1.meshCount, header2.meshCount };
+    std::vector<uint32_t> meshCounts = {header1.meshCount, header2.meshCount};
 
-    loadScene("data/meshes/test.scene", scene1);
-    loadScene("data/meshes/test2.scene", scene2);
+    loadScene(config.scenes[0].outputScene.c_str(), scene1);
+    loadScene(config.scenes[1].outputScene.c_str(), scene2);
 
     SceneGraph scene;
     mergeScenes(scene, scenes, {}, meshCounts);
 
     MeshData meshData;
-    std::vector<MeshData*> meshDatas = { &m1, &m2 };
+    std::vector<MeshData *> meshDatas = {&m1, &m2};
 
     MeshFileHeader header = mergeMeshData(meshData, meshDatas);
 
     // now the material lists:
     std::vector<MaterialDescription> materials1, materials2;
     std::vector<std::string> textureFiles1, textureFiles2;
-    loadMaterials("data/meshes/test.materials", materials1, textureFiles1);
-    loadMaterials("data/meshes/test2.materials", materials2, textureFiles2);
+    loadMaterials(config.scenes[0].outputMaterials.c_str(), materials1, textureFiles1);
+    loadMaterials(config.scenes[1].outputMaterials.c_str(), materials2, textureFiles2);
 
     std::vector<MaterialDescription> allMaterials;
     std::vector<std::string> allTextures;
 
     mergeMaterialLists(
-            { &materials1, &materials2 },
-            { &textureFiles1, &textureFiles2 },
+            {&materials1, &materials2},
+            {&textureFiles1, &textureFiles2},
             allMaterials, allTextures);
 
-    saveMaterials("data/meshes/bistro_all.materials", allMaterials, allTextures);
+    saveMaterials(mergeConfig.outputMaterials.c_str(), allMaterials, allTextures);
 
-    spdlog::debug("[Unmerged] scene items: {}", (int)scene.hierarchy_.size());
+    spdlog::debug("[Unmerged] scene items: {}", (int) scene.hierarchy_.size());
     mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Orange_Leaves");
-    spdlog::debug("[Merged orange leaves] scene items: {}", (int)scene.hierarchy_.size());
+    spdlog::debug("[Merged orange leaves] scene items: {}", (int) scene.hierarchy_.size());
     mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Green_Leaves");
-    spdlog::debug("[Merged green leaves]  scene items: {}", (int)scene.hierarchy_.size());
+    spdlog::debug("[Merged green leaves]  scene items: {}", (int) scene.hierarchy_.size());
     mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Trunk");
-    spdlog::debug("[Merged trunk]  scene items: {}", (int)scene.hierarchy_.size());
+    spdlog::debug("[Merged trunk]  scene items: {}", (int) scene.hierarchy_.size());
 
     recalculateBoundingBoxes(meshData);
 
-    saveMeshData("data/meshes/bistro_all.meshes", meshData);
-    saveScene("data/meshes/bistro_all.scene", scene);
+    saveMeshData(mergeConfig.outputMesh.c_str(), meshData);
+    saveScene(mergeConfig.outputScene.c_str(), scene);
 }
 
-int main()
-{
+int main() {
+    Zelo::Engine engine;
+    engine.bootstrap();
+
     spdlog::set_default_logger(
             spdlog::basic_logger_mt("sc", "logs/scene-importer.log", true));
     spdlog::set_level(spdlog::level::debug);
     const std::string pattern = "[%T.%e] [%n] [%^%l%$] %v";  // remove datetime in ts
     spdlog::set_pattern(pattern);
 
-    fs::create_directory("data/meshes");
-    fs::create_directory("data/out_textures");
-    fs::create_directory("out_textures");
+    const auto &config = readConfigFile(ZELO_PATH("bistro.json").c_str());
 
-    const auto configs = readConfigFile("data/sceneconverter.json");
-
-    for (const auto& cfg: configs)
+    for (const auto &cfg: config.scenes)
         processScene(cfg);
 
-    // Final step: optimize bistro scene
-    mergeBistro();
+    mergeScene(config);
 
     return 0;
 }
