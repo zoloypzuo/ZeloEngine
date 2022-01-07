@@ -35,6 +35,8 @@
 
 #include <meshoptimizer.h>
 
+#include <spdlog/sinks/basic_file_sink.h>
+
 namespace fs = std::filesystem;
 
 using namespace Zelo::Renderer::OpenGL;
@@ -179,7 +181,7 @@ void processLods(std::vector<uint32_t>& indices, std::vector<float>& vertices, s
 
     uint8_t LOD = 1;
 
-//	printf("\n   LOD0: %i indices", int(indices.size()));
+//	spdlog::debug("   LOD0: {} indices", int(indices.size()));
 
     outLods.push_back(indices);
 
@@ -216,7 +218,7 @@ void processLods(std::vector<uint32_t>& indices, std::vector<float>& vertices, s
 
         meshopt_optimizeVertexCache(indices.data(), indices.data(), indices.size(), verticesCountIn);
 
-//		printf("\n   LOD%i: %i indices %s", int(LOD), int(numOptIndices), sloppy ? "[sloppy]" : "");
+//		spdlog::debug("   LOD{}: {} indices {}", int(LOD), int(numOptIndices), sloppy ? "[sloppy]" : "");
 
         LOD++;
 
@@ -284,7 +286,7 @@ Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
     else
         processLods(srcIndices, srcVertices, outLods);
 
-//	printf("\nCalculated LOD count: %u\n", (unsigned)outLods.size());
+//	spdlog::debug("Calculated LOD count: {}", (unsigned)outLods.size());
 
     uint32_t numIndices = 0;
 
@@ -306,7 +308,11 @@ Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
     return result;
 }
 
-void makePrefix(int ofs) { for(int i = 0 ; i < ofs ; i++) printf("\t"); }
+template<typename... Args>
+inline void debugWithIndent(int indent, fmt::format_string<Args...> fmt, Args &&...args){
+    std::string s(indent, '\t');
+    spdlog::debug(fmt, s, std::forward<Args>(args)...);
+}
 
 void printMat4(const aiMatrix4x4& m)
 {
@@ -314,10 +320,10 @@ void printMat4(const aiMatrix4x4& m)
     {
         for (int i = 0 ; i < 4 ; i++)
             for (int j = 0 ; j < 4 ; j++)
-                printf("%f ;", m[i][j]);
+                spdlog::debug("{} ;", m[i][j]);
     } else
     {
-        printf(" Identity");
+        spdlog::debug(" Identity");
     }
 }
 
@@ -337,7 +343,7 @@ void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int pare
 
     if (N->mName.C_Str())
     {
-        makePrefix(ofs); printf("Node[%d].name = %s\n", newNode, N->mName.C_Str());
+        debugWithIndent(ofs, "{}Node[{}].name = {}", newNode, N->mName.C_Str());
 
         auto stringID = (uint32_t)scene.names_.size();
         scene.names_.emplace_back(N->mName.C_Str());
@@ -356,8 +362,8 @@ void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int pare
         scene.meshes_[newSubNode] = mesh;
         scene.materialForNode_[newSubNode] = sourceScene->mMeshes[mesh]->mMaterialIndex;
 
-        makePrefix(ofs); printf("Node[%d].SubNode[%d].mesh     = %d\n", newNode, newSubNode, (int)mesh);
-        makePrefix(ofs); printf("Node[%d].SubNode[%d].material = %d\n", newNode, newSubNode, sourceScene->mMeshes[mesh]->mMaterialIndex);
+        debugWithIndent(ofs, "{}Node[{}].SubNode[{}].mesh     = {}", newNode, newSubNode, (int)mesh);
+        debugWithIndent(ofs, "{}Node[{}].SubNode[{}].material = {}", newNode, newSubNode, sourceScene->mMeshes[mesh]->mMaterialIndex);
 
         scene.globalTransform_[newSubNode] = glm::mat4(1.0f);
         scene.localTransform_[newSubNode] = glm::mat4(1.0f);
@@ -367,8 +373,8 @@ void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int pare
     scene.localTransform_[newNode] = toMat4(N->mTransformation);
 
     if (N->mParent != nullptr) {
-        makePrefix(ofs); printf("\tNode[%d].parent         = %s\n", newNode, N->mParent->mName.C_Str());
-        makePrefix(ofs); printf("\tNode[%d].localTransform = ", newNode); printMat4(N->mTransformation); printf("\n");
+        debugWithIndent(ofs, "{}\tNode[{}].parent         = {}", newNode, N->mParent->mName.C_Str());
+        debugWithIndent(ofs, "{}\tNode[{}].localTransform = ", newNode); printMat4(N->mTransformation); spdlog::debug("");
     }
 
     for (unsigned int n = 0 ; n  < N->mNumChildren ; n++)
@@ -377,14 +383,14 @@ void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int pare
 
 void dumpMaterial(const std::vector<std::string>& files, const MaterialDescription& d)
 {
-    printf("files: %d\n", (int)files.size());
-    printf("maps: %u/%u/%u/%u/%u\n", (uint32_t)d.albedoMap_, (uint32_t)d.ambientOcclusionMap_, (uint32_t)d.emissiveMap_, (uint32_t)d.opacityMap_, (uint32_t)d.metallicRoughnessMap_);
-    printf(" albedo:    %s\n", (d.albedoMap_ < 0xFFFF) ? files[d.albedoMap_].c_str() : "");
-    printf(" occlusion: %s\n", (d.ambientOcclusionMap_ < 0xFFFF) ? files[d.ambientOcclusionMap_].c_str() : "");
-    printf(" emission:  %s\n", (d.emissiveMap_ < 0xFFFF) ? files[d.emissiveMap_].c_str() : "");
-    printf(" opacity:   %s\n", (d.opacityMap_ < 0xFFFF) ? files[d.opacityMap_].c_str() : "");
-    printf(" MeR:       %s\n", (d.metallicRoughnessMap_ < 0xFFFF) ? files[d.metallicRoughnessMap_].c_str() : "");
-    printf(" Normal:    %s\n", (d.normalMap_ < 0xFFFF) ? files[d.normalMap_].c_str() : "");
+    spdlog::debug("files: {}", (int)files.size());
+    spdlog::debug("maps: {}/{}/{}/{}/{}", (uint32_t)d.albedoMap_, (uint32_t)d.ambientOcclusionMap_, (uint32_t)d.emissiveMap_, (uint32_t)d.opacityMap_, (uint32_t)d.metallicRoughnessMap_);
+    spdlog::debug(" albedo:    {}", (d.albedoMap_ < 0xFFFF) ? files[d.albedoMap_].c_str() : "");
+    spdlog::debug(" occlusion: {}", (d.ambientOcclusionMap_ < 0xFFFF) ? files[d.ambientOcclusionMap_].c_str() : "");
+    spdlog::debug(" emission:  {}", (d.emissiveMap_ < 0xFFFF) ? files[d.emissiveMap_].c_str() : "");
+    spdlog::debug(" opacity:   {}", (d.opacityMap_ < 0xFFFF) ? files[d.opacityMap_].c_str() : "");
+    spdlog::debug(" MeR:       {}", (d.metallicRoughnessMap_ < 0xFFFF) ? files[d.metallicRoughnessMap_].c_str() : "");
+    spdlog::debug(" Normal:    {}", (d.normalMap_ < 0xFFFF) ? files[d.normalMap_].c_str() : "");
 }
 
 std::string replaceAll( const std::string& str, const std::string& oldSubStr, const std::string& newSubStr )
@@ -447,7 +453,7 @@ std::string convertTexture(const std::string& file, const std::string& basePath,
 
     if (!src)
     {
-        printf("Failed to load [%s] texture\n", srcFile.c_str());
+        spdlog::debug("Failed to load [{}] texture", srcFile.c_str());
         texWidth = maxNewWidth;
         texHeight = maxNewHeight;
         texChannels = STBI_rgb_alpha;
@@ -455,7 +461,7 @@ std::string convertTexture(const std::string& file, const std::string& basePath,
     }
     else
     {
-        printf("Loaded [%s] %dx%d texture with %d channels\n", srcFile.c_str(), texWidth, texHeight, texChannels);
+        spdlog::debug("Loaded [{}] {}x{} texture with {} channels", srcFile.c_str(), texWidth, texHeight, texChannels);
     }
 
     if (opacityMapIndices.count(file) > 0)
@@ -466,7 +472,7 @@ std::string convertTexture(const std::string& file, const std::string& basePath,
 
         if (!opacityPixels)
         {
-            printf("Failed to load opacity mask [%s]\n", opacityMapFile.c_str());
+            spdlog::debug("Failed to load opacity mask [{}]", opacityMapFile.c_str());
         }
 
         assert(opacityPixels);
@@ -522,7 +528,7 @@ std::vector<SceneConfig> readConfigFile(const char* cfgFileName)
     std::ifstream ifs(cfgFileName);
     if (!ifs.is_open())
     {
-        printf("Failed to load configuration file.\n");
+        spdlog::debug("Failed to load configuration file.");
         exit(EXIT_FAILURE);
     }
 
@@ -569,7 +575,7 @@ void processScene(const SceneConfig& cfg)
                                aiProcess_FindInvalidData |
                                aiProcess_GenUVCoords;
 
-    printf("Loading scene from '%s'...\n", cfg.fileName.c_str());
+    spdlog::debug("Loading scene from '{}'...", cfg.fileName.c_str());
 
     const aiScene* scene = aiImportFile(cfg.fileName.c_str(), flags);
 
@@ -588,7 +594,7 @@ void processScene(const SceneConfig& cfg)
 
         if (!scene || !scene->HasMeshes())
         {
-            printf("Unable to load '%s'\n", cfg.fileName.c_str());
+            spdlog::debug("Unable to load '{}'", cfg.fileName.c_str());
             exit(EXIT_FAILURE);
         }
 
@@ -598,7 +604,7 @@ void processScene(const SceneConfig& cfg)
 
         for (unsigned int i = 0; i != scene->mNumMeshes; i++)
         {
-            //		printf("\nConverting meshes %u/%u...", i + 1, scene->mNumMeshes);
+            //		spdlog::debug("Converting meshes {}/{}...", i + 1, scene->mNumMeshes);
             Mesh mesh = convertAIMesh(g_MeshData, scene->mMeshes[i], cfg);
             g_MeshData.meshes_.push_back(mesh);
         }
@@ -622,7 +628,7 @@ void processScene(const SceneConfig& cfg)
         {
             aiMaterial* mm = scene->mMaterials[m];
 
-            printf("Material [%s] %u\n", mm->GetName().C_Str(), m);
+            spdlog::debug("Material [{}] {}", mm->GetName().C_Str(), m);
             materialNames.emplace_back(mm->GetName().C_Str());
 
             MaterialDescription D = convertAIMaterialToDescription(mm, files, opacityMaps);
@@ -681,13 +687,13 @@ void mergeBistro()
 
     saveMaterials("data/meshes/bistro_all.materials", allMaterials, allTextures);
 
-    printf("[Unmerged] scene items: %d\n", (int)scene.hierarchy_.size());
+    spdlog::debug("[Unmerged] scene items: {}", (int)scene.hierarchy_.size());
     mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Orange_Leaves");
-    printf("[Merged orange leaves] scene items: %d\n", (int)scene.hierarchy_.size());
+    spdlog::debug("[Merged orange leaves] scene items: {}", (int)scene.hierarchy_.size());
     mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Green_Leaves");
-    printf("[Merged green leaves]  scene items: %d\n", (int)scene.hierarchy_.size());
+    spdlog::debug("[Merged green leaves]  scene items: {}", (int)scene.hierarchy_.size());
     mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Trunk");
-    printf("[Merged trunk]  scene items: %d\n", (int)scene.hierarchy_.size());
+    spdlog::debug("[Merged trunk]  scene items: {}", (int)scene.hierarchy_.size());
 
     recalculateBoundingBoxes(meshData);
 
@@ -697,6 +703,12 @@ void mergeBistro()
 
 int main()
 {
+    spdlog::set_default_logger(
+            spdlog::basic_logger_mt("sc", "logs/scene-importer.log", true));
+    spdlog::set_level(spdlog::level::debug);
+    const std::string pattern = "[%T.%e] [%n] [%^%l%$] %v";  // remove datetime in ts
+    spdlog::set_pattern(pattern);
+
     fs::create_directory("data/meshes");
     fs::create_directory("data/out_textures");
 
