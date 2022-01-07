@@ -167,7 +167,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
     // bufferMaterials_
     {
         bufferMaterials_ = std::make_unique<GLShaderStorageBufferDSA>(
-                materials_.size() * sizeof(MaterialDescription),
+                uint32_t(materials_.size() * sizeof(MaterialDescription)),
                 materials_.data(), 0
         );
     }
