@@ -39,7 +39,7 @@ std::vector<U> Map(const std::unordered_map<TKey, TValue> &inMap, Fn functor) {
 
 template<typename TKey, typename TValue, typename U, typename Fn>
 void Map(const fb::Vector<U> &inVec, std::unordered_map<TKey, TValue> &outMap, Fn functor) {
-    std::transform(inVec.begin(), inVec.end(), outMap.begin(), functor);
+    std::transform(inVec.begin(), inVec.end(), std::inserter(outMap, outMap.begin()), functor);
 }
 
 fb::Matrix4x4 toFbMat4(glm::mat4 inMat) {
@@ -137,8 +137,8 @@ void loadScene(const char *fileName, SceneGraph &scene) {
     Map(*sceneGraph.globalTransform_(), scene.globalTransform_, fromFbMat4);
     Map(*sceneGraph.hierarchy_(), scene.hierarchy_, fromFbHierarchy);
     Map(*sceneGraph.meshes_(), scene.meshes_, fromFbSceneComponentItem);
-//    Map(*sceneGraph.materialForNode_(), scene.materialForNode_, fromFbSceneComponentItem);
-//    Map(*sceneGraph.nameForNode_(), scene.nameForNode_, fromFbSceneComponentItem);
+    Map(*sceneGraph.materialForNode_(), scene.materialForNode_, fromFbSceneComponentItem);
+    Map(*sceneGraph.nameForNode_(), scene.nameForNode_, fromFbSceneComponentItem);
     Map(*sceneGraph.names_(), scene.names_, fromFbString);
     Map(*sceneGraph.materialNames_(), scene.materialNames_, fromFbString);
 }
