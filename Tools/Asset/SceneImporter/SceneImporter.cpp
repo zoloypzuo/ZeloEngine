@@ -494,6 +494,7 @@ std::string convertTexture(const std::string& file, const std::string& basePath,
     stbir_resize_uint8(src, texWidth, texHeight, 0, dst, newW, newH, 0, texChannels);
 
     stbi_write_png(newFile.c_str(), newW, newH, texChannels, dst, 0);
+    spdlog::debug("Write texture to => [{}]", newFile);
 
     if (pixels)
         stbi_image_free(pixels);
@@ -707,6 +708,7 @@ int main()
 
     fs::create_directory("data/meshes");
     fs::create_directory("data/out_textures");
+    fs::create_directory("out_textures");
 
     const auto configs = readConfigFile("data/sceneconverter.json");
 
