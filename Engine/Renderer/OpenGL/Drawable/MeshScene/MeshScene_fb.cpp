@@ -18,15 +18,21 @@ namespace Zelo::Renderer::OpenGL {
 template<typename T, typename U, typename Fn>
 std::vector<U> Map(const std::vector<T> &inVec, Fn functor) {
     std::vector<U> ret;
-    ret.reserve(inVec.size());
+    ret.resize(inVec.size());
     std::transform(inVec.begin(), inVec.end(), ret.begin(), functor);
     return ret;
 }
 
+template<typename T, typename U, typename Fn>
+void Map(const fb::Vector<T> &inVec, std::vector<U> &outVec, Fn functor) {
+    outVec.resize(inVec.size());
+    std::transform(inVec.begin(), inVec.end(), outVec.begin(), functor);
+}
+
 template<typename TKey, typename TValue, typename U, typename Fn>
-std::vector<U> map(const std::unordered_map<TKey, TValue> &inVec, Fn functor) {
+std::vector<U> Map(const std::unordered_map<TKey, TValue> &inVec, Fn functor) {
     std::vector<U> ret;
-    ret.reserve(inVec.size());
+    ret.resize(inVec.size());
     std::transform(inVec.begin(), inVec.end(), ret.begin(), functor);
     return ret;
 }
@@ -53,7 +59,11 @@ fb::Vector4 toFbVec4(gpuvec4 inVec) {
     return fb::Vector4(inVec.x, inVec.y, inVec.z, inVec.w);
 }
 
-fb::MaterialDescription ToFbMaterialDescription(const MaterialDescription &D) {
+gpuvec4 fromFbVec4(fb::Vector4 inVec){
+    return gpuvec4(inVec.x(), inVec.y(), inVec.z(), inVec.w());
+}
+
+fb::MaterialDescription toFbMaterialDescription(const MaterialDescription &D) {
     return {
             toFbVec4(D.emissiveColor_),
             toFbVec4(D.albedoColor_),
@@ -68,6 +78,25 @@ fb::MaterialDescription ToFbMaterialDescription(const MaterialDescription &D) {
             D.metallicRoughnessMap_,
             D.normalMap_,
             D.opacityMap_
+    };
+}
+
+MaterialDescription fromFbMaterialDescription(const fb::MaterialDescription *pD) {
+    const auto &D = *pD;
+    return {
+            fromFbVec4(D.emissiveColor_()),
+            fromFbVec4(D.albedoColor_()),
+            fromFbVec4(D.roughness_()),
+            D.transparencyFactor_(),
+            D.alphaTest_(),
+            D.metallicFactor_(),
+            D.flags_(),
+            D.ambientOcclusionMap_(),
+            D.emissiveMap_(),
+            D.albedoMap_(),
+            D.metallicRoughnessMap_(),
+            D.normalMap_(),
+            D.opacityMap_()
     };
 }
 
@@ -98,9 +127,9 @@ void saveScene(const char *fileName, const SceneGraph &scene) {
     auto fbLocalTransforms = Map<glm::mat4, fb::Matrix4x4>(scene.localTransform_, toFbMat4);
     auto fbGlobalTransforms = Map<glm::mat4, fb::Matrix4x4>(scene.globalTransform_, toFbMat4);
     auto fbHierarchy = Map<Hierarchy, fb::Offset<fb::Hierarchy>>(scene.hierarchy_, toFbHierarchy);
-    auto fbMeshes = map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.meshes_, toFbSceneComponentItem);
-    auto fbMatForNode = map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.materialForNode_, toFbSceneComponentItem);
-    auto fbNameForNode = map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.nameForNode_, toFbSceneComponentItem);
+    auto fbMeshes = Map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.meshes_, toFbSceneComponentItem);
+    auto fbMatForNode = Map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.materialForNode_, toFbSceneComponentItem);
+    auto fbNameForNode = Map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.nameForNode_, toFbSceneComponentItem);
     auto fbNames = Map<std::string, fb::Offset<fb::String>>(scene.names_, toFbString);
     auto fbMaterialNames = Map<std::string, fb::Offset<fb::String>>(scene.materialNames_, toFbString);
     auto sceneGraph = fb::CreateSceneGraphDirect(
@@ -119,10 +148,17 @@ void saveScene(const char *fileName, const SceneGraph &scene) {
     ZELO_ASSERT(fb::SaveFile(fileName, (const char *) builder.GetBufferPointer(), builder.GetSize(), true));
 }
 
+std::string fromFbString(const fb::String *from){
+    return from->str();
+}
+
 void loadMaterials(const char *fileName, std::vector<MaterialDescription> &materials, std::vector<std::string> &files) {
     std::string buf;
     fb::LoadFile(fileName, true, &buf);
-    auto *material = fb::GetRoot<fb::Material>(&buf);
+    const auto *material = fb::GetRoot<fb::Material>(buf.c_str());
+
+    Map(*material->materials(), materials, fromFbMaterialDescription);
+    Map(*material->files(), files, fromFbString);
 }
 
 void saveMaterials(const char *fileName, const std::vector<MaterialDescription> &materials,
@@ -131,7 +167,7 @@ void saveMaterials(const char *fileName, const std::vector<MaterialDescription> 
 
     auto toFbString = [&builder](const std::string &s) -> fb::Offset<fb::String> { return builder.CreateString(s); };
 
-    auto fbMaterials = Map<MaterialDescription, fb::MaterialDescription>(materials, ToFbMaterialDescription);
+    auto fbMaterials = Map<MaterialDescription, fb::MaterialDescription>(materials, toFbMaterialDescription);
     auto fbFiles = Map<std::string, fb::Offset<fb::String>>(files, toFbString);
     auto material = fb::CreateMaterialDirect(
             builder,
@@ -143,18 +179,59 @@ void saveMaterials(const char *fileName, const std::vector<MaterialDescription> 
     ZELO_ASSERT(fb::SaveFile(fileName, (const char *) builder.GetBufferPointer(), builder.GetSize(), true));
 }
 
-template<class InIt, class OutIt>
-void Copy(const InIt &src, OutIt &dest) {
+template<class InIt, class TOut>
+void Copy(const InIt &src, std::vector<TOut> &dest) {
+    dest.resize(src.size());
     std::copy(std::begin(src), std::end(src), std::begin(dest));
+}
+
+template<class InIt, class TOut>
+void Copy(const InIt &src, TOut *dest) {
+    std::copy(std::begin(src), std::end(src), dest);
+}
+
+BoundingBox fromFbBoundingBox(const flatbuffers::BoundingBox *pbb) {
+    const auto &bb = *pbb;
+    return {
+            fromFbVec3(bb.min_()),
+            fromFbVec3(bb.max_())
+    };
 }
 
 MeshFileHeader loadMeshData(const char *fileName, MeshData &out) {
     std::string buf;
     fb::LoadFile(fileName, true, &buf);
     const auto &meshData = *fb::GetRoot<fb::MeshData>(buf.c_str());
+
+    auto fromFbMesh = [](const fb::Mesh *pMesh) -> Mesh {
+        const auto &mesh = *pMesh;
+
+        Mesh ret;
+        ret.lodCount = mesh.lodCount();
+        ret.streamCount = mesh.streamCount();
+        ret.indexOffset = mesh.indexOffset();
+        ret.vertexOffset = mesh.vertexOffset();
+        ret.vertexCount = mesh.vertexCount();
+        Copy(*mesh.lodOffset(), ret.lodOffset);
+        Copy(*mesh.streamOffset(), ret.streamOffset);
+        Copy(*mesh.streamElementSize(), ret.streamElementSize);
+        return ret;
+    };
+
     out.indexData_.resize(meshData.indexData_()->size());
     Copy(*meshData.indexData_(), out.indexData_);
-    return {};
+    Copy(*meshData.vertexData_(), out.vertexData_);
+    Map(*meshData.meshes_(), out.meshes_, fromFbMesh);
+    Map(*meshData.boxes_(), out.boxes_, fromFbBoundingBox);
+
+    auto &m = out;
+    return {
+            0x12345678,
+            (uint32_t) m.meshes_.size(),
+            (uint32_t) (sizeof(MeshFileHeader) + m.meshes_.size() * sizeof(Mesh)),
+            (uint32_t) (m.indexData_.size() * sizeof(uint32_t)),
+            (uint32_t) (m.vertexData_.size() * sizeof(float))
+    };
 }
 
 flatbuffers::BoundingBox toFbBoundingBox(const BoundingBox &bb) {
