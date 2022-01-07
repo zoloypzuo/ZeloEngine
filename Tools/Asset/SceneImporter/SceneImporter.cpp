@@ -181,7 +181,7 @@ void processLods(std::vector<uint32_t>& indices, std::vector<float>& vertices, s
 
     uint8_t LOD = 1;
 
-//	spdlog::debug("   LOD0: {} indices", int(indices.size()));
+	spdlog::debug("   LOD0: {} indices", int(indices.size()));
 
     outLods.push_back(indices);
 
@@ -308,11 +308,7 @@ Mesh convertAIMesh(MeshData &g_MeshData,const aiMesh* m, const SceneConfig& cfg)
     return result;
 }
 
-template<typename... Args>
-inline void debugWithIndent(int indent, fmt::format_string<Args...> fmt, Args &&...args){
-    std::string s(indent, '\t');
-    spdlog::debug(fmt, s, std::forward<Args>(args)...);
-}
+#define DEBUG_LOG_INDENTED(indent, fmt, ...) do{ spdlog::debug(fmt, std::string(indent, '\t'), __VA_ARGS__); } while(0)
 
 void printMat4(const aiMatrix4x4& m)
 {
@@ -343,7 +339,7 @@ void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int pare
 
     if (N->mName.C_Str())
     {
-        debugWithIndent(ofs, "{}Node[{}].name = {}", newNode, N->mName.C_Str());
+        DEBUG_LOG_INDENTED(ofs, "{}Node[{}].name = {}", newNode, N->mName.C_Str());
 
         auto stringID = (uint32_t)scene.names_.size();
         scene.names_.emplace_back(N->mName.C_Str());
@@ -362,8 +358,8 @@ void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int pare
         scene.meshes_[newSubNode] = mesh;
         scene.materialForNode_[newSubNode] = sourceScene->mMeshes[mesh]->mMaterialIndex;
 
-        debugWithIndent(ofs, "{}Node[{}].SubNode[{}].mesh     = {}", newNode, newSubNode, (int)mesh);
-        debugWithIndent(ofs, "{}Node[{}].SubNode[{}].material = {}", newNode, newSubNode, sourceScene->mMeshes[mesh]->mMaterialIndex);
+        DEBUG_LOG_INDENTED(ofs, "{}Node[{}].SubNode[{}].mesh     = {}", newNode, newSubNode, (int)mesh);
+        DEBUG_LOG_INDENTED(ofs, "{}Node[{}].SubNode[{}].material = {}", newNode, newSubNode, sourceScene->mMeshes[mesh]->mMaterialIndex);
 
         scene.globalTransform_[newSubNode] = glm::mat4(1.0f);
         scene.localTransform_[newSubNode] = glm::mat4(1.0f);
@@ -373,8 +369,8 @@ void traverse(const aiScene* sourceScene, SceneGraph& scene, aiNode* N, int pare
     scene.localTransform_[newNode] = toMat4(N->mTransformation);
 
     if (N->mParent != nullptr) {
-        debugWithIndent(ofs, "{}\tNode[{}].parent         = {}", newNode, N->mParent->mName.C_Str());
-        debugWithIndent(ofs, "{}\tNode[{}].localTransform = ", newNode); printMat4(N->mTransformation); spdlog::debug("");
+        DEBUG_LOG_INDENTED(ofs, "{}\tNode[{}].parent         = {}", newNode, N->mParent->mName.C_Str());
+        DEBUG_LOG_INDENTED(ofs, "{}\tNode[{}].localTransform = ", newNode); printMat4(N->mTransformation); spdlog::debug("");
     }
 
     for (unsigned int n = 0 ; n  < N->mNumChildren ; n++)
