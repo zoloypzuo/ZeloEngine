@@ -25,7 +25,6 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Buffer/GLVertexArrayDSA.cpp
 
         Drawable/MeshScene/VtxData/MeshData.cpp
-        Drawable/MeshScene/Material/Material.cpp
         Drawable/MeshScene/Scene/SceneGraph.cpp
         Drawable/MeshScene/Texture/GLTexture.cpp
         Drawable/MeshScene/Util/Utils.cpp
