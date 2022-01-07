@@ -44,7 +44,7 @@ void Map(const fb::Vector<U> &inVec, std::unordered_map<TKey, TValue> &outMap, F
 
 fb::Matrix4x4 toFbMat4(glm::mat4 inMat) {
     float data[16]{};
-    std::memcpy(glm::value_ptr(inMat), data, sizeof(data));
+    std::memcpy(data, glm::value_ptr(inMat), sizeof(data));
     return fb::Matrix4x4(data);
 }
 
