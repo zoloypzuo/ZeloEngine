@@ -16,7 +16,7 @@ using namespace Zelo::Renderer::OpenGL;
 
 namespace Zelo::Renderer::OpenGL {
 template<typename T, typename U, typename Fn>
-std::vector<U> map(const std::vector<T> &inVec, Fn functor) {
+std::vector<U> Map(const std::vector<T> &inVec, Fn functor) {
     std::vector<U> ret;
     ret.reserve(inVec.size());
     std::transform(inVec.begin(), inVec.end(), ret.begin(), functor);
@@ -95,14 +95,14 @@ void saveScene(const char *fileName, const SceneGraph &scene) {
 
     auto toFbString = [&builder](const std::string &s) -> fb::Offset<fb::String> { return builder.CreateString(s); };
 
-    auto fbLocalTransforms = map<glm::mat4, fb::Matrix4x4>(scene.localTransform_, toFbMat4);
-    auto fbGlobalTransforms = map<glm::mat4, fb::Matrix4x4>(scene.globalTransform_, toFbMat4);
-    auto fbHierarchy = map<Hierarchy, fb::Offset<fb::Hierarchy>>(scene.hierarchy_, toFbHierarchy);
+    auto fbLocalTransforms = Map<glm::mat4, fb::Matrix4x4>(scene.localTransform_, toFbMat4);
+    auto fbGlobalTransforms = Map<glm::mat4, fb::Matrix4x4>(scene.globalTransform_, toFbMat4);
+    auto fbHierarchy = Map<Hierarchy, fb::Offset<fb::Hierarchy>>(scene.hierarchy_, toFbHierarchy);
     auto fbMeshes = map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.meshes_, toFbSceneComponentItem);
     auto fbMatForNode = map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.materialForNode_, toFbSceneComponentItem);
     auto fbNameForNode = map<uint32_t, uint32_t, fb::SceneComponentItem>(scene.nameForNode_, toFbSceneComponentItem);
-    auto fbNames = map<std::string, fb::Offset<fb::String>>(scene.names_, toFbString);
-    auto fbMaterialNames = map<std::string, fb::Offset<fb::String>>(scene.materialNames_, toFbString);
+    auto fbNames = Map<std::string, fb::Offset<fb::String>>(scene.names_, toFbString);
+    auto fbMaterialNames = Map<std::string, fb::Offset<fb::String>>(scene.materialNames_, toFbString);
     auto sceneGraph = fb::CreateSceneGraphDirect(
             builder,
             &fbLocalTransforms,
@@ -131,8 +131,8 @@ void saveMaterials(const char *fileName, const std::vector<MaterialDescription> 
 
     auto toFbString = [&builder](const std::string &s) -> fb::Offset<fb::String> { return builder.CreateString(s); };
 
-    auto fbMaterials = map<MaterialDescription, fb::MaterialDescription>(materials, ToFbMaterialDescription);
-    auto fbFiles = map<std::string, fb::Offset<fb::String>>(files, toFbString);
+    auto fbMaterials = Map<MaterialDescription, fb::MaterialDescription>(materials, ToFbMaterialDescription);
+    auto fbFiles = Map<std::string, fb::Offset<fb::String>>(files, toFbString);
     auto material = fb::CreateMaterialDirect(
             builder,
             &fbMaterials,
@@ -143,8 +143,17 @@ void saveMaterials(const char *fileName, const std::vector<MaterialDescription> 
     ZELO_ASSERT(fb::SaveFile(fileName, (const char *) builder.GetBufferPointer(), builder.GetSize(), true));
 }
 
+template<class InIt, class OutIt>
+void Copy(const InIt &src, OutIt &dest) {
+    std::copy(std::begin(src), std::end(src), std::begin(dest));
+}
 
-MeshFileHeader loadMeshData(const char *meshFile, MeshData &out) {
+MeshFileHeader loadMeshData(const char *fileName, MeshData &out) {
+    std::string buf;
+    fb::LoadFile(fileName, true, &buf);
+    const auto &meshData = *fb::GetRoot<fb::MeshData>(buf.c_str());
+    out.indexData_.resize(meshData.indexData_()->size());
+    Copy(*meshData.indexData_(), out.indexData_);
     return {};
 }
 
@@ -172,8 +181,8 @@ void saveMeshData(const char *fileName, const MeshData &m) {
         );
     };
 
-    auto fbMeshes = map<Mesh, fb::Offset<fb::Mesh>>(m.meshes_, toFbMesh);
-    auto fbBBs = map<BoundingBox, fb::BoundingBox>(m.boxes_, toFbBoundingBox);
+    auto fbMeshes = Map<Mesh, fb::Offset<fb::Mesh>>(m.meshes_, toFbMesh);
+    auto fbBBs = Map<BoundingBox, fb::BoundingBox>(m.boxes_, toFbBoundingBox);
     auto meshData = fb::CreateMeshDataDirect(
             builder,
             &m.indexData_,
