@@ -4,9 +4,7 @@
 #include "ZeloPreCompiledHeader.h"
 #include "GLTexture.h"
 
-#define STB_IMAGE_IMPLEMENTATION
-
-#include <stb_image.h>
+#include "Foundation/ZeloStb.h"
 
 using namespace Zelo::Renderer::OpenGL;
 
