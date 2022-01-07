@@ -32,6 +32,8 @@
 
 #include <spdlog/sinks/basic_file_sink.h>
 
+#include <crossguid/guid.hpp>
+
 namespace fs = std::filesystem;
 
 using namespace Zelo::Renderer::OpenGL;
@@ -453,12 +455,11 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
     const int maxNewWidth = 512;
     const int maxNewHeight = 512;
 
-    const auto srcFile = replaceAll(basePath + file, "\\", "/");
-    const std::string &_fileName = lowercaseString(
-            replaceAll(replaceAll(srcFile, "..", "__"), "/", "__") + std::string("__rescaled"));
-    auto newFileName = std::string("out_textures/") + _fileName + std::string(".png");
+    auto _fileName = xg::newGuid().str();
+    auto newFileName = std::string("textures/") + _fileName + std::string(".png");
 
     // load this image
+    const auto srcFile = replaceAll(basePath + file, "\\", "/");
     int texWidth, texHeight, texChannels; // NOLINT(cppcoreguidelines-init-variables)
     stbi_uc *pixels = stbi_load(ZELO_PATH(srcFile, "").c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     uint8_t *src = pixels;
@@ -467,7 +468,7 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
     std::vector<uint8_t> tmpImage(maxNewWidth * maxNewHeight * 4);
 
     if (!src) {
-        spdlog::debug("Failed to load [{}] texture", srcFile.c_str());
+        spdlog::debug("Failed to load [{}] texture, use dummy instead", srcFile.c_str());
         texWidth = maxNewWidth;
         texHeight = maxNewHeight;
         texChannels = STBI_rgb_alpha;
@@ -486,9 +487,9 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
             spdlog::debug("Failed to load opacity mask [{}]", opacityMapFile.c_str());
         }
 
-        assert(opacityPixels);
-        assert(texWidth == opacityWidth);
-        assert(texHeight == opacityHeight);
+        ZELO_ASSERT(opacityPixels);
+        ZELO_ASSERT(texWidth == opacityWidth);
+        ZELO_ASSERT(texHeight == opacityHeight);
 
         // store the opacity mask in the alpha component of this image
         if (opacityPixels)

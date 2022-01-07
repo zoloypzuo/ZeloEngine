@@ -20,3 +20,6 @@ target_include_directories(SceneImporter PRIVATE ${RAPIDJSON_INCLUDE_DIRS})
 
 find_path(STB_INCLUDE_DIRS "stb.h")
 target_include_directories(SceneImporter PRIVATE ${STB_INCLUDE_DIRS})
+
+find_package(crossguid CONFIG REQUIRED)
+target_link_libraries(SceneImporter PRIVATE crossguid)
