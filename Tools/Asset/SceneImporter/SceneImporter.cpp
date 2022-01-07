@@ -447,28 +447,6 @@ std::string lowercaseString(const std::string &s) {
     return out;
 }
 
-/* find a file in directory which "almost" coincides with the origFile (their lowercase versions coincide) */
-std::string findSubstitute(const std::string &origFile) {
-    // Make absolute path
-    auto apath = fs::absolute(fs::path(origFile));
-    // Absolute lowercase filename [we compare with it]
-    auto afile = lowercaseString(apath.filename().string());
-    // Directory where in which the file should be
-    auto dir = fs::path(origFile).remove_filename();
-
-    // Iterate each file non-recursively and compare lowercase absolute path with 'afile'
-    for (auto &p: fs::directory_iterator(dir))
-        if (afile == lowercaseString(p.path().filename().string()))
-            return p.path().string();
-
-    return std::string{};
-}
-
-std::string fixTextureFile(const std::string &file) {
-    // TODO: check the findSubstitute() function
-    return fs::exists(file) ? file : findSubstitute(file);
-}
-
 std::string convertTexture(const std::string &file, const std::string &basePath,
                            std::unordered_map<std::string, uint32_t> &opacityMapIndices,
                            const std::vector<std::string> &opacityMaps) {
@@ -478,11 +456,11 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
     const auto srcFile = replaceAll(basePath + file, "\\", "/");
     const std::string &_fileName = lowercaseString(
             replaceAll(replaceAll(srcFile, "..", "__"), "/", "__") + std::string("__rescaled"));
-    auto newFile = OUTPUT_PREFIX(std::string("out_textures/") + _fileName + std::string(".png"));
+    auto newFileName = std::string("out_textures/") + _fileName + std::string(".png");
 
     // load this image
     int texWidth, texHeight, texChannels; // NOLINT(cppcoreguidelines-init-variables)
-    stbi_uc *pixels = stbi_load(fixTextureFile(srcFile).c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    stbi_uc *pixels = stbi_load(ZELO_PATH(srcFile, "").c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     uint8_t *src = pixels;
     texChannels = STBI_rgb_alpha;
 
@@ -501,8 +479,8 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
     if (opacityMapIndices.count(file) > 0) {
         const auto opacityMapFile = replaceAll(basePath + opacityMaps[opacityMapIndices[file]], "\\", "/");
         int opacityWidth, opacityHeight; // NOLINT(cppcoreguidelines-init-variables)
-        stbi_uc *opacityPixels = stbi_load(fixTextureFile(opacityMapFile).c_str(), &opacityWidth, &opacityHeight,
-                                           nullptr, 1);
+        stbi_uc *opacityPixels = stbi_load(
+                ZELO_PATH(opacityMapFile, "").c_str(), &opacityWidth, &opacityHeight, nullptr, 1);
 
         if (!opacityPixels) {
             spdlog::debug("Failed to load opacity mask [{}]", opacityMapFile.c_str());
@@ -530,13 +508,14 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
 
     stbir_resize_uint8(src, texWidth, texHeight, 0, dst, newW, newH, 0, texChannels);
 
-    stbi_write_png(newFile.c_str(), newW, newH, texChannels, dst, 0);
-    spdlog::debug("Write texture to => [{}]", newFile);
+    const auto &newFilePath = OUTPUT_PREFIX(newFileName);
+    stbi_write_png(newFilePath.c_str(), newW, newH, texChannels, dst, 0);
+    spdlog::debug("Write texture to => [{}]", newFilePath);
 
     if (pixels)
         stbi_image_free(pixels);
 
-    return newFile;
+    return newFileName;
 }
 
 void convertAndDownscaleAllTextures(
@@ -576,7 +555,7 @@ void processScene(const SceneConfig &cfg) {
 
     spdlog::debug("Loading scene from '{}'...", cfg.inputScene.c_str());
 
-    const aiScene *scene = aiImportFile(cfg.inputScene.c_str(), flags);
+    const aiScene *scene = aiImportFile(ZELO_PATH(cfg.inputScene).c_str(), flags);
 
     {
         MeshData g_MeshData;
@@ -590,21 +569,18 @@ void processScene(const SceneConfig &cfg) {
         g_indexOffset = 0;
         g_vertexOffset = 0;
 
-
-        if (!scene || !scene->HasMeshes()) {
-            spdlog::debug("Unable to load '{}'", cfg.inputScene.c_str());
-            exit(EXIT_FAILURE);
-        }
+        ZELO_ASSERT(scene && scene->HasMeshes(), cfg.inputScene.c_str());
 
         // 1. Mesh conversion as in Chapter 5
         g_MeshData.meshes_.reserve(scene->mNumMeshes);
         g_MeshData.boxes_.reserve(scene->mNumMeshes);
 
+        spdlog::debug("Start converting meshes 0/{}...", scene->mNumMeshes);
         for (unsigned int i = 0; i != scene->mNumMeshes; i++) {
-            //		spdlog::debug("Converting meshes {}/{}...", i + 1, scene->mNumMeshes);
             Mesh mesh = convertAIMesh(g_MeshData, scene->mMeshes[i], cfg);
             g_MeshData.meshes_.push_back(mesh);
         }
+        spdlog::debug("End Converting meshes {}/{}...", scene->mNumMeshes, scene->mNumMeshes);
 
         recalculateBoundingBoxes(g_MeshData);
 
