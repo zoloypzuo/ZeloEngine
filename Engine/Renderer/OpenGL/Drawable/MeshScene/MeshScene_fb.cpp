@@ -27,7 +27,6 @@ void saveMaterials(const char *fileName, const std::vector<MaterialDescription> 
 void loadMaterials(const char *fileName, std::vector<MaterialDescription> &materials, std::vector<std::string> &files) {
 
 }
-}
 
 MeshFileHeader loadMeshData(const char *meshFile, MeshData &out) {
     return {};
@@ -35,4 +34,5 @@ MeshFileHeader loadMeshData(const char *meshFile, MeshData &out) {
 
 void saveMeshData(const char *fileName, const MeshData &m) {
 
+}
 }

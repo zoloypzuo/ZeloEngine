@@ -90,7 +90,7 @@ struct MeshScene::Impl {
 MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
     {
         // load mesh
-        header_ = ::loadMeshData(meshFile.c_str(), meshData_);
+        header_ = loadMeshData(meshFile.c_str(), meshData_);
 
         // load scene
         loadScene(sceneFile.c_str(), scene_);

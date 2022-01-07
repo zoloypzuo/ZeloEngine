@@ -2,6 +2,7 @@
 
 #include <algorithm>
 
+namespace Zelo::Renderer::OpenGL {
 void recalculateBoundingBoxes(MeshData &m) {
     m.boxes_.clear();
 
@@ -20,4 +21,5 @@ void recalculateBoundingBoxes(MeshData &m) {
 
         m.boxes_.emplace_back(vmin, vmax);
     }
+}
 }

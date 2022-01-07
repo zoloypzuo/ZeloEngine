@@ -10,6 +10,7 @@
 #include "Mesh.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshFileHeader.h"
 
+namespace Zelo::Renderer::OpenGL {
 struct MeshData {
     std::vector<uint32_t> indexData_;
     std::vector<float> vertexData_;
@@ -23,3 +24,4 @@ MeshFileHeader loadMeshData(const char *meshFile, MeshData &out);
 void saveMeshData(const char *fileName, const MeshData &m);
 
 void recalculateBoundingBoxes(MeshData &m);
+}
