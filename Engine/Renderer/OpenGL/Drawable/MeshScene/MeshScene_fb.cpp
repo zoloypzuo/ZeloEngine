@@ -30,11 +30,16 @@ void Map(const fb::Vector<T> &inVec, std::vector<U> &outVec, Fn functor) {
 }
 
 template<typename TKey, typename TValue, typename U, typename Fn>
-std::vector<U> Map(const std::unordered_map<TKey, TValue> &inVec, Fn functor) {
+std::vector<U> Map(const std::unordered_map<TKey, TValue> &inMap, Fn functor) {
     std::vector<U> ret;
-    ret.resize(inVec.size());
-    std::transform(inVec.begin(), inVec.end(), ret.begin(), functor);
+    ret.resize(inMap.size());
+    std::transform(inMap.begin(), inMap.end(), ret.begin(), functor);
     return ret;
+}
+
+template<typename TKey, typename TValue, typename U, typename Fn>
+void Map(const fb::Vector<U> &inVec, std::unordered_map<TKey, TValue> &outMap, Fn functor) {
+    std::transform(inVec.begin(), inVec.end(), outMap.begin(), functor);
 }
 
 fb::Matrix4x4 toFbMat4(glm::mat4 inMat) {
@@ -43,8 +48,8 @@ fb::Matrix4x4 toFbMat4(glm::mat4 inMat) {
     return fb::Matrix4x4(data);
 }
 
-glm::mat4 fromFbMat4(const fb::Matrix4x4 &from) {
-    return glm::make_mat4(from.data()->data());
+glm::mat4 fromFbMat4(const fb::Matrix4x4 *from) {
+    return glm::make_mat4(from->data()->data());
 }
 
 fb::Vector3 toFbVec3(glm::vec3 inVec) {
@@ -59,8 +64,20 @@ fb::Vector4 toFbVec4(gpuvec4 inVec) {
     return fb::Vector4(inVec.x, inVec.y, inVec.z, inVec.w);
 }
 
-gpuvec4 fromFbVec4(fb::Vector4 inVec){
+gpuvec4 fromFbVec4(fb::Vector4 inVec) {
     return gpuvec4(inVec.x(), inVec.y(), inVec.z(), inVec.w());
+}
+
+std::string fromFbString(const fb::String *from) {
+    return from->str();
+}
+
+fb::SceneComponentItem toFbSceneComponentItem(const std::pair<uint32_t, uint32_t> &kv) {
+    return {kv.first, kv.second};
+}
+
+std::pair<uint32_t, uint32_t> fromFbSceneComponentItem(const fb::SceneComponentItem *pC) {
+    return std::make_pair(pC->key(), pC->value());
 }
 
 fb::MaterialDescription toFbMaterialDescription(const MaterialDescription &D) {
@@ -100,11 +117,30 @@ MaterialDescription fromFbMaterialDescription(const fb::MaterialDescription *pD)
     };
 }
 
-fb::SceneComponentItem toFbSceneComponentItem(const std::pair<uint32_t, uint32_t> &kv) {
-    return {kv.first, kv.second};
-}
-
 void loadScene(const char *fileName, SceneGraph &scene) {
+    std::string buf;
+    fb::LoadFile(fileName, true, &buf);
+    const auto &sceneGraph = *fb::GetRoot<fb::SceneGraph>(buf.c_str());
+
+    auto fromFbHierarchy = [](const fb::Hierarchy *pH) -> Hierarchy {
+        const auto &h = *pH;
+        return Hierarchy{
+                h.parent_(),
+                h.firstChild_(),
+                h.nextSibling_(),
+                h.lastSibling_(),
+                h.level_()
+        };
+    };
+
+    Map(*sceneGraph.localTransform_(), scene.localTransform_, fromFbMat4);
+    Map(*sceneGraph.globalTransform_(), scene.globalTransform_, fromFbMat4);
+    Map(*sceneGraph.hierarchy_(), scene.hierarchy_, fromFbHierarchy);
+    Map(*sceneGraph.meshes_(), scene.meshes_, fromFbSceneComponentItem);
+//    Map(*sceneGraph.materialForNode_(), scene.materialForNode_, fromFbSceneComponentItem);
+//    Map(*sceneGraph.nameForNode_(), scene.nameForNode_, fromFbSceneComponentItem);
+    Map(*sceneGraph.names_(), scene.names_, fromFbString);
+    Map(*sceneGraph.materialNames_(), scene.materialNames_, fromFbString);
 }
 
 void saveScene(const char *fileName, const SceneGraph &scene) {
@@ -146,10 +182,6 @@ void saveScene(const char *fileName, const SceneGraph &scene) {
     builder.Finish(sceneGraph);
 
     ZELO_ASSERT(fb::SaveFile(fileName, (const char *) builder.GetBufferPointer(), builder.GetSize(), true));
-}
-
-std::string fromFbString(const fb::String *from){
-    return from->str();
 }
 
 void loadMaterials(const char *fileName, std::vector<MaterialDescription> &materials, std::vector<std::string> &files) {
