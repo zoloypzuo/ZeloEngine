@@ -19,7 +19,7 @@ struct MeshData {
 };
 static_assert(sizeof(BoundingBox) == sizeof(float) * 6);
 
-MeshFileHeader loadMeshData(const char *meshFile, MeshData &out);
+MeshFileHeader loadMeshData(const char *fileName, MeshData &out);
 
 void saveMeshData(const char *fileName, const MeshData &m);
 
