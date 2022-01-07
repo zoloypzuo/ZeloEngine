@@ -18,19 +18,15 @@ struct Matrix4x4;
 
 struct Hierarchy;
 struct HierarchyBuilder;
-struct HierarchyT;
 
 struct SceneGraph;
 struct SceneGraphBuilder;
-struct SceneGraphT;
 
 struct MeshData;
 struct MeshDataBuilder;
-struct MeshDataT;
 
 struct Mesh;
 struct MeshBuilder;
-struct MeshT;
 
 struct BoundingBox;
 
@@ -38,17 +34,14 @@ struct MaterialDescription;
 
 struct Material;
 struct MaterialBuilder;
-struct MaterialT;
 
 struct SceneData;
 struct SceneDataBuilder;
-struct SceneDataT;
 
 struct SceneComponentItem;
 
 struct SceneComponent;
 struct SceneComponentBuilder;
-struct SceneComponentT;
 
 FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector2 FLATBUFFERS_FINAL_CLASS {
  private:
@@ -67,14 +60,8 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector2 FLATBUFFERS_FINAL_CLASS {
   float x() const {
     return flatbuffers::EndianScalar(x_);
   }
-  void mutate_x(float _x) {
-    flatbuffers::WriteScalar(&x_, _x);
-  }
   float y() const {
     return flatbuffers::EndianScalar(y_);
-  }
-  void mutate_y(float _y) {
-    flatbuffers::WriteScalar(&y_, _y);
   }
 };
 FLATBUFFERS_STRUCT_END(Vector2, 8);
@@ -99,20 +86,11 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector3 FLATBUFFERS_FINAL_CLASS {
   float x() const {
     return flatbuffers::EndianScalar(x_);
   }
-  void mutate_x(float _x) {
-    flatbuffers::WriteScalar(&x_, _x);
-  }
   float y() const {
     return flatbuffers::EndianScalar(y_);
   }
-  void mutate_y(float _y) {
-    flatbuffers::WriteScalar(&y_, _y);
-  }
   float z() const {
     return flatbuffers::EndianScalar(z_);
-  }
-  void mutate_z(float _z) {
-    flatbuffers::WriteScalar(&z_, _z);
   }
 };
 FLATBUFFERS_STRUCT_END(Vector3, 12);
@@ -140,26 +118,14 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Vector4 FLATBUFFERS_FINAL_CLASS {
   float x() const {
     return flatbuffers::EndianScalar(x_);
   }
-  void mutate_x(float _x) {
-    flatbuffers::WriteScalar(&x_, _x);
-  }
   float y() const {
     return flatbuffers::EndianScalar(y_);
-  }
-  void mutate_y(float _y) {
-    flatbuffers::WriteScalar(&y_, _y);
   }
   float z() const {
     return flatbuffers::EndianScalar(z_);
   }
-  void mutate_z(float _z) {
-    flatbuffers::WriteScalar(&z_, _z);
-  }
   float w() const {
     return flatbuffers::EndianScalar(w_);
-  }
-  void mutate_w(float _w) {
-    flatbuffers::WriteScalar(&w_, _w);
   }
 };
 FLATBUFFERS_STRUCT_END(Vector4, 16);
@@ -176,9 +142,6 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) Matrix4x4 FLATBUFFERS_FINAL_CLASS {
     flatbuffers::CastToArray(data_).CopyFromSpan(_data);
   }
   const flatbuffers::Array<float, 16> *data() const {
-    return &flatbuffers::CastToArray(data_);
-  }
-  flatbuffers::Array<float, 16> *mutable_data() {
     return &flatbuffers::CastToArray(data_);
   }
 };
@@ -201,13 +164,7 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) BoundingBox FLATBUFFERS_FINAL_CLASS {
   const flatbuffers::Vector3 &min_() const {
     return min__;
   }
-  flatbuffers::Vector3 &mutable_min_() {
-    return min__;
-  }
   const flatbuffers::Vector3 &max_() const {
-    return max__;
-  }
-  flatbuffers::Vector3 &mutable_max_() {
     return max__;
   }
 };
@@ -263,80 +220,41 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(8) MaterialDescription FLATBUFFERS_FINAL_CLA
   const flatbuffers::Vector4 &emissiveColor_() const {
     return emissiveColor__;
   }
-  flatbuffers::Vector4 &mutable_emissiveColor_() {
-    return emissiveColor__;
-  }
   const flatbuffers::Vector4 &albedoColor_() const {
-    return albedoColor__;
-  }
-  flatbuffers::Vector4 &mutable_albedoColor_() {
     return albedoColor__;
   }
   const flatbuffers::Vector4 &roughness_() const {
     return roughness__;
   }
-  flatbuffers::Vector4 &mutable_roughness_() {
-    return roughness__;
-  }
   float transparencyFactor_() const {
     return flatbuffers::EndianScalar(transparencyFactor__);
-  }
-  void mutate_transparencyFactor_(float _transparencyFactor_) {
-    flatbuffers::WriteScalar(&transparencyFactor__, _transparencyFactor_);
   }
   float alphaTest_() const {
     return flatbuffers::EndianScalar(alphaTest__);
   }
-  void mutate_alphaTest_(float _alphaTest_) {
-    flatbuffers::WriteScalar(&alphaTest__, _alphaTest_);
-  }
   float metallicFactor_() const {
     return flatbuffers::EndianScalar(metallicFactor__);
-  }
-  void mutate_metallicFactor_(float _metallicFactor_) {
-    flatbuffers::WriteScalar(&metallicFactor__, _metallicFactor_);
   }
   uint32_t flags_() const {
     return flatbuffers::EndianScalar(flags__);
   }
-  void mutate_flags_(uint32_t _flags_) {
-    flatbuffers::WriteScalar(&flags__, _flags_);
-  }
   uint64_t ambientOcclusionMap_() const {
     return flatbuffers::EndianScalar(ambientOcclusionMap__);
-  }
-  void mutate_ambientOcclusionMap_(uint64_t _ambientOcclusionMap_) {
-    flatbuffers::WriteScalar(&ambientOcclusionMap__, _ambientOcclusionMap_);
   }
   uint64_t emissiveMap_() const {
     return flatbuffers::EndianScalar(emissiveMap__);
   }
-  void mutate_emissiveMap_(uint64_t _emissiveMap_) {
-    flatbuffers::WriteScalar(&emissiveMap__, _emissiveMap_);
-  }
   uint64_t albedoMap_() const {
     return flatbuffers::EndianScalar(albedoMap__);
-  }
-  void mutate_albedoMap_(uint64_t _albedoMap_) {
-    flatbuffers::WriteScalar(&albedoMap__, _albedoMap_);
   }
   uint64_t metallicRoughnessMap_() const {
     return flatbuffers::EndianScalar(metallicRoughnessMap__);
   }
-  void mutate_metallicRoughnessMap_(uint64_t _metallicRoughnessMap_) {
-    flatbuffers::WriteScalar(&metallicRoughnessMap__, _metallicRoughnessMap_);
-  }
   uint64_t normalMap_() const {
     return flatbuffers::EndianScalar(normalMap__);
   }
-  void mutate_normalMap_(uint64_t _normalMap_) {
-    flatbuffers::WriteScalar(&normalMap__, _normalMap_);
-  }
   uint64_t opacityMap_() const {
     return flatbuffers::EndianScalar(opacityMap__);
-  }
-  void mutate_opacityMap_(uint64_t _opacityMap_) {
-    flatbuffers::WriteScalar(&opacityMap__, _opacityMap_);
   }
 };
 FLATBUFFERS_STRUCT_END(MaterialDescription, 112);
@@ -358,9 +276,6 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) SceneComponentItem FLATBUFFERS_FINAL_CLAS
   uint32_t key() const {
     return flatbuffers::EndianScalar(key_);
   }
-  void mutate_key(uint32_t _key) {
-    flatbuffers::WriteScalar(&key_, _key);
-  }
   bool KeyCompareLessThan(const SceneComponentItem *o) const {
     return key() < o->key();
   }
@@ -370,23 +285,10 @@ FLATBUFFERS_MANUALLY_ALIGNED_STRUCT(4) SceneComponentItem FLATBUFFERS_FINAL_CLAS
   uint32_t value() const {
     return flatbuffers::EndianScalar(value_);
   }
-  void mutate_value(uint32_t _value) {
-    flatbuffers::WriteScalar(&value_, _value);
-  }
 };
 FLATBUFFERS_STRUCT_END(SceneComponentItem, 8);
 
-struct HierarchyT : public flatbuffers::NativeTable {
-  typedef Hierarchy TableType;
-  int32_t parent_ = 0;
-  int32_t firstChild_ = 0;
-  int32_t nextSibling_ = 0;
-  int32_t lastSibling_ = 0;
-  int32_t level_ = 0;
-};
-
 struct Hierarchy FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef HierarchyT NativeTableType;
   typedef HierarchyBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_PARENT_ = 4,
@@ -398,32 +300,17 @@ struct Hierarchy FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   int32_t parent_() const {
     return GetField<int32_t>(VT_PARENT_, 0);
   }
-  bool mutate_parent_(int32_t _parent_) {
-    return SetField<int32_t>(VT_PARENT_, _parent_, 0);
-  }
   int32_t firstChild_() const {
     return GetField<int32_t>(VT_FIRSTCHILD_, 0);
-  }
-  bool mutate_firstChild_(int32_t _firstChild_) {
-    return SetField<int32_t>(VT_FIRSTCHILD_, _firstChild_, 0);
   }
   int32_t nextSibling_() const {
     return GetField<int32_t>(VT_NEXTSIBLING_, 0);
   }
-  bool mutate_nextSibling_(int32_t _nextSibling_) {
-    return SetField<int32_t>(VT_NEXTSIBLING_, _nextSibling_, 0);
-  }
   int32_t lastSibling_() const {
     return GetField<int32_t>(VT_LASTSIBLING_, 0);
   }
-  bool mutate_lastSibling_(int32_t _lastSibling_) {
-    return SetField<int32_t>(VT_LASTSIBLING_, _lastSibling_, 0);
-  }
   int32_t level_() const {
     return GetField<int32_t>(VT_LEVEL_, 0);
-  }
-  bool mutate_level_(int32_t _level_) {
-    return SetField<int32_t>(VT_LEVEL_, _level_, 0);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -434,9 +321,6 @@ struct Hierarchy FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            VerifyField<int32_t>(verifier, VT_LEVEL_) &&
            verifier.EndTable();
   }
-  HierarchyT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(HierarchyT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<Hierarchy> Pack(flatbuffers::FlatBufferBuilder &_fbb, const HierarchyT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct HierarchyBuilder {
@@ -485,22 +369,7 @@ inline flatbuffers::Offset<Hierarchy> CreateHierarchy(
   return builder_.Finish();
 }
 
-flatbuffers::Offset<Hierarchy> CreateHierarchy(flatbuffers::FlatBufferBuilder &_fbb, const HierarchyT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct SceneGraphT : public flatbuffers::NativeTable {
-  typedef SceneGraph TableType;
-  std::vector<flatbuffers::Matrix4x4> localTransform_{};
-  std::vector<flatbuffers::Matrix4x4> globalTransform_{};
-  std::vector<std::unique_ptr<flatbuffers::HierarchyT>> hierarchy_{};
-  std::vector<flatbuffers::SceneComponentItem> meshes_{};
-  std::vector<flatbuffers::SceneComponentItem> materialForNode_{};
-  std::vector<flatbuffers::SceneComponentItem> nameForNode_{};
-  std::vector<std::string> names_{};
-  std::vector<std::string> materialNames_{};
-};
-
 struct SceneGraph FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef SceneGraphT NativeTableType;
   typedef SceneGraphBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_LOCALTRANSFORM_ = 4,
@@ -515,50 +384,26 @@ struct SceneGraph FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::Vector<const flatbuffers::Matrix4x4 *> *localTransform_() const {
     return GetPointer<const flatbuffers::Vector<const flatbuffers::Matrix4x4 *> *>(VT_LOCALTRANSFORM_);
   }
-  flatbuffers::Vector<const flatbuffers::Matrix4x4 *> *mutable_localTransform_() {
-    return GetPointer<flatbuffers::Vector<const flatbuffers::Matrix4x4 *> *>(VT_LOCALTRANSFORM_);
-  }
   const flatbuffers::Vector<const flatbuffers::Matrix4x4 *> *globalTransform_() const {
     return GetPointer<const flatbuffers::Vector<const flatbuffers::Matrix4x4 *> *>(VT_GLOBALTRANSFORM_);
-  }
-  flatbuffers::Vector<const flatbuffers::Matrix4x4 *> *mutable_globalTransform_() {
-    return GetPointer<flatbuffers::Vector<const flatbuffers::Matrix4x4 *> *>(VT_GLOBALTRANSFORM_);
   }
   const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::Hierarchy>> *hierarchy_() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::Hierarchy>> *>(VT_HIERARCHY_);
   }
-  flatbuffers::Vector<flatbuffers::Offset<flatbuffers::Hierarchy>> *mutable_hierarchy_() {
-    return GetPointer<flatbuffers::Vector<flatbuffers::Offset<flatbuffers::Hierarchy>> *>(VT_HIERARCHY_);
-  }
   const flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *meshes_() const {
     return GetPointer<const flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *>(VT_MESHES_);
-  }
-  flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *mutable_meshes_() {
-    return GetPointer<flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *>(VT_MESHES_);
   }
   const flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *materialForNode_() const {
     return GetPointer<const flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *>(VT_MATERIALFORNODE_);
   }
-  flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *mutable_materialForNode_() {
-    return GetPointer<flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *>(VT_MATERIALFORNODE_);
-  }
   const flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *nameForNode_() const {
     return GetPointer<const flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *>(VT_NAMEFORNODE_);
-  }
-  flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *mutable_nameForNode_() {
-    return GetPointer<flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *>(VT_NAMEFORNODE_);
   }
   const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *names_() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *>(VT_NAMES_);
   }
-  flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *mutable_names_() {
-    return GetPointer<flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *>(VT_NAMES_);
-  }
   const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *materialNames_() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *>(VT_MATERIALNAMES_);
-  }
-  flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *mutable_materialNames_() {
-    return GetPointer<flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *>(VT_MATERIALNAMES_);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -583,9 +428,6 @@ struct SceneGraph FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyVectorOfStrings(materialNames_()) &&
            verifier.EndTable();
   }
-  SceneGraphT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(SceneGraphT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<SceneGraph> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SceneGraphT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct SceneGraphBuilder {
@@ -679,18 +521,7 @@ inline flatbuffers::Offset<SceneGraph> CreateSceneGraphDirect(
       materialNames___);
 }
 
-flatbuffers::Offset<SceneGraph> CreateSceneGraph(flatbuffers::FlatBufferBuilder &_fbb, const SceneGraphT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct MeshDataT : public flatbuffers::NativeTable {
-  typedef MeshData TableType;
-  std::vector<uint32_t> indexData_{};
-  std::vector<float> vertexData_{};
-  std::vector<std::unique_ptr<flatbuffers::MeshT>> meshes_{};
-  std::vector<flatbuffers::BoundingBox> boxes_{};
-};
-
 struct MeshData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef MeshDataT NativeTableType;
   typedef MeshDataBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_INDEXDATA_ = 4,
@@ -701,26 +532,14 @@ struct MeshData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::Vector<uint32_t> *indexData_() const {
     return GetPointer<const flatbuffers::Vector<uint32_t> *>(VT_INDEXDATA_);
   }
-  flatbuffers::Vector<uint32_t> *mutable_indexData_() {
-    return GetPointer<flatbuffers::Vector<uint32_t> *>(VT_INDEXDATA_);
-  }
   const flatbuffers::Vector<float> *vertexData_() const {
     return GetPointer<const flatbuffers::Vector<float> *>(VT_VERTEXDATA_);
-  }
-  flatbuffers::Vector<float> *mutable_vertexData_() {
-    return GetPointer<flatbuffers::Vector<float> *>(VT_VERTEXDATA_);
   }
   const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::Mesh>> *meshes_() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::Mesh>> *>(VT_MESHES_);
   }
-  flatbuffers::Vector<flatbuffers::Offset<flatbuffers::Mesh>> *mutable_meshes_() {
-    return GetPointer<flatbuffers::Vector<flatbuffers::Offset<flatbuffers::Mesh>> *>(VT_MESHES_);
-  }
   const flatbuffers::Vector<const flatbuffers::BoundingBox *> *boxes_() const {
     return GetPointer<const flatbuffers::Vector<const flatbuffers::BoundingBox *> *>(VT_BOXES_);
-  }
-  flatbuffers::Vector<const flatbuffers::BoundingBox *> *mutable_boxes_() {
-    return GetPointer<flatbuffers::Vector<const flatbuffers::BoundingBox *> *>(VT_BOXES_);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -735,9 +554,6 @@ struct MeshData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyVector(boxes_()) &&
            verifier.EndTable();
   }
-  MeshDataT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(MeshDataT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<MeshData> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MeshDataT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct MeshDataBuilder {
@@ -799,22 +615,7 @@ inline flatbuffers::Offset<MeshData> CreateMeshDataDirect(
       boxes___);
 }
 
-flatbuffers::Offset<MeshData> CreateMeshData(flatbuffers::FlatBufferBuilder &_fbb, const MeshDataT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct MeshT : public flatbuffers::NativeTable {
-  typedef Mesh TableType;
-  uint32_t lodCount = 0;
-  uint32_t streamCount = 0;
-  uint32_t indexOffset = 0;
-  uint32_t vertexOffset = 0;
-  uint32_t vertexCount = 0;
-  std::vector<uint32_t> lodOffset{};
-  std::vector<uint32_t> streamOffset{};
-  std::vector<uint32_t> streamElementSize{};
-};
-
 struct Mesh FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef MeshT NativeTableType;
   typedef MeshBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_LODCOUNT = 4,
@@ -829,50 +630,26 @@ struct Mesh FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   uint32_t lodCount() const {
     return GetField<uint32_t>(VT_LODCOUNT, 0);
   }
-  bool mutate_lodCount(uint32_t _lodCount) {
-    return SetField<uint32_t>(VT_LODCOUNT, _lodCount, 0);
-  }
   uint32_t streamCount() const {
     return GetField<uint32_t>(VT_STREAMCOUNT, 0);
-  }
-  bool mutate_streamCount(uint32_t _streamCount) {
-    return SetField<uint32_t>(VT_STREAMCOUNT, _streamCount, 0);
   }
   uint32_t indexOffset() const {
     return GetField<uint32_t>(VT_INDEXOFFSET, 0);
   }
-  bool mutate_indexOffset(uint32_t _indexOffset) {
-    return SetField<uint32_t>(VT_INDEXOFFSET, _indexOffset, 0);
-  }
   uint32_t vertexOffset() const {
     return GetField<uint32_t>(VT_VERTEXOFFSET, 0);
-  }
-  bool mutate_vertexOffset(uint32_t _vertexOffset) {
-    return SetField<uint32_t>(VT_VERTEXOFFSET, _vertexOffset, 0);
   }
   uint32_t vertexCount() const {
     return GetField<uint32_t>(VT_VERTEXCOUNT, 0);
   }
-  bool mutate_vertexCount(uint32_t _vertexCount) {
-    return SetField<uint32_t>(VT_VERTEXCOUNT, _vertexCount, 0);
-  }
   const flatbuffers::Vector<uint32_t> *lodOffset() const {
     return GetPointer<const flatbuffers::Vector<uint32_t> *>(VT_LODOFFSET);
-  }
-  flatbuffers::Vector<uint32_t> *mutable_lodOffset() {
-    return GetPointer<flatbuffers::Vector<uint32_t> *>(VT_LODOFFSET);
   }
   const flatbuffers::Vector<uint32_t> *streamOffset() const {
     return GetPointer<const flatbuffers::Vector<uint32_t> *>(VT_STREAMOFFSET);
   }
-  flatbuffers::Vector<uint32_t> *mutable_streamOffset() {
-    return GetPointer<flatbuffers::Vector<uint32_t> *>(VT_STREAMOFFSET);
-  }
   const flatbuffers::Vector<uint32_t> *streamElementSize() const {
     return GetPointer<const flatbuffers::Vector<uint32_t> *>(VT_STREAMELEMENTSIZE);
-  }
-  flatbuffers::Vector<uint32_t> *mutable_streamElementSize() {
-    return GetPointer<flatbuffers::Vector<uint32_t> *>(VT_STREAMELEMENTSIZE);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -889,9 +666,6 @@ struct Mesh FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyVector(streamElementSize()) &&
            verifier.EndTable();
   }
-  MeshT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(MeshT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<Mesh> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MeshT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct MeshBuilder {
@@ -980,16 +754,7 @@ inline flatbuffers::Offset<Mesh> CreateMeshDirect(
       streamElementSize__);
 }
 
-flatbuffers::Offset<Mesh> CreateMesh(flatbuffers::FlatBufferBuilder &_fbb, const MeshT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct MaterialT : public flatbuffers::NativeTable {
-  typedef Material TableType;
-  std::vector<flatbuffers::MaterialDescription> materials{};
-  std::vector<std::string> files{};
-};
-
 struct Material FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef MaterialT NativeTableType;
   typedef MaterialBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_MATERIALS = 4,
@@ -998,14 +763,8 @@ struct Material FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::Vector<const flatbuffers::MaterialDescription *> *materials() const {
     return GetPointer<const flatbuffers::Vector<const flatbuffers::MaterialDescription *> *>(VT_MATERIALS);
   }
-  flatbuffers::Vector<const flatbuffers::MaterialDescription *> *mutable_materials() {
-    return GetPointer<flatbuffers::Vector<const flatbuffers::MaterialDescription *> *>(VT_MATERIALS);
-  }
   const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *files() const {
     return GetPointer<const flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *>(VT_FILES);
-  }
-  flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *mutable_files() {
-    return GetPointer<flatbuffers::Vector<flatbuffers::Offset<flatbuffers::String>> *>(VT_FILES);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -1016,9 +775,6 @@ struct Material FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyVectorOfStrings(files()) &&
            verifier.EndTable();
   }
-  MaterialT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(MaterialT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<Material> Pack(flatbuffers::FlatBufferBuilder &_fbb, const MaterialT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct MaterialBuilder {
@@ -1064,17 +820,7 @@ inline flatbuffers::Offset<Material> CreateMaterialDirect(
       files__);
 }
 
-flatbuffers::Offset<Material> CreateMaterial(flatbuffers::FlatBufferBuilder &_fbb, const MaterialT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct SceneDataT : public flatbuffers::NativeTable {
-  typedef SceneData TableType;
-  std::unique_ptr<flatbuffers::MeshDataT> meshData{};
-  std::unique_ptr<flatbuffers::SceneGraphT> sceneGraph{};
-  std::unique_ptr<flatbuffers::MaterialT> material{};
-};
-
 struct SceneData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef SceneDataT NativeTableType;
   typedef SceneDataBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_MESHDATA = 4,
@@ -1084,20 +830,11 @@ struct SceneData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::MeshData *meshData() const {
     return GetPointer<const flatbuffers::MeshData *>(VT_MESHDATA);
   }
-  flatbuffers::MeshData *mutable_meshData() {
-    return GetPointer<flatbuffers::MeshData *>(VT_MESHDATA);
-  }
   const flatbuffers::SceneGraph *sceneGraph() const {
     return GetPointer<const flatbuffers::SceneGraph *>(VT_SCENEGRAPH);
   }
-  flatbuffers::SceneGraph *mutable_sceneGraph() {
-    return GetPointer<flatbuffers::SceneGraph *>(VT_SCENEGRAPH);
-  }
   const flatbuffers::Material *material() const {
     return GetPointer<const flatbuffers::Material *>(VT_MATERIAL);
-  }
-  flatbuffers::Material *mutable_material() {
-    return GetPointer<flatbuffers::Material *>(VT_MATERIAL);
   }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
@@ -1109,9 +846,6 @@ struct SceneData FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
            verifier.VerifyTable(material()) &&
            verifier.EndTable();
   }
-  SceneDataT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(SceneDataT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<SceneData> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SceneDataT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct SceneDataBuilder {
@@ -1150,15 +884,7 @@ inline flatbuffers::Offset<SceneData> CreateSceneData(
   return builder_.Finish();
 }
 
-flatbuffers::Offset<SceneData> CreateSceneData(flatbuffers::FlatBufferBuilder &_fbb, const SceneDataT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-struct SceneComponentT : public flatbuffers::NativeTable {
-  typedef SceneComponent TableType;
-  std::vector<flatbuffers::SceneComponentItem> items{};
-};
-
 struct SceneComponent FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
-  typedef SceneComponentT NativeTableType;
   typedef SceneComponentBuilder Builder;
   enum FlatBuffersVTableOffset FLATBUFFERS_VTABLE_UNDERLYING_TYPE {
     VT_ITEMS = 4
@@ -1166,18 +892,12 @@ struct SceneComponent FLATBUFFERS_FINAL_CLASS : private flatbuffers::Table {
   const flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *items() const {
     return GetPointer<const flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *>(VT_ITEMS);
   }
-  flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *mutable_items() {
-    return GetPointer<flatbuffers::Vector<const flatbuffers::SceneComponentItem *> *>(VT_ITEMS);
-  }
   bool Verify(flatbuffers::Verifier &verifier) const {
     return VerifyTableStart(verifier) &&
            VerifyOffset(verifier, VT_ITEMS) &&
            verifier.VerifyVector(items()) &&
            verifier.EndTable();
   }
-  SceneComponentT *UnPack(const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  void UnPackTo(SceneComponentT *_o, const flatbuffers::resolver_function_t *_resolver = nullptr) const;
-  static flatbuffers::Offset<SceneComponent> Pack(flatbuffers::FlatBufferBuilder &_fbb, const SceneComponentT* _o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
 };
 
 struct SceneComponentBuilder {
@@ -1215,272 +935,12 @@ inline flatbuffers::Offset<SceneComponent> CreateSceneComponentDirect(
       items__);
 }
 
-flatbuffers::Offset<SceneComponent> CreateSceneComponent(flatbuffers::FlatBufferBuilder &_fbb, const SceneComponentT *_o, const flatbuffers::rehasher_function_t *_rehasher = nullptr);
-
-inline HierarchyT *Hierarchy::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<HierarchyT>(new HierarchyT());
-  UnPackTo(_o.get(), _resolver);
-  return _o.release();
-}
-
-inline void Hierarchy::UnPackTo(HierarchyT *_o, const flatbuffers::resolver_function_t *_resolver) const {
-  (void)_o;
-  (void)_resolver;
-  { auto _e = parent_(); _o->parent_ = _e; }
-  { auto _e = firstChild_(); _o->firstChild_ = _e; }
-  { auto _e = nextSibling_(); _o->nextSibling_ = _e; }
-  { auto _e = lastSibling_(); _o->lastSibling_ = _e; }
-  { auto _e = level_(); _o->level_ = _e; }
-}
-
-inline flatbuffers::Offset<Hierarchy> Hierarchy::Pack(flatbuffers::FlatBufferBuilder &_fbb, const HierarchyT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateHierarchy(_fbb, _o, _rehasher);
-}
-
-inline flatbuffers::Offset<Hierarchy> CreateHierarchy(flatbuffers::FlatBufferBuilder &_fbb, const HierarchyT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
-  (void)_rehasher;
-  (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const HierarchyT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _parent_ = _o->parent_;
-  auto _firstChild_ = _o->firstChild_;
-  auto _nextSibling_ = _o->nextSibling_;
-  auto _lastSibling_ = _o->lastSibling_;
-  auto _level_ = _o->level_;
-  return flatbuffers::CreateHierarchy(
-      _fbb,
-      _parent_,
-      _firstChild_,
-      _nextSibling_,
-      _lastSibling_,
-      _level_);
-}
-
-inline SceneGraphT *SceneGraph::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<SceneGraphT>(new SceneGraphT());
-  UnPackTo(_o.get(), _resolver);
-  return _o.release();
-}
-
-inline void SceneGraph::UnPackTo(SceneGraphT *_o, const flatbuffers::resolver_function_t *_resolver) const {
-  (void)_o;
-  (void)_resolver;
-  { auto _e = localTransform_(); if (_e) { _o->localTransform_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->localTransform_[_i] = *_e->Get(_i); } } }
-  { auto _e = globalTransform_(); if (_e) { _o->globalTransform_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->globalTransform_[_i] = *_e->Get(_i); } } }
-  { auto _e = hierarchy_(); if (_e) { _o->hierarchy_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->hierarchy_[_i] = std::unique_ptr<flatbuffers::HierarchyT>(_e->Get(_i)->UnPack(_resolver)); } } }
-  { auto _e = meshes_(); if (_e) { _o->meshes_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->meshes_[_i] = *_e->Get(_i); } } }
-  { auto _e = materialForNode_(); if (_e) { _o->materialForNode_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->materialForNode_[_i] = *_e->Get(_i); } } }
-  { auto _e = nameForNode_(); if (_e) { _o->nameForNode_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->nameForNode_[_i] = *_e->Get(_i); } } }
-  { auto _e = names_(); if (_e) { _o->names_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->names_[_i] = _e->Get(_i)->str(); } } }
-  { auto _e = materialNames_(); if (_e) { _o->materialNames_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->materialNames_[_i] = _e->Get(_i)->str(); } } }
-}
-
-inline flatbuffers::Offset<SceneGraph> SceneGraph::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SceneGraphT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateSceneGraph(_fbb, _o, _rehasher);
-}
-
-inline flatbuffers::Offset<SceneGraph> CreateSceneGraph(flatbuffers::FlatBufferBuilder &_fbb, const SceneGraphT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
-  (void)_rehasher;
-  (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SceneGraphT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _localTransform_ = _o->localTransform_.size() ? _fbb.CreateVectorOfStructs(_o->localTransform_) : 0;
-  auto _globalTransform_ = _o->globalTransform_.size() ? _fbb.CreateVectorOfStructs(_o->globalTransform_) : 0;
-  auto _hierarchy_ = _o->hierarchy_.size() ? _fbb.CreateVector<flatbuffers::Offset<flatbuffers::Hierarchy>> (_o->hierarchy_.size(), [](size_t i, _VectorArgs *__va) { return CreateHierarchy(*__va->__fbb, __va->__o->hierarchy_[i].get(), __va->__rehasher); }, &_va ) : 0;
-  auto _meshes_ = _o->meshes_.size() ? _fbb.CreateVectorOfStructs(_o->meshes_) : 0;
-  auto _materialForNode_ = _o->materialForNode_.size() ? _fbb.CreateVectorOfStructs(_o->materialForNode_) : 0;
-  auto _nameForNode_ = _o->nameForNode_.size() ? _fbb.CreateVectorOfStructs(_o->nameForNode_) : 0;
-  auto _names_ = _o->names_.size() ? _fbb.CreateVectorOfStrings(_o->names_) : 0;
-  auto _materialNames_ = _o->materialNames_.size() ? _fbb.CreateVectorOfStrings(_o->materialNames_) : 0;
-  return flatbuffers::CreateSceneGraph(
-      _fbb,
-      _localTransform_,
-      _globalTransform_,
-      _hierarchy_,
-      _meshes_,
-      _materialForNode_,
-      _nameForNode_,
-      _names_,
-      _materialNames_);
-}
-
-inline MeshDataT *MeshData::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<MeshDataT>(new MeshDataT());
-  UnPackTo(_o.get(), _resolver);
-  return _o.release();
-}
-
-inline void MeshData::UnPackTo(MeshDataT *_o, const flatbuffers::resolver_function_t *_resolver) const {
-  (void)_o;
-  (void)_resolver;
-  { auto _e = indexData_(); if (_e) { _o->indexData_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->indexData_[_i] = _e->Get(_i); } } }
-  { auto _e = vertexData_(); if (_e) { _o->vertexData_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->vertexData_[_i] = _e->Get(_i); } } }
-  { auto _e = meshes_(); if (_e) { _o->meshes_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->meshes_[_i] = std::unique_ptr<flatbuffers::MeshT>(_e->Get(_i)->UnPack(_resolver)); } } }
-  { auto _e = boxes_(); if (_e) { _o->boxes_.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->boxes_[_i] = *_e->Get(_i); } } }
-}
-
-inline flatbuffers::Offset<MeshData> MeshData::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MeshDataT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateMeshData(_fbb, _o, _rehasher);
-}
-
-inline flatbuffers::Offset<MeshData> CreateMeshData(flatbuffers::FlatBufferBuilder &_fbb, const MeshDataT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
-  (void)_rehasher;
-  (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MeshDataT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _indexData_ = _o->indexData_.size() ? _fbb.CreateVector(_o->indexData_) : 0;
-  auto _vertexData_ = _o->vertexData_.size() ? _fbb.CreateVector(_o->vertexData_) : 0;
-  auto _meshes_ = _o->meshes_.size() ? _fbb.CreateVector<flatbuffers::Offset<flatbuffers::Mesh>> (_o->meshes_.size(), [](size_t i, _VectorArgs *__va) { return CreateMesh(*__va->__fbb, __va->__o->meshes_[i].get(), __va->__rehasher); }, &_va ) : 0;
-  auto _boxes_ = _o->boxes_.size() ? _fbb.CreateVectorOfStructs(_o->boxes_) : 0;
-  return flatbuffers::CreateMeshData(
-      _fbb,
-      _indexData_,
-      _vertexData_,
-      _meshes_,
-      _boxes_);
-}
-
-inline MeshT *Mesh::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<MeshT>(new MeshT());
-  UnPackTo(_o.get(), _resolver);
-  return _o.release();
-}
-
-inline void Mesh::UnPackTo(MeshT *_o, const flatbuffers::resolver_function_t *_resolver) const {
-  (void)_o;
-  (void)_resolver;
-  { auto _e = lodCount(); _o->lodCount = _e; }
-  { auto _e = streamCount(); _o->streamCount = _e; }
-  { auto _e = indexOffset(); _o->indexOffset = _e; }
-  { auto _e = vertexOffset(); _o->vertexOffset = _e; }
-  { auto _e = vertexCount(); _o->vertexCount = _e; }
-  { auto _e = lodOffset(); if (_e) { _o->lodOffset.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->lodOffset[_i] = _e->Get(_i); } } }
-  { auto _e = streamOffset(); if (_e) { _o->streamOffset.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->streamOffset[_i] = _e->Get(_i); } } }
-  { auto _e = streamElementSize(); if (_e) { _o->streamElementSize.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->streamElementSize[_i] = _e->Get(_i); } } }
-}
-
-inline flatbuffers::Offset<Mesh> Mesh::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MeshT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateMesh(_fbb, _o, _rehasher);
-}
-
-inline flatbuffers::Offset<Mesh> CreateMesh(flatbuffers::FlatBufferBuilder &_fbb, const MeshT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
-  (void)_rehasher;
-  (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MeshT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _lodCount = _o->lodCount;
-  auto _streamCount = _o->streamCount;
-  auto _indexOffset = _o->indexOffset;
-  auto _vertexOffset = _o->vertexOffset;
-  auto _vertexCount = _o->vertexCount;
-  auto _lodOffset = _o->lodOffset.size() ? _fbb.CreateVector(_o->lodOffset) : 0;
-  auto _streamOffset = _o->streamOffset.size() ? _fbb.CreateVector(_o->streamOffset) : 0;
-  auto _streamElementSize = _o->streamElementSize.size() ? _fbb.CreateVector(_o->streamElementSize) : 0;
-  return flatbuffers::CreateMesh(
-      _fbb,
-      _lodCount,
-      _streamCount,
-      _indexOffset,
-      _vertexOffset,
-      _vertexCount,
-      _lodOffset,
-      _streamOffset,
-      _streamElementSize);
-}
-
-inline MaterialT *Material::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<MaterialT>(new MaterialT());
-  UnPackTo(_o.get(), _resolver);
-  return _o.release();
-}
-
-inline void Material::UnPackTo(MaterialT *_o, const flatbuffers::resolver_function_t *_resolver) const {
-  (void)_o;
-  (void)_resolver;
-  { auto _e = materials(); if (_e) { _o->materials.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->materials[_i] = *_e->Get(_i); } } }
-  { auto _e = files(); if (_e) { _o->files.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->files[_i] = _e->Get(_i)->str(); } } }
-}
-
-inline flatbuffers::Offset<Material> Material::Pack(flatbuffers::FlatBufferBuilder &_fbb, const MaterialT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateMaterial(_fbb, _o, _rehasher);
-}
-
-inline flatbuffers::Offset<Material> CreateMaterial(flatbuffers::FlatBufferBuilder &_fbb, const MaterialT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
-  (void)_rehasher;
-  (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const MaterialT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _materials = _o->materials.size() ? _fbb.CreateVectorOfStructs(_o->materials) : 0;
-  auto _files = _o->files.size() ? _fbb.CreateVectorOfStrings(_o->files) : 0;
-  return flatbuffers::CreateMaterial(
-      _fbb,
-      _materials,
-      _files);
-}
-
-inline SceneDataT *SceneData::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<SceneDataT>(new SceneDataT());
-  UnPackTo(_o.get(), _resolver);
-  return _o.release();
-}
-
-inline void SceneData::UnPackTo(SceneDataT *_o, const flatbuffers::resolver_function_t *_resolver) const {
-  (void)_o;
-  (void)_resolver;
-  { auto _e = meshData(); if (_e) _o->meshData = std::unique_ptr<flatbuffers::MeshDataT>(_e->UnPack(_resolver)); }
-  { auto _e = sceneGraph(); if (_e) _o->sceneGraph = std::unique_ptr<flatbuffers::SceneGraphT>(_e->UnPack(_resolver)); }
-  { auto _e = material(); if (_e) _o->material = std::unique_ptr<flatbuffers::MaterialT>(_e->UnPack(_resolver)); }
-}
-
-inline flatbuffers::Offset<SceneData> SceneData::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SceneDataT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateSceneData(_fbb, _o, _rehasher);
-}
-
-inline flatbuffers::Offset<SceneData> CreateSceneData(flatbuffers::FlatBufferBuilder &_fbb, const SceneDataT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
-  (void)_rehasher;
-  (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SceneDataT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _meshData = _o->meshData ? CreateMeshData(_fbb, _o->meshData.get(), _rehasher) : 0;
-  auto _sceneGraph = _o->sceneGraph ? CreateSceneGraph(_fbb, _o->sceneGraph.get(), _rehasher) : 0;
-  auto _material = _o->material ? CreateMaterial(_fbb, _o->material.get(), _rehasher) : 0;
-  return flatbuffers::CreateSceneData(
-      _fbb,
-      _meshData,
-      _sceneGraph,
-      _material);
-}
-
-inline SceneComponentT *SceneComponent::UnPack(const flatbuffers::resolver_function_t *_resolver) const {
-  auto _o = std::unique_ptr<SceneComponentT>(new SceneComponentT());
-  UnPackTo(_o.get(), _resolver);
-  return _o.release();
-}
-
-inline void SceneComponent::UnPackTo(SceneComponentT *_o, const flatbuffers::resolver_function_t *_resolver) const {
-  (void)_o;
-  (void)_resolver;
-  { auto _e = items(); if (_e) { _o->items.resize(_e->size()); for (flatbuffers::uoffset_t _i = 0; _i < _e->size(); _i++) { _o->items[_i] = *_e->Get(_i); } } }
-}
-
-inline flatbuffers::Offset<SceneComponent> SceneComponent::Pack(flatbuffers::FlatBufferBuilder &_fbb, const SceneComponentT* _o, const flatbuffers::rehasher_function_t *_rehasher) {
-  return CreateSceneComponent(_fbb, _o, _rehasher);
-}
-
-inline flatbuffers::Offset<SceneComponent> CreateSceneComponent(flatbuffers::FlatBufferBuilder &_fbb, const SceneComponentT *_o, const flatbuffers::rehasher_function_t *_rehasher) {
-  (void)_rehasher;
-  (void)_o;
-  struct _VectorArgs { flatbuffers::FlatBufferBuilder *__fbb; const SceneComponentT* __o; const flatbuffers::rehasher_function_t *__rehasher; } _va = { &_fbb, _o, _rehasher}; (void)_va;
-  auto _items = _o->items.size() ? _fbb.CreateVectorOfStructs(_o->items) : 0;
-  return flatbuffers::CreateSceneComponent(
-      _fbb,
-      _items);
-}
-
 inline const flatbuffers::SceneData *GetSceneData(const void *buf) {
   return flatbuffers::GetRoot<flatbuffers::SceneData>(buf);
 }
 
 inline const flatbuffers::SceneData *GetSizePrefixedSceneData(const void *buf) {
   return flatbuffers::GetSizePrefixedRoot<flatbuffers::SceneData>(buf);
-}
-
-inline SceneData *GetMutableSceneData(void *buf) {
-  return flatbuffers::GetMutableRoot<SceneData>(buf);
 }
 
 inline bool VerifySceneDataBuffer(
@@ -1503,18 +963,6 @@ inline void FinishSizePrefixedSceneDataBuffer(
     flatbuffers::FlatBufferBuilder &fbb,
     flatbuffers::Offset<flatbuffers::SceneData> root) {
   fbb.FinishSizePrefixed(root);
-}
-
-inline std::unique_ptr<flatbuffers::SceneDataT> UnPackSceneData(
-    const void *buf,
-    const flatbuffers::resolver_function_t *res = nullptr) {
-  return std::unique_ptr<flatbuffers::SceneDataT>(GetSceneData(buf)->UnPack(res));
-}
-
-inline std::unique_ptr<flatbuffers::SceneDataT> UnPackSizePrefixedSceneData(
-    const void *buf,
-    const flatbuffers::resolver_function_t *res = nullptr) {
-  return std::unique_ptr<flatbuffers::SceneDataT>(GetSizePrefixedSceneData(buf)->UnPack(res));
 }
 
 }  // namespace flatbuffers

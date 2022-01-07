@@ -8,6 +8,6 @@ cd /d %EngineDir%
 @echo on
 
 cd %EngineDir%\Tools\CodeGen
-flatc.exe -c -o %EngineDir%\Engine --scoped-enums --gen-object-api --gen-mutable --no-warnings SceneData.fbs
+flatc.exe -c -o %EngineDir%\Engine --scoped-enums --no-warnings SceneData.fbs
 
 cd %CurrentDir%
