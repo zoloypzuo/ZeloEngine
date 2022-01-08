@@ -1,0 +1,158 @@
+// SceneData IDL file
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !! When adding new pairs to the maps below,         !!
+// !! please add to the last position of the map.      !!
+// !! It will ensure the reader's version compatible.  !!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+namespace flatbuffers;
+
+struct Vector2 {
+    x:float;
+    y:float;
+}
+
+struct Vector3 {
+    x:float;
+    y:float;
+    z:float;
+}
+
+struct Vector4 {
+    x:float;
+    y:float;
+    z:float;
+    w:float;
+}
+
+struct Matrix4x4 {
+    data:[float:16];
+}
+
+table Hierarchy {
+    // parent for this node (or -1 for root)
+    parent_:int32;
+    // first child for a node (or -1)
+    firstChild_:int32;
+    // next sibling for a node (or -1)
+    nextSibling_:int32;
+    // last added node (or -1)
+    lastSibling_:int32;
+    // cached node level
+    level_:int32;
+    // TODO(PERF) estimate children size for iteration getNodeChildren
+}
+
+table SceneGraph {
+    // local transformations for each node and global transforms
+    // + an array of 'dirty/changed' local transforms
+    localTransform_:[Matrix4x4];
+    globalTransform_:[Matrix4x4];
+
+    // Hierarchy component
+    hierarchy_:[Hierarchy];
+
+    // Mesh component: Which node corresponds to which node
+    meshes_:[SceneComponentItem];
+
+    // Material component: Which material belongs to which node
+    materialForNode_:[SceneComponentItem];
+
+    // Node name component: Which name is assigned to the node
+    nameForNode_:[SceneComponentItem];
+
+    // List of scene node names
+    names_:[string];
+
+    // Debug list of material names
+    materialNames_:[string];
+}
+
+table MeshData {
+    indexData_:[uint32];
+    vertexData_:[float];
+    meshes_:[Mesh];
+    boxes_:[BoundingBox];
+}
+
+// All offsets are relative to the beginning of the data block (excluding headers with Mesh list)
+table Mesh
+{
+    /* Number of LODs in this mesh. Strictly less than MAX_LODS, last LOD offset is used as a marker only */
+    lodCount:uint32;
+
+    /* Number of vertex data streams */
+    streamCount:uint32;
+
+    /* The total count of all previous vertices in this mesh file */
+    indexOffset:uint32;
+
+    vertexOffset:uint32;
+
+    /* Vertex count (for all LODs) */
+    vertexCount:uint32;
+
+    /* Offsets to LOD data. Last offset is used as a marker to calculate the size */
+    lodOffset:[uint32];
+
+    /* All the data "pointers" for all the streams */
+    streamOffset:[uint32];
+
+    /* Information about stream element (size pretty much defines everything else, the "semantics" is defined by the shader) */
+    streamElementSize:[uint32];
+
+    /* We could have included the streamStride[] array here to allow interleaved storage of attributes.
+        For this book we assume tightly-packed (non-interleaved) vertex attribute streams */
+
+    /* Additional information, like mesh name, can be added here */
+}
+
+struct BoundingBox {
+    min_:Vector3;
+    max_:Vector3;
+}
+
+struct MaterialDescription {
+    emissiveColor_:Vector4;
+    albedoColor_:Vector4;
+    // UV anisotropic roughness (isotropic lighting models use only the first value).
+    // ZW values are ignored
+    roughness_:Vector4;
+    transparencyFactor_:float;
+    alphaTest_:float;
+    metallicFactor_:float;
+    flags_:uint32;
+    // maps
+    ambientOcclusionMap_:uint64;
+    emissiveMap_:uint64;
+    albedoMap_:uint64;
+    // Occlusion (R), Roughness (G), Metallic (B)
+    // https://github.com/KhronosGroup/glTF/issues/857
+    metallicRoughnessMap_:uint64;
+    normalMap_:uint64;
+    opacityMap_:uint64;
+}
+
+table Material {
+    materials:[MaterialDescription];
+    files:[string];
+}
+
+table SceneData {
+    meshData:MeshData;
+    sceneGraph:SceneGraph;
+    material:Material;
+}
+
+root_type SceneData;
+
+// --- misc ---
+// SceneComponent = std::unordered_map<uint32_t, uint32_t>
+struct SceneComponentItem {
+    key:uint32(key);
+    value:uint32;
+}
+
+table SceneComponent {
+    items:[SceneComponentItem];
+}

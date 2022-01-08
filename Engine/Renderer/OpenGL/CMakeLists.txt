@@ -25,7 +25,6 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Buffer/GLVertexArrayDSA.cpp
 
         Drawable/MeshScene/VtxData/MeshData.cpp
-        Drawable/MeshScene/Material/Material.cpp
         Drawable/MeshScene/Scene/SceneGraph.cpp
         Drawable/MeshScene/Texture/GLTexture.cpp
         Drawable/MeshScene/Util/Utils.cpp
@@ -43,9 +42,10 @@ add_library(OpenGLRenderer
         Pipeline/ForwardStandardPipeline.cpp
         Pipeline/SimplePipeline.cpp Pipeline/SimplePipeline.h
 
-        Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.cpp Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.h
+        Drawable/MeshScene/Buffer/GLIndirectCommandBufferDSA.cpp
+        Drawable/MeshScene/Buffer/GLAtomicCounterDSA.cpp
 
-        Drawable/MeshScene/Buffer/GLAtomicCounterDSA.cpp Drawable/MeshScene/Buffer/GLAtomicCounterDSA.h)
+        Drawable/MeshScene/MeshScene_fb.cpp)
 
 option(ZELO_GL_TRACER "ZeloGLTracer" ON)
 if (ZELO_GL_TRACER)

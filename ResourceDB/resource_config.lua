@@ -8,6 +8,7 @@ return {
     "Resource/GLSLBookAssets";
     "Resource/CraftAssets";
     "Resource/GRCookbookAssets";
+    "Resource";
     "Shader";
     "Shader/Craft";
     "Shader/GLSLBook";

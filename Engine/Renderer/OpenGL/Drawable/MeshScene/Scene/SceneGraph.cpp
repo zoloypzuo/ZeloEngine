@@ -6,8 +6,6 @@
 #include <stack>
 
 namespace Zelo::Renderer::OpenGL {
-void loadStringList(FILE *f, std::vector<std::string> &lines);
-
 int addNode(SceneGraph &scene, int parent, int level) {
     int node = (int) scene.hierarchy_.size();
     {
@@ -94,94 +92,6 @@ void recalculateGlobalTransforms(SceneGraph &scene) {
         }
         scene.changedAtThisFrame_[i].clear();
     }
-}
-
-void loadMap(FILE *f, std::unordered_map<uint32_t, uint32_t> &map) {
-    std::vector<uint32_t> ms;
-
-    uint32_t sz = 0;
-    fread(&sz, 1, sizeof(sz), f);
-
-    ms.resize(sz);
-    fread(ms.data(), sizeof(int), sz, f);
-    for (size_t i = 0; i < (sz / 2); i++)
-        map[ms[i * 2 + 0]] = ms[i * 2 + 1];
-}
-
-void loadScene(const char *fileName, SceneGraph &scene) {
-    FILE *f = fopen(fileName, "rb");
-
-    if (!f) {
-        printf("Cannot open scene file '%s'. Please run SceneConverter from Chapter7 and/or MergeMeshes from Chapter 9",
-               fileName);
-        return;
-    }
-
-    uint32_t sz = 0;
-    fread(&sz, sizeof(sz), 1, f);
-
-    scene.hierarchy_.resize(sz);
-    scene.globalTransform_.resize(sz);
-    scene.localTransform_.resize(sz);
-    // TODO: check > -1
-    // TODO: recalculate changedAtThisLevel() - find max depth of a node [or save scene.maxLevel]
-    fread(scene.localTransform_.data(), sizeof(glm::mat4), sz, f);
-    fread(scene.globalTransform_.data(), sizeof(glm::mat4), sz, f);
-    fread(scene.hierarchy_.data(), sizeof(Hierarchy), sz, f);
-
-    // Mesh for node [index to some list of buffers]
-    loadMap(f, scene.materialForNode_);
-    loadMap(f, scene.meshes_);
-
-    if (!feof(f)) {
-        loadMap(f, scene.nameForNode_);
-        loadStringList(f, scene.names_);
-
-        loadStringList(f, scene.materialNames_);
-    }
-
-    fclose(f);
-}
-
-void saveMap(FILE* f, const std::unordered_map<uint32_t, uint32_t>& map)
-{
-	std::vector<uint32_t> ms;
-	ms.reserve(map.size() * 2);
-	for (const auto& m : map)
-	{
-		ms.push_back(m.first);
-		ms.push_back(m.second);
-	}
-	const uint32_t sz = static_cast<uint32_t>(ms.size());
-	fwrite(&sz, sizeof(sz), 1, f);
-	fwrite(ms.data(), sizeof(int), ms.size(), f);
-}
-
-void saveStringList(FILE *f, const std::vector<std::string> &lines);
-
-void saveScene(const char* fileName, const SceneGraph& scene)
-{
-	FILE* f = fopen(fileName, "wb");
-
-	const uint32_t sz = (uint32_t)scene.hierarchy_.size();
-	fwrite(&sz, sizeof(sz), 1, f);
-
-	fwrite(scene.localTransform_.data(), sizeof(glm::mat4), sz, f);
-	fwrite(scene.globalTransform_.data(), sizeof(glm::mat4), sz, f);
-	fwrite(scene.hierarchy_.data(), sizeof(Hierarchy), sz, f);
-
-	// Mesh for node [index to some list of buffers]
-	saveMap(f, scene.materialForNode_);
-	saveMap(f, scene.meshes_);
-
-	if (!scene.names_.empty() && !scene.nameForNode_.empty())
-	{
-		saveMap(f, scene.nameForNode_);
-		saveStringList(f, scene.names_);
-
-		saveStringList(f, scene.materialNames_);
-	}
-	fclose(f);
 }
 
 bool mat4IsIdentity(const glm::mat4 &m) {

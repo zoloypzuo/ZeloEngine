@@ -35,7 +35,7 @@ if DUMP_LUA_PATH then
     print("=== End dump path info")
 end
 
-local ENABLE_LUA_PANDA = true
+local ENABLE_LUA_PANDA = false
 if ENABLE_LUA_PANDA then
     local ZBS = "D:\\Installed\\ZeroBraneStudio"
     package.path = package.path .. ";" .. ZBS .. "\\lualibs\\?\\?.lua;" .. ZBS .. "\\lualibs\\?.lua"

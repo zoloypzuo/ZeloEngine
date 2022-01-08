@@ -41,6 +41,8 @@ def rename_vcpkg_pkg(name):
     prefix = "unofficial-"
     if name.startswith(prefix):
         return name[len(prefix):]
+    if name == "absl":
+        return "abseil[cxx17]"
     return name
 
 

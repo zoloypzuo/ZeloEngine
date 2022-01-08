@@ -374,15 +374,17 @@ MeshSceneFinal::Impl::Impl(
 
         loadedFiles_.reserve(textureFiles_.size());
 
-        taskflow_.for_each_index(0u, (uint32_t) textureFiles_.size(), 1u, [this](int idx) {
-                                     int w, h;
-                                     const uint8_t *img = stbi_load(this->textureFiles_[idx].c_str(), &w, &h, nullptr, STBI_rgb_alpha);
-                                     if (img) {
-                                         std::lock_guard lock(loadedFilesMutex_);
-                                         loadedFiles_.emplace_back(LoadedImageData{idx, w, h, img});
-                                     }
-                                 }
-        );
+        auto loadTextureTask = [this](int idx) {
+            int w, h;
+            const std::string &path = ZELO_PATH(this->textureFiles_[idx]);
+            const uint8_t *img = stbi_load(path.c_str(), &w, &h, nullptr, STBI_rgb_alpha);
+            if (img) {
+                spdlog::debug("load texture task [{}]", path);
+                std::lock_guard lock(loadedFilesMutex_);
+                loadedFiles_.emplace_back(LoadedImageData{idx, w, h, img});
+            }
+        };
+        taskflow_.for_each_index(0u, (uint32_t) textureFiles_.size(), 1u, loadTextureTask);
 
         executor_.run(taskflow_);
     }
@@ -421,7 +423,7 @@ MeshSceneFinal::Impl::Impl(
     // bufferMaterials_
     {
         bufferMaterials_ = std::make_unique<GLShaderStorageBufferDSA>(
-                materials_.size() * sizeof(MaterialDescription),
+                uint32_t(materials_.size() * sizeof(MaterialDescription)),
                 materials_.data(), GL_DYNAMIC_STORAGE_BIT
         );
     }
@@ -430,7 +432,7 @@ MeshSceneFinal::Impl::Impl(
     {
         // can be merged into bufferIndirect_ loop
         bufferModelMatrices_ = std::make_unique<GLShaderStorageBufferDSA>(
-                drawDataList.size() * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+                uint32_t(drawDataList.size() * sizeof(glm::mat4)), nullptr, GL_DYNAMIC_STORAGE_BIT);
         std::vector<glm::mat4> matrices(drawDataList.size());
         size_t i = 0;
         for (const auto &c: drawDataList) {
