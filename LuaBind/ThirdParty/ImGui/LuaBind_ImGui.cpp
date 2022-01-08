@@ -1,10 +1,12 @@
 // LuaBindImGui.cpp
 // created on 2021/8/21
 // author @zoloypzuo
-// TODO [] BeginChild, , PushStyleColor, PushClipRect, IsMouseHoveringRect, too many params
+// TODO [] BeginChild, , PushClipRect, IsMouseHoveringRect, too many params
 #include <imgui.h>
 #include <string>
 #include <sol/sol.hpp>
+
+#include "LuaBindImGui.h"  // ImVec2, ImVec4
 
 void LuaBind_ImGui(sol::state &luaState);
 
@@ -19,8 +21,8 @@ inline void PushFont(ImFont *pFont) { ImGui::PushFont(pFont); }
 
 inline void PopFont() { ImGui::PopFont(); }
 
-inline void PushStyleColor(int idx, float colR, float colG, float colB, float colA) {
-    ImGui::PushStyleColor(static_cast<ImGuiCol>(idx), {colR, colG, colB, colA});
+inline void PushStyleColor(int idx, const ImVec4 &col) {
+    ImGui::PushStyleColor(static_cast<ImGuiCol>(idx), col);
 }
 
 inline void PopStyleColor() { ImGui::PopStyleColor(); }

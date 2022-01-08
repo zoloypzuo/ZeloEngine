@@ -9,42 +9,13 @@
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/RHI/Object/ALight.h"
 
+#include "ThirdParty/Glm/LuaBind_Glm.h"  // glm::vec3
+
 using namespace Zelo;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::Interface;
 using namespace Zelo::Core::RHI;
-
-// TODO struct specialization in header ??? ALight.Color
-bool sol_lua_check(sol::types<glm::vec3>, lua_State *L, int index,
-                   std::function<sol::check_handler_type> handler,
-                   sol::stack::record &tracking) {
-    // use sol's method for checking
-    // specifically for a table
-    return sol::stack::check<sol::lua_table>(
-            L, index, handler, tracking);
-}
-
-glm::vec3 sol_lua_get(sol::types<glm::vec3>, lua_State *L, int index, sol::stack::record &tracking) {
-    sol::lua_table vec3table
-            = sol::stack::get<sol::lua_table>(L, index, tracking);
-    float x = vec3table["x"];
-    float y = vec3table["y"];
-    float z = vec3table["z"];
-    return glm::vec3{x, y, z};
-}
-
-int sol_lua_push(sol::types<glm::vec3>, lua_State *L, const glm::vec3 &v) {
-    // create table
-    sol::state_view lua(L);
-    sol::table vec3table = sol::table::create_with(
-            L, "x", v.x, "y", v.y, "z", v.z);
-    // use base sol method to
-    // push the table
-    int amount = sol::stack::push(L, vec3table);
-    // return # of things pushed onto stack
-    return amount;
-}
 
 void LuaBind_RHI(sol::state &luaState) {
 // @formatter:off
