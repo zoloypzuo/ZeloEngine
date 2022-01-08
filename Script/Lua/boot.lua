@@ -35,15 +35,6 @@ if DUMP_LUA_PATH then
     print("=== End dump path info")
 end
 
-local ENABLE_LUA_PANDA = false
-if ENABLE_LUA_PANDA then
-    local ZBS = "D:\\Installed\\ZeroBraneStudio"
-    package.path = package.path .. ";" .. ZBS .. "\\lualibs\\?\\?.lua;" .. ZBS .. "\\lualibs\\?.lua"
-    package.cpath = package.cpath .. ";" .. ZBS .. "\\bin\\?.dll;" .. ZBS .. "\\bin\\clibs\\?.dll"
-    require("debugger.LuaPanda").start("127.0.0.1", 8818)
-    -- require("mobdebug").start()
-end
-
 global = function(name)
 end
 --require("strict")
