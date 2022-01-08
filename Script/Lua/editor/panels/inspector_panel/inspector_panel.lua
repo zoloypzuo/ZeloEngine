@@ -40,6 +40,11 @@ local EEngineComponents = {
         ctype = "MESH_RENDERER";
         add_fn = "AddMeshRenderer"
     };
+    {
+        name = "MeshSceneRenderer";
+        ctype = "MESH_SCENE_RENDERER";
+        add_fn = "";
+    }
 }
 
 local EComponent = {}
@@ -204,16 +209,24 @@ function Inspector:DrawComponent(name, component)
         -- ignore transform, transform is always drawed first
         return
     end
+    -- imgui
     local header = self.m_entityInfo:CreateWidget(GroupCollapsable, EComponent[name])
     local columns = header:CreateWidget(Columns, 2)
     columns.widths[1] = 200
+
+    -- local draw fn for c component
     local fn_name = EComponent[name]
-    if not fn_name then
-        return
+    if fn_name then
+        local fn = self["Draw" .. fn_name]
+        if fn then
+            fn(self, component, columns)
+        end
     end
-    local fn = self["Draw" .. fn_name]
-    if fn then
-        fn(self, component, columns)
+
+    -- OnGui fn for lua component
+    local OnGui = component["OnGui"]
+    if OnGui then
+        OnGui(component, columns, TheEditorDrawer)
     end
 end
 

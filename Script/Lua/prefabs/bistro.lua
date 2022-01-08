@@ -15,9 +15,9 @@ local function fn()
     inst.entity:AddTransform()
     inst:AddTag("bistro")
 
-    local mesh_renderer = inst.entity:AddMeshRenderer()
-    mesh_renderer.mesh = LoadResource(assets.scene)
-    mesh_renderer.material = LoadResource(assets.mat)
+    inst:AddComponent("mesh_scene_renderer",
+            LoadResource(assets.scene), LoadResource(assets.mat))
+
     return inst
 end
 

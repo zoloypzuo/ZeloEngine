@@ -279,20 +279,15 @@ function EntityScript:HasTag(tag)
     return self.entity:HasTag(tag)
 end
 
-function EntityScript:AddComponent(name)
+function EntityScript:AddComponent(name, ...)
     if self.components[name] then
         print("component " .. name .. " already exists!")
     end
     local cmp = LoadComponent(name)
     assert(cmp, "component " .. name .. " does not exist!")
 
-    local loadedcmp = cmp(self)
+    local loadedcmp = cmp(self, ...)
     self.components[name] = loadedcmp
-    local postinitfns = ModManager:GetPostInitFns("ComponentPostInit", name)
-
-    for k, fn in ipairs(postinitfns) do
-        fn(loadedcmp, self)
-    end
 end
 
 function EntityScript:RemoveComponent(name)
