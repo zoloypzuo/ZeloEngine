@@ -36,8 +36,8 @@ function ImGuiManager.Initialize()
     local ConsolePanel = require("editor.panels.console_panel.console_panel")
     TheFrontEnd:LoadPanel(ConsolePanel, "Console", true)
 
-    local GameViewPanel = require("editor.panels.game_view_panel.game_view_panel")
-    TheFrontEnd:LoadPanel(GameViewPanel, "Game View", true)
+    -- local GameViewPanel = require("editor.panels.game_view_panel.game_view_panel")
+    -- TheFrontEnd:LoadPanel(GameViewPanel, "Game View", true)
 
     local DemoPanel = require("editor.panels.demo_panel")
     TheFrontEnd:LoadPanel(DemoPanel, "Demo", false)
@@ -46,6 +46,11 @@ function ImGuiManager.Initialize()
     TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", false)
 
     UI:ResetLayout()
+    UI.enable_docking = false
+
+    -- TODO load scene
+    LoadAvatar()
+    SpawnPrefab("bistro")
 end
 
 function ImGuiManager.Update()
