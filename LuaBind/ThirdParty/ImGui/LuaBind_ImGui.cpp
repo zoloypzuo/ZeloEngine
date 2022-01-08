@@ -1,7 +1,7 @@
 // LuaBindImGui.cpp
 // created on 2021/8/21
 // author @zoloypzuo
-// TODO [] BeginChild, SetNextWindowPos, PushStyleColor, PushClipRect, IsMouseHoveringRect, too many params
+// TODO [] BeginChild, , PushStyleColor, PushClipRect, IsMouseHoveringRect, too many params
 #include <imgui.h>
 #include <string>
 #include <sol/sol.hpp>
@@ -160,7 +160,7 @@ inline void BeginTooltip() { ImGui::BeginTooltip(); }
 
 inline void EndTooltip() { ImGui::EndTooltip(); }
 
-inline void SetTooltip(const std::string &fmt) { ImGui::SetTooltip(fmt.c_str()); }
+inline void SetTooltip(const std::string &fmt) { ImGui::SetTooltip("%s", fmt.c_str()); }
 
 // Popups, Modals
 inline bool BeginPopup(const std::string &str_id) { return ImGui::BeginPopup(str_id.c_str()); }
@@ -313,7 +313,7 @@ inline void LogFinish() { ImGui::LogFinish(); }
 
 inline void LogButtons() { ImGui::LogButtons(); }
 
-inline void LogText(const std::string &fmt) { ImGui::LogText(fmt.c_str()); }
+inline void LogText(const std::string &fmt) { ImGui::LogText("%s", fmt.c_str()); }
 
 // Drag and Drop
 // Clipping

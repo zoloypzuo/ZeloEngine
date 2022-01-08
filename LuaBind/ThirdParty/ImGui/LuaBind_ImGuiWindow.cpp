@@ -93,10 +93,6 @@ inline void SetNextWindowPos(float posX, float posY, int cond) {
     ImGui::SetNextWindowPos({posX, posY}, static_cast<ImGuiCond>(cond));
 }
 
-inline void SetNextWindowPos(float posX, float posY, int cond, float pivotX, float pivotY) {
-    ImGui::SetNextWindowPos({posX, posY}, static_cast<ImGuiCond>(cond), {pivotX, pivotY});
-}
-
 inline void SetNextWindowSize(float sizeX, float sizeY) { ImGui::SetNextWindowSize({sizeX, sizeY}); }
 
 inline void SetNextWindowSize(float sizeX, float sizeY, int cond) {
@@ -268,8 +264,7 @@ void LuaBind_ImGuiWindow(sol::table &ImGui) {
     // Prefer  SetNext...
     ImGui.set_function("SetNextWindowPos", sol::overload(
             sol::resolve<void(float, float)>(SetNextWindowPos),
-            sol::resolve<void(float, float, int)>(SetNextWindowPos),
-            sol::resolve<void(float, float, int, float, float)>(SetNextWindowPos)
+            sol::resolve<void(float, float, int)>(SetNextWindowPos)
     ));
     ImGui.set_function("SetNextWindowSize", sol::overload(
             sol::resolve<void(float, float)>(SetNextWindowSize),
