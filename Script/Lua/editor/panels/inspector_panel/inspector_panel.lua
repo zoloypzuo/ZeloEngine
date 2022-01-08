@@ -194,24 +194,9 @@ function Inspector:DrawTransform()
     columns.widths[1] = 200
 
     local transform = self.m_targetEntity.components.transform
-    TheEditorDrawer:DrawVec3(columns, "Position", function()
-        local position = transform.position
-        return { position.x, position.y, position.z }
-    end, function(value)
-        transform.position = Vector3(value[1], value[2], value[3])
-    end)
-    TheEditorDrawer:DrawVec3(columns, "Rotation", function()
-        local rotation = transform.rotation
-        return { rotation.x, rotation.y, rotation.z }
-    end, function(value)
-        -- TODO set rotation
-    end)
-    TheEditorDrawer:DrawVec3(columns, "Scale", function()
-        local scale = transform.scale
-        return { scale.x, scale.y, scale.z }
-    end, function(value)
-        transform.scale = Vector3(value[1], value[2], value[3])
-    end)
+    TheEditorDrawer:DrawVec3Direct(columns, "Position", transform, "position")
+    TheEditorDrawer:DrawVec3Direct(columns, "Rotation", transform, "rotation")
+    TheEditorDrawer:DrawVec3Direct(columns, "Scale", transform, "scale")
 end
 
 function Inspector:DrawComponent(name, component)
