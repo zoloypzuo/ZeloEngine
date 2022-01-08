@@ -15,7 +15,9 @@
 #include <assimp/scene.h>
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/istreamwrapper.h>
+#include <rapidjson/ostreamwrapper.h>
 #include <rapidjson/document.h>
+#include <rapidjson/prettywriter.h>
 
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
@@ -33,6 +35,7 @@
 #include <spdlog/sinks/basic_file_sink.h>
 
 #include <crossguid/guid.hpp>
+#include <absl/strings/match.h>
 
 namespace fs = std::filesystem;
 
@@ -61,7 +64,9 @@ struct MergeConfig {
 };
 
 struct SceneConverterConfig {
+    std::string name;
     std::string outputPrefix;
+    std::string cacheFileName;
     MergeConfig mergeConfig;
     std::vector<SceneConfig> scenes;
 };
@@ -84,7 +89,9 @@ SceneConverterConfig readConfigFile(const char *cfgFileName) {
     SceneConverterConfig config;
     g_config = &config;
 
+    config.name = root["name"].GetString();
     config.outputPrefix = root["output_prefix"].GetString();
+    config.cacheFileName = OUTPUT_PREFIX(config.name + ".cache.json");
 
     auto mergeDoc = root["merge_config"].GetObject();
     auto &mergeConfig = config.mergeConfig;
@@ -111,6 +118,63 @@ SceneConverterConfig readConfigFile(const char *cfgFileName) {
     }
 
     return config;
+}
+
+using FileIDMap = std::unordered_map<std::string, std::string>;
+
+FileIDMap g_fileIDCache;
+
+FileIDMap readFileIDCache(std::string_view fileName) {
+    if (!fs::exists(fileName)) {
+        return {};
+    }
+    std::ifstream ifs(fileName);
+    ZELO_ASSERT(ifs.is_open(), "Failed to load cache file.");
+
+    rapidjson::IStreamWrapper isw(ifs);
+    rapidjson::Document root;
+    const rapidjson::ParseResult parseResult = root.ParseStream(isw);
+    ZELO_ASSERT(!parseResult.IsError());
+
+    auto obj = root.GetObject();
+    FileIDMap fileIdMap;
+    for (const auto &kv: obj) {
+        fileIdMap[kv.name.GetString()] = kv.value.GetString();
+    }
+    return fileIdMap;
+}
+
+void writeFileIDCache(const FileIDMap &fileIdMap, std::string_view fileName) {
+    std::ofstream ofs(fileName);
+    rapidjson::OStreamWrapper osw(ofs);
+    rapidjson::PrettyWriter<rapidjson::OStreamWrapper> writer(osw);
+    writer.StartObject();
+    for (const auto &kv: fileIdMap) {
+        writer.Key(kv.first.c_str());
+        writer.String(kv.second.c_str());
+    }
+    writer.EndObject();
+    writer.Flush();
+}
+
+class FileIDCacheJanitor{
+public:
+    FileIDCacheJanitor(){
+        g_fileIDCache = readFileIDCache(g_config->cacheFileName);
+    }
+
+    ~FileIDCacheJanitor(){
+        writeFileIDCache(g_fileIDCache, g_config->cacheFileName);
+    }
+};
+
+std::string getOrCreateFileID(const std::string &fileName){
+    if(g_fileIDCache.find(fileName) != g_fileIDCache.end()){
+        return g_fileIDCache.at(fileName);
+    }
+    const auto &newID = xg::newGuid().str();
+    g_fileIDCache[fileName] = newID;
+    return newID;
 }
 
 MaterialDescription convertAIMaterialToDescription(const aiMaterial *M, std::vector<std::string> &files,
@@ -158,7 +222,7 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial *M, std::vec
         D.roughness_ = {tmp, tmp, tmp, tmp};
 
     aiString Path;
-    aiTextureMapping Mapping;
+    aiTextureMapping Mapping{};
     unsigned int UVIndex = 0;
     float Blend = 1.0f;
     aiTextureOp TextureOp = aiTextureOp_Add;
@@ -174,7 +238,7 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial *M, std::vec
                              &TextureFlags) == AI_SUCCESS) {
         D.albedoMap_ = addUnique(files, Path.C_Str());
         const std::string albedoMap = std::string(Path.C_Str());
-        if (albedoMap.find("grey_30") != std::string::npos)
+        if (absl::StrContains(albedoMap, "grey_30"))
             D.flags_ |= sMaterialFlags_Transparent;
     }
 
@@ -202,16 +266,16 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial *M, std::vec
         materialName = Name.C_Str();
     }
     // apply heuristics
-    if ((materialName.find("Glass") != std::string::npos) ||
-        (materialName.find("Vespa_Headlight") != std::string::npos)) {
+    if ((absl::StrContains(materialName, "Glass")) ||
+        (absl::StrContains(materialName, "Vespa_Headlight"))) {
         D.alphaTest_ = 0.75f;
         D.transparencyFactor_ = 0.1f;
         D.flags_ |= sMaterialFlags_Transparent;
-    } else if (materialName.find("Bottle") != std::string::npos) {
+    } else if (absl::StrContains(materialName, "Bottle")) {
         D.alphaTest_ = 0.54f;
         D.transparencyFactor_ = 0.4f;
         D.flags_ |= sMaterialFlags_Transparent;
-    } else if (materialName.find("Metal") != std::string::npos) {
+    } else if (absl::StrContains(materialName, "Metal")) {
         D.metallicFactor_ = 1.0f;
         D.roughness_ = gpuvec4(0.1f, 0.1f, 0.0f, 0.0f);
     }
@@ -241,7 +305,7 @@ processLods(std::vector<uint32_t> &indices, std::vector<float> &vertices, std::v
                 targetIndicesCount, 0.02f);
 
         // cannot simplify further
-        if (static_cast<size_t>(numOptIndices * 1.1f) > indices.size()) {
+        if (static_cast<size_t>(1.1f * numOptIndices) > indices.size()) {
             if (LOD > 1) {
                 // try harder
                 numOptIndices = meshopt_simplifySloppy(
@@ -323,7 +387,7 @@ Mesh convertAIMesh(MeshData &g_MeshData, const aiMesh *m, const SceneConfig &cfg
     else
         processLods(srcIndices, srcVertices, outLods);
 
-//	spdlog::debug("Calculated LOD count: {}", (unsigned)outLods.size());
+    spdlog::debug("Calculated LOD count: {}", (unsigned) outLods.size());
 
     uint32_t numIndices = 0;
 
@@ -442,20 +506,13 @@ std::string replaceAll(const std::string &str, const std::string &oldSubStr, con
     return result;
 }
 
-/* Convert 8-bit ASCII string to upper case */
-std::string lowercaseString(const std::string &s) {
-    std::string out(s.length(), ' ');
-    std::transform(s.begin(), s.end(), out.begin(), tolower);
-    return out;
-}
-
 std::string convertTexture(const std::string &file, const std::string &basePath,
                            std::unordered_map<std::string, uint32_t> &opacityMapIndices,
                            const std::vector<std::string> &opacityMaps) {
     const int maxNewWidth = 512;
     const int maxNewHeight = 512;
 
-    auto _fileName = xg::newGuid().str();
+    auto _fileName = getOrCreateFileID(file);
     auto newFileName = std::string("textures/") + _fileName + std::string(".png");
 
     // load this image
@@ -519,7 +576,7 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
     return newFileName;
 }
 
-void convertAndDownscaleAllTextures(
+void convertAllTextures(
         const std::vector<MaterialDescription> &materials, const std::string &basePath, std::vector<std::string> &files,
         std::vector<std::string> &opacityMaps
 ) {
@@ -610,7 +667,7 @@ void processScene(const SceneConfig &cfg) {
         }
 
         // 3. Texture processing, rescaling and packing
-        convertAndDownscaleAllTextures(materials, basePath, files, opacityMaps);
+        convertAllTextures(materials, basePath, files, opacityMaps);
 
         saveMaterials(cfg.outputMaterials.c_str(), materials, files);
     }
@@ -643,7 +700,7 @@ void mergeScene(const SceneConverterConfig &config) {
     MeshData meshData;
     std::vector<MeshData *> meshDatas = {&m1, &m2};
 
-    MeshFileHeader header = mergeMeshData(meshData, meshDatas);
+    mergeMeshData(meshData, meshDatas);
 
     // now the material lists:
     std::vector<MaterialDescription> materials1, materials2;
@@ -685,11 +742,15 @@ int main() {
     const std::string pattern = "[%T.%e] [%n] [%^%l%$] %v";  // remove datetime in ts
     spdlog::set_pattern(pattern);
 
+    // 1. read config
     const auto &config = readConfigFile(ZELO_PATH("bistro.json").c_str());
-
-    for (const auto &cfg: config.scenes)
+    // 2. read file id cache
+    FileIDCacheJanitor fileIdCacheJanitor;
+    // 3. process all scenes
+    for (const auto &cfg: config.scenes){
         processScene(cfg);
-
+    }
+    // 4. merge scenes
     mergeScene(config);
 
     return 0;
