@@ -12,7 +12,10 @@ build from source:
 
 build from vcpkg:
 
+* absl
 * assimp
+* crossguid
+* flatbuffers
 * glad
 * glfw3
 * gli
