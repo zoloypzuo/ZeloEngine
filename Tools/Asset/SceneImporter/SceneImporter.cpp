@@ -91,7 +91,7 @@ SceneConverterConfig readConfigFile(const char *cfgFileName) {
 
     config.name = root["name"].GetString();
     config.outputPrefix = root["output_prefix"].GetString();
-    config.cacheFileName = OUTPUT_PREFIX(config.name + ".cache.json");
+    config.cacheFileName = OUTPUT_PREFIX(config.name + ".fileidcache.json");
 
     auto mergeDoc = root["merge_config"].GetObject();
     auto &mergeConfig = config.mergeConfig;
@@ -120,7 +120,7 @@ SceneConverterConfig readConfigFile(const char *cfgFileName) {
     return config;
 }
 
-using FileIDMap = std::unordered_map<std::string, std::string>;
+using FileIDMap = std::map<std::string, std::string>;
 
 FileIDMap g_fileIDCache;
 
@@ -148,6 +148,7 @@ void writeFileIDCache(const FileIDMap &fileIdMap, std::string_view fileName) {
     std::ofstream ofs(fileName);
     rapidjson::OStreamWrapper osw(ofs);
     rapidjson::PrettyWriter<rapidjson::OStreamWrapper> writer(osw);
+
     writer.StartObject();
     for (const auto &kv: fileIdMap) {
         writer.Key(kv.first.c_str());
@@ -157,19 +158,19 @@ void writeFileIDCache(const FileIDMap &fileIdMap, std::string_view fileName) {
     writer.Flush();
 }
 
-class FileIDCacheJanitor{
+class FileIDCacheJanitor {
 public:
-    FileIDCacheJanitor(){
+    FileIDCacheJanitor() {
         g_fileIDCache = readFileIDCache(g_config->cacheFileName);
     }
 
-    ~FileIDCacheJanitor(){
+    ~FileIDCacheJanitor() {
         writeFileIDCache(g_fileIDCache, g_config->cacheFileName);
     }
 };
 
-std::string getOrCreateFileID(const std::string &fileName){
-    if(g_fileIDCache.find(fileName) != g_fileIDCache.end()){
+std::string getOrCreateFileID(const std::string &fileName) {
+    if (g_fileIDCache.find(fileName) != g_fileIDCache.end()) {
         return g_fileIDCache.at(fileName);
     }
     const auto &newID = xg::newGuid().str();
@@ -387,7 +388,7 @@ Mesh convertAIMesh(MeshData &g_MeshData, const aiMesh *m, const SceneConfig &cfg
     else
         processLods(srcIndices, srcVertices, outLods);
 
-    spdlog::debug("Calculated LOD count: {}", (unsigned) outLods.size());
+//    spdlog::debug("Calculated LOD count: {}", (unsigned) outLods.size());
 
     uint32_t numIndices = 0;
 
@@ -747,7 +748,7 @@ int main() {
     // 2. read file id cache
     FileIDCacheJanitor fileIdCacheJanitor;
     // 3. process all scenes
-    for (const auto &cfg: config.scenes){
+    for (const auto &cfg: config.scenes) {
         processScene(cfg);
     }
     // 4. merge scenes
