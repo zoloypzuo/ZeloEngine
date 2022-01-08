@@ -1,7 +1,6 @@
 // LuaBindImGui.cpp
 // created on 2021/8/21
 // author @zoloypzuo
-// TODO [] BeginChild, , , IsMouseHoveringRect, too many params
 #include <imgui.h>
 #include <string>
 #include <sol/sol.hpp>
@@ -397,12 +396,12 @@ inline std::string GetStyleColorName(int idx) {
     return std::string(ImGui::GetStyleColorName(static_cast<ImGuiCol>(idx)));
 }
 
-inline bool BeginChildFrame(unsigned int id, float sizeX, float sizeY) {
-    return ImGui::BeginChildFrame(id, {sizeX, sizeY});
+inline bool BeginChildFrame(unsigned int id, const ImVec2 &size) {
+    return ImGui::BeginChildFrame(id, size);
 }
 
-inline bool BeginChildFrame(unsigned int id, float sizeX, float sizeY, int flags) {
-    return ImGui::BeginChildFrame(id, {sizeX, sizeY}, static_cast<ImGuiWindowFlags>(flags));
+inline bool BeginChildFrame(unsigned int id, const ImVec2 &size, int flags) {
+    return ImGui::BeginChildFrame(id, size, static_cast<ImGuiWindowFlags>(flags));
 }
 
 inline void EndChildFrame() { return ImGui::EndChildFrame(); }
@@ -478,11 +477,11 @@ inline bool IsMouseDoubleClicked(int button) {
     return ImGui::IsMouseDoubleClicked(static_cast<ImGuiMouseButton>(button));
 }
 
-inline bool IsMouseHoveringRect(const ImVec2& r_min, const ImVec2& r_max) {
+inline bool IsMouseHoveringRect(const ImVec2 &r_min, const ImVec2 &r_max) {
     return ImGui::IsMouseHoveringRect(r_min, r_max);
 }
 
-inline bool IsMouseHoveringRect(const ImVec2& r_min, const ImVec2& r_max, bool clip) {
+inline bool IsMouseHoveringRect(const ImVec2 &r_min, const ImVec2 &r_max, bool clip) {
     return ImGui::IsMouseHoveringRect(r_min, r_max, clip);
 }
 
@@ -803,8 +802,8 @@ void init4(sol::table &ImGui) {
     ImGui.set_function("GetFrameCount", GetFrameCount);
     ImGui.set_function("GetStyleColorName", GetStyleColorName);
     ImGui.set_function("BeginChildFrame", sol::overload(
-            sol::resolve<bool(unsigned int, float, float)>(BeginChildFrame),
-            sol::resolve<bool(unsigned int, float, float, int)>(BeginChildFrame)
+            sol::resolve<bool(unsigned int, const ImVec2 &)>(BeginChildFrame),
+            sol::resolve<bool(unsigned int, const ImVec2 &)>(BeginChildFrame)
     ));
     ImGui.set_function("EndChildFrame", EndChildFrame);
 #pragma endregion Miscellaneous Utilities
@@ -846,8 +845,8 @@ void init4(sol::table &ImGui) {
     ImGui.set_function("IsMouseReleased", IsMouseReleased);
     ImGui.set_function("IsMouseDoubleClicked", IsMouseDoubleClicked);
     ImGui.set_function("IsMouseHoveringRect", sol::overload(
-            sol::resolve<bool(const ImVec2& r_min, const ImVec2& r_max)>(IsMouseHoveringRect),
-            sol::resolve<bool(const ImVec2& r_min, const ImVec2& r_max, bool)>(IsMouseHoveringRect)
+            sol::resolve<bool(const ImVec2 &, const ImVec2 &)>(IsMouseHoveringRect),
+            sol::resolve<bool(const ImVec2 &, const ImVec2 &, bool)>(IsMouseHoveringRect)
     ));
     ImGui.set_function("IsAnyMouseDown", IsAnyMouseDown);
     ImGui.set_function("GetMousePos", GetMousePos);
