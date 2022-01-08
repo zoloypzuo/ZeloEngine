@@ -12,7 +12,7 @@ build from source:
 
 build from vcpkg:
 
-* absl
+* abseil[cxx17]
 * assimp
 * crossguid
 * flatbuffers
