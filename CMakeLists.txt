@@ -81,6 +81,11 @@ find_package(assimp CONFIG REQUIRED)
 find_path(STB_INCLUDE_DIRS "stb.h")
 find_package(unofficial-nativefiledialog CONFIG REQUIRED)
 
+# absl
+find_package(absl CONFIG REQUIRED)
+add_library(ABSL INTERFACE)
+target_link_libraries(ABSL INTERFACE absl::any absl::base absl::bits absl::city)
+
 # sdl
 find_package(SDL2 CONFIG REQUIRED)
 add_library(SDL INTERFACE)

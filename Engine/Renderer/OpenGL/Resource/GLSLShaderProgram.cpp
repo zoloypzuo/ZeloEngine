@@ -8,13 +8,14 @@
 
 #include "Renderer/OpenGL/Resource/GLTexture.h"
 #include "Renderer/OpenGL/GLUtil.h"
+#include <absl/strings/match.h>
 
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Renderer::OpenGL;
 
 struct shader_file_extension {
-    const std::string &ext;
+    std::string_view ext;
     EShaderType type;
 };
 
@@ -69,7 +70,7 @@ std::string prettyShaderSource(const char *text) {
     return ss.str();
 }
 
-std::string loadHeader(const std::string &headerName) {
+std::string loadHeader(std::string_view headerName) {
     sol::state &luam = LuaScriptManager::getSingleton();
     std::string glsl_src(Zelo::Resource(headerName).read());
     Zelo::ReplaceString(glsl_src, "//", "");  // generate lua code
@@ -77,7 +78,7 @@ std::string loadHeader(const std::string &headerName) {
 }
 
 void handleInclude(std::string &code) {
-    while (code.find("#include ") != std::string::npos) {
+    while (absl::StrContains(code, "#include ")) {
         const auto pos = code.find("#include ");
         const auto p1 = code.find('"', pos);
         const auto p2 = code.find('"', p1 + 1);
@@ -92,7 +93,7 @@ GLSLShaderProgram::GLSLShaderProgram() {
     m_handle = glCreateProgram();
 }
 
-GLSLShaderProgram::GLSLShaderProgram(const std::string &shaderAssetName) : m_name(shaderAssetName) {
+GLSLShaderProgram::GLSLShaderProgram(std::string_view shaderAssetName) : m_name(shaderAssetName) {
     m_handle = glCreateProgram();
     GLSLShaderProgram::loadShader(shaderAssetName);
     link();
@@ -131,16 +132,16 @@ void GLSLShaderProgram::link() {
     }
 }
 
-void GLSLShaderProgram::createUniform(const std::string &name) {
-    m_uniformLocationMap[name] = glGetUniformLocation(m_handle, name.c_str());
+void GLSLShaderProgram::createUniform(std::string_view name) {
+    m_uniformLocationMap[name.data()] = glGetUniformLocation(m_handle, name.data());
 }
 
-GLint GLSLShaderProgram::getUniformLocation(const std::string &name) {
-    auto result = m_uniformLocationMap.find(name);
-    if (result == m_uniformLocationMap.end()) {
-        createUniform(name);
+GLint GLSLShaderProgram::getUniformLocation(std::string_view name) {
+    std::string k(name);
+    if (m_uniformLocationMap.find(k) == m_uniformLocationMap.end()) {
+        createUniform(k);
     }
-    return m_uniformLocationMap[name];
+    return m_uniformLocationMap[k];
 }
 
 void GLSLShaderProgram::bind() const {
@@ -154,67 +155,67 @@ void GLSLShaderProgram::unbind() const {
     glUseProgram(0);
 }
 
-void GLSLShaderProgram::setUniform1i(const std::string &name, int value) {
+void GLSLShaderProgram::setUniform1i(std::string_view name, int value) {
     bind();
 
     glUniform1i(getUniformLocation(name), value);
 }
 
-void GLSLShaderProgram::setUniform1f(const std::string &name, float value) {
+void GLSLShaderProgram::setUniform1f(std::string_view name, float value) {
     bind();
 
     glUniform1f(getUniformLocation(name), value);
 }
 
-void GLSLShaderProgram::setUniformVec2f(const std::string &name, glm::vec2 vector) {
+void GLSLShaderProgram::setUniformVec2f(std::string_view name, glm::vec2 vector) {
     bind();
 
     glUniform2f(getUniformLocation(name), vector.x, vector.y);
 }
 
-void GLSLShaderProgram::setUniformVec3f(const std::string &name, glm::vec3 vector) {
+void GLSLShaderProgram::setUniformVec3f(std::string_view name, glm::vec3 vector) {
     bind();
 
     glUniform3f(getUniformLocation(name), vector.x, vector.y, vector.z);
 }
 
-void GLSLShaderProgram::setUniformVec4f(const std::string &name, glm::vec4 vector) {
+void GLSLShaderProgram::setUniformVec4f(std::string_view name, glm::vec4 vector) {
     bind();
 
     glUniform4f(getUniformLocation(name), vector.x, vector.y, vector.z, vector.w);
 }
 
-void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) {
+void GLSLShaderProgram::setUniformMatrix4f(std::string_view name, const glm::mat4 &matrix) {
     bind();
 
     glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
 
-int GLSLShaderProgram::getUniform1i(const std::string &name) {
+int GLSLShaderProgram::getUniform1i(std::string_view name) {
     int i{};
     glGetUniformiv(m_handle, getUniformLocation(name), &i);
     return i;
 }
 
-float GLSLShaderProgram::getUniform1f(const std::string &name) {
+float GLSLShaderProgram::getUniform1f(std::string_view name) {
     float f{};
     glGetUniformfv(m_handle, getUniformLocation(name), &f);
     return f;
 }
 
-glm::vec2 GLSLShaderProgram::getUniformVec2(const std::string &name) {
+glm::vec2 GLSLShaderProgram::getUniformVec2(std::string_view name) {
     glm::vec2 v2{};
     glGetUniformfv(m_handle, getUniformLocation(name), glm::value_ptr(v2));
     return v2;
 }
 
-glm::vec3 GLSLShaderProgram::getUniformVec3(const std::string &name) {
+glm::vec3 GLSLShaderProgram::getUniformVec3(std::string_view name) {
     glm::vec3 v3{};
     glGetUniformfv(m_handle, getUniformLocation(name), glm::value_ptr(v3));
     return v3;
 }
 
-glm::vec4 GLSLShaderProgram::getUniformVec4(const std::string &name) {
+glm::vec4 GLSLShaderProgram::getUniformVec4(std::string_view name) {
     glm::vec4 v4{};
     glGetUniformfv(m_handle, getUniformLocation(name), glm::value_ptr(v4));
     return v4;
@@ -298,7 +299,7 @@ void GLSLShaderProgram::printActiveAttributes() const {
     }
 }
 
-void GLSLShaderProgram::addShader(const std::string &fileName) const {
+void GLSLShaderProgram::addShader(std::string_view fileName) const {
     // Check the file name's extension to determine the shader type
     auto ext = std::filesystem::path(fileName).extension();
     auto shaderType = EShaderType::VERTEX;
@@ -322,7 +323,7 @@ void GLSLShaderProgram::addShader(const std::string &fileName) const {
     addShader(fileName, shaderType);
 }
 
-void GLSLShaderProgram::addShader(const std::string &fileName, EShaderType shaderType) const {
+void GLSLShaderProgram::addShader(std::string_view fileName, EShaderType shaderType) const {
     spdlog::debug("addShader {} {}", fileName, getShaderTypeString(static_cast<GLenum>(shaderType)));
     const Zelo::Resource &asset = Zelo::Resource(fileName);
     const char *c_code = asset.read();
@@ -330,7 +331,7 @@ void GLSLShaderProgram::addShader(const std::string &fileName, EShaderType shade
     addShaderSrc(fileName, shaderType, c_code);
 }
 
-void GLSLShaderProgram::addShaderSrc(const std::string &fileName,
+void GLSLShaderProgram::addShaderSrc(std::string_view fileName,
                                      const EShaderType &shaderType,
                                      const char *c_code) const {
     GLuint shaderHandle = glCreateShader(GetGLShaderType(shaderType));
@@ -389,7 +390,7 @@ void GLSLShaderProgram::findUniformLocations() {
     }
 }
 
-void GLSLShaderProgram::loadShader(const std::string &fileName) const {
+void GLSLShaderProgram::loadShader(std::string_view fileName) const {
     auto ext = std::filesystem::path(fileName).extension();
     if (ext == ".glsl") {
         sol::state &luam = LuaScriptManager::getSingleton();
@@ -447,16 +448,16 @@ void GLSLShaderProgram::loadShader(const std::string &fileName) const {
     }
 }
 
-void GLSLShaderProgram::setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) {
+void GLSLShaderProgram::setUniformMatrix4f(std::string_view name, const glm::mat3 &matrix) {
     bind();
 
     glUniformMatrix3fv(getUniformLocation(name), 1, GL_FALSE, &(matrix)[0][0]);
 }
 
-void GLSLShaderProgram::bindFragDataLocation(const std::string &name, uint32_t slot) {
+void GLSLShaderProgram::bindFragDataLocation(std::string_view name, uint32_t slot) {
     bind();
 
-    glBindFragDataLocation(m_handle, slot, name.c_str());
+    glBindFragDataLocation(m_handle, slot, name.data());
 }
 
 void GLSLShaderProgram::queryUniforms() {
@@ -474,6 +475,7 @@ void GLSLShaderProgram::queryUniforms() {
 
         if (isEngineUBOMember(name)) continue;
         continue;  // TODO
+#if 0
         std::any defaultValue;
         switch (static_cast<UniformType>(type)) {
             case UniformType::UNIFORM_BOOL:
@@ -503,10 +505,11 @@ void GLSLShaderProgram::queryUniforms() {
                     getUniformLocation(nameData.data()), defaultValue
             );
         }
+#endif
     }
 }
 
-UniformInfo *GLSLShaderProgram::getUniformInfo(const std::string &name) {
+UniformInfo *GLSLShaderProgram::getUniformInfo(std::string_view name) {
     auto found = Zelo::FindIf(m_uniforms, [&name](const UniformInfo &element) {
         return name == element.name;
     });
@@ -517,7 +520,7 @@ UniformInfo *GLSLShaderProgram::getUniformInfo(const std::string &name) {
         return nullptr;
 }
 
-bool GLSLShaderProgram::isEngineUBOMember(const std::string &uniformName) {
+bool GLSLShaderProgram::isEngineUBOMember(std::string_view uniformName) {
     return uniformName.rfind("ubo_", 0) == 0;
 }
 
