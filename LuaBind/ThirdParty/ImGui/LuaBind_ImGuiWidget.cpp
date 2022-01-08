@@ -1505,7 +1505,7 @@ inline void SetColorEditOptions(int flags) { ImGui::SetColorEditOptions(static_c
 inline bool TreeNode(const std::string &label) { return ImGui::TreeNode(label.c_str()); }
 
 inline bool TreeNode(const std::string &label, const std::string &fmt) {
-    return ImGui::TreeNode(label.c_str(), fmt.c_str());
+    return ImGui::TreeNode(label.c_str(), "%s", fmt.c_str());
 }
 
 inline bool TreeNodeEx(const std::string &label) { return ImGui::TreeNodeEx(label.c_str()); }
@@ -1515,7 +1515,7 @@ inline bool TreeNodeEx(const std::string &label, int flags) {
 }
 
 inline bool TreeNodeEx(const std::string &label, int flags, const std::string &fmt) {
-    return ImGui::TreeNodeEx(label.c_str(), static_cast<ImGuiTreeNodeFlags>(flags), fmt.c_str());
+    return ImGui::TreeNodeEx(label.c_str(), static_cast<ImGuiTreeNodeFlags>(flags), "%s", fmt.c_str());
 }
 
 inline void TreePush(const std::string &str_id) { ImGui::TreePush(str_id.c_str()); }
