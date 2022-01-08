@@ -10,7 +10,7 @@ local TextColored = Class(AWidget, function(self, parent, content, color)
 end)
 
 function TextColored:_UpdateImpl()
-    ImGui.TextColored(self.color.r, self.color.g, self.color.b, self.color.a, self.content)
+    ImGui.TextColored(self.color, self.content)
 end
 
 return TextColored
