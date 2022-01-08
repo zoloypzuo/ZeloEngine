@@ -34,6 +34,7 @@ target_link_libraries(LuaBind PRIVATE
 target_include_directories(LuaBind PRIVATE
         ${CMAKE_SOURCE_DIR}/Engine
         ${CMAKE_SOURCE_DIR}/Sandbox
+        ${CMAKE_SOURCE_DIR}/LuaBind
         )
 
 target_compile_options(LuaBind PRIVATE -bigobj)  # LuaBind_ImGui.cpp : fatal error C1128

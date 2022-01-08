@@ -5,27 +5,29 @@
 #include <string>
 #include <sol/sol.hpp>
 
+#include "LuaBindImGui.h"  // ImVec2, ImVec4
+
 namespace sol_ImGui {
 void LuaBind_ImGuiWidget(sol::table &ImGui);
 
 // Widgets: Text
 inline void TextUnformatted(const std::string &text) { ImGui::TextUnformatted(text.c_str()); }
 
-inline void Text(const std::string &text) { ImGui::Text(text.c_str()); }
+inline void Text(const std::string &text) { ImGui::Text("%s", text.c_str()); }
 
-inline void TextColored(float colR, float colG, float colB, float colA, const std::string &text) {
-    ImGui::TextColored({colR, colG, colB, colA}, text.c_str());
+inline void TextColored(const ImVec4 &col, const std::string &text) {
+    ImGui::TextColored(col, "%s", text.c_str());
 }
 
-inline void TextDisabled(const std::string &text) { ImGui::TextDisabled(text.c_str()); }
+inline void TextDisabled(const std::string &text) { ImGui::TextDisabled("%s", text.c_str()); }
 
-inline void TextWrapped(const std::string &text) { ImGui::TextWrapped(text.c_str()); }
+inline void TextWrapped(const std::string &text) { ImGui::TextWrapped("%s", text.c_str()); }
 
 inline void LabelText(const std::string &label, const std::string &text) {
-    ImGui::LabelText(label.c_str(), text.c_str());
+    ImGui::LabelText(label.c_str(), "%s", text.c_str());
 }
 
-inline void BulletText(const std::string &text) { ImGui::BulletText(text.c_str()); }
+inline void BulletText(const std::string &text) { ImGui::BulletText("%s", text.c_str()); }
 
 // Widgets: Main
 inline bool Button(const std::string &label) { return ImGui::Button(label.c_str()); }
@@ -44,11 +46,8 @@ inline bool ArrowButton(const std::string &stringID, int dir) {
     return ImGui::ArrowButton(stringID.c_str(), static_cast<ImGuiDir>(dir));
 }
 
-inline void Image(int textureID,
-                  float sizeX, float sizeY,
-                  float uv0X, float uv0Y,
-                  float uv1X, float uv1Y) {
-    ImGui::Image(reinterpret_cast<void *>(textureID), {sizeX, sizeY}, {uv0X, uv0Y}, {uv1X, uv1Y});
+inline void Image(int textureID, const ImVec2 &size, const ImVec2 &uv0, const ImVec2 &uv1) {
+    ImGui::Image(reinterpret_cast<void *>(textureID), size, uv0, uv1);
 }
 
 inline std::tuple<bool, bool> Checkbox(const std::string &label, bool v) {
@@ -1505,7 +1504,7 @@ inline void SetColorEditOptions(int flags) { ImGui::SetColorEditOptions(static_c
 inline bool TreeNode(const std::string &label) { return ImGui::TreeNode(label.c_str()); }
 
 inline bool TreeNode(const std::string &label, const std::string &fmt) {
-    return ImGui::TreeNode(label.c_str(), fmt.c_str());
+    return ImGui::TreeNode(label.c_str(), "%s", fmt.c_str());
 }
 
 inline bool TreeNodeEx(const std::string &label) { return ImGui::TreeNodeEx(label.c_str()); }
@@ -1515,7 +1514,7 @@ inline bool TreeNodeEx(const std::string &label, int flags) {
 }
 
 inline bool TreeNodeEx(const std::string &label, int flags, const std::string &fmt) {
-    return ImGui::TreeNodeEx(label.c_str(), static_cast<ImGuiTreeNodeFlags>(flags), fmt.c_str());
+    return ImGui::TreeNodeEx(label.c_str(), static_cast<ImGuiTreeNodeFlags>(flags), "%s", fmt.c_str());
 }
 
 inline void TreePush(const std::string &str_id) { ImGui::TreePush(str_id.c_str()); }
@@ -1658,328 +1657,340 @@ inline std::tuple<bool, bool> MenuItem(
     return std::make_tuple(selected, activated);
 }
 
-void LuaBind_ImGuiWidget(sol::table &ImGui) {
 // @formatter:off
+void LuaBind_ImGuiWidget1(sol::table &ImGui) {
 #pragma region Widgets: Text
-ImGui.set_function("TextUnformatted", TextUnformatted);
-ImGui.set_function("Text", Text);
-ImGui.set_function("TextColored", TextColored);
-ImGui.set_function("TextDisabled", TextDisabled);
-ImGui.set_function("TextWrapped", TextWrapped);
-ImGui.set_function("LabelText", LabelText);
-ImGui.set_function("BulletText", BulletText);
+    ImGui.set_function("TextUnformatted", TextUnformatted);
+    ImGui.set_function("Text", Text);
+    ImGui.set_function("TextColored", TextColored);
+    ImGui.set_function("TextDisabled", TextDisabled);
+    ImGui.set_function("TextWrapped", TextWrapped);
+    ImGui.set_function("LabelText", LabelText);
+    ImGui.set_function("BulletText", BulletText);
 #pragma endregion Widgets: Text
 
 #pragma region Widgets: Main
-ImGui.set_function("Button", sol::overload(
-sol::resolve<bool(const std::string &)>(Button),
-sol::resolve<bool(const std::string &, float, float)>(Button)
-));
-ImGui.set_function("SmallButton", SmallButton);
-ImGui.set_function("InvisibleButton", InvisibleButton);
-ImGui.set_function("ArrowButton", ArrowButton);
-ImGui.set_function("Image", Image);
-ImGui.set_function("Checkbox", Checkbox);
-ImGui.set_function("RadioButton", sol::overload(
-sol::resolve<bool(const std::string &, bool)>(RadioButton),
-sol::resolve<std::tuple<int, bool>(const std::string &, int, int)>(RadioButton)
-));
-ImGui.set_function("ProgressBar", sol::overload(
-sol::resolve<void(float)>(ProgressBar),
-sol::resolve<void(float, float, float)>(ProgressBar),
-sol::resolve<void(float, float, float, const std::string &)>(ProgressBar)
-));
-ImGui.set_function("Bullet", Bullet);
+    ImGui.set_function("Button", sol::overload(
+            sol::resolve<bool(const std::string &)>(Button),
+            sol::resolve<bool(const std::string &, float, float)>(Button)
+    ));
+    ImGui.set_function("SmallButton", SmallButton);
+    ImGui.set_function("InvisibleButton", InvisibleButton);
+    ImGui.set_function("ArrowButton", ArrowButton);
+    ImGui.set_function("Image", Image);
+    ImGui.set_function("Checkbox", Checkbox);
+    ImGui.set_function("RadioButton", sol::overload(
+            sol::resolve<bool(const std::string &, bool)>(RadioButton),
+            sol::resolve<std::tuple<int, bool>(const std::string &, int, int)>(RadioButton)
+    ));
+    ImGui.set_function("ProgressBar", sol::overload(
+            sol::resolve<void(float)>(ProgressBar),
+            sol::resolve<void(float, float, float)>(ProgressBar),
+            sol::resolve<void(float, float, float, const std::string &)>(ProgressBar)
+    ));
+    ImGui.set_function("Bullet", Bullet);
 #pragma endregion Widgets: Main
 
 #pragma region Widgets: Combo Box
-ImGui.set_function("BeginCombo", sol::overload(
-sol::resolve<bool(const std::string &, const std::string &)>(BeginCombo),
-sol::resolve<bool(const std::string &, const std::string &, int)>(BeginCombo)
-));
-ImGui.set_function("EndCombo", EndCombo);
-ImGui.set_function("Combo", sol::overload(
-sol::resolve<std::tuple<int, bool>(const std::string &, int, const sol::table &, int)>(Combo),
-sol::resolve<std::tuple<int, bool>(const std::string &, int, const sol::table &, int, int)>(Combo),
-sol::resolve<std::tuple<int, bool>(const std::string &, int, const std::string &)>(Combo),
-sol::resolve<std::tuple<int, bool>(const std::string &, int, const std::string &, int)>(Combo)
-));
+    ImGui.set_function("BeginCombo", sol::overload(
+            sol::resolve<bool(const std::string &, const std::string &)>(BeginCombo),
+            sol::resolve<bool(const std::string &, const std::string &, int)>(BeginCombo)
+    ));
+    ImGui.set_function("EndCombo", EndCombo);
+    ImGui.set_function("Combo", sol::overload(
+            sol::resolve<std::tuple<int, bool>(const std::string &, int, const sol::table &, int)>(Combo),
+            sol::resolve<std::tuple<int, bool>(const std::string &, int, const sol::table &, int, int)>(Combo),
+            sol::resolve<std::tuple<int, bool>(const std::string &, int, const std::string &)>(Combo),
+            sol::resolve<std::tuple<int, bool>(const std::string &, int, const std::string &, int)>(Combo)
+    ));
 #pragma endregion Widgets: Combo Box
-// @formatter:off
+}
+
+void LuaBind_ImGuiWidget2(sol::table &ImGui) {
 #pragma region Widgets: Drags
-ImGui.set_function("DragFloat" , sol::overload(
-sol::resolve<std::tuple<float, bool>(const std::string&, float)>(DragFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float)>(DragFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float)>(DragFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float)>(DragFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, const std::string&)>(DragFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, const std::string&, float)>(DragFloat)
-));
-ImGui.set_function("DragFloat2" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(DragFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float)>(DragFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(DragFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float)>(DragFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&)>(DragFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&, float)>(DragFloat2)
-));
-ImGui.set_function("DragFloat3" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(DragFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float)>(DragFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(DragFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float)>(DragFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&)>(DragFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&, float)>(DragFloat3)
-));
-ImGui.set_function("DragFloat4" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(DragFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float)>(DragFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(DragFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float)>(DragFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&)>(DragFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&, float)>(DragFloat4)
-));
-ImGui.set_function("DragInt" , sol::overload(
-sol::resolve<std::tuple<int, bool>(const std::string&, int)>(DragInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, float)>(DragInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, float, int)>(DragInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, float, int, int)>(DragInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, float, int, int, const std::string&)>(DragInt)
-));
-ImGui.set_function("DragInt2" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(DragInt2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float)>(DragInt2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int)>(DragInt2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int)>(DragInt2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int, const std::string&)>(DragInt2)
-));
-ImGui.set_function("DragInt3" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(DragInt3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float)>(DragInt3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int)>(DragInt3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int)>(DragInt3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int, const std::string&)>(DragInt3)
-));
-ImGui.set_function("DragInt4" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(DragInt4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float)>(DragInt4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int)>(DragInt4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int)>(DragInt4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int, const std::string&)>(DragInt4)
-));
+    ImGui.set_function("DragFloat" , sol::overload(
+            sol::resolve<std::tuple<float, bool>(const std::string&, float)>(DragFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float)>(DragFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float)>(DragFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float)>(DragFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, const std::string&)>(DragFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, const std::string&, float)>(DragFloat)
+    ));
+    ImGui.set_function("DragFloat2" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(DragFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float)>(DragFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(DragFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float)>(DragFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&)>(DragFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&, float)>(DragFloat2)
+    ));
+    ImGui.set_function("DragFloat3" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(DragFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float)>(DragFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(DragFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float)>(DragFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&)>(DragFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&, float)>(DragFloat3)
+    ));
+    ImGui.set_function("DragFloat4" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(DragFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float)>(DragFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(DragFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float)>(DragFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&)>(DragFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&, float)>(DragFloat4)
+    ));
+    ImGui.set_function("DragInt" , sol::overload(
+            sol::resolve<std::tuple<int, bool>(const std::string&, int)>(DragInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, float)>(DragInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, float, int)>(DragInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, float, int, int)>(DragInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, float, int, int, const std::string&)>(DragInt)
+    ));
+    ImGui.set_function("DragInt2" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(DragInt2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float)>(DragInt2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int)>(DragInt2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int)>(DragInt2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int, const std::string&)>(DragInt2)
+    ));
+    ImGui.set_function("DragInt3" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(DragInt3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float)>(DragInt3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int)>(DragInt3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int)>(DragInt3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int, const std::string&)>(DragInt3)
+    ));
+    ImGui.set_function("DragInt4" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(DragInt4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float)>(DragInt4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int)>(DragInt4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int)>(DragInt4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, float, int, int, const std::string&)>(DragInt4)
+    ));
 #pragma endregion Widgets: Drags
 
 #pragma region Widgets: Sliders
-ImGui.set_function("SliderFloat" , sol::overload(
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float)>(SliderFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&)>(SliderFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&, float)>(SliderFloat)
-));
-ImGui.set_function("SliderFloat2" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(SliderFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&)>(SliderFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&, float)>(SliderFloat2)
-));
-ImGui.set_function("SliderFloat3" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(SliderFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&)>(SliderFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&, float)>(SliderFloat3)
-));
-ImGui.set_function("SliderFloat4" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(SliderFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&)>(SliderFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&, float)>(SliderFloat4)
-));
-ImGui.set_function("SliderAngle" , sol::overload(
-sol::resolve<std::tuple<float, bool>(const std::string&, float)>(SliderAngle),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float)>(SliderAngle),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float)>(SliderAngle),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&)>(SliderAngle)
-));
-ImGui.set_function("SliderInt" , sol::overload(
-sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int)>(SliderInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int, const std::string&)>(SliderInt)
-));
-ImGui.set_function("SliderInt2" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int)>(SliderInt2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int, const std::string&)>(SliderInt2)
-));
-ImGui.set_function("SliderInt3" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int)>(SliderInt3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int, const std::string&)>(SliderInt3)
-));
-ImGui.set_function("SliderInt4" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int)>(SliderInt4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int, const std::string&)>(SliderInt4)
-));
-ImGui.set_function("VSliderFloat" , sol::overload(
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, float)>(VSliderFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, float, const std::string&)>(VSliderFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, float, const std::string&, int)>(VSliderFloat)
-));
-ImGui.set_function("VSliderInt" , sol::overload(
-sol::resolve<std::tuple<int, bool>(const std::string&, float, float, int, int, int)>(VSliderInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, float, float, int, int, int, const std::string&)>(VSliderInt)
-));
+    ImGui.set_function("SliderFloat" , sol::overload(
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float)>(SliderFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&)>(SliderFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&, float)>(SliderFloat)
+    ));
+    ImGui.set_function("SliderFloat2" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(SliderFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&)>(SliderFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&, float)>(SliderFloat2)
+    ));
+    ImGui.set_function("SliderFloat3" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(SliderFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&)>(SliderFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&, float)>(SliderFloat3)
+    ));
+    ImGui.set_function("SliderFloat4" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(SliderFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&)>(SliderFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, const std::string&, float)>(SliderFloat4)
+    ));
+    ImGui.set_function("SliderAngle" , sol::overload(
+            sol::resolve<std::tuple<float, bool>(const std::string&, float)>(SliderAngle),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float)>(SliderAngle),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float)>(SliderAngle),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&)>(SliderAngle)
+    ));
+    ImGui.set_function("SliderInt" , sol::overload(
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int)>(SliderInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int, const std::string&)>(SliderInt)
+    ));
+    ImGui.set_function("SliderInt2" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int)>(SliderInt2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int, const std::string&)>(SliderInt2)
+    ));
+    ImGui.set_function("SliderInt3" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int)>(SliderInt3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int, const std::string&)>(SliderInt3)
+    ));
+    ImGui.set_function("SliderInt4" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int)>(SliderInt4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int, int, const std::string&)>(SliderInt4)
+    ));
+    ImGui.set_function("VSliderFloat" , sol::overload(
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, float)>(VSliderFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, float, const std::string&)>(VSliderFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, float, float, const std::string&, int)>(VSliderFloat)
+    ));
+    ImGui.set_function("VSliderInt" , sol::overload(
+            sol::resolve<std::tuple<int, bool>(const std::string&, float, float, int, int, int)>(VSliderInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, float, float, int, int, int, const std::string&)>(VSliderInt)
+    ));
 #pragma endregion Widgets: Sliders
+}
 
+void LuaBind_ImGuiWidget3(sol::table &ImGui) {
 #pragma region Widgets: Inputs using Keyboard
-ImGui.set_function("InputText" , sol::overload(
-sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int)>(InputText),
-sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int, int)>(InputText)
-));
-ImGui.set_function("InputTextMultiline" , sol::overload(
-sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int)>(InputTextMultiline),
-sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int, float, float)>(InputTextMultiline),
-sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int, float, float, int)>(InputTextMultiline)
-));
-ImGui.set_function("InputTextWithHint"  , sol::overload(
-sol::resolve<std::tuple<std::string, bool>(const std::string&, const std::string&, std::string, unsigned int)>(InputTextWithHint),
-sol::resolve<std::tuple<std::string, bool>(const std::string&, const std::string&, std::string, unsigned int, int)>(InputTextWithHint)
-));
-ImGui.set_function("InputFloat" , sol::overload(
-sol::resolve<std::tuple<float, bool>(const std::string&, float)>(InputFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float)>(InputFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float)>(InputFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&)>(InputFloat),
-sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&, int)>(InputFloat)
-));
-ImGui.set_function("InputFloat2" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(InputFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&)>(InputFloat2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&, int)>(InputFloat2)
-));
-ImGui.set_function("InputFloat3" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(InputFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&)>(InputFloat3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&, int)>(InputFloat3)
-));
-ImGui.set_function("InputFloat4" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(InputFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&)>(InputFloat4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&, int)>(InputFloat4)
-));
-ImGui.set_function("InputInt" , sol::overload(
-sol::resolve<std::tuple<int, bool>(const std::string&, int)>(InputInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, int)>(InputInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int)>(InputInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int)>(InputInt),
-sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int, int)>(InputInt)
-));
-ImGui.set_function("InputInt2" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(InputInt2),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int)>(InputInt2)
-));
-ImGui.set_function("InputInt3" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(InputInt3),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int)>(InputInt3)
-));
-ImGui.set_function("InputInt4" , sol::overload(
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(InputInt4),
-sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int)>(InputInt4)
-));
-ImGui.set_function("InputDouble" , sol::overload(
-sol::resolve<std::tuple<double, bool>(const std::string&, double)>(InputDouble),
-sol::resolve<std::tuple<double, bool>(const std::string&, double, double)>(InputDouble),
-sol::resolve<std::tuple<double, bool>(const std::string&, double, double, double)>(InputDouble),
-sol::resolve<std::tuple<double, bool>(const std::string&, double, double, double, const std::string&)>(InputDouble),
-sol::resolve<std::tuple<double, bool>(const std::string&, double, double, double, const std::string&, int)>(InputDouble)
-));
+    ImGui.set_function("InputText" , sol::overload(
+            sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int)>(InputText),
+            sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int, int)>(InputText)
+    ));
+    ImGui.set_function("InputTextMultiline" , sol::overload(
+            sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int)>(InputTextMultiline),
+            sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int, float, float)>(InputTextMultiline),
+            sol::resolve<std::tuple<std::string, bool>(const std::string&, std::string, unsigned int, float, float, int)>(InputTextMultiline)
+    ));
+    ImGui.set_function("InputTextWithHint"  , sol::overload(
+            sol::resolve<std::tuple<std::string, bool>(const std::string&, const std::string&, std::string, unsigned int)>(InputTextWithHint),
+            sol::resolve<std::tuple<std::string, bool>(const std::string&, const std::string&, std::string, unsigned int, int)>(InputTextWithHint)
+    ));
+    ImGui.set_function("InputFloat" , sol::overload(
+            sol::resolve<std::tuple<float, bool>(const std::string&, float)>(InputFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float)>(InputFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float)>(InputFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&)>(InputFloat),
+            sol::resolve<std::tuple<float, bool>(const std::string&, float, float, float, const std::string&, int)>(InputFloat)
+    ));
+    ImGui.set_function("InputFloat2" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(InputFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&)>(InputFloat2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&, int)>(InputFloat2)
+    ));
+    ImGui.set_function("InputFloat3" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(InputFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&)>(InputFloat3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&, int)>(InputFloat3)
+    ));
+    ImGui.set_function("InputFloat4" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(InputFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&)>(InputFloat4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, const std::string&, int)>(InputFloat4)
+    ));
+    ImGui.set_function("InputInt" , sol::overload(
+            sol::resolve<std::tuple<int, bool>(const std::string&, int)>(InputInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, int)>(InputInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int)>(InputInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int)>(InputInt),
+            sol::resolve<std::tuple<int, bool>(const std::string&, int, int, int, int)>(InputInt)
+    ));
+    ImGui.set_function("InputInt2" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(InputInt2),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int)>(InputInt2)
+    ));
+    ImGui.set_function("InputInt3" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(InputInt3),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int)>(InputInt3)
+    ));
+    ImGui.set_function("InputInt4" , sol::overload(
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&)>(InputInt4),
+            sol::resolve<std::tuple<sol::as_table_t<std::vector<int>>, bool>(const std::string&, const sol::table&, int)>(InputInt4)
+    ));
+    ImGui.set_function("InputDouble" , sol::overload(
+            sol::resolve<std::tuple<double, bool>(const std::string&, double)>(InputDouble),
+            sol::resolve<std::tuple<double, bool>(const std::string&, double, double)>(InputDouble),
+            sol::resolve<std::tuple<double, bool>(const std::string&, double, double, double)>(InputDouble),
+            sol::resolve<std::tuple<double, bool>(const std::string&, double, double, double, const std::string&)>(InputDouble),
+            sol::resolve<std::tuple<double, bool>(const std::string&, double, double, double, const std::string&, int)>(InputDouble)
+    ));
 #pragma endregion Widgets: Inputs using Keyboard
 
 #pragma region Widgets: Color Editor / Picker
-ImGui.set_function("ColorEdit3" , sol::overload(
-sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(ColorEdit3),
-sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, int)>(ColorEdit3)
-));
-ImGui.set_function("ColorEdit4" , sol::overload(
-sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(ColorEdit4),
-sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, int)>(ColorEdit4)
-));
-ImGui.set_function("ColorPicker3" , sol::overload(
-sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(ColorPicker3),
-sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, int)>(ColorPicker3)
-));
-ImGui.set_function("ColorPicker4" , sol::overload(
-sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(ColorPicker4),
-sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, int)>(ColorPicker4)
-));
+    ImGui.set_function("ColorEdit3" , sol::overload(
+            sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(ColorEdit3),
+            sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, int)>(ColorEdit3)
+    ));
+    ImGui.set_function("ColorEdit4" , sol::overload(
+            sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(ColorEdit4),
+            sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, int)>(ColorEdit4)
+    ));
+    ImGui.set_function("ColorPicker3" , sol::overload(
+            sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(ColorPicker3),
+            sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, int)>(ColorPicker3)
+    ));
+    ImGui.set_function("ColorPicker4" , sol::overload(
+            sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(ColorPicker4),
+            sol::resolve<std::tuple <sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, int)>(ColorPicker4)
+    ));
 #pragma endregion Widgets: Color Editor / Picker
-// @formatter:on
+}
 
+void LuaBind_ImGuiWidget4(sol::table &ImGui) {
 #pragma region Widgets: Trees
-ImGui.set_function("TreeNode", sol::overload(
-sol::resolve<bool(const std::string &)>(TreeNode),
-sol::resolve<bool(const std::string &, const std::string &)>(TreeNode)
-));
-ImGui.set_function("TreeNodeEx", sol::overload(
-sol::resolve<bool(const std::string &)>(TreeNodeEx),
-sol::resolve<bool(const std::string &, int)>(TreeNodeEx),
-sol::resolve<bool(const std::string &, int, const std::string &)>(TreeNodeEx)
-));
-ImGui.set_function("TreePush", TreePush);
-ImGui.set_function("TreePop", TreePop);
-ImGui.set_function("GetTreeNodeToLabelSpacing", GetTreeNodeToLabelSpacing);
-ImGui.set_function("CollapsingHeader", sol::overload(
-sol::resolve<bool(const std::string &)>(CollapsingHeader),
-sol::resolve<bool(const std::string &, int)>(CollapsingHeader),
-sol::resolve<std::tuple<bool, bool>(const std::string &, bool)>(CollapsingHeader),
-sol::resolve<std::tuple<bool, bool>(const std::string &, bool, int)>(CollapsingHeader)
-));
-ImGui.set_function("SetNextItemOpen", sol::overload(
-sol::resolve<void(bool)>(SetNextItemOpen),
-sol::resolve<void(bool, int)>(SetNextItemOpen)
-));
+    ImGui.set_function("TreeNode", sol::overload(
+            sol::resolve<bool(const std::string &)>(TreeNode),
+            sol::resolve<bool(const std::string &, const std::string &)>(TreeNode)
+    ));
+    ImGui.set_function("TreeNodeEx", sol::overload(
+            sol::resolve<bool(const std::string &)>(TreeNodeEx),
+            sol::resolve<bool(const std::string &, int)>(TreeNodeEx),
+            sol::resolve<bool(const std::string &, int, const std::string &)>(TreeNodeEx)
+    ));
+    ImGui.set_function("TreePush", TreePush);
+    ImGui.set_function("TreePop", TreePop);
+    ImGui.set_function("GetTreeNodeToLabelSpacing", GetTreeNodeToLabelSpacing);
+    ImGui.set_function("CollapsingHeader", sol::overload(
+            sol::resolve<bool(const std::string &)>(CollapsingHeader),
+            sol::resolve<bool(const std::string &, int)>(CollapsingHeader),
+            sol::resolve<std::tuple<bool, bool>(const std::string &, bool)>(CollapsingHeader),
+            sol::resolve<std::tuple<bool, bool>(const std::string &, bool, int)>(CollapsingHeader)
+    ));
+    ImGui.set_function("SetNextItemOpen", sol::overload(
+            sol::resolve<void(bool)>(SetNextItemOpen),
+            sol::resolve<void(bool, int)>(SetNextItemOpen)
+    ));
 #pragma endregion Widgets: Trees
 
 #pragma region Widgets: Selectables
-ImGui.set_function("Selectable", sol::overload(
-sol::resolve<bool(const std::string &)>(Selectable),
-sol::resolve<bool(const std::string &, bool)>(Selectable),
-sol::resolve<bool(const std::string &, bool, int)>(Selectable),
-sol::resolve<bool(const std::string &, bool, int, float, float)>(Selectable)
-));
+    ImGui.set_function("Selectable", sol::overload(
+            sol::resolve<bool(const std::string &)>(Selectable),
+            sol::resolve<bool(const std::string &, bool)>(Selectable),
+            sol::resolve<bool(const std::string &, bool, int)>(Selectable),
+            sol::resolve<bool(const std::string &, bool, int, float, float)>(Selectable)
+    ));
 #pragma endregion Widgets: Selectables
 
 #pragma region Widgets: List Boxes
-ImGui.set_function("ListBox", sol::overload(
-sol::resolve<std::tuple<int, bool>(const std::string &, int, const sol::table &, int)>(ListBox),
-sol::resolve<std::tuple<int, bool>(const std::string &, int, const sol::table &, int, int)>(ListBox)
-));
-ImGui.set_function("ListBoxHeader", sol::overload(
-sol::resolve<bool(const std::string &, float, float)>(ListBoxHeader),
-sol::resolve<bool(const std::string &, int)>(ListBoxHeader),
-sol::resolve<bool(const std::string &, int, int)>(ListBoxHeader)
-));
-ImGui.set_function("ListBoxFooter", ListBoxFooter);
+    ImGui.set_function("ListBox", sol::overload(
+            sol::resolve<std::tuple<int, bool>(const std::string &, int, const sol::table &, int)>(ListBox),
+            sol::resolve<std::tuple<int, bool>(const std::string &, int, const sol::table &, int, int)>(ListBox)
+    ));
+    ImGui.set_function("ListBoxHeader", sol::overload(
+            sol::resolve<bool(const std::string &, float, float)>(ListBoxHeader),
+            sol::resolve<bool(const std::string &, int)>(ListBoxHeader),
+            sol::resolve<bool(const std::string &, int, int)>(ListBoxHeader)
+    ));
+    ImGui.set_function("ListBoxFooter", ListBoxFooter);
 #pragma endregion Widgets: List Boxes
 
 #pragma region Widgets: Value() Helpers
-ImGui.set_function("Value", sol::overload(
-sol::resolve<void(const std::string &, bool)>(Value),
-sol::resolve<void(const std::string &, int)>(Value),
-sol::resolve<void(const std::string &, unsigned int)>(Value),
-sol::resolve<void(const std::string &, float)>(Value),
-sol::resolve<void(const std::string &, float, const std::string &)>(Value)
-));
+    ImGui.set_function("Value", sol::overload(
+            sol::resolve<void(const std::string &, bool)>(Value),
+            sol::resolve<void(const std::string &, int)>(Value),
+            sol::resolve<void(const std::string &, unsigned int)>(Value),
+            sol::resolve<void(const std::string &, float)>(Value),
+            sol::resolve<void(const std::string &, float, const std::string &)>(Value)
+    ));
 #pragma endregion Widgets: Value() Helpers
 
 #pragma region Widgets: Menu
-ImGui.set_function("BeginMenuBar", BeginMenuBar);
-ImGui.set_function("EndMenuBar", EndMenuBar);
-ImGui.set_function("BeginMainMenuBar", BeginMainMenuBar);
-ImGui.set_function("EndMainMenuBar", EndMainMenuBar);
-ImGui.set_function("BeginMenu", sol::overload(
-sol::resolve<bool(const std::string &)>(BeginMenu),
-sol::resolve<bool(const std::string &, bool)>(BeginMenu)
-));
-ImGui.set_function("EndMenu", EndMenu);
-ImGui.set_function("MenuItem", sol::overload(
-sol::resolve<bool(const std::string &)>(MenuItem),
-sol::resolve<bool(const std::string &, const std::string &)>(MenuItem),
-sol::resolve<std::tuple<bool, bool>(const std::string &, const std::string &, bool, bool)>(MenuItem)
-));
+    ImGui.set_function("BeginMenuBar", BeginMenuBar);
+    ImGui.set_function("EndMenuBar", EndMenuBar);
+    ImGui.set_function("BeginMainMenuBar", BeginMainMenuBar);
+    ImGui.set_function("EndMainMenuBar", EndMainMenuBar);
+    ImGui.set_function("BeginMenu", sol::overload(
+            sol::resolve<bool(const std::string &)>(BeginMenu),
+            sol::resolve<bool(const std::string &, bool)>(BeginMenu)
+    ));
+    ImGui.set_function("EndMenu", EndMenu);
+    ImGui.set_function("MenuItem", sol::overload(
+            sol::resolve<bool(const std::string &)>(MenuItem),
+            sol::resolve<bool(const std::string &, const std::string &)>(MenuItem),
+            sol::resolve<std::tuple<bool, bool>(const std::string &, const std::string &, bool, bool)>(MenuItem)
+    ));
 #pragma endregion Widgets: Menu
-// @formatter:on
 }
+
+void LuaBind_ImGuiWidget(sol::table &ImGui) {
+    LuaBind_ImGuiWidget1(ImGui);
+    LuaBind_ImGuiWidget2(ImGui);
+    LuaBind_ImGuiWidget3(ImGui);
+    LuaBind_ImGuiWidget4(ImGui);
+}
+// @formatter:on
 }

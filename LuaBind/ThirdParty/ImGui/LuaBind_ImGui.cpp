@@ -1,10 +1,11 @@
 // LuaBindImGui.cpp
 // created on 2021/8/21
 // author @zoloypzuo
-// TODO [] BeginChild, SetNextWindowPos, PushStyleColor, PushClipRect, IsMouseHoveringRect, too many params
 #include <imgui.h>
 #include <string>
 #include <sol/sol.hpp>
+
+#include "LuaBindImGui.h"  // ImVec2, ImVec4
 
 void LuaBind_ImGui(sol::state &luaState);
 
@@ -19,8 +20,8 @@ inline void PushFont(ImFont *pFont) { ImGui::PushFont(pFont); }
 
 inline void PopFont() { ImGui::PopFont(); }
 
-inline void PushStyleColor(int idx, float colR, float colG, float colB, float colA) {
-    ImGui::PushStyleColor(static_cast<ImGuiCol>(idx), {colR, colG, colB, colA});
+inline void PushStyleColor(int idx, const ImVec4 &col) {
+    ImGui::PushStyleColor(static_cast<ImGuiCol>(idx), col);
 }
 
 inline void PopStyleColor() { ImGui::PopStyleColor(); }
@@ -160,7 +161,7 @@ inline void BeginTooltip() { ImGui::BeginTooltip(); }
 
 inline void EndTooltip() { ImGui::EndTooltip(); }
 
-inline void SetTooltip(const std::string &fmt) { ImGui::SetTooltip(fmt.c_str()); }
+inline void SetTooltip(const std::string &fmt) { ImGui::SetTooltip("%s", fmt.c_str()); }
 
 // Popups, Modals
 inline bool BeginPopup(const std::string &str_id) { return ImGui::BeginPopup(str_id.c_str()); }
@@ -313,12 +314,12 @@ inline void LogFinish() { ImGui::LogFinish(); }
 
 inline void LogButtons() { ImGui::LogButtons(); }
 
-inline void LogText(const std::string &fmt) { ImGui::LogText(fmt.c_str()); }
+inline void LogText(const std::string &fmt) { ImGui::LogText("%s", fmt.c_str()); }
 
 // Drag and Drop
 // Clipping
-inline void PushClipRect(float min_x, float min_y, float max_x, float max_y, bool intersect_current) {
-    ImGui::PushClipRect({min_x, min_y}, {max_x, max_y}, intersect_current);
+inline void PushClipRect(const ImVec2 &clip_rect_min, const ImVec2 &clip_rect_max, bool intersect_current) {
+    ImGui::PushClipRect(clip_rect_min, clip_rect_max, intersect_current);
 }
 
 inline void PopClipRect() { ImGui::PopClipRect(); }
@@ -395,12 +396,12 @@ inline std::string GetStyleColorName(int idx) {
     return std::string(ImGui::GetStyleColorName(static_cast<ImGuiCol>(idx)));
 }
 
-inline bool BeginChildFrame(unsigned int id, float sizeX, float sizeY) {
-    return ImGui::BeginChildFrame(id, {sizeX, sizeY});
+inline bool BeginChildFrame(unsigned int id, const ImVec2 &size) {
+    return ImGui::BeginChildFrame(id, size);
 }
 
-inline bool BeginChildFrame(unsigned int id, float sizeX, float sizeY, int flags) {
-    return ImGui::BeginChildFrame(id, {sizeX, sizeY}, static_cast<ImGuiWindowFlags>(flags));
+inline bool BeginChildFrame(unsigned int id, const ImVec2 &size, int flags) {
+    return ImGui::BeginChildFrame(id, size, static_cast<ImGuiWindowFlags>(flags));
 }
 
 inline void EndChildFrame() { return ImGui::EndChildFrame(); }
@@ -476,12 +477,12 @@ inline bool IsMouseDoubleClicked(int button) {
     return ImGui::IsMouseDoubleClicked(static_cast<ImGuiMouseButton>(button));
 }
 
-inline bool IsMouseHoveringRect(float min_x, float min_y, float max_x, float max_y) {
-    return ImGui::IsMouseHoveringRect({min_x, min_y}, {max_x, max_y});
+inline bool IsMouseHoveringRect(const ImVec2 &r_min, const ImVec2 &r_max) {
+    return ImGui::IsMouseHoveringRect(r_min, r_max);
 }
 
-inline bool IsMouseHoveringRect(float min_x, float min_y, float max_x, float max_y, bool clip) {
-    return ImGui::IsMouseHoveringRect({min_x, min_y}, {max_x, max_y}, clip);
+inline bool IsMouseHoveringRect(const ImVec2 &r_min, const ImVec2 &r_max, bool clip) {
+    return ImGui::IsMouseHoveringRect(r_min, r_max, clip);
 }
 
 inline bool IsAnyMouseDown() { return ImGui::IsAnyMouseDown(); }
@@ -548,7 +549,7 @@ inline void ShowFontSelector(const std::string &label) { ImGui::ShowFontSelector
 
 inline void ShowUserGuide() { ImGui::ShowUserGuide(); }
 
-inline void Init(sol::table &ImGui) {
+void init1(sol::table &ImGui) {
 #pragma region Parameters stacks (shared)
     ImGui.set_function("PushFont", PushFont);
     ImGui.set_function("PopFont", PopFont);
@@ -621,7 +622,9 @@ inline void Init(sol::table &ImGui) {
     ImGui.set_function("GetFrameHeight", GetFrameHeight);
     ImGui.set_function("GetFrameHeightWithSpacing", GetFrameHeightWithSpacing);
 #pragma endregion Cursor / Layout
+}
 
+void init2(sol::table &ImGui) {
 #pragma region ID stack / scopes
     ImGui.set_function("PushID", sol::overload(
             sol::resolve<void(const std::string &)>(PushID),
@@ -677,7 +680,9 @@ inline void Init(sol::table &ImGui) {
             sol::resolve<bool(const std::string &, int)>(IsPopupOpen)
     ));
 #pragma endregion Popups, Modals
+}
 
+void init3(sol::table &ImGui) {
 #pragma region Columns
     ImGui.set_function("Columns", sol::overload(
             sol::resolve<void()>(Columns),
@@ -751,7 +756,9 @@ inline void Init(sol::table &ImGui) {
     ImGui.set_function("PushClipRect", PushClipRect);
     ImGui.set_function("PopClipRect", PopClipRect);
 #pragma endregion Clipping
+}
 
+void init4(sol::table &ImGui) {
 #pragma region Focus, Activation
     ImGui.set_function("SetItemDefaultFocus", SetItemDefaultFocus);
     ImGui.set_function("SetKeyboardFocusHere", sol::overload(
@@ -795,8 +802,8 @@ inline void Init(sol::table &ImGui) {
     ImGui.set_function("GetFrameCount", GetFrameCount);
     ImGui.set_function("GetStyleColorName", GetStyleColorName);
     ImGui.set_function("BeginChildFrame", sol::overload(
-            sol::resolve<bool(unsigned int, float, float)>(BeginChildFrame),
-            sol::resolve<bool(unsigned int, float, float, int)>(BeginChildFrame)
+            sol::resolve<bool(unsigned int, const ImVec2 &)>(BeginChildFrame),
+            sol::resolve<bool(unsigned int, const ImVec2 &)>(BeginChildFrame)
     ));
     ImGui.set_function("EndChildFrame", EndChildFrame);
 #pragma endregion Miscellaneous Utilities
@@ -838,8 +845,8 @@ inline void Init(sol::table &ImGui) {
     ImGui.set_function("IsMouseReleased", IsMouseReleased);
     ImGui.set_function("IsMouseDoubleClicked", IsMouseDoubleClicked);
     ImGui.set_function("IsMouseHoveringRect", sol::overload(
-            sol::resolve<bool(float, float, float, float)>(IsMouseHoveringRect),
-            sol::resolve<bool(float, float, float, float, bool)>(IsMouseHoveringRect)
+            sol::resolve<bool(const ImVec2 &, const ImVec2 &)>(IsMouseHoveringRect),
+            sol::resolve<bool(const ImVec2 &, const ImVec2 &, bool)>(IsMouseHoveringRect)
     ));
     ImGui.set_function("IsAnyMouseDown", IsAnyMouseDown);
     ImGui.set_function("GetMousePos", GetMousePos);
@@ -869,6 +876,13 @@ inline void Init(sol::table &ImGui) {
     ImGui.set_function("GetClipboardText", GetClipboardText);
     ImGui.set_function("SetClipboardText", SetClipboardText);
 #pragma endregion Clipboard Utilities
+}
+
+inline void Init(sol::table &ImGui) {
+    init1(ImGui);
+    init2(ImGui);
+    init3(ImGui);
+    init4(ImGui);
 
     ImGui.set_function("ShowDemoWindow", ShowDemoWindow);
     ImGui.set_function("ShowMetricsWindow", ShowMetricsWindow);
