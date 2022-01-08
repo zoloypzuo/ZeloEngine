@@ -548,7 +548,7 @@ inline void ShowFontSelector(const std::string &label) { ImGui::ShowFontSelector
 
 inline void ShowUserGuide() { ImGui::ShowUserGuide(); }
 
-inline void Init(sol::table &ImGui) {
+void init1(sol::table &ImGui) {
 #pragma region Parameters stacks (shared)
     ImGui.set_function("PushFont", PushFont);
     ImGui.set_function("PopFont", PopFont);
@@ -621,7 +621,9 @@ inline void Init(sol::table &ImGui) {
     ImGui.set_function("GetFrameHeight", GetFrameHeight);
     ImGui.set_function("GetFrameHeightWithSpacing", GetFrameHeightWithSpacing);
 #pragma endregion Cursor / Layout
+}
 
+void init2(sol::table &ImGui) {
 #pragma region ID stack / scopes
     ImGui.set_function("PushID", sol::overload(
             sol::resolve<void(const std::string &)>(PushID),
@@ -677,7 +679,9 @@ inline void Init(sol::table &ImGui) {
             sol::resolve<bool(const std::string &, int)>(IsPopupOpen)
     ));
 #pragma endregion Popups, Modals
+}
 
+void init3(sol::table &ImGui) {
 #pragma region Columns
     ImGui.set_function("Columns", sol::overload(
             sol::resolve<void()>(Columns),
@@ -751,7 +755,9 @@ inline void Init(sol::table &ImGui) {
     ImGui.set_function("PushClipRect", PushClipRect);
     ImGui.set_function("PopClipRect", PopClipRect);
 #pragma endregion Clipping
+}
 
+void init4(sol::table &ImGui) {
 #pragma region Focus, Activation
     ImGui.set_function("SetItemDefaultFocus", SetItemDefaultFocus);
     ImGui.set_function("SetKeyboardFocusHere", sol::overload(
@@ -869,6 +875,13 @@ inline void Init(sol::table &ImGui) {
     ImGui.set_function("GetClipboardText", GetClipboardText);
     ImGui.set_function("SetClipboardText", SetClipboardText);
 #pragma endregion Clipboard Utilities
+}
+
+inline void Init(sol::table &ImGui) {
+    init1(ImGui);
+    init2(ImGui);
+    init3(ImGui);
+    init4(ImGui);
 
     ImGui.set_function("ShowDemoWindow", ShowDemoWindow);
     ImGui.set_function("ShowMetricsWindow", ShowMetricsWindow);
