@@ -478,12 +478,12 @@ inline bool IsMouseDoubleClicked(int button) {
     return ImGui::IsMouseDoubleClicked(static_cast<ImGuiMouseButton>(button));
 }
 
-inline bool IsMouseHoveringRect(float min_x, float min_y, float max_x, float max_y) {
-    return ImGui::IsMouseHoveringRect({min_x, min_y}, {max_x, max_y});
+inline bool IsMouseHoveringRect(const ImVec2& r_min, const ImVec2& r_max) {
+    return ImGui::IsMouseHoveringRect(r_min, r_max);
 }
 
-inline bool IsMouseHoveringRect(float min_x, float min_y, float max_x, float max_y, bool clip) {
-    return ImGui::IsMouseHoveringRect({min_x, min_y}, {max_x, max_y}, clip);
+inline bool IsMouseHoveringRect(const ImVec2& r_min, const ImVec2& r_max, bool clip) {
+    return ImGui::IsMouseHoveringRect(r_min, r_max, clip);
 }
 
 inline bool IsAnyMouseDown() { return ImGui::IsAnyMouseDown(); }
@@ -846,8 +846,8 @@ void init4(sol::table &ImGui) {
     ImGui.set_function("IsMouseReleased", IsMouseReleased);
     ImGui.set_function("IsMouseDoubleClicked", IsMouseDoubleClicked);
     ImGui.set_function("IsMouseHoveringRect", sol::overload(
-            sol::resolve<bool(float, float, float, float)>(IsMouseHoveringRect),
-            sol::resolve<bool(float, float, float, float, bool)>(IsMouseHoveringRect)
+            sol::resolve<bool(const ImVec2& r_min, const ImVec2& r_max)>(IsMouseHoveringRect),
+            sol::resolve<bool(const ImVec2& r_min, const ImVec2& r_max, bool)>(IsMouseHoveringRect)
     ));
     ImGui.set_function("IsAnyMouseDown", IsAnyMouseDown);
     ImGui.set_function("GetMousePos", GetMousePos);
