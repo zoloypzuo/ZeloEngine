@@ -13,6 +13,8 @@
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/RHI/Object/ALight.h"
 
+#include "ThirdParty/Glm/LuaBind_Glm.h"  // glm::vec3
+
 using namespace Zelo;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::LuaScript;
@@ -40,7 +42,7 @@ luaState.new_usertype<Entity>("Entity",
 
 luaState.new_usertype<Transform>("Transform",
 "position", sol::property(&Transform::getPosition, &Transform::setPosition),
-"rotation", sol::property(&Transform::GetRotation),
+"rotation", sol::property(&Transform::GetRotation, [](Transform &self, glm::vec3){/* TODO */}),
 "scale", sol::property(&Transform::getScale, & Transform::setScale),
 "SetPosition", &Transform::SetPosition,
 "SetScale", &Transform::SetScale,
