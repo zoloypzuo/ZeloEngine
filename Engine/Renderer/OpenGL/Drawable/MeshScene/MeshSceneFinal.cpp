@@ -768,4 +768,48 @@ MeshSceneFinal::~MeshSceneFinal() = default;
 void MeshSceneFinal::render() {
     pimpl->render();
 }
+
+bool MeshSceneFinal::GetEnableGPUCulling() const { return pimpl->g_EnableGPUCulling; }
+
+bool MeshSceneFinal::GetFreezeCullingView() const { return pimpl->g_FreezeCullingView; }
+
+bool MeshSceneFinal::GetDrawOpaque() const { return pimpl->g_DrawOpaque; }
+
+bool MeshSceneFinal::GetDrawTransparent() const { return pimpl->g_DrawTransparent; }
+
+bool MeshSceneFinal::GetDrawGrid() const { return pimpl->g_DrawGrid; }
+
+bool MeshSceneFinal::GetEnableSSAO() const { return pimpl->g_EnableSSAO; }
+
+bool MeshSceneFinal::GetEnableBlur() const { return pimpl->g_EnableBlur; }
+
+bool MeshSceneFinal::GetEnableHDR() const { return pimpl->g_EnableHDR; }
+
+bool MeshSceneFinal::GetEnableShadows() const { return pimpl->g_EnableShadows; }
+
+float MeshSceneFinal::GetLightTheta() const { return pimpl->g_LightTheta; }
+
+float MeshSceneFinal::GetLightPhi() const { return pimpl->g_LightPhi; }
+
+void MeshSceneFinal::SetEnableGPUCulling(bool w_) { pimpl->g_EnableGPUCulling = w_; }
+
+void MeshSceneFinal::SetFreezeCullingView(bool w_) { pimpl->g_FreezeCullingView = w_; }
+
+void MeshSceneFinal::SetDrawOpaque(bool w_) { pimpl->g_DrawOpaque = w_; }
+
+void MeshSceneFinal::SetDrawTransparent(bool w_) { pimpl->g_DrawTransparent = w_; }
+
+void MeshSceneFinal::SetDrawGrid(bool w_) { pimpl->g_DrawGrid = w_; }
+
+void MeshSceneFinal::SetEnableSSAO(bool w_) { pimpl->g_EnableSSAO = w_; }
+
+void MeshSceneFinal::SetEnableBlur(bool w_) { pimpl->g_EnableBlur = w_; }
+
+void MeshSceneFinal::SetEnableHDR(bool w_) { pimpl->g_EnableHDR = w_; }
+
+void MeshSceneFinal::SetEnableShadows(bool w_) { pimpl->g_EnableShadows = w_; }
+
+void MeshSceneFinal::SetLightTheta(float w_) { pimpl->g_LightTheta = w_; }
+
+void MeshSceneFinal::SetLightPhi(float w_) { pimpl->g_LightPhi = w_; }
 }
