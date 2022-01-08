@@ -53,6 +53,8 @@ public:
 
     ZELO_SCRIPT_API glm::vec3 GetRotation() const;
 
+    ZELO_SCRIPT_API void SetRotation(const glm::vec3 &rotation);
+
     // private:
     glm::vec3 m_position{};
     glm::quat m_rotation{};
