@@ -33,7 +33,8 @@ template<typename TKey, typename TValue, typename U, typename Fn>
 std::vector<U> Map(const std::unordered_map<TKey, TValue> &inMap, Fn functor) {
     std::vector<U> ret;
     ret.resize(inMap.size());
-    std::transform(inMap.begin(), inMap.end(), ret.begin(), functor);
+    std::map<TKey, TValue> sortedMap(inMap.begin(), inMap.end());
+    std::transform(sortedMap.begin(), sortedMap.end(), ret.begin(), functor);
     return ret;
 }
 

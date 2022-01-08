@@ -719,13 +719,11 @@ void mergeScene(const SceneConverterConfig &config) {
 
     saveMaterials(mergeConfig.outputMaterials.c_str(), allMaterials, allTextures);
 
-    spdlog::debug("[Unmerged] scene items: {}", (int) scene.hierarchy_.size());
-    mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Orange_Leaves");
-    spdlog::debug("[Merged orange leaves] scene items: {}", (int) scene.hierarchy_.size());
-    mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Green_Leaves");
-    spdlog::debug("[Merged green leaves]  scene items: {}", (int) scene.hierarchy_.size());
-    mergeScene(scene, meshData, "Foliage_Linde_Tree_Large_Trunk");
-    spdlog::debug("[Merged trunk]  scene items: {}", (int) scene.hierarchy_.size());
+    spdlog::debug("[Unmerged] scene items count=[{}]", scene.hierarchy_.size());
+    for (const auto &materialName: mergeConfig.materialNames) {
+        mergeScene(scene, meshData, materialName);
+        spdlog::debug("Merge scene by [{}], scene items count=[{}]", materialName, scene.hierarchy_.size());
+    }
 
     recalculateBoundingBoxes(meshData);
 
@@ -734,9 +732,11 @@ void mergeScene(const SceneConverterConfig &config) {
 }
 
 int main() {
+    // 0. bootstrap
     Zelo::Engine engine;
     engine.bootstrap();
 
+    // logger settings
     spdlog::set_default_logger(
             spdlog::basic_logger_mt("sc", "logs/scene-importer.log", true));
     spdlog::set_level(spdlog::level::debug);
