@@ -1,7 +1,7 @@
 // LuaBindImGui.cpp
 // created on 2021/8/21
 // author @zoloypzuo
-// TODO [] BeginChild, , PushClipRect, IsMouseHoveringRect, too many params
+// TODO [] BeginChild, , , IsMouseHoveringRect, too many params
 #include <imgui.h>
 #include <string>
 #include <sol/sol.hpp>
@@ -319,8 +319,8 @@ inline void LogText(const std::string &fmt) { ImGui::LogText("%s", fmt.c_str());
 
 // Drag and Drop
 // Clipping
-inline void PushClipRect(float min_x, float min_y, float max_x, float max_y, bool intersect_current) {
-    ImGui::PushClipRect({min_x, min_y}, {max_x, max_y}, intersect_current);
+inline void PushClipRect(const ImVec2 &clip_rect_min, const ImVec2 &clip_rect_max, bool intersect_current) {
+    ImGui::PushClipRect(clip_rect_min, clip_rect_max, intersect_current);
 }
 
 inline void PopClipRect() { ImGui::PopClipRect(); }

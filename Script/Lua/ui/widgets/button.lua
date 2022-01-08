@@ -18,40 +18,20 @@ end)
 function Button:_UpdateImpl()
     local push_counter = 0
     if self.idleBackgroundColor then
-        ImGui.PushStyleColor(ImGuiCol.Button,
-                self.idleBackgroundColor.r,
-                self.idleBackgroundColor.g,
-                self.idleBackgroundColor.b,
-                self.idleBackgroundColor.a
-        )
+        ImGui.PushStyleColor(ImGuiCol.Button, self.idleBackgroundColor)
         push_counter = push_counter + 1
     end
     if self.hoveredBackgroundColor then
-        ImGui.PushStyleColor(ImGuiCol.ButtonHovered,
-                self.hoveredBackgroundColor.r,
-                self.hoveredBackgroundColor.g,
-                self.hoveredBackgroundColor.b,
-                self.hoveredBackgroundColor.a
-        )
+        ImGui.PushStyleColor(ImGuiCol.ButtonHovered, self.hoveredBackgroundColor)
         push_counter = push_counter + 1
     end
     if self.clickedBackgroundColor then
-        ImGui.PushStyleColor(ImGuiCol.ButtonActive,
-                self.clickedBackgroundColor.r,
-                self.clickedBackgroundColor.g,
-                self.clickedBackgroundColor.b,
-                self.clickedBackgroundColor.a
-        )
+        ImGui.PushStyleColor(ImGuiCol.ButtonActive, self.clickedBackgroundColor)
         push_counter = push_counter + 1
     end
     if self.textColor then
         push_counter = push_counter + 1
-        ImGui.PushStyleColor(ImGuiCol.Text,
-                self.textColor.r,
-                self.textColor.g,
-                self.textColor.b,
-                self.textColor.a
-        )
+        ImGui.PushStyleColor(ImGuiCol.Text, self.textColor)
     end
     if ImGui.Button(self.label .. self.id, self.size.x, self.size.y) then
         self:_OnClick()
