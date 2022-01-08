@@ -5,8 +5,8 @@
 #include "Resource.h"
 
 namespace Zelo {
-Resource::Resource(const std::string &fileName) {
-    m_ioStream = new IOStream(fileName);
+Resource::Resource(std::string_view fileName) {
+    m_ioStream = new IOStream(fileName.data());
     m_fileSize = m_ioStream->fileSize();
     m_buffer = new char[m_fileSize + 1];
     m_buffer[m_fileSize] = '\0';

@@ -23,7 +23,3 @@ target_include_directories(SceneImporter PRIVATE ${STB_INCLUDE_DIRS})
 
 find_package(crossguid CONFIG REQUIRED)
 target_link_libraries(SceneImporter PRIVATE crossguid)
-
-find_package(absl CONFIG REQUIRED)
-target_link_libraries(SceneImporter PRIVATE absl::any absl::base absl::bits absl::city)
-

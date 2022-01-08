@@ -35,7 +35,7 @@ struct UniformInfo {
 public:
     UniformInfo(
             UniformType type_,
-            const std::string &name_,
+            std::string_view name_,
             uint32_t location_,
             const std::any &defaultValue_
     ) : type(type_), name(name_), location(location_), defaultValue(defaultValue_) {}
@@ -52,16 +52,16 @@ public:
 public:
     GLSLShaderProgram();
 
-    explicit GLSLShaderProgram(const std::string &shaderAssetName);
+    explicit GLSLShaderProgram(std::string_view shaderAssetName);
 
     ~GLSLShaderProgram();
 
 public:
-    void loadShader(const std::string &fileName) const override;
+    void loadShader(std::string_view fileName) const override;
 
-    void addShader(const std::string &fileName) const override;
+    void addShader(std::string_view fileName) const override;
 
-    void addShader(const std::string &fileName, Zelo::Core::RHI::EShaderType shaderType) const override;
+    void addShader(std::string_view fileName, Zelo::Core::RHI::EShaderType shaderType) const override;
 
     void link() override;
 
@@ -71,33 +71,33 @@ public:
 
     void findUniformLocations() override;
 
-    void bindFragDataLocation(const std::string &name, uint32_t slot) override;
+    void bindFragDataLocation(std::string_view name, uint32_t slot) override;
 
-    GLint getUniformLocation(const std::string &name);
+    GLint getUniformLocation(std::string_view name);
 
-    void setUniformVec2f(const std::string &name, glm::vec2 vector);
+    void setUniformVec2f(std::string_view name, glm::vec2 vector);
 
-    void setUniformVec3f(const std::string &name, glm::vec3 vector) override;
+    void setUniformVec3f(std::string_view name, glm::vec3 vector) override;
 
-    void setUniformVec4f(const std::string &name, glm::vec4 vector) override;
+    void setUniformVec4f(std::string_view name, glm::vec4 vector) override;
 
-    void setUniform1i(const std::string &name, int value) override;
+    void setUniform1i(std::string_view name, int value) override;
 
-    void setUniform1f(const std::string &name, float value) override;
+    void setUniform1f(std::string_view name, float value) override;
 
-    void setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) override;
+    void setUniformMatrix4f(std::string_view name, const glm::mat4 &matrix) override;
 
-    void setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) override;
+    void setUniformMatrix4f(std::string_view name, const glm::mat3 &matrix) override;
 
-    int getUniform1i(const std::string &name);
+    int getUniform1i(std::string_view name);
 
-    float getUniform1f(const std::string &name);
+    float getUniform1f(std::string_view name);
 
-    glm::vec2 getUniformVec2(const std::string &name);
+    glm::vec2 getUniformVec2(std::string_view name);
 
-    glm::vec3 getUniformVec3(const std::string &name);
+    glm::vec3 getUniformVec3(std::string_view name);
 
-    glm::vec4 getUniformVec4(const std::string &name);
+    glm::vec4 getUniformVec4(std::string_view name);
 
     // debug
     void printActiveUniforms() const override;
@@ -108,9 +108,9 @@ public:
 
     void queryUniforms();
 
-    UniformInfo *getUniformInfo(const std::string &name);
+    UniformInfo *getUniformInfo(std::string_view name);
 
-    static bool isEngineUBOMember(const std::string &uniformName);
+    static bool isEngineUBOMember(std::string_view uniformName);
 
 private:
     std::map<std::string, GLint> m_uniformLocationMap;
@@ -119,9 +119,9 @@ private:
     std::string m_name{};  // for debug
 
 private:
-    void createUniform(const std::string &name);
+    void createUniform(std::string_view name);
 
-    void addShaderSrc(const std::string &fileName,
+    void addShaderSrc(std::string_view fileName,
                       const Zelo::Core::RHI::EShaderType &shaderType,
                       const char *c_code) const;
 };

@@ -8,11 +8,11 @@
 
 class Shader {
 public:
-    virtual void loadShader(const std::string &fileName) const = 0;
+    virtual void loadShader(std::string_view fileName) const = 0;
 
-    virtual void addShader(const std::string &fileName) const = 0;
+    virtual void addShader(std::string_view fileName) const = 0;
 
-    virtual void addShader(const std::string &fileName, Zelo::Core::RHI::EShaderType shaderType) const = 0;
+    virtual void addShader(std::string_view fileName, Zelo::Core::RHI::EShaderType shaderType) const = 0;
 
     virtual void link() = 0;
 
@@ -20,19 +20,19 @@ public:
 
     virtual void findUniformLocations() = 0;
 
-    virtual void bindFragDataLocation(const std::string &name, uint32_t slot) = 0;
+    virtual void bindFragDataLocation(std::string_view name, uint32_t slot) = 0;
 
-    virtual void setUniformVec3f(const std::string &name, glm::vec3 vector) = 0;
+    virtual void setUniformVec3f(std::string_view name, glm::vec3 vector) = 0;
 
-    virtual void setUniformVec4f(const std::string &name, glm::vec4 vector) = 0;
+    virtual void setUniformVec4f(std::string_view name, glm::vec4 vector) = 0;
 
-    virtual void setUniform1i(const std::string &name, int value) = 0;
+    virtual void setUniform1i(std::string_view name, int value) = 0;
 
-    virtual void setUniform1f(const std::string &name, float value) = 0;
+    virtual void setUniform1f(std::string_view name, float value) = 0;
 
-    virtual void setUniformMatrix4f(const std::string &name, const glm::mat4 &matrix) = 0;
+    virtual void setUniformMatrix4f(std::string_view name, const glm::mat4 &matrix) = 0;
 
-    virtual void setUniformMatrix4f(const std::string &name, const glm::mat3 &matrix) = 0;
+    virtual void setUniformMatrix4f(std::string_view name, const glm::mat3 &matrix) = 0;
 
     virtual void printActiveUniforms() const = 0;
 

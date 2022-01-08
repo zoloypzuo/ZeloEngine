@@ -10,7 +10,7 @@ namespace Zelo {
 
 class Resource {
 public:
-    explicit Resource(const std::string &fileName);
+    explicit Resource(std::string_view fileName);
 
     ~Resource();
 
