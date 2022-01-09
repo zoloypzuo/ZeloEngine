@@ -42,7 +42,7 @@ namespace fs = std::filesystem;
 using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Core::Resource;
 
-const uint32_t g_numElementsToStore = 3 + 3 + 2; // pos(vec3) + normal(vec3) + uv(vec2)
+const uint32_t k_numElementsToStore = 3 + 3 + 2; // pos(vec3) + normal(vec3) + uv(vec2)
 
 struct SceneConfig {
     std::string inputScene;
@@ -333,7 +333,7 @@ Mesh convertAIMesh(MeshData &meshData, const aiMesh *m, const SceneConfig &cfg,
                    std::reference_wrapper<uint32_t> indexOffset,
                    std::reference_wrapper<uint32_t> vertexOffset) {
     const bool hasTexCoords = m->HasTextureCoords(0);
-    const auto streamElementSize = static_cast<uint32_t>(g_numElementsToStore * sizeof(float));
+    const auto streamElementSize = static_cast<uint32_t>(k_numElementsToStore * sizeof(float));
 
     Mesh result = {
             .streamCount = 1,
