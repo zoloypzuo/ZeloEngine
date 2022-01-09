@@ -85,7 +85,7 @@ end
 
 function ProjectHubPanel:_ProjectList()
     local columns = self:CreateWidget(Columns, 2)
-    columns.widths = { 750, 500 }
+    columns.widths = { 1000, 500 }
     for i, line in ipairs({ "test1", "test2", "test3" }) do
         local text = columns:CreateWidget(Text, line)
         local actions = columns:CreateWidget(Group)
