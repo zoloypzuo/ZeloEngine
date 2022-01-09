@@ -10,6 +10,7 @@
 
 using namespace Zelo;
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::Scene;
 using namespace Zelo::Renderer::OpenGL;
 
@@ -26,7 +27,11 @@ void ForwardStandardPipeline::preRender() {
     RenderSystem::getSingletonPtr()->clear(true, true, false);
 }
 
-void ForwardStandardPipeline::render(const Zelo::Core::ECS::Entity &scene) const {
+void ForwardStandardPipeline::render(const Entity &scene) const {
+    for (const auto &drawable: sortDrawableQueue()) {
+        drawable->render();
+    }
+
     updateLights();
     updateEngineUBO();
 
@@ -116,5 +121,9 @@ void ForwardStandardPipeline::updateEngineUBO() const {
 
 void ForwardStandardPipeline::updateEngineUBOModel(const glm::mat4 &modelMatrix) const {
     m_engineUBO->setSubData(modelMatrix, 0);
+}
+
+DrawableQueue ForwardStandardPipeline::sortDrawableQueue() const {
+    return SceneManager::getSingletonPtr()->getFastAccessComponents().drawables;
 }
 }

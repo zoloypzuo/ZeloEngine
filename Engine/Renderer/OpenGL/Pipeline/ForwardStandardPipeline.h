@@ -7,6 +7,7 @@
 #include "ZeloGLPrerequisites.h"
 
 #include "Core/RHI/RenderPipeline.h"
+#include "Core/RHI/IDrawable.h"
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 #include "Renderer/OpenGL/Drawable/Line.h"
 #include "Renderer/OpenGL/Buffer/GLShaderStorageBuffer.h"
@@ -28,6 +29,7 @@ struct RenderItem {
 };
 
 using RenderQueue = std::vector<RenderItem>;
+using DrawableQueue = std::vector<Core::RHI::IDrawable *>;
 
 class ForwardStandardPipeline : public Core::RHI::RenderPipeline {
 public:
@@ -64,5 +66,7 @@ protected:
     std::unique_ptr<GLUniformBuffer> m_engineUBO{};
 
     RenderQueue sortRenderQueue() const;
+
+    DrawableQueue sortDrawableQueue() const;
 };
 }
