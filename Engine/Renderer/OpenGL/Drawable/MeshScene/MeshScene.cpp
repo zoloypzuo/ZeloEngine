@@ -82,7 +82,7 @@ struct MeshScene::Impl {
 
     ~Impl() = default;
 
-    void render() const ;
+    void render() const;
 
     int getDrawCount() const;
 };
@@ -175,7 +175,7 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
     // bufferModelMatrices_
     {
         bufferModelMatrices_ = std::make_unique<GLShaderStorageBufferDSA>(
-                drawDataList.size() * sizeof(glm::mat4), nullptr, GL_DYNAMIC_STORAGE_BIT);
+                uint32_t(drawDataList.size() * sizeof(glm::mat4)), nullptr, GL_DYNAMIC_STORAGE_BIT);
         std::vector<glm::mat4> matrices(drawDataList.size());
         size_t i = 0;
         for (const auto &c: drawDataList) {
@@ -187,13 +187,14 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
 
     // perFrameDataBuffer
     {
-        perFrameDataBuffer = std::make_unique<GLUniformBufferDSA>(kBufferIndex_PerFrameUniforms, sizeof(PerFrameData));
+        perFrameDataBuffer = std::make_unique<GLUniformBufferDSA>(
+                kBufferIndex_PerFrameUniforms, uint32_t(sizeof(PerFrameData)));
     }
 }
 
 int MeshScene::Impl::getDrawCount() const { return drawDataList.size(); }
 
-void MeshScene::Impl::render() const  {
+void MeshScene::Impl::render() const {
     // perFrameDataBuffer
     {
         auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
@@ -222,7 +223,7 @@ MeshScene::MeshScene(const std::string &sceneFile, const std::string &meshFile, 
 
 MeshScene::~MeshScene() = default;
 
-void MeshScene::render()  {
+void MeshScene::render() {
     pimpl->render();
 }
 }
