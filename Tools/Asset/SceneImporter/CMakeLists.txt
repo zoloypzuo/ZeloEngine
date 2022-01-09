@@ -4,7 +4,7 @@ add_executable(SceneImporter
         SceneMergeUtil.cpp
         )
 
-set_property(TARGET SceneImporter PROPERTY CXX_STANDARD 20)
+set_property(TARGET SceneImporter PROPERTY CXX_STANDARD 20)  # std::execution::par
 set_property(TARGET SceneImporter PROPERTY CXX_STANDARD_REQUIRED ON)
 
 target_link_libraries(SceneImporter PRIVATE Engine)
