@@ -101,7 +101,7 @@ function ProjectHubPanel:_ProjectList()
             local file = io.open("project_hub.txt", "w")
             file:write(sandbox_config.name)
             file:close()
-            TheSim:Quit()
+            Quit()
         end)
         deleteButton:AddOnClickHandler(function()
             --text.Destroy();
