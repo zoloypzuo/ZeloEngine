@@ -175,8 +175,10 @@ std::string getOrCreateFileID(const std::string &fileName) {
     return newID;
 }
 
-MaterialDescription convertAIMaterialToDescription(const aiMaterial *M, std::vector<std::string> &files,
-                                                   std::vector<std::string> &opacityMaps) {
+MaterialDescription convertAIMaterialToDescription(
+        const aiMaterial *M,
+        std::vector<std::string> &files,
+        std::vector<std::string> &opacityMaps) {
     MaterialDescription D;
 
     aiColor4D Color;
@@ -281,8 +283,10 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial *M, std::vec
     return D;
 }
 
-void
-processLods(std::vector<uint32_t> &indices, std::vector<float> &vertices, std::vector<std::vector<uint32_t>> &outLods) {
+void processLods(
+        std::vector<uint32_t> &indices,
+        std::vector<float> &vertices,
+        std::vector<std::vector<uint32_t>> &outLods) {
     size_t verticesCountIn = vertices.size() / 2;
     size_t targetIndicesCount = indices.size();
 
