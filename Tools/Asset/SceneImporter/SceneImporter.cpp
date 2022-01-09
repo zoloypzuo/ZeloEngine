@@ -693,10 +693,10 @@ void mergeScene(const SceneConverterConfig &config) {
     std::vector<SceneGraph *> scenes = {&scene1, &scene2};
 
     MeshData m1, m2;
-    MeshFileHeader header1 = loadMeshData(config.scenes[0].outputMesh.c_str(), m1);
-    MeshFileHeader header2 = loadMeshData(config.scenes[1].outputMesh.c_str(), m2);
+    loadMeshData(config.scenes[0].outputMesh.c_str(), m1);
+    loadMeshData(config.scenes[1].outputMesh.c_str(), m2);
 
-    std::vector<uint32_t> meshCounts = {header1.meshCount, header2.meshCount};
+    std::vector<uint32_t> meshCounts = {m1.meshCount(), m2.meshCount()};
 
     loadScene(config.scenes[0].outputScene.c_str(), scene1);
     loadScene(config.scenes[1].outputScene.c_str(), scene2);

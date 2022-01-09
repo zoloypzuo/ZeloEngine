@@ -125,7 +125,6 @@ struct MeshSceneFinal::Impl {
     std::mutex loadedFilesMutex_;
     std::vector<std::shared_ptr<GLTexture>> allMaterialTextures_;
 
-    MeshFileHeader header_;
     MeshData meshData_;
 
     SceneGraph scene_;
@@ -335,7 +334,7 @@ MeshSceneFinal::Impl::Impl(
 
         dummyTexture_ = std::make_shared<GLTexture>(GL_TEXTURE_2D, dummyTextureFile.c_str());
 
-        header_ = loadMeshData(meshFile.c_str(), meshData_);
+        loadMeshData(meshFile.c_str(), meshData_);
         // load scene
         {
             ::Zelo::Renderer::OpenGL::loadScene(sceneFile.c_str(), scene_);
@@ -392,9 +391,9 @@ MeshSceneFinal::Impl::Impl(
     // vao
     {
         auto bufferIndices_ = std::make_shared<GLIndexBufferDSA>(
-                header_.indexDataSize, meshData_.indexData_.data(), 0);
+                meshData_.indexDataSize(), meshData_.indexData_.data(), 0);
         auto bufferVertices_ = std::make_shared<GLVertexBufferDSA>(
-                header_.vertexDataSize, meshData_.vertexData_.data(), 0);
+                meshData_.vertexDataSize(), meshData_.vertexData_.data(), 0);
 
         bufferVertices_->setLayout(s_BufferLayout);
         vao.addVertexBuffer(bufferVertices_);

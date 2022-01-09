@@ -24,7 +24,7 @@ void mergeScenes(SceneGraph &outScene,
 void mergeScene(SceneGraph& scene, MeshData& meshData, const std::string& materialName);
 
 // Combine a list of meshes to a single mesh container
-MeshFileHeader mergeMeshData(MeshData &m, std::vector<MeshData *> md);
+void mergeMeshData(MeshData &m, std::vector<MeshData *> md);
 
 // Merge material lists from multiple scenes (follows the logic of merging in mergeScenes)
 void mergeMaterialLists(

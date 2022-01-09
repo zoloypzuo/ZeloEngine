@@ -231,7 +231,7 @@ BoundingBox fromFbBoundingBox(const flatbuffers::BoundingBox *pbb) {
     };
 }
 
-MeshFileHeader loadMeshData(const char *fileName, MeshData &out) {
+void loadMeshData(const char *fileName, MeshData &out) {
     std::string buf;
     fb::LoadFile(fileName, true, &buf);
     const auto &meshData = *fb::GetRoot<fb::MeshData>(buf.c_str());
@@ -256,15 +256,6 @@ MeshFileHeader loadMeshData(const char *fileName, MeshData &out) {
     Copy(*meshData.vertexData_(), out.vertexData_);
     Map(*meshData.meshes_(), out.meshes_, fromFbMesh);
     Map(*meshData.boxes_(), out.boxes_, fromFbBoundingBox);
-
-    auto &m = out;
-    return {
-            0x12345678,
-            (uint32_t) m.meshes_.size(),
-            (uint32_t) (sizeof(MeshFileHeader) + m.meshes_.size() * sizeof(Mesh)),
-            (uint32_t) (m.indexData_.size() * sizeof(uint32_t)),
-            (uint32_t) (m.vertexData_.size() * sizeof(float))
-    };
 }
 
 flatbuffers::BoundingBox toFbBoundingBox(const BoundingBox &bb) {

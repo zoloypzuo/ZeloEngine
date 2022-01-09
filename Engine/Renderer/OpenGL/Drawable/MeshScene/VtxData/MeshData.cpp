@@ -22,4 +22,16 @@ void recalculateBoundingBoxes(MeshData &m) {
         m.boxes_.emplace_back(vmin, vmax);
     }
 }
+
+uint32_t MeshData::meshCount() const {
+    return (uint32_t) meshes_.size();
+}
+
+uint32_t MeshData::indexDataSize() const {
+    return uint32_t(indexData_.size() * sizeof(uint32_t));
+}
+
+uint32_t MeshData::vertexDataSize() const {
+    return uint32_t(vertexData_.size() * sizeof(float));
+}
 }

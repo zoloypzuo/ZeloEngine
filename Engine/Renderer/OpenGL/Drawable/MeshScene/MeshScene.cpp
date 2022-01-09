@@ -54,7 +54,6 @@ const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
 struct MeshScene::Impl {
 #pragma region static
     // mesh
-    MeshFileHeader header_{};
     MeshData meshData_;
     // scene
     SceneGraph scene_;
@@ -90,7 +89,7 @@ struct MeshScene::Impl {
 MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
     {
         // load mesh
-        header_ = loadMeshData(meshFile.c_str(), meshData_);
+        loadMeshData(meshFile.c_str(), meshData_);
 
         // load scene
         loadScene(sceneFile.c_str(), scene_);
@@ -135,9 +134,9 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
     // vao
     {
         auto bufferIndices_ = std::make_shared<GLIndexBufferDSA>(
-                header_.indexDataSize, meshData_.indexData_.data(), 0);
+                meshData_.indexDataSize(), meshData_.indexData_.data(), 0);
         auto bufferVertices_ = std::make_shared<GLVertexBufferDSA>(
-                header_.vertexDataSize, meshData_.vertexData_.data(), 0);
+                meshData_.vertexDataSize(), meshData_.vertexData_.data(), 0);
 
         bufferVertices_->setLayout(s_BufferLayout);
         vao.addVertexBuffer(bufferVertices_);

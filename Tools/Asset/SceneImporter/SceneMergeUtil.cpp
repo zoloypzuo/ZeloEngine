@@ -120,7 +120,7 @@ void mergeScenes(SceneGraph &outScene,
 }
 
 // Combine a list of meshes to a single mesh container
-MeshFileHeader mergeMeshData(MeshData &m, const std::vector<MeshData *> md) {
+void mergeMeshData(MeshData &m, const std::vector<MeshData *> md) {
     uint32_t totalVertexDataSize = 0;
     uint32_t totalIndexDataSize  = 0;
 
@@ -148,14 +148,6 @@ MeshFileHeader mergeMeshData(MeshData &m, const std::vector<MeshData *> md) {
         totalIndexDataSize += (uint32_t)i->indexData_.size();
         totalVertexDataSize += (uint32_t)i->vertexData_.size();
     }
-
-    return MeshFileHeader {
-            .magicValue = 0x12345678,
-            .meshCount = (uint32_t)offs,
-            .dataBlockStartOffset = (uint32_t )(sizeof(MeshFileHeader) + offs * sizeof(Mesh)),
-            .indexDataSize = static_cast<uint32_t>(totalIndexDataSize * sizeof(uint32_t)),
-            .vertexDataSize = static_cast<uint32_t>(totalVertexDataSize * sizeof(float))
-    };
 }
 
 void mergeMaterialLists(
