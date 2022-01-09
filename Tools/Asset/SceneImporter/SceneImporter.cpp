@@ -604,11 +604,10 @@ void convertAllTextures(
 }
 
 void processScene(const SceneConfig &cfg) {
-    // extract base model path
-    const std::size_t pathSeparator = cfg.inputScene.find_last_of("/\\");
-    const std::string basePath = (pathSeparator != std::string::npos) ? cfg.inputScene.substr(0, pathSeparator + 1)
-                                                                      : std::string();
-
+    // We want to apply most of the optimizations and convert all the polygons into triangles.
+    // Normal vectors should be generated for those meshes that do not contain
+    // them. Error checking has been skipped here so that we can focus on the
+    // code's flow
     const unsigned int flags = 0 |
                                aiProcess_JoinIdenticalVertices |
                                aiProcess_Triangulate |
@@ -659,6 +658,9 @@ void processScene(const SceneConfig &cfg) {
 
         std::vector<std::string> files;
         std::vector<std::string> opacityMaps;
+
+        // extract base model path
+        auto basePath = fs::path(cfg.inputScene).remove_filename().string();
 
         for (unsigned int m = 0; m < scene->mNumMaterials; m++) {
             aiMaterial *mm = scene->mMaterials[m];
