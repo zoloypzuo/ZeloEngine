@@ -24,6 +24,8 @@ void ProjectHub::initialize() {
     bootstrap();
 
     m_logManager = std::make_unique<LogManager>();
+    spdlog::apply_all([](const auto &logger) { logger->set_level(spdlog::level::off); });
+
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>();
     m_input = std::make_unique<Input>();
