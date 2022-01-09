@@ -42,9 +42,6 @@ namespace fs = std::filesystem;
 using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Core::Resource;
 
-uint32_t g_indexOffset = 0;
-uint32_t g_vertexOffset = 0;
-
 const uint32_t g_numElementsToStore = 3 + 3 + 2; // pos(vec3) + normal(vec3) + uv(vec2)
 
 struct SceneConfig {
@@ -332,16 +329,18 @@ processLods(std::vector<uint32_t> &indices, std::vector<float> &vertices, std::v
     }
 }
 
-Mesh convertAIMesh(MeshData &g_MeshData, const aiMesh *m, const SceneConfig &cfg) {
+Mesh convertAIMesh(MeshData &meshData, const aiMesh *m, const SceneConfig &cfg,
+                   std::reference_wrapper<uint32_t> indexOffset,
+                   std::reference_wrapper<uint32_t> vertexOffset) {
     const bool hasTexCoords = m->HasTextureCoords(0);
     const auto streamElementSize = static_cast<uint32_t>(g_numElementsToStore * sizeof(float));
 
     Mesh result = {
             .streamCount = 1,
-            .indexOffset = g_indexOffset,
-            .vertexOffset = g_vertexOffset,
+            .indexOffset = indexOffset,
+            .vertexOffset = vertexOffset,
             .vertexCount = m->mNumVertices,
-            .streamOffset = {g_vertexOffset * streamElementSize},
+            .streamOffset = {vertexOffset * streamElementSize},
             .streamElementSize = {streamElementSize}
     };
 
@@ -351,7 +350,7 @@ Mesh convertAIMesh(MeshData &g_MeshData, const aiMesh *m, const SceneConfig &cfg
 
     std::vector<std::vector<uint32_t>> outLods;
 
-    auto &vertices = g_MeshData.vertexData_;
+    auto &vertices = meshData.vertexData_;
 
     for (size_t i = 0; i != m->mNumVertices; i++) {
         const aiVector3D v = m->mVertices[i];
@@ -394,7 +393,7 @@ Mesh convertAIMesh(MeshData &g_MeshData, const aiMesh *m, const SceneConfig &cfg
 
     for (size_t l = 0; l < outLods.size(); l++) {
         for (unsigned int i : outLods[l])
-            g_MeshData.indexData_.push_back(i);
+            meshData.indexData_.push_back(i);
 
         result.lodOffset[l] = numIndices;
         numIndices += (int) outLods[l].size();
@@ -403,8 +402,8 @@ Mesh convertAIMesh(MeshData &g_MeshData, const aiMesh *m, const SceneConfig &cfg
     result.lodOffset[outLods.size()] = numIndices;
     result.lodCount = (uint32_t) outLods.size();
 
-    g_indexOffset += numIndices;
-    g_vertexOffset += m->mNumVertices;
+    indexOffset += numIndices;
+    vertexOffset += m->mNumVertices;
 
     return result;
 }
@@ -627,33 +626,28 @@ void processScene(const SceneConfig &cfg) {
     const aiScene *scene = aiImportFile(ZELO_PATH(cfg.inputScene).c_str(), flags);
 
     {
-        MeshData g_MeshData;
+        MeshData meshData;
 
-        // clear mesh data from previous scene
-        g_MeshData.meshes_.clear();
-        g_MeshData.boxes_.clear();
-        g_MeshData.indexData_.clear();
-        g_MeshData.vertexData_.clear();
-
-        g_indexOffset = 0;
-        g_vertexOffset = 0;
+        uint32_t indexOffset = 0;
+        uint32_t vertexOffset = 0;
 
         ZELO_ASSERT(scene && scene->HasMeshes(), cfg.inputScene.c_str());
 
         // 1. Mesh conversion as in Chapter 5
-        g_MeshData.meshes_.reserve(scene->mNumMeshes);
-        g_MeshData.boxes_.reserve(scene->mNumMeshes);
+        meshData.meshes_.reserve(scene->mNumMeshes);
+        meshData.boxes_.reserve(scene->mNumMeshes);
 
         spdlog::debug("Start converting meshes 0/{}...", scene->mNumMeshes);
         for (unsigned int i = 0; i != scene->mNumMeshes; i++) {
-            Mesh mesh = convertAIMesh(g_MeshData, scene->mMeshes[i], cfg);
-            g_MeshData.meshes_.push_back(mesh);
+            Mesh mesh = convertAIMesh(meshData, scene->mMeshes[i], cfg,
+                                      std::ref(indexOffset), std::ref(vertexOffset));
+            meshData.meshes_.push_back(mesh);
         }
         spdlog::debug("End Converting meshes {}/{}...", scene->mNumMeshes, scene->mNumMeshes);
 
-        recalculateBoundingBoxes(g_MeshData);
+        recalculateBoundingBoxes(meshData);
 
-        saveMeshData(cfg.outputMesh.c_str(), g_MeshData);
+        saveMeshData(cfg.outputMesh.c_str(), meshData);
     }
 
     SceneGraph ourScene;
