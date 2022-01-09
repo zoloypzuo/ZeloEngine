@@ -99,6 +99,8 @@ function ToVector3(obj, y, z)
     end
     if type(obj) == "table" then
         return Vector3(tonumber(obj[1]), tonumber(obj[2]), tonumber(obj[3]))
+    elseif type(obj) == "userdata" then
+        return Vector3(tonumber(obj.x), tonumber(obj.y), tonumber(obj.z))
     else
         return Vector3(tonumber(obj), tonumber(y), tonumber(z))
     end

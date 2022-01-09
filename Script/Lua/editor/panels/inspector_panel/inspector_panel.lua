@@ -40,6 +40,11 @@ local EEngineComponents = {
         ctype = "MESH_RENDERER";
         add_fn = "AddMeshRenderer"
     };
+    {
+        name = "MeshSceneRenderer";
+        ctype = "MESH_SCENE_RENDERER";
+        add_fn = "";
+    }
 }
 
 local EComponent = {}
@@ -194,24 +199,9 @@ function Inspector:DrawTransform()
     columns.widths[1] = 200
 
     local transform = self.m_targetEntity.components.transform
-    TheEditorDrawer:DrawVec3(columns, "Position", function()
-        local position = transform.position
-        return { position.x, position.y, position.z }
-    end, function(value)
-        transform.position = Vector3(value[1], value[2], value[3])
-    end)
-    TheEditorDrawer:DrawVec3(columns, "Rotation", function()
-        local rotation = transform.rotation
-        return { rotation.x, rotation.y, rotation.z }
-    end, function(value)
-        -- TODO set rotation
-    end)
-    TheEditorDrawer:DrawVec3(columns, "Scale", function()
-        local scale = transform.scale
-        return { scale.x, scale.y, scale.z }
-    end, function(value)
-        transform.scale = Vector3(value[1], value[2], value[3])
-    end)
+    TheEditorDrawer:DrawVec3Direct(columns, "Position", transform, "position")
+    TheEditorDrawer:DrawVec3Direct(columns, "Rotation", transform, "rotation")
+    TheEditorDrawer:DrawVec3Direct(columns, "Scale", transform, "scale")
 end
 
 function Inspector:DrawComponent(name, component)
@@ -219,16 +209,24 @@ function Inspector:DrawComponent(name, component)
         -- ignore transform, transform is always drawed first
         return
     end
+    -- imgui
     local header = self.m_entityInfo:CreateWidget(GroupCollapsable, EComponent[name])
     local columns = header:CreateWidget(Columns, 2)
     columns.widths[1] = 200
+
+    -- local draw fn for c component
     local fn_name = EComponent[name]
-    if not fn_name then
-        return
+    if fn_name then
+        local fn = self["Draw" .. fn_name]
+        if fn then
+            fn(self, component, columns)
+        end
     end
-    local fn = self["Draw" .. fn_name]
-    if fn then
-        fn(self, component, columns)
+
+    -- OnGui fn for lua component
+    local OnGui = component["OnGui"]
+    if OnGui then
+        OnGui(component, columns, TheEditorDrawer)
     end
 end
 

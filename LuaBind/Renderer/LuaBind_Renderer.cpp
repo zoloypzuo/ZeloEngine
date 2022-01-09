@@ -18,25 +18,49 @@ void LuaBind_Renderer(sol::state &luaState) {
 // @formatter:off
 luaState.new_usertype<GLMesh>("Mesh",
 sol::constructors<GLMesh(IMeshData &)>(),
-sol::base_classes,  sol::bases<Mesh>(),
-"__Dummy", []{}
+sol::base_classes, sol::bases<Mesh>(),
+"__Dummy", [] {}
 );
 
 luaState.new_usertype<GLTexture>("Texture",
-sol::constructors<GLTexture(std::string )>(),
-"__Dummy", []{}
+sol::constructors<GLTexture(std::string)>(),
+"__Dummy", [] {}
 );
 
 luaState.new_usertype<GLMaterial>("Material",
-sol::constructors<GLMaterial(GLTexture &, GLTexture &, GLTexture &, GLSLShaderProgram *)>(),
+sol::constructors<GLMaterial(GLTexture &, GLTexture &, GLTexture &,
+GLSLShaderProgram *)>(),
 sol::base_classes, sol::bases<Material>(),
-"__Dummy", []{}
+"__Dummy", [] {}
 );
 
 luaState.new_usertype<MeshSceneFinal>("Scene",
-sol::constructors<MeshSceneFinal(const std::string&, const std::string&, const std::string&, const std::string &)>(),
-sol::base_classes,  sol::bases<Mesh>(),
-"__Dummy", []{}
+sol::constructors<MeshSceneFinal(const std::string &, const std::string &,
+const std::string &, const std::string &)>(),
+sol::base_classes, sol::bases<Mesh>(),
+"EnableGPUCulling", sol::property(&MeshSceneFinal::GetEnableGPUCulling,
+&MeshSceneFinal::SetEnableGPUCulling),
+"FreezeCullingView", sol::property(&MeshSceneFinal::GetFreezeCullingView,
+&MeshSceneFinal::SetFreezeCullingView),
+"DrawOpaque",
+sol::property(&MeshSceneFinal::GetDrawOpaque, &MeshSceneFinal::SetDrawOpaque),
+"DrawTransparent", sol::property(&MeshSceneFinal::GetDrawTransparent,
+&MeshSceneFinal::SetDrawTransparent),
+"DrawGrid",
+sol::property(&MeshSceneFinal::GetDrawGrid, &MeshSceneFinal::SetDrawGrid),
+"EnableSSAO",
+sol::property(&MeshSceneFinal::GetEnableSSAO, &MeshSceneFinal::SetEnableSSAO),
+"EnableBlur",
+sol::property(&MeshSceneFinal::GetEnableBlur, &MeshSceneFinal::SetEnableBlur),
+"EnableHDR",
+sol::property(&MeshSceneFinal::GetEnableHDR, &MeshSceneFinal::SetEnableHDR),
+"EnableShadows", sol::property(&MeshSceneFinal::GetEnableShadows,
+&MeshSceneFinal::SetEnableShadows),
+"LightTheta",
+sol::property(&MeshSceneFinal::GetLightTheta, &MeshSceneFinal::SetLightTheta),
+"LightPhi",
+sol::property(&MeshSceneFinal::GetLightPhi, &MeshSceneFinal::SetLightPhi),
+"__Dummy", [] {}
 );
 
 luaState.new_usertype<GLFramebuffer>("Framebuffer",
@@ -46,7 +70,7 @@ sol::base_classes, sol::bases<IView>(),
 "Bind", &GLFramebuffer::bind,
 "UnBind", &GLFramebuffer::unbind,
 "Resize", &GLFramebuffer::resize,
-"__Dummy", []{}
+"__Dummy", [] {}
 );
 // @formatter:on
 }

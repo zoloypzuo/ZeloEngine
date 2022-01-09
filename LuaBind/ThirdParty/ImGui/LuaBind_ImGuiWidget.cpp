@@ -251,65 +251,6 @@ DragFloat2(const std::string &label, const sol::table &v, float v_speed, float v
     return std::make_tuple(float2, used);
 }
 
-inline std::tuple<sol::as_table_t<std::vector<float>>, bool> DragFloat3(const std::string &label, const sol::table &v) {
-    const lua_Number v1{v[1].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v2{v[2].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v3{v[3].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
-    float value[3] = {float(v1), float(v2), float(v3)};
-    bool used = ImGui::DragFloat3(label.c_str(), value);
-
-    sol::as_table_t float3 = sol::as_table(std::vector<float>{
-            value[0], value[1], value[2]
-    });
-
-    return std::make_tuple(float3, used);
-}
-
-inline std::tuple<sol::as_table_t<std::vector<float>>, bool>
-DragFloat3(const std::string &label, const sol::table &v, float v_speed) {
-    const lua_Number v1{v[1].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v2{v[2].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v3{v[3].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
-    float value[3] = {float(v1), float(v2), float(v3)};
-    bool used = ImGui::DragFloat3(label.c_str(), value, v_speed);
-
-    sol::as_table_t float3 = sol::as_table(std::vector<float>{
-            value[0], value[1], value[2]
-    });
-
-    return std::make_tuple(float3, used);
-}
-
-inline std::tuple<sol::as_table_t<std::vector<float>>, bool>
-DragFloat3(const std::string &label, const sol::table &v, float v_speed, float v_min) {
-    const lua_Number v1{v[1].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v2{v[2].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v3{v[3].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
-    float value[3] = {float(v1), float(v2), float(v3)};
-    bool used = ImGui::DragFloat3(label.c_str(), value, v_speed, v_min);
-
-    sol::as_table_t float3 = sol::as_table(std::vector<float>{
-            value[0], value[1], value[2]
-    });
-
-    return std::make_tuple(float3, used);
-}
-
-inline std::tuple<sol::as_table_t<std::vector<float>>, bool>
-DragFloat3(const std::string &label, const sol::table &v, float v_speed, float v_min, float v_max) {
-    const lua_Number v1{v[1].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v2{v[2].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v3{v[3].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
-    float value[3] = {float(v1), float(v2), float(v3)};
-    bool used = ImGui::DragFloat3(label.c_str(), value, v_speed, v_min, v_max);
-
-    sol::as_table_t float3 = sol::as_table(std::vector<float>{
-            value[0], value[1], value[2]
-    });
-
-    return std::make_tuple(float3, used);
-}
-
 inline std::tuple<sol::as_table_t<std::vector<float>>, bool>
 DragFloat3(const std::string &label, const sol::table &v, float v_speed, float v_min, float v_max,
            const std::string &format) {
@@ -318,22 +259,6 @@ DragFloat3(const std::string &label, const sol::table &v, float v_speed, float v
             v3{v[3].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
     float value[3] = {float(v1), float(v2), float(v3)};
     bool used = ImGui::DragFloat3(label.c_str(), value, v_speed, v_min, v_max, format.c_str());
-
-    sol::as_table_t float3 = sol::as_table(std::vector<float>{
-            value[0], value[1], value[2]
-    });
-
-    return std::make_tuple(float3, used);
-}
-
-inline std::tuple<sol::as_table_t<std::vector<float>>, bool>
-DragFloat3(const std::string &label, const sol::table &v, float v_speed, float v_min, float v_max,
-           const std::string &format, float power) {
-    const lua_Number v1{v[1].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v2{v[2].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))},
-            v3{v[3].get<std::optional<lua_Number>>().value_or(static_cast<lua_Number>(0))};
-    float value[3] = {float(v1), float(v2), float(v3)};
-    bool used = ImGui::DragFloat3(label.c_str(), value, v_speed, v_min, v_max, format.c_str(), power);
 
     sol::as_table_t float3 = sol::as_table(std::vector<float>{
             value[0], value[1], value[2]
@@ -1724,14 +1649,7 @@ void LuaBind_ImGuiWidget2(sol::table &ImGui) {
             sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&)>(DragFloat2),
             sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&, float)>(DragFloat2)
     ));
-    ImGui.set_function("DragFloat3" , sol::overload(
-            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(DragFloat3),
-            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float)>(DragFloat3),
-            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float)>(DragFloat3),
-            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float)>(DragFloat3),
-            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&)>(DragFloat3),
-            sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float, float, float, const std::string&, float)>(DragFloat3)
-    ));
+    ImGui.set_function("DragFloat3" , DragFloat3);
     ImGui.set_function("DragFloat4" , sol::overload(
             sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&)>(DragFloat4),
             sol::resolve<std::tuple<sol::as_table_t<std::vector<float>>, bool>(const std::string&, const sol::table&, float)>(DragFloat4),

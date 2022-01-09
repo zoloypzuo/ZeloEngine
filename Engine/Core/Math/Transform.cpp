@@ -89,3 +89,7 @@ void Transform::Rotate(float axisX, float axisY, float axisZ, float angle) {
 glm::vec3 Transform::GetRotation() const {
     return glm::eulerAngles(m_rotation);
 }
+
+void Transform::SetRotation(const glm::vec3 &rotation) {
+    m_rotation = glm::quat(rotation);
+}

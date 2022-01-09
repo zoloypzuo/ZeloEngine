@@ -64,8 +64,5 @@ protected:
     std::unique_ptr<GLUniformBuffer> m_engineUBO{};
 
     RenderQueue sortRenderQueue() const;
-
-private:
-    std::unique_ptr<Grid> m_grid;
 };
 }

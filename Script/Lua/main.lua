@@ -3,11 +3,19 @@
 -- author @zoloypzuo
 print("start running main.lua")
 
+local ENABLE_LUA_PANDA = true
+if ENABLE_LUA_PANDA then
+    local ZBS = "D:\\Installed\\ZeroBraneStudio"
+    package.path = package.path .. ";" .. ZBS .. "\\lualibs\\?\\?.lua;" .. ZBS .. "\\lualibs\\?.lua"
+    package.cpath = package.cpath .. ";" .. ZBS .. "\\bin\\?.dll;" .. ZBS .. "\\bin\\clibs\\?.dll"
+    require("debugger.LuaPanda").start("127.0.0.1", 8818)
+    -- require("mobdebug").start()
+end
+
 global("CWD")
 CWD = SCRIPT_DIR .. "/Lua"
 
 -- global require
-
 require("imgui.imgui_consts")
 
 require("consts")

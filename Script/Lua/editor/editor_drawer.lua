@@ -48,6 +48,15 @@ function EditorDrawer:DrawVec3(root, name, getter, setter)
     widget.setter = setter
 end
 
+function EditorDrawer:DrawVec3Direct(root, name, o, attr)
+    _CreateTitle(root, name)
+    local widget = root:CreateWidget(DragFloat3, _MIN_FLOAT, _MAX_FLOAT, 1.0)
+
+    widget.getter = function() return o[attr] end
+    widget.setter = function(value) o[attr] = value end
+end
+
+
 function EditorDrawer:DrawEnum(root, name, enum_class, getter, setter)
     _CreateTitle(root, name)
 

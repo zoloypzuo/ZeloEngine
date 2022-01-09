@@ -8,7 +8,3 @@ TheSim = Game.GetSingletonPtr()
 
 require("resource_loaders")
 require("plugins")
-
--- TODO load scene
-LoadAvatar()
-SpawnPrefab("bistro")
