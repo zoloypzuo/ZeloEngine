@@ -19,6 +19,11 @@ void LuaBind_Boot(sol::state &luaState) {
     luaState.set("SCRIPT_DIR", ResourceManager::getSingletonPtr()->getScriptDir().string());
     luaState.set("RESOURCE_DIR", ResourceManager::getSingletonPtr()->getResourceDir().string());
 
+    luaState.set_function("ZELO_PATH", sol::overload(
+            sol::resolve<std::string(const std::string &)>(ZELO_PATH),
+            sol::resolve<std::string(const std::string &, const std::string &)>(ZELO_PATH)
+    ));
+
     luaState.set_function("print", LuaScriptManager::luaLogDebug);
     luaState.set_function("logDebug", LuaScriptManager::luaLogDebug);
     luaState.set_function("logError", LuaScriptManager::luaLogError);

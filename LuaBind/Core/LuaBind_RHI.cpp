@@ -53,10 +53,10 @@ sol::constructors<Plane()>(),
 sol::base_classes, sol::bases<IMeshData>(),
 "__Dummy", []{}
 );
-luaState.new_usertype<GLSLShaderProgram>("Shader",
-sol::constructors<GLSLShaderProgram(const std::string &)>(),
-"__Dummy", []{}
-);
+//luaState.new_usertype<GLSLShaderProgram>("Shader",
+//sol::constructors<GLSLShaderProgram(const std::string &)>(),
+//"__Dummy", []{}
+//);
 
 luaState.new_usertype<IView>("IView",
 "__Dummy", []{}

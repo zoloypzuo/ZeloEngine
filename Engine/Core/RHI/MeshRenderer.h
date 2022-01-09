@@ -13,23 +13,23 @@
 namespace Zelo::Core::RHI {
 class MeshRenderer : public Zelo::Core::ECS::Component {
 public:
-    explicit MeshRenderer(Zelo::Core::ECS::Entity &owner);
+    explicit MeshRenderer(Core::ECS::Entity &owner);
 
     ~MeshRenderer() override;
 
     inline std::string getType() override { return "MESH_RENDERER"; }
 
 public:
-    ZELO_SCRIPT_API Core::RHI::Mesh &GetMesh() { return *m_mesh; }
+    ZELO_SCRIPT_API Mesh &GetMesh() { return *m_mesh; }
 
-    ZELO_SCRIPT_API Core::RHI::Material &GetMaterial() { return *m_material; }
+    ZELO_SCRIPT_API Material &GetMaterial() { return *m_material; }
 
-    ZELO_SCRIPT_API void SetMesh(Core::RHI::Mesh &mesh);
+    ZELO_SCRIPT_API void SetMesh(Mesh &mesh);
 
-    ZELO_SCRIPT_API void SetMaterial(Core::RHI::Material &material);
+    ZELO_SCRIPT_API void SetMaterial(Material &material);
 
 private:
-    Core::RHI::Mesh *m_mesh{};
-    Core::RHI::Material *m_material{};
+    Mesh *m_mesh{};
+    Material *m_material{};
 };
 }
