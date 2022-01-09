@@ -249,7 +249,7 @@ MaterialDescription convertAIMaterialToDescription(const aiMaterial *M, std::vec
         D.normalMap_ = addUnique(files, Path.C_Str());
     }
     // then height map
-    if (D.normalMap_ == 0xFFFFFFFF)
+    if (D.normalMap_ == INVALID_TEXTURE)
         if (aiGetMaterialTexture(M, aiTextureType_HEIGHT, 0, &Path, &Mapping, &UVIndex, &Blend, &TextureOp,
                                  TextureMapMode, &TextureFlags) == AI_SUCCESS)
             D.normalMap_ = addUnique(files, Path.C_Str());
@@ -507,9 +507,11 @@ std::string replaceAll(const std::string &str, const std::string &oldSubStr, con
     return result;
 }
 
-std::string convertTexture(const std::string &file, const std::string &basePath,
-                           std::unordered_map<std::string, uint32_t> &opacityMapIndices,
-                           const std::vector<std::string> &opacityMaps) {
+std::string convertTexture(
+        const std::string &file,
+        const std::string &basePath,
+        std::unordered_map<std::string, uint32_t> &opacityMapIndices,
+        const std::vector<std::string> &opacityMaps) {
     const int maxNewWidth = 512;
     const int maxNewHeight = 512;
 
@@ -519,7 +521,8 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
     // load this image
     const auto srcFile = replaceAll(basePath + file, "\\", "/");
     int texWidth, texHeight, texChannels; // NOLINT(cppcoreguidelines-init-variables)
-    stbi_uc *pixels = stbi_load(ZELO_PATH(srcFile, "").c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
+    stbi_uc *pixels = stbi_load(
+            ZELO_PATH(srcFile, "").c_str(), &texWidth, &texHeight, &texChannels, STBI_rgb_alpha);
     uint8_t *src = pixels;
     texChannels = STBI_rgb_alpha;
 
@@ -535,7 +538,7 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
         spdlog::debug("Loaded [{}] {}x{} texture with {} channels", srcFile.c_str(), texWidth, texHeight, texChannels);
     }
 
-    if (opacityMapIndices.count(file) > 0) {
+    if (opacityMapIndices.contains(file)) {
         const auto opacityMapFile = replaceAll(basePath + opacityMaps[opacityMapIndices[file]], "\\", "/");
         int opacityWidth, opacityHeight; // NOLINT(cppcoreguidelines-init-variables)
         stbi_uc *opacityPixels = stbi_load(
@@ -577,16 +580,23 @@ std::string convertTexture(const std::string &file, const std::string &basePath,
     return newFileName;
 }
 
+/// generate the internal filenames for each of the textures and convert the contents of each texture into a GPU-compatible format
+/// \param materials
+/// \param basePath
+/// \param files
+/// \param opacityMaps
 void convertAllTextures(
-        const std::vector<MaterialDescription> &materials, const std::string &basePath, std::vector<std::string> &files,
-        std::vector<std::string> &opacityMaps
-) {
+        const std::vector<MaterialDescription> &materials,
+        const std::string &basePath,
+        std::vector<std::string> &files,
+        std::vector<std::string> &opacityMaps) {
     std::unordered_map<std::string, uint32_t> opacityMapIndices(files.size());
 
-    for (const auto &m : materials)
-        if (m.opacityMap_ != 0xFFFFFFFF && m.albedoMap_ != 0xFFFFFFFF)
+    for (const auto &m : materials) {
+        if (m.opacityMap_ != INVALID_TEXTURE && m.albedoMap_ != INVALID_TEXTURE) {
             opacityMapIndices[files[m.albedoMap_]] = (uint32_t) m.opacityMap_;
-
+        }
+    }
     auto converter = [&](const std::string &s) -> std::string {
         return convertTexture(s, basePath, opacityMapIndices, opacityMaps);
     };
