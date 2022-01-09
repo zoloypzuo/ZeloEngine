@@ -14,6 +14,8 @@ namespace Zelo {
 class Engine;
 
 class Plugin;
+
+class ProjectHub;
 }
 
 namespace Zelo::Core::LuaScript {
@@ -23,6 +25,7 @@ class LuaScriptManager :
         public IRuntimeModule {
 public:
     friend class Zelo::Engine;  // initBoot
+    friend class Zelo::ProjectHub;  // initBoot
 
 public:
     LuaScriptManager();

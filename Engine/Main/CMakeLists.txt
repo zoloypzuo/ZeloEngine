@@ -1,6 +1,7 @@
-add_executable(Hello Main.cpp)
+add_executable(Hello Main.cpp ProjectHub.cpp)
 
 target_link_libraries(Hello PRIVATE Engine)
+target_link_libraries(Hello PRIVATE Optick Whereami)  # ProjectHub
 
 # vld
 option(DETECT_MEMORY_LEAK "DetectMemoryLeak" OFF)
