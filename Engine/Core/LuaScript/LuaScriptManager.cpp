@@ -113,10 +113,6 @@ std::string LuaScriptManager::vaToString(sol::variadic_args &va) {
     return oss.str();
 }
 
-void LuaScriptManager::callLuaInitializeFn() {
-    luaCall("Initialize");
-}
-
 void LuaScriptManager::callLuaPluginInitializeFn(Plugin *plugin) {
     auto klass = this->get<sol::table>(plugin->getName());
     auto init = klass.get<sol::optional<sol::protected_function>>("Initialize");

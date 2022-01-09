@@ -12,7 +12,7 @@ class LogManager : public Singleton<LogManager> {
 public:
     LogManager();
 
-    ~LogManager() = default;
+    ~LogManager();
 
     static LogManager *getSingletonPtr();
 

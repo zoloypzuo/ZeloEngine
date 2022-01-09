@@ -3,7 +3,6 @@
 // author @zoloypzuo
 #include <sol/sol.hpp>
 
-#include "Engine.h"
 #include "Core/LuaScript/LuaScriptManager.h"
 #include "Core/Resource/ResourceManager.h"
 #include "Foundation/ZeloPlugin.h"
@@ -22,5 +21,4 @@ void LuaBind_Boot(sol::state &luaState) {
     luaState.set_function("print", LuaScriptManager::luaLogDebug);
     luaState.set_function("logDebug", LuaScriptManager::luaLogDebug);
     luaState.set_function("logError", LuaScriptManager::luaLogError);
-    luaState.set_function("install", Engine::install);
 }

@@ -5,8 +5,18 @@ PI = 3.14
 
 -- main loop hook
 function Initialize()
-    print("initialize")
-    require("main_initialize")
+    print("Initialize")
+    global("TheSim")
+    TheSim = Game.GetSingletonPtr()
+
+    require("resource_loaders")
+    require("plugins")
+end
+
+function Initialize_ProjectHub()
+    print("Initialize_ProjectHub")
+    require("resource_loaders")
+    require("plugins.imgui_manager")
 end
 
 function Finalize()

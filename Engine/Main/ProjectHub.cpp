@@ -32,7 +32,10 @@ void ProjectHub::initialize() {
     m_renderSystem->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
-    m_luaScriptManager->callLuaInitializeFn();
+
+    m_imguiManager = std::make_unique<ImGuiManager>();
+    installPlugin(m_imguiManager.get());
+    m_luaScriptManager->luaCall("Initialize_ProjectHub");
 
     m_window->makeCurrentContext();
 

@@ -47,7 +47,6 @@ public:
     ZELO_SCRIPT_API static void luaLogError(sol::variadic_args va);
 
 public:
-    void callLuaInitializeFn();
 
     void callLuaPluginInitializeFn(Plugin *plugin);
 

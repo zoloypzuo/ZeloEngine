@@ -14,7 +14,6 @@
 #include "Core/RHI/RenderSystem.h"
 #include "Core/Resource/ResourceManager.h"
 #include "Core/Scene/SceneManager.h"
-#include "Core/UI/ImGuiManager.h"
 
 namespace Zelo {
 class Engine :
@@ -44,9 +43,6 @@ public:
     void uninstallPlugin(Plugin *plugin);
 
     const PluginInstanceList &getInstalledPlugins() const { return m_plugins; }
-
-public:
-    ZELO_SCRIPT_API static void install(Plugin *plugin);
 
 public:
     static Engine *getSingletonPtr();

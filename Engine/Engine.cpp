@@ -10,6 +10,8 @@
 #include <optick.h>
 #include <whereami.h>
 
+#include <spdlog/sinks/stdout_color_sinks.h>
+
 using namespace Zelo;
 using namespace Zelo::Core::Log;
 using namespace Zelo::Core::OS;
@@ -17,7 +19,6 @@ using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
 using namespace Zelo::Renderer::OpenGL;
-using namespace Zelo::Core::UI;
 using namespace Zelo::Core::Scene;
 
 void Engine::initialize() {
@@ -32,7 +33,8 @@ void Engine::initialize() {
     m_renderSystem->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
-    m_luaScriptManager->callLuaInitializeFn();
+    m_luaScriptManager->set_function("install", [](Plugin *plugin) { Engine::getSingleton().installPlugin(plugin); });
+    m_luaScriptManager->luaCall("Initialize");
 
     m_window->makeCurrentContext();
 
@@ -55,7 +57,7 @@ void Engine::bootstrap() {
 }
 
 void Engine::initBootLogger() const {
-    auto logger = spdlog::default_logger()->clone("boot");
+    auto logger = spdlog::stderr_color_mt("boot");
     logger->set_level(spdlog::level::debug);  // show all log
     logger->set_pattern("[%T.%e] [%n] [%^%l%$] %v");  // remove datetime in ts
     spdlog::set_default_logger(logger);
@@ -215,8 +217,4 @@ void Engine::uninstallPlugin(Plugin *plugin) {
     }
 
     spdlog::debug("plugin uninstalled successfully: {}", plugin->getName());
-}
-
-void Engine::install(Plugin *plugin) {
-    Engine::getSingleton().installPlugin(plugin);
 }

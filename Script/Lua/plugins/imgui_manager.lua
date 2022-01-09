@@ -49,8 +49,8 @@ function ImGuiManager.Initialize()
     UI.enable_docking = false
 
     -- TODO load scene
-    LoadAvatar()
-    SpawnPrefab("bistro")
+    --LoadAvatar()
+    --SpawnPrefab("bistro")
 end
 
 function ImGuiManager.Update()
