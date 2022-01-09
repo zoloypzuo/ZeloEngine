@@ -47,7 +47,10 @@ inline bool ArrowButton(const std::string &stringID, int dir) {
 }
 
 inline void Image(int textureID, const ImVec2 &size, const ImVec2 &uv0, const ImVec2 &uv1) {
-    ImGui::Image(reinterpret_cast<void *>(textureID), size, uv0, uv1);
+#pragma warning( push )
+#pragma warning( disable : 4312 )
+    ImGui::Image((void *) textureID, size, uv0, uv1);
+#pragma warning( pop )
 }
 
 inline std::tuple<bool, bool> Checkbox(const std::string &label, bool v) {
