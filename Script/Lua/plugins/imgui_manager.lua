@@ -28,12 +28,14 @@ function ImGuiManager.Initialize()
 
         local ProjectHubPanel = require("editor.panels.project_hub_panel.project_hub_panel")
         TheFrontEnd:LoadPanel(ProjectHubPanel, "ProjectHub", true)
+
+        UI:ResetLayout("Config/default_layout_project_hub.ini")
         return
     end
 
     ImGuiManager._InitPanels()
 
-    UI:ResetLayout()
+    UI:ResetLayout("Config/default_layout.ini")
     UI.enable_docking = false
 
     -- TODO load scene
