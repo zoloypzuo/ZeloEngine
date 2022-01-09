@@ -22,6 +22,26 @@ function ImGuiManager.Initialize()
 
     require("editor.editor_actions")
 
+    if PROJECT_HUB then
+        local MenuBarPanel = require("editor.panels.menu_bar_panel.menu_bar_panel")
+        TheFrontEnd:LoadPanel(MenuBarPanel, "", true)
+
+        local ProjectHubPanel = require("editor.panels.project_hub_panel.project_hub_panel")
+        TheFrontEnd:LoadPanel(ProjectHubPanel, "ProjectHub", true)
+        return
+    end
+
+    ImGuiManager._InitPanels()
+
+    UI:ResetLayout()
+    UI.enable_docking = false
+
+    -- TODO load scene
+    LoadAvatar()
+    SpawnPrefab("bistro")
+end
+
+function ImGuiManager._InitPanels()
     local MenuBarPanel = require("editor.panels.menu_bar_panel.menu_bar_panel")
     TheFrontEnd:LoadPanel(MenuBarPanel, "", true)
 
@@ -44,13 +64,6 @@ function ImGuiManager.Initialize()
 
     local MaterialEditor = require("editor.panels.material_editor_panel.material_editor_panel")
     TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", false)
-
-    UI:ResetLayout()
-    UI.enable_docking = false
-
-    -- TODO load scene
-    --LoadAvatar()
-    --SpawnPrefab("bistro")
 end
 
 function ImGuiManager.Update()

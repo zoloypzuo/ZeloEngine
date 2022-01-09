@@ -15,6 +15,8 @@ end
 
 function Initialize_ProjectHub()
     print("Initialize_ProjectHub")
+    global("PROJECT_HUB")
+    PROJECT_HUB = true
     require("resource_loaders")
     require("plugins.imgui_manager")
 end
