@@ -13,6 +13,7 @@
 #include <assimp/pbrmaterial.h>
 #include <assimp/postprocess.h>
 #include <assimp/scene.h>
+
 #include <rapidjson/rapidjson.h>
 #include <rapidjson/istreamwrapper.h>
 #include <rapidjson/ostreamwrapper.h>
@@ -35,7 +36,6 @@
 #include <spdlog/sinks/basic_file_sink.h>
 
 #include <crossguid/guid.hpp>
-#include <absl/strings/match.h>
 
 namespace fs = std::filesystem;
 

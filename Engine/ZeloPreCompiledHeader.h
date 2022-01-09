@@ -10,8 +10,11 @@
 #include "Foundation/ZeloStringUtil.h" // string patch
 #include "Core/Math/Mathf.h"  // common math patch
 
-// This ignores all warnings raised inside External headers
-#pragma warning(push, 0)
+// c++ patch
+#include <absl/strings/match.h>
+
+// spdlog
+#pragma warning(push, 0)  // This ignores all warnings raised inside External headers
 
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/fmt.h>
@@ -40,6 +43,7 @@
 
 // log
 // Core log macros
+// TODO log to core logger
 #define ZELO_CORE_TRACE(...)    spdlog::trace(__VA_ARGS__)
 #define ZELO_CORE_INFO(...)     spdlog::info(__VA_ARGS__)
 #define ZELO_CORE_WARN(...)     spdlog::warn(__VA_ARGS__)
@@ -57,7 +61,7 @@
 
 #ifdef ZELO_ENABLE_ASSERTS
 
-// Alteratively we could use the same "default" message for both "WITH_MSG" and "NO_MSG" and
+// Alternatively we could use the same "default" message for both "WITH_MSG" and "NO_MSG" and
 // provide support for custom formatting by concatenating the formatting string instead of having the format inside the default message
 #define __ZELO_INTERNAL_ASSERT_IMPL(type, check, msg, ...) { if(!(check)) { ZELO##type##ERROR(msg, __VA_ARGS__); ZELO_DEBUGBREAK(); } }
 #define __ZELO_INTERNAL_ASSERT_WITH_MSG(type, check, ...) __ZELO_INTERNAL_ASSERT_IMPL(type, check, "Assertion failed: {0}", __VA_ARGS__)
