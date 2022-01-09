@@ -1,11 +1,9 @@
-#ifndef SKYBOX_H
-#define SKYBOX_H
+#pragma once
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
-//#include "drawable.h"
 
-//class SkyBox : public Drawable
+namespace Zelo::Renderer::OpenGL {
 class SkyBox {
 private:
     unsigned int vaoHandle{};
@@ -15,5 +13,4 @@ public:
 
     void render() const;
 };
-
-#endif // SKYBOX_H
+}
