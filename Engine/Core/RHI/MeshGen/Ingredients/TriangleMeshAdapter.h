@@ -5,9 +5,9 @@
 
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"  // GLuint GLfloat
-#include "Core/Interface/IMeshData.h"
+#include "Core/RHI/IMeshData.h"
 
-class TriangleMeshAdapter : public Zelo::Core::Interface::IMeshData {
+class TriangleMeshAdapter : public Zelo::Core::RHI::IMeshData {
 public:
     ~TriangleMeshAdapter() override = default;
 

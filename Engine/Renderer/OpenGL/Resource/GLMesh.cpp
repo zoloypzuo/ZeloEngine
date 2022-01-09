@@ -29,7 +29,7 @@ GLMesh::GLMesh(Vertex vertices[], size_t vertSize, uint32_t indices[],
     m_vao.setIndexBuffer(indexBuffer);
 }
 
-GLMesh::GLMesh(Zelo::Core::Interface::IMeshData &iMeshGen) :
+GLMesh::GLMesh(Zelo::Core::RHI::IMeshData &iMeshGen) :
         GLMesh(&iMeshGen.getVertices()[0],
                iMeshGen.getVertices().size(),
                &iMeshGen.getIndices()[0],

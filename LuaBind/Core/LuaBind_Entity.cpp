@@ -18,7 +18,6 @@
 using namespace Zelo;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::LuaScript;
-using namespace Zelo::Core::Interface;
 using namespace Zelo::Core::Parser;
 using namespace Zelo::Core::RHI;
 

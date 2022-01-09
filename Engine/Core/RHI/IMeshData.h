@@ -6,7 +6,7 @@
 #include "ZeloPrerequisites.h"
 #include "Core/RHI/Buffer/Vertex.h"
 
-namespace Zelo::Core::Interface {
+namespace Zelo::Core::RHI {
 class IMeshData {
 public:
     virtual ~IMeshData() = default;

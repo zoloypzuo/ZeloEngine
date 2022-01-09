@@ -4,10 +4,10 @@
 #pragma once
 
 #include "ZeloPrerequisites.h"
-#include "Core/Interface/IMeshData.h"
+#include "Core/RHI/IMeshData.h"
 
 namespace Zelo::Core::RHI {
-class Plane : public Core::Interface::IMeshData {
+class Plane : public IMeshData {
 public:
     Plane();
 
