@@ -53,6 +53,8 @@ public:
 
     bool shouldQuit() const;
 
+    void setQuit();
+
     void drawCursor(bool enabled);
 
     void setFullscreen(uint32_t flag);

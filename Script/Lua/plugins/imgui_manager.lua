@@ -37,10 +37,6 @@ function ImGuiManager.Initialize()
 
     UI:ResetLayout("Config/default_layout.ini")
     UI.enable_docking = false
-
-    -- TODO load scene
-    LoadAvatar()
-    SpawnPrefab("bistro")
 end
 
 function ImGuiManager._InitPanels()

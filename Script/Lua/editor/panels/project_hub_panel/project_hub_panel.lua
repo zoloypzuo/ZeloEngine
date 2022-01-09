@@ -84,10 +84,11 @@ function ProjectHubPanel:_Spacing()
 end
 
 function ProjectHubPanel:_ProjectList()
+    local sandbox_configs = require("sandbox.sandbox_config")
     local columns = self:CreateWidget(Columns, 2)
     columns.widths = { 1000, 500 }
-    for i, line in ipairs({ "test1", "test2", "test3" }) do
-        local text = columns:CreateWidget(Text, line)
+    for _, sandbox_config in ipairs(sandbox_configs) do
+        local text = columns:CreateWidget(Text, sandbox_config.name)
         local actions = columns:CreateWidget(Group)
         local openButton = actions:CreateWidget(Button, "Open")
         local deleteButton = actions:CreateWidget(Button, "Delete")
@@ -96,7 +97,8 @@ function ProjectHubPanel:_ProjectList()
         deleteButton.idleBackgroundColor = RGBA(0.5, 0., 0.)
 
         openButton:AddOnClickHandler(function()
-            print("OpenProject", line)
+            print("OpenProject", sandbox_config.name)
+            TheSim:Quit()
         end)
         deleteButton:AddOnClickHandler(function()
             --text.Destroy();
