@@ -9,4 +9,5 @@ end)
 
 return {
     SandboxConfig("Ch3_SampleGL03_CubeMap");
+    SandboxConfig("Ch10_SampleGL05_Final");
 }
