@@ -1,5 +1,5 @@
-// Engine.h
-// created on 2021/3/28
+// ProjectHub.h
+// created on 2022/1/9
 // author @zoloypzuo
 #pragma once
 
@@ -10,21 +10,20 @@
 #include "Core/OS/Time.h"
 #include "Core/OS/Window.h"
 #include "Core/OS/Input.h"
-#include "Core/RHI/RenderSystem.h"
 #include "Core/Resource/ResourceManager.h"
-#include "Core/Scene/SceneManager.h"
+#include "Core/UI/ImGuiManager.h"
 
 namespace Zelo {
-class Engine :
-        public Singleton<Engine>,
+class ProjectHub :
+        public Singleton<ProjectHub>,
         public IRuntimeModule {
 public:
     typedef std::vector<Plugin *> PluginInstanceList;
 
 public:
-    Engine();
+    ProjectHub();
 
-    ~Engine() override;
+    ~ProjectHub() override;
 
     void initialize() override;
 
@@ -43,11 +42,6 @@ public:
 
     const PluginInstanceList &getInstalledPlugins() const { return m_plugins; }
 
-public:
-    static Engine *getSingletonPtr();
-
-    static Engine &getSingleton();
-
 protected:
     std::unique_ptr<Core::Log::LogManager> m_logManager{};
     std::unique_ptr<Core::OS::Time> m_timeSystem{};
@@ -55,8 +49,7 @@ protected:
     std::unique_ptr<Core::OS::Window> m_window{};
     std::unique_ptr<Core::LuaScript::LuaScriptManager> m_luaScriptManager{};
     std::unique_ptr<Core::Resource::ResourceManager> m_resourceManager{};
-    std::unique_ptr<Core::Scene::SceneManager> m_sceneManager;
-    std::unique_ptr<Core::RHI::RenderSystem> m_renderSystem{};
+    std::unique_ptr<Core::UI::ImGuiManager> m_imguiManager{};
 
     std::vector<Plugin *> m_plugins;
 

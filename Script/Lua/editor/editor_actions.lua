@@ -34,7 +34,7 @@ end
 
 function EditorActions:ResetLayout()
     print("ResetLayout")
-    UI:ResetLayout()
+    UI:ResetLayout("Config/default_layout.ini")
 end
 
 TheEditorActions = EditorActions()

@@ -48,4 +48,8 @@ LogManager::LogManager() {
         logger->set_level(spdlog::level::debug);
     }
 }
+
+LogManager::~LogManager() {
+    spdlog::drop_all();
+}
 }

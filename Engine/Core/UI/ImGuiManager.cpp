@@ -279,8 +279,8 @@ bool ImGuiManager::IsDockingEnabled() const {
     return ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_DockingEnable;
 }
 
-void ImGuiManager::ResetLayout() const {
-    Resource layoutConfig("Config/default_layout.ini");
+void ImGuiManager::ResetLayout(std::string_view fileName) const {
+    Resource layoutConfig(fileName);
     ImGui::LoadIniSettingsFromMemory(layoutConfig.read(), layoutConfig.getFileSize());
 }
 

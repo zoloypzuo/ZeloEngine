@@ -52,7 +52,7 @@ public:
 
     ZELO_SCRIPT_API bool IsDockingEnabled() const;
 
-    ZELO_SCRIPT_API void ResetLayout() const;
+    ZELO_SCRIPT_API void ResetLayout(std::string_view fileName) const;
 
     ZELO_SCRIPT_API std::string OpenFileDialog();
 

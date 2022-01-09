@@ -194,4 +194,8 @@ void *Window::getHwnd() const {
 void Window::delay(uint32_t delayInMs) {
     SDL_Delay(delayInMs);
 }
+
+void Window::setQuit() {
+    m_quit = true;
+}
 }

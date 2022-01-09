@@ -5,8 +5,31 @@ PI = 3.14
 
 -- main loop hook
 function Initialize()
-    print("initialize")
-    require("main_initialize")
+    print("Initialize")
+    global("TheSim")
+    TheSim = Game.GetSingletonPtr()
+
+    require("resource_loaders")
+    require("plugins")
+
+    local file = io.open("project_hub.txt", "r")
+    local sandbox_name = file:read()
+    file:close()
+    print("sandbox name", sandbox_name)
+    local sandbox = require("sandbox." .. sandbox_name .. ".sandbox_main")
+    sandbox.Sandbox_Initialize()
+end
+
+function Initialize_ProjectHub()
+    print("Initialize_ProjectHub")
+    global("PROJECT_HUB")
+    PROJECT_HUB = true
+
+    global("TheSim")
+    TheSim = Game.GetSingletonPtr()
+
+    require("resource_loaders")
+    require("plugins.imgui_manager")
 end
 
 function Finalize()

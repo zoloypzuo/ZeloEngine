@@ -1,41 +1,34 @@
-// Engine.cpp
-// created on 2021/3/28
+// ProjectHub.cpp.cc
+// created on 2022/1/9
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "Engine.h"
+#include "ProjectHub.h"
 #include "Foundation/ZeloPlugin.h"
-#include "Foundation/ZeloProfiler.h"
 #include "Core/Parser/IniReader.h"
-#include "Renderer/OpenGL/GLRenderSystem.h"
 
-#include <optick.h>
 #include <whereami.h>
-
-#include <spdlog/sinks/stdout_color_sinks.h>
 
 using namespace Zelo;
 using namespace Zelo::Core::Log;
 using namespace Zelo::Core::OS;
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
-using namespace Zelo::Core::RHI;
-using namespace Zelo::Renderer::OpenGL;
-using namespace Zelo::Core::Scene;
+using namespace Zelo::Core::UI;
 
-void Engine::initialize() {
+void ProjectHub::initialize() {
     bootstrap();
 
     m_logManager = std::make_unique<LogManager>();
+//    spdlog::apply_all([](const auto &logger) { logger->set_level(spdlog::level::off); });
+
     m_luaScriptManager->initialize();
     m_window = std::make_unique<Window>();
     m_input = std::make_unique<Input>();
     m_window->initialize();
-    m_renderSystem = std::make_unique<GLRenderSystem>();
-    m_renderSystem->initialize();
-    m_sceneManager = std::make_unique<SceneManager>();
-    m_sceneManager->initialize();
-    m_luaScriptManager->set_function("install", [](Plugin *plugin) { Engine::getSingleton().installPlugin(plugin); });
-    m_luaScriptManager->luaCall("Initialize");
+
+    m_imguiManager = std::make_unique<ImGuiManager>();
+    installPlugin(m_imguiManager.get());
+    m_luaScriptManager->luaCall("Initialize_ProjectHub");
 
     m_window->makeCurrentContext();
 
@@ -47,7 +40,7 @@ void Engine::initialize() {
     m_isInitialised = true;
 }
 
-void Engine::bootstrap() {
+void ProjectHub::bootstrap() {
     // init config and logger first
     initBootLogger();
     auto engineDir = loadBootConfig();
@@ -57,93 +50,45 @@ void Engine::bootstrap() {
     m_luaScriptManager->initBoot();
 }
 
-void Engine::initBootLogger() const {
-    auto logger = spdlog::stderr_color_mt("boot");
+void ProjectHub::initBootLogger() const {
+    auto logger = spdlog::default_logger()->clone("boot");
     logger->set_level(spdlog::level::debug);  // show all log
     logger->set_pattern("[%T.%e] [%n] [%^%l%$] %v");  // remove datetime in ts
     spdlog::set_default_logger(logger);
 }
 
-void Engine::finalize() {
+void ProjectHub::finalize() {
     finalizePlugins();
 
     m_timeSystem->finalize();
-    m_sceneManager->finalize();
-    m_renderSystem->finalize();
     m_window->finalize();
     m_luaScriptManager->finalize();
 }
 
-void Engine::update() {
-    OPTICK_EVENT();
-    {
-        m_timeSystem->update();
-    }
-    {
-        OPTICK_CATEGORY("UpdateInput", Optick::Category::Input);
-        m_window->update();  // input poll events
-    }
-    {
-        OPTICK_CATEGORY("UpdateLogic", Optick::Category::GameLogic);
-        m_sceneManager->update();
-        m_luaScriptManager->update();
-        updatePlugins();
-    }
-    {
-        OPTICK_CATEGORY("Draw", Optick::Category::Rendering);
-        m_renderSystem->update();
-    }
-    {
-        OPTICK_CATEGORY("DrawPlugins", Optick::Category::Rendering);
-        renderPlugins();
-    }
-    {
-        OPTICK_CATEGORY("SwapBuffer", Optick::Category::Rendering);
-        m_window->swapBuffer();  // swap buffer
-    }
+void ProjectHub::update() {
+    m_timeSystem->update();
+    m_window->update();  // input poll events
+    m_luaScriptManager->update();
+    updatePlugins();
+    renderPlugins();
+    m_window->swapBuffer();  // swap buffer
 }
 
-void Engine::start() {
-    // Setting memory allocators
-    OPTICK_SET_MEMORY_ALLOCATOR(
-            [](size_t size) -> void * { return operator new(size); },
-            [](void *p) { operator delete(p); },
-            []() { /* Do some TLS initialization here if needed */ }
-    );
-
-    ZELO_PROFILE_BEGIN_SESSION("Startup", "ZeloProfile-Startup.json");
+void ProjectHub::start() {
     initialize();
-    ZELO_PROFILE_END_SESSION();
-
-    ZELO_PROFILE_BEGIN_SESSION("Runtime", "ZeloProfile-Runtime.json");
     while (!m_window->shouldQuit()) {
-        OPTICK_FRAME("MainThread");
         update();
     }
-    ZELO_PROFILE_END_SESSION();
-
-    ZELO_PROFILE_BEGIN_SESSION("Shutdown", "ZeloProfile-Shutdown.json");
     finalize();
-    ZELO_PROFILE_END_SESSION();
-    OPTICK_SHUTDOWN();
 }
 
-Engine::Engine() = default;
+ProjectHub::ProjectHub() = default;
 
-Engine::~Engine() = default;
+ProjectHub::~ProjectHub() = default;
 
-template<> Engine *Zelo::Singleton<Engine>::msSingleton = nullptr;
+template<> ProjectHub *Zelo::Singleton<ProjectHub>::msSingleton = nullptr;
 
-Engine *Engine::getSingletonPtr() {
-    return msSingleton;
-}
-
-Engine &Engine::getSingleton() {
-    assert(msSingleton);
-    return *msSingleton;
-}
-
-std::filesystem::path Engine::loadBootConfig() {
+std::filesystem::path ProjectHub::loadBootConfig() {
     char exePathRaw[256];
     auto length = 256;
     wai_getExecutablePath(exePathRaw, length, &length);
@@ -160,7 +105,7 @@ std::filesystem::path Engine::loadBootConfig() {
     return bootConfig->GetString("boot", "engineDir", "");
 }
 
-void Engine::initializePlugins() {
+void ProjectHub::initializePlugins() {
     for (auto &plugin: m_plugins) {
         plugin->initialize();
     }
@@ -169,13 +114,13 @@ void Engine::initializePlugins() {
     }
 }
 
-void Engine::finalizePlugins() {
+void ProjectHub::finalizePlugins() {
     for (auto &plugin: m_plugins) {
         plugin->finalize();
     }
 }
 
-void Engine::updatePlugins() {
+void ProjectHub::updatePlugins() {
     for (auto &plugin: m_plugins) {
         plugin->update();
     }
@@ -184,13 +129,13 @@ void Engine::updatePlugins() {
     }
 }
 
-void Engine::renderPlugins() {
+void ProjectHub::renderPlugins() {
     for (auto &plugin: m_plugins) {
         plugin->render();
     }
 }
 
-void Engine::installPlugin(Plugin *plugin) {
+void ProjectHub::installPlugin(Plugin *plugin) {
     spdlog::debug("installing plugin: {}", plugin->getName());
 
     m_plugins.push_back(plugin);
@@ -204,7 +149,7 @@ void Engine::installPlugin(Plugin *plugin) {
     spdlog::debug("plugin installed successfully: {}", plugin->getName());
 }
 
-void Engine::uninstallPlugin(Plugin *plugin) {
+void ProjectHub::uninstallPlugin(Plugin *plugin) {
     spdlog::debug("uninstalling plugin: {}", plugin->getName());
 
     auto i = std::find_if(

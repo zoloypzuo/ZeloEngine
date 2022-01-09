@@ -14,6 +14,8 @@ namespace Zelo {
 class Engine;
 
 class Plugin;
+
+class ProjectHub;
 }
 
 namespace Zelo::Core::LuaScript {
@@ -23,6 +25,7 @@ class LuaScriptManager :
         public IRuntimeModule {
 public:
     friend class Zelo::Engine;  // initBoot
+    friend class Zelo::ProjectHub;  // initBoot
 
 public:
     LuaScriptManager();
@@ -44,7 +47,6 @@ public:
     ZELO_SCRIPT_API static void luaLogError(sol::variadic_args va);
 
 public:
-    void callLuaInitializeFn();
 
     void callLuaPluginInitializeFn(Plugin *plugin);
 

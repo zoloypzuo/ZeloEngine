@@ -9,7 +9,6 @@
 #include "Foundation/ZeloEvent.h"
 
 #include "Core/OS/Input.h"
-#include "Core/Parser/IniReader.h"
 #include "Core/Interface/IView.h"
 
 #include "Config/WindowConfig.h"
@@ -52,6 +51,8 @@ public:
     SDL_GLContext getGLContext() { return m_glContext; }
 
     bool shouldQuit() const;
+
+    void setQuit();
 
     void drawCursor(bool enabled);
 
