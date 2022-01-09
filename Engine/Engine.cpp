@@ -5,6 +5,7 @@
 #include "Engine.h"
 #include "Foundation/ZeloPlugin.h"
 #include "Foundation/ZeloProfiler.h"
+#include "Core/Parser/IniReader.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
 
 #include <optick.h>

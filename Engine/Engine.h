@@ -10,7 +10,6 @@
 #include "Core/OS/Time.h"
 #include "Core/OS/Window.h"
 #include "Core/OS/Input.h"
-#include "Core/Parser/IniReader.h"
 #include "Core/RHI/RenderSystem.h"
 #include "Core/Resource/ResourceManager.h"
 #include "Core/Scene/SceneManager.h"
