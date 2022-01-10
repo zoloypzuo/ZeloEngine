@@ -98,12 +98,7 @@ function ProjectHubPanel:_ProjectList()
         deleteButton.idleBackgroundColor = RGBA(0.5, 0., 0.)
 
         openButton:AddOnClickHandler(function()
-            print("OpenProject", sandbox_config.name)
-            local file = io.open("project_hub.txt", "w")
-            file:write(sandbox_config.name)
-            file:close()
-            PushEngine()
-            Quit()
+            TheEditorActions:LoadSandbox(sandbox_config.name)
         end)
 
         deleteButton:AddOnClickHandler(function()
