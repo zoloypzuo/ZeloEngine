@@ -4,7 +4,8 @@
 #include "ZeloPreCompiledHeader.h"
 #include "Grid.h"
 
-Grid::Grid() {
+namespace Zelo::Renderer::OpenGL {
+Grid::Grid(Core::ECS::Entity &owner) : Core::ECS::Component(owner) {
     glGenVertexArrays(1, &m_vao);
     m_gridShader = std::make_unique<GLSLShaderProgram>("grid.glsl");
     m_gridShader->link();
@@ -19,4 +20,9 @@ void Grid::render() const {
     glDrawArraysInstancedBaseInstance(GL_TRIANGLES, 0, 6, 1, 0);
     glEnable(GL_CULL_FACE);
     glDisable(GL_BLEND);
+}
+
+std::string Grid::getType() {
+    return "Grid";
+}
 }
