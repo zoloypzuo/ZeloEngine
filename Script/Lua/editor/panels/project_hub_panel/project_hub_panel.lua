@@ -96,6 +96,10 @@ function ProjectHubPanel:_ProjectList()
         openButton.idleBackgroundColor = RGBA(0.7, 0.5, 0.)
         deleteButton.idleBackgroundColor = RGBA(0.5, 0., 0.)
 
+        if io.open("project_hub.txt", "r") then
+            Quit()
+        end
+
         openButton:AddOnClickHandler(function()
             print("OpenProject", sandbox_config.name)
             local file = io.open("project_hub.txt", "w")
