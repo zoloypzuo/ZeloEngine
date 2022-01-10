@@ -3,5 +3,5 @@ return {
     diffuse = "bricks2.jpg";
     normal = "bricks2_normal.jpg";
     specular = "bricks2_specular.png";
-    shader = "mesh.glsl";
+    shader = "mesh_inst.glsl";
 }
