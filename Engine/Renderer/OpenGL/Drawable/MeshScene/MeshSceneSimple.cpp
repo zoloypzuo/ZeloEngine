@@ -1,8 +1,8 @@
-// MeshScene.cpp.cc
+// MeshSceneSimple.cpp
 // created on 2021/12/16
 // author @zoloypzuo
 #include "ZeloPreCompiledHeader.h"
-#include "MeshScene.h"
+#include "MeshSceneSimple.h"
 
 #include "Core/Resource/ResourceManager.h"
 #include "Core/Scene/SceneManager.h"
@@ -19,6 +19,7 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::Resource;
 
 namespace Zelo::Renderer::OpenGL {
 
@@ -39,11 +40,6 @@ static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTextu
     return textures[idx].getHandleBindless();
 }
 
-static std::string ZELO_PATH(const std::string &fileName) {
-    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
-    return resourcem->resolvePath(fileName).string();
-}
-
 namespace {
 struct PerFrameData {
     mat4 view;
@@ -53,7 +49,7 @@ struct PerFrameData {
 const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
 }
 
-struct MeshScene::Impl {
+struct MeshSceneSimple::Impl {
 #pragma region static
     // mesh
     MeshData meshData_;
@@ -88,7 +84,7 @@ struct MeshScene::Impl {
     int getDrawCount() const;
 };
 
-MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
+MeshSceneSimple::Impl::Impl(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
     {
         // load mesh
         loadMeshData(meshFile.c_str(), meshData_);
@@ -193,9 +189,9 @@ MeshScene::Impl::Impl(const std::string &sceneFile, const std::string &meshFile,
     }
 }
 
-int MeshScene::Impl::getDrawCount() const { return drawDataList.size(); }
+int MeshSceneSimple::Impl::getDrawCount() const { return drawDataList.size(); }
 
-void MeshScene::Impl::render() const {
+void MeshSceneSimple::Impl::render() const {
     // perFrameDataBuffer
     {
         auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
@@ -217,14 +213,14 @@ void MeshScene::Impl::render() const {
     glMultiDrawElementsIndirectCount(GL_TRIANGLES, GL_UNSIGNED_INT, startOffset, 0, getDrawCount(), 0);
 }
 
-MeshScene::MeshScene(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
+MeshSceneSimple::MeshSceneSimple(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
     pimpl = std::make_shared<Impl>(
             ZELO_PATH(sceneFile), ZELO_PATH(meshFile), ZELO_PATH(materialFile));
 }
 
-MeshScene::~MeshScene() = default;
+MeshSceneSimple::~MeshSceneSimple() = default;
 
-void MeshScene::render() {
+void MeshSceneSimple::render() {
     pimpl->render();
 }
 }

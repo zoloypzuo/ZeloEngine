@@ -3,21 +3,21 @@ local LoadResource = LoadResource
 local Prefab = Prefab
 
 local assets = {
-    mesh = "monkey3.obj";
-    material = "monkey.mat";
+    scene = "bistro_simple.scene";
+    mat = "bistro_simple.mat";
 }
 
 local function fn()
     local inst = CreateEntity()
     inst.entity:AddTransform()
-    inst:AddTag("monkey")
+    inst:AddTag("bistro_simple")
 
     inst.entity:AddMeshRenderer(
-            LoadResource(assets.mesh),
-            LoadResource(assets.material)
+            LoadResource(assets.scene),
+            LoadResource(assets.mat)
     )
 
     return inst
 end
 
-return Prefab("monkey", fn, assets)
+return Prefab("bistro_simple", fn, assets)

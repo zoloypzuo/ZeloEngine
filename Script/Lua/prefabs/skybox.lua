@@ -1,5 +1,5 @@
--- plane
--- created on 2021/8/9
+-- skybox.lua
+-- created on 2022/1/10
 -- author @zoloypzuo
 local CreateEntity = CreateEntity
 local LoadResource = LoadResource

@@ -12,7 +12,8 @@
             "connectionPort": 8818,
             "stopOnEntry": true,
             "useCHook": true,
-            "autoPathMode": true
+            "autoPathMode": true,
+            "distinguishSameNameFile": true
         },
         {
             "type": "lua",

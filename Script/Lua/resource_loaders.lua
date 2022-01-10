@@ -35,12 +35,16 @@ RegisterResourceLoader("MATERIAL", function(name, data)
     return Material.new(tex_diffuse, tex_normal, tex_specular, shader)
 end)
 
-RegisterResourceLoader("SCENE", function(name, data)
-    return Scene.new(data.scene_file, data.mesh_file, data.material_file, data.dummy_texture_file)
+RegisterResourceLoader("SCENE_WIREFRAME", function(name, data)
+    return SceneWireFrame.new(data.mesh_file)
 end)
 
-RegisterResourceLoader("SCENE_WIREFRAME", function(name, data)
-    return SceneWireFrame.new(data.scene_file, data.mesh_file, data.material_file)
+RegisterResourceLoader("SCENE_SIMPLE", function(name, data)
+    return SceneSimple.new(data.scene_file, data.mesh_file, data.material_file)
+end)
+
+RegisterResourceLoader("SCENE", function(name, data)
+    return Scene.new(data.scene_file, data.mesh_file, data.material_file, data.dummy_texture_file)
 end)
 
 RegisterResourceLoader("SHADER", function(name, data)
