@@ -9,7 +9,7 @@
 namespace Zelo {
 class G {
 public:
-    static Core::EventSystem::Event<> s_DestroyedEvent;
-    static Core::EventSystem::Event<> s_CreatedEvent;
+    static Core::EventSystem::Event<uint32_t> s_FrameStartEvent;
+    static Core::EventSystem::Event<uint32_t> s_FrameEndEvent;
 };
 }

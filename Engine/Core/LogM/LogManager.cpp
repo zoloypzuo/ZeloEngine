@@ -43,7 +43,8 @@ LogManager::LogManager() {
     // gltracer
     {
         const int _50mb = 1048576 * 50;
-        auto logger = spdlog::rotating_logger_mt("gltracer", "logs/gltracer.log", _50mb, 1);
+        auto logger = spdlog::rotating_logger_mt(
+                "gltracer", "logs/gltracer.log", _50mb, 1, true);
         logger->set_pattern("[%T.%e] %v");
         logger->set_level(spdlog::level::debug);
     }

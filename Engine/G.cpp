@@ -7,5 +7,5 @@
 using namespace Zelo;
 using namespace Zelo::Core::EventSystem;
 
-Event<> G::s_DestroyedEvent;
-Event<> G::s_CreatedEvent;
+Event<uint32_t> G::s_FrameStartEvent;
+Event<uint32_t> G::s_FrameEndEvent;

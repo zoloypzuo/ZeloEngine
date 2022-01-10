@@ -62,6 +62,8 @@ protected:
 
     bool m_isInitialised{};
 
+    uint32_t m_frameCounter{};
+
 private:
     std::filesystem::path loadBootConfig();
 

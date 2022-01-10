@@ -7,6 +7,7 @@
 #include "Foundation/ZeloProfiler.h"
 #include "Core/Parser/IniReader.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
+#include "G.h"
 
 #include <optick.h>
 #include <whereami.h>
@@ -75,6 +76,7 @@ void Engine::finalize() {
 }
 
 void Engine::update() {
+    G::s_FrameStartEvent.Invoke(m_frameCounter);
     OPTICK_EVENT();
     {
         m_timeSystem->update();
@@ -101,6 +103,7 @@ void Engine::update() {
         OPTICK_CATEGORY("SwapBuffer", Optick::Category::Rendering);
         m_window->swapBuffer();  // swap buffer
     }
+    G::s_FrameEndEvent.Invoke(m_frameCounter++);
 }
 
 void Engine::start() {
