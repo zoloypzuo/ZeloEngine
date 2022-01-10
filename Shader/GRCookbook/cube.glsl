@@ -1,3 +1,5 @@
+// -- Prerequisite:
+// -- PerFrameData.MVP
 // local vertex_shader = [[
 #version 460 core
 
