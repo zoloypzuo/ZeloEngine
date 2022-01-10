@@ -31,6 +31,7 @@ using namespace Zelo::Core::RHI;
 
 namespace Zelo::Renderer::OpenGL {
 
+namespace {
 struct PerFrameData {
     glm::mat4 view;
     glm::mat4 proj;
@@ -40,6 +41,7 @@ struct PerFrameData {
     vec4 frustumCorners[8];
     uint32_t numShapesToCull;
 };
+}
 
 struct TransparentFragment {
     float R, G, B, A;

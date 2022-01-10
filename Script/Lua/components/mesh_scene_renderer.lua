@@ -3,11 +3,9 @@
 -- author @zoloypzuo
 local MeshSceneRenderer = Class(function(self, inst, scene, material)
     self.inst = inst
-
-    self.mesh_renderer_cxx = inst.entity:AddMeshRenderer()
     self.mesh_scene = scene
-    self.mesh_renderer_cxx.mesh = self.mesh_scene
-    self.mesh_renderer_cxx.material = material
+
+    self.mesh_renderer_cxx = inst.entity:AddMeshRenderer(scene, material)
 end)
 
 local cattrs = {

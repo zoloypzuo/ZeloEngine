@@ -6,21 +6,21 @@ local LoadResource = LoadResource
 local Prefab = Prefab
 
 local assets = {
-    mesh_gen = "plane.mesh_gen";
-    material = "plane.mat";
+    scene = "bistro_wireframe.scene";
+    mat = "bistro_wireframe.mat";
 }
 
 local function fn()
     local inst = CreateEntity()
     inst.entity:AddTransform()
-    inst:AddTag("plane")
+    inst:AddTag("bistro_wireframe")
 
     inst.entity:AddMeshRenderer(
-            LoadResource(assets.mesh_gen),
-            LoadResource(assets.material)
+            LoadResource(assets.scene),
+            LoadResource(assets.mat)
     )
 
     return inst
 end
 
-return Prefab("plane", fn, assets)
+return Prefab("bistro_wireframe", fn, assets)

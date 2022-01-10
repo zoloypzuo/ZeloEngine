@@ -40,12 +40,13 @@ luaState.new_usertype<Entity>("Entity",
 "AddFreeMove", &Entity::AddComponent<CFreeMove>,
 "AddFreeLook", &Entity::AddComponent<CFreeLook>,
 "AddLight", &Entity::AddComponent<ALight>,
-"AddMeshRenderer", &Entity::AddComponent<MeshRenderer>,
+"AddMeshRenderer",  [](Entity &self, Mesh& mesh, Material &material) {
+    self.AddComponent<MeshRenderer>(mesh, material);},
 "AddSkyboxRenderer", [](Entity &self,
                         std::string_view envMap,
                         std::string_view envMapIrradiance,
-                        std::string_view brdfLUTFileName) { self.AddComponent<GLSkyboxRenderer>(
-                                envMap, envMapIrradiance, brdfLUTFileName);},
+                        std::string_view brdfLUTFileName) {
+    self.AddComponent<GLSkyboxRenderer>(envMap, envMapIrradiance, brdfLUTFileName);},
 "AddGridRenderer", &Entity::AddComponent<Grid>,
 "__Dummy", []{}
 );

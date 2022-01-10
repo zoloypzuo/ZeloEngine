@@ -39,6 +39,10 @@ RegisterResourceLoader("SCENE", function(name, data)
     return Scene.new(data.scene_file, data.mesh_file, data.material_file, data.dummy_texture_file)
 end)
 
+RegisterResourceLoader("SCENE_WIREFRAME", function(name, data)
+    return SceneWireFrame.new(data.scene_file, data.mesh_file, data.material_file)
+end)
+
 RegisterResourceLoader("SHADER", function(name, data)
     return Shader.new(name)
 end)
