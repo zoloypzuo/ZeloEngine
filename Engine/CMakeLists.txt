@@ -8,9 +8,7 @@ add_subdirectory(Foundation)
 add_subdirectory(Core)
 add_subdirectory(Renderer)
 
-add_library(Engine
-        Engine.cpp
-        )
+add_library(Engine Engine.cpp G.cpp)
 
 target_include_directories(Engine PUBLIC ./Engine)
 target_link_libraries(Engine PUBLIC Foundation Core Renderer)
