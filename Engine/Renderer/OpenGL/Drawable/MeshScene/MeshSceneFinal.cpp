@@ -175,7 +175,7 @@ struct MeshSceneFinal::Impl {
 
     int width = 1280;
     int height = 720;
-//    GLSkyboxRenderer skybox;
+    GLSkyboxRenderer skybox;
     GLTexture rotationPattern;
     std::unique_ptr<GLIndirectCommandBufferDSA> meshesOpaque;
     std::unique_ptr<GLIndirectCommandBufferDSA> meshesTransparent;
@@ -318,9 +318,10 @@ MeshSceneFinal::Impl::Impl(
         oitTransparencyLists(sizeof(TransparentFragment) * kMaxOITFragments, nullptr, GL_DYNAMIC_STORAGE_BIT),
         oitHeads(GL_TEXTURE_2D, width, height, GL_R32UI),
 
-//        skybox(ZELO_PATH("immenstadter_horn_2k.hdr").c_str(),
-//               ZELO_PATH("immenstadter_horn_2k_irradiance.hdr").c_str(),
-//               ZELO_PATH("brdfLUT.ktx").c_str()),
+        skybox(*Core::Scene::SceneManager::getSingletonPtr()->getRootNode(),
+               ZELO_PATH("immenstadter_horn_2k.hdr").c_str(),
+               ZELO_PATH("immenstadter_horn_2k_irradiance.hdr").c_str(),
+               ZELO_PATH("brdfLUT.ktx").c_str()),
 
         perFrameDataBuffer(kBufferIndex_PerFrameUniforms, kUniformBufferSize),
         boundingBoxesBuffer(kBoundingBoxesBufferSize, nullptr, GL_DYNAMIC_STORAGE_BIT),
@@ -615,7 +616,7 @@ void MeshSceneFinal::Impl::render() {
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     // 1.0 Cube map
-//    skybox.render();
+    skybox.render();
     // 1.1 Bistro
     if (g_DrawOpaque) {
         program->bind();
