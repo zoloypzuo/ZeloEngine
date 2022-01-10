@@ -6,6 +6,7 @@
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/MeshScene.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/MeshSceneFinal.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/MeshSceneWireFrame.h"
 #include "Renderer/OpenGL/Resource/GLMaterial.h"
 #include "Renderer/OpenGL/Resource/GLMesh.h"
 
@@ -32,6 +33,11 @@ sol::constructors<GLMaterial(GLTexture &, GLTexture &, GLTexture &,
 GLSLShaderProgram *)>(),
 sol::base_classes, sol::bases<Material>(),
 "__Dummy", [] {}
+);
+
+luaState.new_usertype<MeshScene>("SceneWireFrame",
+sol::constructors<MeshSceneWireFrame(const std::string &, const std::string &, const std::string &)>(),
+sol::base_classes, sol::bases<Mesh>()
 );
 
 luaState.new_usertype<MeshScene>("SceneSimple",

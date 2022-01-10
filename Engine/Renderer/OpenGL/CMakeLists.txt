@@ -18,7 +18,6 @@ add_library(OpenGLRenderer
         Drawable/Frustum.cpp
         Drawable/Grid.cpp
 
-        Drawable/MeshScene/MeshScene.cpp
         Drawable/MeshScene/Buffer/GLBufferDSA.cpp
         Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.cpp
         Drawable/MeshScene/Buffer/GLUniformBufferDSA.cpp
@@ -30,7 +29,9 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Util/Utils.cpp
         Drawable/MeshScene/Util/UtilsCubemap.cpp
 
+        Drawable/MeshScene/MeshScene.cpp
         Drawable/MeshScene/MeshSceneFinal.cpp
+        Drawable/MeshScene/MeshSceneWireFrame.cpp
         Drawable/MeshScene/GLSkyboxRenderer.cpp
         Drawable/MeshScene/Buffer/GLFramebufferDSA.cpp
 
