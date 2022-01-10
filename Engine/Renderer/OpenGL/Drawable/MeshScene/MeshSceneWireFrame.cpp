@@ -11,18 +11,17 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLShaderStorageBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLUniformBufferDSA.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Buffer/GLVertexArrayDSA.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/VtxData/DrawData.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/Mesh.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::Resource;
 
 namespace Zelo::Renderer::OpenGL {
 
-const static BufferLayout s_BufferLayout(
+namespace {
+const BufferLayout s_BufferLayout(
         {
                 BufferElement(EBufferDataType::Float3, "position"),
                 BufferElement(EBufferDataType::Float2, "texCoord"),
@@ -30,56 +29,30 @@ const static BufferLayout s_BufferLayout(
         });
 
 const GLuint kBufferIndex_PerFrameUniforms = 0;
-const GLuint kBufferIndex_ModelMatrices = 1;
-const GLuint kBufferIndex_Materials = 2;
+const GLuint kBufferIndex_ModelMatrices = 2;
 
-static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTexture> &textures) {
-    if (idx == INVALID_TEXTURE) return 0;
-
-    return textures[idx].getHandleBindless();
-}
-
-static std::string ZELO_PATH(const std::string &fileName) {
-    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
-    return resourcem->resolvePath(fileName).string();
-}
-
-namespace {
 struct PerFrameData {
-    mat4 view;
-    mat4 proj;
+    glm::mat4 view;
+    glm::mat4 proj;
     vec4 cameraPos;
 };
 const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
 }
 
 struct MeshSceneWireFrame::Impl {
-#pragma region static
     // mesh
     MeshData meshData_;
-    // scene
-    SceneGraph scene_;
-    // material
-    std::vector<MaterialDescription> materials_;
-#pragma endregion static
-
-#pragma region runtime
-    // material
-    std::vector<GLTexture> allMaterialTextures_;
-    std::vector<DrawData> drawDataList;
 
     // buffer
     GLVertexArrayDSA vao;
 
-    std::unique_ptr<GLShaderStorageBufferDSA> bufferMaterials_;
     std::unique_ptr<GLShaderStorageBufferDSA> bufferModelMatrices_;
 
     std::unique_ptr<GLIndirectCommandBufferCountDSA> bufferIndirect_;
 
     std::unique_ptr<GLUniformBufferDSA> perFrameDataBuffer{};
-#pragma endregion runtime
 
-    Impl(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile);
+    explicit Impl(const std::string &meshFile);
 
     ~Impl() = default;
 
@@ -88,49 +61,10 @@ struct MeshSceneWireFrame::Impl {
     int getDrawCount() const;
 };
 
-MeshSceneWireFrame::Impl::Impl(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
+MeshSceneWireFrame::Impl::Impl(const std::string &meshFile) {
     {
         // load mesh
         loadMeshData(meshFile.c_str(), meshData_);
-
-        // load scene
-        loadScene(sceneFile.c_str(), scene_);
-
-        // construct draw data buffer
-        auto &materialForNode = scene_.materialForNode_;
-        for (const auto &c: scene_.meshes_) {
-            if (auto material = materialForNode.find(c.first); material != materialForNode.end()) {
-                drawDataList.emplace_back(
-                        c.second,
-                        material->second,
-                        0,
-                        meshData_.meshes_[c.second].indexOffset,
-                        meshData_.meshes_[c.second].vertexOffset,
-                        c.first
-                );
-            }
-        }
-
-        // force recalculation of all global transformations
-        markAsChanged(scene_, 0);
-        recalculateGlobalTransforms(scene_);
-
-        // load material
-        std::vector<std::string> textureFiles;
-        loadMaterials(materialFile.c_str(), materials_, textureFiles);
-
-        // construct material runtime
-        for (const auto &tf: textureFiles) {
-            allMaterialTextures_.emplace_back(GL_TEXTURE_2D, ZELO_PATH(tf).c_str());
-        }
-
-        for (auto &mtl: materials_) {
-            mtl.ambientOcclusionMap_ = getTextureHandleBindless(mtl.ambientOcclusionMap_, allMaterialTextures_);
-            mtl.emissiveMap_ = getTextureHandleBindless(mtl.emissiveMap_, allMaterialTextures_);
-            mtl.albedoMap_ = getTextureHandleBindless(mtl.albedoMap_, allMaterialTextures_);
-            mtl.metallicRoughnessMap_ = getTextureHandleBindless(mtl.metallicRoughnessMap_, allMaterialTextures_);
-            mtl.normalMap_ = getTextureHandleBindless(mtl.normalMap_, allMaterialTextures_);
-        }
     }
 
     // vao
@@ -147,43 +81,29 @@ MeshSceneWireFrame::Impl::Impl(const std::string &sceneFile, const std::string &
 
     // bufferIndirect_
     {
-        bufferIndirect_ = std::make_unique<GLIndirectCommandBufferCountDSA>(drawDataList.size());
+        const auto numCommands = (GLsizei) meshData_.meshCount();
+        bufferIndirect_ = std::make_unique<GLIndirectCommandBufferCountDSA>(numCommands);
         // prepare indirect commands buffer
         auto *cmd = bufferIndirect_->getCommandQueue();
-        for (size_t i = 0; i != drawDataList.size(); i++) {
-            const uint32_t meshIdx = drawDataList[i].meshIndex;
-            const uint32_t lod = drawDataList[i].LOD;
+        for (size_t i = 0; i != numCommands; i++) {
+            auto &mesh = meshData_.meshes_[i];
             *cmd++ = {
-                    meshData_.meshes_[meshIdx].getLODIndicesCount(lod),
+                    mesh.getLODIndicesCount(0),
                     1,
-                    drawDataList[i].indexOffset,
-                    drawDataList[i].vertexOffset,
-                    drawDataList[i].materialIndex
+                    mesh.indexOffset,
+                    mesh.vertexOffset,
+                    0
             };
         }
 
         bufferIndirect_->sendBlocks();
     }
 
-    // bufferMaterials_
-    {
-        bufferMaterials_ = std::make_unique<GLShaderStorageBufferDSA>(
-                uint32_t(materials_.size() * sizeof(MaterialDescription)),
-                materials_.data(), 0
-        );
-    }
-
     // bufferModelMatrices_
     {
+        const glm::mat4 m(glm::scale(glm::mat4(1.0f), glm::vec3(2.0f)));
         bufferModelMatrices_ = std::make_unique<GLShaderStorageBufferDSA>(
-                uint32_t(drawDataList.size() * sizeof(glm::mat4)), nullptr, GL_DYNAMIC_STORAGE_BIT);
-        std::vector<glm::mat4> matrices(drawDataList.size());
-        size_t i = 0;
-        for (const auto &c: drawDataList) {
-            matrices[i++] = scene_.globalTransform_[c.transformIndex];
-        }
-
-        bufferModelMatrices_->sendBlocks(matrices);
+                uint32_t(sizeof(glm::mat4)), glm::value_ptr(m), GL_DYNAMIC_STORAGE_BIT);
     }
 
     // perFrameDataBuffer
@@ -193,15 +113,15 @@ MeshSceneWireFrame::Impl::Impl(const std::string &sceneFile, const std::string &
     }
 }
 
-int MeshSceneWireFrame::Impl::getDrawCount() const { return drawDataList.size(); }
+int MeshSceneWireFrame::Impl::getDrawCount() const { return (int) meshData_.meshCount(); }
 
 void MeshSceneWireFrame::Impl::render() const {
     // perFrameDataBuffer
     {
         auto *camera = Zelo::Core::Scene::SceneManager::getSingletonPtr()->getActiveCamera();
         if (!camera) { return; }
-        const mat4 p = camera->getProjectionMatrix();
-        const mat4 view = camera->getViewMatrix();
+        const glm::mat4 p = camera->getProjectionMatrix();
+        const glm::mat4 view = camera->getViewMatrix();
         const vec3 viewPos = camera->getOwner()->getPosition();
 
         const PerFrameData perFrameData = {view, p, glm::vec4(viewPos, 1.0f)};
@@ -210,16 +130,14 @@ void MeshSceneWireFrame::Impl::render() const {
 
     // draw call
     vao.bind();
-    bufferMaterials_->bind(kBufferIndex_Materials);
     bufferModelMatrices_->bind(kBufferIndex_ModelMatrices);
     bufferIndirect_->bind();
     const void *startOffset = (const void *) sizeof(GLsizei); // NOLINT(performance-no-int-to-ptr)
     glMultiDrawElementsIndirectCount(GL_TRIANGLES, GL_UNSIGNED_INT, startOffset, 0, getDrawCount(), 0);
 }
 
-MeshSceneWireFrame::MeshSceneWireFrame(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile) {
-    pimpl = std::make_shared<Impl>(
-            ZELO_PATH(sceneFile), ZELO_PATH(meshFile), ZELO_PATH(materialFile));
+MeshSceneWireFrame::MeshSceneWireFrame(const std::string &meshFile) {
+    pimpl = std::make_shared<Impl>(ZELO_PATH(meshFile));
 }
 
 MeshSceneWireFrame::~MeshSceneWireFrame() = default;

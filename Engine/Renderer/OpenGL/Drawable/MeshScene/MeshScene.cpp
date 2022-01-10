@@ -19,6 +19,7 @@
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::Resource;
 
 namespace Zelo::Renderer::OpenGL {
 
@@ -37,11 +38,6 @@ static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTextu
     if (idx == INVALID_TEXTURE) return 0;
 
     return textures[idx].getHandleBindless();
-}
-
-static std::string ZELO_PATH(const std::string &fileName) {
-    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
-    return resourcem->resolvePath(fileName).string();
 }
 
 namespace {

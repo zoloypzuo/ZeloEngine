@@ -36,7 +36,7 @@ sol::base_classes, sol::bases<Material>(),
 );
 
 luaState.new_usertype<MeshSceneWireFrame>("SceneWireFrame",
-sol::constructors<MeshSceneWireFrame(const std::string &, const std::string &, const std::string &)>(),
+sol::constructors<MeshSceneWireFrame(const std::string &)>(),
 sol::base_classes, sol::bases<Mesh>()
 );
 

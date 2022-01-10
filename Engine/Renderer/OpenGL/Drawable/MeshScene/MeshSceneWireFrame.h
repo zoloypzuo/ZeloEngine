@@ -10,7 +10,7 @@
 namespace Zelo::Renderer::OpenGL {
 class MeshSceneWireFrame : public Core::RHI::Mesh {
 public:
-    MeshSceneWireFrame(const std::string &sceneFile, const std::string &meshFile, const std::string &materialFile);
+    explicit MeshSceneWireFrame(const std::string &meshFile);
 
     void render() override;
 

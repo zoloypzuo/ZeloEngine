@@ -22,7 +22,7 @@ public:
 
     void bind() const override;
 
-    ~GLIndirectCommandBufferCountDSA() = default;
+    ~GLIndirectCommandBufferCountDSA() override = default;
 
     GLBufferType getType() const override;
 
@@ -52,7 +52,7 @@ public:
     // fill data directly
     explicit GLIndirectCommandBufferDSA(std::vector<DrawElementsIndirectCommand> &commandQueue);
 
-    ~GLIndirectCommandBufferDSA() = default;
+    ~GLIndirectCommandBufferDSA() override = default;
 
     GLBufferType getType() const override;
 
