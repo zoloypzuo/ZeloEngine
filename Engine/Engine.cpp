@@ -35,7 +35,7 @@ void Engine::initialize() {
     m_renderSystem->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
-    m_luaScriptManager->set_function("install", [](Plugin *plugin) { Engine::getSingletonPtr()->installPlugin(plugin); });
+    m_luaScriptManager->set_function("install", [&](Plugin *plugin) { this->installPlugin(plugin); });
     m_luaScriptManager->luaCall("Initialize");
 
     m_window->makeCurrentContext();
