@@ -283,7 +283,8 @@ bool MeshSceneFinal::Impl::uploadLoadedTextures() {
 }
 
 void MeshSceneFinal::Impl::updateMaterialsBuffer() {
-    glNamedBufferSubData(bufferMaterials_->getHandle(), 0, sizeof(MaterialDescription) * materials_.size(),
+    glNamedBufferSubData(bufferMaterials_->getHandle(), 0,
+                         uint32_t(sizeof(MaterialDescription) * materials_.size()),
                          materials_.data());
 }
 
@@ -374,7 +375,7 @@ MeshSceneFinal::Impl::Impl(
         loadedFiles_.reserve(textureFiles_.size());
 
         auto loadTextureTask = [this](int idx) {
-            int w, h;
+            int w, h; // NOLINT(cppcoreguidelines-init-variables)
             const std::string &path = ZELO_PATH(this->textureFiles_[idx]);
             const uint8_t *img = stbi_load(path.c_str(), &w, &h, nullptr, STBI_rgb_alpha);
             if (img) {
