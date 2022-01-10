@@ -17,8 +17,8 @@ std::shared_ptr<spdlog::logger> s_logger{};
 
 void initGLTracerLogger() {
     s_logger = spdlog::get("gltracer");
-    G::s_FrameStartEvent += [](uint32_t frameCounter) { s_logger->debug("--- frame start {}", frameCounter); };
-    G::s_FrameEndEvent += [](uint32_t frameCounter) { s_logger->debug("--- frame end   {}", frameCounter); };
+    G::s_FrameStartEvent += [](uint32_t frameCounter) { s_logger->debug("---{{{{ frame start {}", frameCounter); };
+    G::s_FrameEndEvent += [](uint32_t frameCounter) { s_logger->debug("---}}}} frame end   {}", frameCounter); };
 }
 
 #define GL_TRACER_LOG s_logger->debug
