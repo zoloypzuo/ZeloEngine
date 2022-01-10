@@ -1,8 +1,8 @@
 local _M = {}
 
 function _M.Sandbox_Initialize()
-    LoadAvatar()
-    SpawnPrefab("skybox")
+    InstallPlugin("ShadowMapPipelinePlugin")
+    require("scenes.scene01")
 end
 
 function _M.Sandbox_Update()

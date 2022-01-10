@@ -8,6 +8,11 @@ local SandboxConfig = Class(function(self, name)
 end)
 
 return {
+    SandboxConfig("Default");
     SandboxConfig("Ch3_SampleGL03_CubeMap");
     SandboxConfig("Ch10_SampleGL05_Final");
+    SandboxConfig("GLSLBook.Bloom");
+    SandboxConfig("GLSLBook.Blur");
+    SandboxConfig("GLSLBook.Edge");
+    SandboxConfig("GLSLBook.ShadowMap");
 }
