@@ -44,12 +44,14 @@ static std::string ZELO_PATH(const std::string &fileName) {
     return resourcem->resolvePath(fileName).string();
 }
 
+namespace {
 struct PerFrameData {
     mat4 view;
     mat4 proj;
     vec4 cameraPos;
 };
 const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
+}
 
 struct MeshScene::Impl {
 #pragma region static
