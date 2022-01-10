@@ -1,11 +1,9 @@
 // local common_shader = [[
-layout (std140) uniform EngineUBO
+layout(std140, binding = 5) uniform PerFrameData
 {
-    mat4 ubo_model;
-    mat4 ubo_view;
-    mat4 ubo_projection;
-    vec3 ubo_viewPos;
-/* float ubo_time; */
+    mat4 model;
+    mat4 MVP;
+    vec4 cameraPos;
 };
 
 /* extents of grid in world coordinates*/
@@ -44,8 +42,6 @@ layout (location=0) out vec2 uv;
 
 void main()
 {
-    mat4 MVP = ubo_projection * ubo_view;
-
     int idx = indices[gl_VertexID];
     vec3 position = pos[idx] * gridSize;
 

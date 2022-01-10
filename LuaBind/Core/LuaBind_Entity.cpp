@@ -14,6 +14,7 @@
 #include "Core/RHI/Object/ALight.h"
 
 #include "Renderer/OpenGL/Drawable/MeshScene/GLSkyboxRenderer.h"
+#include "Renderer/OpenGL/Drawable/Grid.h"
 
 //#include "ThirdParty/Glm/LuaBind_Glm.h"  // glm::vec3
 
@@ -45,6 +46,7 @@ luaState.new_usertype<Entity>("Entity",
                         std::string_view envMapIrradiance,
                         std::string_view brdfLUTFileName) { self.AddComponent<GLSkyboxRenderer>(
                                 envMap, envMapIrradiance, brdfLUTFileName);},
+"AddGridRenderer", &Entity::AddComponent<Grid>,
 "__Dummy", []{}
 );
 
