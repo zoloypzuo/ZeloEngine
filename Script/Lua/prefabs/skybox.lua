@@ -1,3 +1,6 @@
+-- skybox.lua
+-- created on 2022/1/10
+-- author @zoloypzuo
 local CreateEntity = CreateEntity
 local LoadResource = LoadResource
 local Prefab = Prefab
