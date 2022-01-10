@@ -122,6 +122,8 @@ void loadScene(const char *fileName, SceneGraph &scene) {
     std::string buf;
     fb::LoadFile(fileName, true, &buf);
     const auto &sceneGraph = *fb::GetRoot<fb::SceneGraph>(buf.c_str());
+    fb::Verifier verifier(reinterpret_cast<const uint8_t *>(buf.c_str()), buf.size());
+    ZELO_ASSERT(sceneGraph.Verify(verifier));
 
     auto fromFbHierarchy = [](const fb::Hierarchy *pH) -> Hierarchy {
         const auto &h = *pH;
@@ -189,6 +191,8 @@ void loadMaterials(const char *fileName, std::vector<MaterialDescription> &mater
     std::string buf;
     fb::LoadFile(fileName, true, &buf);
     const auto *material = fb::GetRoot<fb::Material>(buf.c_str());
+    fb::Verifier verifier(reinterpret_cast<const uint8_t *>(buf.c_str()), buf.size());
+    ZELO_ASSERT(material.Verify(verifier));
 
     Map(*material->materials(), materials, fromFbMaterialDescription);
     Map(*material->files(), files, fromFbString);
@@ -235,6 +239,8 @@ void loadMeshData(const char *fileName, MeshData &out) {
     std::string buf;
     fb::LoadFile(fileName, true, &buf);
     const auto &meshData = *fb::GetRoot<fb::MeshData>(buf.c_str());
+    fb::Verifier verifier(reinterpret_cast<const uint8_t *>(buf.c_str()), buf.size());
+    ZELO_ASSERT(meshData.Verify(verifier));
 
     auto fromFbMesh = [](const fb::Mesh *pMesh) -> Mesh {
         const auto &mesh = *pMesh;
