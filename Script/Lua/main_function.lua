@@ -10,19 +10,25 @@ function Initialize()
     TheSim = Game.GetSingletonPtr()
 
     require("resource_loaders")
-    require("plugins")
 
-    local file = io.open("project_hub.txt", "r")
-    local sandbox_name = file:read()
-    file:close()
-    print("sandbox name", sandbox_name)
-    local sandbox = require("sandbox." .. sandbox_name .. ".sandbox_main")
-    sandbox.Sandbox_Initialize()
+    do -- imgui
+        InstallPlugin("ImGuiManager", "imgui_manager")
+    end
+
+    do -- load sandbox
+        local file = io.open("project_hub.txt", "r")
+        local sandbox_name = file:read()
+        file:close()
+        print("sandbox name", sandbox_name)
+        local sandbox = require("sandbox." .. sandbox_name .. ".sandbox_main")
+        sandbox.Sandbox_Initialize()
+    end
+
 end
 
 function Initialize_ProjectHub()
     print("Initialize_ProjectHub")
-        
+
     if io.open("project_hub.txt", "r") then
         PushEngine()
         Quit()
@@ -295,7 +301,7 @@ end
 function LoadResource(name)
     if not ResourceMap[name] then
         -- asset not loaded
-        --print("LoadResource", name)
+        print("LoadResource", name)
         local asset_meta_data = require(name)
         local asset_type = asset_meta_data.type
         local asset_file = asset_meta_data.file
@@ -344,4 +350,17 @@ function LoadAvatar()
 
     avatar.entity:AddFreeMove()
     avatar.entity:AddFreeLook()
+end
+
+global("PluginInstances")
+PluginInstances = {}
+function InstallPlugin(name, module_name)
+    module_name = module_name or nil
+    local pluginInst = _G[name].new()
+    PluginInstances[name] = pluginInst
+    install(pluginInst)
+    if module_name then
+        require("plugins." .. module_name)
+    end
+    return pluginInst
 end
