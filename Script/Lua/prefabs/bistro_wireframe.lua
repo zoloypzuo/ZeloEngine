@@ -15,8 +15,10 @@ local function fn()
     inst.entity:AddTransform()
     inst:AddTag("bistro_wireframe")
 
-    inst.inst:AddComponent("mesh_scene_renderer",
-            LoadResource(assets.scene), LoadResource(assets.mat))
+    inst.entity:AddMeshRenderer(
+            LoadResource(assets.scene),
+            LoadResource(assets.mat)
+    )
 
     return inst
 end
