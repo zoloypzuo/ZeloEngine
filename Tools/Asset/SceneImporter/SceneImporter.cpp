@@ -750,7 +750,7 @@ int main() {
     spdlog::set_default_logger(
             spdlog::basic_logger_mt("sc", "logs/scene-importer.log", true));
     spdlog::set_level(spdlog::level::debug);
-    const std::string pattern = "[%T.%e] [%n] [%^%l%$] %v";  // remove datetime in ts
+    const std::string pattern = "[%T.%e] %v";  // remove datetime in ts
     spdlog::set_pattern(pattern);
 
     // 1. read config
