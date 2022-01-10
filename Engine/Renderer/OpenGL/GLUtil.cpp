@@ -130,7 +130,6 @@ int checkForOpenGLError(const char *file, int line) {
     return retCode;
 }
 
-
 const char *getTypeString(GLenum type) {
     // There are many more types than are covered here, but
     // these are the most common in these examples.
