@@ -11,9 +11,11 @@
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
 namespace Zelo::Core::RHI {
-class MeshRenderer : public Zelo::Core::ECS::Component {
+class MeshRenderer : public Core::ECS::Component {
 public:
-    explicit MeshRenderer(Core::ECS::Entity &owner);
+    explicit MeshRenderer(Core::ECS::Entity &owner,
+                          Mesh &mesh, Material &material
+    );
 
     ~MeshRenderer() override;
 

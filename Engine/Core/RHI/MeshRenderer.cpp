@@ -7,8 +7,8 @@
 using namespace Zelo::Core::ECS;
 
 namespace Zelo::Core::RHI {
-MeshRenderer::MeshRenderer(Entity &owner) : Component(owner) {
-}
+MeshRenderer::MeshRenderer(Entity &owner, Mesh &mesh, Material &material) :
+        Component(owner), m_mesh(&mesh), m_material(&material) {}
 
 MeshRenderer::~MeshRenderer() = default;
 
