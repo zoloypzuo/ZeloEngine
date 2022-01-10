@@ -334,7 +334,7 @@ function LoadAvatar()
     camera.fov = PI / 2
     camera.aspect = 800 / 600
     camera.zNear = 0.05
-    camera.zFar = 100
+    camera.zFar = 1000
 
     avatar.entity:AddFreeMove()
     avatar.entity:AddFreeLook()
