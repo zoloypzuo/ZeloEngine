@@ -29,7 +29,7 @@ add_library(OpenGLRenderer
         Drawable/MeshScene/Util/Utils.cpp
         Drawable/MeshScene/Util/UtilsCubemap.cpp
 
-        Drawable/MeshScene/MeshScene.cpp
+        Drawable/MeshScene/MeshSceneSimple.cpp
         Drawable/MeshScene/MeshSceneFinal.cpp
         Drawable/MeshScene/MeshSceneWireFrame.cpp
         Drawable/MeshScene/GLSkyboxRenderer.cpp

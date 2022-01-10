@@ -4,7 +4,7 @@
 #include <sol/sol.hpp>
 
 #include "Renderer/OpenGL/Buffer/GLFramebuffer.h"
-#include "Renderer/OpenGL/Drawable/MeshScene/MeshScene.h"
+#include "Renderer/OpenGL/Drawable/MeshScene/MeshSceneSimple.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/MeshSceneFinal.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/MeshSceneWireFrame.h"
 #include "Renderer/OpenGL/Resource/GLMaterial.h"
@@ -40,8 +40,8 @@ sol::constructors<MeshSceneWireFrame(const std::string &)>(),
 sol::base_classes, sol::bases<Mesh>()
 );
 
-luaState.new_usertype<MeshScene>("SceneSimple",
-sol::constructors<MeshScene(const std::string &, const std::string &, const std::string &)>(),
+luaState.new_usertype<MeshSceneSimple>("SceneSimple",
+sol::constructors<MeshSceneSimple(const std::string &, const std::string &, const std::string &)>(),
 sol::base_classes, sol::bases<Mesh>()
 );
 
