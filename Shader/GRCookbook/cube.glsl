@@ -3,11 +3,11 @@
 // local vertex_shader = [[
 #version 460 core
 
-layout(std140, binding = 3) uniform PerFrameData
+layout(std140, binding = 4) uniform PerFrameData
 {
-    uniform mat4 model;
-    uniform mat4 MVP;
-    uniform vec4 cameraPos;
+    mat4 model;
+    mat4 MVP;
+    vec4 cameraPos;
 };
 
 layout (location=0) out vec3 dir;

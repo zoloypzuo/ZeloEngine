@@ -27,7 +27,7 @@ const GLsizeiptr kUniformBufferSize = sizeof(PerFrameData);
 
 GLuint perFrameDataBuffer{};
 
-const uint32_t kBufferIndex_PerFrameUniforms = 4;
+const uint32_t kBufferIndex_PerFrameUniforms = 5;
 }
 
 Grid::Grid(Entity &owner) : Component(owner) {
