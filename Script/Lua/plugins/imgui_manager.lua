@@ -62,6 +62,9 @@ function ImGuiManager._InitPanels()
 
     local MaterialEditor = require("editor.panels.material_editor_panel.material_editor_panel")
     TheFrontEnd:LoadPanel(MaterialEditor, "Material Editor", false)
+
+    local ProjectHubPanel = require("editor.panels.project_hub_panel.project_hub_panel")
+    TheFrontEnd:LoadPanel(ProjectHubPanel, "ProjectHub", false)
 end
 
 function ImGuiManager.Update()

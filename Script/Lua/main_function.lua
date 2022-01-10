@@ -22,6 +22,12 @@ end
 
 function Initialize_ProjectHub()
     print("Initialize_ProjectHub")
+        
+    if io.open("project_hub.txt", "r") then
+        PushEngine()
+        Quit()
+    end
+
     global("PROJECT_HUB")
     PROJECT_HUB = true
 

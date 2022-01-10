@@ -35,7 +35,7 @@ void Engine::initialize() {
     m_renderSystem->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
-    m_luaScriptManager->set_function("install", [](Plugin *plugin) { Engine::getSingleton().installPlugin(plugin); });
+    m_luaScriptManager->set_function("install", [](Plugin *plugin) { Engine::getSingletonPtr()->installPlugin(plugin); });
     m_luaScriptManager->luaCall("Initialize");
 
     m_window->makeCurrentContext();
@@ -139,11 +139,6 @@ template<> Engine *Zelo::Singleton<Engine>::msSingleton = nullptr;
 
 Engine *Engine::getSingletonPtr() {
     return msSingleton;
-}
-
-Engine &Engine::getSingleton() {
-    assert(msSingleton);
-    return *msSingleton;
 }
 
 std::filesystem::path Engine::loadBootConfig() {

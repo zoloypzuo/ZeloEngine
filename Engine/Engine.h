@@ -46,8 +46,6 @@ public:
 public:
     static Engine *getSingletonPtr();
 
-    static Engine &getSingleton();
-
 protected:
     std::unique_ptr<Core::Log::LogManager> m_logManager{};
     std::unique_ptr<Core::OS::Time> m_timeSystem{};

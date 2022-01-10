@@ -9,3 +9,4 @@ using namespace Zelo::Core::EventSystem;
 
 Event<uint32_t> G::s_FrameStartEvent;
 Event<uint32_t> G::s_FrameEndEvent;
+std::deque<std::unique_ptr<Engine>> G::s_EngineList;
