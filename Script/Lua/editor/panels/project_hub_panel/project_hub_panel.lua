@@ -87,6 +87,7 @@ function ProjectHubPanel:_ProjectList()
     local sandbox_configs = require("sandbox.sandbox_config")
     local columns = self:CreateWidget(Columns, 2)
     columns.widths = { 1000, 500 }
+
     for _, sandbox_config in ipairs(sandbox_configs) do
         local text = columns:CreateWidget(Text, sandbox_config.name)
         local actions = columns:CreateWidget(Group)
@@ -97,18 +98,16 @@ function ProjectHubPanel:_ProjectList()
         deleteButton.idleBackgroundColor = RGBA(0.5, 0., 0.)
 
         openButton:AddOnClickHandler(function()
-            print("OpenProject", sandbox_config.name)
-            local file = io.open("project_hub.txt", "w")
-            file:write(sandbox_config.name)
-            file:close()
-            Quit()
+            TheEditorActions:LoadSandbox(sandbox_config.name)
         end)
+
         deleteButton:AddOnClickHandler(function()
             --text.Destroy();
             --actions.Destroy();
             columns:RemoveWidget(text)
             columns:RemoveWidget(actions)
         end)
+
         openButton.lineBreak = false
         deleteButton.lineBreak = false
     end

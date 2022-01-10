@@ -6,21 +6,28 @@
 #include "ZeloPrerequisites.h"
 #include "ZeloGLPrerequisites.h"
 
+#include "Core/ECS/Entity.h"
+#include "Core/RHI/IDrawable.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Texture/GLTexture.h"
-
 #include "Renderer/OpenGL/Resource/GLSLShaderProgram.h"
 
-class GLSkyboxRenderer {
+namespace Zelo::Renderer::OpenGL {
+class GLSkyboxRenderer :
+        public Core::ECS::Component,
+        public Core::RHI::IDrawable {
 public:
     GLSkyboxRenderer(
-            const char *envMap,
-            const char *envMapIrradiance,
-            const char *brdfLUTFileName
+            Core::ECS::Entity &owner,
+            std::string_view envMap,
+            std::string_view envMapIrradiance,
+            std::string_view brdfLUTFileName
     );
 
-    ~GLSkyboxRenderer();
+    ~GLSkyboxRenderer() override;
 
-    void draw();
+    void render() const override;
+
+    std::string getType() override;
 
 private:
     // https://hdrihaven.com/hdri/?h=immenstadter_horn
@@ -30,3 +37,4 @@ private:
     std::unique_ptr<GLSLShaderProgram> progCube_;
     GLuint dummyVAO_{};
 };
+}

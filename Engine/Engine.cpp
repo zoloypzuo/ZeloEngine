@@ -7,6 +7,7 @@
 #include "Foundation/ZeloProfiler.h"
 #include "Core/Parser/IniReader.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
+#include "G.h"
 
 #include <optick.h>
 #include <whereami.h>
@@ -34,7 +35,7 @@ void Engine::initialize() {
     m_renderSystem->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
-    m_luaScriptManager->set_function("install", [](Plugin *plugin) { Engine::getSingleton().installPlugin(plugin); });
+    m_luaScriptManager->set_function("install", [&](Plugin *plugin) { this->installPlugin(plugin); });
     m_luaScriptManager->luaCall("Initialize");
 
     m_window->makeCurrentContext();
@@ -75,6 +76,7 @@ void Engine::finalize() {
 }
 
 void Engine::update() {
+    G::s_FrameStartEvent.Invoke(m_frameCounter);
     OPTICK_EVENT();
     {
         m_timeSystem->update();
@@ -101,6 +103,7 @@ void Engine::update() {
         OPTICK_CATEGORY("SwapBuffer", Optick::Category::Rendering);
         m_window->swapBuffer();  // swap buffer
     }
+    G::s_FrameEndEvent.Invoke(m_frameCounter++);
 }
 
 void Engine::start() {
@@ -136,11 +139,6 @@ template<> Engine *Zelo::Singleton<Engine>::msSingleton = nullptr;
 
 Engine *Engine::getSingletonPtr() {
     return msSingleton;
-}
-
-Engine &Engine::getSingleton() {
-    assert(msSingleton);
-    return *msSingleton;
 }
 
 std::filesystem::path Engine::loadBootConfig() {

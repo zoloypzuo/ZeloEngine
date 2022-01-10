@@ -9,6 +9,7 @@
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/ECS/Entity.h"
 #include "Core/RHI/Object/ALight.h"
+#include "Core/RHI/IDrawable.h"
 
 namespace Zelo::Core::RHI {
 class ALight;
@@ -25,6 +26,7 @@ public:
         std::vector<RHI::ACamera *> cameras;
         std::vector<RHI::ALight *> lights;
         std::vector<RHI::MeshRenderer *> meshRenderers;
+        std::vector<RHI::IDrawable *> drawables;
     };
 
 public:

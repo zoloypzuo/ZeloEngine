@@ -156,17 +156,22 @@ Sandboxes = {}
 
 function MenuBarPanel:_CreateSandboxMenu()
     local sandboxMenu = self:CreateWidget(MenuList, "Sandbox")
-    local glslBookMenu = sandboxMenu:CreateWidget(MenuList, "GLSLBook")
-    for _, name in ipairs({
-        "EdgePipelinePlugin",
-        "BlurPipelinePlugin",
-        "BloomPipelinePlugin",
-        "ShadowMapPipelinePlugin"
-    }) do
-        glslBookMenu:CreateWidget(MenuItem, name).ClickedEvent:AddEventHandler(function()
-            local sandbox = _G[name].new()
-            Sandboxes[#Sandboxes] = sandbox
-            install(sandbox)
+    --local glslBookMenu = sandboxMenu:CreateWidget(MenuList, "GLSLBook")
+    --for _, name in ipairs({
+    --    "EdgePipelinePlugin",
+    --    "BlurPipelinePlugin",
+    --    "BloomPipelinePlugin",
+    --    "ShadowMapPipelinePlugin"
+    --}) do
+    --        local sandbox = _G[name].new()
+    --        Sandboxes[#Sandboxes] = sandbox
+    --        install(sandbox)
+    --    end)
+    --end
+    local sandbox_configs = require("sandbox.sandbox_config")
+    for _, sandbox_config in ipairs(sandbox_configs) do
+        sandboxMenu:CreateWidget(MenuItem, sandbox_config.name).ClickedEvent:AddEventHandler(function()
+            TheEditorActions:LoadSandbox(sandbox_config.name)
         end)
     end
 end

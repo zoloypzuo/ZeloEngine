@@ -283,7 +283,8 @@ bool MeshSceneFinal::Impl::uploadLoadedTextures() {
 }
 
 void MeshSceneFinal::Impl::updateMaterialsBuffer() {
-    glNamedBufferSubData(bufferMaterials_->getHandle(), 0, sizeof(MaterialDescription) * materials_.size(),
+    glNamedBufferSubData(bufferMaterials_->getHandle(), 0,
+                         uint32_t(sizeof(MaterialDescription) * materials_.size()),
                          materials_.data());
 }
 
@@ -317,7 +318,8 @@ MeshSceneFinal::Impl::Impl(
         oitTransparencyLists(sizeof(TransparentFragment) * kMaxOITFragments, nullptr, GL_DYNAMIC_STORAGE_BIT),
         oitHeads(GL_TEXTURE_2D, width, height, GL_R32UI),
 
-        skybox(ZELO_PATH("immenstadter_horn_2k.hdr").c_str(),
+        skybox(*Core::Scene::SceneManager::getSingletonPtr()->getRootNode(),
+               ZELO_PATH("immenstadter_horn_2k.hdr").c_str(),
                ZELO_PATH("immenstadter_horn_2k_irradiance.hdr").c_str(),
                ZELO_PATH("brdfLUT.ktx").c_str()),
 
@@ -374,7 +376,7 @@ MeshSceneFinal::Impl::Impl(
         loadedFiles_.reserve(textureFiles_.size());
 
         auto loadTextureTask = [this](int idx) {
-            int w, h;
+            int w, h; // NOLINT(cppcoreguidelines-init-variables)
             const std::string &path = ZELO_PATH(this->textureFiles_[idx]);
             const uint8_t *img = stbi_load(path.c_str(), &w, &h, nullptr, STBI_rgb_alpha);
             if (img) {
@@ -614,7 +616,7 @@ void MeshSceneFinal::Impl::render() {
     glDisable(GL_BLEND);
     glEnable(GL_DEPTH_TEST);
     // 1.0 Cube map
-    skybox.draw();
+    skybox.render();
     // 1.1 Bistro
     if (g_DrawOpaque) {
         program->bind();

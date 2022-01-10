@@ -8,7 +8,7 @@
 
 #include "Core/RHI/Resource/Mesh.h"
 #include "Core/RHI/Buffer/Vertex.h"
-#include "Core/Interface/IMeshData.h"
+#include "Core/RHI/IMeshData.h"
 #include "Renderer/OpenGL/Buffer/GLVertexArray.h"
 
 namespace Zelo::Renderer::OpenGL {
@@ -17,7 +17,7 @@ public:
     GLMesh(Core::RHI::Vertex vertices[], size_t vertSize,
            uint32_t indices[], size_t indexSize);
 
-    explicit GLMesh(Core::Interface::IMeshData &iMeshGen);
+    explicit GLMesh(Core::RHI::IMeshData &iMeshGen);
 
     virtual ~GLMesh();
 

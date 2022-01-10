@@ -1,5 +1,7 @@
 #include "ZeloPreCompiledHeader.h"
-#include "skybox.h"
+#include "SkyBox.h"
+
+using namespace Zelo::Renderer::OpenGL;
 
 SkyBox::SkyBox() {
     float side = 50.0f;

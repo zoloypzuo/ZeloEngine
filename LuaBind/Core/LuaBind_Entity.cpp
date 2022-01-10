@@ -13,14 +13,17 @@
 #include "Core/RHI/Object/ACamera.h"
 #include "Core/RHI/Object/ALight.h"
 
+#include "Renderer/OpenGL/Drawable/MeshScene/GLSkyboxRenderer.h"
+
 //#include "ThirdParty/Glm/LuaBind_Glm.h"  // glm::vec3
 
 using namespace Zelo;
 using namespace Zelo::Core::ECS;
 using namespace Zelo::Core::LuaScript;
-using namespace Zelo::Core::Interface;
 using namespace Zelo::Core::Parser;
 using namespace Zelo::Core::RHI;
+
+using namespace Zelo::Renderer::OpenGL;
 
 void LuaBind_Entity(sol::state &luaState) {
     using namespace Zelo::Core::ECS;
@@ -37,6 +40,11 @@ luaState.new_usertype<Entity>("Entity",
 "AddFreeLook", &Entity::AddComponent<CFreeLook>,
 "AddLight", &Entity::AddComponent<ALight>,
 "AddMeshRenderer", &Entity::AddComponent<MeshRenderer>,
+"AddSkyboxRenderer", [](Entity &self,
+                        std::string_view envMap,
+                        std::string_view envMapIrradiance,
+                        std::string_view brdfLUTFileName) { self.AddComponent<GLSkyboxRenderer>(
+                                envMap, envMapIrradiance, brdfLUTFileName);},
 "__Dummy", []{}
 );
 

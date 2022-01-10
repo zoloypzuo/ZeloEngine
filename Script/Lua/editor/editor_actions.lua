@@ -37,4 +37,13 @@ function EditorActions:ResetLayout()
     UI:ResetLayout("Config/default_layout.ini")
 end
 
+function EditorActions:LoadSandbox(name)
+    print("LoadSandbox", name)
+    local file = io.open("project_hub.txt", "w")
+    file:write(name)
+    file:close()
+    PushEngine()
+    Quit()
+end
+
 TheEditorActions = EditorActions()

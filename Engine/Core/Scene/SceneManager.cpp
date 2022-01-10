@@ -116,6 +116,9 @@ void SceneManager::onComponentAdded(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<ALight *>(&component)) {
         m_fastAccessComponents.lights.push_back(result);
     }
+    if (auto *result = dynamic_cast<IDrawable *>(&component)) {
+        m_fastAccessComponents.drawables.push_back(result);
+    }
 }
 
 void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
@@ -133,6 +136,9 @@ void SceneManager::onComponentRemoved(Zelo::Core::ECS::Component &component) {
     if (auto *result = dynamic_cast<ALight *>(&component);
             !m_fastAccessComponents.lights.empty() && result) {
         Zelo::Erase(m_fastAccessComponents.lights, result);
+    }
+    if (auto *result = dynamic_cast<IDrawable *>(&component)) {
+        Zelo::Erase(m_fastAccessComponents.drawables, result);
     }
 }
 }

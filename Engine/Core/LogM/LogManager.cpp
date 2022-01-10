@@ -34,18 +34,23 @@ LogManager::LogManager() {
         spdlog::set_default_logger(logger);
         spdlog::flush_on(spdlog::level::debug);
     }
+    // engine modules
     {
         auto root = spdlog::default_logger();
         spdlog::register_logger(root->clone("window"));
         spdlog::register_logger(root->clone("gl"));
         spdlog::register_logger(root->clone("lua"));
     }
-    // gltracer
+    // gltracer, to single file
     {
-        const int _50mb = 1048576 * 50;
-        auto logger = spdlog::rotating_logger_mt("gltracer", "logs/gltracer.log", _50mb, 1);
+        auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>("logs/gltracer.log", true);
+        spdlog::sinks_init_list sink_list = {file_sink};
+
+        auto logger = std::make_shared<spdlog::logger>("gltracer", sink_list.begin(), sink_list.end());
         logger->set_pattern("[%T.%e] %v");
         logger->set_level(spdlog::level::debug);
+        logger->flush_on(spdlog::level::debug);
+        spdlog::register_logger(logger);
     }
 }
 

@@ -12,7 +12,7 @@
 namespace Zelo::Core::RHI {
 class ACamera : public Zelo::Core::ECS::Component {
 public:
-    ACamera(ECS::Entity &owner);;
+    explicit ACamera(ECS::Entity &owner);;
 
     ~ACamera() override = default;
 
@@ -25,7 +25,7 @@ public:
 
 class PerspectiveCamera : public Zelo::Core::RHI::ACamera {
 public:
-    PerspectiveCamera(ECS::Entity &owner);;
+    explicit PerspectiveCamera(ECS::Entity &owner);;
 
     glm::mat4 getProjectionMatrix() const override;
 

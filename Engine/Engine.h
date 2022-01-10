@@ -46,8 +46,6 @@ public:
 public:
     static Engine *getSingletonPtr();
 
-    static Engine &getSingleton();
-
 protected:
     std::unique_ptr<Core::Log::LogManager> m_logManager{};
     std::unique_ptr<Core::OS::Time> m_timeSystem{};
@@ -61,6 +59,8 @@ protected:
     std::vector<Plugin *> m_plugins;
 
     bool m_isInitialised{};
+
+    uint32_t m_frameCounter{};
 
 private:
     std::filesystem::path loadBootConfig();
