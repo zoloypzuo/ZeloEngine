@@ -4,6 +4,7 @@
 local _M = {}
 
 function _M.Sandbox_Initialize()
+    LoadAvatar()
     SpawnPrefab("skybox")
 end
 

@@ -25,4 +25,4 @@ local function fn()
     return inst
 end
 
-return Prefab("bistro", fn, assets)
+return Prefab("skybox", fn, assets)
