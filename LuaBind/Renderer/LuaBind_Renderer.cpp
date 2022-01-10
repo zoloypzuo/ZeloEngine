@@ -34,7 +34,7 @@ sol::base_classes, sol::bases<Material>(),
 "__Dummy", [] {}
 );
 
-luaState.new_usertype<MeshScene>("SceneWireFrame",
+luaState.new_usertype<MeshScene>("SceneSimple",
 sol::constructors<MeshSceneFinal(const std::string &, const std::string &, const std::string &)>(),
 sol::base_classes, sol::bases<Mesh>()
 );

@@ -1,6 +1,3 @@
--- plane
--- created on 2021/8/9
--- author @zoloypzuo
 local CreateEntity = CreateEntity
 local LoadResource = LoadResource
 local Prefab = Prefab

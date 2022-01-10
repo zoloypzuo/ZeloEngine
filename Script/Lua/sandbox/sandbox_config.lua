@@ -10,6 +10,7 @@ end)
 return {
     SandboxConfig("Default");
     SandboxConfig("Ch3_SampleGL03_CubeMap");
+    SandboxConfig("GL03_MeshRenderer");
     SandboxConfig("Ch7_SampleGL01_LargeScene");
     SandboxConfig("Ch10_SampleGL05_Final");
     SandboxConfig("GLSLBook.Bloom");
