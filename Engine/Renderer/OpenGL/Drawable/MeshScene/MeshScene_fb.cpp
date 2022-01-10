@@ -192,7 +192,7 @@ void loadMaterials(const char *fileName, std::vector<MaterialDescription> &mater
     fb::LoadFile(fileName, true, &buf);
     const auto *material = fb::GetRoot<fb::Material>(buf.c_str());
     fb::Verifier verifier(reinterpret_cast<const uint8_t *>(buf.c_str()), buf.size());
-    ZELO_ASSERT(material.Verify(verifier));
+    ZELO_ASSERT(material->Verify(verifier));
 
     Map(*material->materials(), materials, fromFbMaterialDescription);
     Map(*material->files(), files, fromFbString);
