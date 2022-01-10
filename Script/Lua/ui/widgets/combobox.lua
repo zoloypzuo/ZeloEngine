@@ -17,7 +17,7 @@ end)
 
 function ComboBox:_UpdateImpl()
     if self.getter then
-       self.currentChoice = self.getter()
+        self.currentChoice = self.getter()
     end
 
     local currentChoice = self.currentChoice
@@ -37,10 +37,10 @@ function ComboBox:_UpdateImpl()
     end
 
     if currentChoice ~= self.currentChoice then
-       if self.currentChoice then
-           self.setter(self.currentChoice)
-           self.ValueChangedEvent:HandleEvent(value)
-       end
+        if self.currentChoice then
+            self.setter(self.currentChoice)
+            self.ValueChangedEvent:HandleEvent(value)
+        end
     end
 end
 

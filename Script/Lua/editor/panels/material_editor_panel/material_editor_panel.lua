@@ -15,17 +15,17 @@ local MaterialEditorPanel = Class(PanelWindow, function(self, title, opened, pan
 
     self.m_target = nil
     self.m_shader = nil
-    
+
     self.m_targetMaterialText = nil
     self.m_shaderText = nil
-    
+
     self.m_materialDroppedEvent = nil
     self.m_shaderDroppedEvent = nil
-    
+
     self.m_settings = nil
     self.m_materialSettings = nil
     self.m_shaderSettings = nil
-    
+
     self.m_shaderSettingsColumns = nil
     self.m_materialSettingsColumns = nil
 
@@ -48,7 +48,7 @@ end)
 -- public
 
 function MaterialEditorPanel:Refresh()
-    if(self.m_target) then
+    if (self.m_target) then
         self:SetTarget(m_target)
     end
 end
@@ -110,34 +110,34 @@ end
 
 function MaterialEditorPanel:_CreateHeaderButtons()
     local saveButton = self:CreateWidget(Button, "Save to file");
-	saveButton.idleBackgroundColor = RGBA(0.0, 0.5, 0.0);
-	saveButton.ClickedEvent:AddEventHandler( function()
-		if (self.m_target) then
+    saveButton.idleBackgroundColor = RGBA(0.0, 0.5, 0.0);
+    saveButton.ClickedEvent:AddEventHandler(function()
+        if (self.m_target) then
             print("TODO")
-			-- OvCore::Resources::Loaders::MaterialLoader::Save(*m_target, EDITOR_EXEC(GetRealPath(m_target->path)));
+            -- OvCore::Resources::Loaders::MaterialLoader::Save(*m_target, EDITOR_EXEC(GetRealPath(m_target->path)));
         end
     end)
-	saveButton.lineBreak = false;
+    saveButton.lineBreak = false;
 
-	local reloadButton = self:CreateWidget(Button, "Reload from file");
-	reloadButton.idleBackgroundColor = RGBA(0.7, 0.5, 0.0);
-	reloadButton.ClickedEvent:AddEventHandler(function ()
-		if (self.m_target) then
+    local reloadButton = self:CreateWidget(Button, "Reload from file");
+    reloadButton.idleBackgroundColor = RGBA(0.7, 0.5, 0.0);
+    reloadButton.ClickedEvent:AddEventHandler(function()
+        if (self.m_target) then
             print("TODO")
-			-- OvCore::Resources::Loaders::MaterialLoader::Reload(*m_target, EDITOR_EXEC(GetRealPath(m_target->path)));
+            -- OvCore::Resources::Loaders::MaterialLoader::Reload(*m_target, EDITOR_EXEC(GetRealPath(m_target->path)));
         end
-		self:OnMaterialDropped();
+        self:OnMaterialDropped();
     end)
-	reloadButton.lineBreak = false;
+    reloadButton.lineBreak = false;
 
-	-- local previewButton = selfCreateWidget<Buttons::Button>("Preview");
-	-- previewButton.idleBackgroundColor = { 0.7f, 0.5f, 0.0f };
-	-- previewButton.ClickedEvent += std::bind(MaterialEditor::Preview, this);
-	-- previewButton.lineBreak = false;
+    -- local previewButton = selfCreateWidget<Buttons::Button>("Preview");
+    -- previewButton.idleBackgroundColor = { 0.7f, 0.5f, 0.0f };
+    -- previewButton.ClickedEvent += std::bind(MaterialEditor::Preview, this);
+    -- previewButton.lineBreak = false;
 
-	local resetButton = self:CreateWidget(Button, "Reset to default");
-	resetButton.idleBackgroundColor = RGBA(0.5, 0.0, 0.0);
-	resetButton.ClickedEvent:AddEventHandler(Bind(self, "Reset"));
+    local resetButton = self:CreateWidget(Button, "Reset to default");
+    resetButton.idleBackgroundColor = RGBA(0.5, 0.0, 0.0);
+    resetButton.ClickedEvent:AddEventHandler(Bind(self, "Reset"));
 end
 
 function MaterialEditorPanel:_CreateMaterialSelector()

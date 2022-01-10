@@ -17,9 +17,9 @@ local function fn()
     inst:AddTag("skybox")
 
     inst.entity:AddSkyboxRenderer(
-        ZELO_PATH(assets.envMap),
-        ZELO_PATH(assets.envMapIrradiance),
-        ZELO_PATH(assets.brdfLUTFileName)
+            ZELO_PATH(assets.envMap),
+            ZELO_PATH(assets.envMapIrradiance),
+            ZELO_PATH(assets.brdfLUTFileName)
     )
 
     return inst

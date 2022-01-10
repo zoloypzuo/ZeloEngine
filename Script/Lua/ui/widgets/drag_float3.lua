@@ -19,7 +19,7 @@ local DragFloat3 = Class(AWidget, function(self, parent, min, max, speed, label)
 end)
 
 local function ToFloat3(o)
-    return {o.x, o.y, o.z}
+    return { o.x, o.y, o.z }
 end
 
 local function ToVec3(o)

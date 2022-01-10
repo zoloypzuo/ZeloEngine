@@ -52,10 +52,13 @@ function EditorDrawer:DrawVec3Direct(root, name, o, attr)
     _CreateTitle(root, name)
     local widget = root:CreateWidget(DragFloat3, _MIN_FLOAT, _MAX_FLOAT, 1.0)
 
-    widget.getter = function() return o[attr] end
-    widget.setter = function(value) o[attr] = value end
+    widget.getter = function()
+        return o[attr]
+    end
+    widget.setter = function(value)
+        o[attr] = value
+    end
 end
-
 
 function EditorDrawer:DrawEnum(root, name, enum_class, getter, setter)
     _CreateTitle(root, name)
@@ -104,7 +107,9 @@ function EditorDrawer:DrawMaterial(root, name, material, updateNotifier)
 
     local resetButton = rightSide:CreateWidget(ButtonSmall, "Clear")
     resetButton.idleBackgroundColor = ClearButtonColor
-    resetButton.ClickedEvent:AddEventHandler(function () print("TODO")end)
+    resetButton.ClickedEvent:AddEventHandler(function()
+        print("TODO")
+    end)
     return widget
 end
 

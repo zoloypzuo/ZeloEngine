@@ -3,9 +3,9 @@
 -- author @zoloypzuo
 local PanelView = require("ui.panel_view")
 
-local GameViewPanel = Class(PanelView, function (self, name, opened, panelSettings)
+local GameViewPanel = Class(PanelView, function(self, name, opened, panelSettings)
     PanelView._ctor(self, name, opened, panelSettings)
-end )
+end)
 
 function GameViewPanel:_UpdateImpl()
     self.m_fbo:Bind()

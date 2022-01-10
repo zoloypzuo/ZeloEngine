@@ -11,11 +11,13 @@ function Initialize()
 
     require("resource_loaders")
 
-    do -- imgui
+    do
+        -- imgui
         InstallPlugin("ImGuiManager", "imgui_manager")
     end
 
-    do -- load sandbox
+    do
+        -- load sandbox
         local file = io.open("project_hub.txt", "r")
         local sandbox_name = file:read()
         file:close()
