@@ -1,7 +1,7 @@
 ﻿#pragma once
 
+#include "ZeloPreCompiledHeader.h"
 #include "GLFramebufferDSA.h"
-#include <cassert>
 
 namespace Zelo::Renderer::OpenGL {
 GLFramebufferDSA::GLFramebufferDSA(int width, int height, GLenum formatColor, GLenum formatDepth)
@@ -14,6 +14,7 @@ GLFramebufferDSA::GLFramebufferDSA(int width, int height, GLenum formatColor, GL
         glTextureParameteri(texColor_->getHandle(), GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glNamedFramebufferTexture(handle_, GL_COLOR_ATTACHMENT0, texColor_->getHandle(), 0);
     }
+
     if (formatDepth) {
         texDepth_ = std::make_unique<GLTexture>(GL_TEXTURE_2D, width, height, formatDepth);
         const GLfloat border[] = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -23,9 +24,7 @@ GLFramebufferDSA::GLFramebufferDSA(int width, int height, GLenum formatColor, GL
         glNamedFramebufferTexture(handle_, GL_DEPTH_ATTACHMENT, texDepth_->getHandle(), 0);
     }
 
-    const GLenum status = glCheckNamedFramebufferStatus(handle_, GL_FRAMEBUFFER);
-
-    assert(status == GL_FRAMEBUFFER_COMPLETE);
+    ZELO_ASSERT(glCheckNamedFramebufferStatus(handle_, GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE);  // check status
 }
 
 GLFramebufferDSA::~GLFramebufferDSA() {
@@ -33,7 +32,7 @@ GLFramebufferDSA::~GLFramebufferDSA() {
     glDeleteFramebuffers(1, &handle_);
 }
 
-void GLFramebufferDSA::bind() {
+void GLFramebufferDSA::bind() const {
     glBindFramebuffer(GL_FRAMEBUFFER, handle_);
     glViewport(0, 0, width_, height_);
 }
