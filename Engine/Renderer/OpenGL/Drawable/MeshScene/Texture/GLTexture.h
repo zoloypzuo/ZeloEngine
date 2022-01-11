@@ -14,7 +14,7 @@ public:
 
     GLTexture(const GLTexture &) = delete;
 
-    GLTexture(GLTexture &&);
+    GLTexture(GLTexture &&) noexcept;
 
     GLenum getType() const { return type_; }
 
