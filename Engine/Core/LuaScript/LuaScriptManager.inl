@@ -94,4 +94,9 @@ T &LuaScriptManager::loadConfig(const std::string &configName) {
     auto configPath = Core::Resource::ResourceManager::getSingletonPtr()->getConfigDir() / configName;
     return require_file(configName, configPath.string()).as<T &>();
 }
+
+template<typename T>
+T &ZELO_CONFIG(const std::string &configName) {
+    return LuaScriptManager::getSingletonPtr()->template loadConfig<T>(configName);
+}
 }

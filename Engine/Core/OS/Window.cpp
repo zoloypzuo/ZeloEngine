@@ -13,7 +13,7 @@ using namespace Zelo::Core::LuaScript;
 template<> Zelo::Core::OS::Window *Zelo::Singleton<Zelo::Core::OS::Window>::msSingleton = nullptr;
 
 namespace Zelo::Core::OS {
-Window::Window() : m_windowConfig(LuaScriptManager::getSingletonPtr()->loadConfig<WindowConfig>("window_config.lua")) {
+Window::Window() : m_windowConfig(ZELO_CONFIG<WindowConfig>("window_config.lua")) {
 };
 
 Window::~Window() = default;

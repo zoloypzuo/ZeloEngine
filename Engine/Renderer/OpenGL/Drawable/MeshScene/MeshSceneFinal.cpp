@@ -28,6 +28,7 @@
 #include <stb_image.h>
 
 using namespace Zelo::Core::RHI;
+using namespace Zelo::Core::Resource;
 
 namespace Zelo::Renderer::OpenGL {
 
@@ -93,11 +94,6 @@ const static BufferLayout s_BufferLayout(
                 BufferElement(EBufferDataType::Float2, "texCoord"),
                 BufferElement(EBufferDataType::Float3, "normal")
         });
-
-static std::string ZELO_PATH(const std::string &fileName) {
-    auto *resourcem = Zelo::Core::Resource::ResourceManager::getSingletonPtr();
-    return resourcem->resolvePath(fileName).string();
-}
 
 static uint64_t getTextureHandleBindless(uint64_t idx, const std::vector<GLTexture> &textures) {
     if (idx == INVALID_TEXTURE) return 0;

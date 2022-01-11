@@ -98,6 +98,9 @@ private:
     std::string m_bootLuaPath{};  // boot.lua
     std::string m_mainLuaPath{};  // main.lua
 };
+
+template<typename T>
+T &ZELO_CONFIG(const std::string &configName);
 }
 
 #include "Core/LuaScript/LuaScriptManager.inl"

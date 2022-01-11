@@ -19,7 +19,7 @@ using namespace Zelo::Renderer::OpenGL;
 
 
 GLRenderSystem::GLRenderSystem() : m_config(
-        LuaScriptManager::getSingletonPtr()->loadConfig<RenderSystemConfig>("render_system_config.lua")) {}
+        ZELO_CONFIG<RenderSystemConfig>("render_system_config.lua")) {}
 
 GLRenderSystem::~GLRenderSystem() = default;
 

@@ -39,6 +39,8 @@
 * 平行光阴影（PCF）
 * 游戏编辑器
 
+[完整特性列表 @Doc/FeatureList.md](Doc/FeatureList.md)
+
 ## 构建
 
 [【ZeloEngine】构建概述 & 构建问题汇总](https://blog.csdn.net/zolo_mario/article/details/117652524)
