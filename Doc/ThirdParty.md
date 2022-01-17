@@ -15,6 +15,8 @@ build from vcpkg:
 * abseil[cxx17]
 * assimp
 * crossguid
+* directx-headers
+* directxmath
 * flatbuffers
 * glad
 * glfw3

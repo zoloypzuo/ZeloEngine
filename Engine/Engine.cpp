@@ -7,6 +7,7 @@
 #include "Foundation/ZeloProfiler.h"
 #include "Core/Parser/IniReader.h"
 #include "Renderer/OpenGL/GLRenderSystem.h"
+#include "Renderer/D3D12/D3D12RenderSystem.h"
 #include "G.h"
 
 #include <optick.h>
@@ -20,8 +21,9 @@ using namespace Zelo::Core::OS;
 using namespace Zelo::Core::Resource;
 using namespace Zelo::Core::LuaScript;
 using namespace Zelo::Core::RHI;
-using namespace Zelo::Renderer::OpenGL;
 using namespace Zelo::Core::Scene;
+using namespace Zelo::Renderer::OpenGL;
+using namespace Zelo::Renderer::D3D12;
 
 void Engine::initialize() {
     bootstrap();
@@ -31,7 +33,7 @@ void Engine::initialize() {
     m_window = std::make_unique<Window>();
     m_input = std::make_unique<Input>();
     m_window->initialize();
-    m_renderSystem = std::make_unique<GLRenderSystem>();
+    m_renderSystem = std::make_unique<D3D12RenderSystem>();
     m_renderSystem->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
