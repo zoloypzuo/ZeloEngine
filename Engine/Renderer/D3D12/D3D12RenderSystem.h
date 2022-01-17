@@ -31,6 +31,10 @@ public:
 
     void popView() override;
 
+private:
+    struct Impl;
+    std::shared_ptr<Impl> pimpl;
+
 public: // RenderCommand
     void setViewport(int32_t x, int32_t y, int32_t width, int32_t height) override;
 

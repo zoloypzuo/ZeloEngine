@@ -1,12 +1,28 @@
 // D3D12RenderSystem.cpp
 // created on 2022/1/17
 // author @zoloypzuo
+#include "Foundation/ZeloWindows.h"
 #include "ZeloPreCompiledHeader.h"
 #include "D3D12RenderSystem.h"
 
-namespace Zelo::Renderer::D3D12 {
-D3D12RenderSystem::D3D12RenderSystem() {
+#include "Core/OS/Window.h"
 
+#include "Common/d3dApp.h"
+
+using namespace Zelo::Core::OS;
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance, PSTR cmdLine, int showCmd);
+
+namespace Zelo::Renderer::D3D12 {
+struct D3D12RenderSystem::Impl {
+    Impl() {
+        auto *hwnd = Window::getSingletonPtr()->getHwnd();
+        WinMain((HINSTANCE) hwnd, nullptr, nullptr, 0);
+    }
+};
+
+D3D12RenderSystem::D3D12RenderSystem() {
+    pimpl = std::make_unique<Impl>();
 }
 
 D3D12RenderSystem::~D3D12RenderSystem() {

@@ -6,6 +6,7 @@ add_library(D3D12Renderer
         Common/MathHelper.cpp
 
         D3D12RenderSystem.cpp
+        InitDirect3DApp.cpp
         )
 
 target_link_libraries(D3D12Renderer PUBLIC Core)
