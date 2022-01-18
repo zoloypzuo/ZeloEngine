@@ -4,15 +4,15 @@
 // Hold down '1' key to view scene in wireframe mode.
 //***************************************************************************************
 
-#include "Common/d3dApp.h"
-#include "Common/MathHelper.h"
-#include "Common/UploadBuffer.h"
-#include "Common/GeometryGenerator.h"
+#include "Renderer/D3D12/Common/d3dApp.h"
+#include "Renderer/D3D12/Common/MathHelper.h"
+#include "Renderer/D3D12/Common/UploadBuffer.h"
+#include "Renderer/D3D12/Common/GeometryGenerator.h"
 #include "Waves.h"
 
-#include "Common/d3dUtil.h"
-#include "Common/MathHelper.h"
-#include "Common/UploadBuffer.h"
+#include "Renderer/D3D12/Common/d3dUtil.h"
+#include "Renderer/D3D12/Common/MathHelper.h"
+#include "Renderer/D3D12/Common/UploadBuffer.h"
 
 namespace {
 struct ObjectConstants {
