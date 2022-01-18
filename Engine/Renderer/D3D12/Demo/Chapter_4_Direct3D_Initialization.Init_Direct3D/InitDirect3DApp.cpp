@@ -7,7 +7,7 @@
 //
 //***************************************************************************************
 
-#include "Common/d3dApp.h"
+#include "Renderer/D3D12/Common/d3dApp.h"
 #include <DirectXColors.h>
 
 using namespace DirectX;

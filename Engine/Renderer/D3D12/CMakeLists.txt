@@ -6,7 +6,8 @@ add_library(D3D12Renderer
         Common/MathHelper.cpp
 
         D3D12RenderSystem.cpp
-        InitDirect3DApp.cpp
+#        Demo/Chapter_4_Direct3D_Initialization.Init_Direct3D/InitDirect3DApp.cpp
+        Demo/Chapter_6_Drawing_in_Direct3D.Box/BoxApp.cpp
         )
 
 target_link_libraries(D3D12Renderer PUBLIC Core)
@@ -17,6 +18,3 @@ target_link_libraries(D3D12Renderer PRIVATE Microsoft::DirectX-Guids Microsoft::
 
 find_package(directxmath CONFIG REQUIRED)
 target_link_libraries(D3D12Renderer PRIVATE Microsoft::DirectXMath)
-
-#link_libraries(D3D12Renderer)
-#add_executable(InitDirect3DApp WIN32 InitDirect3DApp.cpp)
