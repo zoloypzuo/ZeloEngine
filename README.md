@@ -68,15 +68,16 @@
 
 ## Demo
 
-程序二进制包：
+在Release页下载程序二进制包和美术资源包
 
-[Release v0.5 ZeloEngineBinary.zip](https://github.com/zoloypzuo/ZeloEngine/releases/tag/v0.5)
+[Release v0.5](https://github.com/zoloypzuo/ZeloEngine/releases/tag/v0.5)
 
-美术资源：
+![Snipaste_2022-01-21_02-27-17](https://raw.githubusercontent.com/zolo-mario/image-host/main/20220121/Snipaste_2022-01-21_02-27-17.4ok5ly751hc0.webp)
 
-下载解压到根目录`Resource`即可，仅保留代码最新版本对应的美术资源
+下载解压到根目录`Resource`即可
 
-[Resource.zip](https://1drv.ms/u/s!AtVMh2FmVQ2aanRFvNFlHOprqRI?e=IbSybb)
+[【ZeloEngine】Demo演示](https://www.bilibili.com/video/BV1vq4y1c7f8/)
+
 
 ## 第三方库
 
