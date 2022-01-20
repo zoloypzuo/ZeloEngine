@@ -3,8 +3,8 @@
 -- author @zoloypzuo
 local AButton = require("ui.widgets.abutton")
 
-local ButtonColored = Class(AButton, function(self, label, color, size, enableAlpha)
-    AButton._ctor(self)
+local ButtonColored = Class(AButton, function(self, parent, label, color, size, enableAlpha)
+    AButton._ctor(self, parent)
     self.label = label
     self.color = color
     self.size = size
