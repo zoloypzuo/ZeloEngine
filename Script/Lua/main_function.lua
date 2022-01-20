@@ -10,21 +10,22 @@ function Initialize()
     TheSim = Game.GetSingletonPtr()
 
     require("resource_loaders")
-    --
-    --do
-    --    -- imgui
-    --    InstallPlugin("ImGuiManager", "imgui_manager")
-    --end
-    --
-    --do
-    --    -- load sandbox
-    --    local file = io.open("project_hub.txt", "r")
-    --    local sandbox_name = file:read()
-    --    file:close()
-    --    print("sandbox name", sandbox_name)
-    --    local sandbox = require("sandbox." .. sandbox_name .. ".sandbox_main")
-    --    sandbox.Sandbox_Initialize()
-    --end
+
+    -- TODO D3D12
+    do
+        -- imgui
+        InstallPlugin("ImGuiManager", "imgui_manager")
+    end
+
+    do
+        -- load sandbox
+        local file = io.open("project_hub.txt", "r")
+        local sandbox_name = file:read()
+        file:close()
+        print("sandbox name", sandbox_name)
+        local sandbox = require("sandbox." .. sandbox_name .. ".sandbox_main")
+        sandbox.Sandbox_Initialize()
+    end
 
 end
 

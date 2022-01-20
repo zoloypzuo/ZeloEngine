@@ -91,8 +91,8 @@ function ProjectHubPanel:_ProjectList()
     for _, sandbox_config in ipairs(sandbox_configs) do
         local text = columns:CreateWidget(Text, sandbox_config.name)
         local actions = columns:CreateWidget(Group)
-        local openButton = actions:CreateWidget(Button, "Open")
-        local deleteButton = actions:CreateWidget(Button, "Delete")
+        local openButton = actions:CreateWidget(Button, "Open", Vector2(50, 21))
+        local deleteButton = actions:CreateWidget(Button, "Delete", Vector2(50, 21))
 
         openButton.idleBackgroundColor = RGBA(0.7, 0.5, 0.)
         deleteButton.idleBackgroundColor = RGBA(0.5, 0., 0.)
@@ -114,10 +114,10 @@ function ProjectHubPanel:_ProjectList()
 end
 
 function ProjectHubPanel:Update()
-    ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 50, 50)
-    ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
+    --ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, 50, 50)
+    --ImGui.PushStyleVar(ImGuiStyleVar.WindowRounding, 0)
     PanelWindow.Update(self)
-    ImGui.PopStyleVar(2)
+    --ImGui.PopStyleVar(2)
 end
 
 return ProjectHubPanel

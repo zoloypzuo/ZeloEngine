@@ -3,8 +3,8 @@
 -- author @zoloypzuo
 local AButton = require("ui.widgets.abutton")
 
-local ButtonArrow = Class(AButton, function(self, direction)
-    AButton._ctor(self)
+local ButtonArrow = Class(AButton, function(self, parent, direction)
+    AButton._ctor(self, parent)
     self.direction = direction or ImGuiDir.None
 end)
 
