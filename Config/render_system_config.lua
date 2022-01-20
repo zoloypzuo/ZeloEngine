@@ -3,4 +3,5 @@
 -- author @zoloypzuo
 return RenderSystemConfig {
     debug = true;
+    renderSystem = ERenderSystem.D3D12;
 }

@@ -33,7 +33,16 @@ void Engine::initialize() {
     m_window = std::make_unique<Window>();
     m_input = std::make_unique<Input>();
     m_window->initialize();
-    m_renderSystem = std::make_unique<D3D12RenderSystem>();
+    switch (ZELO_CONFIG<RenderSystemConfig>("render_system_config.lua").renderSystem) {
+        case ERenderSystem::OpenGL:
+            m_renderSystem = std::make_unique<GLRenderSystem>();
+            break;
+        case ERenderSystem::D3D12:
+            m_renderSystem = std::make_unique<D3D12RenderSystem>();
+            break;
+        default:
+            ZELO_ASSERT(false, "invalid render system");
+    }
     m_renderSystem->initialize();
     m_sceneManager = std::make_unique<SceneManager>();
     m_sceneManager->initialize();
