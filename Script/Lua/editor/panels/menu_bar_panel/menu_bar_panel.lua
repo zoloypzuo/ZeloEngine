@@ -15,13 +15,13 @@ local MenuBarPanel = Class(PanelMenuBar, function(self)
     self.m_styleEditorMenuItem = nil
     self.m_userGuideMenuItem = nil
 
-    self:_CreateFileMenu();
-    self:_CreateBuildMenu();
+    --self:_CreateFileMenu();
+    --self:_CreateBuildMenu();
     self:_CreateWindowMenu();
-    self:_CreateEntityMenu();
-    self:_CreateResourcesMenu();
-    self:_CreateSettingsMenu();
-    self:_CreateLayoutMenu();
+    --self:_CreateEntityMenu();
+    --self:_CreateResourcesMenu();
+    --self:_CreateSettingsMenu();
+    --self:_CreateLayoutMenu();
     self:_CreateToolMenu();
     self:_CreateHelpMenu();
     self:_CreateSandboxMenu();
