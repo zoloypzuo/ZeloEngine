@@ -2,6 +2,7 @@
 -- created on 2021/12/16
 -- author @zoloypzuo
 function ImGuiManager.Initialize()
+    print("ImGuiManager.Initialize", "PROJECT_HUB=", PROJECT_HUB~=nil)
     UI = ImGuiManager.GetSingletonPtr()
 
     UI:UseFont(LoadResource("Ruda-Bold.ttf"))

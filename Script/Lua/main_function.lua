@@ -17,7 +17,7 @@ function Initialize()
         InstallPlugin("ImGuiManager", "imgui_manager")
     end
 
-    do
+    scheduler:ExecuteInTime(FRAME, function ()
         -- load sandbox
         local file = io.open("project_hub.txt", "r")
         local sandbox_name = file:read()
@@ -25,8 +25,7 @@ function Initialize()
         print("sandbox name", sandbox_name)
         local sandbox = require("sandbox." .. sandbox_name .. ".sandbox_main")
         sandbox.Sandbox_Initialize()
-    end
-
+    end)
 end
 
 function Initialize_ProjectHub()
