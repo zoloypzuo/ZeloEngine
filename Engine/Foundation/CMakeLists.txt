@@ -4,6 +4,7 @@ add_library(Foundation
         ZeloProfiler.cpp
         ZeloStackTrace.cpp
         ZeloStb.cpp
+        ZeloMemory.cpp
         )
 
 target_link_libraries(Foundation PUBLIC Backward)
