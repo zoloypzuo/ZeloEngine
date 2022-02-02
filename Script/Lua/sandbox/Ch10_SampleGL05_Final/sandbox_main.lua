@@ -2,7 +2,7 @@ local _M = {}
 
 function _M.Sandbox_Initialize()
     LoadAvatar()
-    SpawnPrefab("bistro")
+    SpawnPrefab("breakfast_room")
 end
 
 function _M.Sandbox_Update()
