@@ -25,6 +25,7 @@ build from vcpkg:
 * glm
 * magic-enum
 * meshoptimizer
+* mimalloc
 * nativefiledialog
 * rapidjson
 * refl-cpp
