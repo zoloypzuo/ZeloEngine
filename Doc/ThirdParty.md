@@ -13,6 +13,7 @@ build from source:
 build from vcpkg:
 
 * abseil[cxx17]
+* argparse
 * assimp
 * crossguid
 * directx-headers

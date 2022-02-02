@@ -3,14 +3,14 @@ local LoadResource = LoadResource
 local Prefab = Prefab
 
 local assets = {
-    scene = "bistro.scene";
-    mat = "bistro.mat";
+    scene = "breakfast_room.scene";
+    mat = "breakfast_room.mat";
 }
 
 local function fn()
     local inst = CreateEntity()
     inst.entity:AddTransform()
-    inst:AddTag("bistro")
+    inst:AddTag("breakfast_room")
 
     inst:AddComponent("mesh_scene_renderer",
             LoadResource(assets.scene), LoadResource(assets.mat))
@@ -18,4 +18,4 @@ local function fn()
     return inst
 end
 
-return Prefab("bistro", fn, assets)
+return Prefab("breakfast_room", fn, assets)

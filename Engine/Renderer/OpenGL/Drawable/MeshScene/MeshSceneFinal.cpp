@@ -484,8 +484,12 @@ MeshSceneFinal::Impl::Impl(
             }
         }
 
-        meshesOpaque = std::make_unique<GLIndirectCommandBufferDSA>(opaqueCommandQueue);
-        meshesTransparent = std::make_unique<GLIndirectCommandBufferDSA>(transparentCommandQueue);
+        if (!opaqueCommandQueue.empty()) {
+            meshesOpaque = std::make_unique<GLIndirectCommandBufferDSA>(opaqueCommandQueue);
+        }
+        if (!transparentCommandQueue.empty()) {
+            meshesTransparent = std::make_unique<GLIndirectCommandBufferDSA>(transparentCommandQueue);
+        }
     }
 
     // create a texture view into the last mip-level (1x1 pixel) of our luminance framebuffer
@@ -572,15 +576,19 @@ void MeshSceneFinal::Impl::render() {
         boundingBoxesBuffer.bind(kBufferIndex_BoundingBoxes);
         numVisibleMeshesBuffer.bind(kBufferIndex_NumVisibleMeshes);
 
-        perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesOpaque->getDrawCount() : 0u;
-        perFrameDataBuffer.sendBlocks(perFrameData);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesOpaque->getHandle());
-        glDispatchCompute(1 + (GLuint) meshesOpaque->getDrawCount() / 64, 1, 1);
+        if (meshesOpaque) {
+            perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesOpaque->getDrawCount() : 0u;
+            perFrameDataBuffer.sendBlocks(perFrameData);
+            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesOpaque->getHandle());
+            glDispatchCompute(1 + (GLuint) meshesOpaque->getDrawCount() / 64, 1, 1);
+        }
 
-        perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesTransparent->getDrawCount() : 0u;
-        perFrameDataBuffer.sendBlocks(perFrameData);
-        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesTransparent->getHandle());
-        glDispatchCompute(1 + (GLuint) meshesTransparent->getDrawCount() / 64, 1, 1);
+        if (meshesTransparent) {
+            perFrameData.numShapesToCull = g_EnableGPUCulling ? (uint32_t) meshesTransparent->getDrawCount() : 0u;
+            perFrameDataBuffer.sendBlocks(perFrameData);
+            glBindBufferBase(GL_SHADER_STORAGE_BUFFER, kBufferIndex_DrawCommands, meshesTransparent->getHandle());
+            glDispatchCompute(1 + (GLuint) meshesTransparent->getDrawCount() / 64, 1, 1);
+        }
 
         glMemoryBarrier(GL_COMMAND_BARRIER_BIT | GL_SHADER_STORAGE_BARRIER_BIT | GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT);
         fenceCulling = glFenceSync(GL_SYNC_GPU_COMMANDS_COMPLETE, 0);
@@ -616,7 +624,7 @@ void MeshSceneFinal::Impl::render() {
     // 1.0 Cube map
     skybox.render();
     // 1.1 Bistro
-    if (g_DrawOpaque) {
+    if (g_DrawOpaque && meshesOpaque) {
         program->bind();
         draw(*meshesOpaque);
     }
@@ -626,7 +634,7 @@ void MeshSceneFinal::Impl::render() {
         glDrawArraysInstancedBaseInstance(GL_TRIANGLES, 0, 6, 1, 0);
         glDisable(GL_BLEND);
     }
-    if (g_DrawTransparent) {
+    if (g_DrawTransparent && meshesTransparent) {
         glBindImageTexture(0, oitHeads.getHandle(), 0, GL_FALSE, 0, GL_READ_WRITE, GL_R32UI);
         glDepthMask(GL_FALSE);
         glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
