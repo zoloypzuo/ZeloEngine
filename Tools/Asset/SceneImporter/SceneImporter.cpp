@@ -20,6 +20,8 @@
 #include <rapidjson/document.h>
 #include <rapidjson/prettywriter.h>
 
+#include "Foundation/ZeloMemory.h"  // MemoryJanitor
+
 #include "Renderer/OpenGL/Drawable/MeshScene/VtxData/MeshData.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Material/Material.h"
 #include "Renderer/OpenGL/Drawable/MeshScene/Scene/SceneGraph.h"
@@ -748,6 +750,8 @@ void mergeScene(const SceneConverterConfig &config) {
 }
 
 int main(int argc, char *argv[]) {
+    Zelo::MemoryJanitor memoryJanitor;
+
     argparse::ArgumentParser argumentParser("SceneImporter");
     argumentParser.add_argument("-i", "--input")
             .help("import configs");

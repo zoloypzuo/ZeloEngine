@@ -5,7 +5,9 @@
 
 #include "ZeloPrerequisites.h"
 
+#ifdef USE_MIMALLOC
 #include <mimalloc.h>
+#endif
 
 #if defined(__GNUC__) || defined(__SNC__)
 #define ALIGN_OF(T) __alignof__(T)
