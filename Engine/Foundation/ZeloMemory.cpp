@@ -20,10 +20,8 @@ MemoryJanitor::~MemoryJanitor() {
 }
 #else
 namespace Zelo {
-MemoryJanitor::MemoryJanitor() {
-}
+MemoryJanitor::MemoryJanitor() = default;
 
-MemoryJanitor::~MemoryJanitor() {
-}
+MemoryJanitor::~MemoryJanitor() = default;
 }
 #endif
