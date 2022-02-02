@@ -93,6 +93,8 @@
 
 ## 游戏引擎架构
 
+🟢 已实现 ⚫ 已放弃
+
 ![game-engine-arch-zh](https://raw.githubusercontent.com/zolo-mario/image-host/main/game-engine-arch-zh.4ahd0n4fx7e0.webp)
 
 ## 截图
