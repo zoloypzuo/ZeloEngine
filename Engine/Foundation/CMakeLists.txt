@@ -7,6 +7,10 @@ add_library(Foundation
         ZeloMemory.cpp
         )
 
+find_package(mimalloc CONFIG REQUIRED NO_SYSTEM_ENVIRONMENT_PATH)
+message(STATUS "mimalloc found. installed at: ${MIMALLOC_LIBRARY_DIR}")
+target_link_libraries(Foundation PUBLIC mimalloc mimalloc-static)
+
 target_link_libraries(Foundation PUBLIC Backward)
 target_link_libraries(Foundation PUBLIC ABSL)
 

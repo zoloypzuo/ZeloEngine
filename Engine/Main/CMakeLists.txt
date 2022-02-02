@@ -3,9 +3,6 @@ add_executable(Hello Main.cpp ProjectHub.cpp)
 target_link_libraries(Hello PRIVATE Engine)
 target_link_libraries(Hello PRIVATE Optick Whereami)  # ProjectHub
 
-find_package(mimalloc CONFIG REQUIRED)
-target_link_libraries(Hello PRIVATE mimalloc mimalloc-static)
-
 # vld
 option(DETECT_MEMORY_LEAK "DetectMemoryLeak" OFF)
 if (DETECT_MEMORY_LEAK)
