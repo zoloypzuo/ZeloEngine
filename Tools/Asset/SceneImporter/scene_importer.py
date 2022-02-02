@@ -4,8 +4,8 @@ scenes = [
     # 'bistro', 'breakfast_room',
     # 'CornellBox',
     # 'mitsuba',
-    'mori_knob',
-    # 'sponza'
+    # 'mori_knob',
+    'sponza'
 ]
 
 engineDir = "../../.."
