@@ -66,7 +66,7 @@ struct SceneConverterConfig {
     std::string name;
     std::string outputPrefix;
     std::string cacheFileName;
-    MergeConfig mergeConfig;
+    MergeConfig mergeConfig;  /// optional
     std::vector<SceneConfig> scenes;
 };
 
@@ -94,9 +94,12 @@ SceneConverterConfig readConfigFile(const char *cfgFileName) {
 
     auto mergeDoc = root["merge_config"].GetObject();
     auto &mergeConfig = config.mergeConfig;
-    mergeConfig.outputMesh = OUTPUT_PREFIX(mergeDoc["output_mesh"].GetString());
-    mergeConfig.outputScene = OUTPUT_PREFIX(mergeDoc["output_scene"].GetString());
-    mergeConfig.outputMaterials = OUTPUT_PREFIX(mergeDoc["output_materials"].GetString());
+    if (!mergeDoc.ObjectEmpty()) {
+        mergeConfig.outputMesh = OUTPUT_PREFIX(mergeDoc["output_mesh"].GetString());
+        mergeConfig.outputScene = OUTPUT_PREFIX(mergeDoc["output_scene"].GetString());
+        mergeConfig.outputMaterials = OUTPUT_PREFIX(mergeDoc["output_materials"].GetString());
+    }
+
     auto materialNamesDoc = mergeDoc["material_names"].GetArray();
     for (rapidjson::SizeType i = 0; i < materialNamesDoc.Size(); i++) {
         mergeConfig.materialNames.emplace_back(materialNamesDoc[i].GetString());
@@ -694,6 +697,7 @@ void processScene(const SceneConfig &cfg) {
 /** Chapter9: Merge meshes (interior/exterior) */
 void mergeScene(const SceneConverterConfig &config) {
     const auto &mergeConfig = config.mergeConfig;
+    if (mergeConfig.outputMesh.empty()) { return; }
 
     SceneGraph scene1, scene2;
     std::vector<SceneGraph *> scenes = {&scene1, &scene2};
