@@ -37,6 +37,8 @@
 
 #include <crossguid/guid.hpp>
 
+#include <argparse/argparse.hpp>
+
 namespace fs = std::filesystem;
 
 using namespace Zelo::Renderer::OpenGL;
@@ -741,7 +743,20 @@ void mergeScene(const SceneConverterConfig &config) {
     saveScene(mergeConfig.outputScene.c_str(), scene);
 }
 
-int main() {
+int main(int argc, char *argv[]) {
+    argparse::ArgumentParser argumentParser("SceneImporter");
+    argumentParser.add_argument("-i", "--input")
+            .help("import configs");
+    try {
+        argumentParser.parse_args(argc, argv);
+    }
+    catch (const std::runtime_error &err) {
+        std::cerr << err.what() << std::endl;
+        std::cerr << argumentParser;
+        return -1;
+    }
+    auto configFileName = argumentParser.get<std::string>("--input");
+
     // 0. bootstrap
     Zelo::Engine engine;
     engine.bootstrap();
@@ -754,7 +769,7 @@ int main() {
     spdlog::set_pattern(pattern);
 
     // 1. read config
-    const auto &config = readConfigFile(ZELO_PATH("bistro.json").c_str());
+    const auto &config = readConfigFile(ZELO_PATH(configFileName).c_str());
     // 2. read file id cache
     FileIDCacheJanitor fileIdCacheJanitor;
     // 3. process all scenes
