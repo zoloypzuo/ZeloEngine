@@ -1,8 +1,12 @@
 import os
 
-scenes = ['bistro', 'breakfast_room',
-          # 'CornellBox', 'mitsuba', 'mori_knob', 'sponza'
-          ]
+scenes = [
+    # 'bistro', 'breakfast_room',
+    'CornellBox',
+    # 'mitsuba',
+    # 'mori_knob',
+    # 'sponza'
+]
 
 engineDir = "../../.."
 exe_name = "SceneImporter.exe"
@@ -63,7 +67,7 @@ def write(filename, content):
 cwd = os.getcwd()
 for scene in scenes:
     os.chdir(exe_dir)
-    # os.system(exe_name + " -i " + "%s.json" % scene)
+    os.system(exe_name + " -i " + "%s.json" % scene)
 
     os.chdir(cwd)
     rep = lambda s: s.replace("{{{scene_name}}}", scene)
