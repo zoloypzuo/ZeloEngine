@@ -140,6 +140,12 @@ void Entity::SetActive(bool active) {
     }
 }
 
+void Entity::SetSelfActive(bool active) {
+    if (active != m_active) {
+        m_active = active;
+    }
+}
+
 bool Entity::IsSelfActive() const {
     return m_active;
 }
@@ -268,4 +274,3 @@ void Entity::DetachFromParent() {
 std::shared_ptr<Entity> Entity::getChild(int index) {
     return m_children[index];
 }
-

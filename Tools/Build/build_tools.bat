@@ -12,7 +12,7 @@ cd /d %EngineDir%
 @echo on
 mkdir build_tools
 cd build_tools
-cmake .. -G "Visual Studio 16 2019" -A x64 -DZELO_GL_TRACER=OFF
+cmake .. -G "Visual Studio 16 2019" -A x64 -DZELO_GL_TRACER=OFF -DUSE_MIMALLOC=OFF
 cmake --build . --config release
 
 cd %CurrentDir%

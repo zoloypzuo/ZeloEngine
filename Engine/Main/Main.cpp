@@ -3,6 +3,7 @@
 #include "G.h"
 #include "Zelo.h"
 #include "ProjectHub.h"
+#include "Foundation/ZeloMemory.h"  // MemoryJanitor
 #include "Foundation/ZeloStackTrace.h"
 
 #ifdef DETECT_MEMORY_LEAK
@@ -12,6 +13,7 @@
 #endif
 
 int main() {
+    Zelo::MemoryJanitor memoryJanitor;
     Zelo::SignalHandling sh;  // catch uncaught exceptions
     Zelo::ProjectHub().start();
     while (!Zelo::G::s_EngineList.empty()) {

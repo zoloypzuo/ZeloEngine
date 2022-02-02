@@ -110,6 +110,9 @@ if (MSVC)
     # We do this to speed up the build process,
     # it reduces the size of the Win32 header files by excluding some of the less used APIs.
     add_compile_definitions(WIN32_LEAN_AND_MEAN)
+
+    set_property(GLOBAL PROPERTY
+            MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif ()
 
 # use unicode, wstring and etc

@@ -54,6 +54,7 @@ GLSkyboxRenderer::GLSkyboxRenderer(
 
 GLSkyboxRenderer::~GLSkyboxRenderer() {
     glDeleteVertexArrays(1, &dummyVAO_);
+    getOwner()->SetSelfActive(false);
 }
 
 void GLSkyboxRenderer::render() const {

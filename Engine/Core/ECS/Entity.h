@@ -100,6 +100,8 @@ public:
 
     void SetActive(bool active);
 
+    void SetSelfActive(bool active);
+
     bool IsSelfActive() const;
 
     bool IsActive() const;
