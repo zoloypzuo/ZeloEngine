@@ -3,8 +3,8 @@ import os
 scenes = [
     # 'bistro', 'breakfast_room',
     # 'CornellBox',
-    'mitsuba',
-    # 'mori_knob',
+    # 'mitsuba',
+    'mori_knob',
     # 'sponza'
 ]
 
