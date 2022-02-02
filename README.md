@@ -72,11 +72,11 @@
 
 [Release v0.5](https://github.com/zoloypzuo/ZeloEngine/releases/tag/v0.5)
 
-![Snipaste_2022-01-21_02-27-17](https://raw.githubusercontent.com/zolo-mario/image-host/main/20220121/Snipaste_2022-01-21_02-27-17.4ok5ly751hc0.webp)
+![Snipaste_2022-02-02_18-11-46](https://raw.githubusercontent.com/zolo-mario/image-host/main/Snipaste_2022-02-02_18-11-46.2lblvz9b6rq0.webp)
 
 下载解压到根目录`Resource`即可
 
-[【ZeloEngine】Demo演示](https://www.bilibili.com/video/BV1vq4y1c7f8/)
+[【ZeloEngine】Demo演示视频](https://www.bilibili.com/video/BV1vq4y1c7f8/)
 
 
 ## 第三方库
@@ -91,6 +91,10 @@
 
 [更多文档和文章 @CSDN](https://blog.csdn.net/zolo_mario/category_10949225.html)
 
+## 游戏引擎架构
+
+![game-engine-arch-zh](https://raw.githubusercontent.com/zolo-mario/image-host/main/game-engine-arch-zh.4ahd0n4fx7e0.webp)
+
 ## 截图
 
 [更多Demo截图说明 @Doc/Demo.md](Doc/Demo.md)
@@ -103,10 +107,4 @@
 
 ![Snipaste_2021-12-01_23-05-04](https://raw.githubusercontent.com/zolo-mario/image-host/main/20211201/Snipaste_2021-12-01_23-05-04.2g5wkodjr6as.png)
 
-![Snipaste_2022-02-02_13-20-43](https://raw.githubusercontent.com/zolo-mario/image-host/main/20220121/Snipaste_2022-02-02_13-20-43.3ie8g8dm9gu0.webp)
-
 ![Snipaste_2022-02-02_14-43-09](https://raw.githubusercontent.com/zolo-mario/image-host/main/20220121/Snipaste_2022-02-02_14-43-09.2z3rnhogwck0.webp)
-
-## Game Engine Architecture
-
-![fig-runtime-arch](https://raw.githubusercontent.com/zolo-mario/image-host/main/20220101/fig-runtime-arch.7bxat45r9xk0.jpg)
