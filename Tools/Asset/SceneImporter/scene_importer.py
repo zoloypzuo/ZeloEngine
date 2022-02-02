@@ -2,8 +2,8 @@ import os
 
 scenes = [
     # 'bistro', 'breakfast_room',
-    'CornellBox',
-    # 'mitsuba',
+    # 'CornellBox',
+    'mitsuba',
     # 'mori_knob',
     # 'sponza'
 ]
